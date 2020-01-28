@@ -1,0 +1,82 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2019-08-05 13:31:48 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:32:29 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:45 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:49 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:51 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:53 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:53 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:53 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:53 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:54 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:54 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:54 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:55 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:55 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:55 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:55 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:55 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:55 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:55 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:55 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:56 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:56 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:56 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:56 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:56 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:56 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:58 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:58 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:58 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:58 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:58 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:58 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:58 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:58 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:58 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:58 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:58 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:58 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:59 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:59 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:59 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:59 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:59 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:59 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:59 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:59 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:59 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:38:59 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:39:00 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:39:01 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:39:01 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:39:02 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:39:02 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:39:02 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:39:02 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:39:02 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:39:02 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:39:02 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:39:03 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:39:03 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:40:19 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 13:59:48 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 14:46:52 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 14:48:46 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 14:48:49 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 14:48:50 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 14:48:50 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 14:48:50 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 14:48:54 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 14:48:54 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 14:48:54 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 14:48:55 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 14:48:55 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 15:06:51 --> Severity: Notice --> Trying to get property 'full_name' of non-object /opt/lampp/htdocs/cmvtest/coopris/application/views/template/header.php 38
+ERROR - 2019-08-05 15:07:25 --> 404 Page Not Found: api/Major_industries/index
+ERROR - 2019-08-05 15:19:35 --> 404 Page Not Found: 
+ERROR - 2019-08-05 15:19:35 --> 404 Page Not Found: 
+ERROR - 2019-08-05 15:19:44 --> 404 Page Not Found: 
+ERROR - 2019-08-05 15:19:44 --> 404 Page Not Found: 
+ERROR - 2019-08-05 15:28:59 --> 404 Page Not Found: api/Major_industries/index
