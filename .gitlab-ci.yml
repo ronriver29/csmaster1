@@ -1,0 +1,22 @@
+image: docker:18.09.7
+
+stages:
+  - build
+  - deploy
+
+variables:
+  CONTAINER: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  #DOCKER_HOST: tcp://localhost:2375
+
+services:
+  - docker:dind
+
+build:
+  stage: build
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker build --pull -t "$CONTAINER" .
+    - docker push "$CONTAINER"
+  retry: 2
+  only:
+    - master
