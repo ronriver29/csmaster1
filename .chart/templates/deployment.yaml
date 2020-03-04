@@ -1,0 +1,60 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.web.name }}-deployment
+  labels:
+      app: {{ .Values.web.name }}
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: {{ .Values.web.name }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.web.name }}
+    spec:
+      volumes:
+        # Create the shared files volume to be used in both pods
+        - name: shared-files
+          emptyDir: {}
+        
+        # Add the ConfigMap we declared above as a volume for the pod
+        - name: nginx-config-volume
+          configMap:
+            name: {{ .Values.web.name }}-cm
+      containers:
+      - env:
+        - name: DB_HOSTNAME
+          value: {{ .Values.web.db_hostname }}
+        image: {{ .Values.web.container }}
+        imagePullPolicy: Always
+        name: php
+        volumeMounts:
+          - name: shared-files
+            mountPath: /var/www/html
+        command: ["/bin/sh"]
+        args: ["-c", "/bin/sh /srv/site/post-start.sh && php-fpm"]
+      - image: nginx:1.7.9
+        imagePullPolicy: Always
+        name: nginx
+        volumeMounts:
+          - name: shared-files
+            mountPath: /var/www/html
+          - name: nginx-config-volume
+            mountPath: /etc/nginx/nginx.conf
+            subPath: nginx.conf
+        ports:
+          - containerPort: 80
+      {{ if eq .Values.env "production" }}
+      imagePullSecrets:
+       - name: gitlab
+      {{ end }}
+      restartPolicy: Always

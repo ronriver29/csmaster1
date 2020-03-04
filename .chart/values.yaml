@@ -1,0 +1,5 @@
+web:
+  name: dev-test
+  db_hostname: test
+  container: ris:dev
+env: local
