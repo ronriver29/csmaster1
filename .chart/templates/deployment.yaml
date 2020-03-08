@@ -55,6 +55,6 @@ spec:
           - containerPort: 80
       {{ if eq .Values.env "production" }}
       imagePullSecrets:
-       - name: gitlab
+       - name: {{ .Values.deploy.key }}
       {{ end }}
       restartPolicy: Always

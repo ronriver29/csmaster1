@@ -6,6 +6,7 @@ stages:
 
 variables:
   CONTAINER: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  ENVIRONMENT: production
   #DOCKER_HOST: tcp://localhost:2375
 
 services:
@@ -32,6 +33,7 @@ deploy:
       --kubeconfig $KUBECONFIG
       --set web.name="ris-${CI_COMMIT_REF_SLUG}"
       --set web.container=$CONTAINER
+      --set env=$ENVIRONMENT
       cs
       ./chart
   only:

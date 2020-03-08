@@ -3,3 +3,5 @@ web:
   db_hostname: test
   container: ris:dev
 env: local
+deploy:
+  key: gitlab-key
