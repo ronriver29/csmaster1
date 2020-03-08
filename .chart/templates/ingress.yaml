@@ -15,10 +15,10 @@ spec:
   #  - ris.cda.gov.ph
   #  secretName: selfsigned-cert-tls
   rules:
-  - host: cs.cda.gov.ph
-    http:
+  - http:
       paths:
       - path: /
         backend:
           serviceName: {{ .Values.web.name }}
           servicePort: http
+    #host: cs.cda.gov.ph #will have this when domain have been updated
