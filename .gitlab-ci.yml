@@ -23,7 +23,7 @@ build:
 
 deploy:
   stage: deploy
-  image: devth/helm:v3.02
+  image: devth/helm:v3.0.2
   when: manual
   script:
     - init
