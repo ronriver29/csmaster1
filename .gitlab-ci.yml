@@ -29,17 +29,10 @@ deploy:
     - init
     - helm upgrade
       --install
-      --kubeconfig /etc/deploy/config
+      --kubeconfig $KUBECONFIG
       --set web.name="ris-${CI_COMMIT_REF_SLUG}"
       --set web.container=$CONTAINER
       cs
       ./chart
   only:
     - master
-
-.functions: &functions |
-    # Functions
-    function init() {
-        mkdir -p /etc/deploy
-        echo "${SERVICE_ACCOUNT}" | base64 -d > /etc/deploy/config
-    }
