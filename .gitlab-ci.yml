@@ -27,7 +27,6 @@ deploy:
   image: devth/helm:v3.0.2
   when: manual
   script:
-    - init
     - helm upgrade
       --install
       --kubeconfig $KUBECONFIG
