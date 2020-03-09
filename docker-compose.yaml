@@ -4,18 +4,36 @@ services:
     build: 
       context: .
     volumes:
-      - app:/srv/site
+      - type: bind
+        source: .
+        target: /srv/site
+        volume:
+          nocopy: true
+      - tmp:/tmp
     networks:
       - internal
+    links:
+      - database
+    environment: 
+      DB_HOSTNAME: database
+      DB_USERNAME: dbuser
+      DB_PASSWORD: password
+      DB_DATABASE: main
   app-nginx:
     image: nginx:1.16-alpine
     volumes:
-      - app:/srv/site
+      - type: bind
+        source: .
+        target: /srv/site
+        volume:
+          nocopy: true
       - .docker/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "8080:80"
     networks:
       - internal
+    links:
+      - app-php
   database:
     image: mysql:8
     environment:
@@ -31,7 +49,6 @@ services:
     ports:
       - "33060:3306"
 volumes:
-  app:
+  tmp:
 networks:
   internal:
-    

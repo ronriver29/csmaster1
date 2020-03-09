@@ -22,10 +22,9 @@ build:
   only:
     - master
 
-deploy:
+deploy-staging:
   stage: deploy
   image: devth/helm:v3.0.2
-  when: manual
   script:
     - helm upgrade
       --install
@@ -35,5 +34,8 @@ deploy:
       --set env=$ENVIRONMENT
       cs
       ./.chart
+  environment:
+    name: staging
+    url: https://202.90.136.155
   only:
     - master

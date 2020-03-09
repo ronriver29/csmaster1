@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'roottest',
-	'password' => '*M&CxNSR]&ye',
-	'database' => 'coopris',
+	'hostname' => getenv('DB_HOSTNAME') ?: 'localhost',
+	'username' => getenv('DB_USERNAME') ?: 'roottest',
+	'password' => getenv('DB_PASSWORD') ?: '*M&CxNSR]&ye',
+	'database' => getenv('DB_DATABASE') ?: 'coopris',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

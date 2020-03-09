@@ -24,7 +24,7 @@ date_default_timezone_set('Asia/Manila'); /*custom timezone*/
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://'.$_SERVER['SERVER_NAME'].':8080/coopris';
+$config['base_url'] = ENVIRONMENT=='development'?'http://127.0.0.1:8080':'http://'.$_SERVER['SERVER_NAME'].':8080/coopris';
 
 /*
 |--------------------------------------------------------------------------
@@ -379,9 +379,9 @@ $config['encryption_key'] = 'WXzGEPQB8thmKOSuqGSyzso08eQjsEU3';
 |
 */
 $config['sess_driver'] = 'database';
-$config['sess_cookie_name'] = 'session';
+$config['sess_cookie_name'] = 'ci_session';
 $config['sess_expiration'] = 0; //7200
-$config['sess_save_path'] = NULL;
+$config['sess_save_path'] = 'sessions';
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
