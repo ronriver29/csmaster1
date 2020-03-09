@@ -4,5 +4,7 @@ web:
   container: ris:dev
 env: local
 deploy:
-  gitlab: gitlab-key
-  docker: docker-key
+  gitlab: 
+    key: gitlab-key
+  docker: 
+    key: docker-key
