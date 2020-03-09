@@ -42,11 +42,7 @@ spec:
             mountPath: /var/www/html
         command: ["/bin/sh"]
         args: ["-c", "/bin/sh /srv/site/post-start.sh && php-fpm"]
-      {{ if eq .Values.env "staging" }}
-      imagePullSecrets:
-       - name: {{ .Values.deploy.gitlab.key }}
-      {{ end }}
-      - image: registry.docker.com/nginx:1.7.9
+      - image: registry.hub.docker.com/nginx:1.7.9
         imagePullPolicy: Always
         name: nginx
         volumeMounts:
@@ -59,6 +55,6 @@ spec:
           - containerPort: 80
       {{ if eq .Values.env "staging" }}
       imagePullSecrets:
-       - name: {{ .Values.deploy.docker.key }}
+       - name: {{ .Values.deploy.gitlab.key }}
       {{ end }}
       restartPolicy: Always
