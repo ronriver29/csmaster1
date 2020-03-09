@@ -6,7 +6,6 @@ stages:
 
 variables:
   CONTAINER: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-  ENVIRONMENT: production
   #DOCKER_HOST: tcp://localhost:2375
 
 services:
@@ -26,12 +25,13 @@ deploy-staging:
   stage: deploy
   image: devth/helm:v3.0.2
   script:
+    - echo "Deploying to ${CI_ENVIRONMENT_NAME}"
     - helm upgrade
       --install
       --kubeconfig $KUBECONFIG
       --set web.name="ris-${CI_COMMIT_REF_SLUG}"
       --set web.container=$CONTAINER
-      --set env=$ENVIRONMENT
+      --set env=${CI_ENVIRONMENT_NAME}
       cs
       ./.chart
   environment:
