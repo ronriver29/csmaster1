@@ -19,6 +19,6 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: {{ .Values.web.name }}
+          serviceName: {{ .Values.web.name }}-service
           servicePort: http
     #host: cs.cda.gov.ph #will have this when domain have been updated
