@@ -41,12 +41,12 @@ deploy-application-staging:
     - master
 
 deploy-database-staging:
+  when: manual
   stage: deploy
   image: devth/helm:v3.0.2
   script:
     - echo "Deploying to ${CI_ENVIRONMENT_NAME}"
-    - helm upgrade
-      --install
+    - helm install
       --kubeconfig $KUBECONFIG
       database
       ./.chart/database
