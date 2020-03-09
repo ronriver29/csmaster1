@@ -44,7 +44,7 @@ spec:
         args: ["-c", "/bin/sh /srv/site/post-start.sh && php-fpm"]
       {{ if eq .Values.env "staging" }}
       imagePullSecrets:
-       - name: {{ .Values.deploy.gitlab-key }}
+       - name: {{ .Values.deploy.gitlab.key }}
       {{ end }}
       - image: registry.docker.com/nginx:1.7.9
         imagePullPolicy: Always
@@ -59,6 +59,6 @@ spec:
           - containerPort: 80
       {{ if eq .Values.env "staging" }}
       imagePullSecrets:
-       - name: {{ .Values.deploy.docker-key }}
+       - name: {{ .Values.deploy.docker.key }}
       {{ end }}
       restartPolicy: Always
