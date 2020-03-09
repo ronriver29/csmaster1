@@ -21,7 +21,7 @@ build:
   only:
     - master
 
-deploy-staging:
+deploy-application-staging:
   stage: deploy
   image: devth/helm:v3.0.2
   script:
@@ -33,7 +33,23 @@ deploy-staging:
       --set web.container=$CONTAINER
       --set env=${CI_ENVIRONMENT_NAME}
       cs
-      ./.chart
+      ./.chart/application
+  environment:
+    name: staging
+    url: https://202.90.136.155
+  only:
+    - master
+
+deploy-database-staging:
+  stage: deploy
+  image: devth/helm:v3.0.2
+  script:
+    - echo "Deploying to ${CI_ENVIRONMENT_NAME}"
+    - helm upgrade
+      --install
+      --kubeconfig $KUBECONFIG
+      database
+      ./.chart/database
   environment:
     name: staging
     url: https://202.90.136.155
