@@ -56,7 +56,7 @@ spec:
           # Prepare the backup.
           xtrabackup --prepare --target-dir=/var/lib/mysql
         volumeMounts:
-        - name: data-pvc
+        - name: data-volume
           mountPath: /var/lib/mysql
           subPath: mysql
         - name: conf
@@ -71,7 +71,7 @@ spec:
         - name: mysql
           containerPort: 3306
         volumeMounts:
-        - name: data-pvc
+        - name: data-volume
           mountPath: /var/lib/mysql
           subPath: mysql
         - name: conf
@@ -141,7 +141,7 @@ spec:
           exec ncat --listen --keep-open --send-only --max-conns=1 3307 -c \
             "xtrabackup --backup --slave-info --stream=xbstream --host=127.0.0.1 --user=root"
         volumeMounts:
-        - name: data-pvc
+        - name: data-volume
           mountPath: /var/lib/mysql
           subPath: mysql
         - name: conf
@@ -156,15 +156,8 @@ spec:
       - name: config-map
         configMap:
           name: mysql
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: database-pvc
       nodeSelector:
         type: database
-  volumeClaimTemplates:
-  - metadata:
-      name: data-pvc
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      storageClassName: local-storage
-      resources:
-        requests:
-          storage: 50Gi
