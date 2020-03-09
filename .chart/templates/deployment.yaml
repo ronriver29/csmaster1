@@ -57,7 +57,7 @@ spec:
             subPath: nginx.conf
         ports:
           - containerPort: 80
-      {{ if eq .Values.env "production" }}
+      {{ if not (eq .Values.env "local") }}
       imagePullSecrets:
        - name: {{ .Values.deploy.key }}
       {{ end }}
