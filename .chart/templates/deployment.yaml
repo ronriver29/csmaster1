@@ -42,7 +42,7 @@ spec:
             mountPath: /var/www/html
         command: ["/bin/sh"]
         args: ["-c", "/bin/sh /srv/site/post-start.sh && php-fpm"]
-      - image: registry.hub.docker.com/nginx:1.7.9
+      - image: nginx:1.7.9
         imagePullPolicy: Always
         name: nginx
         volumeMounts:
