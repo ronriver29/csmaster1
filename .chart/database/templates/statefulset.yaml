@@ -160,9 +160,11 @@ spec:
         type: database
   volumeClaimTemplates:
   - metadata:
-      name: data
+      name: data-pvc
     spec:
-      accessModes: ["ReadWriteOnce"]
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: local-storage
       resources:
         requests:
           storage: 50Gi
