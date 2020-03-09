@@ -42,11 +42,11 @@ spec:
             mountPath: /var/www/html
         command: ["/bin/sh"]
         args: ["-c", "/bin/sh /srv/site/post-start.sh && php-fpm"]
-      {{ if eq .Values.env "production" }}
+      {{ if not (eq .Values.env "local") }}
       imagePullSecrets:
        - name: {{ .Values.deploy.key }}
       {{ end }}
-      - image: nginx:1.7.9
+      - image: registry.docker.com/nginx:1.7.9
         imagePullPolicy: Always
         name: nginx
         volumeMounts:
@@ -59,6 +59,6 @@ spec:
           - containerPort: 80
       {{ if not (eq .Values.env "local") }}
       imagePullSecrets:
-       - name: {{ .Values.deploy.key }}
+       - name: {{ .Values.docker.key }}
       {{ end }}
       restartPolicy: Always

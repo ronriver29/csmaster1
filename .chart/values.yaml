@@ -5,3 +5,5 @@ web:
 env: local
 deploy:
   key: gitlab-key
+docker:
+  key: docker-key
