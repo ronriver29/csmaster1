@@ -156,8 +156,15 @@ spec:
       - name: config-map
         configMap:
           name: mysql
-      - name: data-volume
-        persistentVolumeClaim:
-          claimName: database-pvc
       nodeSelector:
         type: database
+  volumeClaimTemplates:
+  - metadata:
+      name: data-volume
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      storageClassName: local-storage
+      resources:
+        requests:
+          storage: 50Gi
