@@ -7,7 +7,9 @@ db:
   username: replace_me
   password: replace_me
   database: replace_me
-env: local
+env: 
+  name: local
+  url: localhost
 deploy:
   gitlab: 
     key: gitlab-key

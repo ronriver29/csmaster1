@@ -31,7 +31,8 @@ deploy-application-staging:
       --kubeconfig $KUBECONFIG
       --set web.name="ris-${CI_COMMIT_REF_SLUG}"
       --set web.container=$CONTAINER
-      --set env=${CI_ENVIRONMENT_NAME}
+      --set env.name=${CI_ENVIRONMENT_NAME}
+      --set env.url=${CI_ENVIRONMENT_URL}
       --set db.hostname=$DB_HOSTNAME
       --set db.username=$DB_USERNAME
       --set db.password=$DB_PASSWORD
