@@ -56,6 +56,6 @@ deploy-database-staging:
       ./.chart/database
   environment:
     name: staging
-    url: https://202.90.136.155
+    url: http://202.90.136.155
   only:
     - master
