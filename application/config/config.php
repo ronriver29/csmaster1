@@ -24,7 +24,7 @@ date_default_timezone_set('Asia/Manila'); /*custom timezone*/
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = getenv('CI_ENVIRONMENT_URL')?:ENVIRONMENT=='development'?'http://127.0.0.1:8080':'http://'.$_SERVER['SERVER_NAME'].':8080/coopris';
+$config['base_url'] = getenv('CI_ENVIRONMENT_URL')?:(ENVIRONMENT=='development'?'http://127.0.0.1:8080':'http://'.$_SERVER['SERVER_NAME'].':8080/coopris');
 
 /*
 |--------------------------------------------------------------------------
