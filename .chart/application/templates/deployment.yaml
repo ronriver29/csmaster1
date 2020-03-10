@@ -61,6 +61,14 @@ spec:
           postStart:
             exec:
               command: ["/bin/sh", "-c", "cp -r /srv/site/. /var/www/html"]
+        livenessProbe:
+          tcpSocket:
+            port: 9000
+          initialDelaySeconds: 15
+        readinessProbe:
+          tcpSocket:
+            port: 9000
+          initialDelaySeconds: 15
       - image: nginx:1.7.9
         imagePullPolicy: Always
         name: nginx
