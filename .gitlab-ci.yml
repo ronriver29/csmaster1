@@ -32,6 +32,10 @@ deploy-application-staging:
       --set web.name="ris-${CI_COMMIT_REF_SLUG}"
       --set web.container=$CONTAINER
       --set env=${CI_ENVIRONMENT_NAME}
+      --set db.hostname=$DB_HOSTNAME
+      --set db.username=$DB_USERNAME
+      --set db.password=$DB_PASSWORD
+      --set db.database=$DB_DATABASE
       cs
       ./.chart/application
   environment:

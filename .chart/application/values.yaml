@@ -2,6 +2,11 @@ web:
   name: dev-test
   db_hostname: test
   container: ris:dev
+db:
+  hostname: replace_me
+  username: replace_me
+  password: replace_me
+  database: replace_me
 env: local
 deploy:
   gitlab: 

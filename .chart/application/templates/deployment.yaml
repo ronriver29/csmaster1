@@ -33,7 +33,13 @@ spec:
       containers:
       - env:
         - name: DB_HOSTNAME
-          value: {{ .Values.web.db_hostname }}
+          value: {{ .Values.db.hostname }}
+        - name: DB_USERNAME
+          value: {{ .Values.db.username }}
+        - name: DB_PASSWORD
+          value: {{ .Values.db.password }}
+        - name: DB_DATABASE
+          value: {{ .Values.db.database }}
         image: {{ .Values.web.container }}
         imagePullPolicy: Always
         name: php
