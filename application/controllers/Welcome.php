@@ -29,4 +29,9 @@ class Welcome extends CI_Controller {
         {
             redirect('users/login');
         }
+        
+    public function testing()
+    {
+        echo "HI WORLD";
+    }
 }
