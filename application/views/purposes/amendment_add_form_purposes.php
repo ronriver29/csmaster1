@@ -23,24 +23,46 @@
             <input type="hidden" class="form-control validate[required]" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_id ?>">
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-sm-12 offset-md-8 col-md-4">
             <button type="button" class="btn btn-success btn-sm btn-block" name="addMorePurposeBtn" id="addMorePurposeBtn"><i class="fas fa-plus"></i> Add More Purpose</button>
           </div>
-        </div>
-        <div class="row row-purposes">
-          <?php $tempCount = sizeof($contents);
-          foreach($contents as $key => $content): ?>
-          <div class="col-sm-12 col-md-12 col-purpose">
-            <div class="form-group">
-                <a class="customDeleleBtn purposeRemoveBtn float-left text-danger"><i class="fas fa-minus-circle"></i></a>
-              <label for="purpose<?= ($tempCount - $key)?>"><strong>Purpose No. <?=  ($key + 1)?></strong></label>
-              <textarea class="form-control validate[required] textarea-purpose" id="purpose<?= ($tempCount - $key)?>" name="purposes[]" placeholder="Must be in sentence "rows="2"><?= $content ?></textarea>
-            </div>
-          </div>
-        <?php endforeach; ?>
-        </div>
-      </div>
+        </div> -->
+          <div class="row row-purposes">
+            <?php $tempCount = sizeof($contents);
+            $key_counts=1;
+            $a=1;
+            
+            foreach($contents as $key_count=>  $content): ?>
+            <?php $count_= $key_count+1;?>
+            <div class="col-sm-12 col-md-12 col-purpose<?=$count_?>">
+              <div class="col-sm-12 offset-md-8 col-md-4" >
+                <button type="button" class="btn btn-success btn-sm btn-block" name="addMorePurposeBtn[]" id="addMorePurposeBtn" data-id='<?=$count_?>'><i class="fas fa-plus"></i> Add More Purpose</button>
+              </div>
+              <label><?=$content['cooperative_type']?></label>
+              <input type="hidden" name="item[ids][<?=$a?>][id]" value="<?=encrypt_custom($this->encryption->encrypt($content['id']))?>"/>
+              <div id="type_count<?=$key_counts++?>" >
+                
+                <?php $b=1; foreach($content['content_purpose'] as $key=> $row_content){?>
+                <div class="purposes_wrapper" >
+                  <div class="form-group">
+                    <a class="customDeleleBtn purposeRemoveBtn float-left text-danger"><i class="fas fa-minus-circle"></i></a>
+                    <label for="purpose<?= ($tempCount - $key)?>"><strong>Purpose No. <?=  ($key + 1)?></strong></label>
+                    <textarea class="form-control validate[required] textarea-purpose" id="purpose<?= ($tempCount - $key)?>" name="purposes<?=$count_?>[]" placeholder="Must be in sentence" rows="2"> <?= $row_content ?></textarea>
+                  </div>
+                  </div> <!-- end of purposes wrapper -->
+                  <?php $b++; ?>
+                  <?php }//end foreach ?>
+                  
+                  </div> <!-- end of type count -->
+                    </div>
+                 
+                  <?php $a++; ?>
+
+                  <?php endforeach; ?>
+              
+              </div>
+            </div>  
       <div class="card-footer editPurposesFooter">
         <input class="btn btn-color-blue btn-block" type="submit" id="editPurposesBtn" name="editPurposesBtn" value="Submit">
       </div>

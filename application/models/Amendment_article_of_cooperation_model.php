@@ -8,9 +8,10 @@ class Amendment_article_of_Cooperation_model extends CI_Model{
     parent::__construct();
     //Codeigniter : Write Less Do More
   }
-  public function get_article_by_coop_id($coop_id){
-    $data = $this->security->xss_clean($coop_id);
-    $query = $this->db->get_where('amendment_articles_of_cooperation',array('cooperatives_id'=>$data));
+  public function get_article_by_coop_id($coop_id,$amendment_id){
+    $data_coop_id = $this->security->xss_clean($coop_id);
+    $data_amendment_id = $this->security->xss_clean($amendment_id);
+    $query = $this->db->get_where('amendment_articles_of_cooperation',array('cooperatives_id'=>$data_coop_id,'amendment_id'=>$data_amendment_id));
     return $query->row();
   }
   public function update_article_primary($article_coop_id,$article_info){

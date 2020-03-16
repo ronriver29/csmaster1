@@ -8,17 +8,26 @@ class Amendment_purpose_model extends CI_Model{
     parent::__construct();
     //Codeigniter : Write Less Do More
   }
-  public function get_all_purposes($cooperatives_id){
+  public function get_all_purposes($cooperatives_id,$amendment_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
-    $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id));
-    $data = $query->row();
+     $amendment_id = $this->security->xss_clean($amendment_id);
+    $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id));
+    foreach($query->result_array() as $row)
+    {
+      $data[] = $row;
+    }
     return $data;
   }
-  public function edit_purposes($coop_id,$data){
+  public function edit_purposes($amendment_id,$id,$data){
     $data = $this->security->xss_clean($data);
+    $array_data = array(
+                'content'=>$data
+    );
     $this->db->trans_begin();
-    $this->db->where('cooperatives_id', $coop_id);
-    $this->db->update('amendment_purposes',$data);
+    $this->db->update('amendment_purposes',$array_data,array('amendment_id'=>$amendment_id,'id'=>$id));
+    // $this->db->where('amendment_id', $amendment_id);
+    // $this->db->where('id',$id);
+    // $this->db->update('amendment_purposes',$data);
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -27,9 +36,10 @@ class Amendment_purpose_model extends CI_Model{
       return true;
     }
   }
-  public function check_not_null($cooperatives_id){
+  public function check_not_null($cooperatives_id,$amendment_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
-    $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id));
+    $amendment_id = $this->security->xss_clean($amendment_id );
+    $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id));
     $data = $query->row();
     if(strlen($data->content) > 0){
       return true;
@@ -37,9 +47,10 @@ class Amendment_purpose_model extends CI_Model{
       return false;
     }
   }
-  public function check_blank_not_exists($cooperatives_id){
+  public function check_blank_not_exists($cooperatives_id,$amendment_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
-    $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id));
+    $amendment_id = $this->security->xss_clean($amendment_id);
+    $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id));
     $data = $query->row();
     if(strpos($data->content,'_') === false){
       return true;
@@ -47,8 +58,8 @@ class Amendment_purpose_model extends CI_Model{
       return false;
     }
   }
-  public function check_purpose_complete($cooperatives_id){
-    if($this->check_not_null($cooperatives_id) && $this->check_blank_not_exists($cooperatives_id)){
+  public function check_purpose_complete($cooperatives_id,$amendment_id){
+    if($this->check_not_null($cooperatives_id,$amendment_id) && $this->check_blank_not_exists($cooperatives_id,$amendment_id)){
       return true;
     }else{
       return false;

@@ -75,13 +75,13 @@ class Capitalization_model extends CI_Model{
  
   public function check_minimum_regular_subscription($ajax){
     $decoded_id = $this->encryption->decrypt(decrypt_custom($ajax['coop_id']));
-    $this->db->select('capitalization.minimum_subscribed_share_regular');
+    $this->db->select('capitalization.minimum_subscribed_share_regular,capitalization.total_no_of_subscribed_capital');
     $this->db->from('capitalization');
     $this->db->join('cooperatives','cooperatives.id = capitalization.cooperatives_id','inner');
     $this->db->where(array('cooperatives_id'=>$decoded_id));
     $query = $this->db->get();
     $data = $query->row();
-    if($data->minimum_subscribed_share_regular <= $ajax['fieldValue']){
+    if($data->minimum_subscribed_share_regular <= $ajax['fieldValue'] && $data->total_no_of_subscribed_capital * 0.10 >= $ajax['fieldValue']){
       return array($ajax['fieldId'],true);
     }else{
       return array($ajax['fieldId'],false);
@@ -103,13 +103,13 @@ class Capitalization_model extends CI_Model{
   }
   public function check_minimum_associate_subscription($ajax){
     $decoded_id = $this->encryption->decrypt(decrypt_custom($ajax['coop_id']));
-    $this->db->select('capitalization.minimum_subscribed_share_associate');
+    $this->db->select('capitalization.minimum_subscribed_share_associate,capitalization.total_no_of_subscribed_capital');
     $this->db->from('capitalization');
     $this->db->join('cooperatives','cooperatives.id = capitalization.cooperatives_id','inner');
     $this->db->where(array('cooperatives_id'=>$decoded_id));
     $query = $this->db->get();
     $data = $query->row();
-    if($data->minimum_subscribed_share_associate <= $ajax['fieldValue']){
+    if($data->minimum_subscribed_share_associate <= $ajax['fieldValue'] && $data->total_no_of_subscribed_capital*0.10 >= $ajax['fieldValue']){
       return array($ajax['fieldId'],true);
     }else{
       return array($ajax['fieldId'],false);
@@ -129,6 +129,11 @@ class Capitalization_model extends CI_Model{
     }else{
       return array($ajax['fieldId'],false);
     }
+  }
+  
+    public function update_capitalization_member($coop_id,$field_data){
+    $this->db->where(array('cooperatives_id'=>$coop_id));
+    $this->db->update('capitalization',$field_data);
   }
   
 }

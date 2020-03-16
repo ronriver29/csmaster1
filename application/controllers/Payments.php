@@ -36,7 +36,9 @@ class Payments extends CI_Controller{
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
-                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
+                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
+                    $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                   if($data['cooperator_complete']){
                     if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);

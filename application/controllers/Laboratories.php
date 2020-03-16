@@ -1558,7 +1558,7 @@
             // echo $decoded_laboratory_id.' '.$comment.' '.$access_level;
             if($this->laboratories_model->defer_by_director($decoded_laboratory_id,$user_id,$access_level,$comment))
             {
-              $this->session->set_flashdata(array('status_msg'=>'success','defer_msg'=>'Laboratory has been deffered successfully.'));
+              $this->session->set_flashdata(array('status_msg'=>'success','defer_msg'=>'Laboratory has been deferred successfully.'));
                redirect('laboratories/'.$this->input->post('laboratoryID').'/laboratories_documents');
 
             }

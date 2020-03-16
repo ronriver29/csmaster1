@@ -59,7 +59,7 @@ class Affiliators extends CI_Controller{
 //                    $data['list_cooperators_count'] = $this->cooperator_model->get_all_cooperator_of_coop_regular_count($decoded_id);
                     $data['list_cooperators_associate'] = $this->cooperator_model->get_all_cooperator_of_coop_associate($decoded_id);
                     $data['ten_percent'] = $this->cooperator_model->ten_percent($decoded_id);
-                    $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode);
+                    $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
                     $data['applied_coop'] = $this->affiliators_model->get_applied_coop($user_id);
                     $this->load->view('./template/header', $data);
                     $this->load->view('federation/affiliators_list', $data);
@@ -97,7 +97,7 @@ class Affiliators extends CI_Controller{
                         $data['header'] = 'Affiliators';
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                         $data['encrypted_id'] = $id;
-                        $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode);
+                        $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
                         $data['requirements_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
 //                        $data['directors_count'] = $this->cooperator_model->check_no_of_directors($decoded_id);
 //                        $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($decoded_id);
@@ -158,21 +158,30 @@ class Affiliators extends CI_Controller{
         $user_id = $this->session->userdata('user_id');
         $data['encrypted_id'] = $id;
         $data['is_client'] = $this->session->userdata('client');
+        $query = $this->affiliators_model->existing_affiliators($user_id,$this->input->post('regNo'));
         $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
-        $data = array(
-          'registeredcoop_id' => $this->input->post('registered_id'),
-          'regNo' => $this->input->post('regNo'),
-          'coopName' => $this->input->post('coopName'),
-          'application_id' => $this->input->post('applicationid'),
-          'user_id' => $user_id, 
-          );
-        $success = $this->affiliators_model->add_affiliators($data);
-        if($success['success']){
-          $this->session->set_flashdata('cooperator_success', $success['message']);
-          redirect('cooperatives/'.$this->input->post('cooperativesID').'/affiliators');
-        }else{
-          $this->session->set_flashdata('cooperator_error', $success['message']);
-          redirect('cooperatives/'.$this->input->post('cooperativesID').'/affiliators');
+        $encrypted_post_coop_id = $this->input->post('cooperativesID');
+        if($query==0){
+            $data = array(
+              'registeredcoop_id' => $this->input->post('registered_id'),
+              'regNo' => $this->input->post('regNo'),
+              'coopName' => $this->input->post('coopName'),
+              'application_id' => $this->input->post('applicationid'),
+              'user_id' => $user_id, 
+              );
+            $success = $this->affiliators_model->add_affiliators($data);
+            if($success['success']){
+                echo $query;
+              $this->session->set_flashdata('cooperator_success', 'Cooperative Added.');
+                    redirect('cooperatives/'.$encrypted_post_coop_id.'/affiliators');
+            }else{
+              $this->session->set_flashdata('cooperator_error', $success['message']);
+              redirect('cooperatives/'.$encrypted_post_coop_id.'/affiliators');
+            }
+        } else {
+//            echo $query;
+            $this->session->set_flashdata('cooperator_error', 'Cooperative already exists.');
+                    redirect('cooperatives/'.$encrypted_post_coop_id.'/affiliators');
         }
     }
     

@@ -32,7 +32,9 @@ class Committees extends CI_Controller{
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
-                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
+                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
+                    $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -42,6 +44,11 @@ class Committees extends CI_Controller{
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
+                            $data['audit_count'] = $this->committee_model->get_all_audit_count($user_id);
+                            $data['election_count'] = $this->committee_model->get_all_election_count($user_id);
+                            $data['medcon_count'] = $this->committee_model->get_all_medcon_count($user_id);
+                            $data['ethics_count'] = $this->committee_model->get_all_ethics_count($user_id);
+                            $data['credit_count'] = $this->committee_model->get_all_credit_count($user_id);
                         }
                         
                         $data['committees_count_member'] = $this->committee_model->get_all_committees_count($user_id);
@@ -109,7 +116,9 @@ class Committees extends CI_Controller{
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
-                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
+                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
+                    $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
@@ -117,6 +126,11 @@ class Committees extends CI_Controller{
                         if($data['article_complete']){
                           $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                           $data['committees_count_member'] = $this->committee_model->get_all_committees_count($user_id);
+                          $data['audit_count'] = $this->committee_model->get_all_audit_count($user_id);
+                          $data['election_count'] = $this->committee_model->get_all_election_count($user_id);
+                          $data['medcon_count'] = $this->committee_model->get_all_medcon_count($user_id);
+                          $data['ethics_count'] = $this->committee_model->get_all_ethics_count($user_id);
+                          $data['credit_count'] = $this->committee_model->get_all_credit_count($user_id);
                           $data['client_info'] = $this->user_model->get_user_info($user_id);
                           $data['title'] = 'List of Committees';
                           $data['header'] = 'Committees';
@@ -187,7 +201,9 @@ class Committees extends CI_Controller{
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
-                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
+                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
+                    $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -242,7 +258,7 @@ class Committees extends CI_Controller{
                                 if ($this->committee_model->isExisting($decoded_id)){
                                   $this->session->set_flashdata('committee_error', 'Cooperator already has committee');
                                   redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
-                                }else if ($this->committee_model->isExisting2federation($committeeName,$user_id)){
+                                }else if ($this->committee_model->isExisting2($committeeName,$user_id)){
                                   $this->session->set_flashdata('committee_error', 'Committee already has 3 cooperators');
                                   redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
                                 }else{
@@ -396,7 +412,9 @@ class Committees extends CI_Controller{
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
-                  $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
+                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
+                    $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -422,7 +440,7 @@ class Committees extends CI_Controller{
                               $data['encrypted_id'] = $id;
                               $data['encrypted_committee_id'] = $committee_id;
                               $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                              $data['committee_info'] = $this->committee_model->$committee_info($decoded_committee_id);
+                              $data['committee_info'] = $this->committee_model->get_committee_info($decoded_committee_id);
                               $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($data['committee_info']->cooperators_id);
                               $data['custom_committees'] = $this->committee_model->get_all_custom_committee_names_of_coop($decoded_id);
                               $data['cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee($decoded_id);
@@ -435,14 +453,32 @@ class Committees extends CI_Controller{
                               $data = array(
                                 'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName')
                                 );
-                              $success = $this->committee_model->$edit_committee_federation($decoded_post_committee_id,$data);
-                              if($success['success']){
-                                $this->session->set_flashdata('committee_success', $success['message']);
-                                redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
-                              }else{
-                                $this->session->set_flashdata('committee_error', $success['message']);
-                                redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
-                              }
+                              $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
+                              $committeeName = $this->input->post('committeeName');
+                              if ($this->committee_model->isExisting($decoded_id)){
+                                  $this->session->set_flashdata('committee_error', 'Cooperator already has committee');
+                                  redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
+                                }else if ($this->committee_model->isExisting2($committeeName,$user_id)){
+                                  $this->session->set_flashdata('committee_error', 'Committee already has 3 cooperators');
+                                  redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
+                                }else{
+                                    $success = $this->committee_model->$edit_committee_federation($decoded_post_committee_id,$data);
+                                    if($success['success']){
+                                      $this->session->set_flashdata('committee_success', $success['message']);
+                                      redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
+                                    }else{
+                                      $this->session->set_flashdata('committee_error', $success['message']);
+                                      redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
+                                    }
+                                }
+//                              $success = $this->committee_model->$edit_committee_federation($decoded_post_committee_id,$data);
+//                              if($success['success']){
+//                                $this->session->set_flashdata('committee_success', $success['message']);
+//                                redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
+//                              }else{
+//                                $this->session->set_flashdata('committee_error', $success['message']);
+//                                redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
+//                              }
                             }
                           }else{
                             $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
@@ -587,7 +623,7 @@ class Committees extends CI_Controller{
                     if($data['coop_info']->grouping=="Federation"){
                         $success = $this->committee_model->delete_committee_federation($decoded_post_committee_id);
                     } else {
-//                        $success = $this->committee_model->delete_committee($decoded_post_committee_id);
+                        $success = $this->committee_model->delete_committee($decoded_post_committee_id);
                     }
                   
 

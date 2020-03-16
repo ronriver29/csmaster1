@@ -113,7 +113,7 @@
 
        
                   
-                  <td><?='Laboratory Cooperative of '.$laboratory['laboratoryName']?></td>
+                  <td><?=$laboratory['laboratoryName'].' Laboratory Cooperative'?></td>
                   <td><?=$laboratory['coopName']?></td> 
                   <td>
                     <?php if($laboratory['house_blk_no']==null && $laboratory['streetName']==null) $x=''; else $x=', ';?>
@@ -224,9 +224,10 @@
     </div>
   </div>
 
-<h3 style="margin-left:30px;">Registered</h3>
+
 <?php if($is_client) :?>
 <?php else : ?>
+  <h3 style="margin-left:30px;">Registered</h3>
 <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue shadow-sm mb-4">
       <div class="card-body">

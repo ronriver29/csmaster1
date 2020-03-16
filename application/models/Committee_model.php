@@ -179,6 +179,14 @@ class Committee_model extends CI_Model{
       return true;
     else
       return false;
+  }
+  
+   public function isExisting2($co_name,$user_id){
+    $query = $this->db->get_where('committees', array('name'=>$co_name,'user_id'=>$user_id));
+    if ($query->num_rows()>2)
+      return true;
+    else
+      return false;
   }  
   
   public function isExistingFederation($co_id){
@@ -412,12 +420,98 @@ class Committee_model extends CI_Model{
       return array($ajax['fieldId'],true);
     }
   }
+// COUNT ALL REQUIRED
+  public function get_all_required_count_credit($user_id){
+    if($this->get_all_gad_count($user_id) != 0){
+        if($this->get_all_audit_count($user_id) != 0){
+            if($this->get_all_election_count($user_id) != 0){
+                if($this->get_all_medcon_count($user_id) != 0){
+                    if($this->get_all_ethics_count($user_id) != 0){
+                        if($this->get_all_credit_count($user_id) != 0){
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+  }
+    public function get_all_required_count($user_id){
+    if($this->get_all_gad_count($user_id) != 0){
+        if($this->get_all_audit_count($user_id) != 0){
+            if($this->get_all_election_count($user_id) != 0){
+                if($this->get_all_medcon_count($user_id) != 0){
+                    if($this->get_all_ethics_count($user_id) != 0){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+  }
+// END COUNT ALL REQUIRED
+
+// COMMITTEES REQUIRED
+  
   public function get_all_gad_count($user_id){
     $user_id = $this->security->xss_clean($user_id);
     $this->db->where('name = "Gender and Development" AND user_id ='.$user_id.'');
     $this->db->from('committees');
     return $this->db->count_all_results();
   }
+  public function get_all_audit_count($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Audit" AND user_id ='.$user_id.'');
+    $this->db->from('committees');
+    return $this->db->count_all_results();
+  }
+  public function get_all_election_count($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Election" AND user_id ='.$user_id.'');
+    $this->db->from('committees');
+    return $this->db->count_all_results();
+  }
+  public function get_all_medcon_count($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Mediation and Conciliation" AND user_id ='.$user_id.'');
+    $this->db->from('committees');
+    return $this->db->count_all_results();
+  }
+  public function get_all_ethics_count($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Ethics" AND user_id ='.$user_id.'');
+    $this->db->from('committees');
+    return $this->db->count_all_results();
+  }
+    public function get_all_credit_count($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Credit" AND user_id ='.$user_id.'');
+    $this->db->from('committees');
+    return $this->db->count_all_results();
+  }
+// COMMITTEES REQUIRED END
   public function get_all_gad_count_federation($user_id){
     $user_id = $this->security->xss_clean($user_id);
     $this->db->where('name = "Gender and Development" AND user_id ='.$user_id.'');

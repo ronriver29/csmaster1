@@ -31,7 +31,10 @@
     <?php echo form_open('amendment/'.$encrypted_id.'/amendment_cooperators/'.$encrypted_cooperator_id.'/edit',array('id'=>'editCooperatorForm','name'=>'editCooperatorForm')); ?>
       <div class="card-body">
         <div class="row">
-          <input type="hidden" class="form-control" id="cooperativesID" name="cooperativesID" value="<?= $encrypted_id?>">
+          
+          <input type="hidden" class="form-control" id="amd_id" name="amd_id" value="<?=$encrypted_id ?>">
+          <input type="hidden" class=="form-control" value="<?=$encrypted_coop_id?>" id="cooperative_id" name="cooperative_id"/>
+
           <input type="hidden" class="form-control" id="cooperatorID" name="cooperatorID" value="<?= $encrypted_cooperator_id?>">
           <input type="hidden" class="form-control" id="regCode" name="regCode" value="<?= $cooperator_info->rCode ?>">
           <input type="hidden" class="form-control" id="provCode" name="provCode" value="<?= $cooperator_info->pCode ?>">
@@ -50,7 +53,7 @@
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="position">Position:</label>
-              <select class="custom-select validate[required,ajax[ajaxEditCooperatorPosition]]" id="position" name="position">
+              <select class="custom-select validate[required,ajax[ajaxCooperatorAmendmentEditCallPhp]]" id="position" name="position">
                 <option value="" >--</option>
                 <option value="Chairperson" <?php if($cooperator_info->position == "Chairperson") echo "selected"; ?>>Chairperson</option>
                 <option value="Vice-Chairperson" <?php if($cooperator_info->position == "Vice-Chairperson") echo "selected"; ?>>Vice-Chairperson</option>
@@ -76,21 +79,21 @@
           <div class="col-sm-12 col-md-5">
             <div class="form-group">
               <label for="fName">Full Name:</label>
-              <input type="text" value="<?= $cooperator_info->full_name ?>" class="form-control validate[required,custom[fullname],ajax[ajaxEditCooperatorName]" id="fName" name="fName">
+              <input type="text" value="<?= $cooperator_info->full_name ?>" class="form-control validate[required,custom[fullname],ajax[ajaxEditCooperatorNameAmendment]" id="fName" name="fName">
               <label for="fName" style="font-style: italic;font-size: 11px;">(Last Name, First Name Middle Name)</label>
             </div>
           </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="subscribedShares">No of subscribed shares:</label>
-              <input type="number" value="<?= $cooperator_info->number_of_subscribed_shares ?>" min="<?=$cooperator_info->type_of_member == 'Associate' ? $capitalization_info->minimum_subscribed_share_associate : $capitalization_info->minimum_subscribed_share_regular; ?>" max="<?=$available_subscribed_capital?>" class="form-control validate[required,min[1],custom[integer]]" id="subscribedShares" name="subscribedShares">
+              <input type="number" value="<?= $cooperator_info->number_of_subscribed_shares ?>" min="<?=$cooperator_info->type_of_member == 'Associate' ? $capitalization_info->minimum_subscribed_share_associate : $capitalization_info->minimum_subscribed_share_regular; ?>" max="<?=$available_subscribed_capital?>" class="form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionAmendmentCallPhp]]" id="amd_subscribedShares" name="subscribedShares">
               <div id="subscribed-note" style="color: red; font-size: 12px;"></div>
             </div>
           </div>
           <div class="col-sm-12 col-md-3">
             <div class="form-group">
               <label for="paidShares">No of paid-up Shares:</label>
-              <input type="number" value="<?= $cooperator_info->number_of_paid_up_shares ?>" min="<?=$cooperator_info->type_of_member == 'Associate' ? $capitalization_info->minimum_paid_up_share_associate : $capitalization_info->minimum_paid_up_share_regular; ?>" max="<?=$available_paid_up_capital?>" class="form-control validate[required,min[1],custom[integer],funcCall[validateEditNumberOfPaidUpGreaterCustom]]" id="paidShares" name="paidShares">
+              <input type="number" value="<?= $cooperator_info->number_of_paid_up_shares ?>" min="<?=$cooperator_info->type_of_member == 'Associate' ? $capitalization_info->minimum_paid_up_share_associate : $capitalization_info->minimum_paid_up_share_regular; ?>" max="<?=$available_paid_up_capital?>" class="form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustomAmendmentEdit]]" id="amd_paidShares" name="paidShares">
               <div id="paid-note" style="color: red; font-size:12px;"></div>
             </div>
           </div>

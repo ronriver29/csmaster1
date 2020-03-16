@@ -17,7 +17,7 @@
                 <input type="text" class="form-control validate[required]"  id="bName" name="bName" placeholder="" readonly>
               </div>
               <div class="form-group">
-                    <?php if($admin_info->access_level != 3) { ?>
+                    <?php if($admin_info->access_level != 3 OR $branch_info->status==23) { ?>
                         <label for="comment">Additional Comment:</label>
                         <textarea class="form-control " style="resize: none;" id="comment" name="comment_by_specialist_senior" placeholder=""rows="8"></textarea>
                     <?php } ?>

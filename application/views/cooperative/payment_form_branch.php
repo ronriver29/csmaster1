@@ -64,7 +64,17 @@
         
             <tr>
               <td class="bord">Payor</td>
-              <td class="bord" colspan="3"><b><?= ucwords($branch_info->coopName.' - '.$branch_info->branchName)?></b></td>
+              <?php if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
+                    $branch_name = $branch_info->brgy;
+                } else if($branch_info->area_of_operation == 'Provincial') {
+                    $branch_name = $branch_info->brgy;
+                } else if ($branch_info->area_of_operation == 'Regional') {
+                    $branch_name = $branch_info->city.', '.$branch_info->province;
+                } else if ($branch_info->area_of_operation == 'National') {
+                    $branch_name = $branch_info->city.', '.$branch_info->province;
+                }
+            ?>
+              <td class="bord" colspan="3"><b><?= ucwords($branch_info->coopName.' - '.$branch_name.' '.$branch_info->branchName)?></b></td>
             </tr>
             <tr>
               <td class="bord">Nature of Payment</td>
@@ -94,7 +104,7 @@
           </table>
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=encrypt_custom($this->encryption->encrypt($branch_info->application_id)) ?>">
            <input type="hidden" class="form-control" id="branchID" name="branchID" value="<?=$encrypted_id ?>">
-           <input type="hidden" class="form-control" id="payor" name="payor" value="<?= ucwords($branch_info->coopName.' - '.$branch_info->branchName)?>">
+           <input type="hidden" class="form-control" id="payor" name="payor" value="<?= ucwords($branch_info->coopName.' - '.$branch_name.' '.$branch_info->branchName)?>">
           <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
           <input type="hidden" class="form-control" id="nature" name="nature" value="<?=$last?>Registration">
           <input type="hidden" class="form-control" id="particulars" name="particulars" value="Processing Fee">

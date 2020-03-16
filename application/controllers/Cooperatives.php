@@ -60,7 +60,9 @@
             $data['header'] = 'Cooperatives';
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
             $this->load->view('templates/admin_header', $data);
-
+            // $data['cooperatives_comments_cds'] = $this->cooperatives_model->cooperatives_comments_cds($data['coop_info']->id);
+            // $data['cooperatives_comments_snr'] = $this->cooperatives_model->cooperatives_comments_snr($data['coop_info']->id);
+            // $data['cooperatives_comments'] = $this->cooperatives_model->cooperatives_comments($data['coop_info']->id);
             if($this->session->userdata('access_level')==1){
               if($data['admin_info']->region_code=="0"){
                 $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
@@ -129,10 +131,10 @@
                 }
                 if($this->input->post('commonBondOfMembership')=="Institutional"){
                     $name_of_ins_assoc = $this->input->post('name_institution');
-                    $name_of_ins_assoc = implode(",",$this->input->post('name_institution'));
+                    $name_of_ins_assoc = implode(", ",$this->input->post('name_institution'));
                 } else {
                     $name_of_ins_assoc = $this->input->post('name_associational');
-                    $name_of_ins_assoc = implode(",",$this->input->post('name_associational'));
+                    $name_of_ins_assoc = implode(", ",$this->input->post('name_associational'));
                 }
                 $field_data = array(
                   'users_id' => $this->session->userdata('user_id'),
@@ -186,6 +188,7 @@
               $data['client_info'] = $this->user_model->get_user_info($user_id);
               $data['title'] = 'Cooperative Details';
               $data['header'] = 'Cooperative Information';
+              $data['cooperatives_comments'] = $this->cooperatives_model->cooperatives_comments($decoded_id);
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
               $data['business_activities'] =  $this->cooperatives_model->get_all_business_activities($decoded_id);
               $data['bylawprimary'] = $data['coop_info']->category_of_cooperative=="Primary";
@@ -220,9 +223,19 @@
               $data['article_complete'] = $capitalizationtf;
               $data['encrypted_id'] = $id;
              //                 $data['capitalization_complete'] = $this->cooperative_model->is_capitalization_complete($decoded_id);
-              $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
-              
-              $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
+              $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+              $capitalization_info = $data['capitalization_info'];
+              if($capitalization_info != NULL){
+                    $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
+              } else {
+                    $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,0);
+              }
+              if($data['coop_info']->type_of_cooperative == 'Credit'){
+                  $data['committees_complete'] = $this->committee_model->get_all_required_count_credit($user_id);
+              } else {
+                  $data['committees_complete'] = $this->committee_model->get_all_required_count($user_id);
+              }
+//              $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
               $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
               $data['affiliator_complete'] = $this->affiliators_model->is_requirements_complete($user_id);
               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
@@ -268,7 +281,9 @@
                  /*END: UPDATE FOR CAPITALIZATION --by Fred */
                   $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                   $data['encrypted_id'] = $id;
-                  $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                  $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                  $capitalization_info = $data['capitalization_info'];
+                  $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
                   $data['inssoc'] = explode(",",$data['coop_info']->name_of_ins_assoc);
                   $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                   $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
@@ -304,6 +319,7 @@
       }
     }
     public function rupdate($id = null){
+
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
@@ -324,6 +340,7 @@
                   $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
                   $data['major_industries_by_coop_type'] = $this->major_industry_model->get_major_industries_by_type_name($data['coop_info']->type_of_cooperative);
                   $data['major_industry_list'] = $this->cooperatives_model->get_all_major_industry($decoded_id);
+               
                   $data['composition']= $this->cooperatives_model->get_composition();
                   $data['regions_list'] = $this->region_model->get_regions();
                   $data['encrypted_id'] = $id;
@@ -351,7 +368,7 @@
                     }
                     
                     $name_of_ins_assoc = $this->input->post('name_institution');
-                    $name_of_ins_assoc = implode(",",$this->input->post('name_institution'));
+                    $name_of_ins_assoc = implode(", ",$this->input->post('name_institution'));
                     
                     $field_data = array(
                       'users_id' => $this->session->userdata('user_id'),
@@ -497,7 +514,12 @@
               if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
                 if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                     $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
-                  $success = $this->cooperatives_model->delete_cooperative($decoded_id,$data['coop_info']->status);
+                    if($data['coop_info']=="Federation"){
+                        $deletecoop = 'delete_cooperative';
+                    } else {
+                        $deletecoop = 'delete_cooperative_federation';
+                    }
+                  $success = $this->cooperatives_model->$deletecoop($decoded_id,$data['coop_info']->status,$user_id);
                   if($success){
                     $this->session->set_flashdata('list_success_message', 'Cooperative has been deleted.');
                     redirect('cooperatives');
@@ -605,7 +627,9 @@
                     $model = 'cooperator_model';
                     $ids = $decoded_id;
                 }
-                  $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
+                $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
+                  $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -831,6 +855,13 @@
                               redirect('cooperatives');
                             }else{
                               if($this->admin_model->check_if_director_active($user_id)){
+                                $data_field = array(
+                                  'cooperatives_id' => $decoded_id,
+                                  'comment' => $comment_by_specialist_senior,
+                                  'user_id' => $user_id,
+                                  'user_level' => $data['admin_info']->access_level
+                              );
+                            $success = $this->cooperatives_model->insert_comment_history($data_field);
                                 $success = $this->cooperatives_model->approve_by_director($data['admin_info'],$decoded_id);
                                 if($success){
                                   $this->session->set_flashdata('list_success_message', 'Cooperative has been approved.');
@@ -858,6 +889,13 @@
                             $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Senior Cooperative Development Specialist.');
                             redirect('cooperatives');
                           }else{
+                              $data_field = array(
+                                  'cooperatives_id' => $decoded_id,
+                                  'comment' => $comment_by_specialist_senior,
+                                  'user_id' => $user_id,
+                                  'user_level' => $data['admin_info']->access_level
+                              );
+                            $success = $this->cooperatives_model->insert_comment_history($data_field);
                             $success = $this->cooperatives_model->approve_by_senior($data['admin_info'],$decoded_id,$coop_full_name,$comment_by_specialist_senior);
                             if($success){
                               $this->session->set_flashdata('list_success_message', 'Cooperative has been submitted.');
@@ -876,7 +914,14 @@
                           $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
                           redirect('cooperatives');
                         }else{
-                          $success = $this->cooperatives_model->approve_by_specialist($data['admin_info'],$decoded_id,$coop_full_name,$comment_by_specialist_senior);
+                            $data_field = array(
+                                  'cooperatives_id' => $decoded_id,
+                                  'comment' => $comment_by_specialist_senior,
+                                  'user_id' => $user_id,
+                                  'user_level' => $data['admin_info']->access_level
+                              );
+                            $success = $this->cooperatives_model->insert_comment_history($data_field);
+                            $success = $this->cooperatives_model->approve_by_specialist($data['admin_info'],$decoded_id,$coop_full_name,$comment_by_specialist_senior);
                           if($success){
                             $this->session->set_flashdata('list_success_message', 'Cooperative has been submitted.');
                             redirect('cooperatives');
@@ -1101,7 +1146,15 @@
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                                 redirect('cooperatives');
                               }else{
+                                $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                                 if($this->admin_model->check_if_director_active($user_id)){
+                                    $data_field = array(
+                                        'cooperatives_id' => $decoded_id,
+                                        'comment' => $reason_commment,
+                                        'user_id' => $user_id,
+                                        'user_level' => $data['admin_info']->access_level
+                                    );
+                                  $success = $this->cooperatives_model->insert_comment_history($data_field);
                                   $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
                                   if($success){
                                     $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');

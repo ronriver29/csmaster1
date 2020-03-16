@@ -67,7 +67,7 @@
                     <option value="24">Agriculture</option>
                     <option value="9">Bank</option>
                     <option value="4">Consumers</option>
-                    <option value="27">Cooperative Bank</option>
+                    <option value="27" id="coopbank">Cooperative Bank</option>
                     <option value="1">Credit</option>
                     <option value="10">Dairy</option>
                     <option value="11">Education</option>

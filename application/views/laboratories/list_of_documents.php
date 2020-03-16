@@ -86,7 +86,7 @@
   <div class="row mt-3 col-md-12"> 
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-danger" role="alert">
-         <p class="font-weight-bold">Laboratory has been deffered.</p>
+         <p class="font-weight-bold">Laboratory has been deferred.</p>
         <p class="font-weight-bold">Director Comment:</p>
         <pre><?php echo $comment_list_defer_director->comment; ?></pre>
       </div>
@@ -122,11 +122,11 @@
                   </div>
               </div>
             </div>
-            <div class="row">
+            <div class="row" style="margin-bottom:30px;">
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
                   <label for="coopName">Name of the Laboratory</label>
-                  <input type="text" class="form-control" name="labName" id="labName" disabled="" value="<?='Laboratory Cooperative of '.$lab_info->laboratoryName?>">
+                  <input type="text" class="form-control" name="labName" id="labName" disabled="" value="<?=$lab_info->laboratoryName.' Laboratory Cooperative'?>">
                 </div>
               </div>
             </div>
@@ -161,106 +161,11 @@
             </div>-->
             
           </div>
-          <div class="col-sm-12 col-md-12 col-com">
-                <div class="form-group">
-                  <label for="compositionOfMembers1">Composition of Members </label>
-
-            <!-- start modify       -->
-                    <br />
-            <?php if($lab_info->comp_college=='college') :?>
-                      <div class="form-check form-check-inline">
-                <input type="checkbox" class="form-check-input com_check" name="com_college" id="com_member" value="college" checked>
-                <label class="form-check-label" for="college">College</label>
-              </div>
-         
-              <?php else: ?>
-
-                 <div class="form-check form-check-inline">
-                <input type="checkbox" class="form-check-input com_check" name="com_college" id="com_member" value="college" >
-                <label class="form-check-label" for="college">College</label>
-              </div>
-
-              <?php endif; ?>
-            
-            <?php if($lab_info->comp_highschool=='high school') :?>
-              <div class="form-check form-check-inline">
-                <input type="checkbox" class="form-check-input com_check" id="com_highschool" name="com_highschool" value="high school" checked >
-                <label class="form-check-label" for="highschool">High School</label>
-              </div>
-          <?php else: ?>
-               <div class="form-check form-check-inline">
-                <input type="checkbox" class="form-check-input com_check" id="com_member" name="com_highschool" value="high school">
-                <label class="form-check-label" for="highschool">High School</label>
-              </div>
-
-          <?php endif; ?>
-
-        <?php if($lab_info->comp_grade=='grade school') :?>
-              <div class="form-check form-check-inline">
-                <input type="checkbox" class="form-check-input com_check" id="com_member" name="com_grade" value="grade school" checked>
-                <label class="form-check-label" for="gradeschool">Grade School</label>
-              </div>
-        <?php else: ?>
-              <div class="form-check form-check-inline">
-                <input type="checkbox" class="form-check-input com_check" id="com_member" name="com_grade" value="grade school" >
-                <label class="form-check-label" for="gradeschool">Grade School</label>
-              </div>
-
-        <?php endif; ?>
-
-         <?php if($lab_info->comp_outschool=='out of school youth') :?>
-                <div class="form-check form-check-inline">
-                <input type="checkbox" class="form-check-input com_check" id="com_member" name="com_outofschool" value="out of school youth" checked>
-                <label class="form-check-label" for="outofschoolyouth">Out of School Youth</label>
-              </div>
-              <?php else: ?>
-
-                <div class="form-check form-check-inline">
-                <input type="checkbox" class="form-check-input com_check" id="com_member" name="com_outofschool" value="out of school youth">
-                <label class="form-check-label" for="outofschoolyouth">Out of School Youth</label>
-              </div>
-            <?php endif; ?>
-            <!-- end modify -->
-                </div>
-              </div>
-              <br />
-
-    <!--      <div class="col-sm-12 col-md-12">
-            <div class="row">
-              <div class="col-sm-12 col-md-12">
-                <div class="form-group">
-                  <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
-                </div>
-              </div>
-            </div>
-          </div> -->
+  
 
           <?php if($cooperator_list !=NULL): ?>
           
-           <!--  <div class="col-sm-12 col-md-12">
-              <div class="row">
-                <label for="coopName">Cooperators</label><br/>
-              <table class="table table">
-                <thead> 
-                  <tr>
-                    <th>Name</th>
-                     <th>Position</th>
-                    <th>type of member</th>
-                  </tr>
-                </thead>
-                <tbody>
-              <?php foreach($cooperator_list as $row): ?>
-
-                <tr>
-                  <td><?php echo $row['full_name']; ?></td>
-                   <td><?php echo $row['position']; ?></td>
-                    <td><?php echo $row['type_of_member']; ?></td>
-                </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
-            </div>
-          </div> -->
+          
 
            <div class="col-sm-12 col-md-12" style="margin-bottom:40px;">
              <strong>List of Members/Cooperators</strong><br />

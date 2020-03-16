@@ -213,8 +213,29 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $query = $this->db->get();
     return $query->row();
   }
+  public function cooperatives_comments($coop_id){
+    $this->db->select('*');
+    $this->db->from('cooperatives_comment');
+    $this->db->where(array('cooperatives_id'=>$coop_id,'user_level'=>3));
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function cooperatives_comments_cds($coop_id){
+    $this->db->select('*');
+    $this->db->from('cooperatives_comment');
+    $this->db->where(array('cooperatives_id'=>$coop_id,'user_level'=>1));
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function cooperatives_comments_snr($coop_id){
+    $this->db->select('*');
+    $this->db->from('cooperatives_comment');
+    $this->db->where(array('cooperatives_id'=>$coop_id,'user_level'=>2));
+    $query = $this->db->get();
+    return $query->result_array();
+  }
   public function get_cooperative_expiration($user_id){
-    $this->db->select('expire_at,id,status');
+    $this->db->select('expire_at,id,status,grouping');
     $this->db->from('cooperatives');
     $this->db->where(array('users_id'=>$user_id));
     $query = $this->db->get();
@@ -254,6 +275,18 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->where(array('cooperatives.id'=>$coop_id));
     $query = $this->db->get();
     return $query->row();
+  }
+  public function insert_comment_history($data_field){
+        $this->db->trans_begin();
+        $this->db->insert('cooperatives_comment',$data_field);
+        $id = $this->db->insert_id();
+        if($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            return false;
+        }else{
+            $this->db->trans_commit();
+            return true;
+        }
   }
   public function add_cooperative($data,$major_industry,$subtypes_array,$members_composition){
     $data = $this->security->xss_clean($data);
@@ -452,10 +485,11 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
   //       return true;
   //     }
   // }
-public function delete_cooperative($coop_id,$user_id){
+public function delete_cooperative($coop_id,$status,$user_id){
   $this->db->trans_begin();
   $this->db->delete('cooperatives',array('id' => $coop_id));
-  $this->delete_committees($user_id);
+//  $this->delete_committees($user_id);
+  $this->db->delete('committees',array('user_id' => $user_id));
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
@@ -464,6 +498,20 @@ public function delete_cooperative($coop_id,$user_id){
     return true;
   }
 }
+public function delete_cooperative_federation($coop_id,$status,$user_id){
+  $this->db->trans_begin();
+  $this->db->delete('cooperatives',array('id' => $coop_id));
+  $this->db->delete('affiliators',array('user_id' => $user_id));
+  $this->db->delete('committees_federation',array('user_id' => $user_id));
+  if($this->db->trans_status() === FALSE){
+    $this->db->trans_rollback();
+    return false;
+  }else{
+    $this->db->trans_commit();
+    return true;
+  }
+}
+
 public function delete_committees($user_id){
   $this->db->trans_begin();
   $this->db->delete('committees',array('user_id' => $user_id));

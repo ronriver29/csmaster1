@@ -2,7 +2,44 @@
   <div class="col-sm-12 col-md-2">
     <a class="btn btn-secondary btn-sm btn-block"  href="<?php echo base_url();?>cooperatives" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
   </div>
+    <?php if($is_client && $coop_info->status==11 && strlen($coop_info->evaluation_comment) >= 1 && ($coop_info->evaluated_by > 0)) : ?>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong">
+  * Findings
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">The cooperative has been deferred because of the following reason/s:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><?php 
+//            print_r($cooperatives_comments);
+            foreach($cooperatives_comments as $cc) :
+                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                echo '<ul type="square">';
+                    echo '<li>'.$cc['comment'].'</li>';
+                echo '</ul>';
+            endforeach;
+            
+        ?></pre>    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
 </div>
+<?php endif; ?>
+</div>
+
 <?php if($this->session->flashdata('redirect_message')): ?>
 <div class="row">
   <div class="col-sm-12 col-md-12">
@@ -50,16 +87,7 @@
     </div>
   </div>
 <?php endif; ?>
-<?php if($is_client && $coop_info->status==11 && strlen($coop_info->evaluation_comment) >= 1 && ($coop_info->evaluated_by > 0)) : ?>
-  <div class="row mt-3">
-    <div class="col-sm-12 col-md-12">
-      <div class="alert alert-danger" role="alert">
-        <p class="font-weight-bold">The cooperative has been deferred because of the following reason/s:</p>
-        <pre><?= $coop_info->evaluation_comment ?></pre>
-      </div>
-    </div>
-  </div>
-<?php endif; ?>
+
 <div class="row mb-2">
   <div class="col-sm-12 col-md-4">
     <div class="card border-top-blue shadow-sm mb-4">
@@ -297,10 +325,10 @@
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1 font-weight-bold">List of Committees</h5>
           <small class="text-muted">
-            <?php if($gad_count>0): ?>
+            <?php if($committees_complete == TRUE): ?>
               <span class="badge badge-success">COMPLETE</span>
             <?php endif; ?>
-            <?php if(!$gad_count>0): ?>
+            <?php if($committees_complete == FALSE): ?>
               <span class="badge badge-secondary">PENDING</span>
             <?php endif; ?>
           </small>
@@ -323,7 +351,7 @@
             <?php endif; ?>
           </small>
         </div>
-        <?php if($coop_info->status!= 0 && $bylaw_complete && $article_complete && $grouping && $gad_count>0 && $purposes_complete): ?>
+        <?php if($coop_info->status!= 0 && $bylaw_complete && $article_complete && $grouping && $committees_complete && $purposes_complete): ?>
         <small class="text-muted">
           <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/survey" class="btn btn-info btn-sm">View</a>
         </small>
@@ -341,7 +369,7 @@
             <?php endif; ?>
           </small>
         </div>
-        <?php if($coop_info->status!= 0 && $bylaw_complete && $article_complete && $purposes_complete && $grouping && $gad_count>0 && $economic_survey_complete): ?>
+        <?php if($coop_info->status!= 0 && $bylaw_complete && $article_complete && $purposes_complete && $grouping && $committees_complete && $economic_survey_complete): ?>
         <small class="text-muted">
           <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/staff" class="btn btn-info btn-sm">View</a>
         </small>
@@ -361,7 +389,7 @@
           <?php endif;?>
           </small>
         </div>
-        <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $gad_count>0 && $economic_survey_complete && $staff_complete): ?>
+        <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete): ?>
           <small class="text-muted">
             <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" class="btn btn-info btn-sm">View</a>
           </small>
@@ -379,7 +407,7 @@
               <?php endif; ?>
             </small>
           </div>
-          <?php if($coop_info->status==3 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $gad_count>0 && $economic_survey_complete && $staff_complete && $document_one && $document_two): ?>
+          <?php if($coop_info->status==3 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two): ?>
           <small class="text-muted">
             <div class="btn-group" role="group" aria-label="Basic example">
               <a  class="btn btn-info btn-sm" href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/cooperative_tool">Tool</a>
@@ -527,10 +555,10 @@
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 font-weight-bold">Step 7</h5>
             <small class="text-muted">
-              <?php if($gad_count != 0): ?>
+              <?php if($committees_complete == TRUE): ?>
                 <span class="badge badge-success">COMPLETE</span>
               <?php endif; ?>
-              <?php if($gad_count == 0): ?>
+              <?php if($committees_complete == FALSE): ?>
                 <span class="badge badge-secondary">PENDING</span>
               <?php endif; ?>
             </small>
@@ -558,7 +586,7 @@
                 <?php // $count = $committeecount['count'];?>
             <?php // endforeach; ?>
           <p class="mb-1 font-italic">Additional Information: Economic Survey</p>
-          <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $gad_count>0): ?>
+          <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete): ?>
             <?php // if($count == 0) {?>
             <?php // } else {?>
                 <small class="text-muted">
@@ -580,7 +608,7 @@
             </small>
           </div>
           <p class="mb-1 font-italic">List of Staff/Employees</p>
-          <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $gad_count>0 && $economic_survey_complete): ?>
+          <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete): ?>
           <small class="text-muted">
             <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/staff" class="btn btn-info btn-sm">View</a>
           </small>
@@ -605,7 +633,7 @@
             Uploaded documents
             <?php endif;?>
           </p>
-          <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $gad_count>0 && $economic_survey_complete && $staff_complete): ?>
+          <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete): ?>
             <small class="text-muted">
               <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" class="btn btn-info btn-sm">View</a>
             </small>
@@ -624,7 +652,7 @@
               </small>
             </div>
             <p class="mb-1 font-italic">Finalize and review all the information you provide. After reviewing your application, click proceed for evaluation of your application.</p>
-            <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $gad_count>0 && $economic_survey_complete && $staff_complete && $document_one && $document_two): ?>
+            <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two): ?>
             <small class="text-muted">
               <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
             </small>
@@ -657,7 +685,7 @@
               </small>
             </div>
             <p class="mb-1 font-italic">Wait for an e-mail notification of payment procedure.</p>
-            <?php if(($coop_info->status==16) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $gad_count>0 && $economic_survey_complete && $staff_complete && $document_one && $document_two): ?>
+            <?php if(($coop_info->status==16) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two): ?>
               <small class="text-muted">
                 <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/payments" class="btn btn-color-blue btn-sm ">Payment</a>
               </small>

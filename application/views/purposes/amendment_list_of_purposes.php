@@ -57,15 +57,22 @@
       <div class="card-body">
         <div class="row">
           <div class="col-sm-12 col-md-12">
-            <?php if(count(array_filter($contents)) > 0) :?>
-              <ol class="text-justified" type="1">
-              <?php foreach ($contents as $content) : ?>
-                <li class="mb-3"> <?= $content?></li>
+          
+             <?php if(count(array_filter($contents)) > 0) :?>
+            
+              <?php foreach ($contents as $type_names) : ?>
+                  <ol class="text-justified" type="1">
+             <strong><span style="margin-left:-20px;"> <?php echo $type_names['cooperative_type'];?></span></strong><br><br>
+                   <?php foreach  ($type_names['content_purpose'] as $row_content){?> 
+                 <li class="mb-3"> <?= $row_content?></li> 
+                <?php }//end foreac?> 
+                  </ol>
+                  <hr style="margin-top:40px;margin-bottom:40px;">
               <?php endforeach; ?>
-            </ol>
+          
           <?php else :?>
             <h5 class="text-center">Cooperative's purpose is empty.</h5>
-          <?php endif;?>
+          <?php endif;?> 
           </div>
         </div>
       </div>

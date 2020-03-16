@@ -46,9 +46,9 @@ $(function(){
         }else{
           $('#reserveUpdateForm #compositionOfMembers').val(data.composition_of_members);
         }*/
-        
-        $('#reserveUpdateForm #areaOfOperation').on('change', function(){
-          area=$('#areaOfOperation').val();
+        var area = data.aoo;
+//        $('#reserveUpdateForm #areaOfOperation').on('change', function(){
+//          area=$('#areaOfOperation').val();
           if(area=='Barangay'){
             $("#reserveUpdateForm #barangay").prop("disabled",true);
             $("#reserveUpdateForm #city").prop("disabled",true);
@@ -75,7 +75,7 @@ $(function(){
             $("#reserveUpdateForm #province").prop("disabled",false);
             $("#reserveUpdateForm #region").prop("disabled",false);
           }
-        });
+//        });
 
         $('#reserveUpdateForm select[name="majorIndustry[]"').each(function(){
           if($(this).val() && ($(this).val()).length > 0){

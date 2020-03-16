@@ -32,7 +32,9 @@ class Staff extends CI_Controller{
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
-                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
+                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
+                    $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
@@ -50,13 +52,20 @@ class Staff extends CI_Controller{
                               $data['header'] = 'Staff';
                               $data['client_info'] = $this->user_model->get_user_info($user_id);
                               $data['encrypted_id'] = $id; 
-                              $data['manager_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"Manager");
-                              $data['accountant_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"Accountant");
-                              $data['bookkeeper_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"Bookkeeper");
-                              $data['cashier_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"Cashier");
-                              $data['collector_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"Collector");
-                              $data['sales_clerk_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"Sales clerk");
+                              $data['manager_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"manager");
+                                // print_r( $data['manager_not_exists']);
+                                // echo $this->db->last_query();
+                              $data['accountant_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"accountant");
+                              $data['bookkeeper_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"bookkeeper");
+                              $data['cashier_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"cashier");
+                              $data['collector_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"collector");
+                              $data['sales_clerk_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"cales clerk");
+                               $data['cashier_tresurer_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"cashier/treasurer"); //modified
+                               // echo $this->db->last_query();
+                               // var_dump(  $data['cashier_tresurer_not_exists']);
                               $data['requirements_complete'] = $this->staff_model->requirements_complete($decoded_id);
+                              // echo $this->db->last_query();
+                             // var_dump($data['requirements_complete']);
                               $data['staff_list'] = $this->staff_model->get_all_staff_of_coop($decoded_id);
                               $this->load->view('./template/header', $data);
                               $this->load->view('staff/staff_list', $data);
@@ -120,7 +129,9 @@ class Staff extends CI_Controller{
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
-                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
+                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
+                    $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                       if($data['cooperator_complete']){
                         $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                         if($data['purposes_complete']){
@@ -144,6 +155,7 @@ class Staff extends CI_Controller{
                                 $data['cashier_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"Cashier");
                                 $data['collector_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"Collector");
                                 $data['sales_clerk_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"Sales clerk");
+                                 $data['sales_clerk_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"cashier/treasurer"); //modified
                                 $data['requirements_complete'] = $this->staff_model->requirements_complete($decoded_id);
                                 $data['staff_list'] = $this->staff_model->get_all_staff_of_coop($decoded_id);
                                 $this->load->view('templates/admin_header', $data);
@@ -213,7 +225,9 @@ class Staff extends CI_Controller{
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
-                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
+                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
+                    $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
@@ -229,11 +243,25 @@ class Staff extends CI_Controller{
                             if($data['economic_survey_complete']){
                               if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                                 if($this->form_validation->run() == FALSE){
-                                  //modify by json
-                                  $position_qry = $this->db->get('staff_position');
+                                  //modified by json
+                                  $others_from_coop_position=$this->other_position($decoded_id);
+                                  $position_qry = $this->db->get_where('staff_position',array('cooperative_id'=>0));
                                   if($position_qry->num_rows()>0)
                                   {
-                                    $data['list_position'] = $position_qry->result();
+                                    foreach($position_qry->result_array() as $prow)
+                                    {
+                                    
+                                      $list_of_positions[]=$prow;
+                                    }
+                                    // print_r($others_from_coop_position);
+                                    if(is_array($others_from_coop_position)){
+                                       $data['list_postion'] = array_merge($list_of_positions,$others_from_coop_position); 
+                                    }
+                                    else
+                                    {
+                                       $data['list_postion']=$list_of_positions;
+                                    }
+                                   
                                   }
                                   else
                                   {
@@ -243,6 +271,7 @@ class Staff extends CI_Controller{
                                   $data['header'] = 'Staff';
                                   $data['client_info'] = $this->user_model->get_user_info($user_id);
                                   $data['encrypted_id'] = $id;
+                             
                                   $this->load->view('./template/header', $data);
                                   $this->load->view('staff/add_form_staff', $data);
                                   $this->load->view('./template/footer');
@@ -252,15 +281,15 @@ class Staff extends CI_Controller{
                                   $input_position = strtolower($this->input->post('position'));
                                   if($input_position == 'others')
                                   {
-                                    $new_position = strtolower($this->input->post('staffPositionSpecify'));
-                                    if($this->staff_model->check_position_($new_position))
+                                    $new_position = $this->input->post('staffPositionSpecify');
+                                    if($this->staff_model->check_position_($new_position,$decoded_id))
                                     {
-                                       $this->session->set_flashdata('staff_error','"'.ucfirst($new_position).'"'.' position already exist in dropdown selection.');
+                                       $this->session->set_flashdata('staff_error','"'.$new_position.'"'.' position already exist in dropdown selection.');
                                          redirect('cooperatives/'.$this->input->post('cooperativesID').'/staff');
                                     }
                                     else
                                     {
-                                      $other_position = array('position_name'=> $new_position);
+                                      $other_position = array('position_name'=> $new_position,'cooperative_id'=>$decoded_id);
                                       $this->db->insert('staff_position',$other_position);
                                       $data = array(
                                     'cooperatives_id' => $decoded_post_coop_id,
@@ -276,15 +305,16 @@ class Staff extends CI_Controller{
                                     );
 
                                       $success = $this->staff_model->add_staff($data);
-                                      if($success['success']){
-                                          print_r($data);
-
-                                        $success1 = $this->amendment_staff_model->add_staff($data);
-                                        if($success1['success'])
-                                        {
-                                          $this->session->set_flashdata('staff_success', $success['message']);
-                                         redirect('cooperatives/'.$this->input->post('cooperativesID').'/staff');  
-                                        }
+                                      if($success['success']){ 
+                                         $this->session->set_flashdata('staff_success', $success['message']);
+                                         redirect('cooperatives/'.$this->input->post('cooperativesID').'/staff');
+                                         
+                                        // $success1 = $this->amendment_staff_model->add_staff($data);
+                                        // if($success1['success'])
+                                        // {
+                                        //   $this->session->set_flashdata('staff_success', $success['message']);
+                                        //  redirect('cooperatives/'.$this->input->post('cooperativesID').'/staff');  
+                                        // }
                                         
 
                                       }else{
@@ -478,9 +508,23 @@ class Staff extends CI_Controller{
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
-                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
+                    $assoc_query = $this->db->query("select count(type_of_member) as assoc_mem_count from cooperators where type_of_member='Associate' and cooperatives_id='$decoded_id'");
+                    if($assoc_query->num_rows()>0)
+                    {
+                      foreach($assoc_query->result() as $res_count)
+                      {
+                        $assoc_ = $res_count->assoc_mem_count;
+                      }
+                    }
+                    else
+                    {
+                      $assoc_ ='';
+                    }
+
+
+                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids, $assoc_);
                     if($data['cooperator_complete']){
-                      $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
+                      $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id,$assoc_);
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                         if($data['article_complete']){
@@ -531,7 +575,7 @@ class Staff extends CI_Controller{
                                       }
                                       else
                                       {
-                                          $other_position = array('position_name'=> $new_position);
+                                          $other_position = array('position_name'=> $new_position,'cooperative_id'=>$decoded_id);
                                           $this->db->insert('staff_position',$other_position);
                                           $data = array(
                                           'full_name' => $this->input->post('fName'),
@@ -547,10 +591,11 @@ class Staff extends CI_Controller{
                                             $success = $this->staff_model->edit_staff($decoded_post_staff_id,$data);
                                             if($success['success']){
                                             $this->session->set_flashdata('staff_success', $success['message']);
-                                            redirect('cooperatives/'.$this->input->post('cooperativesID').'/staff');
+                                            echo"success";
+                                            // redirect('cooperatives/'.$this->input->post('cooperativesID').'/staff');
                                             }else{
-                                            $this->session->set_flashdata('staff_error', $success['message']);
-                                            redirect('cooperatives/'.$this->input->post('cooperativesID').'/staff');
+                                            // $this->session->set_flashdata('staff_error', $success['message']);
+                                            // redirect('cooperatives/'.$this->input->post('cooperativesID').'/staff');
                                             }
                                       }//end check position
                                   }
@@ -607,6 +652,7 @@ class Staff extends CI_Controller{
                         } else {
                             $complete = 'Cooperators';
                         }
+                        // echo $this->db->last_query();
                         $this->session->set_flashdata('redirect_message', 'Please complete first your list of '.$complete.'');
                       redirect('cooperatives/'.$id);
                     }
@@ -800,4 +846,34 @@ class Staff extends CI_Controller{
       }
     }
   }
+  public function other_position($coop_id)
+  {
+    $qry=$this->db->query("select * from staff_position where cooperative_id={$coop_id}");
+    if($qry->num_rows()>0)
+    {
+      foreach($qry->result_array() as $row)
+      {
+        $data[]=$row;
+      }
+    }
+    else
+    {
+      $data=NULL;
+    }
+    return $data;
+  }
+   public function debug($array)
+    {
+      if(is_array($array))
+      {
+        echo"<pre>";
+        print_r($array);
+        echo"</pre>";
+      }
+      else
+      {
+        echo "null value";
+      }
+
+    }
 }

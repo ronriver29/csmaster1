@@ -116,7 +116,13 @@
                   <td><?= ucfirst($cooperator['full_name'])?></td>
                   <td><?= ucfirst($cooperator['middle_name'])?></td>
                   <td><?= ucfirst($cooperator['last_name'])?></td>
-                  <td><?= $cooperator['house_blk_no'].','.ucfirst($cooperator['streetName']).','.$cooperator['brgy'].','.$cooperator['city'].','.$cooperator['province'].','.$cooperator['region']?>
+                  <td><?php 
+                  if($cooperator['house_blk_no'] != ""){ 
+                      echo $cooperator['house_blk_no'].','; 
+                  } 
+                  if ($cooperator['streetName'] != ""){ 
+                      echo ucfirst($cooperator['streetName']).','; 
+                  } echo $cooperator['brgy'].','.$cooperator['city'].','.$cooperator['province'].','.$cooperator['region']; ?>
                   <!--<td><?= $cooperator['gender']?></td>
                   <!--<td><?= date("m/d/Y", strtotime($cooperator['birth_date']))?></td>-->
                   <!--<td><?= $cooperator['position']?></td>-->

@@ -1048,7 +1048,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article XI<br>Ammendments</p>
+        <p class="font-weight-bold">Article XI<br>Amendments</p>
     </div>
   </div>
   <div class="row mb-2">

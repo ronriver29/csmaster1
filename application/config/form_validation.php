@@ -75,16 +75,16 @@ $config = array(
             'label' => 'Type',
             'rules' => 'trim|required'
           ),
-          array(
-            'field' => 'areaOfOperation',
-            'label' => 'Area of Operation',
-            'rules' => 'trim|required'
-          ),
-          array(
-            'field' => 'region',
-            'label' => 'Region',
-            'rules' => 'trim|required'
-          ),
+//          array(
+//            'field' => 'areaOfOperation',
+//            'label' => 'Area of Operation',
+//            'rules' => 'trim|required'
+//          ),
+//          array(
+//            'field' => 'region',
+//            'label' => 'Region',
+//            'rules' => 'trim|required'
+//          ),
           array(
             'field' => 'province',
             'label' => 'Province',
@@ -560,16 +560,6 @@ $config = array(
                   'label' => 'Membership Fee',
                   'rules' => 'trim|required'
                 ),
-//                array(
-//                  'field' => 'regularQualifications[]',
-//                  'label' => 'Regular Qualifications',
-//                  'rules' => 'trim|required'
-//                ),
-//                array(
-//                  'field' => 'additionalRequirementsForMembership',
-//                  'label' => 'Additional Requirements for Membership',
-//                  'rules' => 'trim'
-//                ),
                 array(
                   'field' => 'associateQualifications',
                   'label' => 'Associate Qualifications',
@@ -580,33 +570,6 @@ $config = array(
                   'label' => 'Days to act upon an application',
                   'rules' => 'trim|required'
                 ),
-            /*BEGIN: Commented for Capitalization  -BY FRED*/
-//                array(
-//                  'field' => 'regularMembershipPercentagePay',
-//                  'label' => 'Minimum Shares Paid for Regular Member',
-//                  'rules' => 'trim|required'
-//                ),
-//                array(
-//                  'field' => 'regularMembershipPercentageSubscription',
-//                  'label' => 'Minimum Shares Subscribed for Regular Member',
-//                  'rules' => 'trim|required'
-//                ),
-//                array(
-//                  'field' => 'associateMembershipPercentagePay',
-//                  'label' => 'Minimum Shares Paid for Associate Member',
-//                  'rules' => 'trim'
-//                ),
-//                array(
-//                  'field' => 'associateMembershipPercentageSubscription',
-//                  'label' => 'Minimum Shares Subscribed for Associate Member',
-//                  'rules' => 'trim'
-//                ),
-                /*END: commented for ccalitalization update*/
-//                array(
-//                  'field' => 'additionalConditionsForVoting',
-//                  'label' => 'Additional Condition for Voting',
-//                  'rules' => 'trim'
-//                ),
                 array(
                   'field' => 'regularMeetingDay',
                   'label' => 'Day of Regular Meeting',
@@ -632,21 +595,6 @@ $config = array(
                   'label' => 'Term of Directors',
                   'rules' => 'trim|required'
                 ),
-//                array(
-//                  'field' => 'investPerMonth',
-//                  'label' => 'Invest per month of every member',
-//                  'rules' => 'trim|required'
-//                ),
-//                array(
-//                  'field' => 'investAnnualInterest',
-//                  'label' => 'Annual Interest of every member on capital',
-//                  'rules' => 'trim|required'
-//                ),
-//                array(
-//                  'field' => 'investService',
-//                  'label' => 'Invest for Service',
-//                  'rules' => 'trim|required'
-//                ),
                 array(
                   'field' => 'educationFund',
                   'label' => 'Education Fund',
@@ -667,17 +615,34 @@ $config = array(
                   'label' => 'Optional Fund',
                   'rules' => 'trim|required'
                 ),
-//                array(
-//                  'field' => 'nonMemberPatronYears',
-//                  'label' => 'Non-members patron years',
-//                  'rules' => 'trim|required'
-//                ),
-//                array(
-//                  'field' => 'amendmentMembersWith',
-//                  'label' => 'Amendments',
-//                  'rules' => 'trim|required'
-//                ),
         ),
+        'bylaws/union' => array (
+                    array(
+                      'field' => 'kindsOfMember',
+                      'label' => 'Kinds of Member',
+                      'rules' => 'trim|required'
+                    ),
+                    array(
+                      'field' => 'membershipFee',
+                      'label' => 'Membership Fee',
+                      'rules' => 'trim|required'
+                    ),
+                    array(
+                      'field' => 'actUponMembershipDays',
+                      'label' => 'Days to act upon an application',
+                      'rules' => 'trim|required'
+                    ),
+                    array(
+                      'field' => 'quorumPercentage',
+                      'label' => 'Percentage of member entitled to vote to constitute the quorum',
+                      'rules' => 'trim|required'
+                    ),
+                    array(
+                      'field' => 'termHoldDirector',
+                      'label' => 'Term of Directors',
+                      'rules' => 'trim|required'
+                    ),
+            ),
         'amendment_cooperators/add' => array (
                 array(
                   'field' => 'position',

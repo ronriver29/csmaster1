@@ -40,24 +40,88 @@
   </div>
 <?php endif; ?>-->
 <?php if($branch_info->status==16): ?>
-  <div class="row mt-3">
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong2">
+  * Deferred Reason/s
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">The cooperative has been deferred because of the following reason/s:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><?php 
+//            print_r($cooperatives_comments);
+            foreach($branches_comments as $cc) :
+                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                echo '<ul type="square">';
+                    echo '<li>'.$cc['comment'].'</li>';
+                echo '</ul>';
+            endforeach;
+        ?></pre>    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--  <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-danger" role="alert">
         <p class="font-weight-bold">The branch has been denied because of the following reason/s:</p>
         <p><?= $branch_info->evaluation_comment ?></p>
       </div>
     </div>
-  </div>
+  </div>-->
 <?php endif; ?>
 <?php if($is_client && $branch_info->status==17 && strlen($branch_info->evaluation_comment) >= 1) : ?>
-  <div class="row mt-3">
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong2">
+  * Deferred Reason/s
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">The cooperative has been deferred because of the following reason/s:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><?php 
+//            print_r($cooperatives_comments);
+            foreach($branches_comments as $cc) :
+                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                echo '<ul type="square">';
+                    echo '<li>'.$cc['comment'].'</li>';
+                echo '</ul>';
+            endforeach;
+        ?></pre>    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--  <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-danger" role="alert">
         <p class="font-weight-bold">The branch has been deferred because of the following reason/s:</p>
         <pre><?= $branch_info->evaluation_comment ?></pre>
       </div>
     </div>
-  </div>
+  </div>-->
 <?php endif; ?>
 <div class="row mb-2">
   <div class="col-sm-12 col-md-4">

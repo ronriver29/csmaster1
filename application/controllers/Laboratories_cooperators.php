@@ -152,11 +152,12 @@ class Laboratories_cooperators extends CI_Controller{
                     if($temp == TRUE){
 //                    if($this->input->post('fName')) {
                       $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
-                      $first_Name = strtolower($this->input->post('fName'));
-                      $MidlleName = strtolower($this->input->post('middle_name'));
-                      $Last_Name = strtolower($this->input->post('last_name'));
+                      $first_Name = $this->input->post('fName');
+                      $MidlleName = $this->input->post('middle_name');
+                      $Last_Name = $this->input->post('last_name');
                       $data = array(
                         'cooperatives_id' => $decoded_post_coop_id,
+                        'laboratory_id' => $decoded_id,
                         'full_name' => $first_Name ,
                         'middle_name' =>$MidlleName ,
                         'last_name' =>   $Last_Name,
@@ -177,17 +178,17 @@ class Laboratories_cooperators extends CI_Controller{
                         'place_of_issuance' =>$this->input->post('placeIssuance'),
                         );
 
-                      $name_check =$this->laboratories_model->check_lab_membername_exist($first_Name);
+                      $name_check =$this->laboratories_model->check_lab_membername_exist($first_Name,$MidlleName,$Last_Name,$decoded_id);
                       if($name_check)
                       {
                         // echo"name exist";
-                        $this->session->set_flashdata('member_error', "Member/Coopertor Name already exist.");
+                        $this->session->set_flashdata('member_error', "Member/Cooperator Name already exist.");
                          redirect('laboratories/'.$this->input->post('cooperativesID').'/laboratories_cooperators');
                          //get last name
-                         $checkLasname = $this->check_lastname($Last_Name);
-                         if($check_lastname)
+                         $check_input_name = $this->check_lastname($first_Name,$MidlleName,$Last_Name,$decoded_id);
+                         if($check_input_name)
                          {
-                            $this->session->set_flashdata('member_error', "Member/Coopertor first and lastname already exist.");
+                            $this->session->set_flashdata('member_error', "Member/Cooperator first and lastname already exist.");
                          }
                          else
                          {
@@ -327,19 +328,117 @@ class Laboratories_cooperators extends CI_Controller{
     }
   }
 
-  public function check_lastname($Last_Name)
+  public function check_lastname($first_name,$middle_name,$Last_Name,$laboratory_id)
   {
-    $get_query = $this->db->get_where('laboratories_cooperators',array('last_name'=>$Last_Name));
+    $get_query = $this->db->query("select full_name,middle_name,last_name from laboratories_cooperators where laboratory_id='$laboratory_id'");
     if($get_query->num_rows()>0)
     {
-      return true;
+      foreach($get_query->result_array() as $row)
+      {
+        $row['input_firstname'] = $first_name;
+        $row['input_lastname'] = $Last_Name;
+        $row['input_middlename'] = $middle_name;
+        $row['first_status']='';
+        if(strcasecmp($row['input_firstname'],$row['full_name'])==0 && strcasecmp($row['input_lastname'],$row['last_name'])==0 && strcasecmp($row['input_middlename'],$row['middle_name'])==0)
+        {
+            $row['first_status']='false';
+        }
+        elseif(strcasecmp($row['input_firstname'],$row['full_name'])==0 && strlen($row['input_middlename'])<1 && strlen($row['input_lastname'])<1)
+        {
+             $row['first_status']='false';
+        } 
+        elseif(strcasecmp($row['input_firstname'],$row['full_name'])==0 && strcasecmp($row['input_firstname'],$row['first_name'])==0 && strlen($row['input_middlename'])<1)
+        {
+          $row['first_status']='false';
+        }
+        else
+        {
+          $row['first_status']='true';
+        }
+        $status[] = $row['first_status'];
+        $data[] = $row;
+      }
+
+          if(in_array('false',$status))
+          {
+            return false;
+          }
+          else
+          {
+            return true;
+          }
     }
     else
     {
-      return false;
+      return true;
     }
-
   }
+
+  public function edit_no_changes($first_name,$middle_name,$Last_Name,$cooperator_id)
+  {
+  	$qry_no_changes = $this->db->query("select * from laboratories_cooperators where LOWER(full_name)='$first_name' and LOWER(middle_name)='$middle_name' and LOWER(last_name)='$Last_Name' and id='$cooperator_id'");
+  	if($qry_no_changes->num_rows()>0)
+  	{
+  		return true;
+  	}
+  
+  }
+
+  public function check_cooperator_name_edit($first_name,$middle_name,$Last_Name,$laboratory_id)
+  {
+
+  	// $qry_no_changes = $this->db->query("select * from laboratories_cooperators where full_name='$first_name' and middle_name='$middle_name' and last_name='$Last_Name' and laboratory_id='$laboratory_id'");
+  	// if($qry_no_changes->num_rows()>0)
+  	// {
+  	// 	return true;
+  	// }
+  	// else
+  	// {
+  		$get_query = $this->db->query("select full_name,middle_name,last_name from laboratories_cooperators where laboratory_id='$laboratory_id'");
+	    if($get_query->num_rows()>0)
+	    {
+	      foreach($get_query->result_array() as $row)
+	      {
+	        $row['input_firstname'] = $first_name;
+	        $row['input_lastname'] = $Last_Name;
+	        $row['input_middlename'] = $middle_name;
+	        $row['first_status']='';
+	        if(strcasecmp($row['input_firstname'],$row['full_name'])==0 && strcasecmp($row['input_lastname'],$row['last_name'])==0 && strcasecmp($row['input_middlename'],$row['middle_name'])==0)
+	        {
+	            $row['first_status']='false';
+	        }
+	        elseif(strcasecmp($row['input_firstname'],$row['full_name'])==0 && strlen($row['input_middlename'])<1 && strlen($row['input_lastname'])<1)
+	        {
+	             $row['first_status']='false';
+	        } 
+	        elseif(strcasecmp($row['input_firstname'],$row['full_name'])==0 && strcasecmp($row['input_lastname'],$row['last_name'])==0 && strlen($row['input_middlename'])<1)
+	        {
+	          $row['first_status']='false';
+	        }
+	        else
+	        {
+	          $row['first_status']='true';
+	        }
+	        $status[] = $row['first_status'];
+	        $data[] = $row;
+	      }
+
+	          if(in_array('false',$status))
+	          {
+	            return false;
+	          }
+	          else
+	          {
+	            return true;
+	          }
+	    }
+	    else
+	    {
+	      return true;
+	    }
+  	// }//end of $qry_no_changes
+  }
+
 
   function edit($id = null,$cooperator_id = null){
     if(!$this->session->userdata('logged_in')){
@@ -391,15 +490,46 @@ class Laboratories_cooperators extends CI_Controller{
                           $coopID = $items['cooperatives_id']; 
                           $items['house_blk_no'] = $items['blkNo']; 
                           unset($items['blkNo']);
-                          $success = $this->laboratories_cooperator_model->edit_cooperator_laboratories($items['id'],$items,$current_name);
-                           // echo json_encode($success);
-                          if($success['success']){
-                            $this->session->set_flashdata('member_success', $success['message']);
-                            redirect('laboratories/'.$coopID.'/laboratories_cooperators');
-                          }else{
-                            $this->session->set_flashdata('member_error', $success['message']);
-                            redirect('laboratories/'.$coopID.'/laboratories_cooperators');
+                         
+                          if($this->edit_no_changes(strtolower($items['full_name']),strtolower($items['middle_name']),strtolower($items['last_name']),$items['id']))
+                          {
+                          		$success = $this->laboratories_cooperator_model->edit_cooperator_laboratories($items['id'],$items);
+                         	
+	                          if($success['success']){
+	                            $this->session->set_flashdata('member_success', $success['message']);
+	                            redirect('laboratories/'.$coopID.'/laboratories_cooperators');
+	                          }else{
+	                            $this->session->set_flashdata('member_error', $success['message']);
+	                            redirect('laboratories/'.$coopID.'/laboratories_cooperators');
+	                          }
                           }
+                          else
+                          {
+                          	// echo"saan";
+                          	// var_dump($this->check_cooperator_name_edit($items['full_name'],$items['middle_name'],$items['last_name'],$decoded_id));
+                          		if($this->check_cooperator_name_edit($items['full_name'],$items['middle_name'],$items['last_name'],$decoded_id))
+		                          {
+
+		                          	$success = $this->laboratories_cooperator_model->edit_cooperator_laboratories($items['id'],$items);
+		                         
+			                          if($success['success']){
+			                            $this->session->set_flashdata('member_success', $success['message']);
+			                            redirect('laboratories/'.$coopID.'/laboratories_cooperators');
+			                          }else{
+			                            $this->session->set_flashdata('member_error', $success['message']);
+			                            redirect('laboratories/'.$coopID.'/laboratories_cooperators');
+			                          }	
+		                          }
+		                          else
+		                          {
+		                          	$this->session->set_flashdata('member_error', "Member/Cooperator first and lastname already exist.");
+		                          	redirect('laboratories/'.$coopID.'/laboratories_cooperators');
+		                          }
+                          }//end edit no changes
+                          // var_dump($this->check_cooperator_name_edit($items['full_name'],$items['middle_name'],$items['last_name'],$decoded_id));
+
+                          
+                         
                         }
 //                      }else{
 //                        $this->session->set_flashdata('redirect_message', 'You already submitted for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');

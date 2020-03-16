@@ -81,6 +81,7 @@
 
 
 <?php if(($admin_info->access_level==2) || ($admin_info->access_level==3)){//if(($admin_info->access_level ==2)  || ($admin_info->access_level ==3)){?>
+<?php if($coop_info->status==24){ ?>
 <?php if(isset($comment_list_defer_director->comment) && strlen($comment_list_defer_director->comment)>0){ ?>
 
   <div class="row mt-3 col-md-12"> 
@@ -94,7 +95,7 @@
   </div>
 <?php } ?>
 <?php } //end of access level?>
-
+<?php } //end status ?>
 
 
 

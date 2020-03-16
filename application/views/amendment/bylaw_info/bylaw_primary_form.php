@@ -325,7 +325,7 @@
               </small>
                 <!-- <label for="additionalConditionsForVoting"><strong>List down any additional condition for members to be able to vote</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> -->
                 
-                <input class="form-control " style="resize: none;" id="additionalConditionsForVoting" name="additionalConditionsForVoting[]" placeholder="Must be in a sentence" rows="8"  value="<?= $bylaw_info->additional_conditions_to_vote ?>" disabled>
+                <input class="form-control " style="resize: none;" id="additionalConditionsForVoting" name="additionalConditionsForVoting[]" placeholder="Must be in a sentence"rows="8"  value="<?= $bylaw_info->additional_conditions_to_vote ?>" disabled>
               </div>
             </div>
           </div>
@@ -399,7 +399,12 @@
               <label for="regularMeetingDay"><strong>On what day shall the General Assembly hold its annual regular meeting at the principal office of the Cooperation or at any place that may be determined by the board?</strong>  <small class="text-info">Shall not be beyond ninety (90) days after the close of the calendar year.</small></label>
               <input type="text" value="<?=$bylaw_info->annual_regular_meeting_day?>" class="form-control validate[required]" id="regularMeetingDay" name="regularMeetingDay" placeholder="ex. second/2nd saturday of february" disabled>
              </div>
+           
+            <div class="form-group"> 
+            <label><strong>General Assembly Venue</strong></label>
+             <input type="text" name="Annaul_ga_venue" id="" value="<?=$bylaw_info->annual_regular_meeting_day_venue?>" class="form-control validate[required]" disabled /></div>
             </div>
+             </div>
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12">
@@ -452,7 +457,7 @@
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
                 <label for="termHoldDirector"><strong>How many years should the directors hold office before the new election of directors?</strong></label>
-                <input type="number" min="2" value="<?=$bylaw_info->director_hold_term?>" class="form-control validate[required,min[1],max[<?php echo ($coop_info->type_of_cooperative == "Electric") ? 3 : 2?>],custom[integer]]" id="termHoldDirector" name="termHoldDirector" placeholder="Enter years" disabled>
+                <input type="number" value="<?=$bylaw_info->director_hold_term?>" class="form-control validate[required,min[1],max[<?php echo ($coop_info->type_of_cooperative == "Electric") ? 3 : 2?>],custom[integer]]" id="termHoldDirector" name="termHoldDirector" placeholder="Enter years" disabled>
              </div>
             </div>
           </div>
@@ -464,14 +469,14 @@
           <div class="row">
             <div class="col-sm-12 col-md-12">
               <p class="h6 font-weight-bold text-color-blue-custom">Section 2. <em>Continuous Capital Build-Up</em></p>
-              <p style="font-size:80%;" class="text-color-blue-custom"">*Note: Atleast one of the three is required.</p>
+              <p style="font-size:80%;" class="text-color-blue-custom">*Note: Atleast one of the three is required.</p>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
               <label for="investPerMonth"><strong>At least how much a member should invest monthly?</strong></label>
-               <input type="text" value="<?=number_format($bylaw_info->member_invest_per_month,2)?>" class="form-control validate[custom[number]]" min="1" id="investPerMonth" name="investPerMonth" placeholder="" disabled>
+               <input type="text" value="<?=$bylaw_info->member_invest_per_month?>" class="form-control validate[custom[number]]" min="1" id="investPerMonth" name="investPerMonth" placeholder="" disabled>
              </div>
             </div>
             <div class="col-sm-12 col-md-12">
@@ -507,8 +512,121 @@
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
               <label for="reserveFund"><strong>Percentage to be set aside for Reserve Fund?</strong></label>
-               <input type="number" value="<?=$bylaw_info->percent_reserve_fund?>" class="form-control validate[required,min[25],max[100],custom[integer]]" min="10" max="100" id="reserveFund" name="reserveFund" placeholder="%" disabled>
+               <input type="number" value="<?=$bylaw_info->percent_reserve_fund?>" class="form-control validate[required,min[10],max[100],custom[integer]]" min="10" max="100" id="reserveFund" name="reserveFund" placeholder="%" disabled>
              </div>
             </div>
             <div class="col-sm-12 col-md-12">
-          
+              <div class="form-group">
+              <label for="communityFund"><strong>Percentage to be set aside for Community Development Fund?</strong></label>
+               <input type="number" value="<?=$bylaw_info->percent_community_fund?>" class="form-control validate[required,min[3],max[9],custom[integer]]" min="3" max="9" id="communityFund" name="communityFund" placeholder="%" disabled>
+             </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+              <label for="othersFund"><strong>Percentage to be set aside for Optional Fund?</strong></label>
+               <input type="number" value="<?=$bylaw_info->percent_optional_fund?>" class="form-control validate[required,min[1],max[7],custom[integer]" min="1" max="7" id="othersFund" name="othersFund" placeholder="%" disabled>
+             </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 2. <em>Interest on Share Capital and Patronage Refund</em></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+              <label for="nonMemberPatronYears"><strong>In the case of non-member patron, his/her proportionate amount of patronage refunds shall be set aside in a general fund for such patron and shall be allocated to individual non-member patron and only upon request and presentation of evidence of the amount of his/her patronage. The amount so allocated shall be credited to such patron toward payment of the minimum capital contribution for membership. When a sum equal to this amount has accumulated at any time within how many years?</strong></label>
+               <input type="number" value="<?=$bylaw_info->non_member_patron_years?>" class="form-control validate[required,min[1],max[5],custom[integer]" min="1" max="5" id="nonMemberPatronYears" name="nonMemberPatronYears" placeholder="how many years" disabled>
+             </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 text-center">
+              <p class="font-weight-bold h5 text-color-blue-custom">Article XI. Amendments</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 1. <em>Amendment of Articles of Cooperation and Bylaws</em></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+              <label for="amendmentMembersWith"><strong>Amendments to the Articles of Cooperation and this By-Laws may be adopted by at least two-thirds (2/3) votes of all members with_________, present and constituting a quorum.</strong></label>
+              <select class="custom-select validate[required]" name="amendmentMembersWith" id="amendmentMembersWith" disabled>
+                <!-- <option value="" selected>--</option> -->
+                <option value="Voting Rights" <?php if($bylaw_info->amendment_votes_members_with == "Voting Rights") echo "selected"; ?>>Voting Rights</option>
+                <!-- <option value="Members Entitled to Vote" <?php if($bylaw_info->amendment_votes_members_with == "Members Entitled to Vote") echo "selected"; ?>>Members Entitled to Vote</option> -->
+              </select>
+             </div>
+            </div>
+          </div>
+      </div>
+      <div class="card-footer bylawsPrimaryFooter" style="display: none;">
+        <input class="btn btn-color-blue btn-block" type="submit" id="bylawsPrimaryBtn" name="bylawsPrimaryBtn" value="Submit">
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+$("#optionalfund").hide();
+$(document).ready(function(){
+
+$("#regularMembershipPercentageSubscription").on('change', function(){
+
+    var subscription_input1 =$(this).val();
+    var expd1 =0;
+     expd1 =Number(subscription_input1*0.25);
+   $('#regularMembershipPercentagePay').val(expd1);
+   //console.log($('#regularMembershipPercentagePay').val());
+  
+
+});
+
+$("#associateMembershipPercentageSubscription").on('change', function(){
+
+    var subscription_input =$(this).val();
+    var expd =0;
+     expd =Number(subscription_input*0.25);
+   $('#associateMembershipPercentagePay').val(expd);
+ 
+
+});
+
+$("#communityFund").on('change', function(){
+    
+    var communityFund =$(this).val();
+    var othersFund =$("#othersFund").val();
+    var expd1 = 0;
+    var total;
+    expd1 = Math.abs(Number(communityFund-10));
+    $('#othersFund').val(expd1);
+    
+});
+
+$("#othersFund").on('change', function(){
+    
+    var othersFund =$(this).val();
+    var communityFund =$("#communityFund").val();
+    var expd1 = 0;
+    var total;
+    expd1 = Math.abs(Number(othersFund-10));
+    $('#communityFund').val(expd1);
+    
+});
+
+  });
+
+jQuery(function ($) {
+    var $inputs = $('input[name=investPerMonth],input[name=investAnnualInterest],input[name=investService]');
+    $inputs.on('input', function () {
+        var total = $('input[name=investPerMonth]').val().length + $('input[name=investAnnualInterest]').val().length + $('input[name=investService]').val().length;
+        $inputs.not(this).prop('required', !total);
+
+    });
+});
+</script>

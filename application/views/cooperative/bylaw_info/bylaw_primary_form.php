@@ -417,7 +417,7 @@
             <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                       <label for="quorumPercentage"><strong>How many percent of the members are entitled to vote to constitute the quorum?</strong> <small  class="text-info"><?=$percenttext?></small></label>
-                      <input type="number" value="<?=$bylaw_info->members_percent_quorom?>"  class="form-control validate[required,min[<?=$percentage?>],max[100],custom[integer]]" id="quorumPercentage" name="quorumPercentage" min="25" max="100" placeholder="Enter Percent %" value="25" disabled>
+                      <input type="number" value="<?=$bylaw_info->members_percent_quorom?>"  class="form-control validate[required,min[<?=$percentage?>],max[100],custom[integer]]" id="quorumPercentage" name="quorumPercentage" min="<?=$percentage?>" max="100" placeholder="Enter Percent %" value="25" disabled>
                </div>
               </div>
           </div>
@@ -464,14 +464,14 @@
           <div class="row">
             <div class="col-sm-12 col-md-12">
               <p class="h6 font-weight-bold text-color-blue-custom">Section 2. <em>Continuous Capital Build-Up</em></p>
-              <p style="font-size:80%;" class="text-color-blue-custom"">*Note: Atleast one of the three is required.</p>
+              <p style="font-size:80%;" class="text-color-blue-custom">*Note: Atleast one of the three is required.</p>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12">
         		  <div class="form-group">
         			<label for="investPerMonth"><strong>At least how much a member should invest monthly?</strong></label>
-        			 <input type="text" value="<?=number_format($bylaw_info->member_invest_per_month,2)?>" class="form-control validate[custom[number]]" min="1" id="investPerMonth" name="investPerMonth" placeholder="" disabled>
+        			 <input type="text" value="<?=$bylaw_info->member_invest_per_month?>" class="form-control validate[custom[number]]" min="1" id="investPerMonth" name="investPerMonth" placeholder="" disabled>
         		 </div>
         		</div>
         		<div class="col-sm-12 col-md-12">
@@ -551,7 +551,7 @@
         		  <div class="form-group">
         			<label for="amendmentMembersWith"><strong>Amendments to the Articles of Cooperation and this By-Laws may be adopted by at least two-thirds (2/3) votes of all members with_________, present and constituting a quorum.</strong></label>
               <select class="custom-select validate[required]" name="amendmentMembersWith" id="amendmentMembersWith" disabled>
-                <option value="" selected>--</option>
+                <!--<option value="" selected>--</option>-->
                 <option value="Voting Rights" <?php if($bylaw_info->amendment_votes_members_with == "Voting Rights") echo "selected"; ?>>Voting Rights</option>
                 <!-- <option value="Members Entitled to Vote" <?php if($bylaw_info->amendment_votes_members_with == "Members Entitled to Vote") echo "selected"; ?>>Members Entitled to Vote</option> -->
               </select>

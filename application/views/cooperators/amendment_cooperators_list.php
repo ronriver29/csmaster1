@@ -12,6 +12,7 @@
 <?php $total_paid = 0;?>
 <?php foreach ($list_cooperators as $cooperator) : ""?>
     <?php 
+
         $total_subscribed += $cooperator['number_of_subscribed_shares'];
         $total_paid += $cooperator['number_of_paid_up_shares'];
     ?>
@@ -49,7 +50,7 @@
 <div class="row">
 
   <div class="col-sm-12 col-md-12">
-<?php if(!$requirements_complete): ?>
+<?php if(!$requirements_complete): ?> 
     <div class="alert alert-info text-justify" role="alert">
        Note:
        <ul>
@@ -66,25 +67,31 @@
         <?php if(!$minimum_regular_pay) echo '<li>Please update all regular member whose number of paid shares not greater than or equal to <strong>'.$bylaw_info->regular_percentage_shares_pay.'</strong></li>';?>
         <?php if(!$minimum_associate_subscription) echo '<li>Please update all associate member whose number of paid shares not greater than or equal to <strong>'.$bylaw_info->associate_percentage_shares_subscription.'</strong></li>'; ?>
         <?php if(!$minimum_associate_pay) echo '<li>Please update all associate member whose number of paid shares not greater than or equal to <strong>'.$bylaw_info->associate_percentage_shares_pay.'</strong></li>'; ?>
-        <?php if(isset($capitalization_info->total_no_of_subscribed_capital) ) : ?>
-                <li>The total subscribed shares of all cooperator should be <strong><?= $capitalization_info->total_no_of_subscribed_capital?></strong>.</li>
-            <?php if($bylaw_info->kinds_of_members ==2) : ?>
-                <li>The total paid shares must be: <strong><?= $capitalization_info->total_no_of_paid_up_capital ?></strong>. (Current Total Paid Shares: <strong><?= ($total_regular['total_paid']+$total_associate['total_paid']) ?></strong>)</li>
-           <?php else : ?>
-                <li>The total paid shares must be: <strong><?= $capitalization_info->total_no_of_paid_up_capital ?></strong>. (Current Total Paid Shares: <strong><?= ($total_regular['total_paid']) ?></strong>)</li>
-              <?php endif; ?>
-       <?php endif; ?>
-       <?php // if(!$ten_percent) echo '<li>Members should only subscribed <strong>10%</strong> of the total subscribed shares</li>'; ?>
+
+       <!--  <?php if(!$check_if_equal_shares_paid):?> -->
+            <?php if(isset($capitalization_info->total_no_of_subscribed_capital) ) : ?>
+                    <li>The total subscribed shares of all cooperator should be <strong><?= $capitalization_info->total_no_of_subscribed_capital?></strong>.</li>
+                <?php if($bylaw_info->kinds_of_members ==2) : ?>
+                    <li>The total paid shares must be: <strong><?= $capitalization_info->total_no_of_paid_up_capital ?></strong>. (Current Total Paid Shares: <strong><?= ($total_regular['total_paid']+$total_associate['total_paid']) ?></strong>)</li>
+               <?php else : ?>
+                    <li>The total paid shares must be: <strong><?= $capitalization_info->total_no_of_paid_up_capital ?></strong>. (Current Total Paid Shares: <strong><?= ($total_regular['total_paid']) ?></strong>)</li>
+                  <?php endif; ?>
+           <?php endif; ?>
+           <?php // if(!$ten_percent) echo '<li>Members should only subscribed <strong>10%</strong> of the total subscribed shares</li>'; ?>
+       <!--  <?php endif; //edn of chec if not equal?>    -->
        </ul>
     </div>
-<?php else: ?>
+<?php else: ?> 
+
+    <?php if($check_if_equal_shares_paid){?>
     <div class="alert alert-success text-justify" role="alert">
        Note:
        <ul>
             <li>If you want to add more members and/or increase subscribed and paid share of member(s), you need to update your capitalization.</li>
        </ul>
     </div>
-<?php endif; ?>
+    <?php }//end of check if equal shares paid?>
+ <?php endif; ?> 
   </div>
 <?php if(($is_client && $coop_info->status<=1) || (($coop_info->status==11))): ?>
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">

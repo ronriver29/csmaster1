@@ -310,7 +310,7 @@ $(function(){
       },
       success: function(data){
 
-        $('#branchAddForm #blkNo').val(data.areaOfOperation);
+        $('#branchAddForm #blkNo').val(data.house_blk_no);
         $('#branchAddForm #streetName').val(data.Street);
         $('#branchAddForm #coopName').val(data.coopName);
         setTimeout( function(){
@@ -320,12 +320,12 @@ $(function(){
         setTimeout( function(){
             $('#branchAddForm #province').val(data.pCode);
             $('#branchAddForm #province').trigger('change');
-if(data.areaOfOperation=='Provincial'){
-	$("#branchAddForm #region").prop("disabled",true);
-} else {
-	$("#branchAddForm #province").prop("disabled",true);
-$("#branchAddForm #region").prop("disabled",true);
-}
+//if(data.areaOfOperation=='Provincial'){
+//	$("#branchAddForm #region").prop("disabled",true);
+//} else {
+//	$("#branchAddForm #province").prop("disabled",true);
+//$("#branchAddForm #region").prop("disabled",true);
+//}
         },900);
         setTimeout(function(){
           $('#branchAddForm #city').val(data.cCode);
@@ -336,7 +336,7 @@ $("#branchAddForm #region").prop("disabled",true);
           $('#branchAddForm #barangay2').val(data.bCode);
           $('#branchAddForm #areaOfOperation').empty();  
         if(data.areaOfOperation=='Barangay'){
-          $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"").text("--"));
+          $('#branchAddForm #areaOfOperation').val(data.areaOfOperation);
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Barangay").text("Barangay"));
           $("#branchAddForm #barangay").prop("disabled",true);
           $("#branchAddForm #barangay2").prop("disabled",false);
@@ -344,28 +344,28 @@ $("#branchAddForm #region").prop("disabled",true);
           $("#branchAddForm #province").prop("disabled",true);
           $("#branchAddForm #region").prop("disabled",true);
         }else if (data.areaOfOperation=='Municipality/City') {
-          $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"").text("--"));
+          $('#branchAddForm #areaOfOperation').val(data.areaOfOperation);
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Barangay").text("Barangay"));
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Municipality/City").text("Municipality/City"));
           $("#branchAddForm #city").prop("disabled",true);
           $("#branchAddForm #province").prop("disabled",true);
           $("#branchAddForm #region").prop("disabled",true);   
         }else if (data.areaOfOperation=='Provincial'){
-          $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"").text("--"));
+          $('#branchAddForm #areaOfOperation').val(data.areaOfOperation);
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Barangay").text("Barangay"));
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Municipality/City").text("Municipality/City"));
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Provincial").text("Provincial"));
           $("#branchAddForm #province").prop("disabled",true);
           $("#branchAddForm #region").prop("disabled",true);
         }else if(data.areaOfOperation=='Regional'){
-          $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"").text("--"));
+          $('#branchAddForm #areaOfOperation').val(data.areaOfOperation);
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Barangay").text("Barangay"));
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Municipality/City").text("Municipality/City"));
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Provincial").text("Provincial"));
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Regional").text("Regional"));
           $("#branchAddForm #region").prop("disabled",true);
         }else{
-          $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"").text("--"));
+          $('#branchAddForm #areaOfOperation').val(data.areaOfOperation);
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Barangay").text("Barangay"));
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Municipality/City").text("Municipality/City"));
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Provincial").text("Provincial"));

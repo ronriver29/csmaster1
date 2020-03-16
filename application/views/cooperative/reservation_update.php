@@ -47,6 +47,7 @@
             <div class="row">
               <div class="col-sm-12 col-md-12">
                   <div class="form-group">
+
                     <strong>Application Information:</strong>
                     <input type="hidden" class="form-control validate[required]" id="cooperativeID" name="cooperativeID" value="<?= $encrypted_id ?>">
                     <input type="hidden" class="form-control validate[required]" id="status" name="status" value="<?= encrypt_custom($this->encryption->encrypt($coop_info->status))?>">
@@ -105,6 +106,7 @@
             <div class="row">
               <div class="col-sm-12 col-md-12 col-industry-subclass">
                 <?php foreach($major_industry_list as $key => $major_industry) : ?>
+           
                 <div class="row">
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
@@ -198,6 +200,7 @@
                         ?>
                             <label for="compositionOfMembers" id="composition_of_members_label">Composition of Members </label> 
                             
+                            <?php if(empty($members_composition)) {?>
                             <select class="custom-select" name="compositionOfMembers[]" id="compositionOfMembers1">
                                 <option value="" selected></option>
                                 <?php
@@ -206,7 +209,7 @@
                                   }
                                 ?>
                               </select>
-                            
+                            <?php } ?>
                             <?php $no=0;
                               foreach($members_composition as $key){
 
@@ -266,7 +269,7 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="streetName">Street Name</label>
-                  <input type="text" class="form-control validate[required]" name="streetName" id="streetName" placeholder="">
+                  <input type="text" class="form-control" name="streetName" id="streetName" placeholder="">
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
@@ -309,6 +312,7 @@
               </div>
             </div>
           </div>
+            <?php if($is_client): ?>
           <div class="col-sm-12 offset-md-1 col-md-10 align-self-end">
             <div class="form-group">
               <div class="custom-control custom-checkbox text-center mt-2">
@@ -322,8 +326,10 @@
       </div>
       <div class="card-footer">
         <div class="row">
+        
           <div class="col-sm-12 offset-md-10 col-md-2 align-self-center order-sm-2 order-1 col-reserveupdate-btn">
               <input class="btn btn-block btn-color-blue" type="submit" id="reserveUpdateBtn" name="reserveUpdateBtn" value="Submit" disabled>
+              <?php endif;?>
           </div>
         </div>
       </div>

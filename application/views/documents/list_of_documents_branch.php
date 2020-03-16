@@ -11,7 +11,7 @@
           <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branch_info->brgy?>, <?= $branch_info->city?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" >Submit</button>
         <?php if($branch_info->status == 23){ ?>
           <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyBranchModal" data-cname="<?= $branch_info->brgy?>, <?= $branch_info->city?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>">Deny</button>
-          <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferBranchModal"  data-cname="<?= $branch_info->brgy?>, <?= $branch_info->city?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>">Defer</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferBranchModal" data-cname="<?= $branch_info->brgy?>, <?= $branch_info->city?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>">Defer</button>
         <?php } ?>
         </div>
         <?php } ?>
@@ -29,7 +29,13 @@
             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branch_info->brgy?>, <?= $branch_info->city?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if(($branch_info->tool_yn_answer==null && $branch_info->status>=9 || $branch_info->status>=23)) echo 'disabled';?> ><?=$submit?></button>
             <?php if($admin_info->access_level == 3) {?>
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyBranchModal" data-cname="<?= $branch_info->brgy?>, <?= $branch_info->city?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer==null && $branch_info->status>=9) echo 'disabled';?> >Deny</button>
-                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferBranchModal"  data-cname="<?= $branch_info->brgy?>, <?= $branch_info->city?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer==null && $branch_info->status>=9) echo 'disabled';?> >Defer</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferBranchModal" data-comment="<?= $branch_info->comment_by_specialist?>
+                        
+
+<?= $branch_info->comment_by_senior?>
+                        
+
+<?= $branch_info->tool_findings?>" data-cname="<?= $branch_info->brgy?>, <?= $branch_info->city?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer==null && $branch_info->status>=9) echo 'disabled';?> >Defer</button>
             <?php } ?>
         <?  } ?>
         </div>
@@ -37,44 +43,220 @@
   </div>
 </div>
 <?php if(strlen(($branch_info->comment_by_senior_level1 && $admin_info->access_level==3)) && $branch_info->status == 23) : ?>
-    <div class="row mt-3">
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong3">
+  * Senior Findings
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">Senior Findings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><?php 
+//            print_r($cooperatives_comments);
+            foreach($branches_comments_snr as $cc) :
+                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                echo '<ul type="square">';
+                    echo '<li>'.$cc['comment'].'</li>';
+                echo '</ul>';
+            endforeach;
+        ?></pre>    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--    <div class="row mt-3">
       <div class="col-sm-12 col-md-12">
         <div class="alert alert-info" role="alert">
           <p class="font-weight-bold">CDS Comment:</p>
           <pre><?= $branch_info->comment_by_senior_level1 ?></pre>
         </div>
       </div>
+    </div>-->
+<?php endif;?>
+<?php if(strlen(($branch_info->comment_by_director_level1 && $admin_info->access_level==2) || $admin_info->access_level==3 || $admin_info->access_level==1) && $branch_info->status != 23 && $branch_info->regCode != 0) : ?>
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong2">
+  * Deferred Reason/s
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">The cooperative has been deferred because of the following reason/s:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><?php 
+//            print_r($cooperatives_comments);
+            foreach($branches_comments as $cc) :
+                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                echo '<ul type="square">';
+                    echo '<li>'.$cc['comment'].'</li>';
+                echo '</ul>';
+            endforeach;
+        ?></pre>    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
     </div>
+  </div>
+</div>
+<!--    <div class="row mt-3">
+      <div class="col-sm-12 col-md-12">
+        <div class="alert alert-info" role="alert">
+          <p class="font-weight-bold">Level 1 Director Comment:</p>
+          <pre><?= $branch_info->comment_by_director_level1 ?></pre>
+        </div>
+      </div>
+    </div>-->
 <?php endif;?>
 <?php if(strlen(($branch_info->comment_by_specialist && $admin_info->access_level==2) || $admin_info->access_level==3) && $branch_info->status != 23) : ?>
-    <div class="row mt-3">
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong">
+  * CDS Findings
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">CDS Findings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><?php 
+//            print_r($cooperatives_comments);
+            foreach($branches_comments_cds as $cc) :
+                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                echo '<ul type="square">';
+                    echo '<li>'.$cc['comment'].'</li>';
+                echo '</ul>';
+            endforeach;
+                echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
+                echo '<p>'.$branch_info->tool_findings.'</p>';
+        ?></pre>    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--    <div class="row mt-3">
       <div class="col-sm-12 col-md-12">
         <div class="alert alert-info" role="alert">
           <p class="font-weight-bold">CDS Comment:</p>
           <pre><?= $branch_info->comment_by_specialist ?></pre>
+          <?php if(strlen($branch_info->tool_findings)){
+              echo '<p class="font-weight-bold">CDS Tool Findings</p>';
+              echo $branch_info->tool_findings;
+          } ?>
         </div>
       </div>
-    </div>
+    </div>-->
 <?php endif;?>
-<?php if(strlen($branch_info->comment_by_senior && $admin_info->access_level==3) ||strlen($branch_info->comment_by_senior && $admin_info->access_level==2)) : ?>
-  <div class="row mt-3">
+<?php if(strlen($branch_info->comment_by_senior && $admin_info->access_level==3) || strlen($branch_info->comment_by_senior && $admin_info->access_level==2)) : ?>
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong3">
+  * Senior Findings
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">Senior Findings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><?php 
+//            print_r($cooperatives_comments);
+            foreach($branches_comments_snr as $cc) :
+                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                echo '<ul type="square">';
+                    echo '<li>'.$cc['comment'].'</li>';
+                echo '</ul>';
+            endforeach;
+        ?></pre>    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--  <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-info" role="alert">
         <p class="font-weight-bold">Senior Comment:</p>
         <pre><?= $branch_info->comment_by_senior ?></pre>
       </div>
     </div>
-  </div>
+  </div>-->
 <?php endif;?>
 <?php if(strlen(($branch_info->temp_evaluation_comment && $admin_info->access_level==3) || ($branch_info->temp_evaluation_comment && $admin_info->access_level==2) || ($branch_info->status == 17))) : ?>
-  <div class="row mt-3">
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong2">
+  * Deferred Reason/s
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">The cooperative has been deferred because of the following reason/s:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><?php 
+//            print_r($cooperatives_comments);
+            foreach($branches_comments as $cc) :
+                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                echo '<ul type="square">';
+                    echo '<li>'.$cc['comment'].'</li>';
+                echo '</ul>';
+            endforeach;
+        ?></pre>    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--  <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-danger" role="alert">
         <p class="font-weight-bold">This cooperative has been deferred because of the following reason/s:</p>
         <pre><?= $branch_info->temp_evaluation_comment ?></pre>
       </div>
     </div>
-  </div>
+  </div>-->
 <?php endif;?>
 <?php endif; ?>
 <?php if($this->session->flashdata('redirect_documents')): ?>

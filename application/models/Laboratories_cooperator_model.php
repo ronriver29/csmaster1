@@ -266,7 +266,7 @@ public $last_query = "";
   }
 
 
-public function edit_cooperator_laboratories($cooperator_id,$cooperator_info,$current_name){
+public function edit_cooperator_laboratories($cooperator_id,$cooperator_info){
     $cooperator_id = $this->security->xss_clean($cooperator_id);
     $cooperator_info = $this->security->xss_clean($cooperator_info);
     $cooperator_id =$this->encryption->decrypt(decrypt_custom($cooperator_id));
@@ -274,51 +274,48 @@ public function edit_cooperator_laboratories($cooperator_id,$cooperator_info,$cu
     $cooperator_info['cooperatives_id'] =$this->encryption->decrypt(decrypt_custom($cooperator_info['cooperatives_id']));
 
     $firstName = $cooperator_info['full_name'];
-    // return $cooperator_info;
-    if($firstName == $current_name)
-    {
       $this->db->where('id', $cooperator_id);
       $this->db->update('laboratories_cooperators',$cooperator_info);
       if($this->db->trans_status() === FALSE){
         $this->db->trans_rollback();
-        return array('success'=>false,'message'=>'Unable to updated Member/Cooperator');
+        return array('success'=>false,'message'=>'Unable to updated cooperator');
       }else{
         $this->db->trans_commit();
-        return array('success'=>true,'message'=>'Member/Cooperator has been successfully updated');
+        return array('success'=>true,'message'=>'Cooperator has been successfully updated');
       }
-    }
 
-    $check_duplicate_query = $this->db->get_where('laboratories_cooperators',array('full_name'=>$firstName));
-    if($check_duplicate_query->num_rows()>0)
-    {
-      return array('success'=>false,'message'=>'Unable to updated Member/Cooperator name already exist.');
-    }
-    else
-    {
-       $this->db->where('id', $cooperator_id);
-      $this->db->update('laboratories_cooperators',$cooperator_info);
-      if($this->db->trans_status() === FALSE){
-        $this->db->trans_rollback();
-        return array('success'=>false,'message'=>'Unable to updated Member/Cooperator');
-      }else{
-        $this->db->trans_commit();
-        return array('success'=>true,'message'=>'Member/Cooperator has been successfully updated');
-      } 
-    }
+    // return $cooperator_info;
+    // if($firstName == $current_name)
+    // {
+    //   $this->db->where('id', $cooperator_id);
+    //   $this->db->update('laboratories_cooperators',$cooperator_info);
+    //   if($this->db->trans_status() === FALSE){
+    //     $this->db->trans_rollback();
+    //     return array('success'=>false,'message'=>'Unable to updated Member/Cooperator');
+    //   }else{
+    //     $this->db->trans_commit();
+    //     return array('success'=>true,'message'=>'Member/Cooperator has been successfully updated');
+    //   }
+    // }
+
+    // $check_duplicate_query = $this->db->get_where('laboratories_cooperators',array('full_name'=>$firstName));
+    // if($check_duplicate_query->num_rows()>0)
+    // {
+    //   return array('success'=>false,'message'=>'Unable to updated Member/Cooperator name already exist.');
+    // }
+    // else
+    // {
+    //    $this->db->where('id', $cooperator_id);
+    //   $this->db->update('laboratories_cooperators',$cooperator_info);
+    //   if($this->db->trans_status() === FALSE){
+    //     $this->db->trans_rollback();
+    //     return array('success'=>false,'message'=>'Unable to updated Member/Cooperator');
+    //   }else{
+    //     $this->db->trans_commit();
+    //     return array('success'=>true,'message'=>'Member/Cooperator has been successfully updated');
+    //   } 
+    // }
     
-
-  
-      // $this->db->where('id', $cooperator_id);
-      // $this->db->update('laboratories_cooperators',$cooperator_info);
-      // if($this->db->trans_status() === FALSE){
-      //   $this->db->trans_rollback();
-      //   return array('success'=>false,'message'=>'Unable to updated cooperator');
-      // }else{
-      //   $this->db->trans_commit();
-      //   return array('success'=>true,'message'=>'Cooperator has been successfully updated');
-      // }
-    
-
 }      
   public function edit_cooperator($cooperator_id,$cooperator_info){
     $cooperator_id = $this->security->xss_clean($cooperator_id);

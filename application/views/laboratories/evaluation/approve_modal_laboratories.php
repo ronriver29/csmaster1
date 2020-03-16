@@ -17,7 +17,7 @@
                 <input type="hidden" id="cooperativeID" name="cooperativeID" value="<?=$lab_info->id?>" readonly>
               <div class="form-group">
                 <label for="cName">Laboratory Name:</label>
-                <input type="text" class="form-control validate[required]"  id="" value="<?='Laboratory Cooperative of '.$lab_info->laboratoryName?>" name="cName" placeholder="" readonly>
+                <input type="text" class="form-control validate[required]"  id="" value="<?=$lab_info->laboratoryName.' Laboratory Cooperative'?>" name="cName" placeholder="" readonly>
               </div>
               <?php if($admin_info->access_level==2){ ?>
               <div class="form-group">

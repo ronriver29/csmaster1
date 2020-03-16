@@ -174,7 +174,7 @@
                     "alertText": "* This email is already taken",
                     "alertTextOk": "* This email is available",
                     "alertTextLoad": "* Validating, please wait"
-                },
+                },//check cooperative name
                 "ajaxCoopNameCallPhp": {
                     "url": "check_coop_name_exists",
                     // you may want to pass extra data on the ajax call
@@ -199,12 +199,38 @@
                     "alertTextOk": "* This cooperative name is available",
                     "alertTextLoad": "* Validating, please wait"
                 },
+                //Amendment name
+                "ajaxAmendmentNameCallPhp": {
+                    "url": "check_amendment_name_exists",
+                 
+                    // you may want to pass extra data on the ajax call
+                    "extraDataDynamic":['#typeOfCooperative_value','#cooperative_idss'],
+                    "alertText": "* This  Cooperative name is not available",
+                    "alertTextOk": "* This  Cooperative name is available",
+                    "alertTextLoad": "* Validating, please wait"
+                },
                 "ajaxCooperatorCallPhp": {
                     "url": "../../laboratories_cooperators/check_cooperator_not_exist",
                     "url": "../../amendment_cooperators/check_cooperator_not_exist",
                     "url": "../../cooperators/check_cooperator_not_exist",
                     // you may want to pass extra data on the ajax call
                     "extraDataDynamic": ['#cooperativesID'],
+                    "alertText": "* This cooperator already exists.",
+                    "alertTextOk": "",
+                    "alertTextLoad": "* Validating, please wait"
+                },
+                "ajaxCooperatorAmendmentCallPhp": {
+                    "url": "../../amendment_cooperators/check_cooperator_not_exist",
+                    // you may want to pass extra data on the ajax call
+                    "extraDataDynamic": ['#cooperative_id','#amd_id'],
+                    "alertText": "* This cooperator already exists.",
+                    "alertTextOk": "",
+                    "alertTextLoad": "* Validating, please wait"
+                },
+                "ajaxCooperatorAmendmentEditCallPhp": {
+                    "url": "../../amendment_cooperators/check_edit_position_not_exist",
+                    // you may want to pass extra data on the ajax call
+                    "extraDataDynamic": ['#cooperative_id','#amd_id','#cooperatorID'],
                     "alertText": "* This cooperator already exists.",
                     "alertTextOk": "",
                     "alertTextLoad": "* Validating, please wait"
@@ -219,12 +245,27 @@
                     "alertTextOk": "",
                     "alertTextLoad": "* Validating, please wait"
                 },
+                "ajaxCooperatorPositionCallAmendmentPhp": {
+                    "url": "../../amendment_cooperators/check_position_not_exist",
+                    "extraDataDynamic": ['#cooperative_id','#amd_id'],
+                    "alertText": "* This position is already occupied.",
+                    "alertTextOk": "",
+                    "alertTextLoad": "* Validating, please wait"
+                },
                 "ajaxEditCooperatorName": {
                     "url": "../../laboratories_cooperators/check_edit_cooperator_not_exist",
 //                    "url": "../../amendment_cooperators/check_edit_cooperator_not_exist",
                     "url": "../../cooperators/check_edit_cooperator_not_exist",
                     // you may want to pass extra data on the ajax call
                     "extraDataDynamic": ['#cooperatorID, #cooperativesID'],
+                    "alertText": "* This cooperator already exists.",
+                    "alertTextOk": "",
+                    "alertTextLoad": "* Validating, please wait"
+                },
+                  "ajaxEditCooperatorNameAmendment": {
+                   "url": "../../amendment_cooperators/check_edit_cooperator_not_exist",
+                    // you may want to pass extra data on the ajax call
+                    "extraDataDynamic": ['#cooperatorID, #cooperative_id,#amd_id'],
                     "alertText": "* This cooperator already exists.",
                     "alertTextOk": "",
                     "alertTextLoad": "* Validating, please wait"
@@ -258,7 +299,15 @@
                     "url": "../../bylaws/check_minimum_regular_subscription",
                     // you may want to pass extra data on the ajax call
                     "extraDataDynamic": ['#cooperativesID'],
-                    "alertText": "* Must be greater than or equal to the minimum regular subscription indicated in the bylaws",
+                    "alertText": "* Must be greater than or equal to the minimum regular subscription indicated in the bylaws and Must not be greater than 10% of your Total no of subscribed capital",
+                    "alertTextOk": "* This is greater than or equal to the minimum regular subscription indicated in the bylaws",
+                    "alertTextLoad": "* Validating, please wait"
+                },
+                 "ajaxMinimumRegularSubscriptionAmendmentCallPhp": {
+                    "url": "../amendmentbylaws/check_minimum_regular_subscription_amendment",
+                    // you may want to pass extra data on the ajax call
+                    "extraDataDynamic": ['#cooperative_id','#amd_id'],
+                    "alertText": "* Must be greater than or equal to the minimum regular subscription indicated in the bylaws and Must not be greater than 10% of your Total no of subscribed capital",
                     "alertTextOk": "* This is greater than or equal to the minimum regular subscription indicated in the bylaws",
                     "alertTextLoad": "* Validating, please wait"
                 },
@@ -274,7 +323,7 @@
                     "url": "../../bylaws/check_minimum_associate_subscription",
                     // you may want to pass extra data on the ajax call
                     "extraDataDynamic": ['#cooperativesID'],
-                    "alertText": "* Must be greater than or equal to the minimum associate subscription indicated in the bylaws",
+                    "alertText": "* Must be greater than or equal to the minimum associate subscription indicated in the bylaws and Must not be greater than 10% of your Total no of paid-up capital",
                     "alertTextOk": "* This is greater than or equal to the minimum associate subscription indicated in the bylaws",
                     "alertTextLoad": "* Validating, please wait"
                 },
@@ -290,7 +339,7 @@
                     "url": "../../../bylaws/check_minimum_regular_subscription",
                     // you may want to pass extra data on the ajax call
                     "extraDataDynamic": ['#cooperativesID'],
-                    "alertText": "* Must be greater than or equal to the minimum regular subscription indicated in the bylaws",
+                    "alertText": "* Must be greater than or equal to the minimum regular subscription indicated in the bylaws and Must not be greater than 10% of your Total no of subscribed capital",
                     "alertTextOk": "* This is greater than or equal to the minimum regular subscription indicated in the bylaws",
                     "alertTextLoad": "* Validating, please wait"
                 },
@@ -307,7 +356,7 @@
                     "url": "../../../../bylaws/check_minimum_associate_subscription",
                     // you may want to pass extra data on the ajax call
                     "extraDataDynamic": ['#cooperativesID'],
-                    "alertText": "* Must be greater than or equal to the minimum associate subscription indicated in the bylaws",
+                    "alertText": "* Must be greater than or equal to the minimum associate subscription indicated in the bylaws and Must not be greater than 10% of your Total no of paid-up capital",
                     "alertTextOk": "* This is greater than or equal to the minimum associate subscription indicated in the bylaws",
                     "alertTextLoad": "* Validating, please wait"
                 },
@@ -316,6 +365,15 @@
                     "url": "../../../../bylaws/check_minimum_associate_pay",
                     // you may want to pass extra data on the ajax call
                     "extraDataDynamic": ['#cooperativesID'],
+                    "alertText": "* Must be greater than or equal to the minimum associate pay indicated in the bylaws",
+                    "alertTextOk": "* This is greater than or equal to the minimum associate pay subscription indicated in the bylaws",
+                    "alertTextLoad": "* Validating, please wait"
+                },
+                "ajaxMinimumAssociatePayEditAmendmentCallPhp": {
+                    "url": "../../amendmentbylaws/check_minimum_associate_pay_amendment",
+                 
+                    // you may want to pass extra data on the ajax call
+                    "extraDataDynamic": ['#cooperatorID,#cooperative_id,#amd_id'],
                     "alertText": "* Must be greater than or equal to the minimum associate pay indicated in the bylaws",
                     "alertTextOk": "* This is greater than or equal to the minimum associate pay subscription indicated in the bylaws",
                     "alertTextLoad": "* Validating, please wait"
@@ -370,7 +428,7 @@
                   "alertText": "* Don't include the type of your cooperative in the proposed name"
                 },
                 "validateCooperativeWordInName": {
-                  "alertText": "* Don't include the word cooperative, union, or federation "
+                  "alertText": "* Don't include the word cooperative, union, or federation"
                 },
                 "validateOthersInCommitteeName": {
                   "alertText": "* Please specify committee name. Dont use the word other/s"
@@ -408,7 +466,11 @@
                     "alertText2": "Expected Format: ",
                     "alertText3": "mm/dd/yyyy hh:mm:ss AM|PM or ",
                     "alertText4": "yyyy-mm-dd hh:mm:ss AM|PM"
-	            }
+	            },
+                //modified
+                 "validateAmendment_proposed_name": {
+                  "alertText": "* Do not include the word Multipurpose Cooperative in the proposed name"
+                }
             };
 
         }

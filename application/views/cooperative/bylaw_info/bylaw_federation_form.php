@@ -58,159 +58,673 @@
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">
-      <?php echo form_open('cooperatives/'.$encrypted_id.'/bylaws_federation',array('id'=>'bylawsFederationForm','name'=>'bylawsFederationForm')); ?>
+      <?php echo form_open('cooperatives/'.$encrypted_id.'/bylaws_federation',array('id'=>'bylawsPrimaryForm','name'=>'bylawsPrimaryForm')); ?>
       <div class="card-header">
-        <div class="row">
-          <div class="col-sm-12 col-md-4">
-            <h4>By Laws Information:</h4>
+        <div class="row d-flex">
+          <div class="col-sm-12 col-md-12 col-btn-action-bylaws-primary">
+            <h4 class="float-left">Details:</h4>
+            <?php if(($is_client && $coop_info->status<=1) || ($coop_info->status==11)): ?>
+            <a class="btn btn-primary btn-sm float-right text-white" id="btnEditBylawsPrimary"><i class="fas fa-edit"></i> Edit</a>
+            <?php endif; ?>
           </div>
         </div>
       </div>
       <div class="card-body">
         <input type="hidden" class="form-control" id="bylaw_coop_id" name="bylaw_coop_id" value="<?=$encrypted_id ?>">
         <div class="row">
+          <div class="col-sm-12 col-md-12 text-center">
+            <p class="font-weight-bold h5 text-color-blue-custom">Article II. Membership</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <p class="h6 font-weight-bold text-color-blue-custom">Section 1. <em>Kinds of Membership</em></p>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-sm-12 col-md-6">
               <div class="form-group">
-                <label for="kindsOfMember">Kinds of Member:</label>
-                <select class="custom-select validate[required]" name="kindsOfMember" id="kindsOfMember">
-                  <option value="" selected>--</option>
+                <label for="kindsOfMember"><strong>Define Membership:</strong></label>
+                <select class="custom-select validate[required]" name="kindsOfMember" id="kindsOfMember" disabled>
                   <option value="1" <?php if($bylaw_info->kinds_of_members == 1) echo "selected"; ?>>Regular Member Only</option>
                   <option value="2" <?php if($bylaw_info->kinds_of_members == 2) echo "selected"; ?>>Regular And Associate Member</option>
                 </select>
               </div>
           </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <p class="h6 font-weight-bold text-color-blue-custom">Section 2. <em>Qualifications for Membership</em></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <strong>List down the qualifications for regular members:</strong>
+          </div>
+        </div>
+        <?php if(strlen($bylaw_info->regular_qualifications) <= 0) : ?>
+          <div class="row row-regular-qualifications">
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+                <label for="regularQualifications1">Regular member qualification 1</label>
+                <input type="text" value="" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications1" placeholder="Must be in a sentence" disabled>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 offset-md-8 col-md-4">
+              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsRegularBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Regular Member</button>
+            </div>
+          </div>
+        <?php endif;?>
+        <?php if(strlen($bylaw_info->regular_qualifications) > 0) : ?>
+          <div class="row row-regular-qualifications">
+            <?php foreach($reg_qualifications as $key => $reg_qualification) : ?>
+              <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                  <?php if($key>=1) :?>
+                    <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                  <?php endif; ?>
+                  <label for="regularQualifications<?= $key + 1?>">Regular member qualification <?= $key + 1?></label>
+                  <input type="text" value="<?= $reg_qualification?>" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications<?= $key + 1?>" disabled>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 offset-md-8 col-md-4">
+              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsRegularBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Regular Member</button>
+            </div>
+          </div>
+        <?php endif;?>
+            <div class="row row-assoc" style="<?php echo ($bylaw_info->kinds_of_members == 1) ? "display: none;" : "" ?>">
+              <div class="col-sm-12 col-md-12">
+                <div class="row">
+                  <div class="col-sm-12 col-md-12">
+                    <strong>List down the qualifications for associate members:</strong>
+                  </div>
+                </div>
+                <?php if(strlen($bylaw_info->associate_qualifications) <= 0) : ?>
+                <div class="row row-associate-qualifications">
+                  <div class="col-sm-12 col-md-12">
+                    <div class="form-group">
+                      <label for="associateQualifications1">Associate member qualification 1</label>
+                      <input type="text" value="" class="form-control validate[required]" name="associateQualifications[]" id="associateQualifications1" disabled>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12 offset-md-8 col-md-4">
+                    <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsAssociateBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Associate Member</button>
+                  </div>
+                </div>
+                <?php endif;?>
+                <?php if(strlen($bylaw_info->associate_qualifications) > 0) : ?>
+                  <div class="row row-associate-qualifications">
+                    <?php foreach($asc_qualifications as $key => $asc_qualification) : ?>
+                      <div class="col-sm-12 col-md-12">
+                        <div class="form-group">
+                          <?php if($key>=1) :?>
+                            <a class="customDeleleBtn associateQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                          <?php endif; ?>
+                          <label for="associateQualifications<?= $key + 1?>">Associate member qualification <?= $key + 1?></label>
+                          <input type="text" value="<?= $asc_qualification?>" class="form-control validate[required]" name="associateQualifications[]" id="associateQualifications<?= $key + 1?>" disabled>
+                        </div>
+                      </div>
+                    <?php endforeach; ?>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 offset-md-8 col-md-4">
+                      <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsAssociateBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Associate Member</button>
+                    </div>
+                  </div>
+                <?php endif;?>
+              </div>
+            </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <p class="h6 font-weight-bold text-color-blue-custom">Section 3. <em>Requirements for Membership</em></p>
+          </div>
+        </div>
+        <?php if(strlen($bylaw_info->regular_qualifications) <= 0) : ?>
+        <div class="row additionalRequirementsForMembership">
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
-            <label for="membershipFee"><strong>How much is the membership fee?</strong></label>
-            <input type="number" min="1" step="any" class="form-control" id="membershipFee" name="membershipFee" placeholder="&#8369; 0.00" value="<?=$bylaw_info->membership_fee?>">
-            <small id="emailHelp" class="form-text text-muted">In case the application should be rejected, this fee shall be refunded to the applicant within 7-10 business days.</small>
+              <small>
+                A member must have complied with the following requirements:
+              <ol type="a">
+                <li>Approved application for membership;</li>
+                <li>General Assembly Resolution indicating membership and share capital contribution to this Federation;</li>
+                <li>Board of Director Resolution on authorized representative;</li>
+                <li>Certification of line of business activities engaged in;</li>
+                <li>Subscribed and paid the required minimum share capital and membership fee; and</li>
+              </ol>
+            </small>
+              <!-- <label for="additionalRequirementsForMembership"><strong>List down any additional requirements for membership in your cooperative</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> -->
+        
+              <input class="form-control " style="resize: none;" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->additional_requirements_for_membership ?>" disabled>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 offset-md-8 col-md-4">
+              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreRequirementsBtn" disabled><i class="fas fa-plus"></i> Add More Requirements for Membership</button>
+            </div>
+          </div>
+          <?php endif; ?>
+          <?php if(strlen($bylaw_info->regular_qualifications) > 0) : ?>
+          <div class="row additionalRequirementsForMembership">
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+                <small>
+                  This is the general requirements for membership.
+                <ol type="1">
+                  <li>Approved application for membership;</li>
+                  <li>Certificate of completion of the prescribed Pre-Membership Education Seminar (PMES);</li>
+                  <li>Subscribed and paid the required minimum share capital and membership fee;</li>
+                </ol>
+              </small>
+              </div>
+            </div>
+            <?php foreach($add_membership as $key => $add_memberships) : ?>
+              <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                  <?php if($key>=1) :?>
+                    <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                  <?php endif; ?>
+                  <label for="regularQualifications<?= $key + 4?>">Regular member qualification <?= $key + 4?></label>
+                  <input type="text" value="<?= $add_memberships?>" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 4?>" disabled>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 offset-md-8 col-md-4">
+              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreRequirementsBtn" disabled><i class="fas fa-plus"></i> Add More Requirements for Membership</button>
+            </div>
+          </div>
+        <?php endif;?>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <p class="h6 font-weight-bold text-color-blue-custom">Section 4. <em>Application for Membership</em></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <div class="form-group">
+            <label for="actUponMembershipDays"><strong>An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within _________ (_____) days from the date of filing.  The Board of Directors shall devise a form for the purpose which shall, aside from the personal data of the applicant, include the duties of a member to participate in all programs including but not limited to capital build-up and savings mobilization of the Cooperative and, such other information as may be deemed necessary.</strong></label>
+            <input type="number" value="30" class="form-control validate[required]" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" readonly>
+            <small id="emailHelp" class="form-text text-muted">Days from the date filing.</small>
            </div>
           </div>
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
-              <small>
-                This is the general requirements for membership.
-              <ol type="1">
-                <li>Approved application for membership;</li>
-                <li>Certificate of completion of the prescribed Pre-Membership Education Seminar (PMES);</li>
-                <li>Subscribed and paid the required minimum share capital and membership fee;</li>
-              </ol>
-            </small>
-              <label for="additionalRequirementsForMembership"><strong>List down any additional requirements for membership in your cooperative</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label>
-              <textarea class="form-control validate" style="resize: none;" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership" placeholder="Ex. &#10;item 1;&#10;item2;&#10;itemlast."rows="8"><?=$bylaw_info->additional_requirements_for_membership?></textarea>
-            </div>
+            <label for="membershipFee"><strong>How much is the membership fee?</strong></label>
+            <input type="text" value="<?= number_format($bylaw_info->membership_fee,2) ?>" min="0" step="any" class="form-control validate[required,min[0],custom[number]]" id="membershipFee" name="membershipFee"   placeholder="&#8369; 0.00" disabled>
+            <small id="emailHelp" class="form-text text-muted">In case the application should be rejected, this fee shall be refunded to the applicant within 7-10 business days.</small>
+           </div>
           </div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="actUponMembershipDays"><strong>How many days will the Board of Directors have to act upon an application for membership once it has been submitted?</strong></label>
-                                <input type="number" class="form-control" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" value="<?=$bylaw_info->act_upon_membership_days?>">
-        			<small id="emailHelp" class="form-text text-muted">Days from the date filing.</small>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="regularMembershipPercentageSubscription">What is the minimum percentage of shares that the applicant must subscribe to upon approval of membership?</label>
-                                <input type="number" class="form-control" id="regularMembershipPercentageSubscription" name="regularMembershipPercentageSubscription" placeholder="Enter Shares" value="<?=$bylaw_info->regular_percentage_shares_subscription?>">
-        			<label for="regularMembershipPercentagePay">What is the minimum percentage of shares that the applicant must pay the value of upon approval of membership?</label>
-                                <input type="number" class="form-control" id="regularMembershipPercentagePay" name="regularMembershipPercentagePay" placeholder="Enter Shares" value="<?=$bylaw_info->regular_percentage_shares_pay?>">
-        		  </div>
-        		</div>
-            <div class="col-sm-12 col-md-12">
-              <div class="form-group">
-                <label for="delegatePowers"><strong>Powers of the General Assembly.</strong> <br>Subject to the pertinent provisions of the Cooperative Code and the rules issued thereunder, the General Assembly shall have the following exclusive powers which cannot be delegated:<br><small>To delegate the following power/s to a smaller body of the Cooperative Union: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label>
-                <textarea class="form-control validate" style="resize: none;" id="delegatePowers" name="delegatePowers" placeholder="Ex. &#10;item 1;&#10;item2;&#10;itemlast."rows="10"><?=$bylaw_info->delegate_powers?></textarea>
-              </div>
-            </div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="regularMeetingDay"><strong>On what day shall the General Assembly hold its annual regular meeting at the principal office of the Cooperation or at any place that may be determined by the board?</strong></label>
-                                <input type="text" class="form-control" id="regularMeetingDay" name="regularMeetingDay" placeholder="ex. 2nd saturday of may" value="<?=$bylaw_info->annual_regular_meeting_day?>">
-        			<small id="emailHelp" class="form-text text-muted">Shall not be beyond ninety (90) days after the close of the calendar year.</small>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="quorumPercentage"><strong>How many percent of the members are entitled to vote to constitute the quorum?</strong></label>
-                                <input type="number" class="form-control" id="quorumPercentage" name="quorumPercentage" min="25" placeholder="Enter Percent %" value="<?=$bylaw_info->members_percent_quorom?>">
-        			<small id="emailHelp" class="form-text text-muted">Atleast twenty five percent.</small>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="consecutiveAbsences"><strong>How many consecutive absences in order to be disqualified?</strong></label>
-                                <input type="number" class="form-control" id="consecutiveAbsences" name="consecutiveAbsences" placeholder="Enter Number" value="<?=$bylaw_info->number_of_absences_disqualification?>">
-        			<label for="exampleInputEmail1"><strong>How many percent of absences of all meetings within a year in order to be disqualified?</strong></label>
-                                <input type="number" class="form-control" id="consecutivePercentageAbsences" name="consecutivePercentageAbsences" min="25" placeholder="Enter Percent %" value="<?=$bylaw_info->percent_of_absences_all_meettings?>">
-        			<small id="emailHelp" class="form-text text-muted">Atleast twenty five percent.</small>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="termHoldDirector"><strong>How many years should the office shall be hold before the new election of directors?</strong></label>
-                                <input type="number" class="form-control" id="termHoldDirector" name="termHoldDirector" placeholder="Enter years" value="<?=$bylaw_info->director_hold_term?>">
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="investPerMonth"><strong>Atleast how many Peso should invest per month?</strong></label>
-                                <input type="number" class="form-control" id="investPerMonth" name="investPerMonth" placeholder="" value="<?=$bylaw_info->member_invest_per_month?>">
-        			<small id="emailHelp" class="form-text text-muted"> </small>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="investAnnualInterest"><strong>How many Percent of his/her annual interest on capital and patronage should be invested?</strong></label>
-                                <input type="number" class="form-control" id="investAnnualInterest" name="investAnnualInterest" placeholder="Shares" value="<?=$bylaw_info->member_percentage_annual_interest?>">
-        			<small id="emailHelp" class="form-text text-muted"> </small>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="investService"><strong>How many Percent of each good procured /service acquired from the cooperative should be invested</strong></label>
-                                <input type="number" class="form-control" id="investService" name="investService" placeholder="%" value="<?=$bylaw_info->member_percentage_service?>">
-        			<small id="emailHelp" class="form-text text-muted"> </small>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="educationFund"><strong>How many Percent shall be set aside for Education and Training Fund?</strong></label>
-                                <input type="number" class="form-control" id="educationFund" name="educationFund" placeholder="%" value="<?=$bylaw_info->percent_education_fund?>">
-        			<small id="emailHelp" class="form-text text-muted"> </small>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="reserveFund"><strong>How many Percent shall be set aside for Reserve fund?</strong></label>
-                                <input type="number" class="form-control" id="reserveFund" name="reserveFund" placeholder="%" value="<?=$bylaw_info->percent_reserve_fund?>">
-        			<small id="emailHelp" class="form-text text-muted"> </small>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="communityFund"><strong>How many Percent shall be used for projects and activities that will benefit the community where the Cooperative operates?</strong></label>
-                                <input type="number" class="form-control" id="communityFund" name="communityFund" placeholder="%" value="<?=$bylaw_info->percent_community_fund?>">
-        			<small id="emailHelp" class="form-text text-muted"> </small>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="othersFund"><strong>How many Percent shall be set aside for the optioonal fund, Land and buliding and any other necessary fund?</strong></label>
-                                <input type="number" class="form-control" id="othersFund" name="othersFund" placeholder="%" value="<?=$bylaw_info->percent_optional_fund?>">
-        			<small id="emailHelp" class="form-text text-muted"> </small>
-        		 </div>
-        		</div>
-            <div class="col-sm-12 col-md-12">
-              <div class="form-group">
-                <label for="primaryConsideration"><strong>Primary Consideration.</strong> <br>Adhering to the principle of service, list down the Cooperative Union shall endeavor to: <br><small>Engage in: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label>
-                <textarea class="form-control validate" style="resize: none;" id="primaryConsideration" name="primaryConsideration" placeholder="Ex. &#10;item 1;&#10;item2;&#10;itemlast."rows="10"><?=$bylaw_info->primary_consideration?></textarea>
-              </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <p class="h6 font-weight-bold text-color-blue-custom">Section 6. <em>Minimum Share Capital Requirement</em></p>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <small id="emailHelp" class="form-text text-muted">Please see capitalization in Step 3</small>
             </div>
         </div>
+        <br/>
+<!--          <div class="row row-subscriptions">
+        		<div class="col-sm-12 col-md-12">
+        		  <div class="form-group">
+          			<label for="regularMembershipPercentageSubscription"><strong>Regular Membership</strong><br>What is the minimum number of shares that the applicant must subscribe upon approval of regular membership?</label>
+          			<input type="number" value="<?= $bylaw_info->regular_percentage_shares_subscription ?>"
+                 class="form-control validate[required,min[1],custom[integer]]" id="regularMembershipPercentageSubscription" name="regularMembershipPercentageSubscription" placeholder="Enter Shares" disabled>
+
+          		</div>
+              <div class="form-group">
+                <label for="regularMembershipPercentagePay">What is the minimum number of shares that the applicant must pay upon approval of regular membership?</label>
+          			<input type="number" value="<?= $bylaw_info->regular_percentage_shares_pay ?>" 
+                 class="form-control validate[required,min[1],custom[integer],funcCall[validateMinimumPaidRegularPrimaryCustom]]" id="regularMembershipPercentagePay" name="regularMembershipPercentagePay" 
+                placeholder="Enter Shares" disabled>
+                <span id="rg" style="color:red"></span>
+
+              </div>
+        		</div>
+            <div class="col-sm-12 col-md-12" id="colAssociateSubscription" <?php if($bylaw_info->kinds_of_members == 1) echo "style='display:none;'"; ?>>
+        		  <div class="form-group">
+          			<label for="associateMembershipPercentageSubscription"><strong>Associate Membership</strong><br>What is the minimum number of shares that the applicant must subscribe upon approval of associate membership?</label>
+          			<input type="number" value="<?=$bylaw_info->associate_percentage_shares_subscription?>" class="form-control <?php if($bylaw_info->kinds_of_members == 2) echo "validate[required,min[1],custom[integer]]'"; ?>" id="associateMembershipPercentageSubscription" name="associateMembershipPercentageSubscription" placeholder="Enter Shares" disabled>
+          		</div>
+
+              <div class="form-group">
+                <label for="associateMembershipPercentagePay">What is the minimum number of shares that the applicant must pay upon approval of associate membership?</label>
+                <input type="number" value="<?=$bylaw_info->associate_percentage_shares_pay?>" class="form-control <?php if($bylaw_info->kinds_of_members == 2) echo "validate[required,min[1],custom[integer],funcCall[validateMinimumPaidAssociatePrimaryCustom]]'"; ?>" id="associateMembershipPercentagePay" name="associateMembershipPercentagePay" placeholder="Enter Shares" disabled>
+                <span id="sg" style="color:red"></span>
+              </div>
+        		</div>
+          </div>-->
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 9. <em>Affiliate Entitled to Vote</em></p>
+            </div>
+          </div>
+          <?php if(strlen($bylaw_info->additional_conditions_to_vote) <= 0) : ?>
+          <div class="row additionalConditionsForVoting">
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+                <small>
+                  This is the general conditions for members to vote.
+                <ol type="a">
+                  <li>Paid the membership fee and the value of the minimum shares required for membership;</li>
+                  <li>Not delinquent in the payment of his/her share capital subscriptions and other accounts or obligations;</li>
+                  <li>Not violated any provision of cooperative laws, CDA administrative issuances, Articles of Cooperation and this By-laws, the terms and conditions of the subscription agreement;
+                      and the decisions, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly;</li>
+                  <li>Completed the continuing education program prescribed by the Board of Directors;</li>
+                  <li>Remitted the Cooperative Education and Training Fund (CETF) due to the Federation/Union and</li>
+                  <li>Participated in the affairs of the Federation and patronized its business in accordance with the policies and guidelines.</li>
+                </ol>
+              </small>
+                <!-- <label for="additionalConditionsForVoting"><strong>List down any additional condition for members to be able to vote</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> -->
+                
+                <input class="form-control " style="resize: none;" id="additionalConditionsForVoting" name="additionalConditionsForVoting[]" placeholder="Must be in a sentence"rows="8"  value="<?= $bylaw_info->additional_conditions_to_vote ?>" disabled>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 offset-md-8 col-md-4">
+              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreMembersEntitledtoVoteBtn" disabled><i class="fas fa-plus"></i> Add More Members Entitled to Vote</button>
+            </div>
+          </div>
+        <?php endif; ?>
+          <?php if(strlen($bylaw_info->additional_conditions_to_vote) > 0) : ?>
+          <div class="row additionalConditionsForVoting">
+              <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                  <small>
+                    This is the general conditions for members to vote.
+                  <ol type="1">
+                    <li>Paid the membership fee and the value of the minimum shares required for membership;</li>
+                    <li>Not delinquent in the payment of his/her share capital subscriptions and other accounts or obligations;</li>
+                    <li>Has completed the continuing education program prescribed by the Board of Directors; </li>
+                    <li>Has participated in the affairs of the Cooperative and patronized its businesses in accordance with cooperative’s policies and guidelines;</li>
+                  </ol>
+                </small>
+                </div>
+              </div>
+            <?php foreach($add_members_vote as $key => $add_members_votes) : ?>
+              <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                  <?php if($key>=1) :?>
+                    <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                  <?php endif; ?>
+                  <label for="additionalConditionsForVoting<?= $key + 5?>">Regular member qualification <?= $key + 5?></label>
+                  <input type="text" value="<?= $add_members_votes?>" class="form-control" name="additionalConditionsForVoting[]" id="additionalConditionsForVoting<?= $key + 5?>" disabled>
+                </div>
+              </div>
+            <?php endforeach; ?>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 offset-md-8 col-md-4">
+              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreMembersEntitledtoVoteBtn" disabled><i class="fas fa-plus"></i> Add More Members Entitled to Vote</button>
+            </div>
+          </div>
+        <?php endif;?>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 text-center">
+              <p class="font-weight-bold h5 text-color-blue-custom">Article III. Administration</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 2. <em>Powers  of  the  General  Assembly</em></p>
+            </div>
+          </div>
+          <div class="row additionaldelegatePowers">
+              <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                  <small>
+                    This is the general conditions for members to vote.
+                  <ol type="1">
+                    <li>Paid the membership fee and the value of the minimum shares required for membership;</li>
+                    <li>Not delinquent in the payment of his/her share capital subscriptions and other accounts or obligations;</li>
+                    <li>Has completed the continuing education program prescribed by the Board of Directors; </li>
+                    <li>Has participated in the affairs of the Cooperative and patronized its businesses in accordance with cooperative’s policies and guidelines;</li>
+                  </ol>
+                </small>
+                </div>
+              </div>
+            <?php foreach($delegate_powers as $key => $add_members_votes) : ?>
+                <div class="col-sm-12 col-md-12">
+                  <div class="form-group">
+                    <?php if($key>=1) :?>
+                      <a class="customDeleleBtn delegatePowersRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                    <?php endif; ?>
+                    <label for="additionaldelegatePowers<?= $key + 5?>">General Assembly</label>
+                    <input type="text" value="<?= $add_members_votes?>" class="form-control" name="additionaldelegatePowers[]" id="additionaldelegatePowers<?= $key + 5?>" disabled>
+                  </div>
+                </div>
+                <?php endforeach; ?>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 offset-md-8 col-md-4">
+              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoredelegatePowersBtn" disabled><i class="fas fa-plus"></i> Add More General Assembly</button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 4. <em>Regular General Assembly Meeting</em></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+        		  <div class="form-group">
+<!--                                <select class="form-control validate[required]" id="regularMeetingDay" name="regularMeetingDay" placeholder="ex. second/2nd saturday of february" disabled>
+                                    <option value="<?=$bylaw_info->annual_regular_meeting_day?>"><?=$bylaw_info->annual_regular_meeting_day?></option>
+                                    <option value="first/1st saturday of January">first/1st saturday of January</option>
+                                    <option value="second/2nd saturday of January">second/2nd saturday of January</option>
+                                    <option value="third/3rd saturday of January">third/3rd saturday of January</option>
+                                    <option value="fourth/4th saturday of January">fourth/4th saturday of January</option>
+                                    <option value="first/1st saturday of February">first/1st saturday of February</option>
+                                    <option value="second/2nd saturday of February">second/2nd saturday of February</option>
+                                    <option value="third/3rd saturday of February">third/3rd saturday of February</option>
+                                    <option value="fourth/4th saturday of February">fourth/4th saturday of February</option>
+                                    <option value="first/1st saturday of March">first/1st saturday of March</option>
+                                    <option value="second/2nd saturday of March">second/2nd saturday of March</option>
+                                    <option value="third/3rd saturday of March">third/3rd saturday of March</option>
+                                    <option value="fourth/4th saturday of March">fourth/4th saturday of March</option>
+                                  </select>-->
+        			<label for="regularMeetingDay"><strong>On what day shall the General Assembly hold its annual regular meeting at the principal office of the Cooperation or at any place that may be determined by the board?</strong>	<small class="text-info">Shall not be beyond ninety (90) days after the close of the calendar year.</small></label>
+        			<input type="text" value="<?=$bylaw_info->annual_regular_meeting_day?>" class="form-control validate[required]" id="regularMeetingDay" name="regularMeetingDay" placeholder="ex. second/2nd saturday of february" disabled>
+        		 </div>
+        		</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 8. <em>Quorum for General Assembly Meeting</em></p>
+            </div>
+          </div>
+        <?php if($coop_info->type_of_cooperative=='Electric'){
+            $percenttext = 'Atleast five percent.';
+            $percentage = 5;
+        } else {
+            $percenttext = 'Atleast twenty five percent.';
+            $percentage = 25;
+        }?>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                      <label for="quorumPercentage"><strong>How many percent of the members are entitled to vote to constitute the quorum?</strong> <small  class="text-info"><?=$percenttext?></small></label>
+                      <input type="number" value="<?=$bylaw_info->members_percent_quorom?>"  class="form-control validate[required,min[<?=$percentage?>],max[100],custom[integer]]" id="quorumPercentage" name="quorumPercentage" min="25" max="100" placeholder="Enter Percent %" value="25" disabled>
+               </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 text-center">
+              <p class="font-weight-bold h5 text-color-blue-custom">Article IV. Board of Directors</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 1. <em>Composition of the Board of Directors (BOD)</em></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+                   <label for="compositionoftheboard"><strong>The Board of Directors shall be composed of _____________() members.</strong></label>
+                 <input type="number" value="<?=$bylaw_info->composition_of_bod?>" class="form-control" id="compositionoftheboard" name="compositionoftheboard" placeholder="Enter Number" disabled>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 4. <em>Disqualifications</em></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+                   <label for="consecutiveAbsences"><strong>How many consecutive absences in order to be disqualified?</strong></label>
+                 <input type="number" value="<?=$bylaw_info->number_of_absences_disqualification?>" class="form-control validate[required,min[2],custom[integer]]" id="consecutiveAbsences" name="consecutiveAbsences" min="2" placeholder="Enter Number" disabled>
+              </div>
+               <div class="form-group">
+                  <label for="consecutivePercentageAbsences"><strong>How many percent of absences of all meetings within a year in order to be disqualified?</strong> <small class="text-info">(Atleast twenty five percent.)</small></label>
+                 <input type="number" value="<?=$bylaw_info->percent_of_absences_all_meettings?>" class="form-control validate[required,min[25],max[100],custom[integer]]" id="consecutivePercentageAbsences" name="consecutivePercentageAbsences" min="25" max="100" placeholder="Enter Percent %" disabled>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 6. <em>Election of Directors</em></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+        		  <div class="form-group">
+        			  <label for="termHoldDirector"><strong>How many years should the directors hold office before the new election of directors?</strong></label>
+        			  <input type="number" value="<?=$bylaw_info->director_hold_term?>" class="form-control validate[required,min[1],max[<?php echo ($coop_info->type_of_cooperative == "Electric") ? 3 : 2?>],custom[integer]]" id="termHoldDirector" name="termHoldDirector" placeholder="Enter years" disabled>
+        		 </div>
+        		</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 text-center">
+              <p class="font-weight-bold h5 text-color-blue-custom">Article VII. Capital Structure</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 2. <em>Continuous Capital Build-Up</em></p>
+              <p style="font-size:80%;" class="text-color-blue-custom"">*Note: Atleast one of the three is required.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+        		  <div class="form-group">
+        			<label for="investPerMonth"><strong>At least how much a member should invest monthly?</strong></label>
+        			 <input type="text" value="<?=number_format($bylaw_info->member_invest_per_month,2)?>" class="form-control validate[custom[number]]" min="1" id="investPerMonth" name="investPerMonth" placeholder="" disabled>
+        		 </div>
+        		</div>
+        		<div class="col-sm-12 col-md-12">
+        		  <div class="form-group">
+        			<label for="investAnnualInterest"><strong>Percentage of every member's annual interest on share capital and patronage refund should be invested?</strong></label>
+        			 <input type="number" value="<?=$bylaw_info->member_percentage_annual_interest?>" class="form-control validate[min[1],max[100],custom[integer]]" min="1" max="100" id="investAnnualInterest" name="investAnnualInterest" placeholder="%" disabled>
+        		 </div>
+        		</div>
+        		<div class="col-sm-12 col-md-12">
+        		  <div class="form-group">
+        			<label for="investService"><strong>Percentage of goods procured/services availed by every member should be invested?</strong></label>
+        			 <input type="number" value="<?=$bylaw_info->member_percentage_service?>" class="form-control validate[min[1],max[100],custom[integer]]" min="1" max="100" id="investService" name="investService" placeholder="%" disabled>
+        		 </div>
+        		</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 text-center">
+              <p class="font-weight-bold h5 text-color-blue-custom">Article VIII.Operations</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 1. <em>Primary Consideration</em></p>
+            </div>
+          </div>
+
+          <div class="row additionalPrimaryConsideration">
+              <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                  <small>
+                    Adhering to the principle of service over and above profit, the Federation shall endeavor to:
+                  <ol type="a">
+                    <li>Engage in:</li>
+                  </ol>
+                </small>
+                </div>
+              </div>
+            <?php foreach($primary_consideration as $key => $add_members_votes) : ?>
+                <div class="col-sm-12 col-md-12">
+                  <div class="form-group">
+                    <?php if($key>=1) :?>
+                      <a class="customDeleleBtn delegatePowersRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                    <?php endif; ?>
+                    <label for="additionalPrimaryConsideration<?= $key + 5?>">a.<?=$key+1?></label>
+                    <input type="text" value="<?= $add_members_votes?>" class="form-control" name="additionalPrimaryConsideration[]" id="additionalPrimaryConsideration<?= $key + 5?>" disabled>
+                  </div>
+                </div>
+                <?php endforeach; ?>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 offset-md-8 col-md-4">
+              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMorePrimaryConsiderationBtn" disabled><i class="fas fa-plus"></i> Add More General Assembly</button>
+            </div>
+          </div><br>
+
+<!--          <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                    <label>Adhering to the principle of service over and above profit, the Federation shall endeavor to:</label>
+                    <p>a. Engage in:</p>
+                </div>
+            </div>
+          </div>-->
+          <div class="row">
+            <div class="col-sm-12 col-md-12 text-center">
+              <p class="font-weight-bold h5 text-color-blue-custom">Article IX.Allocation and Distribution of Net Surplus</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 1. <em>Allocation</em></p>
+            </div>
+          </div>
+          <div class="row">
+        		<div class="col-sm-12 col-md-12">
+        		  <div class="form-group">
+        			<label for="educationFund"><strong>Percentage to be set aside for Cooperative Education and Training Fund?</strong></label>
+        			 <input type="number" value="<?=$bylaw_info->percent_education_fund?>" class="form-control validate[required,min[0],max[10],custom[integer]]" min="0" max="10" id="educationFund" name="educationFund" placeholder="%" disabled>
+        		 </div>
+        		</div>
+        		<div class="col-sm-12 col-md-12">
+        		  <div class="form-group">
+        			<label for="reserveFund"><strong>Percentage to be set aside for Reserve Fund?</strong></label>
+        			 <input type="number" value="<?=$bylaw_info->percent_reserve_fund?>" class="form-control validate[required,min[10],max[100],custom[integer]]" min="10" max="100" id="reserveFund" name="reserveFund" placeholder="%" disabled>
+        		 </div>
+        		</div>
+        		<div class="col-sm-12 col-md-12">
+        		  <div class="form-group">
+        			<label for="communityFund"><strong>Percentage to be set aside for Community Development Fund?</strong></label>
+        			 <input type="number" value="<?=$bylaw_info->percent_community_fund?>" class="form-control validate[required,min[3],max[9],custom[integer]]" min="3" max="9" id="communityFund" name="communityFund" placeholder="%" disabled>
+        		 </div>
+        		</div>
+        		<div class="col-sm-12 col-md-12">
+        		  <div class="form-group">
+        			<label for="othersFund"><strong>Percentage to be set aside for Optional Fund?</strong></label>
+        			 <input type="number" value="<?=$bylaw_info->percent_optional_fund?>" class="form-control validate[required,min[1],max[7],custom[integer]" min="1" max="7" id="othersFund" name="othersFund" placeholder="%" disabled>
+        		 </div>
+        		</div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 2. <em>Interest on Share Capital and Patronage Refund</em></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                      <label for="nonMemberPatronYears"><strong>In the case of non-member patron, his/her proportionate amount of patronage refunds shall be set aside in a general fund for such patron and shall be allocated to individual non-member patron and only upon request and presentation of evidence of the amount of his/her patronage. The amount so allocated shall be credited to such patron toward payment of the minimum capital contribution for membership. When a sum equal to this amount has accumulated at any time within how many years?</strong></label>
+                       <input type="number" value="<?=$bylaw_info->non_member_patron_years?>" class="form-control validate[required,min[1],max[5],custom[integer]" min="1" max="5" id="nonMemberPatronYears" name="nonMemberPatronYears" placeholder="how many years" disabled>
+                </div>
+                </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 text-center">
+              <p class="font-weight-bold h5 text-color-blue-custom">Article XII. Amendments</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 1. <em>Amendment of Articles of Cooperation and Bylaws</em></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+        		  <div class="form-group">
+        			<label for="amendmentMembersWith"><strong>Amendments to the Articles of Cooperation and this By-Laws may be adopted by at least two-thirds (2/3) votes of all members with_________, present and constituting a quorum.</strong></label>
+              <select class="custom-select validate[required]" name="amendmentMembersWith" id="amendmentMembersWith" disabled>
+                <option value="" selected>--</option>
+                <option value="Voting Rights" <?php if($bylaw_info->amendment_votes_members_with == "Voting Rights") echo "selected"; ?>>Voting Rights</option>
+                <!-- <option value="Members Entitled to Vote" <?php if($bylaw_info->amendment_votes_members_with == "Members Entitled to Vote") echo "selected"; ?>>Members Entitled to Vote</option> -->
+              </select>
+             </div>
+        		</div>
+          </div>
       </div>
-      <div class="card-footer bylawsPrimaryFooter">
-        <input class="btn btn-color-blue btn-block" type="submit" id="bylawsFederationBtn" name="bylawsFederationBtn" value="Submit">
+      <div class="card-footer bylawsPrimaryFooter" style="display: none;">
+        <input class="btn btn-color-blue btn-block" type="submit" id="bylawsPrimaryBtn" name="bylawsPrimaryBtn" value="Submit">
       </div>
     </form>
     </div>
   </div>
 </div>
+<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+$("#optionalfund").hide();
+$(document).ready(function(){
+
+$("#regularMembershipPercentageSubscription").on('change', function(){
+
+    var subscription_input1 =$(this).val();
+    var expd1 =0;
+     expd1 =Number(subscription_input1*0.25);
+   $('#regularMembershipPercentagePay').val(expd1);
+   //console.log($('#regularMembershipPercentagePay').val());
+  
+
+});
+
+$("#associateMembershipPercentageSubscription").on('change', function(){
+
+    var subscription_input =$(this).val();
+    var expd =0;
+     expd =Number(subscription_input*0.25);
+   $('#associateMembershipPercentagePay').val(expd);
+ 
+
+});
+
+$("#communityFund").on('change', function(){
+    
+    var communityFund =$(this).val();
+    var othersFund =$("#othersFund").val();
+    var expd1 = 0;
+    var total;
+    expd1 = Math.abs(Number(communityFund-10));
+    $('#othersFund').val(expd1);
+    
+});
+
+$("#othersFund").on('change', function(){
+    
+    var othersFund =$(this).val();
+    var communityFund =$("#communityFund").val();
+    var expd1 = 0;
+    var total;
+    expd1 = Math.abs(Number(othersFund-10));
+    $('#communityFund').val(expd1);
+    
+});
+
+  });
+
+jQuery(function ($) {
+    var $inputs = $('input[name=investPerMonth],input[name=investAnnualInterest],input[name=investService]');
+    $inputs.on('input', function () {
+        var total = $('input[name=investPerMonth]').val().length + $('input[name=investAnnualInterest]').val().length + $('input[name=investService]').val().length;
+        $inputs.not(this).prop('required', !total);
+
+    });
+});
+</script>

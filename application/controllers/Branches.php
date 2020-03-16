@@ -55,8 +55,26 @@
                       $category = substr($this->input->post('categoryOfCooperative'),0,strpos($this->input->post('categoryOfCooperative'),'-')-1);
                       $group = substr($this->input->post('categoryOfCooperative'), strpos($this->input->post('categoryOfCooperative'),'-')+2 , strlen($this->input->post('categoryOfCooperative')) - strpos($this->input->post('categoryOfCooperative'),'-')-2);
                     }
+                    
+                    $BAC = $this->input->post('BAC');
+                    $provDesc = $this->branches_model->prov($this->input->post('province'));
+                    $cityDesc = $this->branches_model->city($this->input->post('city'));
+                    $branchCount =$this->branches_model->branch_count($this->input->post('regNo'),substr($this->input->post('city'),0,6),$this->input->post('typeOfBranch')); 
+                    
+                    $data['branch_info'] = $this->branches_model->get_branch_info($user_id,$decoded_id);
+                    $data['registered_info'] = $this->branches_model->get_registered_coop($data['branch_info']->regNo);
+                    
+                    if(empty($this->input->post('region2')) || $this->input->post('barangay')==$this->input->post('barangay2')){
+                        $regCodeBranch = 0;
+                    } else if ($data['registered_info']->addrCode == $this->input->post('barangay')){ 
+                        $regCodeBranch = 0;
+                    } else {
+                        $regCodeBranch = $this->input->post('region2');
+                    }
+                    
                     $field_data = array(
                       'user_id' => $this->session->userdata('user_id'),
+                      'regCode' => $regCodeBranch,
 //                      'category_of_cooperative' => $category,
 //                      'proposed_name' => $this->input->post('proposedName'),
 //                      'type_of_cooperative' => $this->input->post('typeOfCooperative'),
@@ -448,7 +466,9 @@
               $data['document_7'] = $this->uploaded_document_model->get_document_7_info($decoded_id,$branch_info->application_id);
               $data['document_8'] = $this->uploaded_document_model->get_document_8_info($decoded_id,$branch_info->application_id);
               $data['document_9'] = $this->uploaded_document_model->get_document_9_info($decoded_id,$branch_info->application_id);
-
+              
+              $data['branches_comments'] = $this->branches_model->branches_comments($decoded_id);
+              
               $data['submitted'] = $this->branches_model->check_submitted_for_evaluation($decoded_id);
 
               $this->load->view('./template/header', $data);
@@ -613,6 +633,7 @@
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('branchID',TRUE)));
           $user_id = $this->session->userdata('user_id');
           $data['is_client'] = $this->session->userdata('client');
+          $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
           if(is_numeric($decoded_id) && $decoded_id!=0){
             if($this->session->userdata('client')){
               $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
@@ -687,6 +708,13 @@
                                     $this->session->set_flashdata('redirect_applications_message', 'Branch already evaluated by the Regional Director.');
                                     redirect('branches');
                                   }else{
+                                      $data_field = array(
+                                        'branches_id' => $decoded_id,
+                                        'comment' => $comment_by_specialist_senior,
+                                        'user_id' => $user_id,
+                                        'user_level' => $data['admin_info']->access_level
+                                    );
+                                  $success = $this->branches_model->insert_comment_history($data_field);
                                     $success = $this->branches_model->approve_by_admin($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior);
                                     if($success){
                                       $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been approved.');
@@ -730,6 +758,13 @@
                                   } else {
                                     $step = 7;
                                   }
+                                  $data_field = array(
+                                        'branches_id' => $decoded_id,
+                                        'comment' => $comment_by_specialist_senior,
+                                        'user_id' => $user_id,
+                                        'user_level' => $data['admin_info']->access_level
+                                    );
+                                  $success = $this->branches_model->insert_comment_history($data_field);
                                   $success = $this->branches_model->approve_by_admin($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior);
                                   if($success){
                                     $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been submitted.');
@@ -764,6 +799,13 @@
                                 $this->session->set_flashdata('redirect_applications_message', 'Branch already evaluated by a Cooperative Development Specialist II.');
                                 redirect('branches');
                               }else{
+                                  $data_field = array(
+                                        'branches_id' => $decoded_id,
+                                        'comment' => $comment_by_specialist_senior,
+                                        'user_id' => $user_id,
+                                        'user_level' => $data['admin_info']->access_level
+                                    );
+                                  $success = $this->branches_model->insert_comment_history($data_field);
                                 $success = $this->branches_model->approve_by_admin($admin_info,$decoded_id,$reason_commment,3,$comment_by_specialist_senior);
                                 if($success){
                                   $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been submitted.');
@@ -1018,6 +1060,13 @@
                                     redirect('branches');
                                   }else{
                                     if(!$this->admin_model->check_if_director_active($user_id)){
+                                        $data_field = array(
+                                        'branches_id' => $decoded_id,
+                                        'comment' => $reason_commment,
+                                        'user_id' => $user_id,
+                                        'user_level' => $data['admin_info']->access_level
+                                    );
+                                  $success = $this->branches_model->insert_comment_history($data_field);
                                       $success = $this->branches_model->defer_by_admin($admin_info,$decoded_id,$reason_commment,5);
                                       if($success){
                                         $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been deferred.');
@@ -1062,6 +1111,13 @@
                                     $this->session->set_flashdata('redirect_applications_message', 'Branch already evaluated by the Regional Director.');
                                     redirect('branches');
                                   }else{
+                                      $data_field = array(
+                                        'branches_id' => $decoded_id,
+                                        'comment' => $reason_commment,
+                                        'user_id' => $user_id,
+                                        'user_level' => 3
+                                    );
+                                  $success = $this->branches_model->insert_comment_history($data_field);
                                     $success = $this->branches_model->defer_by_admin($admin_info,$decoded_id,$reason_commment,5);
                                     if($success){
                                       $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been deferred.');

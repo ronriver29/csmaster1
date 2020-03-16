@@ -15,12 +15,13 @@ class Amendment_articles extends CI_Controller{
     }else{
       $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $user_id = $this->session->userdata('user_id');
+      $cooperative_id = $this->coop_dtl($decoded_id);
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
         if($this->session->userdata('client')){
-          if($this->amendment_model->check_own_cooperative($decoded_id,$user_id)){
-            if(!$this->amendment_model->check_expired_reservation($decoded_id,$user_id)){
-              $data['coop_info'] = $this->amendment_model->get_cooperative_info($user_id,$decoded_id);
+          if($this->amendment_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
+            if(!$this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
+              $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
               if($data['coop_info']->category_of_cooperative =="Primary"){
                 redirect('amendment/'.$id.'/articles_primary');
               }else if($data['coop_info']->category_of_cooperative =="Secondary"){
@@ -69,29 +70,30 @@ class Amendment_articles extends CI_Controller{
     }else{
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
+        $cooperative_id = $this->coop_dtl($decoded_id);
         $data['is_client'] = $this->session->userdata('client');
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
-            if($this->amendment_model->check_own_cooperative($decoded_id,$user_id)){
-              if(!$this->amendment_model->check_expired_reservation($decoded_id,$user_id)){
-                $data['coop_info'] = $this->amendment_model->get_cooperative_info($user_id,$decoded_id);
-                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+            if($this->amendment_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
+              if(!$this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
+                $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
+                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                 if(!$data['bylaw_complete']) {
-                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                 }
                 
                 if($data['bylaw_complete']){
-                  $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($decoded_id);
+                  $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$decoded_id);
                   if(!$data['cooperator_complete']) {
-                    $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                    $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($cooperative_id,$decoded_id);
                   }
                   if($data['cooperator_complete']){
-                    $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($decoded_id);
+                    $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$decoded_id);
                     if(!$data['purposes_complete']) {
                         $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     }
                     if($data['purposes_complete']){
-                      if($this->amendment_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Primary"){
+                      if($this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id)->category_of_cooperative =="Primary"){
                           if(isset($_POST['articlesPrimaryBtn'])){
                               $temp = TRUE;
                           } else {
@@ -102,19 +104,19 @@ class Amendment_articles extends CI_Controller{
                           $data['header'] = 'Articles of Cooperation';
                           $data['client_info'] = $this->user_model->get_user_info($user_id);
                           $data['encrypted_id'] = $id;
-                          $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                          $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                           if(!$data['bylaw_info']) {
-                            $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                            $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                           }
-                          $data['articles_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($decoded_id);
+                          $data['articles_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
                           if(!$data['articles_info']) {
-                            $data['articles_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
+                            $data['articles_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
                           }
-                          $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($decoded_id);
+                          $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
                           if($data['total_regular']==0){
-                            $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+                            $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($decoded_id);
                           }
-                          $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($decoded_id);
+                          $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$decoded_id);
                           if($data['total_associate']==0) {
                             $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                           }
@@ -262,4 +264,26 @@ class Amendment_articles extends CI_Controller{
         }
     }
   }
+  public function coop_dtl($amendment_id)
+    {
+      $query = $this->db->query("select cooperative_id from amend_coop where id='$amendment_id'");
+      if($query->num_rows()>0)
+      {
+        foreach($query->result() as $row)
+        {
+          $data = $row->cooperative_id;
+        }
+      }
+      else
+      {
+        $data =NULL;
+      }
+      return $data;
+    }
+   public function debug($array)
+    {
+        echo"<pre>";
+        print_r($array);
+        echo"</pre>";
+    }
 }

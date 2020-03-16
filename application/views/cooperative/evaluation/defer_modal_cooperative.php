@@ -18,7 +18,14 @@
               </div>
               <div class="form-group">
                 <label for="comment">State the reason/s:</label>
-                <textarea class="form-control validate[required] cooperative-comment-text" style="resize: none;" id="comment" name="comment" placeholder=""rows="8"><?php echo $coop_info->evaluation_comment;?></textarea>
+                <textarea class="form-control validate[required] cooperative-comment-text" style="resize: none;" id="comment" name="comment" placeholder="" rows="8"><?php foreach($cooperatives_comments_cds as $cc) : echo $cc['comment']."\n\n";
+            endforeach; 
+echo $coop_info->tool_findings."\n";?>
+
+<?php foreach($cooperatives_comments_snr as $cc) : echo $cc['comment']."\n";endforeach;?>
+
+<?php foreach($cooperatives_comments as $cc) : echo $cc['comment']."\n";endforeach;?>
+              </textarea>
               </div>
             </div>
             <div class="modal-footer deferCooperativeFooter">

@@ -149,8 +149,7 @@ $route['laboratories/(:any)/laboratories_documents/articles_cooperation_primary'
 $route['laboratories/(:any)/laboratories_documents/affidavit_primary_lab'] = 'laboratories_documents/affidavit_primary_lab/$1';//modify
 $route['laboratories/(:any)/laboratories_documents/economic_survey_lab'] = 'laboratories_documents/economic_survey_lab/$1';//modify
 
-
-
+$route['amendment/(:any)/amendment_cooperators/check_edit_position_not_exist'] = 'amendment_cooperators/check_edit_position_not_exist';
 
 //$route['laboratories/deny_cooperative'] = 'laboratories/deny_cooperative';
 //$route['laboratories/defer_cooperative'] = 'laboratories/defer_cooperative';
@@ -233,9 +232,12 @@ $route['cooperatives/(:any)/cooperators/check_edit_position_not_exist'] = 'coope
 // $route['cooperatives/reservation_update_expired'] = 'cooperatives/reservation_update_expired';
 // $route['cooperatives/reservation_update'] = 'cooperatives/reservation_update';
 $route['amendment/approve_cooperative'] = 'amendment/approve_cooperative';
-
+$route['amendment/check_amendment_name_exists'] = 'amendment/check_amendment_name_exists'; //modified by json
+$route['amendment/(:any)/check_amendment_name_exists'] = 'amendment/check_amendment_name_exists'; //modified by json
 $route['amendment/check_coop_name_update_exists'] = 'amendment/check_coop_name_update_exists';
-$route['amendment/(:any)/cooperators/check_edit_cooperator_not_exist'] = 'cooperators/check_edit_cooperator_not_exist';
+$route['amendment/(:any)/major_industry_description_subclass_ajax'] = 'amendment/major_industry_description_subclass_ajax'; //modified
+$route['amendment/(:any)/get_specific_subclassAjax'] = 'amendment/get_specific_subclassAjax'; //modified
+$route['amendment/(:any)/amendment_cooperators/check_edit_cooperator_not_exist'] = 'amendment_cooperators/check_edit_cooperator_not_exist'; //modified
 $route['amendment/(:any)/cooperators/check_edit_position_not_exist'] = 'cooperators/check_edit_position_not_exist';
 
 $route['cooperatives/reservation'] = 'cooperatives/reservation';
@@ -255,7 +257,7 @@ $route['cooperatives/(:any)/capitalization'] = 'capitalization/index/$1';
 $route['amendment/(:any)/amendment_documents/view_document_one/(:any)/(:any)'] = 'amendment_documents/view_document_one/$1/$2/$3';
 $route['amendment/(:any)/amendment_documents/view_document_two/(:any)'] = 'amendment_documents/view_document_two/$1/$2';
 $route['amendment_documents/list_upload_pdf'] = 'amendment_documents/list_upload_pdf/$1/$2'; //modify by jason
-$route['amendment/delete_cooperative'] = 'amendment/delete_cooperative';
+$route['amendment/delete_amendment'] = 'amendment/delete_amendment';
 $route['amendment/(:any)/amendment_documents/upload_document_others/(:any)'] = 'amendment_documents/upload_document_others/$1/$2';
 $route['amendment/get_business_activities_of_coop'] = 'amendment/get_business_activities_of_coop';
 $route['amendment/get_cooperative_info'] = 'amendment/get_cooperative_info';
@@ -264,7 +266,10 @@ $route['amendment/composition'] = 'amendment/composition';
 $route['amendment/(:any)/composition'] = 'amendment/composition';
 $route['amendment/(:any)/amendment_update']  =  'amendment/amendment_update/$1';
 $route['amendment/(:any)/amendment_cooperators/(:any)/edit'] = 'amendment_cooperators/edit/$1/$2';
-
+$route['amendment/(:any)/get_coopTypeID_ajax'] ='amendment/get_coopTypeID_ajax';//modified by json
+$route['amendment/get_major_industry_ajax'] ='amendment/get_major_industry_ajax';//modified by json
+$route['amendment/get_major_industry_ajax'] ='amendment/get_major_industry_ajax';//modified by json
+$route['amendment/composition_of_members_'] ='amendment/composition_of_members_';//modified by json
 $route['amendment/(:any)/amendment_payments'] = 'amendment_payments/index/$1';
 $route['amendment/(:any)/evaluate'] = 'amendment/evaluate/$1';
 
@@ -274,7 +279,7 @@ $route['amendment/(:any)/amendment_documents/affidavit_primary'] = 'amendment_do
 $route['amendment/(:any)/amendment_documents/articles_cooperation_primary'] = 'amendment_documents/articles_cooperation_primary/$1';
 $route['amendment/(:any)/amendment_documents/bylaws_primary'] = 'amendment_documents/bylaws_primary/$1';
 $route['amendment/(:any)/amendment_documents'] = 'amendment_documents/index/$1';
-
+$route['amendment/coop_type'] = 'amendment/coop_type'; //modify by json
 $route['amendment/(:any)/amendment_staff/(:any)/edit'] = 'amendment_staff/edit/$1/$2';
 $route['amendment/(:any)/amendment_staff/add'] = 'amendment_staff/add/$1';
 $route['amendment/(:any)/amendment_staff'] = 'amendment_staff/index/$1';
@@ -294,12 +299,16 @@ $route['amendment/(:any)/amendment_cooperators/get_cooperative_info'] ='amendmen
 $route['amendment/bylaws/check_minimum_regular_pay'] = 'bylaws/check_minimum_regular_pay_amendment';
 $route['amendment/bylaws/check_minimum_regular_subscription'] = 'bylaws/check_minimum_regular_subscription_amendment';
 $route['amendment/(:any)/bylaws'] = 'bylaws/index/$1';
+$route['amendment/(:any)/amendmentbylaws/check_minimum_regular_subscription_amendment'] ='amendmentbylaws/check_minimum_regular_subscription_amendment';
+$route['amendment/(:any)/amendment_cooperators/amendmentbylaws/check_minimum_regular_subscription_amendment'] ='amendmentbylaws/check_minimum_regular_subscription_amendment';
 $route['amendment/(:any)/amendment_cooperators/api/regions'] ='api/regions/index';
 $route['amendment/(:any)/amendment_cooperators/api/provinces'] ='api/provinces/index';
 $route['amendment/(:any)/amendment_cooperators/api/cities'] = 'api/cities/index';
 $route['amendment/(:any)/amendment_cooperators/api/barangays'] = 'api/barangays/index';
-$route['amendment/cooperators/check_position_not_exist'] = 'cooperators/check_position_not_exist';
-$route['amendment/cooperators/check_cooperator_not_exist'] = 'cooperators/check_cooperator_not_exist';
+$route['amendment/amendment_cooperators/check_position_not_exist'] = 'amendment_cooperators/check_position_not_exist';
+$route['amendment/amendment_cooperators/check_cooperator_not_exist'] = 'amendment_cooperators/check_cooperator_not_exist';
+
+$route['amendment/(:any)/amendmentbylaws/check_minimum_associate_pay_amendment'] ='amendmentbylaws/check_minimum_associate_pay_amendment';
 $route['amendment/(:any)/amendment_cooperators/add'] = 'amendment_cooperators/add/$1';
 $route['amendment/(:any)/amendment_cooperators/edit'] = 'amendment_cooperators/edit/$1';
 $route['amendment/(:any)/amendment_cooperators'] = 'amendment_cooperators/index/$1';

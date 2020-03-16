@@ -36,13 +36,20 @@
   </div>
 <?php endif; ?>
 <?php 
-if($gad_count == 0): ?>
+if($gad_count == 0 || $audit_count == 0 || $election_count == 0 || $medcon_count == 0 || $ethics_count == 0): ?>
 
        <div class="col-sm-12 col-md-12">
         <div class="alert alert-info text-justify" role="alert">
            Note:
            <ul>
               <?php if($gad_count == 0) echo '<li>There must be 1 GAD member on the list</li>';?>
+              <?php if($audit_count == 0) echo '<li>There must be 1 Audit member on the list</li>';?>
+              <?php if($election_count == 0) echo '<li>There must be 1 Election member on the list</li>';?>
+              <?php if($medcon_count == 0) echo '<li>There must be 1 Mediation and Conciliation member on the list</li>';?>
+              <?php if($ethics_count == 0) echo '<li>There must be 1 Ethics member on the list</li>';?>
+              <?php if($coop_info->type_of_cooperative == 'Credit'){
+                  if($credit_count == 0) echo '<li>There must be 1 Credit member on the list</li>';
+              }?>
            </ul>
         </div>
        </div>

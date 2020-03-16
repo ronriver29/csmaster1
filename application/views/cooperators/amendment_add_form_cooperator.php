@@ -31,7 +31,8 @@
     <?php echo form_open('amendment/'.$encrypted_id.'/amendment_cooperators/add',array('id'=>'addCooperatorForm','name'=>'addCooperatorForm')); ?>
       <div class="card-body">
         <div class="row">
-          <input type="hidden" class="form-control" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_id ?>">
+          <input type="hidden" class="form-control" id="amd_id" name="amd_id" value="<?=$encrypted_id ?>">
+          <input type="hidden" class=="form-control" value="<?=$encrypted_coop_id?>" id="cooperative_id" name="cooperative_id"/>
           <input type="hidden" class="form-control validate[required]" id="userID" name="userID" value="<?= $encrypted_user_id ?>">
           <input type='hidden' id='available_subscribed_capital' value="<?=isset($capitalization_info->total_no_of_subscribed_capital) ? $capitalization_info->total_no_of_subscribed_capital - $total_subscribed: ''?>" />
           <input type='hidden' id='available_paid_up_capital' value="<?=isset($capitalization_info->total_no_of_paid_up_capital) ? $capitalization_info->total_no_of_paid_up_capital - $total_paid: ''?>" />
@@ -42,7 +43,7 @@
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="position">Position:</label>
-              <select class="custom-select validate[required,ajax[ajaxCooperatorPositionCallPhp]]" id="position" name="position" >
+              <select class="custom-select validate[required,ajax[ajaxCooperatorPositionCallAmendmentPhp]]" id="position" name="position" >
                 <option value="" selected>--</option>
                 <option value="Chairperson">Chairperson</option>
                 <option value="Vice-Chairperson">Vice-Chairperson</option>
@@ -52,7 +53,7 @@
                 <option value="Member">Member</option>
               </select>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-3">
             <div class="form-group">
               <label for="membershipType">Type of Membership:</label>
@@ -64,28 +65,28 @@
                 <?php endif?>
               </select>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-5">
             <div class="form-group">
               <label for="fName">Full Name:</label>
-              <input type="text" class="form-control validate[required,custom[fullname],ajax[ajaxCooperatorCallPhp]]" id="fName" name="fName">
+              <input type="text" class="form-control validate[required,custom[fullname],ajax[ajaxCooperatorAmendmentCallPhp]]" id="fName" name="fName">
               <label for="fName" style="font-style: italic;font-size: 11px;">(Last Name, First Name Middle Name)</label>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="subscribedShares">No of subscribed shares:</label>
-              <input type="number" min="1" max="<?=isset($capitalization_info->total_no_of_subscribed_capital) ? $capitalization_info->total_no_of_subscribed_capital - $total_subscribed: ''?>" class="form-control validate[required,min[1],custom[integer]]" id="subscribedShares" name="subscribedShares" readonly>
+              <input type="number" min="1" max="<?=isset($capitalization_info->total_no_of_subscribed_capital) ? $capitalization_info->total_no_of_subscribed_capital - $total_subscribed: ''?>" class="form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionAmendmentCallPhp]]" id="amd_subscribedShares" name="subscribedShares" readonly>
               <div id="subscribed-note" style="color: red; font-size: 12px;"></div>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-3">
             <div class="form-group">
               <label for="paidShares">No of paid-up Shares:</label>
-              <input type="number" min="1" max="<?=isset($capitalization_info->total_no_of_paid_up_capital) ? $capitalization_info->total_no_of_paid_up_capital - $total_paid: ''?>" class="form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom]]" id="paidShares" name="paidShares" readonly>
+              <input type="number" min="1" max="<?=isset($capitalization_info->total_no_of_paid_up_capital) ? $capitalization_info->total_no_of_paid_up_capital - $total_paid: ''?>" class="form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom]]" id="amd_paidShares" name="paidShares" readonly>
               <div id="paid-note" style="color: red; font-size:12px;"></div>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-2">
             <div class="form-group">
               <label for="gender">Gender:</label>
@@ -95,14 +96,14 @@
                 <option value="Female">Female</option>
               </select>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-3">
             <div class="form-group">
               <label for="bDate"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>Age must be 18 years old and above.</li>"></i> Birth Date:</label>
               <input type="date" class="form-control validate[required,custom[date],funcCall[validateAgeCustom]]" id="bDate" name="bDate">
             </div>
-      		</div>
-      		<div class="col-sm-12 col-md-12">
+          </div>
+          <div class="col-sm-12 col-md-12">
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
@@ -235,6 +236,10 @@
                 <option value="SSS ID">SSS ID</option>
                 <option value="TIN">TIN</option>
                 <option value="Voter's ID">Voter's ID</option>
+                <option value="Philhealth">Philhealth</option>
+                <option value="OFW">OFW</option>
+                <option value="Single Parent">Single Parent</option>
+                <option value="PWD">PWD</option>
               </select>
             </div>
           </div>
@@ -249,7 +254,7 @@
               <label for="dateIssued"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>In Accordance with Notarial Law.</li>"></i> Date Issued:</label>
               <input type="date" class="form-control validate[required,custom[date],past[now]]" id="dateIssued" name="dateIssued">
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
               <label for="placeIssuance">Place of Issuance: </label>

@@ -39,7 +39,8 @@
     </div>
   </div>
 <?php endif; ?>-->
-<?php if($branch_info->status==25): //old 16 ?> <!-- modify by json -->
+
+<?php if($branch_info->status==25): //old 16 ?> <!-- modified by json -->
 
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
@@ -63,6 +64,7 @@
   </div>
 <?php endif; ?>
 
+<?php if(!$is_client):?>
 <?php if($branch_info->status==12):  ?> <!-- modify by json -->
 <?php if(isset($comment_list_senior) && !empty($comment_list_senior)){?>
   <div class="row mt-3">
@@ -75,7 +77,7 @@
   </div>
   <?php }?>
 <?php endif; ?>
-
+<?php endif; ?>
 <!-- <?php if($is_client && $branch_info->status==17 && strlen($branch_info->evaluation_comment) >= 1 && ($branch_info->evaluator1 > 0)) : ?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
@@ -121,7 +123,7 @@
         <small>
         <strong>Name of the Laboratory:</strong>
         <p class="text-muted">
-          <?="Laboratory Cooperative of ". $branch_info->laboratoryName?>
+          <?=$branch_info->laboratoryName." Laboratory Cooperative"?>
         </p>
         <hr>
 <!--        <strong>Branch</strong>

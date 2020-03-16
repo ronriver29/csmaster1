@@ -68,21 +68,29 @@
 		
 		<td colspan="2" style="text-align: center;">
 			<b><?= $coop_info->laboratoryName.' Laboratory Cooperative<br> 
-		(Laboratory Coop of '.$coop_info->coopName.')'?></b>
+		Laboratory Coop of '.$coop_info->coopName?></b>
 	</td>
 	</tr>
 	<tr>
 		
-		<td colspan="2" style="text-align: center; font-size: 9pt;"><?= $coop_info->house_blk_no.''.$coop_info->streetName.' '.$coop_info->brgy.' '.$coop_info->city.','.$coop_info->province?></td>
+		<td colspan="2" style="text-align: center; font-size: 9pt;"><?= $coop_info->house_blk_no.''.$coop_info->streetName.' '.$coop_info->brgy.' '.$coop_info->city.','.$coop_info->province.' '.$coop_info->region?></td>
 	</tr>
 	<tr>
 		
 		<td colspan="2"><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		
-		<td colspan="2"><?='is filed by <b>'.$coop_info->coopName.'</b> with address at '.$coop_info->house_blk_no.', '.$coop_info->streetName.', '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province
-                .', to act as Guardian Cooperative, were presented for approval of the Authority on <b> '.date('F d, Y',strtotime($coop_info->dateRegistered)).' and that after having complied with the requirements under <b>Article 26 of Republic Act No. 9520 and Rule 6,'
+                <?php if($coop_info->house_blk_no != ""){
+                    $houseblk = $coop_info->house_blk_no.' ';
+                } else {
+                    $houseblk = "";
+                }
+                if($coop_info->streetName != ""){
+                    $streetName = $coop_info->streetName.' ';
+                } else {
+                    $streetName = "";
+                }?>
+		<td colspan="2"><?='is filed by <b>'.$coop_info->coopName.'</b> with address at '.$houseblk.$streetName.$coop_info->city.', '.$coop_info->province.' '.$coop_info->region.', to act as Guardian Cooperative, were presented for approval of the Authority on <b> '.date('F d, Y',strtotime($coop_info->dateRegistered)).' and that after having complied with the requirements under <b>Article 26 of Republic Act No. 9520 and Rule 6,'
         . '     Revised Rules and Regulations Implementing Certain and Special Provisions of Republic Act No. 9520</b> is hereby <b>APPROVED.</b>'?><b></b></td>
 	</tr>
 	<tr>
@@ -197,7 +205,7 @@
 		
 		<td colspan="2" style="text-align: center;">
 			<b><?= $coop_info->laboratoryName.' Laboratory Cooperative<br> 
-		(Laboratory Coop of '.$coop_info->coopName.')'?></b>
+		Laboratory Coop of '.$coop_info->coopName?></b>
 	</td>
 	</tr>
 	<tr>
@@ -210,8 +218,8 @@
 	</tr>
 	<tr>
 		
-		<td colspan="2"><?='is filed by <b>'.$coop_info->coopName.'</b> with address at '.$coop_info->house_blk_no.', '.$coop_info->streetName.', '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province
-                .', to act as Guardian Cooperative, were presented for approval of the Authority on <b> '.date('F d, Y').' and that after having complied with the requirements under <b>Article 26 of Republic Act No. 9520 and Rule 6,'
+		<td colspan="2"><?='is filed by <b>'.$coop_info->coopName.'</b> with address at '.$coop_info->house_blk_no.' '.$coop_info->streetName.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province
+                .' '.$coop_info->region.', to act as Guardian Cooperative, were presented for approval of the Authority on <b> '.date('F d, Y').' and that after having complied with the requirements under <b>Article 26 of Republic Act No. 9520 and Rule 6,'
         . '     Revised Rules and Regulations Implementing Certain and Special Provisions of Republic Act No. 9520</b> is hereby <b>APPROVED.</b>'?><b></b></td>
 	</tr>
 	<tr>
@@ -338,8 +346,8 @@
 	</tr>
 	<tr>
 		
-		<td colspan="2"><?='is filed by <b>'.$coop_info->coopName.'</b> with address at '.$coop_info->house_blk_no.', '.$coop_info->streetName.', '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province
-                .', to act as Guardian Cooperative, were presented for approval of the Authority on <b> '.date('F d, Y').' and that after having complied with the requirements under <b>Article 26 of Republic Act No. 9520 and Rule 6,'
+		<td colspan="2"><?='is filed by <b>'.$coop_info->coopName.'</b> with address at '.$coop_info->house_blk_no.' '.$coop_info->streetName.' '.$coop_info->brgy.' '.$coop_info->city.', '.$coop_info->province
+                .' '.$coop_info->region.', to act as Guardian Cooperative, were presented for approval of the Authority on <b> '.date('F d, Y').' and that after having complied with the requirements under <b>Article 26 of Republic Act No. 9520 and Rule 6,'
         . '     Revised Rules and Regulations Implementing Certain and Special Provisions of Republic Act No. 9520</b> is hereby <b>APPROVED.</b>'?><b></b></td>
 	</tr>
 	<tr>

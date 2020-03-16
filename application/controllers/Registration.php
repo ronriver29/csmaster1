@@ -38,7 +38,7 @@ class registration extends CI_Controller{
       if ($coop_info->status==14){
         $this->registration_model->register_coop($decoded_id,$coop_info->rCode,$pst,$acronymname);
       }
-      $cName=$coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' '.$coop_info->grouping;
+      $cName=$coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' ' .$coop_info->grouping;
       $coop_details = $this->registration_model->get_coop_info($cName);
 //      if ($coop_details->qr_code==null || ($coop_details->qr_code=='')){
         $qr_code_config = array();
@@ -84,6 +84,7 @@ class registration extends CI_Controller{
       $data1['director']=$this->registration_model->get_director($user_id)->full_name;
           set_time_limit(0);
           $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);
+//          $html2 = $this->load->view('cooperative/cor_view', $data1);
            $J = new pdf();       
            $J->set_option('isRemoteEnabled',TRUE);
            $J->setPaper('folio', 'portrait');

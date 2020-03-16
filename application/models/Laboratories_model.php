@@ -178,10 +178,14 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
   }
 
   //modify
-  public function check_lab_membername_exist($name)
+  public function check_lab_membername_exist($name,$mname,$lname,$lab_id)
   {
-    $check_qry = $this->db->get_where('laboratories_cooperators',array('full_name'=>$name));
-    if($check_qry->num_rows()>0)
+    // $check_qry = $this->db->get_where('laboratories_cooperators',array('full_name'=>$name,'last_name'=>$lname));
+    $this->db->select('*');
+    $this->db->from('laboratories_cooperators');
+    $this->db->where(array('laboratory_id'=>$lab_id,'full_name'=>$name,'middle_name'=>$mname,'last_name'=>$lname));
+    $lab = $this->db->get();
+    if($lab->num_rows()>0)
     {
       return true;
     }
@@ -465,7 +469,7 @@ select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city,
 //    $query = $this->db->get();
 //    return $query->row();
 //  }
-  public function get_branch_info($user_id,$branch_id){
+  public function get_branch_info($user_id,$laboratory_id){
     $this->db->select('laboratories.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region, cooperatives.category_of_cooperative, cooperatives.type_of_cooperative, cooperatives.grouping, registeredcoop.application_id,registeredcoop.addrCode as mainAddr,registeredcoop.coopName');
     $this->db->from('laboratories');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = laboratories.addrCode','inner');
@@ -474,7 +478,7 @@ select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city,
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->join('registeredcoop','registeredcoop.regNo=laboratories.coop_id','inner');
     $this->db->join('cooperatives','cooperatives.id=registeredcoop.application_id','inner');
-    $this->db->where(array('laboratories.user_id'=>$user_id,'laboratories.id'=>$branch_id));
+    $this->db->where(array('laboratories.user_id'=>$user_id,'laboratories.id'=>$laboratory_id));
     $query = $this->db->get();
     return $query->row();
   }

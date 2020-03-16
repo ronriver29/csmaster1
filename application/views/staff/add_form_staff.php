@@ -27,9 +27,9 @@
               <label class="font-weight-bold" for="position">Position:</label>
               <select class="custom-select validate[required]" name="position" id="position">
                 <option value="" selected>--</option>
-                <?php if($list_position != NULL): ?>
-                <?php foreach($list_position as $rowp): ?>
-                   <option value="<?=$rowp->position_name ?>"> <?php echo ucfirst($rowp->position_name); ?></option>
+                <?php if($list_postion != NULL): ?>
+                <?php foreach($list_postion as $rowp): ?>
+                   <option value="<?=$rowp['position_name'] ?>"> <?php echo ucfirst($rowp['position_name']); ?></option>
                 <?php endforeach; ?>
                 <?php endif; ?>
                 <option value="Others">Others</option>

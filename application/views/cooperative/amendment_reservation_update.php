@@ -48,7 +48,7 @@
               <div class="col-sm-12 col-md-12">
                   <div class="form-group">
                     <strong>Application Information:</strong>
-                    <input type="hidden" class="form-control validate[required]" id="cooperativeID" name="cooperativeID" value="<?= $encrypted_id ?>">
+                    <input type="hidden" class="form-control validate[required]" id="Amendment_ID" name="Amendment_ID" value="<?= $encrypted_id ?>">
                     <input type="hidden" class="form-control validate[required]" id="status" name="status" value="<?= encrypt_custom($this->encryption->encrypt($coop_info->status))?>">
                     <?php if($is_client) : ?>
                     <input type="hidden" class="form-control validate[required]" id="userID" name="userID" value="<?= $encrypted_user_id ?>">
@@ -69,66 +69,101 @@
                 </div>
               </div>
             </div>
+
+        
+         <?php foreach($business_activities as $brow)
+         {
+            $business_actvty= $brow['bactivity_name'];
+         }
+         ?>
+
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="form-group">
+                <label for="typeOfCooperative1">Type of Cooperative</label>
+                
+                <?php  //echo count($cooperative_type);
+                foreach($cooperative_type as $crow)
+                { 
+                ?><div class="list_cooptype">
+                  <select class="custom-select coop-type " name="typeOfCooperative[]" id="typeOfCooperatives">
+                    <?php
+                    foreach($crow as $optionRow)
+                    {
+
+                    ?>
+                    <option value="<?=$optionRow['id']?>" <?=($optionRow['name']==$optionRow['amended_type']?"selected":"")?>><?=$optionRow['name']?> </option>
+                    <?php
+                    }
+                    ?>
+                  </select>
+                  <a class="customDeleleBtn TypeCoopRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                </div>
+                <?php
+                
+                }
+                ?>
+              </div>
+              <div class="coop_type-wrapper" id="coop_type-wrapper"></div>
+            </div>
+          </div>
+         
+             
+
             <div class="row">
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
-                  <label for="typeOfCooperative">Type of Cooperative</label>
-                  <select class="custom-select validate[required]" name="typeOfCooperative" id="typeOfCooperative">
-                    <option value="">--</option>
-                    <option value="7" <?php if($coop_info->type_of_cooperative =="Advocacy") echo "selected"; ?>>Advocacy</option>
-                    <option value="8" <?php if($coop_info->type_of_cooperative =="Agrarian Reform") echo "selected"; ?>>Agrarian Reform</option>
-                    <option value="24" <?php if($coop_info->type_of_cooperative =="Agriculture") echo "selected"; ?>>Agriculture</option>
-                    <option value="9" <?php if($coop_info->type_of_cooperative =="Bank") echo "selected"; ?>>Bank</option>
-                    <option value="4" <?php if($coop_info->type_of_cooperative =="Consumers") echo "selected"; ?>>Consumers</option>
-                    <option value="1" <?php if($coop_info->type_of_cooperative =="Credit") echo "selected"; ?>>Credit</option>
-                    <option value="10" <?php if($coop_info->type_of_cooperative =="Dairy") echo "selected"; ?>>Dairy</option>
-                    <option value="11" <?php if($coop_info->type_of_cooperative =="Education") echo "selected"; ?>>Education</option>
-                    <option value="12" <?php if($coop_info->type_of_cooperative =="Electric") echo "selected"; ?>>Electric</option>
-                    <option value="13" <?php if($coop_info->type_of_cooperative =="Financial Service") echo "selected"; ?>>Financial Service</option>
-                    <option value="14" <?php if($coop_info->type_of_cooperative =="Fishermen") echo "selected"; ?>>Fishermen</option>
-                    <option value="15" <?php if($coop_info->type_of_cooperative =="Health Service") echo "selected"; ?>>Health Service</option>
-                    <option value="20" <?php if($coop_info->type_of_cooperative =="Housing") echo "selected"; ?>>Housing</option>
-                    <option value="16" <?php if($coop_info->type_of_cooperative =="Insurance") echo "selected"; ?>>Insurance</option>
-                    <option value="21" <?php if($coop_info->type_of_cooperative =="Labor Service") echo "selected"; ?>>Labor Service</option>
-                    <option value="5" <?php if($coop_info->type_of_cooperative =="Marketing") echo "selected"; ?>>Marketing</option>
-                    <option value="2" <?php if($coop_info->type_of_cooperative =="Producers") echo "selected"; ?>>Producers</option>
-                    <option value="22" <?php if($coop_info->type_of_cooperative =="Professionals") echo "selected"; ?>>Professionals</option>
-                    <option value="3" <?php if($coop_info->type_of_cooperative =="Service") echo "selected"; ?>>Service</option>
-                    <option value="23" <?php if($coop_info->type_of_cooperative =="Small Scale Mining") echo "selected"; ?>>Small Scale Mining</option>
-                    <option value="17" <?php if($coop_info->type_of_cooperative =="Transport") echo "selected"; ?>>Transport</option>
-                    <option value="18" <?php if($coop_info->type_of_cooperative =="Water Service") echo "selected"; ?>>Water Service</option>
-                    <option value="19" <?php if($coop_info->type_of_cooperative =="Workers") echo "selected"; ?>>Workers</option>
-                  </select>
+                  <button type="button"  class="btn btn-success btn-sm float-right" id="addCoop"><i class="fas fa-plus"></i> Add Cooperative Type</button>
                 </div>
               </div>
             </div>
+                                                                                            
+
+
             <div class="row">
               <div class="col-sm-12 col-md-12 col-industry-subclass">
-                <?php foreach($major_industry_list as $key => $major_industry) : ?>
+              
                 <div class="row">
                   <div class="col-sm-12 col-md-12">
+                    <div class='list_major_industry' >
                     <div class="form-group">
-                      <?php if($key>=1) :?>
+                     <!-- 
                         <a class="customDeleleBtn businessActivityRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
-                      <?php endif; ?>
-                      <label for="majorIndustry">Major Industry Classification No. <?= ($key+1)?></label>
-                      <select class="custom-select form-control  validate[required]" name="majorIndustry[]" id="majorIndustry<?= ($key+1)?>">
-                        <option value=""></option>
-                        <?php foreach($major_industries_by_coop_type as $key2 => $major_industry_single) : ?>
-                          <option value="<?= $major_industry_single['id']?>" <?php if($major_industry_single['id'] == $major_industry['id']) echo "selected";?>><?= $major_industry_single['description']?></option>
-                        <?php endforeach; ?>
-                      </select>
+                     -->
+                   
+                      <label for="majorIndustry">Major Industry Classification No.1 </label>
+                  <!--     <input class="counting_major" name="industry_name_count" value="1"/> -->
+                       <select class="custom-select form-control select-major" name="majorIndustry[]" id="majorIndustry1">
+                        
+                      <?php
+                      $count =1;
+                       $last=count($list_of_major_industry_);
+                        foreach($list_of_major_industry_ as $mrow)
+                        {
+                          $mrow['counting'] =$count++;
+                         
+                          ?>
+                         <!--  <option value="<?=$mrow['id']?>" <?=($last==$mrow['counting']?"selected":"")?>><?=$mrow['description'];?></option> -->
+                          <option value="<?=$mrow['id']?>" <?=($mrow['description']==$business_actvty?"selected":"")?>><?=$mrow['description'];?></option>
+                          <?php
+                        }
+                      ?>
+                    </select>
+                     
                     </div>
                   </div>
+                  </div>
+
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
-                      <label for="subClass<?= ($key+1)?>">Major Industry Classification No. <?= ($key+1)?> Subclass</label>
-                      <select class="custom-select form-control validate[required]" name="subClass[]" id="subClass<?= ($key+1)?>">
+                      <label for="subClass">Major Industry Classification No.1  Subclass</label>
+                      <select class="custom-select form-control select-subclass " name="subClass[]" id="subClass1">
                       </select>
                     </div>
                   </div>
                 </div>
-                <?php endforeach; ?>
+                <div class="major-wrapper"></div>
+                <div class="test"></div>
               </div>
             </div>
             <div class="row">
@@ -138,19 +173,39 @@
             </div>
             <div class="row">
               <div class="col-sm-12 col-md-12">
-                <div class="form-group">
-                  <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
+                 <input type="" id="typeOfCooperative_value" value="">
+                <div class="form-group" style="margin-bottom: 0">
+                   <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
-                  <input type="text" class="form-control validate[required,funcCall[validateActivityNotNullUpdateCustom], funcCall[validateActivityInNameUpdateCustom], funcCall[validateCooperativeWordInNameCustom], <?php echo ($coop_info->status >0) ? "ajax[ajaxCoopNameUpdateCallPhp]" : "ajax[ajaxCoopNameExpiredCallPhp]";?>]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= $coop_info->proposed_name?> <?php endif;?>">
+                  <input type="text" class="form-control validate[required,funcCall[validateAmendment_proposed_name],ajax[ajaxAmendmentNameCallPhp]]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>">
+                  <input type="" id="cooperative_idss" />
+                 <!--  <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
+                  data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
+                  <input type="text" class="form-control validate[required,funcCall[validateActivityNotNullUpdateCustom], funcCall[validateActivityInNameUpdateCustom], funcCall[validateCooperativeWordInNameCustom], <?php echo ($coop_info->status >0) ? "ajax[ajaxCoopNameUpdateCallPhp]" : "ajax[ajaxCoopNameExpiredCallPhp]";?>]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> -->
+                </div>
+                 <div style="margin-bottom:20px;"> <small><span id="type_of_coop" style="margin-top:-20px;"></span></small></div>
+
+              </div>
+            </div>
+            <input type="hidden" name="count_types" id="count_types" style="border:1px solid red;" />
+
+
+             <div class="row">
+              <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                  <label for="acronymofCooperative"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
+                  data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Acronym of Cooperative Name:</label>
+                  <input type="text" class="form-control" name="acronym_name" id="acronym_name" value="<?=$coop_info->acronym?>">
                 </div>
               </div>
             </div>
+            
             <div class="row rd-row">
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
                   <label nfor="commonBondOfMembership">Common Bond of Membership </label>
                   <select class="custom-select validate[required]" name="commonBondOfMembership" id="commonBondOfMembership">
-                    <option value="" selected></option>
+           
                     <option value="Associational">Associational</option>
                     <option value="Institutional">Institutional</option>
                     <option value="Occupational">Occupational</option>
@@ -172,50 +227,72 @@
                 </div>
               </div>
             </div>
-            <div class="row rd-row">
-              <div class="col-sm-12 col-md-10 col-com">
-                <label for="compositionOfMembers">Composition of Members </label> 
-                <?php $no=0;
-                  foreach($members_composition as $key){
-                
-                 
-                    echo '<div class="form-group">
-                    
-                    <table>
-                      <tr>
-                        <td><select class="custom-select form-control  validate[required]" name="compositionOfMembers[]" id="compositionOfMembers'.++$no.'">
-                            <option value=""></option>';
-                            foreach($composition as $key2){
-                              echo '<option value="'.$key2->composition;
-                              if ($key['composition']==$key2->composition)
-                                echo '" selected>';
-                              else
-                                echo '">';
-                              echo $key2->composition.'</option>';}
-                            
-                            echo '</select>
-                        </td>
-                        <td><a class="customDeleleBtn compositionRemoveBtn float-right text-danger"  onclick="$(this).parent().parent().remove()"><i class="fas fa-minus-circle"></i></a>
-                        </td>
-                      </tr>
-                    </table>                     
-                  
-                </div>';
-              }
-              ?>
-              </div>
-            </div>
+            
           </div>
+    
+            <!-- ASSOCIATIONAL -->
+           <div class="col-sm-12 col-md-12" id="associational-wrapper" style="padding:5px;">
+            <div class="form-group">
+             <label for="fieldmembershipname" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
+              <input type="text" class="form-control" name="assoc_field_membership" id="assoc_field_membership" >
+            </div>
+            <div class="form-group">
+              <label for="compositionOfMembers1" id="name_institution_label">Name of Association</label>
+               <div class="assoc-wrapper"></div><!-- end of wrapper -->
+               <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn_Associational"  style="margin-top:35px;">
+                <i class="fas fa-plus"></i> Add Additional Name of Associational</button>
+              </div>
+           </div>
+        
+        <!-- INSTITUTIONAL -->
+        <div class="col-sm-12 col-md-12" id="institutional-wrapper" style="padding:5px;">
+          <div class="form-group">
+            <label for="compositionOfMembers1" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
+            <input type="text" class="form-control" name="ins_field_membership" id="ins_field_membership" >
+          </div>
+          <div class="form-group">
+            <label for="compositionOfMembers1" id="name_institution_label">Name of Institution</label>
+         
+            <div id="wrapper" class="con-wrapper"></div><!-- end of wrapper -->
+            
+            <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn_insti"  style="margin-top:35px;">
+            <i class="fas fa-plus"></i> Add Additional Name of Institution</button>
+          </div>
+        </div>
+         <!--END INSTITUTIONAL -->
 
-          <div class="col-sm-12 col-md-12">
-            <div class="row">
-              <div class="col-sm-12 col-md-10">
-                <div class="form-group">
-                  <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
+           <!--OCCUPATIONAL-->
+          
+              <div class="row" id="occupational-div" style="">
+                <div class="col-sm-12 col-md-12 occupational-div">
+                  <div class="form-group">
+                    <label for="compositionOfMembers1">Composition of Members </label>
+                    <!-- <?php
+                    foreach($list_of_comp as $crows)
+                    {
+                    ?>
+                    <div class="com-div">
+                      <select class="custom-select composition-of-members" name="compositionOfMembersa[]" id="compositionOfMembersa>"  style="margin-bottom:10px;">
+                        <?php foreach($crows as $comrow){?>
+                        <option value="<?=$comrow['composition']?>" <?=($comrow['composition']==$comrow['amended_composition']?"selected":"")?>> <?=$comrow['composition'].' '.$comrow['amended_composition']?></option>
+                        <?php }?>
+                        }
+                      </select>
+                      <a  class="customDeleleBtn compositionRemoveBtne float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                    </div>
+                    <?php
+                    }
+                    ?> -->
+                    <!--  <div id="wrappera" class="col-sm-12 col-md-12 occupational-wrappera"></div> -->
+                  </div>
+                  </div> <!-- end of form=group -->
+                  <button type="button" class="btn btn-success btn-sm" id="addMoreComBtne" >
+                  <i class="fas fa-plus"></i> Add Composition of Members</button>
                 </div>
-              </div>
-            </div>
-          </div>
+             
+            </div>       
+              <!--END OCCUPATIONAL-->
+
           <div class="col-sm-12 col-md-12">
             <div class="row">
               <div class="col-sm-12 col-md-12">
@@ -283,7 +360,7 @@
       <div class="card-footer">
         <div class="row">
           <div class="col-sm-12 offset-md-10 col-md-2 align-self-center order-sm-2 order-1 col-reserveupdate-btn">
-              <input class="btn btn-block btn-color-blue" type="submit" id="reserveUpdateBtn" name="reserveUpdateBtn" value="Submit" disabled>
+              <input class="btn btn-block btn-color-blue" type="submit" id="reserveUpdateBtn2" name="reserveUpdateBtn" value="Submit" disabled>
           </div>
         </div>
       </div>
@@ -291,3 +368,6 @@
     </div>
   </div>
 </div>
+<script type="text/javascript">
+ var list_major_array =<?=json_encode($list_of_major_industry_)?>;
+</script>

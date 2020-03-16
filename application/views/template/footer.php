@@ -19,12 +19,20 @@
 <?php if($this->uri->segment(2) == "reservation" && $is_client)   : ?><script src="<?=base_url();?>assets/js/add-reservation.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(2) == "application" && $is_client)   : ?><script src="<?=base_url();?>assets/js/add-amendment.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(3) == "rupdate" && $is_client)   : ?><script src="<?=base_url();?>assets/js/update-reservation.js"></script> <?php endif; ?>
-<?php if($this->uri->segment(3) == "amendment_update" && $is_client)   : ?><script src="<?=base_url();?>assets/js/update-reservation.js"></script> <?php endif; ?>
+
+
+<?php if($this->uri->segment(3) == "amendment_update" && $is_client)   : ?><script src="<?=base_url();?>assets/js/update-amendment.js"></script> <?php endif; ?>
+
+
 <?php if($this->uri->segment(3) == "rupdate" && !$is_client)   : ?><script src="<?=base_url();?>assets/js/update-reservation-admin.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(3) == "bupdate" && $is_client)   : ?><script src="<?=base_url();?>assets/js/update-branch-reservation.js"></script> <?php endif; ?>
 
-<?php if($this->uri->segment(3) == "amendment_cooperators" && $this->uri->segment(4)=="add")   : ?><script src="<?=base_url();?>assets/js/add_cooperator_custom.js"></script> <?php endif; ?>
-<?php if($this->uri->segment(3) == "amendment_cooperators" && $this->uri->segment(5)=="edit")   : ?><script src="<?=base_url();?>assets/js/edit_cooperator_custom.js"></script> <?php endif; ?>
+<?php if($this->uri->segment(3) == "amendment_cooperators" && $this->uri->segment(4)=="add")   : ?><script src="<?=base_url();?>assets/js/add_cooperator_amendment.js"></script> <?php endif; ?>
+<?php if($this->uri->segment(3) == "amendment_purposes" && $this->uri->segment(4)=="edit")   : ?><script src="<?=base_url();?>assets/js/update_amendment_purposes.js"></script> <?php endif; ?>
+
+
+
+<?php if($this->uri->segment(3) == "amendment_cooperators" && $this->uri->segment(5)=="edit")   : ?><script src="<?=base_url();?>assets/js/edit_cooperator_amendment.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(3) == "cooperators" && $this->uri->segment(4)=="add")   : ?><script src="<?=base_url();?>assets/js/add_cooperator_custom.js"></script> <?php endif; ?>
 
 <?php if($this->uri->segment(3) == "cooperators" && $this->uri->segment(5)=="edit")   : ?><script src="<?=base_url();?>assets/js/edit_cooperator_custom.js"></script> <?php endif; ?>

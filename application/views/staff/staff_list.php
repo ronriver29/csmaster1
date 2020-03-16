@@ -36,13 +36,15 @@
   </div>
 <?php endif; ?>
 <div class="row">
-  <?php if(!$requirements_complete) : ?>
+
+  <?php if($requirements_complete==false) : ?>
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-info text-justify" role="alert">
          Note:
          <ul>
-          <?php if($manager_not_exists) echo '<li>You need a Manager</li>'; ?>
-          <?php if($bookkeeper_not_exists) echo '<li>You need a Bookkeeper</li>'; ?>
+          <?php if($manager_not_exists==false) echo '<li>You need a Manager</li>'; ?>
+          <?php if($bookkeeper_not_exists==false) echo '<li>You need a Bookkeeper</li>'; ?>
+          <?php if($cashier_tresurer_not_exists==false) echo '<li>You need a Cashier/Treasurer</li>';?>
          </ul>
       </div> 
     </div>

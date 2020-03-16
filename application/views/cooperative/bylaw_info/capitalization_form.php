@@ -67,9 +67,13 @@
 <?php
     $regular_members = isset($capitalization_info->regular_members) ? $capitalization_info->regular_members : "";
     $authorized_share_capital = isset($capitalization_info->authorized_share_capital) ? $capitalization_info->authorized_share_capital : "";
-    $par_value = isset($capitalization_info->par_value) ? $capitalization_info->par_value : "";
+    $par_value = isset($capitalization_info->par_value) ? $capitalization_info->par_value : 0;
     $common_share = isset($capitalization_info->common_share) ? $capitalization_info->common_share : "";
     $total_amount_of_subscribed_capital = isset($capitalization_info->total_amount_of_subscribed_capital) ? $capitalization_info->total_amount_of_subscribed_capital : "";
+    $amount_of_common_share_subscribed = isset($capitalization_info->amount_of_common_share_subscribed) ? $capitalization_info->amount_of_common_share_subscribed : "";
+    $amount_of_preferred_share_subscribed = isset($capitalization_info->amount_of_preferred_share_subscribed) ? $capitalization_info->amount_of_preferred_share_subscribed : "";
+    $amount_of_common_share_paidup = isset($capitalization_info->amount_of_common_share_paidup) ? $capitalization_info->amount_of_common_share_paidup : "";
+    $amount_of_preferred_share_paidup = isset($capitalization_info->amount_of_preferred_share_paidup) ? $capitalization_info->amount_of_preferred_share_paidup : "";
     $total_no_of_subscribed_capital = isset($capitalization_info->total_no_of_subscribed_capital) ? $capitalization_info->total_no_of_subscribed_capital : "";
     $total_amount_of_paid_up_capital = isset($capitalization_info->total_amount_of_paid_up_capital) ? $capitalization_info->total_amount_of_paid_up_capital : "";
     $total_no_of_paid_up_capital = isset($capitalization_info->total_no_of_paid_up_capital) ? $capitalization_info->total_no_of_paid_up_capital : "";
@@ -162,6 +166,38 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>Amount of Common Share</td>
+                        <td>
+                            <input type="text" name="item[amount_of_common_share_subscribed]" id="amount_of_common_share_subscribed" class="form-control" value="<?=$total_regular['total_subscribed'] * $par_value?>" readonly=""/>
+                            <br/>
+                            <span id="amount_of_common_share_subscribed_note" class="err-message-note"></span>
+                            
+                        </td>
+                        <td></td>
+                        <td>
+                            <input type="text" name="item[amount_of_common_share_subscribed_pervalue]" id="amount_of_common_share_subscribed_pervalue" class="form-control" value="<?=$total_regular['total_subscribed']?>" readonly=""/>
+                            <br/>
+                            <!--<span id="amount_of_common_share_subscribed_note" class="err-message-note"></span>-->
+                            
+                        </td>
+                    </tr>
+                    <?php if($bylaw_info->kinds_of_members ==2) : ?>
+                        <tr>
+                            <td>Amount of Preferred Share</td>
+                            <td>
+                                <input type="text" name="item[amount_of_preferred_share_subscribed]" id="amount_of_preferred_share_subscribed" class="form-control" value="<?=$total_associate['total_subscribed'] * $par_value;?>" readonly=""/>
+                                <br/>
+                                <!--<span id="amount_of_preferred_share_subscribed_note" class="err-message-note"></span>-->
+                            </td>
+                            <td></td>
+                            <td>
+                                <input type="text" name="item[amount_of_preferred_share_subscribed_pervalue]" id="amount_of_preferred_share_subscribed_pervalue" class="form-control" value="<?=$total_associate['total_subscribed'];?>" readonly=""/>
+                                <br/>
+                                <!--<span id="amount_of_preferred_share_subscribed_note" class="err-message-note"></span>-->
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <tr>
                         <td>Total amount of paid-up capital</td>
                         <td>
                             <input type="number" name="item[total_amount_of_paid_up_capital]" id="total_amount_of_paid_up_capital" class="form-control" value="<?=$total_amount_of_paid_up_capital;?>"/>
@@ -176,12 +212,43 @@
                         </td>
                     </tr>
                     <tr>
+                        <td>Amount of Common Share</td>
+                        <td>
+                            <input type="text" name="item[amount_of_common_share_paidup]" id="amount_of_common_share_paidup" class="form-control" value="<?=$total_regular['total_paid'] * $par_value;?>" readonly=""/>
+                            <br/>
+                            <!--<span id="amount_of_common_share_paidup_note" class="err-message-note"></span>-->
+                        </td>
+                        <td></td>
+                        <td>
+                            <input type="text" name="item[amount_of_common_share_paidup_pervalue]" id="amount_of_common_share_paidup" class="form-control" value="<?=$total_regular['total_paid'];?>" readonly=""/>
+                            <br/>
+                            <!--<span id="amount_of_common_share_paidup_note" class="err-message-note"></span>-->
+                        </td>
+                    </tr>
+                    <?php if($bylaw_info->kinds_of_members ==2) : ?>
+                        <tr>
+                            <td>Amount of Preferred Share</td>
+                            <td>
+                                <input type="text" name="item[amount_of_preferred_share_paidup]" id="amount_of_preferred_share_paidup" class="form-control" value="<?=$total_associate['total_paid'] * $par_value;?>" readonly=""/>
+                                <br/>
+                                <!--<span id="amount_of_preferred_share_paidup_note" class="err-message-note"></span>-->
+                            </td>
+                            <td></td>
+                            <td>
+                                <input type="text" name="item[amount_of_preferred_share_paidup_pervalue]" id="amount_of_preferred_share_paidup" class="form-control" value="<?=$total_associate['total_paid'];?>" readonly=""/>
+                                <br/>
+                                <!--<span id="amount_of_preferred_share_paidup_note" class="err-message-note"></span>-->
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                    <tr>
+                    <tr>
                         <td colspan="4"></td>
                     </tr>
                     <tr>
                         <td>Minimum No. of subscribed share (individual regular)</td>
                         <td>
-                            <input type="number" name="item[minimum_subscribed_share_regular]" id="minimum_subscribed_share_regular" class="form-control" readonly="readonly" value="<?=$minimum_subscribed_share_regular;?>"/>
+                            <input type="number" name="item[minimum_subscribed_share_regular]" id="" class="form-control" value="<?=$minimum_subscribed_share_regular;?>"/>
                             <br/>
                             <span id="minimum_subscribed_share_regular_note"></span>
                         </td>
@@ -189,20 +256,20 @@
                     <tr>
                         <td>Minimum No. of paid up share (individual regular)</td>
                         <td>
-                            <input type="number" name="item[minimum_paid_up_share_regular]" id="minimum_paid_up_share_regular" class="form-control" readonly="readonly" value="<?=$minimum_paid_up_share_regular;?>"/>
+                            <input type="number" name="item[minimum_paid_up_share_regular]" id="" class="form-control" value="<?=$minimum_paid_up_share_regular;?>"/>
                         </td>
                     </tr>
                     <?php if($bylaw_info->kinds_of_members ==2) : ?>
                     <tr>
                         <td>Minimum subscribed share (individual associate)</td>
                         <td>
-                            <input type="number" name="item[minimum_subscribed_share_associate]" id="minimum_subscribed_share_associate" class="form-control" readonly="readonly" value="<?=$minimum_subscribed_share_associate;?>"/>
+                            <input type="number" name="item[minimum_subscribed_share_associate]" id="" class="form-control" value="<?=$minimum_subscribed_share_associate;?>"/>
                         </td>
                     </tr>
                     <tr>
                         <td>Minimum paid up share (individual associate)</td>
                         <td>
-                            <input type="number" name="item[minimum_paid_up_share_associate]" id="minimum_paid_up_share_associate" class="form-control" readonly="readonly" value="<?=$minimum_paid_up_share_associate;?>"/>
+                            <input type="number" name="item[minimum_paid_up_share_associate]" id="" class="form-control" value="<?=$minimum_paid_up_share_associate;?>"/>
                         </td>
                     </tr>
                     <?php endif; ?>
@@ -453,7 +520,7 @@ function computeCapital() {
                 $("#common_share_note").addClass("err-message-note-error");
             }
             if(type_of_members=="associate") {
-//                $("#preferred_share").val(preferred_share);
+                $("#preferred_share").val(preferred_share);
                 $("#minimum_subscribed_share_associate").val(minimum_no_of_subscribed_share_associate);
                 $("#minimum_paid_up_share_associate").val(minimum_no_of_paid_up_share_associate);
                 $("#preferred_share").removeAttr("min");
@@ -488,7 +555,7 @@ function computeCapital() {
             }
         }
 
-//        $("#preferred_share").val(preferred_share);
+        $("#preferred_share").val(preferred_share);
         $("#minimum_share_associate").val(minimum_no_of_subscribed_share_associate);
         $("#minimum_paid_up_associate").val(minimum_no_of_paid_up_share_associate);
 

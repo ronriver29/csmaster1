@@ -155,8 +155,18 @@
                           <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
                           
                         <?php elseif($branch['status']==19): ?>
-                          <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment(<?=$branch['id']?>,'<?= encrypt_custom($this->encryption->encrypt($branch['coopName'].' - '.$branch['branchName']))?>')" value="Save O.R. No.">
-                       
+                          <?php if($branch['area_of_operation'] == 'Barangay' || $branch['area_of_operation'] == 'Municipality/City'){
+                                $branch_name = $branch['brgy'];
+                            } else if($branch['area_of_operation'] == 'Provincial') {
+                                $branch_name = $branch['brgy'];
+                            } else if ($branch['area_of_operation'] == 'Regional') {
+                                $branch_name = $branch['city'].', '.$branch['province'];
+                            } else if ($branch['area_of_operation'] == 'National') {
+                                $branch_name = $branch['city'].', '.$branch['province'];
+                            }
+                        ?>
+                          <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment(<?=$branch['id']?>,'<?= encrypt_custom($this->encryption->encrypt($branch['coopName'].' - '.$branch_name.' '.$branch['branchName']))?>')" value="Save O.R. No.">
+                          
                         <?php elseif($branch['status']==21 || $branch['status']==20): ?>
                           <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/registration" class="btn btn-info"><i class='fas fa-print'></i> Print Registration</a>
                         <?php endif; ?>

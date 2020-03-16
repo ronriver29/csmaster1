@@ -29,15 +29,15 @@ class Cooperators extends CI_Controller{
                     $data['title'] = 'List of Cooperators';
                     $data['header'] = 'Cooperators';
                     $data['encrypted_id'] = $id;
-                    $data['requirements_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
+                    $data['requirements_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
                     $data['directors_count'] = $this->cooperator_model->check_no_of_directors($decoded_id);
                     $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($decoded_id);
                     $data['total_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
                     $data['chairperson_count'] = $this->cooperator_model->check_chairperson($decoded_id);
                     $data['associate_not_exists'] = $this->cooperator_model->check_associate_not_exists($decoded_id);
                     $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                    $capitalization_info = $data['capitalization_info'];
 //                    $data['minimum_regular_subscription'] = $this->cooperator_model->check_all_minimum_regular_subscription($decoded_id);
 //                    $data['minimum_regular_pay'] = $this->cooperator_model->check_all_minimum_regular_pay($decoded_id);
 //                    $data['minimum_associate_subscription'] = $this->cooperator_model->check_all_minimum_associate_subscription($decoded_id);
@@ -56,6 +56,7 @@ class Cooperators extends CI_Controller{
                     $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
                     $data['list_cooperators_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                     $data['list_cooperators_count'] = $this->cooperator_model->get_all_cooperator_of_coop_regular_count($decoded_id);
+                    $data['list_cooperators_associate_count'] = $this->cooperator_model->get_all_cooperator_of_coop_associate_count($decoded_id);
                     $data['list_cooperators_associate'] = $this->cooperator_model->get_all_cooperator_of_coop_associate($decoded_id);
                     $data['ten_percent']=$this->cooperator_model->ten_percent($decoded_id);
                     $this->load->view('./template/header', $data);
@@ -93,7 +94,9 @@ class Cooperators extends CI_Controller{
                         $data['header'] = 'Cooperators';
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                         $data['encrypted_id'] = $id;
-                        $data['requirements_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                        $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                        $capitalization_info = $data['capitalization_info'];
+                        $data['requirements_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
                         $data['directors_count'] = $this->cooperator_model->check_no_of_directors($decoded_id);
                         $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($decoded_id);
                         $data['total_directors'] = $this->cooperator_model->no_of_directors($decoded_id);

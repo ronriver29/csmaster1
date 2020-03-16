@@ -10,6 +10,18 @@
     </div>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-md-12">
+<?php if($this->session->flashdata('amendment_msg')) :?>       
+       <div class="alert alert-<?=$this->session->flashdata('msg_class')?> alert-dismissible">
+         <button type = "button" class="close" data-dismiss = "alert">x</button>
+         <?=$this->session->flashdata('amendment_msg')?>
+       </div>
+   <?php endif; ?>
+ </div>
+</div>
+
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">
@@ -106,8 +118,10 @@
                     <option value="19">Workers</option>
                   </select>
                 </div>
+
               </div>
             </div>
+           <!--  <span id="count_type" style="border:1px solid red;"></span> -->
           <div class="col-sm-12 col-md-12">
             <div class="row">
               <div class="col-sm-12 col-md-6">
@@ -123,7 +137,7 @@
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                       <label for="majorIndustry1">Major Industry Classification No. 1</label>
-                      <select class="custom-select form-control  validate[required]" name="majorIndustry[]" id="majoreIndustry1" required="">
+                      <select class="custom-select form-control major-industry  validate[required]" name="majorIndustry[]" id="majoreIndustry1" required="">
                       </select>
                     </div>
                   </div>
@@ -139,26 +153,31 @@
             </div>
             <div class="row">
               <div class="col-sm-12 offset-md-9 col-md-3">
-                <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreSubclassBtn"><i class="fas fa-plus"></i> Add More Subclass</button>
+                <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreSubclassBtn"><i class="fas fa-plus"></i> Add More Business Activity</button>
               </div>
             </div>
             <div class="row">
               <div class="col-sm-12 col-md-12">
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom: 0">
                   <label for="newName"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your new name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
-                  <input type="text" class="form-control validate[required,funcCall[validateActivityNotNullAddCustomAmendment],funcCall[validateActivityInNameAddCustom],funcCall[validateCooperativeWordInNameCustom],ajax[ajaxCoopNameCallPhp]]" name="newName" id="newName" placeholder="">
-                  <input type="hidden" class="form-control validate[required,funcCall[validateActivityNotNullAddCustomAmendment],funcCall[validateActivityInNameAddCustom],funcCall[validateCooperativeWordInNameCustom],ajax[ajaxCoopNameCallPhp]] newName2" id="newName" placeholder="">
-                </div>
-              </div>
-            </div>
 
+                  <input type="text" class="form-control p_name validate[required,funcCall[validateAmendment_proposed_name],ajax[ajaxAmendmentNameCallPhp]]" name="newName" id="newNamess">
+                  <input type="hidden" class="form-control" name="newName2" id="newName2">
+                  <input type="hidden" id="cooperative_idss" />
+                </div>
+                <div style="margin-bottom:0px;"> <small><span id="type_of_coop" style="margin-top:-20px;"></span></small></div>
+                  <div style="margin-bottom:20px;"> <small><span id="proposed_name_msg" style="margin-top:-20px;font-style:italic;"></span></small></div>
+              </div>
+
+            </div>
+            <input type="hidden" id="typeOfCooperative_value" value="">
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                   <label for="acronymofCooperative"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Acronym of Cooperative Name:</label>
-                  <input type="text" class="form-control" name="acronym_name" id="acronym_name" placeholder="(Optional)">
+                  <input type="text" class="form-control" name="acronym_names" id="acronym_names" />
                 </div>
               </div>
             </div>
@@ -192,78 +211,63 @@
             </div>
             
           </div>
-        <!--   <div class="col-sm-12 col-md-12">
-            <div class="row">
-              <div class="col-sm-12 col-md-12">
-                <div class="form-group">
-                  <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
-                </div>
-              </div>
-            </div>
-          </div> -->
-     <!--         <div class="row" id="default-wrapper" >
-              <div class="col-sm-12 col-md-12 col-com">
-                <div class="form-group">
-                  <label for="compositionOfMembers1">Composition of Members Field of Membership (Note: Members, Officers) </label>
-                  <select class="custom-select composition-of-members validate[required]" name="compositionOfMembers1[]" id="compositionOfMembers1" required="required">
-                    <option value="" selected></option>
-                    <?php
-                      foreach ($composition as $key) {
-                        echo '<option value="'.$key->composition.'">'.$key->composition.'</option>';
-                      }
-                    ?>
-                  </select>
-                </div>
-              </div>
-            </div> -->
-
+      
+      
             <!-- ASSOCIATIONAL -->
-           <div class="col-sm-12 col-md-12" id="associational-wrapper" style="padding:5px;display:none;">
+            <div class="row">
+           <div class="col-sm-12 col-md-12" id="associational-wrapper" style="padding:5px;">
             <div class="form-group">
-             <label for="compositionOfMembers1" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
-              <input type="text" class="form-control" name="field_membership" id="field_membership" >
+             <label for="fieldmembershipname" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
+              <input type="text" class="form-control" name="assoc_field_membership" id="assoc_field_membership" >
             </div>
             <div class="form-group">
               <label for="compositionOfMembers1" id="name_institution_label">Name of Association</label>
-              <input type="text" name="name_ssociational[]" id="name_ssociational" class="form-control"/>
-           
-               <button type="button" class="btn btn-success btn-sm float-right" id="addMoreAssocBtn"  style="margin-top:10px;">
+               <div class="assoc-wrapper"></div><!-- end of wrapper -->
+               <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn_Associational"  style="margin-top:35px;">
                 <i class="fas fa-plus"></i> Add Additional Name of Associational</button>
               </div>
            </div>
-        
+        </div><!-- end of row -->
         <!-- INSTITUTIONAL -->
-        <div class="col-sm-12 col-md-12" id="institutional-wrapper" style="padding:5px;display:none;">
+        <div class="col-sm-12 col-md-12" id="institutional-wrapper" style="padding:5px;">
           <div class="form-group">
             <label for="compositionOfMembers1" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
             <input type="text" class="form-control" name="ins_field_membership" id="ins_field_membership" >
           </div>
           <div class="form-group">
             <label for="compositionOfMembers1" id="name_institution_label">Name of Institution</label>
-            <div class="col-md-12" id="con-wrapper"> </div>
-            <!-- <input type="text" name="name_institutional[]" id="name_institutional" class="form-control"/> -->
+         
+            <div id="wrapper" class="con-wrapper"></div><!-- end of wrapper -->
             
-            <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn_insti"  style="margin-top:10px;">
+            <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn_insti"  style="margin-top:35px;">
             <i class="fas fa-plus"></i> Add Additional Name of Institution</button>
           </div>
         </div>
          <!--END INSTITUTIONAL -->
 
           <!--OCCUPATIONAL-->
-          <div class="row" id="occupational-wrapper" style="display:none;">
+          <div class="row" id="occupational-wrapper" style="">
               <div class="col-sm-12 col-md-12 col-com">
                 <div class="form-group">
                   <label for="compositionOfMembers1">Composition of Members </label>
-                  <select class="custom-select composition-of-members validate[required]" name="compositionOfMembers2[]" id="compositionOfMembers2" required="required">
+               <!--  <input type="hidden" id="comp_sition" name="comp_sition" /> -->
+                  <select class="custom-select composition-of-members" name="compositionOfMembersa[]" id="compositionOfMembersa"  style="margin-bottom:10px;">
                     <option value="" selected></option>
+                   
                     <?php
                       foreach ($composition as $key) {
-                        echo '<option value="'.$key->composition.'">'.$key->composition.'</option>';
+                        echo '<option value="'.$key->id.'">'.$key->composition.'</option>';
                       }
                     ?>
                   </select>
+
+                    <div id="wrappera" class="occupational-wrappera"></div>
+
                 </div>
               </div>
+
+                <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
+                
             </div>
               <!--END OCCUPATIONAL-->
          <br/>
@@ -341,3 +345,20 @@
     </div>
   </div>
 </div>
+
+<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+
+
+  $("#newNamess").bind("keyup change", function(e) {
+     var typeCoop_array=[]; 
+     $('select[name="typeOfCooperative[]"] option:selected').each(function() {
+     typeCoop_array.push($(this).val());
+      console.log(typeCoop_array);
+      $('#typeOfCooperative_value').val(typeCoop_array);
+     });
+    });
+  });
+
+</script>

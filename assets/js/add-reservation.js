@@ -151,6 +151,15 @@ $(function(){
   //     }
   //   }
   // });
+  $('#reserveAddForm #categoryOfCooperative').on('change', function(){
+        var categorycoop = $(this).val();
+//      alert(categorycoop);
+        if(categorycoop=="Primary"){
+            $('#reserveAddForm #coopbank').hide();
+        } else {
+            $('#reserveAddForm #coopbank').show();
+        }
+  });
   $('#reserveAddForm #typeOfCooperative').on('change', function(){
     $('#reserveAddForm #addMoreSubclassBtn').prop("disabled",true);
     $("#reserveAddForm #proposedName").prop("disabled",true);

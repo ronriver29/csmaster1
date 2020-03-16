@@ -12,7 +12,7 @@ class amendment_model extends CI_Model{
   }
 
   public function get_coop($regNo){
-    $this->db->select('registeredcoop.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region,cooperatives.proposed_name, cooperatives.category_of_cooperative, cooperatives.grouping,cooperative_type.id as type_id,cooperatives.common_bond_of_membership,cooperatives.field_of_membership,cooperatives.name_of_ins_assoc');
+    $this->db->select('registeredcoop.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region,cooperatives.proposed_name, cooperatives.category_of_cooperative, cooperatives.grouping,cooperative_type.id as type_id,cooperatives.common_bond_of_membership,cooperatives.field_of_membership,cooperatives.name_of_ins_assoc,,cooperatives.acronym_name');
     $this->db->from('registeredcoop');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -20,7 +20,6 @@ class amendment_model extends CI_Model{
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->join('cooperatives','cooperatives.id=registeredcoop.application_id','inner');
     $this->db->join('cooperative_type','cooperative_type.name=registeredcoop.type','inner');
-
     $this->db->where('registeredcoop.regNo', $regNo);
     $query = $this->db->get();
 
@@ -85,7 +84,7 @@ class amendment_model extends CI_Model{
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->where('amend_coop.users_id', $user_id);
+    $this->db->where('amend_coop.users_id', $user_id)->order_by('amend_coop.id','desc');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
@@ -152,13 +151,13 @@ class amendment_model extends CI_Model{
   //   $data = $query->result_array();
   //   return $data;
   // }
-  public function get_all_business_activities($coop_id){
+  public function get_all_business_activities($amendment_id){
     $this->db->select('major_industry.id as bactivity_id, major_industry.description as bactivity_name, subclass.id as bactivitysubtype_id, subclass.description as bactivitysubtype_name');
     $this->db->from('business_activities_cooperative_amendment');
     $this->db->join('industry_subclass_by_coop_type' , 'industry_subclass_by_coop_type.id = business_activities_cooperative_amendment.industry_subclass_by_coop_type_id','inner');
     $this->db->join('major_industry', 'major_industry.id = industry_subclass_by_coop_type.major_industry_id','inner');
     $this->db->join('subclass', 'subclass.id = industry_subclass_by_coop_type.subclass_id','inner');
-    $this->db->where('business_activities_cooperative_amendment.cooperatives_id',$coop_id);
+    $this->db->where('business_activities_cooperative_amendment.amendment_id',$amendment_id);
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
@@ -187,14 +186,14 @@ class amendment_model extends CI_Model{
     $data = $query->result_array();
     return $data;
   }
-  public function get_cooperative_info($user_id,$coop_id){
+  public function get_cooperative_info($cooperative_id,$user_id,$amendment_id){
     $this->db->select('amend_coop.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
     $this->db->from('amend_coop');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->where(array('amend_coop.users_id'=>$user_id,'amend_coop.id'=>$coop_id));
+    $this->db->where(array('amend_coop.cooperative_id'=>$cooperative_id,'amend_coop.users_id'=>$user_id,'amend_coop.id'=>$amendment_id));
     $query = $this->db->get();
     return $query->row();
   }
@@ -210,43 +209,81 @@ class amendment_model extends CI_Model{
     $query = $this->db->get();
     return $query->row();
   }
-  public function add_cooperative($data,$major_industry,$subtypes_array,$members_composition){
+  public function add_cooperative($data,$major_industry,$subtypes_array,$members_composition,$type_of_coop_id_array){
     $data = $this->security->xss_clean($data);
     $major_industry = $this->security->xss_clean($major_industry);
     $subtypes_array = $this->security->xss_clean($subtypes_array);
     $batch_subtype = array();
     
     $this->db->select('id');
-    $this->db->where(array('cooperative_type_id'=>$data['type_of_cooperative']));
+    $this->db->where(array('cooperative_type_id'=>$type_of_coop_id_array));
     $this->db->where_in('major_industry_id',$major_industry);
     $this->db->where_in('subclass_id',$subtypes_array);
     $this->db->from('industry_subclass_by_coop_type');
     $query = $this->db->get();
     $industry_subclasses_id_array = $query->result_array();
-    
-    $this->db->select('name');
-    $this->db->where('id',$data['type_of_cooperative']);
-    $this->db->from('cooperative_type');
-    $query2 = $this->db->get();
-    $coop_type = $query2->row();
 
-    $data['type_of_cooperative'] = $coop_type->name;
+    // $data['type_of_cooperative'] = $coop_type->name;
+    $cooperative_ID=$data['cooperative_id'];
     $this->db->trans_begin();
     $this->db->insert('amend_coop',$data);
     $id = $this->db->insert_id();
 
     foreach($industry_subclasses_id_array as $industry_subclasses_id){
       array_push($batch_subtype, array(
-        'cooperatives_id'=> $id,
+        'cooperatives_id'=> $cooperative_ID,
+        'amendment_id' => $id,
         'industry_subclass_by_coop_type_id'=>$industry_subclasses_id['id'])
       );
     }
     $this->db->insert_batch('business_activities_cooperative_amendment', $batch_subtype);
-//    $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
+
+
+    //amendment cooperator
+    $qry_cooperator = $this->db->get_where('cooperators',array('cooperatives_id'=>$cooperative_ID));
+    if($qry_cooperator->num_rows()>0)
+    {
+      foreach($qry_cooperator->result_array() as $coop_rows)
+      {
+        $coop_rows['orig_cooperator_id'] = $coop_rows['id'];
+        $coop_rows['amendment_id']=$id;
+        unset($coop_rows['id']);
+        $data_cooperators[]= $coop_rows;
+      }
+    }
+    $this->db->insert_batch('amendment_cooperators',$data_cooperators);
+
+
+    //capitalization
+    $qry_capitalization = $this->db->get_where('capitalization',array('cooperatives_id'=>$cooperative_ID));
+    if($qry_capitalization->num_rows()>0)
+    {
+      foreach($qry_capitalization->result_array() as $cap_rows)
+      {
+        $cap_rows['amendment_id'] = $id;
+        unset($cap_rows['id']);
+        $data_capitalization = $cap_rows;
+      }
+    }
+    $this->db->insert('amendment_capitalization',$data_capitalization);
+
+    //articles of cooperation
+    $qry_articles_cooperation=$this->db->get_where('articles_of_cooperation',array('cooperatives_id'=>$cooperative_ID));
+    if($qry_articles_cooperation->num_rows()>0)
+    {
+      foreach($qry_articles_cooperation->result_array() as $article_rows)
+      {
+        unset($article_rows['id']);
+        $article_rows['amendment_id'] = $id;
+        $data_articles_cooperation = $article_rows;
+      }
+    }
+    // return $data_articles_cooperation;
+    $this->db->insert('amendment_articles_of_cooperation',$data_articles_cooperation);
 
 
     $this->db->select('id');
-    $this->db->where_in('composition',$members_composition);
+    $this->db->where_in('id',$members_composition);
     $this->db->from('composition_of_members');
     $query = $this->db->get();
     $members = $query->result_array();
@@ -254,20 +291,36 @@ class amendment_model extends CI_Model{
     $batch_composition = array();
     foreach($members as $composition){
       array_push($batch_composition, array(
-        'coop_id'=> $id,
+        'coop_id'=> $cooperative_ID,
+        'amendment_id' =>$id,
         'composition'=>$composition['id'])
       );
     }
+    // return  $composition;
     $this->db->insert_batch('amendment_members_composition_of_cooperative', $batch_composition);
 
-    $temp_purpose = array(
-        'cooperatives_id' => $id,
-        'content'  => $this->get_purpose_content($coop_type->name)
-      );
-    $this->db->insert('amendment_purposes',$temp_purpose);
-//    $this->db->insert('amendment_bylaws', array('cooperatives_id'=>$id));
-//    $this->db->insert('amendment_articles_of_cooperation', array('cooperatives_id'=>$id));
-//    $this->db->insert('amendment_economic_survey', array('cooperatives_id'=>$id));
+    //amendment purposes
+       $type_coop = explode(',',$data['type_of_cooperative']);
+       foreach($type_coop as $rowcoop_type)
+       {
+         $temp_purpose[] = array(
+        'cooperatives_id' => $cooperative_ID,
+        'amendment_id' => $id,
+        'cooperative_type'=>$rowcoop_type,
+        'content'  => $this->get_purpose_content($rowcoop_type)
+         );
+          
+       }
+      $this->db->insert_batch('amendment_purposes',$temp_purpose);
+   
+   
+
+    $bylaws_coop_info = $this->cooperative_by_laws($cooperative_ID,$id);
+   $bylaws_amendment = array_filter($bylaws_coop_info);
+      $this->db->insert('amendment_bylaws',$bylaws_amendment);
+
+ /*  $this->db->insert('amendment_articles_of_cooperation', array('cooperatives_id'=>$id));*/
+/*  $this->db->insert('amendment_economic_survey', array('cooperatives_id'=>$id));*/
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -276,7 +329,34 @@ class amendment_model extends CI_Model{
       return true;
     }
   }
-  public function update_not_expired_cooperative($user_id,$coop_id,$field_data,$subclass_array,$major_industry,$members){
+
+  public function last_amended_info($cooperative_id,$amendment_id)
+  {
+
+  }
+
+  //modified by json
+  public function cooperative_by_laws($coop_id,$amendID)
+  {
+    $qry= $this->db->get_where("bylaws",array('cooperatives_id'=>$coop_id));
+    if($qry->num_rows()>0)
+    {
+      foreach($qry->result_array() as $row)
+      {
+        $row['amendment_id'] = $amendID;
+        unset($row['composition_of_bod']);
+        unset($row['id']);
+        $data =$row;
+      }
+    }
+    else
+    {
+      $data = NULL;
+    }
+    return $data;
+  }
+  // public function update_not_expired_cooperative($user_id,$amendment_id,$field_data,$subclass_array,$major_industry,$members){
+  public function update_not_expired_cooperative($user_id,$amendment_id,$field_data,$subclass_array,$major_industry){
     $data = $this->security->xss_clean($field_data);
     $subclass_array = $this->security->xss_clean($subclass_array);
 
@@ -297,18 +377,18 @@ class amendment_model extends CI_Model{
     $coop_type = $query2->row();
     
     $data['type_of_cooperative'] = $coop_type->name;
-    $this->db->where(array('users_id'=>$user_id,'id'=>$coop_id));
+    $this->db->where(array('users_id'=>$user_id,'id'=>$amendment_id));
     $this->db->update('amend_coop',$data);
     
-    $this->db->delete('business_activities_cooperative',array('cooperatives_id'=>$coop_id));
+    $this->db->delete('business_activities_cooperative_amendment',array('amendment_id'=>$amendment_id));
     
     foreach($industry_subclasses_id_array as $industry_subclasses_id){
       array_push($batch_subtype, array(
-        'cooperatives_id'=> $coop_id,
+        'amendment_id'=> $amendment_id,
         'industry_subclass_by_coop_type_id'=>$industry_subclasses_id['id'])
       );
     }
-    $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
+    $this->db->insert_batch('business_activities_cooperative_amendment', $batch_subtype);
     
 
 
@@ -332,7 +412,6 @@ class amendment_model extends CI_Model{
       );
     }
     $this->db->insert_batch('members_composition_of_cooperative', $batch_composition);
-    
     $this->db->where('cooperatives_id',$coop_id);
     $this->db->update('purposes',$temp_purpose);
     if($this->db->trans_status() === FALSE){
@@ -401,9 +480,16 @@ class amendment_model extends CI_Model{
   //       return true;
   //     }
   // }
-public function delete_cooperative($coop_id){
+public function delete_cooperative($amendment_id){
   $this->db->trans_begin();
-  $this->db->delete('amend_coop',array('id' => $coop_id));
+  $this->db->delete('amend_coop',array('id' => $amendment_id));
+  $this->db->delete('amendment_purposes',array('amendment_id'=>$amendment_id)); //modified by json
+  $this->db->delete('amendment_cooperators',array('amendment_id'=>$amendment_id)); //modified by json
+  $this->db->delete('amendment_bylaws',array('amendment_id'=>$amendment_id)); //modified by json
+  $this->db->delete('amendment_capitalization',array('amendment_id'=>$amendment_id)); //modified by json
+   $this->db->delete('amendment_articles_of_cooperation',array('amendment_id'=>$amendment_id)); //modified by json
+   $this->db->delete('amendment_economic_survey',array('amendment_id'=>$amendment_id)); //modified by json
+  $this->db->delete('business_activities_cooperative_amendment',array('amendment_id'=>$amendment_id));//modified by json
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
@@ -643,16 +729,16 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step){
     }
   }
 }
-public function check_own_cooperative($coop_id,$user_id){
-    $query2 = $this->db->get_where('amend_coop', array('users_id' => $user_id,'id'=> $coop_id));
+public function check_own_cooperative($cooperative_id,$amendment_id,$user_id){
+    $query2 = $this->db->get_where('amend_coop', array('users_id' => $user_id,'cooperative_id'=>$cooperative_id,'id'=> $amendment_id));
     return $query2->num_rows() > 0 ? true : false;
 }
 // public function check_cooperative_exist($user_id){
 //     $query2 = $this->db->get_where('cooperatives', array('users_id' => $user_id));
 //     return $query2->num_rows() > 0 ? true : false;
 // }
-public function check_expired_reservation($coop_id,$user_id){
-  $query = $this->db->get_where('amend_coop',array('users_id' => $user_id,'id'=> $coop_id));
+public function check_expired_reservation($cooperative_id,$coop_id,$user_id){
+  $query = $this->db->get_where('amend_coop',array('cooperative_id'=>$cooperative_id,'users_id' => $user_id,'id'=> $coop_id));
   $data = $query->row();
   $coop_status = $data->status;
   if($coop_status==0){
@@ -661,8 +747,8 @@ public function check_expired_reservation($coop_id,$user_id){
     return false;
   }
 }
-public function check_expired_reservation_by_admin($coop_id){
-  $query = $this->db->get_where('amend_coop',array('id'=> $coop_id));
+public function check_expired_reservation_by_admin($cooperative_id,$amendment_id){
+  $query = $this->db->get_where('amend_coop',array('id'=> $amentment_id,'cooperative_id'=>$cooperative_id));
   $data = $query->row();
   $coop_status = $data->status;
   if($coop_status==0){
@@ -671,8 +757,8 @@ public function check_expired_reservation_by_admin($coop_id){
     return false;
   }
 }
-public function check_submitted_for_evaluation($coop_id){
-  $query = $this->db->get_where('amend_coop',array('id'=>$coop_id));
+public function check_submitted_for_evaluation($cooperative_id,$amendment_id){
+  $query = $this->db->get_where('amend_coop',array('id'=>$amendment_id,'cooperative_id'=>$cooperative_id));
   $data = $query->row();
   $coop_status = $data->status;
   if($coop_status > 1){
@@ -805,7 +891,7 @@ public function check_if_denied($coop_id){
     return $token;
   }
 
-  public function get_purpose_content($coop_type){
+  public function  get_purpose_content($coop_type){
     $data = array(
       'Advocacy'=> 'Promoting and advocating cooperativism among its members and the public through socially oriented projects, education and training, research and communication and other similar activities to reach out to its intended beneficiaries;'.
         'Promoting and advancing the economic and social status of the members;'.

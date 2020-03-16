@@ -57,10 +57,10 @@ class Staff_model extends CI_Model{
           return array('success'=>true,'message'=>'Staff has been successfully added');
         }
       }else{
-        return array('success'=>false,'message'=>'Only one '.strtolower($data['position_others']).' position is allowed');
+        return array('success'=>false,'message'=>'Only one '.strtolower($data['position_others']).' position is allowedere');
       }
     }else{
-      if($this->check_position_not_exists($data['cooperatives_id'],$data['position'])){
+      // if($this->check_position_not_exists($data['cooperatives_id'],$data['position'])){
         if($this->check_name_not_exist($data['cooperatives_id'],$data['full_name'])){
           $this->db->trans_begin();
           $this->db->insert('staff',$data);
@@ -88,10 +88,10 @@ class Staff_model extends CI_Model{
           return array('success'=>false,'message'=>'Name already exist');
           echo 'c';
         }
-      }else{
-          echo 'd';
-        return array('success'=>false,'message'=>'Only one '.strtolower($data['position']).' position is allowed');
-      }
+      // }else{
+      //     echo 'd';
+      //   return array('success'=>false,'message'=>'Only one '.strtolower($data['position']).' position is allowedddddd');
+      // }
     }
   }
 
@@ -187,12 +187,30 @@ class Staff_model extends CI_Model{
     // }
   }
   //modify by json
-  public function check_position_($input_position)
+  public function check_position_($input_position,$cooperative_id)
   {
-    $checkqry = $this->db->get_where('staff_position',array('position_name'=> $input_position));
+    $checkqry = $this->db->get('staff_position');
     if($checkqry->num_rows()>0)
     {
-      return true;
+      foreach($checkqry->result_array()as $row)
+      {
+        $row['input_position'] = $input_position;
+        $row['input_cooperave_id'] = $cooperative_id;
+        $row['status']='';
+        if($row['cooperative_id'] == $row['input_cooperave_id'] && strcasecmp($row['position_name'],$row['input_position'])==0)
+        {
+            $row['status']='false';
+        }
+        $data[] = $row['status'];
+      }
+        if(in_array('false',$data))
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
     }
     else
     {
@@ -209,7 +227,7 @@ class Staff_model extends CI_Model{
   public function delete_staff($data){
     $this->db->trans_begin();
     $this->db->delete('staff',array('id' => $data));
-    $this->db->delete('amendment_staff',array('orig_staff_id' => $data));
+    // $this->db->delete('amendment_staff',array('orig_staff_id' => $data));
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -219,28 +237,47 @@ class Staff_model extends CI_Model{
     }
   }
   public function check_position_not_exists($cooperatives_id,$position){
-    $this->db->where('cooperatives_id',$cooperatives_id);
-    $this->db->where('position', $position);
-    $this->db->from('staff');
-    $count = $this->db->count_all_results();
-    if($count==0){
+    // $this->db->where('cooperatives_id',$cooperatives_id);
+    // $this->db->where('position', strtolower($position));
+    // $this->db->from('staff');
+    $positions = strtolower($position);
+    $qry = $this->db->query("select LOWER(position) from staff where position='$position' and cooperatives_id='$cooperatives_id'");
+    // $count = $this->db->count_all_results();
+    if($qry->num_rows()>0){
       return true;
     }else{
       return false;
     }
   }
   public function requirements_complete($cooperatives_id){
-    // if($this->check_position_not_exists($cooperatives_id,"Manager") || $this->check_position_not_exists($cooperatives_id,"Accountant") || $this->check_position_not_exists($cooperatives_id,"Bookkeeper") || $this->check_position_not_exists($cooperatives_id,"Cashier") || $this->check_position_not_exists($cooperatives_id,"Collector") || $this->check_position_not_exists($cooperatives_id,"Sales clerk")){
-    if($this->check_position_not_exists($cooperatives_id,"manager") || $this->check_position_not_exists($cooperatives_id,"bookkeeper")){
-      return false;
-    }else{
-      return true;
-    }
+   $qry = $this->db->query("select LOWER(position) as position_name from staff where cooperatives_id ='$cooperatives_id  '");
+   // return $this->db->last_query()
+   if($qry->num_rows()>0)
+   {
+      foreach($qry->result_array() as $row)
+      {
+        $position_[]=$row['position_name'];
+      }
+      if(in_array("manager",$position_) && in_array("bookkeeper",$position_) && in_array("cashier/treasurer",$position_) )
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+   }
+   else
+   {
+    return false;
+   }
+
   }
+  //modified
   public function check_others_position_not_exists($cooperatives_id, $position_others){
     $this->db->where('cooperatives_id',$cooperatives_id);
-    $this->db->where('position_others', $position_others);
-    $this->db->from('staff');
+    $this->db->where('position_name', $position_others);
+    $this->db->from('staff_position');
     $count = $this->db->count_all_results();
     if($count==0){
       return true;

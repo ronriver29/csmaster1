@@ -1,10 +1,14 @@
-<!-- <div class="row">
-  <div class="col-sm-12 col-md-12">
-    <div class="alert alert-primary" role="alert">
-      WELCOME!!!
-    </div>
-  </div>
-</div> -->
+
+<div class="row">
+  <div class="col-md-12">
+<?php if($this->session->flashdata('amendment_msg')) :?>       
+       <div class="alert alert-<?=$this->session->flashdata('msg_class')?> alert-dismissible">
+         <button type = "button" class="close" data-dismiss = "alert">x</button>
+         <?=$this->session->flashdata('amendment_msg')?>
+       </div>
+   <?php endif; ?>
+ </div>
+</div>
 <?php if(!$is_client && $admin_info->access_level == 3 &&  $admin_info->is_director_active == 0) : ?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
@@ -76,7 +80,17 @@
             <tbody>
               <?php foreach ($list_cooperatives as $cooperative) : ?>
                 <tr>
-                  <td><?= $cooperative['proposed_name']?> <?= $cooperative['type_of_cooperative']?> Cooperative <?= $cooperative['grouping']?></td>
+                  <td><?= $cooperative['proposed_name']?>
+                   <?php
+                    $count_tYpe = explode(',',$cooperative['type_of_cooperative']);
+                    if(count($count_tYpe)>1)
+
+                    {
+                    	echo  "Multipurpose";
+                    }
+
+                    ?>  
+                    Cooperative <?= $cooperative['grouping']?></td>
                   <?php if(!$is_client) : ?>
                     <td>
                       <?php if($cooperative['house_blk_no']==null && $cooperative['street']==null) $x=''; else $x=', ';?>
@@ -121,7 +135,7 @@
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                         <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View</a>
                       <?php if($cooperative['status']<2 || $cooperative['status']==10|| $cooperative['status']==11) : ?>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAmendCooperativeModal" data-cname="<?= $cooperative['proposed_name']?> <?= $cooperative['type_of_cooperative']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>"><i class='fas fa-trash'></i><?php echo ($cooperative['status']==10 || $cooperative['status']==11) ? "Delete": "Cancel" ?></button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAmendmentForm" data-cname="<?= $cooperative['proposed_name']?> <?= $cooperative['type_of_cooperative']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>"><i class='fas fa-trash'></i><?php echo ($cooperative['status']==10 || $cooperative['status']==11) ? "Delete": "Cancel" ?></button>
                       <?php endif;?>
                       </div>
                     </td>

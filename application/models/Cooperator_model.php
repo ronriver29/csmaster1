@@ -617,7 +617,7 @@ public $last_query = "";
   }
   public function get_cooperator_info($cooperator_id){
     $cooperator_id = $this->security->xss_clean($cooperator_id);
-    $this->db->select('cooperators.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region, CONCAT(refbrgy.brgyDesc," ",refcitymun.citymunDesc," ",refprovince.provDesc," ",refregion.regDesc) AS full_address');
+    $this->db->select('cooperators.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region, CONCAT(refbrgy.brgyDesc," ",refcitymun.citymunDesc," ",refprovince.provDesc," ",refregion.regDesc) AS full_address,cooperators.full_name');
     $this->db->from('cooperators');
     $this->db->join('refbrgy','refbrgy.brgycode=cooperators.addrCode','left');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','left');
@@ -695,7 +695,7 @@ $this->last_query = $this->db->last_query();
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','left');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','left');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','left');
-    $this->db->where('(position = "Board of Director" OR position = "Chairperson" OR position = "Vice-Chairperson") AND cooperatives_id = '.$cooperatives_id.'');
+    $this->db->where('(position = "Board of Director" OR position = "Chairperson" OR position = "Vice-Chairperson" OR position = "Treasurer" OR position = "Secretary" OR (position = "Member" AND type_of_member = "Regular")) AND cooperatives_id = '.$cooperatives_id.'');
     $this->db->order_by('full_name','asc');
     $query=$this->db->get();
 $this->last_query = $this->db->last_query();
@@ -705,6 +705,13 @@ $this->last_query = $this->db->last_query();
   public function get_all_cooperator_of_coop_regular_count($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $this->db->where('type_of_member = "Regular" AND cooperatives_id ='.$cooperatives_id.'');
+    $this->db->from('cooperators');
+    return $this->db->count_all_results();
+  }
+  
+  public function get_all_cooperator_of_coop_associate_count($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->where('type_of_member = "Associate" AND cooperatives_id ='.$cooperatives_id.'');
     $this->db->from('cooperators');
     return $this->db->count_all_results();
   }
@@ -846,7 +853,7 @@ $this->last_query = $this->db->last_query();
       return true;
   }
 
-  public function is_requirements_complete($cooperatives_id){
+  public function is_requirements_complete($cooperatives_id,$associate_members){
     if($this->check_no_of_directors($cooperatives_id) && $this->check_chairperson($cooperatives_id) && $this->check_vicechairperson($cooperatives_id) && $this->check_treasurer($cooperatives_id) && $this->check_secretary($cooperatives_id) && $this->check_directors_odd_number($cooperatives_id) && $this->ten_percent($cooperatives_id)){
       if($this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id)->kinds_of_members==1){
         if($this->check_associate_not_exists($cooperatives_id) && $this->check_all_minimum_regular_subscription($cooperatives_id) && $this->check_all_minimum_regular_pay($cooperatives_id)){
@@ -859,7 +866,7 @@ $this->last_query = $this->db->last_query();
           return false;
         }
       }else{
-        if($this->check_all_minimum_regular_subscription($cooperatives_id) && $this->check_all_minimum_regular_pay($cooperatives_id) && $this->check_all_minimum_associate_subscription($cooperatives_id) && $this->check_all_minimum_associate_pay($cooperatives_id)){
+        if($this->check_all_minimum_regular_subscription($cooperatives_id) && $this->check_all_minimum_regular_pay($cooperatives_id) && $this->check_all_minimum_associate_subscription($cooperatives_id) && $this->check_all_minimum_associate_pay($cooperatives_id) && $this->get_all_cooperator_of_coop_associate_count($cooperatives_id) >= $associate_members){
           if($this->check_with_associate_total_shares_paid_is_correct($this->get_total_regular($cooperatives_id),$this->get_total_associate($cooperatives_id))){
             return true;
           }else{
@@ -904,6 +911,9 @@ $this->last_query = $this->db->last_query();
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
 //    $temp = $this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id)->associate_percentage_shares_pay;
     $temp = $this->capitalization_model->get_capitalization_by_coop_id($cooperatives_id)->minimum_subscribed_share_associate;
+    if($temp == NULL){
+        $temp = 0;
+    }
     $kind_of_members = $this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id)->kinds_of_members;
     if($kind_of_members==2)  {
         $this->db->where(array('cooperatives_id'=>$cooperatives_id,'type_of_member'=>'Associate'));
@@ -922,6 +932,9 @@ $this->last_query = $this->db->last_query();
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
 //    $temp = $this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id)->associate_percentage_shares_pay;
     $temp = $this->capitalization_model->get_capitalization_by_coop_id($cooperatives_id)->minimum_paid_up_share_associate;
+    if($temp == NULL){
+        $temp = 0;
+    }
     $kind_of_members = $this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id)->kinds_of_members;
     if($kind_of_members==2)  {
         $this->db->where(array('cooperatives_id'=>$cooperatives_id,'type_of_member'=>'Associate'));
@@ -956,13 +969,26 @@ $this->last_query = $this->db->last_query();
     $capitalization_info = $query2->row();
     $capitalization_no_of_subscribed = 0;
     $capitalization_no_of_paid = 0;
-    $capitalization_no_of_subscribed = $capitalization_info->total_no_of_subscribed_capital;
-    $capitalization_no_of_paid = $capitalization_info->total_no_of_paid_up_capital;
+    
+    // Jiee
+        $this->db->where(array('cooperatives_id' => $cooperatives_id));
+        $this->db->from('capitalization');
+        if($this->db->count_all_results()==0){
+          $capitalization_no_of_subscribed = 0;
+        $capitalization_no_of_paid = 0;
+        }else{
+          $capitalization_no_of_subscribed = $capitalization_info->total_no_of_subscribed_capital;
+        $capitalization_no_of_paid = $capitalization_info->total_no_of_paid_up_capital;
+        }
+    //
     
     $totalSubscribed = 0;
     $totalPaid = 0;
-    $totalSubscribed = $data->total_subscribed;
-    $totalPaid = $data->total_paid;
+    
+    $totalPaid = ($data->total_paid==null) ? 0 : $data->total_paid;
+    $totalSubscribed = ($data->total_subscribed==null) ? 0 : $data->total_subscribed;
+//    $totalSubscribed = $data->total_subscribed;
+//    $totalPaid = $data->total_paid;
     return array('total_subscribed' => $totalSubscribed,'total_paid'=> $totalPaid, 'capitalization_no_of_subscribed'=>$capitalization_no_of_subscribed, 'capitalization_no_of_paid'=>$capitalization_no_of_paid);
   }
   public function get_total_associate($cooperatives_id){

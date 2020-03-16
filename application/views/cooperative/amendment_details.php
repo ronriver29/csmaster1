@@ -95,7 +95,19 @@
         <small>
         <strong>Proposed Name:</strong>
         <p class="text-muted">
-          <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> Cooperative <?= $coop_info->grouping?>
+          <?= $coop_info->proposed_name?>
+           <?php 
+           $count_type =explode(',',$coop_info->type_of_cooperative);
+            if(count($count_type)>1)
+            {
+              echo "Multipurpose";
+            }
+            else
+            {
+
+            }
+           ?>
+            <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> Cooperative <?= $coop_info->grouping?>
         </p>
         <hr>
         <strong>Category of Cooperative</strong>
@@ -112,16 +124,39 @@
         </p>
         <hr>
         <strong>Common Bond of Membership</strong>
-        <p class="text-muted">
-          <?= $coop_info->common_bond_of_membership?>
-        </p>
-        <hr>
-        <strong>Composition of Members</strong>
-        <p class="text-muted">
-          <?php foreach($members_composition as $compo) : ?>
-          &#9679; <?= $compo['composition'] ?><br>
-          <?php endforeach; ?>
-        </p>
+        <p class="text-muted"> <?=$coop_info->common_bond_of_membership?></p>
+         <hr>
+          <?php
+           if($coop_info->common_bond_of_membership=='Associational' || $coop_info->common_bond_of_membership=='Institutional')
+           {
+            ?>
+            <strong>Field of Membership:</strong>
+            <p class="text-muted"><?=$coop_info->field_of_membership?></p>
+             <hr>
+              <strong>Name of Associational:</strong>
+              <p class="text-muted"><?=$coop_info->name_of_ins_assoc?></p>
+            <?php
+           }
+           elseif($coop_info->common_bond_of_membership=='Occupational')
+           {
+            ?>
+
+            <strong>Composition of Members</strong>
+            <p class="text-muted">
+              <?php foreach($members_composition as $compo) : ?>
+              &#9679; <?= $compo['composition'] ?><br>
+              <?php endforeach; ?>
+            </p>
+
+            <?php
+           }
+           else
+           {
+            
+           }
+           ?>
+       
+      
         <hr>
         <strong>Area of Operation</strong>
         <p class="text-muted">
@@ -393,7 +428,7 @@
           <p class="mb-1 font-italic">Additional Information: By Laws</p>
           <?php if($coop_info->status!= 0): ?>
           <small class="text-muted">
-            <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/bylaws" class="btn btn-info btn-sm">View</a>
+            <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/bylaws_primary" class="btn btn-info btn-sm">View</a>
           </small>
         <?php endif;?>
         </li>
@@ -412,7 +447,9 @@
           <p class="mb-1 font-italic">Capitalization</p>
           <?php if($bylaw_complete): ?>
           <small class="text-muted">
-            <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_capitalization" class="btn btn-info btn-sm">View</a>
+           <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_capitalization" class="btn btn-info btn-sm">View </a> 
+           <!--  <a href="<?php echo base_url();?>amendment/<?= $cooperative_id ?>/amendment_capitalization" class="btn btn-info btn-sm">View </a> -->
+
           </small>
         <?php endif;?>
         </li>

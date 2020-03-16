@@ -22,9 +22,7 @@
     <?php if($admin_info->access_level == 3) {?>
      <?php if($coop_info->status !=15):?>
         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button>
-        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferCooperativeModal" data-comment="<?=$coop_info->comment_by_senior?> 
-
-<?=$coop_info->comment_by_specialist?>"  data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Defer</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferCooperativeModal" data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>>Defer</button>
       <?php endif; //coo status 15 ?>
     <?php } ?>
       </div>
@@ -37,37 +35,140 @@
 <?php if($is_client) : ?>
     <?php else :?>
 <?php if(strlen(($coop_info->comment_by_specialist && $admin_info->access_level==2) && $coop_info->status != 15|| $admin_info->access_level==3) && strlen($coop_info->comment_by_specialist)>0 && $coop_info->status != 15) : ?>
-  <div class="row mt-3">
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong">
+  * CDS Findings
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">CDS Findings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><?php 
+//            print_r($cooperatives_comments);
+            foreach($cooperatives_comments_cds as $cc) :
+                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                echo '<ul type="square">';
+                    echo '<li>'.$cc['comment'].'</li>';
+                echo '</ul>';
+            endforeach;
+                echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
+                echo '<p>'.$coop_info->tool_findings.'</p>';
+        ?></pre>    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--  <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-info" role="alert">
         <p class="font-weight-bold">CDS Comment:</p>
         <pre><?= $coop_info->comment_by_specialist ?></pre>
+        <?php if(strlen($coop_info->tool_findings)){
+            echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
+            echo '<p>'.$coop_info->tool_findings.'</p>';
+        }?>
+      </div>
+    </div>
+  </div>-->
+<?php endif;?>
+<?php if(strlen($coop_info->comment_by_senior && $admin_info->access_level==3 || $coop_info->status==12)) : ?>
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong3">
+  * Senior Findings
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">Senior Findings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><?php 
+//            print_r($cooperatives_comments);
+            foreach($cooperatives_comments_snr as $cc) :
+                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                echo '<ul type="square">';
+                    echo '<li>'.$cc['comment'].'</li>';
+                echo '</ul>';
+            endforeach;
+        ?></pre>    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
       </div>
     </div>
   </div>
-<?php endif;?>
-<?php if(strlen($coop_info->comment_by_senior && $admin_info->access_level==3 || $coop_info->status==12)) : ?>
-  <div class="row mt-3">
+</div>
+<!--  <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-info" role="alert">
         <p class="font-weight-bold">Senior Comment:</p>
         <pre><?= $coop_info->comment_by_senior ?></pre>
       </div>
     </div>
-  </div>
+  </div>-->
 <?php endif;?>
 <?php if(strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==3) || ($coop_info->temp_evaluation_comment && $admin_info->access_level==2) && $coop_info->status == 6)) : ?>
-  <div class="row mt-3">
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong2">
+  * Deferred Reason/s
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">The cooperative has been deferred because of the following reason/s:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><?php 
+//            print_r($cooperatives_comments);
+            foreach($cooperatives_comments as $cc) :
+                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                echo '<ul type="square">';
+                    echo '<li>'.$cc['comment'].'</li>';
+                echo '</ul>';
+            endforeach;
+        ?></pre>    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--  <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-danger" role="alert">
         <p class="font-weight-bold">This cooperative has been deferred because of the following reason/s:</p>
         <pre><?= $coop_info->temp_evaluation_comment ?></pre>
       </div>
     </div>
-  </div>
+  </div>-->
 <?php endif;?>
 <?php endif; ?>
 <?php if($this->session->flashdata('redirect_documents')): ?>
+
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="alert alert-info text-center" role="alert">
@@ -112,6 +213,7 @@
     </div>
   </div>
 <?php endif; ?>
+<hr>
 <div class="row mb-2">
   <div class="col-sm-12 col-md-4">
     <div class="card">
@@ -199,8 +301,10 @@
               <br>
             </p>
 
-          <?php if($is_client && $coop_info->status<=1 || $coop_info->status>=11): ?>
-            <a href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/upload_document_one" class="btn btn-primary">Upload</a>
+          <?php if($coop_info->status<=1 || $coop_info->status>=11): ?>
+            <?php if($is_client) : ?>
+                <a href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/upload_document_one" class="btn btn-primary">Upload</a>
+            <?php endif;?>
           <?php endif; ?>
 
         </div>

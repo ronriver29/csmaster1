@@ -83,7 +83,7 @@
 		<td><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		<td  colspan="2" style="text-align: justify;">with address at <b><?= ucwords($coop_info->noStreet)?> <?= ucwords($coop_info->Street).$x?> <?= $coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?></b>, has presented and filed with the Authority its Articles of Cooperation and By-laws duly signed and acknowledged for its organization in accordance with the provisions of Republic Act 9520. This certifies further that the said Articles of Cooperation and By-laws have complied with the provisions of the said Republic Act 9520 and its Implementing Rules and Regulations.</td>
+		<td  colspan="2" style="text-align: justify;">with address at <b><?= ucwords($coop_info->noStreet)?> <?= ucwords($coop_info->Street).$x?> <?= $coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?>, <?= $coop_info->region?></b>, has presented and filed with the Authority its Articles of Cooperation and By-laws duly signed and acknowledged for its organization in accordance with the provisions of Republic Act 9520. This certifies further that the said Articles of Cooperation and By-laws have complied with the provisions of the said Republic Act 9520 and its Implementing Rules and Regulations.</td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
@@ -188,7 +188,7 @@
 		<td><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		<td  colspan="2" style="text-align: justify;">with address at <b><?= ucwords($coop_info->noStreet)?> <?= ucwords($coop_info->Street).$x?> <?= $coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?></b>, has presented and filed with the Authority its Articles of Cooperation and By-laws duly signed and acknowledged for its organization in accordance with the provisions of Republic Act 9520. This certifies further that the said Articles of Cooperation and By-laws have complied with the provisions of the said Republic Act 9520 and its Implementing Rules and Regulations.</td>
+		<td  colspan="2" style="text-align: justify;">with address at <b><?= ucwords($coop_info->noStreet)?> <?= ucwords($coop_info->Street).$x?> <?= $coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?>, <?= $coop_info->region?></b>, has presented and filed with the Authority its Articles of Cooperation and By-laws duly signed and acknowledged for its organization in accordance with the provisions of Republic Act 9520. This certifies further that the said Articles of Cooperation and By-laws have complied with the provisions of the said Republic Act 9520 and its Implementing Rules and Regulations.</td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
@@ -295,7 +295,7 @@
 		<td><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		<td  colspan="2" style="text-align: justify;">with address at <b><?= ucwords($coop_info->noStreet)?> <?= ucwords($coop_info->Street).$x?> <?= $coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?></b>, has presented and filed with the Authority its Articles of Cooperation and By-laws duly signed and acknowledged for its organization in accordance with the provisions of Republic Act 9520. This certifies further that the said Articles of Cooperation and By-laws have complied with the provisions of the said Republic Act 9520 and its Implementing Rules and Regulations.</td>
+		<td  colspan="2" style="text-align: justify;">with address at <b><?= ucwords($coop_info->noStreet)?> <?= ucwords($coop_info->Street).$x?> <?= $coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?>, <?= $coop_info->region?></b>, has presented and filed with the Authority its Articles of Cooperation and By-laws duly signed and acknowledged for its organization in accordance with the provisions of Republic Act 9520. This certifies further that the said Articles of Cooperation and By-laws have complied with the provisions of the said Republic Act 9520 and its Implementing Rules and Regulations.</td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
@@ -347,7 +347,7 @@
 <br/>
 <b>THE BOARD OF DIRECTORS</b><br/>
 <?=$coop_info->coopName?><br/>
-<?= ucwords($coop_info->noStreet)?> <?= ucwords($coop_info->Street).$x ?><?= $coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?><br/>
+<?= ucwords($coop_info->noStreet)?> <?= ucwords($coop_info->Street).$x ?><?= $coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?>, <?= $coop_info->region?><br/>
 <br/>
 <br/>
 Gentlemen:<br/>

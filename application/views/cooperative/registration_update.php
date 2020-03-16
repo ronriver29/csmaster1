@@ -158,7 +158,8 @@
                 </div>
               </div>
             </div>
-            <div class="row rd-row">
+              <input type="hidden" id="areaOfOperation" name="areaOfOperation" value="<?=$branch_info->area_of_operation?>">
+<!--            <div class="row rd-row">
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
                   <label for="areaOfOperation">Area of Operation </label>
@@ -171,7 +172,7 @@
                   </select>
                 </div>
               </div>
-            </div>
+            </div>-->
           </div>
           <div class="col-sm-12 col-md-12">
             <div class="row">
@@ -189,12 +190,11 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="streetName">Street Name</label>
-                  <input type="text" class="form-control validate[required]" name="streetName" id="streetName" placeholder="" value="<?=$branch_info->street?>">
+                  <input type="text" class="form-control" name="streetName" id="streetName" placeholder="" value="<?=$branch_info->street?>">
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
-
                    <label for="region">Region</label>
                   <select class="custom-select validate[required]" name="region" id="region">
                     <option value="" selected></option>
@@ -202,11 +202,9 @@
                       <option value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
                     <?php endforeach; ?>
                   </select>
-
-                 
                 </div>
               </div>
-
+                <input type="hidden" class="custom-select validate[required]" name="region2" id="region">
                  <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="province">Province</label>
@@ -226,7 +224,9 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                    <label for="barangay">Barangay</label>
-                  <select class="custom-select validate[required]" name="barangay" id="barangay" disabled>
+                        <input type="hidden" class="custom-select validate[required]" name="barangay2" id="barangay2">
+                        <input type="hidden" class="custom-select validate[required]" name="barangay" id="barangay2">
+                        <select class="custom-select validate[required]" name="barangay" id="barangay" readonly>
                   </select>
                 </div>
               </div>

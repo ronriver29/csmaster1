@@ -35,11 +35,15 @@ if ($branch_info->type=="Branch"){
 	$certTitle='CERTIFICATE OF AUTHORITY';
 	$certOffice='';
 	$typ='Branch';
+        $mcno = '2015-11';
+        $mcdated = 'December 3, 2015';
 }else{
 	$certLabel='Letter';
 	$certTitle='LETTER OF AUTHORITY';
 	$certOffice=' Office';
 	$typ='Satellite';
+        $mcno = '2016-05';
+        $mcdated = 'October 18, 2016';
 }
 
 ?>
@@ -76,14 +80,14 @@ if ($branch_info->type=="Branch"){
 		<td style="text-align: center; font-size: 9pt;"><?= $branch_info->regNo?></td>
 	</tr>
 	<tr>
-		<?php if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
+            <?php if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
                     $branch_name = $branch_info->brgy;
                 } else if($branch_info->area_of_operation == 'Provincial') {
-                    $branch_name = $branch_info->brgy.', '.$branch_info->city;
+                    $branch_name = $branch_info->brgy;
                 } else if ($branch_info->area_of_operation == 'Regional') {
-                    $branch_name = $branch_info->brgy.', '.$branch_info->city.', '.$branch_info->province;
+                    $branch_name = $branch_info->city.', '.$branch_info->province;
                 } else if ($branch_info->area_of_operation == 'National') {
-                    $branch_name = $branch_info->brgy.', '.$branch_info->city.', '.$branch_info->province.', '.$branch_info->region;
+                    $branch_name = $branch_info->city.', '.$branch_info->province;
                 }
             ?>
 		<td style="text-align: center; font-size: 20pt;"><b><?=$branch_name.' '.$branch_info->branchName.$certOffice?></b></td>
@@ -92,7 +96,14 @@ if ($branch_info->type=="Branch"){
 		<td><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		<td style="text-align: justify;">with address at <b><?= ucwords($branch_info->noStreet)?> <?= ucwords($branch_info->st).$x?> <?= $branch_info->brg?>, <?= $branch_info->municipality?>, <?= $branch_info->provins?></b>, to confirm the establishment of a <?=$typ ?> at <b><?= ucwords($branch_info->house_blk_no)?> <?= ucwords($branch_info->street).$x?> <?= $branch_info->brgy?>, <?= $branch_info->city?>, <?= $branch_info->province?></b> were presented for approval of the Authority on <b><?=date("F d, Y", strtotime($branch_info->date_approved_director)); ?></b> and that after having complied with the requirements under MC No. 2015-11 dated December 3, 2015 is hereby <b>APPROVED</b>.</td>
+		<?php
+			if($branch_info->house_blk_no == "" && $branch_info->street == ""){
+				$branchnostreet = '';
+			} else {
+				$branchnostreet = $branch_info->house_blk_no.' '.$branch_info->street.$x.',';
+			}
+		?>
+		<td style="text-align: justify;">with address at <b><?= ucwords($branch_info->noStreet)?> <?= ucwords($branch_info->st).$x?> <?= $branch_info->brg?>, <?= $branch_info->municipality?>, <?= $branch_info->provins?>, <?= $branch_info->region?></b>, to confirm the establishment of a <?=$typ ?> at <b><?=$branchnostreet?> <?= $branch_info->brgy?>, <?= $branch_info->city?>, <?= $branch_info->province?>, <?= $branch_info->region?></b> were presented for approval of the Authority on <b><?=date("F d, Y", strtotime($branch_info->date_approved_director)); ?></b> and that after having complied with the requirements under MC No. <?=$mcno?> dated <?=$mcdated?> is hereby <b>APPROVED</b>.</td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
@@ -196,14 +207,14 @@ if ($branch_info->type=="Branch"){
 		<td style="text-align: center; font-size: 9pt;"><?= $branch_info->regNo?></td>
 	</tr>
 	<tr>
-		<?php if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
+            <?php if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
                     $branch_name = $branch_info->brgy;
                 } else if($branch_info->area_of_operation == 'Provincial') {
-                    $branch_name = $branch_info->brgy.', '.$branch_info->city;
+                    $branch_name = $branch_info->brgy;
                 } else if ($branch_info->area_of_operation == 'Regional') {
-                    $branch_name = $branch_info->brgy.', '.$branch_info->city.', '.$branch_info->province;
+                    $branch_name = $branch_info->city.', '.$branch_info->province;
                 } else if ($branch_info->area_of_operation == 'National') {
-                    $branch_name = $branch_info->brgy.', '.$branch_info->city.', '.$branch_info->province.', '.$branch_info->region;
+                    $branch_name = $branch_info->city.', '.$branch_info->province;
                 }
             ?>
 		<td style="text-align: center; font-size: 20pt;"><b><?=$branch_name.' '.$branch_info->branchName.$certOffice?></b></td>
@@ -213,7 +224,7 @@ if ($branch_info->type=="Branch"){
 	</tr>
 
 	<tr>
-		<td style="text-align: justify;">with address at <b><?= ucwords($branch_info->noStreet)?> <?= ucwords($branch_info->st).$x?> <?= $branch_info->brg?>, <?= $branch_info->municipality?>, <?= $branch_info->provins?></b>, to confirm the establishment of a <?=$typ ?> at <b><?= ucwords($branch_info->house_blk_no)?> <?= ucwords($branch_info->street).$x?> <?= $branch_info->brgy?>, <?= $branch_info->city?>, <?= $branch_info->province?></b> were presented for approval of the Authority on <b><?=date("F d, Y", strtotime($branch_info->date_approved_director)); ?></b> and that after having complied with the requirements under MC No. 2015-11 dated December 3, 2015 is hereby <b>APPROVED</b>.</td>
+		<td style="text-align: justify;">with address at <b><?= ucwords($branch_info->noStreet)?> <?= ucwords($branch_info->st).$x?> <?= $branch_info->brg?>, <?= $branch_info->municipality?>, <?= $branch_info->provins?>, <?= $branch_info->region?></b>, to confirm the establishment of a <?=$typ ?> at <b><?=$branchnostreet?> <?= $branch_info->brgy?>, <?= $branch_info->city?>, <?= $branch_info->province?>, <?= $branch_info->region?></b> were presented for approval of the Authority on <b><?=date("F d, Y", strtotime($branch_info->date_approved_director)); ?></b> and that after having complied with the requirements under MC No. <?=$mcno?> dated <?=$mcdated?> is hereby <b>APPROVED</b>.</td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
@@ -317,14 +328,14 @@ if ($branch_info->type=="Branch"){
 		<td style="text-align: center; font-size: 9pt;"><?= $branch_info->regNo?></td>
 	</tr>
 	<tr>
-		<?php if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
+            <?php if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
                     $branch_name = $branch_info->brgy;
                 } else if($branch_info->area_of_operation == 'Provincial') {
-                    $branch_name = $branch_info->brgy.', '.$branch_info->city;
+                    $branch_name = $branch_info->brgy;
                 } else if ($branch_info->area_of_operation == 'Regional') {
-                    $branch_name = $branch_info->brgy.', '.$branch_info->city.', '.$branch_info->province;
+                    $branch_name = $branch_info->city.', '.$branch_info->province;
                 } else if ($branch_info->area_of_operation == 'National') {
-                    $branch_name = $branch_info->brgy.', '.$branch_info->city.', '.$branch_info->province.', '.$branch_info->region;
+                    $branch_name = $branch_info->city.', '.$branch_info->province;
                 }
             ?>
 		<td style="text-align: center; font-size: 20pt;"><b><?=$branch_name.' '.$branch_info->branchName.$certOffice?></b></td>
@@ -333,7 +344,7 @@ if ($branch_info->type=="Branch"){
 		<td><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		<td style="text-align: justify;">with address at <b><?= ucwords($branch_info->noStreet)?> <?= ucwords($branch_info->st).$x?> <?= $branch_info->brg?>, <?= $branch_info->municipality?>, <?= $branch_info->provins?></b>, to confirm the establishment of a <?=$typ ?> at <b><?= ucwords($branch_info->house_blk_no)?> <?= ucwords($branch_info->street).$x?> <?= $branch_info->brgy?>, <?= $branch_info->city?>, <?= $branch_info->province?></b> were presented for approval of the Authority on <b><?=date("F d, Y", strtotime($branch_info->date_approved_director)); ?></b> and that after having complied with the requirements under MC No. 2015-11 dated December 3, 2015 is hereby <b>APPROVED</b>.</td>
+		<td style="text-align: justify;">with address at <b><?= ucwords($branch_info->noStreet)?> <?= ucwords($branch_info->st).$x?> <?= $branch_info->brg?>, <?= $branch_info->municipality?>, <?= $branch_info->provins?>, <?= $branch_info->region?></b>, to confirm the establishment of a <?=$typ ?> at <b><?=$branchnostreet?> <?= $branch_info->brgy?>, <?= $branch_info->city?>, <?= $branch_info->province?>, <?= $branch_info->region?></b> were presented for approval of the Authority on <b><?=date("F d, Y", strtotime($branch_info->date_approved_director)); ?></b> and that after having complied with the requirements under MC No. <?=$mcno?> dated <?=$mcdated?> is hereby <b>APPROVED</b>.</td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>

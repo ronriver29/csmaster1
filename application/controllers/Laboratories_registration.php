@@ -27,19 +27,10 @@ class Laboratories_registration extends CI_Controller{
       $lab_Name="Laboratory Cooperative of".$lab_info->laboratoryName;
       $reg_no = $lab_info->coop_id;
       $this->laboratories_model->generate_certNo($decoded_id);
-      // if($this->laboratories_model->generate_certNo($decoded_id))
-      // {
-
-      //  echo "certificate generated";
-      // }
-      // else
-      // {
-      //   echo"failed to generated certificate";
-      // }
+     
       
       $lab_details = $this->registration_model->get_cooperative_info_laboratories($reg_no,$decoded_id);
-      // echo $this->db->last_query();
-     
+  
       $app_code_types = 'L-'.$decoded_id;
       $date_or = $this->date_or_encode($app_code_types);
       $DateofOR =$date_or->date_of_or;
@@ -98,13 +89,7 @@ class Laboratories_registration extends CI_Controller{
 
          $params['savename'] = FCPATH . $qr_code_config['imagedir'] . $image_name;
          $this->ci_qr_code->generate($params);
-
          $this->data['qr_code_image_url'] = base_url() . $qr_code_config['imagedir'] . $image_name;
-
-
-         // if($this->db->update('laboratories',array('qr_code'=>$image_name),array('id'=>$decoded_id))){
-           
-         //  
           $this->save_Qrcode_laboratory($decoded_id,$image_name);
       } //qrcode null   
 
@@ -120,10 +105,7 @@ class Laboratories_registration extends CI_Controller{
         //get again after update qr and cert
         $laboratory_registered= $this->registration_model->get_cooperative_info_laboratories($reg_no,$decoded_id);
         $data1['coop_info']= $laboratory_registered;
-        // echo"<pre>";print_r( $laboratory_registered);echo"<pre><br>";
-        //   echo"<pre>";print_r($lab_info);echo"<pre>";
-         // echo json_encode( $data1['coop_info']);
-
+      // echo"<pre>";print_r( $data1['coop_info']); echo "<pre>";
          $this->load->view('laboratories/cor_view', $data1);
         $html2 = $this->load->view('laboratories/cor_view', $data1, TRUE);
         $J = new pdf();       

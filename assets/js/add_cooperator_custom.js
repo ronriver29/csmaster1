@@ -31,8 +31,8 @@ $(function(){
         var minimum_paid_up_share_regular = $("#minimum_paid_up_share_regular").val().length>0 ? $("#minimum_paid_up_share_regular").val() : '';
       $('#addCooperatorForm #subscribedShares').prop('readonly',false);
       $('#addCooperatorForm #paidShares').prop('readonly',false);
-      $('#addCooperatorForm #subscribedShares').val(minimum_subscribed_share_regular);
-      $('#addCooperatorForm #paidShares').val(minimum_paid_up_share_regular);
+//      $('#addCooperatorForm #subscribedShares').val(minimum_subscribed_share_regular);
+//      $('#addCooperatorForm #paidShares').val(minimum_paid_up_share_regular);
       $('#addCooperatorForm #subscribedShares').attr('min',minimum_subscribed_share_regular);
       $('#addCooperatorForm #paidShares').attr('min',minimum_paid_up_share_regular);
       $('#addCooperatorForm #subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionCallPhp]]'});
@@ -45,13 +45,14 @@ $(function(){
          $(".paidSharesformError").hide().html();
           $("#paid-note").show().html('Should not exceed the remaining no of paid up share: '+available_paid_up_capital);
       }
+      
     }else if(tempType.length > 0 && tempType=="Associate"){
         var minimum_subscribed_share_associate = $("#minimum_subscribed_share_associate").val().length>0 ? $("#minimum_subscribed_share_associate").val() : '';
         var minimum_paid_up_share_associate = $("#minimum_paid_up_share_associate").val().length>0 ? $("#minimum_paid_up_share_associate").val() : '';
       $('#addCooperatorForm #subscribedShares').prop('readonly',false);
       $('#addCooperatorForm #paidShares').prop('readonly',false);
-      $('#addCooperatorForm #subscribedShares').val(minimum_subscribed_share_associate);
-      $('#addCooperatorForm #paidShares').val(minimum_paid_up_share_associate);
+//      $('#addCooperatorForm #subscribedShares').val(minimum_subscribed_share_associate);
+//      $('#addCooperatorForm #paidShares').val(minimum_paid_up_share_associate);
       $('#addCooperatorForm #subscribedShares').attr('min',minimum_subscribed_share_associate);
       $('#addCooperatorForm #paidShares').attr('min',minimum_paid_up_share_associate);
       $('#addCooperatorForm #subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumAssociateSubscriptionCallPhp]]'});

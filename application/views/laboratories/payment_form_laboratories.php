@@ -75,7 +75,7 @@
             </tr>
             <tr>
               <td class="bord">Amount in Words</td>
-              <td class="bord" colspan="3"><b><?=ucwords(number_format($lab_fee))?> Pesos</b></td>
+              <td class="bord" colspan="3"><b><?=ucwords(num_format_custom(number_format($lab_fee)))?> Pesos</b></td>
             </tr>
 
             <tr>

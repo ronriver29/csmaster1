@@ -77,7 +77,8 @@
               </div>
             </div>
             <br/>
-            <div class="row rd-row">
+            <input type="hidden" id="areaOfOperation" name="areaOfOperation">
+<!--            <div class="row rd-row">
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
                   <label for="areaOfOperation">Area of Operation</label>
@@ -89,7 +90,7 @@
                   </select>
                 </div>
               </div>
-            </div>
+            </div>-->
             
           </div>
 

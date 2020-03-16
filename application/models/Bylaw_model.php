@@ -14,6 +14,7 @@ class Bylaw_model extends CI_Model{
     $query = $this->db->get_where('bylaws',array('cooperatives_id'=>$data));
     return $query->row();
   }
+
   public function update_bylaw_primary($bylaw_coop_id,$bylaw_info){
     $bylaw_coop_id = $this->security->xss_clean($bylaw_coop_id);
     $bylaw_info = $this->security->xss_clean($bylaw_info);

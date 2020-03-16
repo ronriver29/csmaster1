@@ -227,7 +227,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
   }
 }
   public function get_branch_info($user_id,$branch_id){
-    $this->db->select('branches.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region, cooperatives.category_of_cooperative, cooperatives.type_of_cooperative, cooperatives.grouping, registeredcoop.application_id,registeredcoop.addrCode as mainAddr');
+    $this->db->select('branches.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region, cooperatives.category_of_cooperative, cooperatives.type_of_cooperative, cooperatives.grouping, registeredcoop.application_id,registeredcoop.addrCode as mainAddr, registeredcoop.areaOfOperation as aoo');
     $this->db->from('branches');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = branches.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -582,7 +582,7 @@ public function approve_by_admin($admin_info,$branch_id,$reason_commment,$step,$
   else if($step==4)
     $this->db->update('branches',array('evaluator4'=>$admin_info->id,'status'=>15,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'comment_by_senior'=>$comment_by_specialist_senior,'date_approved_senior'=>$now));
   else if($step==6)
-    $this->db->update('branches',array('evaluator2'=>$admin_info->id,'status'=>8,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>NULL,'date_approved_director'=>$now,'temp_evaluation_comment'=>NULL));
+    $this->db->update('branches',array('evaluator2'=>$admin_info->id,'status'=>8,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>NULL,'date_approved_director'=>$now,'temp_evaluation_comment'=>NULL, 'comment_by_director_level1'=>$comment_by_specialist_senior));
   else if($step==7)
     $this->db->update('branches',array('evaluator1'=>$admin_info->id,'status'=>23,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'comment_by_senior_level1'=>$comment_by_specialist_senior,'date_approved_director'=>$now));
   else 
@@ -990,5 +990,40 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
       $this->db->trans_commit();
       return true;
     }
+  }
+  
+  public function insert_comment_history($data_field){
+        $this->db->trans_begin();
+        $this->db->insert('branches_comment',$data_field);
+        $id = $this->db->insert_id();
+        if($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            return false;
+        }else{
+            $this->db->trans_commit();
+            return true;
+        }
+  }
+  
+  public function branches_comments($coop_id){
+    $this->db->select('*');
+    $this->db->from('branches_comment');
+    $this->db->where(array('branches_id'=>$coop_id,'user_level'=>3));
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function branches_comments_cds($coop_id){
+    $this->db->select('*');
+    $this->db->from('branches_comment');
+    $this->db->where(array('branches_id'=>$coop_id,'user_level'=>1));
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function branches_comments_snr($coop_id){
+    $this->db->select('*');
+    $this->db->from('branches_comment');
+    $this->db->where(array('branches_id'=>$coop_id,'user_level'=>2));
+    $query = $this->db->get();
+    return $query->result_array();
   }
 }

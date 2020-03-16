@@ -18,7 +18,7 @@
               </div>
               <div class="form-group">
                 <label for="comment">State the reason/s:</label>
-                <textarea class="form-control validate[required]" style="resize: none;" id="comment" name="comment" placeholder=""rows="8"><?php echo $branch_info->evaluation_comment;?></textarea>
+                <textarea class="form-control validate[required]" style="resize: none;" id="branch-comment-text" name="comment" rows="8"></textarea>
               </div>
             </div>
             <div class="modal-footer deferBranchFooter">
