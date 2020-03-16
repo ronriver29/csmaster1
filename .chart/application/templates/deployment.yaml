@@ -7,7 +7,7 @@ metadata:
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
-  revisionHistoryLimit: 10
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: {{ .Values.web.name }}
@@ -21,7 +21,6 @@ spec:
       labels:
         app: {{ .Values.web.name }}
     spec:
-      revisionHistoryLimit: 2
       volumes:
         # Create the shared files volume to be used in both pods
         - name: shared-files
