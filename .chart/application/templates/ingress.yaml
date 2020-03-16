@@ -10,10 +10,10 @@ metadata:
     nginx.ingress.kubernetes.io/session-cookie-expires: "604800"
     nginx.ingress.kubernetes.io/session-cookie-max-age: "604800"
 spec:
-  #tls:
-  #- hosts:
-  #  - ris.cda.gov.ph
-  #  secretName: selfsigned-cert-tls
+  tls:
+  - hosts:
+    - ris.cda.gov.ph
+    secretName: cda-ssl
   rules:
   - http:
       paths:
