@@ -21,6 +21,7 @@ spec:
       labels:
         app: {{ .Values.web.name }}
     spec:
+      revisionHistoryLimit: 2
       volumes:
         # Create the shared files volume to be used in both pods
         - name: shared-files
