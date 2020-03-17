@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: mysql
   serviceName: mysql
-  replicas: 3
+  replicas: 2
   template:
     metadata:
       labels:
@@ -162,6 +162,10 @@ spec:
   - metadata:
       name: data-volume
     spec:
+      selector:
+        matchLabels:
+          type: persistent
+          app: database
       accessModes:
       - ReadWriteOnce
       resources:
