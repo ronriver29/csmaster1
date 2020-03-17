@@ -156,8 +156,8 @@ spec:
       - name: config-map
         configMap:
           name: mysql
-      nodeSelector:
-        type: database
+      #nodeSelector:
+      #  type: database
   volumeClaimTemplates:
   - metadata:
       name: data-volume
