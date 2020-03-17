@@ -41,7 +41,7 @@ deploy-application-staging:
       ./.chart/application
   environment:
     name: staging
-    url: https://202.90.136.155
+    url: https://cs.s.cda.gov.ph
   only:
     - master
 
