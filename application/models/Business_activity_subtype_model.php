@@ -1,4 +1,4 @@
-  <?php
+<?php
   defined('BASEPATH') OR exit('No direct script access allowed');
 
   class Business_Activity_Subtype_model extends CI_Model{
