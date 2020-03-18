@@ -60,3 +60,43 @@ deploy-database-staging:
     url: http://202.90.136.155
   only:
     - master
+
+deploy-application-production:
+  stage: manual
+  image: devth/helm:v3.0.2
+  script:
+    - echo "Deploying to ${CI_ENVIRONMENT_NAME}"
+    - helm upgrade
+      --install
+      --kubeconfig $KUBECONFIG
+      --set web.name="ris-${CI_COMMIT_REF_SLUG}"
+      --set web.container=$CONTAINER
+      --set env.name=${CI_ENVIRONMENT_NAME}
+      --set env.url=${CI_ENVIRONMENT_URL}
+      --set db.hostname=$DB_HOSTNAME
+      --set db.username=$DB_USERNAME
+      --set db.password=$DB_PASSWORD
+      --set db.database=$DB_DATABASE
+      cs
+      ./.chart/application
+  environment:
+    name: production
+    url: http://202.90.136.156
+  only:
+    - master
+
+deploy-database-production:
+  when: manual
+  stage: deploy
+  image: devth/helm:v3.0.2
+  script:
+    - echo "Deploying to ${CI_ENVIRONMENT_NAME}"
+    - helm install
+      --kubeconfig $KUBECONFIG
+      database
+      ./.chart/database
+  environment:
+    name: production
+    url: http://202.90.136.156
+  only:
+    - master
