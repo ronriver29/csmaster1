@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: mysql
   serviceName: mysql
-  replicas: 3
+  replicas: 2
   template:
     metadata:
       labels:
@@ -156,15 +156,18 @@ spec:
       - name: config-map
         configMap:
           name: mysql
-      nodeSelector:
-        type: database
+      #nodeSelector:
+      #  type: database
   volumeClaimTemplates:
   - metadata:
       name: data-volume
     spec:
+      selector:
+        matchLabels:
+          type: persistent
+          app: database
       accessModes:
       - ReadWriteOnce
-      storageClassName: local-storage
       resources:
         requests:
-          storage: 50Gi
+          storage: 100Gi

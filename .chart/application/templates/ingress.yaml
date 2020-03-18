@@ -4,18 +4,21 @@ metadata:
   name: {{ .Values.web.name }}-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/affinity: "cookie"
-    nginx.ingress.kubernetes.io/session-cookie-name: "route"
-    nginx.ingress.kubernetes.io/session-cookie-expires: "604800"
-    nginx.ingress.kubernetes.io/session-cookie-max-age: "604800"
+    kubernetes.io/tls-acme: "true"
+    #nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    #nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    #nginx.ingress.kubernetes.io/affinity: "cookie"
+    #nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    #nginx.ingress.kubernetes.io/session-cookie-expires: "604800"
+    #nginx.ingress.kubernetes.io/session-cookie-max-age: "604800"
 spec:
-  #tls:
-  #- hosts:
-  #  - ris.cda.gov.ph
-  #  secretName: selfsigned-cert-tls
+  tls:
+  - hosts:
+    - cs.s.cda.gov.ph
+    secretName: cda-tls
   rules:
-  - http:
+  - host: cs.s.cda.gov.ph
+    http:
       paths:
       - path: /
         backend:
