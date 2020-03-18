@@ -62,7 +62,8 @@ deploy-database-staging:
     - master
 
 deploy-application-production:
-  stage: manual
+  when: manual
+  stage: deploy
   image: devth/helm:v3.0.2
   script:
     - echo "Deploying to ${CI_ENVIRONMENT_NAME}"
