@@ -34,10 +34,10 @@ deploy-application-staging:
       --set web.container=$CONTAINER
       --set env.name=${CI_ENVIRONMENT_NAME}
       --set env.url=${CI_ENVIRONMENT_URL}
-      --set db.hostname=$DB_HOSTNAME_STAGING
-      --set db.username=$DB_USERNAME_STAGING
-      --set db.password=$DB_PASSWORD_STAGING
-      --set db.database=$DB_DATABASE_STAGING
+      --set db.hostname=$DB_HOSTNAME
+      --set db.username=$DB_USERNAME
+      --set db.password=$DB_PASSWORD
+      --set db.database=$DB_DATABASE
       cs
       ./.chart/application
   environment:
@@ -75,10 +75,10 @@ deploy-application-production:
       --set web.container=$CONTAINER
       --set env.name=${CI_ENVIRONMENT_NAME}
       --set env.url=${CI_ENVIRONMENT_URL}
-      --set db.hostname=$DB_HOSTNAME_PRODUCTION
-      --set db.username=$DB_USERNAME_PRODUCTION
-      --set db.password=$DB_PASSWORD_PRODUCTION
-      --set db.database=$DB_DATABASE_PRODUCTION
+      --set db.hostname=$DB_HOSTNAME
+      --set db.username=$DB_USERNAME
+      --set db.password=$DB_PASSWORD
+      --set db.database=$DB_DATABASE
       cs
       ./.chart/application
   environment:
