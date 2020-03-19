@@ -12,7 +12,7 @@ metadata:
     #nginx.ingress.kubernetes.io/session-cookie-expires: "604800"
     #nginx.ingress.kubernetes.io/session-cookie-max-age: "604800"
 spec:
-  {{ if not eq .Values.env.domain "none" }}
+  {{ if not (eq .Values.env.domain "none") }}
   tls:
   - hosts:
     - {{ .Values.env.domain }}
@@ -25,7 +25,7 @@ spec:
         backend:
           serviceName: {{ .Values.web.name }}-service
           servicePort: http
-    {{ if not eq .Values.env.domain "none" }}
+    {{ if not (eq .Values.env.domain "none") }}
     host: {{ .Values.env.domain }}
     {{ end }}
     #host: cs.cda.gov.ph #will have this when domain have been updated
