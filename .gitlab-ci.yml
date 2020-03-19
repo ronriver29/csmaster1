@@ -29,7 +29,7 @@ deploy-application-staging:
     - echo "Deploying to ${CI_ENVIRONMENT_NAME}"
     - helm upgrade
       --install
-      --kubeconfig $KUBECONFIG
+      --kubeconfig $KUBECONFIG_STAGING
       --set web.name="ris-${CI_COMMIT_REF_SLUG}"
       --set web.container=$CONTAINER
       --set env.name=${CI_ENVIRONMENT_NAME}
@@ -70,7 +70,7 @@ deploy-application-production:
     - echo "Deploying to production"
     - helm upgrade
       --install
-      --kubeconfig $KUBECONFIG
+      --kubeconfig $KUBECONFIG_PRODUCTION
       --set web.name="ris-${CI_COMMIT_REF_SLUG}"
       --set web.container=$CONTAINER
       --set env.name=${CI_ENVIRONMENT_NAME}
