@@ -34,6 +34,7 @@ deploy-application-staging:
       --set web.container=$CONTAINER
       --set env.name=${CI_ENVIRONMENT_NAME}
       --set env.url=${CI_ENVIRONMENT_URL}
+      --set env.domain=cs.s.cda.gov.ph
       --set db.hostname=$DB_HOSTNAME
       --set db.username=$DB_USERNAME
       --set db.password=$DB_PASSWORD
@@ -75,6 +76,7 @@ deploy-application-production:
       --set web.container=$CONTAINER
       --set env.name=${CI_ENVIRONMENT_NAME}
       --set env.url=${CI_ENVIRONMENT_URL}
+      --set env.domain=202.90.136.156
       --set db.hostname=$DB_HOSTNAME
       --set db.username=$DB_USERNAME
       --set db.password=$DB_PASSWORD

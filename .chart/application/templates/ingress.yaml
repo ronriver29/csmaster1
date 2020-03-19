@@ -14,10 +14,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - {{ .Values.env.url }}
+    - {{ .Values.env.domain }}
     secretName: cda-tls
   rules:
-  - host: {{ .Values.env.url }}
+  - host: {{ .Values.env.domain }}
     http:
       paths:
       - path: /
