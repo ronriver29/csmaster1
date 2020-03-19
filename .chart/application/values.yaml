@@ -10,7 +10,7 @@ db:
 env: 
   name: local
   url: localhost
-  domain: localhost
+  domain: none
 deploy:
   gitlab: 
     key: gitlab-key
