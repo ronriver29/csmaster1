@@ -14,10 +14,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - cs.s.cda.gov.ph
+    - {{ .Values.env.url }}
     secretName: cda-tls
   rules:
-  - host: cs.s.cda.gov.ph
+  - host: {{ .Values.env.url }}
     http:
       paths:
       - path: /
