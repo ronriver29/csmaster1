@@ -162,10 +162,6 @@ spec:
   - metadata:
       name: data-volume
     spec:
-      selector:
-        matchLabels:
-          type: persistent
-          app: database
       accessModes:
       - ReadWriteOnce
       resources:
