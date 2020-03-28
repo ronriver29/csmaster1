@@ -169,6 +169,7 @@ metadata:
   labels:
     app: mysql
 spec:
+  storageClassName: slow
   accessModes:
     - ReadWriteOnce
   resources:
