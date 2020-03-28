@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: mysql
   serviceName: mysql
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -156,8 +156,8 @@ spec:
       - name: config-map
         configMap:
           name: mysql
-      #nodeSelector:
-      #  type: database
+      nodeSelector:
+        type: database
   volumeClaimTemplates:
   - metadata:
       name: data-volume

@@ -103,6 +103,8 @@ spec:
           periodSeconds: 2
           successThreshold: 1
           failureThreshold: 3
+      nodeSelector:
+        type: application
       {{ if eq .Values.env.name "staging" }}
       imagePullSecrets:
        - name: {{ .Values.deploy.gitlab.key }}
