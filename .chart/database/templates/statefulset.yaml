@@ -164,7 +164,6 @@ spec:
     spec:
       accessModes:
       - ReadWriteOnce
-      storageClassName: slow
       resources:
         requests:
           storage: 100Gi
