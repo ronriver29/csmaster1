@@ -85,7 +85,7 @@ deploy-application-production:
       ./.chart/application
   environment:
     name: staging
-    url: http://cs.cda.gov.ph
+    url: https://cs.cda.gov.ph
   only:
     - master
 
