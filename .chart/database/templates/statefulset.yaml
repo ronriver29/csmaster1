@@ -156,22 +156,14 @@ spec:
       - name: config-map
         configMap:
           name: mysql
-      - name: data-volume
-        persistentVolumeClaim:
-          claimName: mysql-pvc
       nodeSelector:
         type: database
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysql-pvc
-  labels:
-    app: mysql
-spec:
-  storageClassName: slow
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Gi
+  volumeClaimTemplates:
+  - metadata:
+      name: data-volume
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 100Gi
