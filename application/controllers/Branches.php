@@ -284,6 +284,15 @@
           $data['client_info'] = $this->user_model->get_user_info($user_id);
           $data['header'] = 'Branches and Satellites';
           $data['list_branches'] = $this->branches_model->get_all_branches($this->session->userdata('user_id'));
+          $data['coopreg_info'] = $this->branches_model->getCoopRegNo($user_id);
+//              $data['regno'] = $data['coopreg_info']->regNo;
+          if(empty($data['coopreg_info'])){
+            $data['date2'] = date('m/d/Y');
+          } else {
+            $data['dateregistered'] = $data['coopreg_info']->dateRegistered;
+            $datelang = str_replace("-", "/", $data['dateregistered']);
+            $data['date2'] = $datelang;
+          }
           
           $this->load->view('template/header', $data);
           $this->load->view('applications/list_of_branches', $data);
@@ -337,11 +346,18 @@
               $data['client_info'] = $this->user_model->get_user_info($user_id);
               $data['header'] = 'Registration';
               $data['regions_list'] = $this->region_model->get_regions();             
-
+              $data['coopreg_info'] = $this->branches_model->getCoopRegNo($user_id);
+//              $data['regno'] = $data['coopreg_info']->regNo;
+              if(empty($data['coopreg_info'])){
+                  $data['regno'] = '';
+              } else {
+                  $data['regno'] = $data['coopreg_info']->regNo;
+              }
+              
               if ($this->form_validation->run() == FALSE){
                 $this->load->view('./template/header', $data);
                 $this->load->view('cooperative/registration_detail', $data);
-                $this->load->view('cooperative/terms_and_condition');
+//                $this->load->view('cooperative/terms_and_condition');
                 $this->load->view('./template/footer');
               }else{
 
@@ -467,7 +483,7 @@
               $data['document_8'] = $this->uploaded_document_model->get_document_8_info($decoded_id,$branch_info->application_id);
               $data['document_9'] = $this->uploaded_document_model->get_document_9_info($decoded_id,$branch_info->application_id);
               
-              $data['branches_comments'] = $this->branches_model->branches_comments($decoded_id);
+              $data['branches_comments'] = $this->branches_model->branches_comments_client($decoded_id);
               
               $data['submitted'] = $this->branches_model->check_submitted_for_evaluation($decoded_id);
 

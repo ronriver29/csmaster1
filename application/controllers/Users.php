@@ -27,7 +27,7 @@ class Users extends CI_Controller{
       $data['header']= 'huy';
       if ($this->form_validation->run() == FALSE){
         $this->load->view('./template/header', $data);
-        $this->load->view('client/login', $data); //clien login
+        $this->load->view('client/login', $data); //client login
         $this->load->view('./template/footer');
       }else{
         $data = array(

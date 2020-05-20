@@ -1005,10 +1005,24 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
         }
   }
   
-  public function branches_comments($coop_id){
+  public function branches_comments_main($coop_id,$user_id){
+    $this->db->select('*');
+    $this->db->from('branches_comment');
+    $this->db->where(array('branches_id'=>$coop_id,'user_level'=>3,'user_id'=>$user_id));
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function branches_comments_client($coop_id){
     $this->db->select('*');
     $this->db->from('branches_comment');
     $this->db->where(array('branches_id'=>$coop_id,'user_level'=>3));
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function branches_comments($coop_id,$user_id){
+    $this->db->select('*');
+    $this->db->from('branches_comment');
+    $this->db->where(array('branches_id'=>$coop_id,'user_level'=>3,'user_id'=>$user_id));
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -1019,11 +1033,20 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     $query = $this->db->get();
     return $query->result_array();
   }
-  public function branches_comments_snr($coop_id){
+  public function branches_comments_snr($coop_id,$user_id){
     $this->db->select('*');
     $this->db->from('branches_comment');
-    $this->db->where(array('branches_id'=>$coop_id,'user_level'=>2));
+    $this->db->where(array('branches_id'=>$coop_id,'user_level'=>2,'user_id'=>$user_id));
     $query = $this->db->get();
     return $query->result_array();
+  }
+  
+  public function getCoopRegNo($user_id){
+    $this->db->select('registeredcoop.regNo as regNo,registeredcoop.dateRegistered');
+    $this->db->from('registeredcoop');
+    $this->db->join('cooperatives','ON registeredcoop.application_id = cooperatives.id','inner');
+    $this->db->where(array('cooperatives.users_id'=> $user_id));
+    $query = $this->db->get();
+    return $query->row();
   }
 }

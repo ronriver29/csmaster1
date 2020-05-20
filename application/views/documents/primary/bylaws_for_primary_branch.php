@@ -17,8 +17,14 @@
   .table-cooperator, .table-cooperator th, .table-cooperator td {
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
+    @font-face {
+  font-family: 'BookmanOldStyleRegular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('<?php base_url()?>assets/BookmanOldStyleRegular.ttf') format('truetype');
+}
   }
-  body{font-family:Bookman Old Style !important;}
+  body{font-family: BookmanOldStyleRegular !important;}
   </style>
 </head>
 <body style="font-family: 12 Bookman Old Style;">
@@ -138,11 +144,11 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Pay the installment of his/her share capital subscription as it falls due and to participate in the capital build-up and savings mobilization activities of the Cooperative;</li>
-				<li>Patronize the Cooperative’s business(es) and services; </li>
-				<li>Participate in the membership education programs and other activities and affairs of the Cooperative;</li>
-				<li>Attend and participate in the deliberation of all matters taken during General Assembly meetings; </li>
-				<li>Observe and obey all lawful orders, decisions, rules and regulations adopted by the Board of Directors and the General Assembly;</li>
-			</ol>
+        <li>Patronize the Cooperative’s business(es) and services; </li>
+        <li>Participate in the membership education programs and other activities and affairs of the Cooperative;</li>
+        <li>Attend and participate in the deliberation of all matters taken during General Assembly meetings; </li>
+        <li>Observe and obey all lawful orders, decisions, rules and regulations adopted by the Board of Directors and the General Assembly;</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -161,7 +167,7 @@
             <li>Secure copies of Cooperative records/documents pertaining to the account information of the concerned member;</li>
             <li>Participate in the continuing education and other training programs of the Cooperative; and</li>
             <li>Such other rights and privileges as may be granted by the General Assembly.</li>
-      		</ol>
+          </ol>
         </li>
         <?php if($bylaw_info->kinds_of_members == 2) :?>
         <li>Associate Members
@@ -171,7 +177,7 @@
             <li>Inspect and examine the books of accounts, the audited financial statements, the minutes books, the share register, and other records of the Cooperative during reasonable office hours;</li>
             <li>Secure copies of Cooperative records/documents pertaining to the account information of the concerned member;</li>
             <li>Such other rights and privileges as may be granted by the General Assembly.</li>
-      		</ol>
+          </ol>
         </li>
       <?php endif; ?>
       </ul>
@@ -186,15 +192,15 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="1">
         <li>Paid the membership fee and the value of the minimum shares required for membership;</li>
-  			<li>Not delinquent in the payment of his/her share capital subscriptions and other accounts or obligations;</li>
-  			<li>Has completed the continuing education program prescribed by the Board of Directors; </li>
-  			<li>Has participated in the affairs of the Cooperative and patronized its businesses in accordance with cooperative’s policies and guidelines;</li>
+        <li>Not delinquent in the payment of his/her share capital subscriptions and other accounts or obligations;</li>
+        <li>Has completed the continuing education program prescribed by the Board of Directors; </li>
+        <li>Has participated in the affairs of the Cooperative and patronized its businesses in accordance with cooperative’s policies and guidelines;</li>
         <?php if(strlen($bylaw_info->additional_conditions_to_vote)>0) :?>
           <?php foreach ($members_additional_conditions_to_vote as $condition) : ?>
             <li><?= $condition ?></li>
           <?php endforeach; ?>
         <?php endif; ?>
-  		</ol>
+      </ol>
     </div>
   </div>
   <div class="row ">
@@ -207,9 +213,9 @@
     <div class="col-sm-12 col-md-12">
         <ol class="text-justify" type="a">
           <li>Participate and vote on all matters deliberated upon during General Assembly meetings;</li>
-  			  <li>Seek any elective or appointive position, subject to the provisions of this By-laws and the Philippine Cooperative Code of 2008; and</li>
-  			  <li>Such other rights and privileges as may be provided by the General Assembly.</li>
-  		  </ol>
+          <li>Seek any elective or appointive position, subject to the provisions of this By-laws and the Philippine Cooperative Code of 2008; and</li>
+          <li>Such other rights and privileges as may be provided by the General Assembly.</li>
+        </ol>
     </div>
   </div>
   <div class="row">
@@ -227,14 +233,14 @@
       <ol class="text-justify" type="a">
         <li><strong>Automatic Termination of Membership.</strong> The death or insanity of a member shall be considered an automatic termination of his/her membership in the Cooperative: Provided, however, that in case of death or insanity of a member of a Cooperative, the next-of-kin shall assume the duties and responsibilities of the original member. <br>Failure of the associate member to meet the minimum requirement of regular membership, to continue to patronize the products and services of the Cooperative for two (2) years, and signify his/her intention to become regular member shall automatically terminate his/her membership.
         </li>
-				<li><strong>Voluntary Termination.</strong> A member may, for any valid reason, withdraw his/her membership from the Cooperative by giving a sixty (60) day notice to the Board of Directors.</li>
-				<li><strong>Involuntary Termination.</strong> A member may be terminated by a vote of the majority of all the members of the Board of Directors for any of the following causes:
-						<ol class="text-justify" type="i">
-  						<li>Has not patronized the service(s)/business(es) of the Cooperative as provided for in the policies of the cooperative;</li>
-  						<li>Has continuously failed to comply with his/her obligations as provided for in the policies of the Cooperative;</li>
-  						<li>Has violated any provision of this By-laws and the policies of the Cooperative; and</li>
-  						<li>For any act or omission injurious or prejudicial to the interest or the welfare of the Cooperative, as defined by the General Assembly.</li>
-						</ol>
+        <li><strong>Voluntary Termination.</strong> A member may, for any valid reason, withdraw his/her membership from the Cooperative by giving a sixty (60) day notice to the Board of Directors.</li>
+        <li><strong>Involuntary Termination.</strong> A member may be terminated by a vote of the majority of all the members of the Board of Directors for any of the following causes:
+            <ol class="text-justify" type="i">
+              <li>Has not patronized the service(s)/business(es) of the Cooperative as provided for in the policies of the cooperative;</li>
+              <li>Has continuously failed to comply with his/her obligations as provided for in the policies of the Cooperative;</li>
+              <li>Has violated any provision of this By-laws and the policies of the Cooperative; and</li>
+              <li>For any act or omission injurious or prejudicial to the interest or the welfare of the Cooperative, as defined by the General Assembly.</li>
+            </ol>
         </li>
       </ol>
     </div>
@@ -268,10 +274,10 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-				<li>To determine and approve amendments to the cooperative Articles of Cooperation and By-laws; </li>
-				<li>To elect or appoint the members of the board of directors, and to remove them for cause; </li>
-				<li>To approve developmental plans of the Cooperative;</li>
-			</ol>
+            <li>To determine and approve amendments to the cooperative Articles of Cooperation and By-laws; </li>
+            <li>To elect or appoint the members of the board of directors, and to remove them for cause; </li>
+            <li>To approve developmental plans of the Cooperative;</li>
+    </ol>
     </div>
   </div>
   <div class="row">
@@ -309,8 +315,8 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
           <li><strong>Regular General Assembly Meeting.</strong> Notice of the annual Regular General Assembly meeting shall be served by the Secretary, personally or his/her duly authorized representative, by registered mail, or by electronic means to all members of record at his/her last known postal address, or by posting or publication, or through other electronic means, at least one (1) week before the said meeting. It shall be accompanied with an agenda, minutes of meeting of the last General Assembly meeting, consolidated reports of the Board of Directors and Committees, audited financial statements, and other papers which may assist the members to intelligently participate in the proceedings.</li>
-					<li><strong>Special General Assembly Meeting.</strong> Notice of any Special General Assembly meeting shall be served by the Secretary personally or his/her duly authorized representative, by registered mail, or by electronic means upon each members who are entitled to vote at his/her last known postal address, or by posting or publication, or through other electronic means, at least one (1) week before the said meeting. It shall state the purpose and, except for related issues, no other business shall be considered during the meeting.</li>
-					<li><strong>Waiver of Notice.</strong> Notice of any meeting may be waived, expressly or impliedly, by the member concerned. </li>
+          <li><strong>Special General Assembly Meeting.</strong> Notice of any Special General Assembly meeting shall be served by the Secretary personally or his/her duly authorized representative, by registered mail, or by electronic means upon each members who are entitled to vote at his/her last known postal address, or by posting or publication, or through other electronic means, at least one (1) week before the said meeting. It shall state the purpose and, except for related issues, no other business shall be considered during the meeting.</li>
+          <li><strong>Waiver of Notice.</strong> Notice of any meeting may be waived, expressly or impliedly, by the member concerned. </li>
       </ol>
     </div>
   </div>
@@ -370,16 +376,16 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-    		<li>Provide over-all policy direction; </li>
-    		<li>Formulate development plan; </li>
-    		<li>Review the annual plan and budget and recommend for the approval of the General/Representative Assembly; </li>
-    		<li>Evaluate the capability and qualification and recommend for the approval of the General/Representative Assembly the engagements of the services of an External Auditor;</li>
-    		<li>Appoint and terminate, based on just cause, the General Manager or Chief Executive Officer (CEO);; </li>
-    		<li>Review, monitor and evaluate the effectiveness of the programs, projects and activities;</li>
-    		<li>Formulate and review the vision, mission and goals of the Cooperative;</li>
-    		<li>Establish risk management system;</li>
-    		<li>Establish performance evaluation system at all levels;</li>
-    		<li>Review and approve the organizational and operational structures;</li>
+        <li>Provide over-all policy direction; </li>
+        <li>Formulate development plan; </li>
+        <li>Review the annual plan and budget and recommend for the approval of the General/Representative Assembly; </li>
+        <li>Evaluate the capability and qualification and recommend for the approval of the General/Representative Assembly the engagements of the services of an External Auditor;</li>
+        <li>Appoint and terminate, based on just cause, the General Manager or Chief Executive Officer (CEO);; </li>
+        <li>Review, monitor and evaluate the effectiveness of the programs, projects and activities;</li>
+        <li>Formulate and review the vision, mission and goals of the Cooperative;</li>
+        <li>Establish risk management system;</li>
+        <li>Establish performance evaluation system at all levels;</li>
+        <li>Review and approve the organizational and operational structures;</li>
         <li>Establish policies and procedures for the effective operation and ensure proper implementation of such;</li>
         <li>Appoint the members of the Mediation and Conciliation Committee, Ethics Committee, Education and Training Committee and other Officers as specified in the Code and By-laws of the Cooperative;</li>
         <li>Decide election-related cases involving the Election Committee and its members;</li>
@@ -401,12 +407,12 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Has paid the minimum capital requirement; </li>
-    		<li>Has no delinquent account with the Cooperative; </li>
-    		<li>Have continuously patronized the Cooperative’s services;</li>
-    		<li>A member in good standing for the last two (2) years;</li>
-    		<li>Completed or willingness to complete within the prescribed period the required education and training whichever is applicable; and </li>
-    		<li>Other qualifications prescribed in the rules and regulations of the Authority. </li>
-    	</ol>
+        <li>Has no delinquent account with the Cooperative; </li>
+        <li>Have continuously patronized the Cooperative’s services;</li>
+        <li>A member in good standing for the last two (2) years;</li>
+        <li>Completed or willingness to complete within the prescribed period the required education and training whichever is applicable; and </li>
+        <li>Other qualifications prescribed in the rules and regulations of the Authority. </li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -418,13 +424,13 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Holding any elective position in the government, except that of a party list representative being an officer of a Cooperative he/she represents; </li>
-    		<li>Members holding any other position directly involved in the day-to-day operation and management of the Cooperative;</li>
-    		<li>Having direct or indirect personal interest with the business of the Cooperative; </li>
-      		<li>Having been absent for <?= num_format_custom($bylaw_info->number_of_absences_disqualification) ?>(<?= $bylaw_info->number_of_absences_disqualification ?>) consecutive meetings or in more than <?=num_format_custom($bylaw_info->percent_of_absences_all_meettings) ?> percent (<?= $bylaw_info->percent_of_absences_all_meettings.'%'?>) of all meetings within the twelve (12) month period unless with valid excuse as approved by the Board of Directors;</li>
-    		<li>Being an official or employee of the Cooperative Development Authority, except in a Cooperative organized among themselves; </li>
-    		<li>Having been convicted by final judgement in administrative proceedings or civil/criminal suits involving financial and/or property accountability; and</li>
+        <li>Members holding any other position directly involved in the day-to-day operation and management of the Cooperative;</li>
+        <li>Having direct or indirect personal interest with the business of the Cooperative; </li>
+          <li>Having been absent for <?= num_format_custom($bylaw_info->number_of_absences_disqualification) ?>(<?= $bylaw_info->number_of_absences_disqualification ?>) consecutive meetings or in more than <?=num_format_custom($bylaw_info->percent_of_absences_all_meettings) ?> percent (<?= $bylaw_info->percent_of_absences_all_meettings.'%'?>) of all meetings within the twelve (12) month period unless with valid excuse as approved by the Board of Directors;</li>
+        <li>Being an official or employee of the Cooperative Development Authority, except in a Cooperative organized among themselves; </li>
+        <li>Having been convicted by final judgement in administrative proceedings or civil/criminal suits involving financial and/or property accountability; and</li>
         <li>Having been disqualified by law.</li>
-    	</ol>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -489,16 +495,16 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-    		<li>Audit the performance of the Cooperative and its various responsibility centers; </li>
+        <li>Audit the performance of the Cooperative and its various responsibility centers; </li>
         <li>Monitor the adequacy and effectiveness of the Cooperative’s management and control system; </li>
-    		<li>Review continuously and periodically the books of account, financial records, and policies governing internal control, accounting and risk management to ensure that these are in accordance with the Cooperative principles and generally accepted accounting procedures;</li>
+        <li>Review continuously and periodically the books of account, financial records, and policies governing internal control, accounting and risk management to ensure that these are in accordance with the Cooperative principles and generally accepted accounting procedures;</li>
         <li>Review the internal audit report of the Cooperative;</li>
         <li>Follow up actions on the internal and external audit recommendations;</li>
         <li>Discuss the result of the internal audit with the Board of Directors;</li>
         <li>Submit reports on the result of the internal audit and recommend necessary changes on policies and other related matters on operation to the General/Representative Assembly; </li>
-    		<li>Review, approve or amend the report and recommendation of the Ethics Committee involving violations of the Code of Governance and Ethical Standards if the remaining members of the Board of Directors fail to act on said report and recommendation within a period of thirty (30) days, or the violation is committed by the majority of the Board of Directors; and</li>
-    		<li>Perform such other functions as may be prescribed in the By-laws or authorized by the General/Representative Assembly.</li>
-    	</ol>
+        <li>Review, approve or amend the report and recommendation of the Ethics Committee involving violations of the Code of Governance and Ethical Standards if the remaining members of the Board of Directors fail to act on said report and recommendation within a period of thirty (30) days, or the violation is committed by the majority of the Board of Directors; and</li>
+        <li>Perform such other functions as may be prescribed in the By-laws or authorized by the General/Representative Assembly.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -515,14 +521,14 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Formulate election rules and guidelines and recommend to the General/Representative Assembly for approval; </li>
-    		<li>Recommend necessary amendments to the election rules and guidelines, in coordination with the Board of Directors, for the General/Representatives Assembly's approval;</li>
-    		<li>Implement election rules and guidelines duly approved by the General/Representative Assembly;</li>
-    		<li>Supervise the conduct, manner and procedure of election and other election related activities and act on the changes thereto</li>
-    		<li>Canvass and certify the results of the election;</li>
-    		<li>Proclaim the winning candidates;</li>
-    		<li>Decide election and other election-related cases except those involving the Election Committee or its members; and </li>
-    		<li>Perform such other functions as prescribed in the By-laws or authorized by the General/Representative Assembly.</li>
-    	</ol>
+        <li>Recommend necessary amendments to the election rules and guidelines, in coordination with the Board of Directors, for the General/Representatives Assembly's approval;</li>
+        <li>Implement election rules and guidelines duly approved by the General/Representative Assembly;</li>
+        <li>Supervise the conduct, manner and procedure of election and other election related activities and act on the changes thereto</li>
+        <li>Canvass and certify the results of the election;</li>
+        <li>Proclaim the winning candidates;</li>
+        <li>Decide election and other election-related cases except those involving the Election Committee or its members; and </li>
+        <li>Perform such other functions as prescribed in the By-laws or authorized by the General/Representative Assembly.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -540,10 +546,10 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Keep members, officers, staff well-informed regarding Cooperative’s goals/objectives, policies & procedures, services, etc.;</li>
-    		<li>Plan and implement educational program for coop members, officers and staff;</li>
-    		<li>Develop promotional and training materials for the Cooperative; and</li>
-    		<li>Conduct/Coordinate training activities.</li>
-    	</ol>
+        <li>Plan and implement educational program for coop members, officers and staff;</li>
+        <li>Develop promotional and training materials for the Cooperative; and</li>
+        <li>Conduct/Coordinate training activities.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -561,15 +567,15 @@
       <ol class="text-justify" type="a">
         <li>Conduct mediation-conciliation proceedings and services;</li>
         <li>Formulate, develop and improve the Conciliation-Mediation policies, guidelines and program and ensure its proper implementation;</li>
-    		<li>Monitor Conciliation-Mediation program and processes; </li>
-    		<li>Submit semi-annual reports of cooperative cases to the Authority within fifteen (15) days after the end of every semester;</li>
-    		<li>Accept and file Evaluation Reports; </li>
-    		<li>Submit recommendations for improvements to the BOD; </li>
-    		<li>Recommend to the BOD any member of the Cooperative for Conciliation-Mediation Training as Cooperative Mediator-Conciliator; </li>
-    		<li>Issue the Certificate of Non-Settlement (CNS);</li>
-    		<li>Act as conciliator-mediator during their term, provided the persons who will mediate are mutually selected by both parties; and</li>
-    		<li>Perform such other functions as may be prescribed in the By-laws or authorized by the Board of Directors. </li>
-    	</ol>
+        <li>Monitor Conciliation-Mediation program and processes; </li>
+        <li>Submit semi-annual reports of cooperative cases to the Authority within fifteen (15) days after the end of every semester;</li>
+        <li>Accept and file Evaluation Reports; </li>
+        <li>Submit recommendations for improvements to the BOD; </li>
+        <li>Recommend to the BOD any member of the Cooperative for Conciliation-Mediation Training as Cooperative Mediator-Conciliator; </li>
+        <li>Issue the Certificate of Non-Settlement (CNS);</li>
+        <li>Act as conciliator-mediator during their term, provided the persons who will mediate are mutually selected by both parties; and</li>
+        <li>Perform such other functions as may be prescribed in the By-laws or authorized by the Board of Directors. </li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -586,10 +592,10 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Formulate, develop, implement and monitor the Code of Governance and Ethical Standards (CGES) to be observed by the members, officers and employees of the cooperative subject to the approval of the Board of Directors and ratification by the General/Representative Assembly;</li>
-    		<li>Conduct initial investigation or inquiry, upon receipt of a complaint involving violations of the Code of Governance and Ethical Standards; </li>
-    		<li>Submit report on its recommendation together with the appropriate sanctions, to the Board of Directors for its proper action, or to the remaining members of the Board of Directors, if the violation is committed by any member of the Board of Directors. Provided, that if the remaining members of the Board of Directors fail to act on the report within a period of thirty (30) days, or the violation is committed by the majority of the Board of Directors, the Audit committee shall act on the same; and</li>
-    		<li>Perform such other functions as may be prescribed in the By-laws or authorized by the Board of Directors.</li>
-    	</ol>
+        <li>Conduct initial investigation or inquiry, upon receipt of a complaint involving violations of the Code of Governance and Ethical Standards; </li>
+        <li>Submit report on its recommendation together with the appropriate sanctions, to the Board of Directors for its proper action, or to the remaining members of the Board of Directors, if the violation is committed by any member of the Board of Directors. Provided, that if the remaining members of the Board of Directors fail to act on the report within a period of thirty (30) days, or the violation is committed by the majority of the Board of Directors, the Audit committee shall act on the same; and</li>
+        <li>Perform such other functions as may be prescribed in the By-laws or authorized by the Board of Directors.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -606,10 +612,10 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Assist the Board of Directors in the formulation of sound lending and collection policies, systems and procedure. </li>
-    		<li>Responsible for the credit management of the Cooperative. </li>
-    		<li>In the performance of its functions, it shall process, evaluate and act upon loan application and withdrawal of deposits, except when the applicant is a member of the committee, in which case, the application shall be acted upon by the Board of Directors; and exercise general supervision including collection over all loans to members</li>
-    		<li>Responsible for the formulation and conduct of financial and credit risk management training program.</li>
-    	</ol>
+        <li>Responsible for the credit management of the Cooperative. </li>
+        <li>In the performance of its functions, it shall process, evaluate and act upon loan application and withdrawal of deposits, except when the applicant is a member of the committee, in which case, the application shall be acted upon by the Board of Directors; and exercise general supervision including collection over all loans to members</li>
+        <li>Responsible for the formulation and conduct of financial and credit risk management training program.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -626,11 +632,11 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Conduct gender analysis;</li>
-    		<li>Develop and recommend Gender and Development ( GAD )and Gender Equality (GE )policies and programs/activities/projects to the Board;</li>
-    		<li>Monitor and assess progress in the implementation of Gender and Development (GAD) programs/activities/projects towards achieving Gender Equality (GE );</li>
-    		<li>Submit report to the Board; and</li>
+        <li>Develop and recommend Gender and Development ( GAD )and Gender Equality (GE )policies and programs/activities/projects to the Board;</li>
+        <li>Monitor and assess progress in the implementation of Gender and Development (GAD) programs/activities/projects towards achieving Gender Equality (GE );</li>
+        <li>Submit report to the Board; and</li>
         <li>Provide directional guidance.</li>
-    	</ol>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -687,57 +693,57 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li><i class="font-weight-bold">Chairperson</i> – The Chairperson shall:
-      		<ol type="i">
-      			<li>Set and prepare the agenda for board meetings in coordination with the other members of the Board of Directors; </li>
-      			<li>Preside all meetings of the Board of Directors and General/Representative Assembly;</li>
-      			<li>Sign contracts, agreements, certificates and other documents on behalf of the Cooperative as authorized by the Board of Directors or by the General/Representative Assembly as prescribed in their By-laws; and</li>
-      			<li>Perform such other functions as may be authorized by the Board of Directors.</li>
-      		</ol>
+          <ol type="i">
+            <li>Set and prepare the agenda for board meetings in coordination with the other members of the Board of Directors; </li>
+            <li>Preside all meetings of the Board of Directors and General/Representative Assembly;</li>
+            <li>Sign contracts, agreements, certificates and other documents on behalf of the Cooperative as authorized by the Board of Directors or by the General/Representative Assembly as prescribed in their By-laws; and</li>
+            <li>Perform such other functions as may be authorized by the Board of Directors.</li>
+          </ol>
         </li>
-      	<li><i class="font-weight-bold">Vice-Chairperson </i>–the Vice-Chairperson shall:
-      		<ol type="i">
-      			<li>Perform all the duties and responsibilities of the Chairperson in the absence of the latter; </li>
-      			<li>Perform such other duties as may be delegated by the board of directors. </li>
-      		</ol>
+        <li><i class="font-weight-bold">Vice-Chairperson </i>–the Vice-Chairperson shall:
+          <ol type="i">
+            <li>Perform all the duties and responsibilities of the Chairperson in the absence of the latter; </li>
+            <li>Perform such other duties as may be delegated by the board of directors. </li>
+          </ol>
         </li>
 
-      	<li><i class="font-weight-bold">Treasurer</i> – The Treasurer shall:
-      		<ol type="i">
-      			<li>Ensure that all cash collections are deposited in accordance with the policies set by the Board of Directors;</li>
-      			<li>Have custody of funds, securities, and documentations relating to assets, liabilities, income and expenditures; </li>
-      			<li>Monitor and review the financial management operations of the Cooperative, subject to such limitations and control as may be prescribed by the Board of Directors;</li>
-      			<li>Ensure the maintenance of full and complete records of cash transactions;</li>
-      			<li>Ensure maintenance of a Petty Cash Fund;</li>
-      			<li>Maintain a Daily Cash Position Report; and </li>
+        <li><i class="font-weight-bold">Treasurer</i> – The Treasurer shall:
+          <ol type="i">
+            <li>Ensure that all cash collections are deposited in accordance with the policies set by the Board of Directors;</li>
+            <li>Have custody of funds, securities, and documentations relating to assets, liabilities, income and expenditures; </li>
+            <li>Monitor and review the financial management operations of the Cooperative, subject to such limitations and control as may be prescribed by the Board of Directors;</li>
+            <li>Ensure the maintenance of full and complete records of cash transactions;</li>
+            <li>Ensure maintenance of a Petty Cash Fund;</li>
+            <li>Maintain a Daily Cash Position Report; and </li>
             <li> Perform such other functions as may be prescribed in the By-laws or authorized by the Board of Directors.</li>
-      		</ol>
+          </ol>
         </li>
-      	<li><i class="font-weight-bold">Secretary</i> – The Secretary shall:
-      		<ol type="i">
-      			<li> Keep an updated and complete registry of all members</li>
-      			<li> Record, prepare and maintain records of all minutes of meetings of the Board of Directors and the General/Representative Assembly; </li>
-      			<li> Ensure that the necessary actions and decisions of the Board of Directors are transmitted to the management for compliance and implementation;</li>
-      			<li> Issue and certify the list of members who are entitled to vote as determined by the Board of Directors;</li>
-      			<li> Prepare and issue Share Certificates and maintain the share and transfer book; </li>
-      			<li> Serve notice of all meetings called and certify the presence of quorum in the conduct of all meetings of the Board of Directors and the General/Representative Assembly;</li>
-      			<li> Keep copies of the Treasurer's reports and other reports; </li
-      			<li> Serve as custodian of the Cooperative seal; and</li>
-      			<li> Perform such other functions as may be prescribed be delegated by the board of directors.and/or by the GA. </li>
-      		</ol>
+        <li><i class="font-weight-bold">Secretary</i> – The Secretary shall:
+          <ol type="i">
+            <li> Keep an updated and complete registry of all members</li>
+            <li> Record, prepare and maintain records of all minutes of meetings of the Board of Directors and the General/Representative Assembly; </li>
+            <li> Ensure that the necessary actions and decisions of the Board of Directors are transmitted to the management for compliance and implementation;</li>
+            <li> Issue and certify the list of members who are entitled to vote as determined by the Board of Directors;</li>
+            <li> Prepare and issue Share Certificates and maintain the share and transfer book; </li>
+            <li> Serve notice of all meetings called and certify the presence of quorum in the conduct of all meetings of the Board of Directors and the General/Representative Assembly;</li>
+            <li> Keep copies of the Treasurer's reports and other reports; </li
+            <li> Serve as custodian of the Cooperative seal; and</li>
+            <li> Perform such other functions as may be prescribed be delegated by the board of directors.and/or by the GA. </li>
+          </ol>
         </li>
-      	 <li><i class="font-weight-bold">General Manager</i>. The General Manager shall:
-      		<ol type="i">
-      			<li>Oversee the overall day to day business operations of the Cooperative by providing direction, supervision, management and administrative control over all the operating departments subject to such limitations as may be set forth by the Board of Directors or the General/Representative Assembly;</li>
-      			<li>Assist the Board of Directors in the formulation of the Cooperative's Development Plan including Annual Plan and Budget, Programs and Projects, for approval of the General/Representative Assembly; </li>
-      			<li>Provide systems and procedures in the implementation of policies; </li>
-      			<li>Implement the duly approved plans and programs of the Cooperative and any other directive or instruction of the Board of Directors;</li>
-      			<li>Provide and submit to the Board of Directors monthly reports on the status of the Cooperative's operation vis-a-vis its targets and recommend appropriate policy or operational changes, if necessary;</li>
-      			<li>Represent the Cooperative in any agreement, contract, business dealing, and in any other official business transaction as may be authorized by the Board of Directors;</li>
-      			<li>Ensure compliance with all administrative and other requirements of regulatory bodies; and</li>
-      			<li>Perform such other functions as may be prescribed in the By-laws delegated by the Board of Directors or authorized by the General/Representative Assembly</li>
-      		</ol>
+         <li><i class="font-weight-bold">General Manager</i>. The General Manager shall:
+          <ol type="i">
+            <li>Oversee the overall day to day business operations of the Cooperative by providing direction, supervision, management and administrative control over all the operating departments subject to such limitations as may be set forth by the Board of Directors or the General/Representative Assembly;</li>
+            <li>Assist the Board of Directors in the formulation of the Cooperative's Development Plan including Annual Plan and Budget, Programs and Projects, for approval of the General/Representative Assembly; </li>
+            <li>Provide systems and procedures in the implementation of policies; </li>
+            <li>Implement the duly approved plans and programs of the Cooperative and any other directive or instruction of the Board of Directors;</li>
+            <li>Provide and submit to the Board of Directors monthly reports on the status of the Cooperative's operation vis-a-vis its targets and recommend appropriate policy or operational changes, if necessary;</li>
+            <li>Represent the Cooperative in any agreement, contract, business dealing, and in any other official business transaction as may be authorized by the Board of Directors;</li>
+            <li>Ensure compliance with all administrative and other requirements of regulatory bodies; and</li>
+            <li>Perform such other functions as may be prescribed in the By-laws delegated by the Board of Directors or authorized by the General/Representative Assembly</li>
+          </ol>
         </li>
-    	</ol>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -760,13 +766,13 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li> Must be familiar with the operation of the Cooperative; </li>
-    		<li>Must have at least two (2) years experience in the operations of or related activities; </li>
-    		<li>Must not be engaged directly or indirectly in any activity similar to the operation of the Cooperative; </li>
-    		<li>Must be of good moral character; </li>
-    		<li>Must not have been convicted of any administrative, civil or criminal cases involving moral turpitude, gross negligence or grave misconduct in the performance of his/her duties; </li>
-    		<li>Must not have been convicted of any  administrative, civil or criminal case involving financial and/or property accountabilities at the time of his/her appointment; and</li>
-    		<li>Must undergo pre-service and/or in-service trainings. </li>
-    	</ol>
+        <li>Must have at least two (2) years experience in the operations of or related activities; </li>
+        <li>Must not be engaged directly or indirectly in any activity similar to the operation of the Cooperative; </li>
+        <li>Must be of good moral character; </li>
+        <li>Must not have been convicted of any administrative, civil or criminal cases involving moral turpitude, gross negligence or grave misconduct in the performance of his/her duties; </li>
+        <li>Must not have been convicted of any  administrative, civil or criminal case involving financial and/or property accountabilities at the time of his/her appointment; and</li>
+        <li>Must undergo pre-service and/or in-service trainings. </li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -778,11 +784,11 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li> Handle monetary transactions; </li>
-  			<li> Receive/collect payments and deposits; </li>
-  			<li> Be responsible for money received and expended;</li>
-  			<li> Prepare reports on money matters; and </li>
-  			<li> Perform such other duties as the Board of Directors may require. </li>
-  		</ol>
+        <li> Receive/collect payments and deposits; </li>
+        <li> Be responsible for money received and expended;</li>
+        <li> Prepare reports on money matters; and </li>
+        <li> Perform such other duties as the Board of Directors may require. </li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -794,11 +800,11 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Install an adequate and effective accounting system within the Cooperative; </li>
-  			<li>Render reports on the financial condition and operations of the Cooperative monthly, annually or as may be required by the Board of Directors and/or the General Assembly;</li>
-  			<li>Provide assistance to the Board of Directors in the preparation of annual budget;</li>
-  			<li>Keep, maintain and preserve all books of accounts, documents, vouchers, contracts and other records concerning the business of the Cooperative and make them available for auditing purposes to the Chairperson of the Audit Committee; and</li>
-  			<li>Perform such other duties as the Board of Directors may require. </li>
-  		</ol>
+        <li>Render reports on the financial condition and operations of the Cooperative monthly, annually or as may be required by the Board of Directors and/or the General Assembly;</li>
+        <li>Provide assistance to the Board of Directors in the preparation of annual budget;</li>
+        <li>Keep, maintain and preserve all books of accounts, documents, vouchers, contracts and other records concerning the business of the Cooperative and make them available for auditing purposes to the Chairperson of the Audit Committee; and</li>
+        <li>Perform such other duties as the Board of Directors may require. </li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -810,10 +816,10 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Records and update books of accounts; </li>
-  			<li>Provide assistance in the preparation of reports on the financial condition and operations of the Cooperative monthly, annually or as may be required by the Board of Directors and/or the General Assembly;</li>
-  			<li>Keep, maintain and preserve all books of accounts, documents, vouchers, contracts and other records concerning the business of the Cooperative and make them available for auditing purposes to the Chairperson of the Audit Committee; and</li>
-  			<li>Perform such other duties as the Board of Directors may require.</li>
-  		</ol>
+        <li>Provide assistance in the preparation of reports on the financial condition and operations of the Cooperative monthly, annually or as may be required by the Board of Directors and/or the General Assembly;</li>
+        <li>Keep, maintain and preserve all books of accounts, documents, vouchers, contracts and other records concerning the business of the Cooperative and make them available for auditing purposes to the Chairperson of the Audit Committee; and</li>
+        <li>Perform such other duties as the Board of Directors may require.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -825,13 +831,13 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Bachelors degree in accountancy must be required for Accountant however Cashier and Bookkeeper must be knowledgeable in handling monetary transactions, accounting and bookkeeping; </li>
-  			<li> Must have at least two (2) years experience in Cooperative operation or related business; </li>
-  			<li> Must not be engaged directly or indirectly in any activity similar to the business of the Cooperative; </li>
-  			<li>Must not be convicted of any administrative, civil or criminal case involving moral turpitude, gross negligence or grave misconduct in the performance of his/her duties; </li>
-  			<li> Must be of good moral character;</li>
-  			<li>Must be willing to undergo pre-service and/or in-service trainings in accounting; and </li>
-  			<li>Must not have been convicted of any administrative, civil or criminal case involving financial and/or property accountabilities at the time of his/her appointment. </li>
-  		</ol>
+        <li> Must have at least two (2) years experience in Cooperative operation or related business; </li>
+        <li> Must not be engaged directly or indirectly in any activity similar to the business of the Cooperative; </li>
+        <li>Must not be convicted of any administrative, civil or criminal case involving moral turpitude, gross negligence or grave misconduct in the performance of his/her duties; </li>
+        <li> Must be of good moral character;</li>
+        <li>Must be willing to undergo pre-service and/or in-service trainings in accounting; and </li>
+        <li>Must not have been convicted of any administrative, civil or criminal case involving financial and/or property accountabilities at the time of his/her appointment. </li>
+      </ol>
     </div>
   </div>
   <div class="row mb-4">
@@ -853,12 +859,12 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Members’ share capital contribution; </li>
-    		<li>Loans and borrowings including deposits;</li>
-    		<li>Revolving capital build-up which consist of the deferred payment of patronage refund or interest on share capital;</li>
-    		<li>Subsidies, grants, legacies, aids, donation, awards and winnings and such other assistance from any local or foreign institution, public or private; </li>
-    		<li>Retentions from the proceeds of services acquired /goods procured by members; and</li>
+        <li>Loans and borrowings including deposits;</li>
+        <li>Revolving capital build-up which consist of the deferred payment of patronage refund or interest on share capital;</li>
+        <li>Subsidies, grants, legacies, aids, donation, awards and winnings and such other assistance from any local or foreign institution, public or private; </li>
+        <li>Retentions from the proceeds of services acquired /goods procured by members; and</li>
         <li>Other sources of funds as may be authorized by law.</li>
-    	</ol>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -870,9 +876,9 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>At least <?=ucwords(num_format_custom($bylaw_info->member_invest_per_month))?> Pesos (P<?=$bylaw_info->member_invest_per_month?>)per month; </li>
-    		<li>At least <?=ucwords(num_format_custom($bylaw_info->member_percentage_annual_interest))?> percent (<?=$bylaw_info->member_percentage_annual_interest?>%) of his/her annual interest on capital and patronage refund; and </li>
-    		<li>At least <?=ucwords(num_format_custom($bylaw_info->member_percentage_service))?> percent (<?=$bylaw_info->member_percentage_service?>%) of each good procured /service acquired from the cooperative. </li>
-  		</ol>
+        <li>At least <?=ucwords(num_format_custom($bylaw_info->member_percentage_annual_interest))?> percent (<?=$bylaw_info->member_percentage_annual_interest?>%) of his/her annual interest on capital and patronage refund; and </li>
+        <li>At least <?=ucwords(num_format_custom($bylaw_info->member_percentage_service))?> percent (<?=$bylaw_info->member_percentage_service?>%) of each good procured /service acquired from the cooperative. </li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -906,9 +912,9 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>He/she has held such share capital contribution or interest for not less than one (1) year; </li>
-    		<li>The assignment is made to the cooperative or to a person who falls within the field of membership of the Cooperative; and</li>
-    		<li>The Board of Directors has approved such assignment.</li>
-    	</ol>
+        <li>The assignment is made to the cooperative or to a person who falls within the field of membership of the Cooperative; and</li>
+        <li>The Board of Directors has approved such assignment.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -924,7 +930,7 @@
             <li>The serial number of the certificate; and the number of shares it represents;</li>
             <li>The lost or destroyed certificate has never been transferred, sold or endorsed to any third party, provided, that should the same be found, the owner shall surrender it to the Cooperative; and</li>
             <li>That any false representation or statement made in the aforesaid affidavit shall be a ground for expulsion from the Cooperative</li>
-    	</ol>
+      </ol>
     </div>
   </div>
   <div class="row mb-2">
@@ -941,26 +947,26 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li> <i class="font-weight-bold">Reserve Fund.</i> <?= ucwords(num_format_custom($bylaw_info->percent_reserve_fund))?> percent (<?=$bylaw_info->percent_reserve_fund?>%) shall be set aside for Reserve Fund. Provided, that in the first five (5) years of operation after registration, this amount shall not be less than fifty percent (50%) of the net surplus. The reserve fund shall be subjected to the following rules:
-    			<ol type="i">
+          <ol type="i">
             <li>The reserve fund shall be used for the stability of the Cooperative and to meet net losses in its operations. The General Assembly may decrease the amount allocated to the reserve fund when it has already exceeded the authorized share capital. Any sum recovered on items previously charged to the reserve fund shall be credited to such fund.</li>
-  					<li>The reserve fund shall not be utilized for investment, other than those allowed in the Cooperative Code. Such sum of the reserve fund in excess of the authorized share capital may be used at any time for any project that would expand the operations of the Cooperative upon the resolution of the General Assembly. </li>
-  					<li>Upon the dissolution of the Cooperative, the reserve fund shall not be distributed among the members. However, the General Assembly may resolve:
+            <li>The reserve fund shall not be utilized for investment, other than those allowed in the Cooperative Code. Such sum of the reserve fund in excess of the authorized share capital may be used at any time for any project that would expand the operations of the Cooperative upon the resolution of the General Assembly. </li>
+            <li>Upon the dissolution of the Cooperative, the reserve fund shall not be distributed among the members. However, the General Assembly may resolve:
               <ol type="a">
-  							<li>To establish a usufructuary trust fund for the benefit of any federation or union to which the Cooperative is affiliated; or</li>
-  							<li>To donate, contribute or otherwise dispose of the amount for the benefit of the community where the Cooperative operates. If the member could not decide on the disposition of the reserve fund, the same shall be given to the federation or union to which the Cooperative is affiliated</li>
-  						</ol>
+                <li>To establish a usufructuary trust fund for the benefit of any federation or union to which the Cooperative is affiliated; or</li>
+                <li>To donate, contribute or otherwise dispose of the amount for the benefit of the community where the Cooperative operates. If the member could not decide on the disposition of the reserve fund, the same shall be given to the federation or union to which the Cooperative is affiliated</li>
+              </ol>
             </li>
-    			</ol>
+          </ol>
         </li>
         <li><i class="font-weight-bold">Education and Training Fund.</i> <?= ucwords(num_format_custom($bylaw_info->percent_education_fund))?> percent (<?=$bylaw_info->percent_education_fund?>%) shall be set aside for Education and Training Fund.
           <ol type="i">
-  					<li>Half of the amount allocated to the education and training fund annually under this subsection may be spent by the cooperative for education and training purposes; while the other half may be remitted to a union or federation chosen by the Cooperative or of which it is a member</li>
-  					<li>Upon the dissolution of the cooperative, the unexpended balance of the education and training fund pertaining to the Cooperative shall be credited to the Cooperative education and training fund of the chosen union or federation</li>
-  				</ol>
+            <li>Half of the amount allocated to the education and training fund annually under this subsection may be spent by the cooperative for education and training purposes; while the other half may be remitted to a union or federation chosen by the Cooperative or of which it is a member</li>
+            <li>Upon the dissolution of the cooperative, the unexpended balance of the education and training fund pertaining to the Cooperative shall be credited to the Cooperative education and training fund of the chosen union or federation</li>
+          </ol>
         </li>
         <li><i class="font-weight-bold">Community Development Fund.</i> <?= ucwords(num_format_custom($bylaw_info->percent_community_fund))?> percent (<?=$bylaw_info->percent_community_fund?>%) shall be used for projects and activities that will benefit the community where the Cooperative operates. </li>
         <li><i class="font-weight-bold">Optional Fund, Land and Building and any other necessary fund.</i> <?=ucwords(num_format_custom($bylaw_info->percent_optional_fund))?> percent (<?=$bylaw_info->percent_optional_fund?>%)shall be set aside for this purpose.</li>
-    	</ol>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -972,10 +978,10 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>In the case of a member patron with paid-up share capital contribution, his/her proportionate amount of patronage refund shall be paid to him/her unless he/she agrees to credit the amount to his/her account as additional share capital contribution; </li>
-    		<li>In the case of member patron with unpaid share capital contribution, his/her proportionate amount of patronage refund shall be credited to his/her account until the share capital contribution has been fully paid;</li>
-    		<li>In the case of non-member patron, his/her proportionate amount of patronage refunds shall be set aside in a general fund for such patron and shall be allocated to individual non-member patron and only upon request and presentation of evidence of the amount of his/her patronage. The amount so allocated shall be credited to such patron toward payment of the minimum capital contribution for membership. When a sum equal to this amount has accumulated at any time within <?= num_format_custom($bylaw_info->non_member_patron_years)?> (<?=$bylaw_info->non_member_patron_years ?>) years, such patron shall be deemed and become a member of the Cooperative if he/she so agrees or requests and complies with the provisions of the bylaws for admission to membership; and</li>
-    		<li> If within the period specified hereof, any subscriber who has not fully paid his/her subscribed share capital or any non-member patron who has accumulated, the sum necessary for membership, but who does not request nor agree to become a member or fails to comply with the provisions of this bylaws for admission to membership, the amount so accumulated or credited to their account together with any part of the general fund for non-member patron shall be credited to the Reserve Fund or to the Education And Training Fund of the Cooperative, at the option of the Cooperative.</li>
-    	</ol>
+        <li>In the case of member patron with unpaid share capital contribution, his/her proportionate amount of patronage refund shall be credited to his/her account until the share capital contribution has been fully paid;</li>
+        <li>In the case of non-member patron, his/her proportionate amount of patronage refunds shall be set aside in a general fund for such patron and shall be allocated to individual non-member patron and only upon request and presentation of evidence of the amount of his/her patronage. The amount so allocated shall be credited to such patron toward payment of the minimum capital contribution for membership. When a sum equal to this amount has accumulated at any time within <?= num_format_custom($bylaw_info->non_member_patron_years)?> (<?=$bylaw_info->non_member_patron_years ?>) years, such patron shall be deemed and become a member of the Cooperative if he/she so agrees or requests and complies with the provisions of the bylaws for admission to membership; and</li>
+        <li> If within the period specified hereof, any subscriber who has not fully paid his/her subscribed share capital or any non-member patron who has accumulated, the sum necessary for membership, but who does not request nor agree to become a member or fails to comply with the provisions of this bylaws for admission to membership, the amount so accumulated or credited to their account together with any part of the general fund for non-member patron shall be credited to the Reserve Fund or to the Education And Training Fund of the Cooperative, at the option of the Cooperative.</li>
+      </ol>
     </div>
   </div>
   <div class="row mb-2">
@@ -1007,11 +1013,11 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Shares or debentures or securities of any secondary cooperative; </li>
-    		<li>Any reputable bank including Cooperative Banks or any secondary cooperative; </li>
-    		<li>Securities issued or guaranteed by Government;</li>
-    		<li>Real Estate primarily for the use of the Cooperative or its members; or</li>
-    		<li>In any other manner approved by the General Assembly. </li>
-    	</ol>
+        <li>Any reputable bank including Cooperative Banks or any secondary cooperative; </li>
+        <li>Securities issued or guaranteed by Government;</li>
+        <li>Real Estate primarily for the use of the Cooperative or its members; or</li>
+        <li>In any other manner approved by the General Assembly. </li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -1034,15 +1040,15 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Social Audit Report; </li>
-    		<li>Performance Report including semi-annual Mediation and Conciliation Report; </li>
-    		<li>Audited Financial Statement; and </li>
-    		<li>List of officers and trainings undertaken/completed. </li>
-    	</ol>
+        <li>Performance Report including semi-annual Mediation and Conciliation Report; </li>
+        <li>Audited Financial Statement; and </li>
+        <li>List of officers and trainings undertaken/completed. </li>
+      </ol>
     </div>
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article XI<br>Ammendments</p>
+        <p class="font-weight-bold">Article XI<br>Amendments</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -1063,7 +1069,7 @@
             </tr>
           </thead>
           <tbody>
-            <?php $count=0; foreach($cooperators_list as $cooperator) :?>
+            <?php $count=0; foreach($cooperators_list_regular as $cooperator) :?>
               <?=$count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>

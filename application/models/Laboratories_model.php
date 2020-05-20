@@ -308,7 +308,7 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
   }
   
   public function count_cooperators($cooperatives_id){
-    $query=$this->db->query('select COUNT(*) as CountCooperators from laboratories_cooperators where cooperatives_id ="'.$cooperatives_id.'"');
+    $query=$this->db->query('select COUNT(*) as CountCooperators from laboratories_cooperators where laboratory_id ="'.$cooperatives_id.'"');
 
     return $query->row();
   }
@@ -470,14 +470,14 @@ select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city,
 //    return $query->row();
 //  }
   public function get_branch_info($user_id,$laboratory_id){
-    $this->db->select('laboratories.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region, cooperatives.category_of_cooperative, cooperatives.type_of_cooperative, cooperatives.grouping, registeredcoop.application_id,registeredcoop.addrCode as mainAddr,registeredcoop.coopName');
+    $this->db->select('laboratories.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region,  registeredcoop.application_id,registeredcoop.addrCode as mainAddr,registeredcoop.coopName');
     $this->db->from('laboratories');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = laboratories.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->join('registeredcoop','registeredcoop.regNo=laboratories.coop_id','inner');
-    $this->db->join('cooperatives','cooperatives.id=registeredcoop.application_id','inner');
+    $this->db->join('cooperatives','cooperatives.id=registeredcoop.application_id','left');
     $this->db->where(array('laboratories.user_id'=>$user_id,'laboratories.id'=>$laboratory_id));
     $query = $this->db->get();
     return $query->row();
@@ -1414,12 +1414,17 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
                 'user_id'=>$user_id,
                 'user_access_level'=>$user_access_level,
                 'laboratory_id'=>$id,
+                'laboratory_status'=>24,
                 'comment'=> $comment,
                 'created_at' =>date('Y-m-d h:i:s',(now('Asia/Manila')))
               );
               $this->db->update('laboratories',$lab_data,array('id'=>$id));
               
-              if(!$this->db->update('laboratory_comment',$comment_data,array('user_id'=>$user_id,'user_access_level'=>$user_access_level,'laboratory_id'=>$id,'laboratory_status'=>24)))
+              // if(!$this->db->update('laboratory_comment',$comment_data,array('user_id'=>$user_id,'user_access_level'=>$user_access_level,'laboratory_id'=>$id,'laboratory_status'=>24)))
+              // {
+              //   return json_encode("failed to updated existing deferred laboratory commit");
+              // }
+              if(!$this->db->insert('laboratory_comment',$comment_data))
               {
                 return json_encode("failed to updated existing deferred laboratory commit");
               }
@@ -1493,4 +1498,140 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
         return false;
     }
   }
+  public function getCoopRegNo($user_id){
+    $this->db->select('registeredcoop.regNo as regNo, articles_of_cooperation.guardian_cooperative as gc');
+    $this->db->from('registeredcoop');
+    $this->db->join('cooperatives','registeredcoop.application_id = cooperatives.id','inner');
+    $this->db->join('articles_of_cooperation','cooperatives.id = articles_of_cooperation.cooperatives_id','inner');
+    $this->db->where(array('cooperatives.users_id'=> $user_id));
+    $query = $this->db->get();
+    return $query->row();
+  }
+
+  public function admin_comment($laboratory_id,$user_level)
+  {
+    
+   if($user_level==2)
+   {
+  
+      $qry = $this->db->get_where('laboratory_comment',array('laboratory_id'=>$laboratory_id,'user_access_level'=>$user_level));
+          if($qry->num_rows()>0)
+          {
+                foreach($qry->result_array() as $row)
+                {
+                  $row['comment_by']='Senior Comment';
+                  $data[]=$row;
+                }
+              
+          }
+          else
+          {
+            $data= NULL;
+          }
+          return $data;
+   }
+   else
+   {
+      $check_query = $this->db->get_where('laboratory_comment',array('laboratory_id'=>$laboratory_id,'user_access_level'=>3));
+      if($check_query->num_rows()>0)
+      {
+        foreach($check_query->result_array() as $row)
+        {
+          $row['comment_by']='Director Comment';  
+          $data[]=$row;
+        }
+
+         // $qry = $this->db->get_where('laboratory_comment',array('laboratory_id'=>$laboratory_id));
+         // if($qry->num_rows()>0)
+         //  {
+         //    foreach($qry->result_array() as $row)
+         //    {
+         //      if($row['user_access_level']==2)
+         //      {
+         //        $row['comment_by']='Senior Comment';
+         //      }
+         //      if($row['user_access_level']==3)
+         //      {
+         //        $row['comment_by']='Director Comment';  
+         //      }
+              
+         //      $data[]=$row;
+         //    }
+         //  }
+         //  else
+         //  {
+         //    $data =  NULL;
+         //  }
+        return $data;
+      }
+      else
+      {
+        $data =NULL;
+      }
+     return $data;
+   }
+    
+    // if($qry->num_rows()>0)
+    // {
+    //   foreach($qry->result_array() as $row)
+    //   {
+    //     if($row['user_access_level']==2)
+    //     {
+    //       $row['comment_by']='Senior Comment';
+    //     }
+    //     if($row['user_access_level']==3)
+    //     {
+    //       $row['comment_by']='Director Comment';
+    //     }
+    //     $data[]=$row;
+    //   }
+    // }
+    // else
+    // {
+    //   $data =  NULL;
+    // }
+ 
+  }
+
+  public function get_cooperatve_types($cooperative_type_id)
+    {
+      $cooptype_array  =explode(',',$cooperative_type_id);
+      $qry=$this->db->where_in('cooperative_type_id',$cooptype_array)->get('amendment_coop_type_upload');
+     $data = $qry->result_array();
+     return $data;
+
+    }
+    
+  public function coop_dtl($cooperative_id)
+  {
+    $qry =$this->db->get_where('cooperatives',array('id'=>$cooperative_id));
+    if($qry->num_rows()>0)
+    {
+      return $qry->row();
+    }
+    else
+    {
+      return NULL;
+    }
+  }
+
+  public function get_coop_id($laboratory_id)
+  {
+   $qry= $this->db->get_where('laboratories',array('id'=>$laboratory_id));
+   if($qry->num_rows()>0)
+   {
+    return $qry->row();
+   }
+   else
+   {
+    return NULL;
+   }
+  }
+  public function debug($array)
+  {
+    echo"<pre>";
+    print_r($array);
+    echo"</pre>";
+  }
+  
 }

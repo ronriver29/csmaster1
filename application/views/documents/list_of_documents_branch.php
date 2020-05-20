@@ -8,10 +8,21 @@
     <?php else :?>
       <?php if($branch_info->status == 23 || $branch_info->status == 24){ ?>
         <div class="btn-group float-right" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branch_info->brgy?>, <?= $branch_info->city?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" >Submit</button>
+            <?php
+                if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
+                $branch_name = $branch_info->brgy;
+                } else if($branch_info->area_of_operation == 'Provincial') {
+                    $branch_name = $branch_info->city;
+                } else if ($branch_info->area_of_operation == 'Regional') {
+                    $branch_name = $branch_info->city.', '.$branch_info->province;
+                } else if ($branch_info->area_of_operation == 'National') {
+                    $branch_name = $branch_info->city.', '.$branch_info->province;
+                }
+            ?>
+          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branch_name?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" >Submit</button>
         <?php if($branch_info->status == 23){ ?>
-          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyBranchModal" data-cname="<?= $branch_info->brgy?>, <?= $branch_info->city?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>">Deny</button>
-          <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferBranchModal" data-cname="<?= $branch_info->brgy?>, <?= $branch_info->city?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>">Defer</button>
+          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyBranchModal" data-cname="<?= $branch_name?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>">Deny</button>
+          <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferBranchModal" data-cname="<?= $branch_name?> <?= $branch_info->branchName?>" data-comment="<?= $branch_info->comment_by_senior_level1?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>">Defer</button>
         <?php } ?>
         </div>
         <?php } ?>
@@ -25,17 +36,28 @@
                 $submit = 'Approve';
             } else {
                 $submit = 'Submit';
-            } ?>
-            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branch_info->brgy?>, <?= $branch_info->city?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if(($branch_info->tool_yn_answer==null && $branch_info->status>=9 || $branch_info->status>=23)) echo 'disabled';?> ><?=$submit?></button>
+            } 
+
+            if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
+                $branch_name = $branch_info->brgy;
+            } else if($branch_info->area_of_operation == 'Provincial') {
+                $branch_name = $branch_info->city;
+            } else if ($branch_info->area_of_operation == 'Regional') {
+                $branch_name = $branch_info->city.', '.$branch_info->province;
+            } else if ($branch_info->area_of_operation == 'National') {
+                $branch_name = $branch_info->city.', '.$branch_info->province;
+            }
+            ?>
+            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if(($branch_info->tool_yn_answer==null && $branch_info->status>=9 || $branch_info->status>=23)) echo 'disabled';?> ><?=$submit?></button>
             <?php if($admin_info->access_level == 3) {?>
-                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyBranchModal" data-cname="<?= $branch_info->brgy?>, <?= $branch_info->city?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer==null && $branch_info->status>=9) echo 'disabled';?> >Deny</button>
-                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferBranchModal" data-comment="<?= $branch_info->comment_by_specialist?>
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyBranchModal" data-cname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer==null && $branch_info->status>=9) echo 'disabled';?> >Deny</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferBranchModal" data-comment="<?php foreach($branches_comments_cds as $cc) : echo $cc['comment']; endforeach;?>
                         
 
-<?= $branch_info->comment_by_senior?>
-                        
+<?php foreach($branches_comments_snr as $cc) : echo $cc['comment'].'
+'; endforeach;?>
 
-<?= $branch_info->tool_findings?>" data-cname="<?= $branch_info->brgy?>, <?= $branch_info->city?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer==null && $branch_info->status>=9) echo 'disabled';?> >Defer</button>
+<?= $branch_info->tool_findings?>" data-cname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer==null && $branch_info->status>=9) echo 'disabled';?> >Defer</button>
             <?php } ?>
         <?  } ?>
         </div>
@@ -86,7 +108,7 @@
 <?php endif;?>
 <?php if(strlen(($branch_info->comment_by_director_level1 && $admin_info->access_level==2) || $admin_info->access_level==3 || $admin_info->access_level==1) && $branch_info->status != 23 && $branch_info->regCode != 0) : ?>
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong2">
-  * Deferred Reason/s
+  * Main Region Findings
 </button>
 
 <!-- Modal -->
@@ -102,7 +124,7 @@
       <div class="modal-body">
         <pre><?php 
 //            print_r($cooperatives_comments);
-            foreach($branches_comments as $cc) :
+            foreach($branches_comments_main as $cc) :
                 echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
                 echo '<ul type="square">';
                     echo '<li>'.$cc['comment'].'</li>';
@@ -217,16 +239,16 @@
   </div>-->
 <?php endif;?>
 <?php if(strlen(($branch_info->temp_evaluation_comment && $admin_info->access_level==3) || ($branch_info->temp_evaluation_comment && $admin_info->access_level==2) || ($branch_info->status == 17))) : ?>
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong2">
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong33">
   * Deferred Reason/s
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalLong33" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle33" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">The cooperative has been deferred because of the following reason/s:</h5>
+        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle33">The cooperative has been deferred because of the following reason/s:</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

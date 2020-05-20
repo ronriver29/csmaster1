@@ -68,10 +68,10 @@
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
         <ol class="text-justify" type="1">
-    			<?php foreach($purposes_list as $purpose) :?>
+          <?php foreach($purposes_list as $purpose) :?>
             <li><?=$purpose?></li>
           <?php endforeach; ?>
-    		</ol>
+        </ol>
     </div>
   </div>
   <div class="row mb-2">
@@ -128,7 +128,7 @@
         <li>To avail of loans, be entitled to credit and to accept and receive grants, donations and assistance from foreign and domestic sources subject to the conditions of said loans, credits, grants, donations or assistance that will not undermine the autonomy of the cooperative. The Authority, upon written request, shall provide necessary assistance in the documentary requirements for the loans, credit, grants, donations and other financial support; and</li>
         <li>To avail preferential rights granted to Cooperatives under RA 7160, otherwise known as the Local Government Code, and other laws, particularly those in the grant of franchises to establish, construct, operate and maintain ferries, wharves, markets or slaughters houses and to lease public utilities, including access to extension and on-site research services and facilities related to agriculture and fishery activities;</li>
         <li>To exercise such other powers granted under RA 9520 or necessary to carry out its purposes as stated in this Articles of Cooperation. </li>
-        <li>To act as Guardian Cooperative and accept the responsibilities of supervising and monitoring the activities of the Laboratory Cooperative and act in its behalf in dealings with third parties when capacity to contract is required. (<i class="text-danger text-left">applicable to Guardian Cooperative only</i>)</li>
+        <?php if($article_info->guardian_cooperative==1){?> <li>To act as Guardian Cooperative and accept the responsibilities of supervising and monitoring the activities of the Laboratory Cooperative and act in its behalf in dealings with third parties when capacity to contract is required. (<i class="text-danger text-left">applicable to Guardian Cooperative only</i>)</li><?php } ?>
       </ol>
     </div>
   </div>
@@ -149,9 +149,8 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">That the common bond of membership of this Cooperative is <?= $coop_info->common_bond_of_membership?> and the field of membership shall be open to all <?php foreach($members_composition as $compo) : ?>
-          <?= $compo['composition'] ?>,
-          <?php endforeach; ?> who are natural persons, Filipino citizens, of legal age, with the capacity to contract and possess all the qualifications and none of the disqualifications provided for in the By-laws and this Articles of Cooperation.</p>
+      <p class="text-justify" style="text-indent: 50px;">That the common bond of membership of this Cooperative is <?= $coop_info->common_bond_of_membership?> and the <?php if($coop_info->common_bond_of_membership=="Institutional" || $coop_info->common_bond_of_membership=="Associational"){ echo $coop_info->field_of_membership; } else { echo 'field of membership'; }?> shall be open to all <?php if($coop_info->common_bond_of_membership=="Residential"){ echo 'members working and/or residing in the area of operation'; } else if($coop_info->common_bond_of_membership=="Institutional" || $coop_info->common_bond_of_membership=="Associational") { echo $coop_info->name_of_ins_assoc; } else { foreach($members_composition as $compo){ echo $compo['composition']; }} ?>
+        who are natural persons, Filipino citizens, of legal age, with the capacity to contract and possess all the qualifications and none of the disqualifications provided for in the By-laws and this Articles of Cooperation.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -173,7 +172,7 @@
        }else{
          echo "Philippines";
        }
-       ?>. Its principal office shall be located at <?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?><b><?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=$coop_info->city?> <?= $coop_info->province?> <?=$coop_info->region?></b>.</p>
+       ?>. Its principal office shall be located at <?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?><?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=$coop_info->city?> <?= $coop_info->province?> <?=$coop_info->region?>.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -270,7 +269,7 @@
       <p class="text-justify" style="text-indent: 50px;">That of the authorized share capital, the amount of
         <?php echo ucwords(num_format_custom(($bylaw_info->kinds_of_members == 1) ? $total_regular['total_subscribed'] * $article_info->par_value_common : ($total_regular['total_subscribed'] * $article_info->par_value_common) + ($total_associate['total_subscribed'] * $article_info->par_value_preferred)));?>
         (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_subscribed'] * $article_info->par_value_common),2) : number_format((($total_regular['total_subscribed'] * $article_info->par_value_common) + ($total_associate['total_subscribed'] * $article_info->par_value_preferred)),2);?>) has been subscribed, and
-        <b><?php echo ucwords(num_format_custom(($bylaw_info->kinds_of_members == 1) ? ($total_regular['total_paid'] * $article_info->par_value_common) : ($total_regular['total_paid'] * $article_info->par_value_common) + ($total_associate['total_paid'] * $article_info->par_value_preferred)));?>
+        <?php echo ucwords(num_format_custom(($bylaw_info->kinds_of_members == 1) ? ($total_regular['total_paid'] * $article_info->par_value_common) : ($total_regular['total_paid'] * $article_info->par_value_common) + ($total_associate['total_paid'] * $article_info->par_value_preferred)));?>
         (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_paid'] * $article_info->par_value_common),2) : number_format((($total_regular['total_paid'] * $article_info->par_value_common) + ($total_associate['total_paid'] * $article_info->par_value_preferred)),2);?>) of the total subscription has been paid by the following members-subscribers:</p>
     </div>
   </div>
@@ -410,7 +409,7 @@
             </tr>
           </thead>
           <tbody>
-            <?php  $count=0;foreach($cooperators_list as $cooperator) :?>
+            <?php  $count=0;foreach($cooperators_list_regular as $cooperator) :?>
               <?=$count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
@@ -462,7 +461,7 @@
             </tr>
           </thead>
           <tbody>
-            <?php $count=0; foreach($cooperators_list as $cooperator) :?>
+            <?php $count=0; foreach($cooperators_list_regular as $cooperator) :?>
               <?=$count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>

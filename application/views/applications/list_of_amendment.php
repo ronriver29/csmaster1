@@ -80,17 +80,29 @@
             <tbody>
               <?php foreach ($list_cooperatives as $cooperative) : ?>
                 <tr>
-                  <td><?= $cooperative['proposed_name']?>
+                  <td>
                    <?php
+                   if(strlen($cooperative['acronym'])>0)
+                   {
+                    $acronym_ = '('.$cooperative['acronym'].')';
+                   }
+                   else
+                   {
+                    $acronym_='';
+                   }
                     $count_tYpe = explode(',',$cooperative['type_of_cooperative']);
                     if(count($count_tYpe)>1)
 
                     {
-                    	echo  "Multipurpose";
+                    	$proposeNames = $cooperative['proposed_name'].' Multipurpose Cooperative '.$acronym_.' '.$cooperative['grouping'];
                     }
-
+                    else
+                    {
+                      $proposeNames = $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative']. ' Cooperative '.$acronym_.' '.$cooperative['grouping'];
+                    }
+                    echo $proposeNames;
                     ?>  
-                    Cooperative <?= $cooperative['grouping']?></td>
+                   
                   <?php if(!$is_client) : ?>
                     <td>
                       <?php if($cooperative['house_blk_no']==null && $cooperative['street']==null) $x=''; else $x=', ';?>
@@ -102,7 +114,7 @@
                       <?php if($is_client) : ?>
                         <?php if($cooperative['status']==0) echo "EXPIRED";
                         else if($cooperative['status']==1) echo "PENDING";
-                        else if($cooperative['status']>=2 && $cooperative['status']<=9) echo "ON EVALUATION";
+                        else if($cooperative['status']>=2 && $cooperative['status']<=9) echo "ON VALIDATION";
                         else if($cooperative['status']==10) echo "DENIED";
                         else if($cooperative['status']==11) echo "DEFERRED";
                         else if($cooperative['status']==12) echo "WAITING FOR PAYMENT";
@@ -111,11 +123,12 @@
                         else if($cooperative['status']==15) echo "REGISTERED"; 
                         else if($cooperative['status']==16) echo "FOR PAYMENT";?>
                       <?php else : ?>
-                        <?php if($cooperative['status']==2 || $cooperative['status']==3)echo "FOR EVALUATION"; 
+                        <?php if($cooperative['status']==2)echo "FOR VALIDATION"; 
+                         else if($cooperative['status']==3) echo "FOR VALIDATION";
                         else if($cooperative['status']==4) echo "DENIED BY CDS II";
                         else if($cooperative['status']==5) echo "DEFERRED BY CDS II";
                         else if($cooperative['status']==6 && $cooperative['third_evaluated_by']>0) echo "FOR EVALUATION";
-                        else if($cooperative['status']==6) echo "APPROVED BY CDS II";
+                        else if($cooperative['status']==6) echo "SUBMITTED BY CDS II";
                         else if($cooperative['status']==7) echo "DENIED BY SENIOR CDS";
                         else if($cooperative['status']==8) echo "DEFERRED BY SENIOR CDS";
                         else if($cooperative['status']==9) echo "APPROVED BY SENIOR CDS";
@@ -141,20 +154,53 @@
                     </td>
                   <?php endif;?>
                   <?php if(!$is_client) :?>
+
+                    <?php 
+                    if(strlen($cooperative['acronym'])>0)
+                    {
+                      $acronym_ = '('.$cooperative['acronym'].')';
+                    }
+                    else
+                    {
+                      $acronym_='';
+                    }
+                    if(count(explode(',',$cooperative['type_of_cooperative']))>1)
+                    {
+                      $proposeName_ = $cooperative['proposed_name'].' Multipurpose Cooperative '.$acronym_.' '.$cooperative['grouping'];
+                    }
+                    else
+                    {
+                      $proposeName_ =  $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$acronym_.' '.$cooperative['grouping'];
+                    }
+                    ?>
                     <td>
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                       <?php if($admin_info->access_level == 1) : ?>
                         <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View Cooperative</a>
                       <?php else: ?>
 
-                        <?php if($cooperative['status']>2 && $cooperative['status']<11 && $cooperative['evaluated_by']!=0) : ?>
+                        <?php if($cooperative['status']>2 && $cooperative['status']<11 && $cooperative['status']!=3 && $cooperative['evaluated_by']!=0) : ?>
                           <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/amendment_documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
                         <?php elseif($cooperative['status']==2 && $cooperative['evaluated_by']==0): ?>
-                          <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/assign" data-toggle="modal" data-target="#assignSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>" data-cname="<?= $cooperative['proposed_name']?> <?= $cooperative['type_of_cooperative']?> Cooperative <?= $cooperative['grouping']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Assign to Evaluator</a>
+                          <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/assign" data-toggle="modal" data-target="#assignSpecialistAmendmentModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>" data-cname="<?= $proposeName_?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Assign Validator</a>
+                        <?php elseif($cooperative['status']==3): ?>  
+                           <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/assign" data-toggle="modal" data-target="#assignSpecialistAmendmentModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>" data-cname="<?= $proposeName_?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Re-assign Validator</a>
+
                         <?php elseif($cooperative['status']==12): ?>
                           <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/amendment_forpayment" class="btn btn-color-blue"> OK For Payment</a>
+                           <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/amendment_documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
+                       
+
                         <?php elseif($cooperative['status']==13): ?>
-                          <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment(<?=$cooperative['id']?>,'<?= $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$cooperative['grouping']?>')" value="Save O.R. No.">
+                          <?php if(count(explode(',',$cooperative['type_of_cooperative']))>1):?>
+                             <?php $proposeName =$cooperative['proposed_name'].' Multipurpose Cooperative '.$cooperative['grouping']?>
+
+                            <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment('<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>','<?= $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$cooperative['grouping']?>')" value="Save O.R. No.">
+
+                          <?php else: ?>
+                              <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment('<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>','<?= $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$cooperative['grouping']?>')" value="Save O.R. No.">
+                          <?php endif; ?>
+                          
                        
                         <?php elseif($cooperative['status']==14 || $cooperative['status']==15): ?>
                           <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/amendment_registration" class="btn btn-info"><i class='fas fa-print'></i> Print Registration</a>
@@ -173,6 +219,73 @@
   </div>
 </div>
 
+<?php if(!$is_client) :?>
+<h4 style="
+padding: 15px 10px;
+background: #fff;
+background-color: rgb(255, 255, 255);
+border: none;
+border-radius: 0;
+margin-bottom: 20px;
+box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
+</div>
+
+<div class="col-sm-12 col-md-12">
+    <div class="card border-top-blue shadow-sm mb-4">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="cooperativesTable2">
+            <thead>
+              <tr>
+                <th>Name of Cooperative</th>
+                <?php if(!$is_client) : ?>
+                  <th>Office Address</th>
+                <?php endif;?>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($list_cooperatives_registered as $cooperative_registered) : ?>
+                <tr>
+                  <td><?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>
+                  </td>
+                  <td>
+                    <?php if($cooperative_registered['house_blk_no']==null && $cooperative_registered['street']==null) $x=''; else $x=', ';?>
+                    <?=$cooperative_registered['house_blk_no']?> <?=$cooperative_registered['street'].$x?><?=$cooperative_registered['brgy']?>, <?=$cooperative_registered['city']?>, <?= $cooperative_registered['province']?> <?=$cooperative_registered['region']?>
+                  </td>
+                  <td>
+                    <span class="badge badge-secondary">
+                      <?php if($cooperative_registered['status']==15) { echo "REGISTERED"; }?>
+                    </span>
+                  </td>
+                  <td width="31%">
+                    <?php $ar = array(2,5); $viewdoc_array = array(2,3,5) ?>
+                    <?php if(in_array($admin_info->access_level,$ar)):?>
+                      <ul id="ul-admin">
+                        <li>
+                      <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print Registration</a>
+                    </li>
+                     <?php endif; ?>
+                     <?php if(in_array($admin_info->access_level,$viewdoc_array)): ?>
+                    <li style="list-style: none;">
+                      <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/documents" class="btn btn-sm btn-info"><i class='fas fa-eye'></i> View Document</a>
+                    </li>
+                     <?php endif; //end of viewdoc array?>
+                  </ul>
+
+                   
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div><?endif;?>
+</div>
+
 
 <!-- Bootstrap modal -->
  <div class="modal fade" id="paymentModal" role="dialog">
@@ -186,7 +299,7 @@
         <div class="modal-body form">
           
           <input type="hidden" name="payment_id" id="payment_id"> 
-          <input type="hidden" name="tae" id="cid">
+          <input type="hidden" name="cid" id="cid">
           <div class="row">
             <div class="col-md-12">
               
@@ -195,6 +308,14 @@
                 <tr>
                   <td class="bord">Date</td>
                   <td class="bord" colspan="3"><b id="tDate"></b></td>
+                </tr>
+                <tr>
+                  <td>
+                    O.R Date
+                  </td>
+                  <td>
+                    <input type="date" name="orDate" id="orDate" class="form-control" value="<?=date('Y-m-d')?>" />
+                  </td>
                 </tr>
                 <tr>
                   <td class="bord">O.R. No</td>
@@ -248,6 +369,7 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
 <script src="<?=base_url();?>assets/js/toword.js"></script>
 
 <script type="text/javascript">
@@ -261,9 +383,10 @@
     $('.help-block').empty();
 
     $.ajax({
-        url : "<?php echo base_url('amendment/payment')?>/" + coop_name,
-        type: "GET",
+        url : "<?php echo base_url('amendment/payment')?>",
+        type: "post",
         dataType: "JSON",
+        data: {coop_id:coop_id},
         success: function(data)
         {
             var s=toWords(data.total);
@@ -275,9 +398,9 @@
             $('#word').text(s+' Pesos');
             $('#nature').text(data.nature);
             $('#particulars').html(data.particulars);
-            $('#amount').html(data.amount);
+            $('#amount').html(data.amount); 
             $('#total').text(parseFloat(data.total).toFixed(2));
-
+ 
             
             $('#paymentModal').modal('show'); // show bootstrap modal
             $('.modal-title').text('Order of Payment');
@@ -301,7 +424,7 @@
     else{
       var paymentFormData = new FormData($('#paymentForm')[0]);
       $.ajax({
-          url : "<?php echo base_url('amendment/saveor')?>/" + 'fuck',
+          url : "<?php echo base_url('amendment/saveor')?>/" + 'res',
           type: "POST",
           data: paymentFormData,
           contentType: false,

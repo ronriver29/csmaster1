@@ -163,7 +163,18 @@
         <hr>
         <strong>Branch</strong>
         <p class="text-muted">
-          <?=$branch_info->brgy.', '?> <?=$branch_info->city.', '?><?= $branch_info->branchName?>
+          <?php
+            if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
+                $branch_name = $branch_info->brgy;
+            } else if($branch_info->area_of_operation == 'Provincial') {
+                $branch_name = $branch_info->city;
+            } else if ($branch_info->area_of_operation == 'Regional') {
+                $branch_name = $branch_info->city.', '.$branch_info->province;
+            } else if ($branch_info->area_of_operation == 'National') {
+                $branch_name = $branch_info->city.', '.$branch_info->province;
+            }
+          ?>
+          <?=$branch_name.' '?><?= $branch_info->branchName?>
         </p>
         <hr>
         <strong>Address of the Branch</strong>

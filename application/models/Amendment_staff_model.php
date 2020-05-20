@@ -15,17 +15,17 @@ class Amendment_staff_model extends CI_Model{
     $query =$this->db->get('cooperatives');
       return $query->row();
   }
-  public function get_all_staff_of_coop($cooperatives_id){
-    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+  public function get_all_staff_of_coop($amendment_id){
+    $amendment_id = $this->security->xss_clean($amendment_id);
     $this->db->order_by('full_name','asc');
-    $query = $this->db->get_where('amendment_staff',array('cooperatives_id' => $cooperatives_id));
+    $query = $this->db->get_where('amendment_staff',array('amendment_id' => $amendment_id));
     $data = $query->result_array();
     return $data;
   }
-  public function get_all_staff_of_coop_by_position($cooperatives_id){
-    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+  public function get_all_staff_of_coop_by_position($amendment_id){
+    $amendment_id = $this->security->xss_clean($amendment_id);
     $this->db->order_by('position','asc');
-    $query = $this->db->get_where('amendment_staff',array('cooperatives_id' => $cooperatives_id ,'position !=' => 'Others'));
+    $query = $this->db->get_where('amendment_staff',array('amendment_id' => $amendment_id ,'position !=' => 'Others'));
     $data = $query->result_array();
     return $data;
   }
@@ -39,7 +39,7 @@ class Amendment_staff_model extends CI_Model{
   public function add_staff($data){
     $data = $this->security->xss_clean($data);
     if($data['position']=="Others"){
-      if($this->check_others_position_not_exists($data['cooperatives_id'],$data['position_others'])){
+      if($this->check_others_position_not_exists($data['amendment_id'],$data['position_others'])){
         $this->db->trans_begin();
         $data['position_others'] = ucfirst(strtolower($data['position_others']));
         $this->db->insert('amendment_staff',$data);
@@ -51,10 +51,10 @@ class Amendment_staff_model extends CI_Model{
           return array('success'=>true,'message'=>'Staff has been successfully added');
         }
       }else{
-        return array('success'=>false,'message'=>'Only one '.strtolower($data['position_others']).' position is allowed');
+        return array('success'=>false,'message'=>'Only one '.strtolower($data['position_others']).' position is allowedaaaaa');
       }
     }else{
-      if($this->check_position_not_exists($data['cooperatives_id'],$data['position'])){
+      if(!$this->check_position_not_exists($data['amendment_id'],$data['position'])){
         if($this->check_name_not_exist($data['cooperatives_id'],$data['full_name'])){
           $this->db->trans_begin();
           $this->db->insert('amendment_staff',$data);
@@ -69,7 +69,7 @@ class Amendment_staff_model extends CI_Model{
           return array('success'=>false,'message'=>'Name already exist');
         }
       }else{
-        return array('success'=>false,'message'=>'Only one '.strtolower($data['position']).' position is allowed');
+        return array('success'=>false,'message'=>'Only one '.strtolower($data['position']).' position is allowedssss');
       }
     }
   }
@@ -105,7 +105,8 @@ class Amendment_staff_model extends CI_Model{
           return array('success'=>true,'message'=>'Staff has been successfully updated');
         }
       }else{
-        if($this->check_others_position_not_exists($staff_info['cooperatives_id'],$staff_info['position_others'])){
+        if(!$this->check_others_position_not_exists($staff_info['amendment_id'],$staff_info['position_others'])){
+          
           $this->db->trans_begin();
           $staff_info['position_others'] = ucfirst(strtolower($staff_info['position_others']));
           $this->db->where('id', $staff_id);
@@ -134,7 +135,7 @@ class Amendment_staff_model extends CI_Model{
           return array('success'=>true,'message'=>'Staff has been successfully updated');
         }
       }else{
-        if($this->check_position_not_exists($staff_info['cooperatives_id'],$staff_info['position'])){
+        if(!$this->check_position_not_exists($staff_info['amendment_id'],$staff_info['position'])){
           $this->db->trans_begin();
           $this->db->where('id', $staff_id);
           $this->db->update('amendment_staff',$staff_info);
@@ -146,6 +147,7 @@ class Amendment_staff_model extends CI_Model{
             return array('success'=>true,'message'=>'Staff has been successfully updated');
           }
         }else{
+         
           return array('success'=>false,'message'=>'Only one '.strtolower($staff_info['position']).' position is allowed');
         }
       }
@@ -168,27 +170,27 @@ class Amendment_staff_model extends CI_Model{
       return true;
     }
   }
-  public function check_position_not_exists($cooperatives_id,$position){
-    $this->db->where('cooperatives_id',$cooperatives_id);
-    $this->db->where('position', $position);
-    $this->db->from('amendment_staff');
-    $count = $this->db->count_all_results();
-    if($count==0){
+  public function check_position_not_exists($amendment_id,$position){
+    // $this->db->where('amendment_id',$amendment_id);
+    // $this->db->where('position', $position);
+    // $this->db->from('amendment_staff');
+    $qry = $this->db->get_where('amendment_staff',array('amendment_id'=>$amendment_id,'position'=>$position));
+   if($qry->num_rows()>0)
+   {
       return true;
     }else{
       return false;
     }
   }
-  public function requirements_complete($cooperatives_id){
-    // if($this->check_position_not_exists($cooperatives_id,"Manager") || $this->check_position_not_exists($cooperatives_id,"Accountant") || $this->check_position_not_exists($cooperatives_id,"Bookkeeper") || $this->check_position_not_exists($cooperatives_id,"Cashier") || $this->check_position_not_exists($cooperatives_id,"Collector") || $this->check_position_not_exists($cooperatives_id,"Sales clerk")){
-    if($this->check_position_not_exists($cooperatives_id,"Accountant")){
-      return false;
-    }else{
+  public function requirements_complete($amendment_id){
+    if($this->check_position_not_exists($amendment_id,"bookkeeper") && $this->check_position_not_exists($amendment_id,"manager") && $this->check_position_not_exists($amendment_id,"cashier/treasurer")){
       return true;
+    }else{
+      return false;
     }
   }
-  public function check_others_position_not_exists($cooperatives_id, $position_others){
-    $this->db->where('cooperatives_id',$cooperatives_id);
+  public function check_others_position_not_exists($amendment_id, $position_others){
+    $this->db->where('amendment_id',$amendment_id);
     $this->db->where('position_others', $position_others);
     $this->db->from('amendment_staff');
     $count = $this->db->count_all_results();
@@ -198,8 +200,8 @@ class Amendment_staff_model extends CI_Model{
       return false;
     }
   }
-  public function check_staff_in_cooperative($cooperatives_id,$staff_id){
-    $this->db->where(array('cooperatives_id'=>$cooperatives_id,'id'=>$staff_id));
+  public function check_staff_in_cooperative($amendment_id,$staff_id){
+    $this->db->where(array('amendment_id'=>$amendment_id,'id'=>$staff_id));
     $this->db->from('amendment_staff');
     $count = $this->db->count_all_results();
     if($count>0){

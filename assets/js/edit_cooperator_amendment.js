@@ -27,12 +27,13 @@ $(function(){
     var available_paid_up_capital = $("#available_paid_up_capital").val().length>0 ? parseInt($("#available_paid_up_capital").val()) : '';    
     var subscribed = $('#editCooperatorForm #amd_subscribedShares').val().length>0 ? parseInt($('#editCooperatorForm #amd_subscribedShares').val()) : 0;
     var paid = $('#editCooperatorForm #amd_paidShares').val().length>0 ? parseInt($('#editCooperatorForm #amd_paidShares').val()) : 0;
+      
     if(tempType.length > 0 && tempType=="Regular"){
-      $('#editCooperatorForm #subscribedShares').prop('readonly',false);
+      $('#editCooperatorForm #amd_subscribedShares').prop('readonly',false);
       $('#editCooperatorForm #amd_paidShares').prop('readonly',false);
-      $('#editCooperatorForm #subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionEditCallPhp]]'});
+      $('#editCooperatorForm #amd_subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionAmendmentCallPhp]]'});
       // $('#editCooperatorForm #amd_paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateEditNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumRegularPayEditCallPhp]]'});
-       $('#editCooperatorForm #amd_paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateEditNumberOfPaidUpGreaterCustom]]'});
+       $('#editCooperatorForm #amd_paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateEditNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumRegularPayEditCallPhpAmendment]]'});
       var minimum_subscribed_share_regular = $("#minimum_subscribed_share_regular").val().length>0 ? $("#minimum_subscribed_share_regular").val() : '';
       var minimum_paid_up_share_regular = $("#minimum_paid_up_share_regular").val().length>0 ? $("#minimum_paid_up_share_regular").val() : '';
       $('#editCooperatorForm #subscribedShares').attr('min',minimum_subscribed_share_regular);
@@ -73,6 +74,9 @@ $(function(){
     console.log('paid: '+paid);
     console.log('available_paid_up_capital: '+available_paid_up_capital);
   });
+
+
+
 
   $('#editCooperatorForm #membershipType').change();
   $('#editCooperatorForm #region').change();
@@ -115,6 +119,11 @@ $(function(){
     $("#editCooperatorForm #barangay").prop("disabled",true);
     if($(this).val() && ($(this).val()).length > 0){
       $("#editCooperatorForm #province").prop("disabled",false);
+      // alert(areaOfOperation);
+      // if(areaOfOperation =='Provincial')
+      // {
+      //    $("#editCooperatorForm #province").prop("disabled",false);
+      // }
       var region = $(this).val();
         $.ajax({
         type : "POST",
@@ -130,6 +139,7 @@ $(function(){
           });
         }
       });
+
     }
   });
 
@@ -141,6 +151,7 @@ $(function(){
     if($(this).val() && ($(this).val()).length > 0){
       $("#editCooperatorForm #city").prop("disabled",false);
       var province = $(this).val();
+
         $.ajax({
         type : "POST",
         url  : "../api/cities",
@@ -176,10 +187,65 @@ $(function(){
           $.each(data, function(key,value){
             $('#editCooperatorForm #barangay').append($('<option></option>').attr('value',value.brgyCode).text(value.brgyDesc));
           });
+
+           var amd_ids = $('#editCooperatorForm #amd_id').val();
+
+        $.ajax({
+          type : "POST",
+          url  : "../../../amendment_info",
+          dataType: "json",
+          data : {
+            amd_id :amd_ids
+          },
+          success: function(data){
+          
+          
+             setTimeout(function(){
+            
+            if(data.area_of_operation=='Barangay'){
+              // alert(data.areaOfOperation);
+              $('#editCooperatorForm  #barangay').prop("disabled",true);
+              $('#editCooperatorForm  #city').prop("disabled",true);
+              $('#editCooperatorForm  #province').prop("disabled",true);
+              $('#editCooperatorForm  #region').prop("disabled",true);
+            }else if(data.area_of_operation=='Municipality/City'){
+              // alert(data.areaOfOperation);
+              $('#editCooperatorForm  #city').prop("disabled",true);
+              $('#editCooperatorForm  #province').prop("disabled",true);
+              $('#editCooperatorForm  #region').prop("disabled",true);
+              $('#editCooperatorForm  #barangay').prop("disabled",false);
+            }else if(data.area_of_operation=='Provincial'){
+                 // alert('Provincial');
+              $('#editCooperatorForm  #province').prop("disabled",true);
+              $('#editCooperatorForm  #region').prop("disabled",true);
+              $('#editCooperatorForm  #city').prop("disabled",false);
+              $('#editCooperatorForm  #barangay').prop("disabled",false);
+            }else if(data.area_of_operation=='Regional'){
+
+              $('#editCooperatorForm  #region').prop("disabled",true);
+              $('#editCooperatorForm  #province').prop("disabled",false);
+              $('#editCooperatorForm  #city').prop("disabled",false);
+              $('#editCooperatorForm  #barangay').prop("disabled",false);
+            }else if(data.area_of_operation=='National'){
+              // alert(data.areaOfOperation);
+              $('#editCooperatorForm  #region').prop("disabled",false);
+              $('#editCooperatorForm  #province').prop("disabled",false);
+              $('#editCooperatorForm  #city').prop("disabled",false);
+              $('#editCooperatorForm  #barangay').prop("disabled",false);
+            }
+
+          },1700); 
+
+          }
+        });
+
         }
       });
     }
   });
 
+ 
 
 });
+
+

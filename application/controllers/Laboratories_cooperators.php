@@ -21,7 +21,7 @@ class Laboratories_cooperators extends CI_Controller{
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
-        echo $decoded_id;
+        // echo $decoded_id;
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
             if($this->laboratories_model->check_own_cooperative($decoded_id,$user_id)){
@@ -53,6 +53,7 @@ class Laboratories_cooperators extends CI_Controller{
 //                    $data['treasurer_count'] = $this->cooperator_model->check_treasurer($decoded_id);
 //                    $data['secretary_count'] = $this->cooperator_model->check_secretary($decoded_id);
                     $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop_laboratories($decoded_id);
+                    // echo $this->db->last_query()
 //                    $data['ten_percent']=$this->cooperator_model->ten_percent($decoded_id);
                     $this->load->view('./template/header', $data);
                     $this->load->view('laboratories/laboratory_cooperators_list', $data);
@@ -177,11 +178,12 @@ class Laboratories_cooperators extends CI_Controller{
                         'proof_date_issued' =>$this->input->post('dateIssued'),
                         'place_of_issuance' =>$this->input->post('placeIssuance'),
                         );
-
+                       // print_r($data);
                       $name_check =$this->laboratories_model->check_lab_membername_exist($first_Name,$MidlleName,$Last_Name,$decoded_id);
                       if($name_check)
                       {
-                        // echo"name exist";
+
+                     
                         $this->session->set_flashdata('member_error', "Member/Cooperator Name already exist.");
                          redirect('laboratories/'.$this->input->post('cooperativesID').'/laboratories_cooperators');
                          //get last name
@@ -207,12 +209,13 @@ class Laboratories_cooperators extends CI_Controller{
                       {
                           // $success = $this->cooperator_model->add_cooperator_laboratories($data);
                         $success = $this->laboratories_model->add_lab_members($data);
+                        // var_dump($success);
                           if($success['success']){
                             $this->session->set_flashdata('member_success', $success['message']);
-                            redirect('laboratories/'.$this->input->post('cooperativesID').'/laboratories_cooperators');
+                            redirect('laboratories/'.$id.'/laboratories_cooperators');
                           }else{
                             $this->session->set_flashdata('member_error', $success['message']);
-                            redirect('laboratories/'.$this->input->post('cooperativesID').'/laboratories_cooperators');
+                            redirect('laboratories/'.$id.'/laboratories_cooperators');
                           }
                       }
               
@@ -249,8 +252,8 @@ class Laboratories_cooperators extends CI_Controller{
                 redirect('laboratories/'.$id);
               }
             }else{
-              $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-              redirect('laboratories');
+              // $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+              // redirect('laboratories');
             }
           }else{
             if($this->session->userdata('access_level')==5){

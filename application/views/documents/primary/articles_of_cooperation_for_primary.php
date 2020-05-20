@@ -246,15 +246,15 @@
   </div>
   <div class="row ">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">That the Authorized Share Capital of this Cooperative is <?= ucwords(num_format_custom($article_info->authorized_share_capital))?> PESOS (Php <?=number_format($article_info->authorized_share_capital,2)?>), divided into:</p>
+      <p class="text-justify" style="text-indent: 50px;">That the Authorized Share Capital of this Cooperative is <?= ucwords(num_format_custom($article_info->authorized_share_capital))?> PESOS (Php <?=number_format($article_info->authorized_share_capital)?>), divided into:</p>
     </div>
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        <li> <?= ucwords(num_format_custom($article_info->common_share))?> (<?= number_format($article_info->common_share,2)?>) common shares with a par value of <?= ucwords(num_format_custom($article_info->par_value_common))?> (Php <?=number_format($article_info->par_value_common,2)?> ) per share;</li>
+        <li> <?= ucwords(num_format_custom($article_info->common_share))?> (<?= number_format($article_info->common_share)?>) common shares with a par value of <?= ucwords(num_format_custom($article_info->par_value_common))?> (<?=number_format($article_info->par_value_common)?> ) per share;</li>
         <?php if($bylaw_info->kinds_of_members == 2) :?>
-        <li> <?= ucwords(num_format_custom($article_info->preferred_share))?> (<?= number_format($article_info->preferred_share,2)?>) preferred shares with a par value of <?= ucwords(num_format_custom($article_info->par_value_preferred))?> (Php <?=number_format($article_info->par_value_preferred,2)?> ) per share.</li>
+        <li> <?= ucwords(num_format_custom($article_info->preferred_share))?> (<?= number_format($article_info->preferred_share)?>) preferred shares with a par value of <?= ucwords(num_format_custom($article_info->par_value_preferred))?> (<?=$article_info->par_value_preferred?> ) per share.</li>
         <?php endif;?>
       </ol>
     </div>
@@ -267,9 +267,9 @@
   <div class="row ">
     <div class="col-sm-12 col-md-12 text-left">
       <p class="text-justify" style="text-indent: 50px;">That of the authorized share capital, the amount of
-        <?php echo ucwords(num_format_custom(($bylaw_info->kinds_of_members == 1) ? $total_regular['total_subscribed'] * $article_info->par_value_common : ($total_regular['total_subscribed'] * $article_info->par_value_common) + ($total_associate['total_subscribed'] * $article_info->par_value_preferred)));?>
+        <?php echo ucwords(num_format_custom(($bylaw_info->kinds_of_members == 1) ? $total_regular['total_subscribed'] * $article_info->par_value_common : ($total_regular['total_subscribed'] * $article_info->par_value_common) + ($total_associate['total_subscribed'] * $article_info->par_value_preferred))).' Pesos';?>
         (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_subscribed'] * $article_info->par_value_common),2) : number_format((($total_regular['total_subscribed'] * $article_info->par_value_common) + ($total_associate['total_subscribed'] * $article_info->par_value_preferred)),2);?>) has been subscribed, and
-        <?php echo ucwords(num_format_custom(($bylaw_info->kinds_of_members == 1) ? ($total_regular['total_paid'] * $article_info->par_value_common) : ($total_regular['total_paid'] * $article_info->par_value_common) + ($total_associate['total_paid'] * $article_info->par_value_preferred)));?>
+        <?php echo ucwords(num_format_custom(($bylaw_info->kinds_of_members == 1) ? ($total_regular['total_paid'] * $article_info->par_value_common) : ($total_regular['total_paid'] * $article_info->par_value_common) + ($total_associate['total_paid'] * $article_info->par_value_preferred))).' Pesos';?>
         (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_paid'] * $article_info->par_value_common),2) : number_format((($total_regular['total_paid'] * $article_info->par_value_common) + ($total_associate['total_paid'] * $article_info->par_value_preferred)),2);?>) of the total subscription has been paid by the following members-subscribers:</p>
     </div>
   </div>
@@ -409,7 +409,7 @@
             </tr>
           </thead>
           <tbody>
-            <?php  $count=0;foreach($cooperators_list as $cooperator) :?>
+            <?php  $count=0;foreach($cooperators_list_regular as $cooperator) :?>
               <?=$count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
@@ -461,7 +461,7 @@
             </tr>
           </thead>
           <tbody>
-            <?php $count=0; foreach($cooperators_list as $cooperator) :?>
+            <?php $count=0; foreach($cooperators_list_regular as $cooperator) :?>
               <?=$count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>

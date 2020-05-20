@@ -16,25 +16,26 @@ class Amendment_staff extends CI_Controller{
     }else{
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
+        $cooperative_id=$this->amendment_model->coop_dtl($decoded_id);
         $data['is_client'] = $this->session->userdata('client');
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
-            if($this->amendment_model->check_own_cooperative($decoded_id,$user_id)){
-              if(!$this->amendment_model->check_expired_reservation($decoded_id,$user_id)){
-                $data['coop_info'] = $this->amendment_model->get_cooperative_info($user_id,$decoded_id);
-                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+            if($this->amendment_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
+              if(!$this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
+                $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
+                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                 if(!$data['bylaw_complete']) {
                     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                 }
                 if($data['bylaw_complete']){
-                  $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($decoded_id);
+                  $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$decoded_id);
                   if(!$data['cooperator_complete']) {
-                    $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                    $data['cooperator_complete'] = $this->amendment_model->is_requirements_complete($cooperative_id,$decoded_id);
                   }
                   if($data['cooperator_complete']){
-                    $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($decoded_id);
+                    $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$decoded_id);
                     if(!$data['purposes_complete']) {
-                        $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
+                        $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$decoded_id);
                     }
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
@@ -44,31 +45,37 @@ class Amendment_staff extends CI_Controller{
                       if($data['article_complete']){
                         $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
                         if(!$data['committees_complete']) {
-                          $data['committees_complete'] = $this->committee_model->committee_complete_count_amendment($decoded_id);
+                          $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
                         }
                         if($data['committees_complete']){
+
                             $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
                             if(!$data['economic_survey_complete']) {
-                                $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                                $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
                             }
                             if($data['economic_survey_complete']){
                               $data['title'] = 'List of Staff';
                               $data['header'] = 'Staff';
                               $data['client_info'] = $this->user_model->get_user_info($user_id);
                               $data['encrypted_id'] = $id;
-                              $data['manager_not_exists'] = $this->amendment_staff_model->check_position_not_exists($decoded_id,"Manager");
-                              $data['accountant_not_exists'] = $this->amendment_staff_model->check_position_not_exists($decoded_id,"Accountant");
-                              $data['bookkeeper_not_exists'] = $this->amendment_staff_model->check_position_not_exists($decoded_id,"Bookkeeper");
-                              $data['cashier_not_exists'] = $this->amendment_staff_model->check_position_not_exists($decoded_id,"Cashier");
-                              $data['collector_not_exists'] = $this->amendment_staff_model->check_position_not_exists($decoded_id,"Collector");
-                              $data['sales_clerk_not_exists'] = $this->amendment_staff_model->check_position_not_exists($decoded_id,"Sales clerk");
+                              $data['bookkeeper'] = $this->amendment_staff_model->check_position_not_exists($decoded_id,"bookkeeper");
+                        
+                              $data['manager'] = $this->amendment_staff_model->check_position_not_exists($decoded_id,"manager");
+                           
+                              $data['cashier_treasury'] = $this->amendment_staff_model->check_position_not_exists($decoded_id,"cashier/treasurer");
+                               
+                              // var_dump( $data['cashier_treasury_not_exists']);
+                              // echo $this->db->last_query();
+                              // $data['cashier_not_exists'] = $this->amendment_staff_model->check_position_not_exists($decoded_id,"Cashier");
+                              // $data['collector_not_exists'] = $this->amendment_staff_model->check_position_not_exists($decoded_id,"Collector");
+                              // $data['sales_clerk_not_exists'] = $this->amendment_staff_model->check_position_not_exists($decoded_id,"Sales clerk");
                               $data['requirements_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
                               $data['staff_list'] = $this->amendment_staff_model->get_all_staff_of_coop($decoded_id);
                               $this->load->view('./template/header', $data);
                               $this->load->view('staff/amendment_staff_list', $data);
                               $this->load->view('staff/amendment_delete_modal_staff');
                               $this->load->view('./template/footer');
-                            }else{
+                            }else{ echo $this->db->last_query();
                               $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
                               redirect('amendment/'.$id);
                             }
@@ -105,30 +112,30 @@ class Amendment_staff extends CI_Controller{
             }else if($this->session->userdata('access_level')!=1){
               redirect('amendment');
             }else{
-              if($this->amendment_model->check_expired_reservation_by_admin($decoded_id)){
+              if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('amendment');
               }else{
-                if($this->amendment_model->check_submitted_for_evaluation($decoded_id)){
+                if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
-                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                 if(!$data['bylaw_complete']) {
-                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                 }
                 if($data['bylaw_complete']){
-                  $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($decoded_id);
+                  $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$decoded_id);
                   if(!$data['cooperator_complete']) {
-                    $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                    $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$decoded_id);
                   }
                   if($data['cooperator_complete']){
-                    $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($decoded_id);
-                    if(!$data['purposes_complete']) {
-                        $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
-                    }
+                    $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$decoded_id);
+                    // if(!$data['purposes_complete']) {
+                    //     $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($decoded_id);
+                    // }
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                       if(!$data['article_complete']) {
-                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
+                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                       }
                       if($data['article_complete']){
                         $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
@@ -154,7 +161,7 @@ class Amendment_staff extends CI_Controller{
                                 $data['requirements_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
                                 $data['staff_list'] = $this->amendment_staff_model->get_all_staff_of_coop($decoded_id);
                                 $this->load->view('templates/admin_header', $data);
-                                $this->load->view('staff/staff_list', $data);
+                                 $this->load->view('staff/amendment_staff_list', $data);
                                 $this->load->view('staff/amendment_delete_modal_staff');
                                 $this->load->view('templates/admin_footer');
                               }else{
@@ -199,25 +206,50 @@ class Amendment_staff extends CI_Controller{
     }else{
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
+        $cooperative_id = $this->amendment_model->coop_dtl($decoded_id);
         $data['is_client'] = $this->session->userdata('client');
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
-            if($this->amendment_model->check_own_cooperative($decoded_id,$user_id)){
-              if(!$this->amendment_model->check_expired_reservation($decoded_id,$user_id)){
-                $data['coop_info'] = $this->amendment_model->get_cooperative_info($user_id,$decoded_id);
-                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+            if($this->amendment_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
+              if(!$this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
+                $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
+                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                 if($data['bylaw_complete']){
-                    $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                    $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$decoded_id);
                     if($data['cooperator_complete']){
-                      $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
+                      $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$decoded_id);
                       if($data['purposes_complete']){
-                        $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
+                        $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                         if($data['article_complete']){
-                          $data['committees_complete'] = $this->committee_model->committee_complete_count_amendment($decoded_id);
+                          $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
                           if($data['committees_complete']){
-                            $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                            $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
                             if($data['economic_survey_complete']){
-                              if(!$this->amendment_model->check_submitted_for_evaluation($decoded_id)){
+                              if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
+
+
+                                $others_from_coop_position=$this->other_position($decoded_id);
+                                  $position_qry = $this->db->get_where('staff_position',array('cooperative_id'=>0));
+                                  if($position_qry->num_rows()>0)
+                                  {
+                                    foreach($position_qry->result_array() as $prow)
+                                    {
+                                      $list_of_positions[]=$prow;
+                                    }
+                                    // print_r($others_from_coop_position);
+                                    if(is_array($others_from_coop_position)){
+                                       $data['list_postion'] = array_merge($list_of_positions,$others_from_coop_position); 
+                                    }
+                                    else
+                                    {
+                                       $data['list_postion']=$list_of_positions;
+                                    }
+                                  }
+                                  else
+                                  {
+                                    $data['list_postion'] =NULL;
+                                  }
+
                                 if(isset($_POST['addStaffBtn'])){
                                   $temp = TRUE;
                                 } else {
@@ -234,7 +266,8 @@ class Amendment_staff extends CI_Controller{
                                 }else{
                                   $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
                                   $data = array(
-                                    'cooperatives_id' => $decoded_post_coop_id,
+                                    'cooperatives_id' => $cooperative_id,
+                                    'amendment_id' =>$decoded_id,
                                     'full_name' => $this->input->post('fName'),
                                     'gender' => $this->input->post('gender'),
                                     'position' => $this->input->post('position'),
@@ -245,6 +278,7 @@ class Amendment_staff extends CI_Controller{
                                     'minimum_education_experience_training' =>$this->input->post('minimumEducation'),
                                     'monthly_compensation' =>str_replace(',', '',$this->input->post('monthlyCompensation'))
                                     );
+                                  // $this->debug($data);
                                   $success = $this->amendment_staff_model->add_staff($data);
                                   if($success['success']){
                                     $this->session->set_flashdata('staff_success', $success['message']);
@@ -385,33 +419,52 @@ class Amendment_staff extends CI_Controller{
       }
     }
   }
+   public function other_position($coop_id)
+  {
+    $qry=$this->db->query("select * from staff_position where cooperative_id={$coop_id}");
+    if($qry->num_rows()>0)
+    {
+      foreach($qry->result_array() as $row)
+      {
+        $data[]=$row;
+      }
+    }
+    else
+    {
+      $data=NULL;
+    }
+    return $data;
+  }
+
   function edit($id = null,$staff_id = null){
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
+        $decoded_staff_id =$this->encryption->decrypt(decrypt_custom($staff_id));
+        $cooperative_id = $this->amendment_model->coop_dtl($decoded_id);
         $data['is_client'] = $this->session->userdata('client');
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
-            if($this->amendment_model->check_own_cooperative($decoded_id,$user_id)){
-              if(!$this->amendment_model->check_expired_reservation($decoded_id,$user_id)){
-                $data['coop_info'] = $this->amendment_model->get_cooperative_info($user_id,$decoded_id);
-                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+            if($this->amendment_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
+              if(!$this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
+                $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
+                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                 if($data['bylaw_complete']){
-                    $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                    $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$decoded_id);
                     if($data['cooperator_complete']){
-                      $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
+                      $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$decoded_id);
                       if($data['purposes_complete']){
-                        $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
+                        $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                         if($data['article_complete']){
-                          $data['committees_complete'] = $this->committee_model->committee_complete_count_amendment($decoded_id);
+                          $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
                           if($data['committees_complete']){
-                            $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                            $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
                             if($data['economic_survey_complete']){
                               $decoded_staff_id = $this->encryption->decrypt(decrypt_custom($staff_id));
                               if($this->amendment_staff_model->check_staff_in_cooperative($decoded_id,$decoded_staff_id)){ //check if staff is in cooperative
-                                if(!$this->amendment_model->check_submitted_for_evaluation($decoded_id)){
+                                if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                                   if(isset($_POST['editStaffBtn'])){
                                     $temp = TRUE;
                                   } else {
@@ -424,12 +477,35 @@ class Amendment_staff extends CI_Controller{
                                     $data['encrypted_id'] = $id;
                                     $data['encrypted_staff_id'] = $staff_id;
                                     $data['staff_info'] = $this->amendment_staff_model->get_staff_info($decoded_staff_id);
+                                    // $this->debug( $data['staff_info']);
+
+                                      //modify by json
+                                  $others_from_coop_position=$this->other_position($cooperative_id);
+                                  $position_qry = $this->db->get_where('staff_position',array('cooperative_id'=>0));
+                                  if($position_qry->num_rows()>0)
+                                  {
+                                    if(is_array($others_from_coop_position))
+                                    {
+                                       $data['list_position'] = array_merge($position_qry->result_array(),$others_from_coop_position);
+                                    }
+                                    else
+                                    {
+                                      $data['list_position'] = $position_qry->result_array();
+                                    }
+                                    
+                                  }
+                                  else
+                                  {
+                                    $data['list_position'] =NULL;
+                                  }
+
                                     $this->load->view('./template/header', $data);
                                     $this->load->view('staff/amendment_edit_form_staff', $data);
                                     $this->load->view('./template/footer');
                                   }else{
                                     $decoded_post_staff_id = $this->encryption->decrypt(decrypt_custom($this->input->post('staffID')));
                                     $data = array(
+                                      'amendment_id'=>$decoded_id,
                                       'full_name' => $this->input->post('fName'),
                                       'gender' => $this->input->post('gender'),
                                       'position' => $this->input->post('position'),
@@ -441,6 +517,7 @@ class Amendment_staff extends CI_Controller{
                                       'monthly_compensation' =>str_replace(',', '',$this->input->post('monthlyCompensation'))
                                       );
                                     $success = $this->amendment_staff_model->edit_staff($decoded_post_staff_id,$data);
+                                    // $this->debug($success);
                                     if($success['success']){
                                       $this->session->set_flashdata('staff_success', $success['message']);
                                       redirect('amendment/'.$this->input->post('cooperativesID').'/amendment_staff');
@@ -455,7 +532,7 @@ class Amendment_staff extends CI_Controller{
                                 }
                               }else{
                                 $this->session->set_flashdata('staff_redirect', 'Unauthorized!!');
-                                redirect('amendment/'.$id.'/staff');
+                                redirect('amendment/'.$id.'/amendment_staff');
                               }
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
@@ -466,6 +543,7 @@ class Amendment_staff extends CI_Controller{
                             redirect('amendment/'.$id);
                           }
                         }else{
+
                           $this->session->set_flashdata('redirect_message', 'Please complete first your article of cooperation additional information.');
                           redirect('amendment/'.$id);
                         }
@@ -525,9 +603,10 @@ class Amendment_staff extends CI_Controller{
                                       $data['encrypted_id'] = $id;
                                       $data['encrypted_staff_id'] = $staff_id;
                                       $data['staff_info'] = $this->amendment_staff_model->get_staff_info($decoded_staff_id);
-                                      $this->load->view('./templates/admin_header', $data);
-                                      $this->load->view('staff/amendment_edit_form_staff', $data);
-                                      $this->load->view('./templates/admin_footer');
+                                      echo "la;sdfj;a";
+                                      // $this->load->view('./templates/admin_header', $data);
+                                      // $this->load->view('staff/amendment_edit_form_staff', $data);
+                                      // $this->load->view('./templates/admin_footer');
                                     }else{
                                       $decoded_post_staff_id = $this->encryption->decrypt(decrypt_custom($this->input->post('staffID')));
                                       $data = array(
@@ -599,19 +678,20 @@ class Amendment_staff extends CI_Controller{
 
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID',TRUE)));
           $user_id = $this->session->userdata('user_id');
+          $cooperative_id = $this->amendment_model->coop_dtl($decoded_id);
           $data['is_client'] = $this->session->userdata('client');
           if(is_numeric($decoded_id) && $decoded_id!=0){
             if($this->session->userdata('client')){
-              if($this->amendment_model->check_own_cooperative($decoded_id,$user_id)){
+              if($this->amendment_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
                 $decoded_post_staff_id = $this->encryption->decrypt(decrypt_custom($this->input->post('staffID')));
                 if($this->amendment_staff_model->check_staff_in_cooperative($decoded_id,$decoded_post_staff_id)){
-                  if(!$this->amendment_model->check_submitted_for_evaluation($decoded_id)){
+                  if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                     $success = $this->amendment_staff_model->delete_staff($decoded_post_staff_id);
                     if($success){
-                      $this->session->set_flashdata('delete_staff_success', 'Staff has been deleted.');
+                      $this->session->set_flashdata('staff_success', 'Staff has been deleted.');
                       redirect('amendment/'.$this->input->post('cooperativeID').'/amendment_staff');
                     }else{
-                      $this->session->set_flashdata('delete_staff_error', 'Unable to delete staff.');
+                      $this->session->set_flashdata('staff_error', 'Unable to delete staff.');
                       redirect('amendment/'.$this->input->post('cooperativeID').'/amendment_staff');
                     }
                   }else{
@@ -667,4 +747,10 @@ class Amendment_staff extends CI_Controller{
       }
     }
   }
+  public function debug($array)
+    {
+        echo"<pre>";
+        print_r($array);
+        echo"</pre>";
+    }
 }

@@ -18,8 +18,8 @@
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">
-      <?php echo form_open('amendment/'.$encrypted_id.'/amendment_committees/add',array('id'=>'addCommitteeForm','name'=>'addCommitteeForm')); ?>
-      <input type="hidden" class="form-control validate[required]" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_id ?>">
+      <?php echo form_open('amendment/'.$encrypted_id.'/amendment_committees/add',array('id'=>'addCommitteeFormAmendment','name'=>'addCommitteeFormAmendment')); ?>
+      <input type="hidden" class="form-control validate[required]" id="cooperativesID" name="amendmentID" value="<?=$encrypted_id ?>">
       <div class="card-body">
         <div class="row ac-row">
           
@@ -28,7 +28,7 @@
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="cooperatorID">Name of Cooperator:</label>
-              <select class="custom-select validate[required] cooperator_id" name="cooperatorID" id="cooperatorID">
+              <select class="custom-select validate[required] cooperator_id" name="cooperatorID" id="cooperator_ID">
                 <option value="" selected></option>
                 <?php foreach ($cooperators as $cooperator) : ?>
                   <option value ="<?php echo encrypt_custom($this->encryption->encrypt($cooperator['id']));?>"><?php echo $cooperator['full_name']?></option>

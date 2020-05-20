@@ -48,7 +48,7 @@
                   <div class="form-group">
                     <a class="customDeleleBtn purposeRemoveBtn float-left text-danger"><i class="fas fa-minus-circle"></i></a>
                     <label for="purpose<?= ($tempCount - $key)?>"><strong>Purpose No. <?=  ($key + 1)?></strong></label>
-                    <textarea class="form-control validate[required] textarea-purpose" id="purpose<?= ($tempCount - $key)?>" name="purposes<?=$count_?>[]" placeholder="Must be in sentence" rows="2"> <?= $row_content ?></textarea>
+                    <textarea class="form-control validate[required] textarea-purpose" id="purpose<?= ($tempCount - $key)?>" name="purposes[]" placeholder="Must be in sentence" rows="2"><?=$row_content ?></textarea>
                   </div>
                   </div> <!-- end of purposes wrapper -->
                   <?php $b++; ?>

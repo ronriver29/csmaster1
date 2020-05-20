@@ -54,7 +54,7 @@
 	<tr>
 		<td style="text-align: justify; text-indent: 40px;">This is to certify that the proposed amendments to the <b> ARTICLES OF COOPERATION AND BYLAWS of the
                 <?=$amend_coop_info->proposed_name?>, with office address at <?= $coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?> adopted in its <b>REGULAR</b> Annual
-                    General Assembly meeting held at <?=$bylaw_info->annual_regular_meeting_day_venue?> on <b><?=date('F d, Y', strtotime($bylaw_info->annual_regular_meeting_day_date))?></b> were
+                    General Assembly meeting held at <b><?=$coop_info->ga_venue?></b> on <b><?=date('F d, Y', strtotime($bylaw_info->annual_regular_meeting_day_date))?></b> were
                     submitted to the Cooperative Development Authority (CDA) for registration pursuant to the provisions of Republic Act No. 9520.</td>
 	</tr>
         <tr>

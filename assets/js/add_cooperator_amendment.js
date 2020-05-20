@@ -1,7 +1,7 @@
 $(function(){
     $("#subscribed-note").hide().html('');
     $("#paid-note").hide().html('');
-  $('#addCooperatorForm #amd_subscribedShares').on('change', function(){
+  $('#addCooperatorFormAmendment #amd_subscribedShares').on('change', function(){
       var val = parseInt($(this).val());
       var available_subscribed_capital = $("#available_subscribed_capital").val().length>0 ? parseInt($("#available_subscribed_capital").val()) : '';
       $("#subscribed-note").hide().html('');
@@ -12,7 +12,7 @@ $(function(){
       console.log(val);
       console.log(available_subscribed_capital);
   });
-  $('#addCooperatorForm #amd_paidShares').on('change', function(){
+  $('#addCooperatorFormAmendment #amd_paidShares').on('change', function(){
       var val = parseInt($(this).val());
         var available_paid_up_capital = $("#available_paid_up_capital").val().length>0 ? $("#available_paid_up_capital").val() : ''; 
       $("#paid-note").hide().html('');
@@ -21,23 +21,27 @@ $(function(){
           $("#paid-note").show().html('Should not exceed the remaining no of paid up share: '+available_paid_up_capital);
       }
   });
-  $('#addCooperatorForm #membershipType').on('change', function(){
+  $('#addCooperatorFormAmendment #membershipType').on('change', function(){
 
     var tempType  = $.trim($(this).val());
     var available_subscribed_capital = $("#available_subscribed_capital").val().length>0 ? parseInt($("#available_subscribed_capital").val()) : '';
     var available_paid_up_capital = $("#available_paid_up_capital").val().length>0 ? $("#available_paid_up_capital").val() : ''; 
     if(tempType.length > 0 && tempType=="Regular"){
         var minimum_subscribed_share_regular = $("#minimum_subscribed_share_regular").val().length>0 ? $("#minimum_subscribed_share_regular").val() : '';
+        // alert(minimum_subscribed_share_regular);
+        // alert(available_subscribed_capital);
         var minimum_paid_up_share_regular = $("#minimum_paid_up_share_regular").val().length>0 ? $("#minimum_paid_up_share_regular").val() : '';
-      $('#addCooperatorForm #amd_subscribedShares').prop('readonly',false);
-      $('#addCooperatorForm #amd_paidShares').prop('readonly',false);
-//      $('#addCooperatorForm #subscribedShares').val(minimum_subscribed_share_regular);
-//      $('#addCooperatorForm #paidShares').val(minimum_paid_up_share_regular);
-      $('#addCooperatorForm #amd_subscribedShares').attr('min',minimum_subscribed_share_regular);
-      $('#addCooperatorForm #amd_paidShares').attr('min',minimum_paid_up_share_regular);
-      $('#addCooperatorForm #amd_subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionAmendmentCallPhp]]'});
-      $('#addCooperatorForm #amd_paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom]]'});
+      $('#addCooperatorFormAmendment #amd_subscribedShares').prop('readonly',false);
+      $('#addCooperatorFormAmendment #amd_paidShares').prop('readonly',false);
+//      $('#addCooperatorFormAmendment #subscribedShares').val(minimum_subscribed_share_regular);
+//      $('#addCooperatorFormAmendment #paidShares').val(minimum_paid_up_share_regular);
+      $('#addCooperatorFormAmendment #amd_subscribedShares').attr('min',minimum_subscribed_share_regular);
+      $('#addCooperatorFormAmendment #amd_paidShares').attr('min',minimum_paid_up_share_regular);
+      $('#addCooperatorFormAmendment #amd_subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionAmendmentCallPhp]]'});
+      $('#addCooperatorFormAmendment #amd_paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom],,ajax[ajaxMinimumRegularPayCallPhpAmendment]]'});
+
       if(minimum_subscribed_share_regular > available_subscribed_capital) {
+
           $(".subscribedSharesformError").hide().html('');
           $("#subscribed-note").show().html('Should not exceed the remaining no of subscribed share: '+available_subscribed_capital);
       }
@@ -49,14 +53,14 @@ $(function(){
     }else if(tempType.length > 0 && tempType=="Associate"){
         var minimum_subscribed_share_associate = $("#minimum_subscribed_share_associate").val().length>0 ? $("#minimum_subscribed_share_associate").val() : '';
         var minimum_paid_up_share_associate = $("#minimum_paid_up_share_associate").val().length>0 ? $("#minimum_paid_up_share_associate").val() : '';
-      $('#addCooperatorForm #amd_subscribedShares').prop('readonly',false);
-      $('#addCooperatorForm #amd_paidShares').prop('readonly',false);
-//      $('#addCooperatorForm #subscribedShares').val(minimum_subscribed_share_associate);
-//      $('#addCooperatorForm #paidShares').val(minimum_paid_up_share_associate);
-      $('#addCooperatorForm #amd_subscribedShares').attr('min',minimum_subscribed_share_associate);
-      $('#addCooperatorForm #amd_paidShares').attr('min',minimum_paid_up_share_associate);
-      $('#addCooperatorForm #amd_subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionAmendmentCallPhp]]'});
-      $('#addCooperatorForm #amd_paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumAssociatePayCallPhp]]'});
+      $('#addCooperatorFormAmendment #amd_subscribedShares').prop('readonly',false);
+      $('#addCooperatorFormAmendment #amd_paidShares').prop('readonly',false);
+//      $('#addCooperatorFormAmendment #subscribedShares').val(minimum_subscribed_share_associate);
+//      $('#addCooperatorFormAmendment #paidShares').val(minimum_paid_up_share_associate);
+      $('#addCooperatorFormAmendment #amd_subscribedShares').attr('min',minimum_subscribed_share_associate);
+      $('#addCooperatorFormAmendment #amd_paidShares').attr('min',minimum_paid_up_share_associate);
+      $('#addCooperatorFormAmendment #amd_subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumAssociateSubscriptionCallPhpAmendment]]'});
+      $('#addCooperatorFormAmendment #amd_paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustomAmendment],ajax[ajaxMinimumAssociatePayEditAmendmentCallPhp]]'});
       if(minimum_subscribed_share_associate > available_subscribed_capital) {
           $(".subscribedSharesformError").hide().html('');
           $("#subscribed-note").show().html('Should not exceed the remaining no of subscribed share: '+available_subscribed_capital);
@@ -66,27 +70,27 @@ $(function(){
           $("#paid-note").show().html('Should not exceed the remaining no of paid up share: '+available_paid_up_capital);
       }
     }else{
-      $('#addCooperatorForm #amd_subscribedShares').prop('readonly',true);
-      $('#addCooperatorForm #amd_paidShares').prop('readonly',true);
-      $('#addCooperatorForm #amd_subscribedShares').val('');
-      $('#addCooperatorForm #amd_paidShares').val('');
-      $('#addCooperatorForm #amd_subscribedShares').attr('min',1);
-      $('#addCooperatorForm #amd_paidShares').attr('min',1);
-      $('#addCooperatorForm #amd_subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer]]'});
-      $('#addCooperatorForm #amd_paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom]]'});
+      $('#addCooperatorFormAmendment #amd_subscribedShares').prop('readonly',true);
+      $('#addCooperatorFormAmendment #amd_paidShares').prop('readonly',true);
+      $('#addCooperatorFormAmendment #amd_subscribedShares').val('');
+      $('#addCooperatorFormAmendment #amd_paidShares').val('');
+      $('#addCooperatorFormAmendment #amd_subscribedShares').attr('min',1);
+      $('#addCooperatorFormAmendment #amd_paidShares').attr('min',1);
+      $('#addCooperatorFormAmendment #amd_subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer]]'});
+      $('#addCooperatorFormAmendment #amd_paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom]]'});
     }
       
   });
 
-  $('#addCooperatorForm #region').on('change',function(){
-    $('#addCooperatorForm #province').empty();
-    $("#addCooperatorForm #province").prop("disabled",true);
-    $('#addCooperatorForm #city').empty();
-    $("#addCooperatorForm #city").prop("disabled",true);
-    $('#addCooperatorForm #barangay').empty();
-    $("#addCooperatorForm #barangay").prop("disabled",true);
+  $('#addCooperatorFormAmendment #region').on('change',function(){
+    $('#addCooperatorFormAmendment #province').empty();
+    $("#addCooperatorFormAmendment #province").prop("disabled",true);
+    $('#addCooperatorFormAmendment #city').empty();
+    $("#addCooperatorFormAmendment #city").prop("disabled",true);
+    $('#addCooperatorFormAmendment #barangay').empty();
+    $("#addCooperatorFormAmendment #barangay").prop("disabled",true);
     if($(this).val() && ($(this).val()).length > 0){
-      $("#addCooperatorForm #province").prop("disabled",false);
+      $("#addCooperatorFormAmendment #province").prop("disabled",false);
       var region = $(this).val();
         $.ajax({
         type : "POST",
@@ -96,22 +100,35 @@ $(function(){
           region: region
         },
         success: function(data){
-          $('#addCooperatorForm #province').append($('<option></option>').attr('value',"").text(""));
+          $('#addCooperatorFormAmendment #province').append($('<option></option>').attr('value',"").text(""));
           $.each(data, function(key,value){
-            $('#addCooperatorForm #province').append($('<option></option>').attr('value',value.provCode).text(value.provDesc));
+            $('#addCooperatorFormAmendment #province').append($('<option></option>').attr('value',value.provCode).text(value.provDesc));
           });
         }
       });
     }
   });
 
-  $('#addCooperatorForm #province').on('change',function(){
-    $('#addCooperatorForm #city').empty();
-    $("#addCooperatorForm #city").prop("disabled",true);
-    $('#addCooperatorForm #barangay').empty();
-    $("#addCooperatorForm #barangay").prop("disabled",true);
+  //json
+   $('#addCooperatorFormAmendment #position').on('change',function(){
+      if($(this).val() =='Member')
+      {
+         $('#addCooperatorFormAmendment #B').prop('disabled',false);
+      }
+      else
+      {
+         $('#addCooperatorFormAmendment #B').prop('disabled',true);
+      }
+   });
+  //end json
+
+  $('#addCooperatorFormAmendment #province').on('change',function(){
+    $('#addCooperatorFormAmendment #city').empty();
+    $("#addCooperatorFormAmendment #city").prop("disabled",true);
+    $('#addCooperatorFormAmendment #barangay').empty();
+    $("#addCooperatorFormAmendment #barangay").prop("disabled",true);
     if($(this).val() && ($(this).val()).length > 0){
-      $("#addCooperatorForm #city").prop("disabled",false);
+      $("#addCooperatorFormAmendment #city").prop("disabled",false);
       var province = $(this).val();
         $.ajax({
         type : "POST",
@@ -121,20 +138,20 @@ $(function(){
           province: province
         },
         success: function(data){
-          $('#addCooperatorForm #city').append($('<option></option>').attr('value',"").text(""));
+          $('#addCooperatorFormAmendment #city').append($('<option></option>').attr('value',"").text(""));
           $.each(data, function(key,value){
-            $('#addCooperatorForm #city').append($('<option></option>').attr('value',value.citymunCode).text(value.citymunDesc));
+            $('#addCooperatorFormAmendment #city').append($('<option></option>').attr('value',value.citymunCode).text(value.citymunDesc));
           });
         }
       });
     }
   });
 
-  $('#addCooperatorForm #city').on('change',function(){
-    $('#addCooperatorForm #barangay').empty();
-    $("#addCooperatorForm #barangay").prop("disabled",true);
+  $('#addCooperatorFormAmendment #city').on('change',function(){
+    $('#addCooperatorFormAmendment #barangay').empty();
+    $("#addCooperatorFormAmendment #barangay").prop("disabled",true);
     if($(this).val() && ($(this).val()).length > 0){
-      $("#addCooperatorForm #barangay").prop("disabled",false);
+      $("#addCooperatorFormAmendment #barangay").prop("disabled",false);
       var cities = $(this).val();
         $.ajax({
         type : "POST",
@@ -144,18 +161,18 @@ $(function(){
           cities: cities
         },
         success: function(data){
-          $('#addCooperatorForm #barangay').append($('<option></option>').attr('value',"").text(""));
+          $('#addCooperatorFormAmendment #barangay').append($('<option></option>').attr('value',"").text(""));
           $.each(data, function(key,value){
-            $('#addCooperatorForm #barangay').append($('<option></option>').attr('value',value.brgyCode).text(value.brgyDesc));
+            $('#addCooperatorFormAmendment #barangay').append($('<option></option>').attr('value',value.brgyCode).text(value.brgyDesc));
           });
         }
       });
     }
   });
 
-  var id = $("#addCooperatorForm #amd_id").val();
-  var userid = $("#addCooperatorForm #userID").val();
-  var coop_ids = $("#addCooperatorForm #coopids").val();
+  var id = $("#addCooperatorFormAmendment #amd_id").val();
+  var userid = $("#addCooperatorFormAmendment #userID").val();
+  var coop_ids = $("#addCooperatorFormAmendment #coopids").val();
   // alert(id);
   $.ajax({
 
@@ -174,40 +191,40 @@ $(function(){
          if(data!=null){
         var tempCount = 0;
         setTimeout( function(){
-          $('#addCooperatorForm #region').val(data.rCode);
-          $('#addCooperatorForm #region').trigger('change');
+          $('#addCooperatorFormAmendment #region').val(data.rCode);
+          $('#addCooperatorFormAmendment #region').trigger('change');
         },300);
         setTimeout( function(){
-            $('#addCooperatorForm #province').val(data.pCode);
-            $('#addCooperatorForm #province').trigger('change');
+            $('#addCooperatorFormAmendment #province').val(data.pCode);
+            $('#addCooperatorFormAmendment #province').trigger('change');
         },1000);
         setTimeout(function(){
-          $('#addCooperatorForm #city').val(data.cCode);
-          $('#addCooperatorForm #city').trigger('change');
+          $('#addCooperatorFormAmendment #city').val(data.cCode);
+          $('#addCooperatorFormAmendment #city').trigger('change');
         },2000);
         setTimeout(function(){
-          $('#addCooperatorForm #barangay').val(data.bCode);
+          $('#addCooperatorFormAmendment #barangay').val(data.bCode);
           if(data.area_of_operation=='Barangay'){
           
-            $('#addCooperatorForm #barangay').prop("disabled",true);
-            $('#addCooperatorForm #city').prop("disabled",true);
-            $('#addCooperatorForm #province').prop("disabled",true);
-            $('#addCooperatorForm #region').prop("disabled",true);
+            $('#addCooperatorFormAmendment #barangay').prop("disabled",true);
+            $('#addCooperatorFormAmendment #city').prop("disabled",true);
+            $('#addCooperatorFormAmendment #province').prop("disabled",true);
+            $('#addCooperatorFormAmendment #region').prop("disabled",true);
           }else if(data.area_of_operation=='Municipality/City'){
             
-            $('#addCooperatorForm #city').prop("disabled",true);
-            $('#addCooperatorForm #province').prop("disabled",true);
-            $('#addCooperatorForm #region').prop("disabled",true);
+            $('#addCooperatorFormAmendment #city').prop("disabled",true);
+            $('#addCooperatorFormAmendment #province').prop("disabled",true);
+            $('#addCooperatorFormAmendment #region').prop("disabled",true);
           }else if(data.area_of_operation=='Provincial'){
             
-            $('#addCooperatorForm #province').prop("disabled",true);
-            $('#addCooperatorForm #region').prop("disabled",true);
+            $('#addCooperatorFormAmendment #province').prop("disabled",true);
+            $('#addCooperatorFormAmendment #region').prop("disabled",true);
           }else if(data.area_of_operation=='Regional'){
             
-            $('#addCooperatorForm #region').prop("disabled",true);
+            $('#addCooperatorFormAmendment #region').prop("disabled",true);
           }else if(data.area_of_operation=='National'){
             
-            $('#addCooperatorForm #region').prop("disabled",false);
+            $('#addCooperatorFormAmendment #region').prop("disabled",false);
           }
 
         },3500); 
@@ -216,37 +233,37 @@ $(function(){
       // if(data!=null){
       //   var tempCount = 0;
       //   setTimeout( function(){
-      //     $('#addCooperatorForm #region').val(data.regional_code);
-      //     $('#addCooperatorForm #region').trigger('change');
+      //     $('#addCooperatorFormAmendment #region').val(data.regional_code);
+      //     $('#addCooperatorFormAmendment #region').trigger('change');
       //   },100);
       //   setTimeout( function(){
-      //       $('#addCooperatorForm #province').val(data.province_code);
-      //       $('#addCooperatorForm #province').trigger('change');
+      //       $('#addCooperatorFormAmendment #province').val(data.province_code);
+      //       $('#addCooperatorFormAmendment #province').trigger('change');
       //   },500);
       //   setTimeout(function(){
-      //     $('#addCooperatorForm #city').val(data.city_code);
-      //     $('#addCooperatorForm #city').trigger('change');
+      //     $('#addCooperatorFormAmendment #city').val(data.city_code);
+      //     $('#addCooperatorFormAmendment #city').trigger('change');
       //   },1000);
       //   setTimeout(function(){
-      //     $('#addCooperatorForm #barangay').val(data.brgy_code);
+      //     $('#addCooperatorFormAmendment #barangay').val(data.brgy_code);
       //     if(data.area_of_operation=='Barangay'){
           
-      //       $('#addCooperatorForm #barangay').prop("disabled",true);
-      //       $('#addCooperatorForm #city').prop("disabled",true);
-      //       $('#addCooperatorForm #province').prop("disabled",true);
-      //       $('#addCooperatorForm #region').prop("disabled",true);
+      //       $('#addCooperatorFormAmendment #barangay').prop("disabled",true);
+      //       $('#addCooperatorFormAmendment #city').prop("disabled",true);
+      //       $('#addCooperatorFormAmendment #province').prop("disabled",true);
+      //       $('#addCooperatorFormAmendment #region').prop("disabled",true);
       //     }else if(data.area_of_operation=='Municipality/City'){
             
-      //       $('#addCooperatorForm #city').prop("disabled",true);
-      //       $('#addCooperatorForm #province').prop("disabled",true);
-      //       $('#addCooperatorForm #region').prop("disabled",true);
+      //       $('#addCooperatorFormAmendment #city').prop("disabled",true);
+      //       $('#addCooperatorFormAmendment #province').prop("disabled",true);
+      //       $('#addCooperatorFormAmendment #region').prop("disabled",true);
       //     }else if(data.area_of_operation=='Provincial'){
             
-      //       $('#addCooperatorForm #province').prop("disabled",true);
-      //       $('#addCooperatorForm #region').prop("disabled",true);
+      //       $('#addCooperatorFormAmendment #province').prop("disabled",true);
+      //       $('#addCooperatorFormAmendment #region').prop("disabled",true);
       //     }else if(data.area_of_operation=='Regional'){
             
-      //       $('#addCooperatorForm #region').prop("disabled",true);
+      //       $('#addCooperatorFormAmendment #region').prop("disabled",true);
       //     }
       //   },1700); 
       // } //end if

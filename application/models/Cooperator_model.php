@@ -138,7 +138,7 @@ public $last_query = "";
   public function add_cooperator($data){
     $data = $this->security->xss_clean($data);
     if(strcmp($data['position'], 'Chairperson')===0){
-      if($this->check_position_not_exists($data['cooperatives_id'],$data['position'])){
+      if($this->check_position_not_exists($data['cooperatives_id'],$data['position'],$data['full_name'])){
         if($this->check_name_not_exist($data['cooperatives_id'],$data['full_name'])){
           if($this->check_directors_not_max($data['cooperatives_id'])){
             $this->db->trans_begin();
@@ -171,7 +171,7 @@ public $last_query = "";
         return array('success'=>false,'message'=>'Only one Chairpeson is allowed');
       }
     }else if(strcmp($data['position'], 'Vice-Chairperson')===0){
-      if($this->check_position_not_exists($data['cooperatives_id'],$data['position'])){
+      if($this->check_position_not_exists($data['cooperatives_id'],$data['position'],$data['full_name'])){
         if($this->check_name_not_exist($data['cooperatives_id'],$data['full_name'])){
           if($this->check_directors_not_max($data['cooperatives_id'])){
             $this->db->trans_begin();
@@ -234,7 +234,7 @@ public $last_query = "";
       }
     }else if(strcmp($data['position'], 'Treasurer')===0){
       if($this->check_name_not_exist($data['cooperatives_id'],$data['full_name'])){    
-        if($this->check_position_not_exists($data['cooperatives_id'],$data['position'])){
+        if($this->check_position_not_exists($data['cooperatives_id'],$data['position'],$data['full_name'])){
           $this->db->trans_begin();
           $this->db->insert('cooperators',$data);
           $query = $this->db->select('id')
@@ -263,7 +263,7 @@ public $last_query = "";
       }
     }else if(strcmp($data['position'],'Secretary')===0){
       if($this->check_name_not_exist($data['cooperatives_id'],$data['full_name'])){
-        if($this->check_position_not_exists($data['cooperatives_id'],$data['position'])){
+        if($this->check_position_not_exists($data['cooperatives_id'],$data['position'],$data['full_name'])){
             $this->db->trans_begin();
             $this->db->insert('cooperators',$data);
             $query = $this->db->select('id')
@@ -413,7 +413,7 @@ public $last_query = "";
             return array('success'=>false,'message'=>'Maximum of 15 directors');
           }
         }else if(strcmp($cooperator_info['position'], 'Treasurer')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name'])){
             $this->db->trans_begin();
             $this->db->where('id', $cooperator_id);
             $this->db->update('cooperators',$cooperator_info);
@@ -430,7 +430,7 @@ public $last_query = "";
             return array('success'=>false,'message'=>'Only one Treasurer is allowed');
           }
         }else if(strcmp($cooperator_info['position'],'Secretary')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name'])){
             $this->db->trans_begin();
             $this->db->where('id', $cooperator_id);
             $this->db->update('cooperators',$cooperator_info);
@@ -487,7 +487,7 @@ public $last_query = "";
     }else{
       if ($this->checkname_not_id($cooperator_id, $cooperator_info['full_name'], $data->cooperatives_id)) {
         if(strcmp($cooperator_info['position'], 'Chairperson')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name'])){
             if($this->check_directors_not_max($data->cooperatives_id)){
               $this->db->trans_begin();
               $this->db->where('id', $cooperator_id);
@@ -506,7 +506,7 @@ public $last_query = "";
             return array('success'=>false,'message'=>'Only one Chairpeson is allowed');
           }
         }else if(strcmp($cooperator_info['position'], 'Vice-Chairperson')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name'])){
             if($this->check_directors_not_max($data->cooperatives_id)){
               $this->db->trans_begin();
               $this->db->where('id', $cooperator_id);
@@ -540,7 +540,7 @@ public $last_query = "";
             return array('success'=>false,'message'=>'Maximum of 15 directors');
           }
         }else if(strcmp($cooperator_info['position'], 'Treasurer')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name'])){
             $this->db->trans_begin();
             $this->db->where('id', $cooperator_id);
             $this->db->update('laboratories_cooperators',$cooperator_info);
@@ -555,7 +555,7 @@ public $last_query = "";
             return array('success'=>false,'message'=>'Only one Treasurer is allowed');
           }
         }else if(strcmp($cooperator_info['position'],'Secretary')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name'])){
             $this->db->trans_begin();
             $this->db->where('id', $cooperator_id);
             $this->db->update('laboratories_cooperators',$cooperator_info);
@@ -664,7 +664,7 @@ $this->last_query = $this->db->last_query();
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','left');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','left');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','left');
-    $this->db->where('position IN ("Chairperson", "Vice-Chairperson", "Board of Director", "Treasurer", "Secretary") AND cooperatives_id =', $cooperatives_id);
+    $this->db->where('position IN ("Chairperson", "Vice-Chairperson", "Board of Director") AND cooperatives_id =', $cooperatives_id);
     $this->db->order_by('full_name','asc');
     $query=$this->db->get();
 $this->last_query = $this->db->last_query();
@@ -754,21 +754,40 @@ $this->last_query = $this->db->last_query();
     $data = $query->row();
     return $data;
   }
-  public function get_all_cooperator_of_coop_for_committee($cooperatives_id){
+  public function get_all_cooperator_of_coop_for_committee($cooperatives_id,$user_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->select('*');
+    $this->db->from('cooperators');
+    $this->db->where('cooperatives_id = '.$cooperatives_id.' AND position != "Chairperson" AND type_of_member != "Associate" AND id NOT IN (SELECT cooperators_id FROM committees WHERE user_id ='.$user_id.')');
     $this->db->order_by('full_name','asc');
-    $query = $this->db->get_where('cooperators',array('cooperatives_id' => $cooperatives_id,'position !=' => 'Chairperson','type_of_member !=' => 'Associate'));
+    $query=$this->db->get();
+    $this->last_query = $this->db->last_query();
     $data = $query->result_array();
     return $data;
+    
+//    $this->db->order_by('full_name','asc');
+//    $query = $this->db->get_where('cooperators',array('cooperatives_id' => $cooperatives_id,'position !=' => 'Chairperson','type_of_member !=' => 'Associate','id NOT IN (SELECT cooperators_id FROM committees WHERE user_id ='.$user_id.')'));
+//    $data = $query->result_array();
+//    return $data;
   }
   
-  public function get_all_cooperator_of_coop_for_committee_federation($cooperatives_id){
+  public function get_all_cooperator_of_coop_for_committee_federation($cooperatives_id,$user_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $cooperatives_id = join(',',$cooperatives_id);  
+    $this->db->select('*');
+    $this->db->from('cooperators');
+    $this->db->where('cooperatives_id IN ('.$cooperatives_id.') AND position != "Chairperson" AND type_of_member != "Associate" AND id NOT IN (SELECT cooperators_id FROM committees_federation WHERE user_id ='.$user_id.')');
     $this->db->order_by('full_name','asc');
-    $query = $this->db->get_where('cooperators','cooperatives_id IN ('.$cooperatives_id.') AND position != "Chairperson" AND type_of_member != "Associate"');
+    $query=$this->db->get();
+    $this->last_query = $this->db->last_query();
     $data = $query->result_array();
     return $data;
+    
+//    $cooperatives_id = join(',',$cooperatives_id);  
+//    $this->db->order_by('full_name','asc');
+//    $query = $this->db->get_where('cooperators','cooperatives_id IN ('.$cooperatives_id.') AND position != "Chairperson" AND type_of_member != "Associate"');
+//    $data = $query->result_array();
+//    return $data;
   }
   
   public function no_of_directors($cooperatives_id){
@@ -853,6 +872,21 @@ $this->last_query = $this->db->last_query();
       return true;
   }
 
+  //laboratory cooperator
+  public function is_cooperator_lab_complete($laboratory_id)
+  {
+    $qry = $this->db->get_where('laboratories_cooperators',array('laboratory_id'=>$laboratory_id));
+    return $qry->num_rows();
+    // return $count_result;
+    if($count_result<15)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
   public function is_requirements_complete($cooperatives_id,$associate_members){
     if($this->check_no_of_directors($cooperatives_id) && $this->check_chairperson($cooperatives_id) && $this->check_vicechairperson($cooperatives_id) && $this->check_treasurer($cooperatives_id) && $this->check_secretary($cooperatives_id) && $this->check_directors_odd_number($cooperatives_id) && $this->ten_percent($cooperatives_id)){
       if($this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id)->kinds_of_members==1){
@@ -1048,9 +1082,10 @@ $this->last_query = $this->db->last_query();
       return false;
     }
   }
-  public function check_position_not_exists($cooperatives_id,$position){
+  public function check_position_not_exists($cooperatives_id,$position,$full_name){
     $this->db->where('cooperatives_id',$cooperatives_id);
     $this->db->where('position', $position);
+    $this->db->where('full_name != "'.$full_name.'"');
     $this->db->from('cooperators');
     $count = $this->db->count_all_results();
     if($count==0){
@@ -1093,8 +1128,8 @@ $this->last_query = $this->db->last_query();
       return false;
     }
   }
-  public function check_cooperator_in_cooperative_laboratories($cooperatives_id,$cooperator_id){
-    $this->db->where(array('cooperatives_id'=>$cooperatives_id,'id'=>$cooperator_id));
+  public function check_cooperator_in_cooperative_laboratories($laboratory_id,$cooperator_id){
+    $this->db->where(array('laboratory_id'=>$laboratory_id,'id'=>$cooperator_id));
     $this->db->from('laboratories_cooperators');
     $count = $this->db->count_all_results();
     if($count>0){
@@ -1103,15 +1138,15 @@ $this->last_query = $this->db->last_query();
       return false;
     }
   }
-  public function get_all_cooperator_of_coop_laboratories($cooperatives_id){
-    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+  public function get_all_cooperator_of_coop_laboratories($laboratory_id){
+   $laboratory_id = $this->security->xss_clean($laboratory_id);
     $this->db->select('laboratories_cooperators.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region');
     $this->db->from('laboratories_cooperators');
     $this->db->join('refbrgy','refbrgy.brgycode=laboratories_cooperators.addrCode','left');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','left');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','left');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','left');
-    $this->db->where('laboratories_cooperators.cooperatives_id', $cooperatives_id);
+    $this->db->where('laboratories_cooperators.laboratory_id', $laboratory_id);
     $this->db->order_by('full_name','asc');
     $query=$this->db->get();
     $this->last_query = $this->db->last_query();

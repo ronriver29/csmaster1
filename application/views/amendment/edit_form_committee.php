@@ -18,7 +18,7 @@
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">
-      <?php echo form_open('amendment/'.$encrypted_id.'/amendment_committees/'.$encrypted_committee_id.'/edit',array('id'=>'editCommitteeForm','name'=>'editCommitteeForm')); ?>
+      <?php echo form_open('amendment/'.$encrypted_id.'/amendment_committees/'.$encrypted_committee_id.'/edit',array('id'=>'editCommitteeFormAmendment','name'=>'editCommitteeForm')); ?>
       <div class="card-body">
         <div class="row ac-row">
           <input type="hidden" class="form-control" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_id ?>">
@@ -26,21 +26,83 @@
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="committeeName">Name of Committee:</label>
+              <?= $cooperator_info->position?>
               <select class="custom-select validate[required]" name="committeeName" id="committeeName">
                 <option value="" <?php if($committee_info->name=="") echo "selected";?>>--</option>
-                <option value="Audit" <?php if($committee_info->name=="Audit") echo "selected";?>>Audit</option>
-                <option value="Election" <?php if($committee_info->name=="Election") echo "selected";?>>Election</option>
-                <option value="Education and Training" <?php if($committee_info->name=="Education and Training") echo "selected";?>>Education and Training</option>
-                <option value="Mediation and Conciliation" <?php if($committee_info->name=="Mediation and Conciliation") echo "selected";?>>Mediation and Conciliation</option>
-                <option value="Ethics" <?php if($committee_info->name=="Ethics") echo "selected";?>>Ethics</option>
-                <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture'){?>
+                <?php
+                if($cooperator_info->position=='Treasurer')
+                {
+                ?>
+                <option value="Audit" <?php if($committee_info->name=="Audit") echo "selected";?> disabled>Audit</option>
+                <option value="Election" <?php if($committee_info->name=="Election") echo "selected";?> disabled>Election</option>
+                <option value="Education and Training" <?php if($committee_info->name=="Education and Training") echo "selected";?> disabled>Education and Training</option>
+                <option value="Mediation and Conciliation" <?php if($committee_info->name=="Mediation and Conciliation") echo "selected";?> disabled>Mediation and Conciliation</option>
+                <option value="Ethics" <?php if($committee_info->name=="Ethics") echo "selected";?> disabled>Ethics</option>
+
+                  <option value="Gender and Development" <?php if($committee_info->name=="Gender and Development") echo "selected";?>>Gender and Development</option>
+                <?php
+                }
+                elseif($cooperator_info->position=='Vice-Chairperson')
+                {
+                ?>
+                  <option value="Audit" <?php if($committee_info->name=="Audit") echo "selected";?> disabled>Audit</option>
+                <option value="Election" <?php if($committee_info->name=="Election") echo "selected";?> disabled>Election</option>
+                <option value="Education and Training" <?php if($committee_info->name=="Education and Training") echo "selected";?> >Education and Training</option>
+                <option value="Mediation and Conciliation" <?php if($committee_info->name=="Mediation and Conciliation") echo "selected";?> disabled>Mediation and Conciliation</option>
+                <option value="Ethics" <?php if($committee_info->name=="Ethics") echo "selected";?> disabled>Ethics</option>
+
+                  <option value="Gender and Development" <?php if($committee_info->name=="Gender and Development") echo "selected";?>>Gender and Development</option>
+
+                <?php  
+                }
+                elseif($cooperator_info->position=='Board of Director')
+                {
+                ?>
+                   <option value="Audit" <?php if($committee_info->name=="Audit") echo "selected";?> disabled>Audit</option>
+                  <option value="Election" <?php if($committee_info->name=="Election") echo "selected";?> disabled>Election</option>
+                  <option value="Education and Training" <?php if($committee_info->name=="Education and Training") echo "selected";?> disabled>Education and Training</option>
+                  <option value="Mediation and Conciliation" <?php if($committee_info->name=="Mediation and Conciliation") echo "selected";?> disabled>Mediation and Conciliation</option>
+                  <option value="Ethics" <?php if($committee_info->name=="Ethics") echo "selected";?> disabled>Ethics</option>
+
+                  <option value="Gender and Development" <?php if($committee_info->name=="Gender and Development") echo "selected";?>>Gender and Development</option>
+
+                <?php
+                }
+                elseif($cooperator_info->position=='Secretary')
+                {
+                ?>
+                  <option value="Audit" <?php if($committee_info->name=="Audit") echo "selected";?> disabled>Audit</option>
+                  <option value="Election" <?php if($committee_info->name=="Election") echo "selected";?> disabled>Election</option>
+                  <option value="Education and Training" <?php if($committee_info->name=="Education and Training") echo "selected";?> disabled>Education and Training</option>
+                  <option value="Mediation and Conciliation" <?php if($committee_info->name=="Mediation and Conciliation") echo "selected";?> disabled>Mediation and Conciliation</option>
+                  <option value="Ethics" <?php if($committee_info->name=="Ethics") echo "selected";?> disabled>Ethics</option>
+
+                  <option value="Gender and Development" <?php if($committee_info->name=="Gender and Development") echo "selected";?>>Gender and Development</option>
+                <?php
+                }
+                elseif($cooperator_info->position=='Member')
+                {
+                ?>
+                   <option value="Audit" <?php if($committee_info->name=="Audit") echo "selected";?> >Audit</option>
+                  <option value="Election" <?php if($committee_info->name=="Election") echo "selected";?> >Election</option>
+                  <option value="Education and Training" <?php if($committee_info->name=="Education and Training") echo "selected";?> >Education and Training</option>
+                  <option value="Mediation and Conciliation" <?php if($committee_info->name=="Mediation and Conciliation") echo "selected";?>>Mediation and Conciliation</option>
+                  <option value="Ethics" <?php if($committee_info->name=="Ethics") echo "selected";?>>Ethics</option>
+
+                  <option value="Gender and Development" <?php if($committee_info->name=="Gender and Development") echo "selected";?>>Gender and Development</option>
+                <?php  
+                }
+                ?>
+              
+               
+               <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture'){?>
                   <option id="A" value="Credit">Credit</option>
                 <?php } ?>
-                <option value="Gender and Development" <?php if($committee_info->name=="Gender and Development") echo "selected";?>>Gender and Development</option>
+
                 <?php foreach ($custom_committees as $custom_committee) : ?>
                   <option value="<?= $custom_committee['name'] ?> " <?php if($committee_info->name==$custom_committee['name']) echo "selected";?>> <?= $custom_committee['name'] ?> </option>
                 <?php endforeach; ?>
-                <option value="Others">Others</option>
+               <!--  <option value="Others">Others</option> -->
               </select>
             </div>
           </div>

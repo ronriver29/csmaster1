@@ -159,7 +159,7 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="barangay">Barangay</label>
-                  <select class="custom-select validate[required]" name="barangay" id="barangay" disabled>
+                  <select class="custom-select validate[required]" name="barangay" id="barangay">
                   </select>
                 </div>
               </div>
@@ -180,7 +180,73 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="region">Region</label>
-                  <select class="custom-select validate[required]" name="region" id="region">
+                  <select class="custom-select validate[required]" name="region" id="region" disabled>
+                    <option value="" selected></option>
+                    <?php foreach ($regions_list as $region_list) : ?>
+                      <option  value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+            <?php } elseif($coop_info->area_of_operation == 'Provincial') { ?>
+              <div class="col-sm-12 col-md-4">
+                <div class="form-group">
+                  <label for="barangay">Barangay</label>
+                  <select class="custom-select validate[required]" name="barangay" id="barangay">
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4">
+                <div class="form-group">
+                  <label for="city">City/Municipality</label>
+                  <select class="custom-select validate[required]" name="city" id="city" >
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4">
+                <div class="form-group">
+                  <label for="province">Province</label>
+                  <select class="custom-select validate[required]" name="province" id="province" disabled>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4">
+                <div class="form-group">
+                  <label for="region">Region</label>
+                  <select class="custom-select validate[required]" name="region" id="region" disabled>
+                    <option value="" selected></option>
+                    <?php foreach ($regions_list as $region_list) : ?>
+                      <option  value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+            <?php } elseif($coop_info->area_of_operation == 'Regional') { ?>
+              <div class="col-sm-12 col-md-4">
+                <div class="form-group">
+                  <label for="barangay">Barangay</label>
+                  <select class="custom-select validate[required]" name="barangay" id="barangay" >
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4">
+                <div class="form-group">
+                  <label for="city">City/Municipality</label>
+                  <select class="custom-select validate[required]" name="city" id="city" >
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4">
+                <div class="form-group">
+                  <label for="province">Province</label>
+                  <select class="custom-select validate[required]" name="province" id="province" >
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4">
+                <div class="form-group">
+                  <label for="region">Region</label>
+                  <select class="custom-select validate[required]" name="region" id="region" disabled>
                     <option value="" selected></option>
                     <?php foreach ($regions_list as $region_list) : ?>
                       <option  value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
@@ -192,21 +258,21 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="barangay">Barangay</label>
-                  <select class="custom-select validate[required]" name="barangay" id="barangay" disabled>
+                  <select class="custom-select validate[required]" name="barangay" id="barangay">
                   </select>
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
-                  <select class="custom-select validate[required]" name="city" id="city" disabled>
+                  <select class="custom-select validate[required]" name="city" id="city">
                   </select>
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="province">Province</label>
-                  <select class="custom-select validate[required]" name="province" id="province" disabled>
+                  <select class="custom-select validate[required]" name="province" id="province">
                   </select>
                 </div>
               </div>
@@ -275,3 +341,28 @@
     </div>
   </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+  document.getElementById("membershipType").options[2].disabled = false;
+  document.getElementById("position").options[0].disabled = true;
+  $( "#position" ).ready(function() {
+    var x = document.getElementById("position").value;
+    // alert(x);
+    if(x == "Member"){
+      document.getElementById("membershipType").options[2].disabled = false;
+    } else {
+      document.getElementById("membershipType").options[2].disabled = true;
+    }
+    // alert( "Handler for .click() called." );
+  });
+  $( "#position" ).click(function() {
+    var x = document.getElementById("position").value;
+    // alert(x);
+    if(x == "Member"){
+      document.getElementById("membershipType").options[2].disabled = false;
+    } else {
+      document.getElementById("membershipType").options[2].disabled = true;
+    }
+    // alert( "Handler for .click() called." );
+  });
+</script>

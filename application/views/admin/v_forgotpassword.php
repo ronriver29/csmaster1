@@ -12,7 +12,7 @@
     <div class="card login-card shadow border-top-blue">
           <div class="card-body text-center">
           
-              <?php echo form_open('users/forgot_password'); ?>
+              <?php echo form_open('admins/forgot_password'); ?>
               <img class="mb-4 mt-4" src="<?=base_url()?>/assets/img/cda.png" alt="" width="80" height="80">
               <h1 class="h3 mb-4 font-weight-normal">Password Recovery</h1>
               <div class="input-group mb-3 mr-sm-2">
@@ -23,7 +23,7 @@
                     </span>
                   </div>
                 </div>
-                <input type="email" class="form-control" name="eAddressLogin" placeholder="Registered email address" required>
+                <input type="text" class="form-control" name="eAddressLogin" placeholder="Registered Username" required>
               </div>
               <?php if(isset($msg)){
                 echo $msg;
@@ -44,6 +44,7 @@
             <?php echo form_close(); ?>
             <!-- <a class="btn btn-linnk" href="<?php echo base_url();?>admins/login">Admin Login</a> -->
             <a class="btn btn-linnk" href="<?php echo base_url();?>users/signup">Create an account</a><br>
+            <a class="btn btn-linnk" href="<?php echo base_url();?>admins/login">Login Page</a>
             <a class="btn btn-linnk" href="<?php echo base_url();?>welcome">Home Page</a>
            
           </div>

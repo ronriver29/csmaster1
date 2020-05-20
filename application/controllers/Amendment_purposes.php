@@ -36,11 +36,13 @@ class Amendment_purposes extends CI_Controller{
                     $data['purpose_blank_not_exists'] = $this->amendment_purpose_model->check_blank_not_exists($cooperative_id,$decoded_id);
                     $row = $this->amendment_purpose_model->get_all_purposes($cooperative_id,$decoded_id);
 
-                    
+                  
                     foreach($row as $purpose_content)
                     {
                       $purpose_content['content_purpose']= explode(";",$purpose_content['content']);
                       unset($purpose_content['content']);
+                      // $purpose_content['content_purpose']=explode(";",$this->amendment_purpose_model->get_purpose_content($purpose_content['cooperative_type']));
+                      // unset($purpose_content['content']);
                       $data_contents[]=$purpose_content;
                     }
         
@@ -71,26 +73,43 @@ class Amendment_purposes extends CI_Controller{
             }else if($this->session->userdata('access_level')!=1){
               redirect('amendment');
             }else{
-              if($this->amendment_model->check_expired_reservation_by_admin($decoded_id)){
+              if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('amendment');
               }else{
-                if($this->amendment_model->check_submitted_for_evaluation($decoded_id)){
+                if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
-                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                   if($data['bylaw_complete']){
-                    $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                    $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$decoded_id);
                     if($data['cooperator_complete']){
                       $data['title'] = 'List of Purposes';
                       $data['header'] = 'Purposes';
                       $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                       $data['encrypted_id'] = $id;
-                      $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
-                      $data['purpose_not_null'] = $this->purpose_model->check_not_null($decoded_id);
-                      $data['purpose_blank_not_exists'] = $this->purpose_model->check_blank_not_exists($decoded_id);
-                      $row = $this->purpose_model->get_all_purposes($cooperative_id,$decoded_id);
+                      $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$decoded_id);
+                      $data['purpose_not_null'] = $this->amendment_purpose_model->check_not_null($cooperative_id,$decoded_id);
+                      $data['purpose_blank_not_exists'] = $this->amendment_purpose_model->check_blank_not_exists($cooperative_id,$decoded_id);
+                      $row = $this->amendment_purpose_model->get_all_purposes($cooperative_id,$decoded_id);
                       $data['purposes'] = $row;
-                      $data['contents'] = explode(";",$row->content);
+                      // $data['contents'] = explode(";",$row->content);
+
+                      $row = $this->amendment_purpose_model->get_all_purposes($cooperative_id,$decoded_id);
+
+                  
+                    foreach($row as $purpose_content)
+                    {
+                      $purpose_content['content_purpose']= explode(";",$purpose_content['content']);
+                      unset($purpose_content['content']);
+                      // $purpose_content['content_purpose']=explode(";",$this->amendment_purpose_model->get_purpose_content($purpose_content['cooperative_type']));
+                      // unset($purpose_content['content']);
+                      $data_contents[]=$purpose_content;
+                    }
+        
+                    // $this->debug($data_contents);
+                    $data['contents'] =$data_contents;
+
+                    
 
                       $this->load->view('templates/admin_header', $data);
                       $this->load->view('purposes/amendment_list_of_purposes', $data);
@@ -128,7 +147,7 @@ class Amendment_purposes extends CI_Controller{
             if($this->amendment_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
               if(!$this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
                 $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
-                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                 if($data['bylaw_complete']){
                   $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$decoded_id);
                   if($data['cooperator_complete']){
@@ -166,117 +185,143 @@ class Amendment_purposes extends CI_Controller{
                         $purposes2 = '';
                         $purposes3 = '';
                         $purposes4 = '';
+                         $purposes_add='';
                         $temp = array();
                         ;
-                        if(is_array($this->input->post('purposes1')))
-                        {
-                          $temp['purposes1']= $this->input->post('purposes1');
-                        }
-                        if(is_array($this->input->post('purposes2')))
-                        {
-                            $temp['purposes2']= $this->input->post('purposes2');
-                        }
-                        if(is_array($this->input->post('purposes3')))
-                        {
-                            $temp['purposes3']= $this->input->post('purposes3');
-                        }
-
-                       if(is_array($this->input->post('purposes4')))
-                       {
-                          $temp['purposes4']= $this->input->post('purposes4');
-                       }
-                       
-                       if(isset($temp['purposes1'])>0)
-                       {
-                         foreach($temp['purposes1'] as $row_temp)
+                        // $this->debug($this->input->post('purposes'));
+                        $purposes_input = array_filter($this->input->post('purposes'));
+                        foreach($purposes_input as $row_temp)
                          {
                             $purposes1 .=$row_temp.';';  
                             // $purposes1 = substr_replace($purposes1,'', -1);
                          }
                           $purposes1 = substr_replace($purposes1, "", -1);
-                         $multiple_content[][]=  $purposes1;
-                         // $this->debug($purposes1);
-                       }
+                          // echo $purposes1;
 
-                       if(isset($temp['purposes2'])>0)
-                       {
-                         foreach($temp['purposes2'] as $row_temp)
+                         if(is_array($this->input->post('purposes_add'))){ 
+                          $additional_purposes = array_filter($this->input->post('purposes_add'));
+                          foreach( $additional_purposes as $row_add)
                          {
-                            $purposes2 .=$row_temp.';';  
+                            $purposes_add=';'.$row_add;  
+                            // $purposes1 = substr_replace($purposes1,'', -1);
                          }
-                          $purposes2 = substr_replace($purposes2, "", -1);
-                          $multiple_content[][]=  $purposes2;
-                         // $this->debug($purposes2);
-                       }
+                          $purposes_add = substr_replace($purposes_add,"", -1);
+                          // echo $purposes_add;
+                         }
 
-                      if(isset($temp['purposes3']))
-                       {
-                         foreach($temp['purposes3'] as $row_temp)
-                         {
-                            $purposes3 .=$row_temp.';';  
-                         }
-                          $purposes3 = substr_replace($purposes3, "", -1);
-                          $multiple_content[][]=  $purposes3;
-                         // $this->debug($purposes3);
-                       }
+                         $data_purposes = $purposes1.$purposes_add;
+                         
+                      //   if(is_array($this->input->post('purposes1')))
+                      //   {
+                      //     $temp['purposes1']= $this->input->post('purposes1');
+                      //   }
+                      //   if(is_array($this->input->post('purposes2')))
+                      //   {
+                      //       $temp['purposes2']= $this->input->post('purposes2');
+                      //   }
+                      //   if(is_array($this->input->post('purposes3')))
+                      //   {
+                      //       $temp['purposes3']= $this->input->post('purposes3');
+                      //   }
 
-                      if(isset($temp['purposes4'])>0)
-                       {
-                         foreach($temp['purposes4'] as $row_temp)
-                         {
-                            $purposes4 .=$row_temp.';';  
-                         }
-                          $purposes4 = substr_replace($purposes4, "", -1);
-                          $multiple_content[][]=  $purposes4;
-                         // $this->debug($purposes4);
-                       }
+                      //  if(is_array($this->input->post('purposes4')))
+                      //  {
+                      //     $temp['purposes4']= $this->input->post('purposes4');
+                      //  }
+                       
+                      //  if(isset($temp['purposes1'])>0)
+                      //  {
+                      //    foreach($temp['purposes1'] as $row_temp)
+                      //    {
+                      //       $purposes1 .=$row_temp.';';  
+                      //       // $purposes1 = substr_replace($purposes1,'', -1);
+                      //    }
+                      //     $purposes1 = substr_replace($purposes1, "", -1);
+                      //    $multiple_content[][]=  $purposes1;
+                      //    // $this->debug($purposes1);
+                      //  }
+
+                      //  if(isset($temp['purposes2'])>0)
+                      //  {
+                      //    foreach($temp['purposes2'] as $row_temp)
+                      //    {
+                      //       $purposes2 .=$row_temp.';';  
+                      //    }
+                      //     $purposes2 = substr_replace($purposes2, "", -1);
+                      //     $multiple_content[][]=  $purposes2;
+                      //    // $this->debug($purposes2);
+                      //  }
+
+                      // if(isset($temp['purposes3']))
+                      //  {
+                      //    foreach($temp['purposes3'] as $row_temp)
+                      //    {
+                      //       $purposes3 .=$row_temp.';';  
+                      //    }
+                      //     $purposes3 = substr_replace($purposes3, "", -1);
+                      //     $multiple_content[][]=  $purposes3;
+                      //    // $this->debug($purposes3);
+                      //  }
+
+                      // if(isset($temp['purposes4'])>0)
+                      //  {
+                      //    foreach($temp['purposes4'] as $row_temp)
+                      //    {
+                      //       $purposes4 .=$row_temp.';';  
+                      //    }
+                      //     $purposes4 = substr_replace($purposes4, "", -1);
+                      //     $multiple_content[][]=  $purposes4;
+                      //    // $this->debug($purposes4);
+                      //  }
 
                         $items = $this->input->post('item');
                         $id = $items['ids'];//$this->encryption->decrypt(decrypt_custom($items['ids']));
 
                         foreach($id as $row_id)
                         {
-                          $row_data[]= $this->encryption->decrypt(decrypt_custom($row_id['id']));
+                         $purposes_id= $this->encryption->decrypt(decrypt_custom($row_id['id']));
                         }
-                        
-                       $a =array_filter($multiple_content);   
-                        $data_array=array_combine($row_data,$a);
-                        // $this->debug($data_array);
-                        $process=0;
-                        $success=0;
-                        foreach($data_array as $key_id=> $c)
-                        {
-                          $purpose_id = $key_id;
-                          foreach($c as $data_c)
-                          {
-                            $process++;
-                            $purpose_value= trim($data_c);
-                           if($this->amendment_purpose_model->edit_purposes($decoded_id,$purpose_id,$purpose_value))
-                           {
-                            $success++;
-                           }
-                          }
-
-                        }
-                          
-                        if($process>0 && $success==$process)
-                        {
-                          $this->session->set_flashdata('edit_purposes_success', "Updated Purposes Successfully.");
+                       //  echo $decoded_id.'<br>';
+                       // echo $purposes_id;
+                       //  echo $data_purposes;
+                      if($this->amendment_purpose_model->edit_purposes($decoded_id,$purposes_id,$data_purposes))
+                      {
+                         $this->session->set_flashdata('edit_purposes_success', "Updated Purposes Successfully.");
                           redirect('amendment/'.$this->input->post('cooperativesID').'/amendment_purposes');
-                        }else{
+                      }
+                      else{
                           $this->session->set_flashdata('edit_purposes_error', "Unable to update purposes.");
                           redirect('amendment/'.$this->input->post('cooperativesID').'/amendment_purposes');
-                        }
-                       
-                       
-                        // $success = $this->purpose_model->edit_purposes($decoded_id,$data);
-                        // if($success){
+                       }
+
+                        // $process=0;
+                        // $success=0;
+                        // foreach($data_array as $key_id=> $c)
+                        // {
+                        //   $purpose_id = $key_id;
+                        //   foreach($c as $data_c)
+                        //   {
+                        //     $process++;
+                        //     $purpose_value= trim($data_c);
+                        //    if($this->amendment_purpose_model->edit_purposes($decoded_id,$purpose_id,$data_purposes))
+                        //    {
+                        //     $success++;
+                        //    }
+                        //   }
+
+                        // }
+                          
+                        // if($process>0 && $success==$process)
+                        // {
                         //   $this->session->set_flashdata('edit_purposes_success', "Updated Purposes Successfully.");
                         //   redirect('amendment/'.$this->input->post('cooperativesID').'/amendment_purposes');
                         // }else{
                         //   $this->session->set_flashdata('edit_purposes_error', "Unable to update purposes.");
                         //   redirect('amendment/'.$this->input->post('cooperativesID').'/amendment_purposes');
                         // }
+                       
+                       
+                     
                       }
                     }else{
                       $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');

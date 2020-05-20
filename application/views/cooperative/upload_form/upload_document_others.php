@@ -1,7 +1,7 @@
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
-    <h5 class="text-primary text-right">Upload <?=$coop_type->coop_title?> Certificate</h5>
+    <h5 class="text-primary text-right">Upload <?=$coop_type->coop_title?> Certificate <?=$coop_type->id?></h5>
   </div>
 </div>
 <div class="row">
@@ -22,6 +22,7 @@
           <input type="hidden" class="form-control" id="status" name="status" value="<?=$coop_info->status?>">
           <input type="hidden" class="form-control" id="coop_title" name="coop_title" value="<?=$coop_type->coop_title?>">
           <input type="hidden" class="form-control" id="coop_id" name="coop_id" value="<?=$coop_type->id?>">
+          <input type="hidden" class="form-control" id="document_num" name="document_num" value="<?=$coop_type->document_num?>">
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
               <input type="file" class="form-control validate[required]" name="file2" id="file2" accept="application/pdf">

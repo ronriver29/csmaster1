@@ -5,6 +5,28 @@
     </div>
   </div>
 </div> -->
+<?php 
+$plus = date('Y-m-d',strtotime($date2));
+$tomorrow = date('Y-m-d',strtotime($plus . "+3 year"));
+
+$now = date('Y-m-d');
+
+if($tomorrow>=$now){
+    ?>
+    <div class="col-sm-12 col-md-12">
+        <div class="alert alert-info text-justify" role="alert">
+           <center>"Not yet allowed to register Branch or Satellite. Unless registered 3 years from the day of Coop Registration"</center>
+        </div>
+    </div>
+<?php } else {
+//$thirtyDaysUnix = strtotime('+30 days', strtotime($plus));
+//echo $dateregistered;
+//$end = date('Y-m-d', strtotime('+1 year',$dateregistered));
+//echo $end;
+
+//echo date('m-d-Y', strtotime($dateregistered. ' + 1 year'));
+?>
+
 <?php if(!$is_client && $admin_info->access_level == 3 &&  $admin_info->is_director_active == 0) : ?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
@@ -76,7 +98,26 @@
               <?php foreach ($list_branches as $branch) : ?>
                 <tr>
                   <td><?= $branch['coopName']?></td>
-                  <td><?php echo $branch['brgy'].', '. $branch['city'] .' '.$branch['branchName']?></td>
+                  <?php
+                  	if($branch['area_of_operation'] == 'Barangay' || $branch['area_of_operation'] == 'Municipality/City'){
+	                    $brancharea = $branch['brgy'];
+	                } else if($branch['area_of_operation'] == 'Provincial') {
+	                    $brancharea = $branch['city'];
+	                } else if ($branch['area_of_operation'] == 'Regional') {
+	                    $brancharea = $branch['city'].', '.$branch['province'];
+	                } else if ($branch['area_of_operation'] == 'National') {
+	                    $brancharea = $branch['city'].', '.$branch['province'];
+	                }
+
+                    // if($branch['area_of_operation'] == 'Provincial'){
+                    //     $brancharea = $branch['city'];
+                    // } else if ($branch['area_of_operation'] == 'Municipality/City'){
+                    //     $brancharea = $branch['brgy'];
+                    // } else {
+                    //     $brancharea = $branch['brgy'].', '. $branch['city'];
+                    // }
+                  ?>
+                  <td><?php echo $brancharea .' '.$branch['branchName']?></td>
                   <td>
                     <?php if($branch['house_blk_no']==null && $branch['street']==null) $x=''; else $x=', ';?>
                     <?=$branch['house_blk_no']?> <?=$branch['street'].$x?> <?=$branch['brgy']?>, <?=$branch['city']?>, <?= $branch['province']?> <?=$branch['region']?>
@@ -138,17 +179,28 @@
                  
 
                   <?php if(!$is_client) :?>
+                  	<?php 
+                  		if($branch['area_of_operation'] == 'Barangay' || $branch['area_of_operation'] == 'Municipality/City'){
+		                    $brancharea = $branch['brgy'];
+		                } else if($branch['area_of_operation'] == 'Provincial') {
+		                    $brancharea = $branch['city'];
+		                } else if ($branch['area_of_operation'] == 'Regional') {
+		                    $brancharea = $branch['city'].', '.$branch['province'];
+		                } else if ($branch['area_of_operation'] == 'National') {
+		                    $brancharea = $branch['city'].', '.$branch['province'];
+		                }
+                  	?>
                     <td>
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                         <?php if($branch['status']==9 && $branch['evaluator3']!=0 && $admin_info->access_level==2): ?>
-                          <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-cname="<?= $branch['brgy']?>, <?= $branch['city']?> <?= $branch['branchName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Re-Assign Validator</a>
+                          <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-cname="<?=$brancharea.' '?><?= $branch['branchName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Re-Assign Validator</a>
                         <?php endif; ?>
                           
                         <?php if(($branch['status']>=2 && $branch['status']<17 && $admin_info->access_level == 1) || ($branch['status']>9 && $branch['status']<17 && $admin_info->access_level == 2 || $admin_info->access_level == 3)  && $branch['status']!=8 || ($branch['status']==2 && $admin_info->access_level == 2)) : ?>
                           <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
                           
                         <?php elseif($branch['status']==8 && $branch['evaluator3']==0): ?>
-                          <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-cname="<?= $branch['brgy']?>, <?= $branch['city']?> <?= $branch['branchName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Assign to Validator</a>
+                          <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-cname="<?=$brancharea.' '?><?= $branch['branchName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Assign to Validator</a>
                         
                         <?php elseif($branch['status']==18): ?>
                           <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/forpaymentbranches" class="btn btnOkForPayment btn-color-blue"> OK For Payment</a>
@@ -158,7 +210,7 @@
                           <?php if($branch['area_of_operation'] == 'Barangay' || $branch['area_of_operation'] == 'Municipality/City'){
                                 $branch_name = $branch['brgy'];
                             } else if($branch['area_of_operation'] == 'Provincial') {
-                                $branch_name = $branch['brgy'];
+                                $branch_name = $branch['city'];
                             } else if ($branch['area_of_operation'] == 'Regional') {
                                 $branch_name = $branch['city'].', '.$branch['province'];
                             } else if ($branch['area_of_operation'] == 'National') {
@@ -207,7 +259,17 @@
                 foreach ($outside_the_region as $outside_the_region) : ?>
                 <tr>
                   <td><?= $outside_the_region['coopName']?></td>
-                  <td><?php echo $outside_the_region['brgy'].', '. $outside_the_region['city'] .' '.$outside_the_region['branchName']?></td>
+                  <?php if($outside_the_region['area_of_operation'] == 'Barangay' || $outside_the_region['area_of_operation'] == 'Municipality/City'){
+                                $brancharea = $outside_the_region['brgy'];
+                            } else if($outside_the_region['area_of_operation'] == 'Provincial') {
+                                $brancharea = $outside_the_region['city'];
+                            } else if ($outside_the_region['area_of_operation'] == 'Regional') {
+                                $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
+                            } else if ($outside_the_region['area_of_operation'] == 'National') {
+                                $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
+                            }
+                        ?>
+                  <td><?php echo $brancharea.' '.$outside_the_region['branchName']?></td>
                   <td>
                     <?php if($outside_the_region['house_blk_no']==null && $outside_the_region['street']==null) $x=''; else $x=', ';?>
                     <?=$outside_the_region['house_blk_no']?> <?=$outside_the_region['street'].$x?> <?=$outside_the_region['brgy']?>, <?=$outside_the_region['city']?>, <?= $outside_the_region['province']?> <?=$outside_the_region['region']?>
@@ -224,7 +286,17 @@
                 foreach ($outside_the_region_senior as $outside_the_region) : ?>
                 <tr>
                   <td><?= $outside_the_region['coopName']?></td>
-                  <td><?php echo $outside_the_region['brgy'].', '. $outside_the_region['city'] .' '.$outside_the_region['branchName']?></td>
+                  <?php if($outside_the_region['area_of_operation'] == 'Barangay' || $outside_the_region['area_of_operation'] == 'Municipality/City'){
+                                $brancharea = $outside_the_region['brgy'];
+                            } else if($outside_the_region['area_of_operation'] == 'Provincial') {
+                                $brancharea = $outside_the_region['city'];
+                            } else if ($outside_the_region['area_of_operation'] == 'Regional') {
+                                $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
+                            } else if ($outside_the_region['area_of_operation'] == 'National') {
+                                $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
+                            }
+                        ?>
+                  <td><?php echo $brancharea.' '.$outside_the_region['branchName']?></td>
                   <td>
                     <?php if($outside_the_region['house_blk_no']==null && $outside_the_region['street']==null) $x=''; else $x=', ';?>
                     <?=$outside_the_region['house_blk_no']?> <?=$outside_the_region['street'].$x?> <?=$outside_the_region['brgy']?>, <?=$outside_the_region['city']?>, <?= $outside_the_region['province']?> <?=$outside_the_region['region']?>
@@ -265,7 +337,16 @@
               <?php foreach ($registered_branches as $branch_registered) : ?>
                 <tr>
                   <td><?= $branch_registered['coopName']?></td>
-                  <td><?php echo $branch_registered['brgy'].', '. $branch_registered['city'] .' '.$branch_registered['branchName']?></td>
+                  <?php
+                    if($branch_registered['area_of_operation'] == 'Provincial'){
+                        $brancharea = $branch_registered['city'];
+                    } else if ($branch_registered['area_of_operation'] == 'Municipality/City'){
+                        $brancharea = $branch_registered['brgy'];
+                    } else {
+                        $brancharea = $branch_registered['brgy'].', '. $branch_registered['city'];
+                    }
+                  ?>
+                  <td><?php echo $brancharea.' '.$branch_registered['branchName']?></td>
                   <td>
                     <?php if($branch_registered['house_blk_no']==null && $branch_registered['street']==null) $x=''; else $x=', ';?>
                     <?=$branch_registered['house_blk_no']?> <?=$branch_registered['street'].$x?> <?=$branch_registered['brgy']?>, <?=$branch_registered['city']?>, <?= $branch_registered['province']?> <?=$branch_registered['region']?>
@@ -459,3 +540,4 @@
     }
   }
 </script>
+<?php } ?>

@@ -10,7 +10,7 @@ class Survey extends CI_Controller{
   }
   function index($id = null)
   {
-    if(!$this->session->userdata('logged_in')){
+    if(!$this->session->userdata('logged_in')){ 
       redirect('users/login');
     }else{
       $decoded_id = $this->encryption->decrypt(decrypt_custom($id));

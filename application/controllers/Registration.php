@@ -30,7 +30,7 @@ class registration extends CI_Controller{
       else
         $pst="3";
       if(!empty($coop_info->acronym_name)){ 
-          $acronymname = '('.$coop_info->acronym_name.')';
+          $acronymname = '('.$coop_info->acronym_name.') ';
       } else {
           $acronymname = '';
       }
@@ -38,7 +38,7 @@ class registration extends CI_Controller{
       if ($coop_info->status==14){
         $this->registration_model->register_coop($decoded_id,$coop_info->rCode,$pst,$acronymname);
       }
-      $cName=$coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' ' .$coop_info->grouping;
+      $cName=$coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.''.$coop_info->grouping;
       $coop_details = $this->registration_model->get_coop_info($cName);
 //      if ($coop_details->qr_code==null || ($coop_details->qr_code=='')){
         $qr_code_config = array();

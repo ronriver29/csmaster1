@@ -1,4 +1,50 @@
 $(function(){
+  var id = $("#editCooperatorForm #cooperativesID").val();
+  var userid = $("#editCooperatorForm #userID").val();
+  var coop_ids = $("#editCooperatorForm #coopids").val();
+  
+  $.ajax({
+
+    type : "POST",
+    // url  : "./cooperative_info_details",
+    url  : "./get_cooperative_info",
+    dataType: "json",
+    data : {
+      id: id,
+      user_id: userid,
+      coop_ids:coop_ids
+    },
+    success: function(data){
+      console.log(data);
+     alert(data.area_of_operation);
+
+         if(data!=null){
+        var tempCount = 0;
+        // setTimeout(function(){
+          if(data.area_of_operation=='Barangay'){
+            $('#editCooperatorForm #barangay').prop("disabled",true);
+            $('#editCooperatorForm #city').prop("disabled",true);
+            $('#editCooperatorForm #province').prop("disabled",true);
+            $('#editCooperatorForm #region').prop("disabled",true);
+          }else if(data.area_of_operation=='Municipality/City'){
+            $('#editCooperatorForm #city').prop("disabled",true);
+            $('#editCooperatorForm #province').prop("disabled",true);
+            $('#editCooperatorForm #region').prop("disabled",true);
+          }else if(data.area_of_operation=='Provincial'){
+            $('#editCooperatorForm #province').prop("disabled",true);
+            $('#editCooperatorForm #region').prop("disabled",true);
+          }else if(data.area_of_operation=='Regional'){
+            $('#editCooperatorForm #region').prop("disabled",true);
+          }else if(data.area_of_operation=='National'){
+            $('#editCooperatorForm #region').prop("disabled",false);
+          }
+
+        // },3500); 
+      } //end if
+    }//end of success
+  });//end of ajax
+
+
      $("#subscribed-note").hide().html('');
     $("#paid-note").hide().html('');
     $('#editCooperatorForm #subscribedShares').on('change', function(){
@@ -106,14 +152,14 @@ $(function(){
   },3000);
 
   $('#editCooperatorForm #region').on('change',function(){
-    $('#editCooperatorForm #province').empty();
-    $("#editCooperatorForm #province").prop("disabled",true);
-    $('#editCooperatorForm #city').empty();
-    $("#editCooperatorForm #city").prop("disabled",true);
-    $('#editCooperatorForm #barangay').empty();
-    $("#editCooperatorForm #barangay").prop("disabled",true);
+    // $('#editCooperatorForm #province').empty();
+    // $("#editCooperatorForm #province").prop("disabled",true);
+    // $('#editCooperatorForm #city').empty();
+    // $("#editCooperatorForm #city").prop("disabled",true);
+    // $('#editCooperatorForm #barangay').empty();
+    // $("#editCooperatorForm #barangay").prop("disabled",true);
     if($(this).val() && ($(this).val()).length > 0){
-      $("#editCooperatorForm #province").prop("disabled",false);
+      // $("#editCooperatorForm #province").prop("disabled",false);
       var region = $(this).val();
         $.ajax({
         type : "POST",
@@ -133,12 +179,12 @@ $(function(){
   });
 
   $('#editCooperatorForm #province').on('change',function(){
-    $('#editCooperatorForm #city').empty();
-    $("#editCooperatorForm #city").prop("disabled",true);
-    $('#editCooperatorForm #barangay').empty();
-    $("#editCooperatorForm #barangay").prop("disabled",true);
+    // $('#editCooperatorForm #city').empty();
+    // $("#editCooperatorForm #city").prop("disabled",true);
+    // $('#editCooperatorForm #barangay').empty();
+    // $("#editCooperatorForm #barangay").prop("disabled",true);
     if($(this).val() && ($(this).val()).length > 0){
-      $("#editCooperatorForm #city").prop("disabled",false);
+      // $("#editCooperatorForm #city").prop("disabled",false);
       var province = $(this).val();
         $.ajax({
         type : "POST",
@@ -158,10 +204,10 @@ $(function(){
   });
 
   $('#editCooperatorForm #city').on('change',function(){
-    $('#editCooperatorForm #barangay').empty();
-    $("#editCooperatorForm #barangay").prop("disabled",true);
+    // $('#editCooperatorForm #barangay').empty();
+    // $("#editCooperatorForm #barangay").prop("disabled",true);
     if($(this).val() && ($(this).val()).length > 0){
-      $("#editCooperatorForm #barangay").prop("disabled",false);
+      // $("#editCooperatorForm #barangay").prop("disabled",false);
       var cities = $(this).val();
         $.ajax({
         type : "POST",
@@ -179,6 +225,5 @@ $(function(){
       });
     }
   });
-
 
 });

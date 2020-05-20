@@ -16,6 +16,7 @@ class Amendment_cooperative_tool extends CI_Controller{
       redirect('users/login');
     }else{
       $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+      $cooperative_id= $this->amendment_model->coop_dtl($decoded_id);
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if($this->session->userdata('client')){

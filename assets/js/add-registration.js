@@ -246,7 +246,7 @@ $(function(){
         }
   });
 
-  $('#branchAddForm #regNo').on('change', function(){
+  $('#branchAddForm #regNo').ready(function(){
 
     var coopName = $('#coopName').val();
     var regNo = $('#regNo').val();
@@ -283,8 +283,8 @@ $(function(){
             });
 
             var hiddenBAC =$('<input type="hidden" class="form-control" name="BAC[]"/>').attr('value',value.BAC_id);
-            var inputMajor=$('<input type="text" class="form-control" name="MI[]"/> disabled').attr('value',value.mdesc);
-            var inputSub=  $('<input type="text" class="form-control" name="SC[]"/> disabled').attr('value',value.sdesc);
+            var inputMajor=$('<input type="text" class="form-control" name="MI[]" readonly/>').attr('value',value.mdesc);
+            var inputSub=  $('<input type="text" class="form-control" name="SC[]" readonly/>').attr('value',value.sdesc);
             var labelMajor=$('<label>Major Industry Classification No. '+(index+1)+'</label>');
             var labelSub=  $('<label>Major Industry Classification No. '+(index+1)+' Subclass</label>');
 
@@ -295,6 +295,7 @@ $(function(){
           });
             
             $("#branchAddForm .col-industry-subclass").append(divRow1);
+//            $("#branchAddForm .col-industry-subclass").prop("disabled",true);
             
 
         }
@@ -310,7 +311,7 @@ $(function(){
       },
       success: function(data){
 
-        $('#branchAddForm #blkNo').val(data.house_blk_no);
+        $('#branchAddForm #blkNo').val(data.noStreet);
         $('#branchAddForm #streetName').val(data.Street);
         $('#branchAddForm #coopName').val(data.coopName);
         setTimeout( function(){

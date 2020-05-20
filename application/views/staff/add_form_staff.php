@@ -1,6 +1,7 @@
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/staff" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    
     <h5 class="text-primary text-right">Add Staff</h5>
   </div>
 </div>
@@ -43,7 +44,10 @@
           <div class="col-sm-12 col-md-5">
             <div class="form-group">
               <label class="font-weight-bold" for="fName">Full Name:</label>
+              
               <input type="text" class="form-control validate[required,custom[fullname]]" id="fName" name="fName">
+              <Label class="font-weight-bold" style="font-size:10px;color:red;"><i>* No BOD members shall hold any position directly involved in day-to-day operation and management operation of the Cooperative</i></label>
+
             </div>
       		</div>
           <div class="col-sm-12 col-md-4">

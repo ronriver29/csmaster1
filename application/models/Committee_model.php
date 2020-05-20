@@ -27,7 +27,7 @@ class Committee_model extends CI_Model{
             $row = $query->row_array();
         }
         $data['orig_committee_id'] = $row['id'];
-        $this->db->insert('amendment_committees',$data);
+        //$this->db->insert('amendment_committees',$data);
       if($this->db->trans_status() === FALSE){
         $this->db->trans_rollback();
         return array('success'=>false,'message'=>'Unable to add committee');
@@ -261,15 +261,29 @@ class Committee_model extends CI_Model{
     return $data;
   }
   
-  public function get_all_committees_of_coop_gad_amendment($coop_id){
-    $this->db->select('committees.id as comid, committees.* ,cooperators.*,count(committees.id) AS count');
-    $this->db->from('committees');
-    $this->db->join('cooperators', 'cooperators.id = committees.cooperators_id', 'inner');
-    $this->db->join('amend_coop', 'amend_coop.id = cooperators.cooperatives_id', 'inner');
-    $this->db->where('committees.name = "Gender and Development" AND amend_coop.id = ',$coop_id);
-    $query = $this->db->get();
+  public function get_all_committees_of_coop_gad_amendment($amendment_id){
+    // $this->db->select('committees.id as comid, committees.* ,cooperators.*,count(committees.id) AS count');
+    // $this->db->from('committees');
+    // $this->db->join('cooperators', 'cooperators.id = committees.cooperators_id', 'inner');
+    // $this->db->join('amend_coop', 'amend_coop.id = cooperators.cooperatives_id', 'inner');
+    // $this->db->where('committees.name = "Gender and Development" AND amend_coop.id = ',$coop_id);
+    // $query = $this->db->get();
+    $this->db->get_where('amendment_committees',array('amendment_id'=>$amendment_id));
     $data =  $query->result_array();
     return $data;
+  }
+
+  public function check_position($amendment_id,$position)
+  {
+    $qry = $this->db->get_where('amendment_committees',array('amendment_id'=>$amendment_id,'name'=>$position));
+    if($qry->num_rows()>0)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
   
   public function get_all_custom_committee_names_of_coop($coop_id){
@@ -448,12 +462,63 @@ class Committee_model extends CI_Model{
         return false;
     }
   }
+  public function get_all_required_count_credit_federation($user_id){
+    if($this->get_all_gad_count_federation($user_id) != 0){
+        if($this->get_all_audit_count_federation($user_id) != 0){
+            if($this->get_all_election_count_federation($user_id) != 0){
+                if($this->get_all_medcon_count_federation($user_id) != 0){
+                    if($this->get_all_ethics_count_federation($user_id) != 0){
+                        if($this->get_all_credit_count_federation($user_id) != 0){
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+  }
     public function get_all_required_count($user_id){
     if($this->get_all_gad_count($user_id) != 0){
         if($this->get_all_audit_count($user_id) != 0){
             if($this->get_all_election_count($user_id) != 0){
                 if($this->get_all_medcon_count($user_id) != 0){
                     if($this->get_all_ethics_count($user_id) != 0){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+  }
+  
+  public function get_all_required_count_federation($user_id){
+    if($this->get_all_gad_count_federation($user_id) != 0){
+        if($this->get_all_audit_count_federation($user_id) != 0){
+            if($this->get_all_election_count_federation($user_id) != 0){
+                if($this->get_all_medcon_count_federation($user_id) != 0){
+                    if($this->get_all_ethics_count_federation($user_id) != 0){
                         return true;
                     } else {
                         return false;
@@ -515,6 +580,36 @@ class Committee_model extends CI_Model{
   public function get_all_gad_count_federation($user_id){
     $user_id = $this->security->xss_clean($user_id);
     $this->db->where('name = "Gender and Development" AND user_id ='.$user_id.'');
+    $this->db->from('committees_federation');
+    return $this->db->count_all_results();
+  }
+  public function get_all_audit_count_federation($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Audit" AND user_id ='.$user_id.'');
+    $this->db->from('committees_federation');
+    return $this->db->count_all_results();
+  }
+  public function get_all_election_count_federation($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Election" AND user_id ='.$user_id.'');
+    $this->db->from('committees_federation');
+    return $this->db->count_all_results();
+  }
+  public function get_all_medcon_count_federation($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Mediation and Conciliation" AND user_id ='.$user_id.'');
+    $this->db->from('committees_federation');
+    return $this->db->count_all_results();
+  }
+  public function get_all_ethics_count_federation($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Ethics" AND user_id ='.$user_id.'');
+    $this->db->from('committees_federation');
+    return $this->db->count_all_results();
+  }
+  public function get_all_credit_count_federation($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Credit" AND user_id ='.$user_id.'');
     $this->db->from('committees_federation');
     return $this->db->count_all_results();
   }

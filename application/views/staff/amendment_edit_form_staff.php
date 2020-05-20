@@ -20,22 +20,27 @@
     <div class="card border-top-blue mb-4">
     <?php echo form_open('amendment/'.$encrypted_id.'/amendment_staff/'.$encrypted_staff_id.'/edit',array('id'=>'editStaffForm','name'=>'editStaffForm')); ?>
       <div class="card-body">
-        <div class="row">
+        <div class="row as-row">
           <input type="hidden" class="form-control" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_id ?>">
           <input type="hidden" class="form-control" id="staffID" name="staffID" value="<?= $encrypted_staff_id?>">
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label class="font-weight-bold" for="position">Position:</label>
-              <select class="custom-select validate[required]" name="position">
-                <option value="" <?php if($staff_info->position=="") echo "selected";?>>--</option>
-                <option value="Manager" <?php if($staff_info->position=="Manager") echo "selected";?>>Manager</option>
-                <option value="Accountant" <?php if($staff_info->position=="Accountant") echo "selected";?>>Accountant</option>
-                <option value="Bookkeeper" <?php if($staff_info->position=="Bookkeeper") echo "selected";?>>Bookkeeper</option>
-                <option value="Cashier" <?php if($staff_info->position=="Cashier") echo "selected";?>>Cashier</option>
-                <option value="Collector" <?php if($staff_info->position=="Collector") echo "selected";?>>Collector</option>
-                <option value="Sales clerk" <?php if($staff_info->position=="Sales clerk") echo "selected";?>>Sales clerk</option>
-                <option value="Others" <?php if($staff_info->position=="Others") echo "selected";?>>Others</option>
-              </select>
+              <select class="custom-select validate[required]" name="position" id="position">
+            
+             
+              <?php if($list_position!=NULL){ ?>
+                <?php foreach($list_position as $rows){
+                  $positionss = $rows['position_name'];
+                ?>
+
+                  <option value="<?=$rows['position_name']?>" <?=($rows['position_name']==$staff_info->position ? "selected" :"")?>><?=ucfirst($rows['position_name'])?></option>
+                  
+                <?php } ?>
+                 <option value="Others" <?php if($positionss=="Others") echo "selected";?>>Others</option> 
+
+              <?php } //end if list position ?>
+               </select>
             </div>
       		</div>
           <?php if($staff_info->position=="Others") :?>
@@ -52,6 +57,7 @@
             <div class="form-group">
               <label class="font-weight-bold" for="fName">Full Name:</label>
               <input type="text" class="form-control validate[required,custom[fullname]]" id="fName" name="fName" value="<?= $staff_info->full_name?>">
+               <Label class="font-weight-bold" style="font-size:10px;color:red;"><i>* No BOD members shall hold any position directly involved in day-to-day operation and management operation of the Cooperative</i></label>
             </div>
       		</div>
           <div class="col-sm-12 col-md-4">

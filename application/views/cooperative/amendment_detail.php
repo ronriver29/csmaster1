@@ -59,7 +59,7 @@
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
                   <label for="regNo">Registration No:</label>
-                  <input type="text" class="form-control" name="regNo" id="regNo" placeholder="">
+                  <input type="text" class="form-control" name="regNo" id="regNo"value="<?=$regNo?>" readonly>
                 </div>
               </div>
             </div>
@@ -87,39 +87,24 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-12 col-md-6  coop-col">
+            <div class="row type-coop-row">
+              <!-- <div class="col-sm-12 col-md-6  coop-col">
                 <div class="form-group">
                   <label for="typeOfCooperative1">Type of Cooperative</label>
                   <select class="custom-select coop-type validate[required]" name="typeOfCooperative[]" id="typeOfCooperative1">
                     <option value="">--</option>
-                    <option value="7">Advocacy</option>
-                    <option value="8">Agrarian Reform</option>
-                    <option value="24">Agriculture</option>
-                    <option value="9">Bank</option>
-                    <option value="4">Consumers</option>
-                    <option value="1">Credit</option>
-                    <option value="10">Dairy</option>
-                    <option value="11">Education</option>
-                    <option value="12">Electric</option>
-                    <option value="13">Financial Service</option>
-                    <option value="14">Fishermen</option>
-                    <option value="15">Health Service</option>
-                    <option value="20">Housing</option>
-                    <option value="16">Insurance</option>
-                    <option value="21">Labor Service</option>
-                    <option value="5">Marketing</option>
-                    <option value="2">Producers</option>
-                    <option value="22">Professionals</option>
-                    <option value="3">Service</option>
-                    <option value="23">Small Scale Mining</option>
-                    <option value="17">Transport</option>
-                    <option value="18">Water Service</option>
-                    <option value="19">Workers</option>
+                    <?php
+                      foreach($list_cooperative_type as $row_coop)
+                      {
+                        ?>
+                          <option value="<?=$row_coop['id']?>"><?=$row_coop['name'] ?></option>
+                        <?php
+                      }
+                    ?>
                   </select>
                 </div>
 
-              </div>
+              </div> -->
             </div>
            <!--  <span id="count_type" style="border:1px solid red;"></span> -->
           <div class="col-sm-12 col-md-12">
@@ -134,20 +119,7 @@
             <div class="row">
               <div class="col-sm-12 col-md-12 col-industry-subclass">
                 <div class="row-cis">
-                  <div class="col-sm-12 col-md-12">
-                    <div class="form-group">
-                      <label for="majorIndustry1">Major Industry Classification No. 1</label>
-                      <select class="custom-select form-control major-industry  validate[required]" name="majorIndustry[]" id="majoreIndustry1" required="">
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-sm-12 col-md-12">
-                    <div class="form-group">
-                      <label for="subClass1">Major Industry Classification No. 1 Subclass</label>
-                      <select class="custom-select form-control validate[required]" name="subClass[]" id="subClass1" required="">
-                      </select>
-                    </div>
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -162,15 +134,16 @@
                   <label for="newName"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your new name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
 
-                  <input type="text" class="form-control p_name validate[required,funcCall[validateAmendment_proposed_name],ajax[ajaxAmendmentNameCallPhp]]" name="newName" id="newNamess">
+                  <input type="text" class="form-control p_name validate[required,funcCall[validateAmendment_proposed_name],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess">
                   <input type="hidden" class="form-control" name="newName2" id="newName2">
                   <input type="hidden" id="cooperative_idss" />
                 </div>
                 <div style="margin-bottom:0px;"> <small><span id="type_of_coop" style="margin-top:-20px;"></span></small></div>
+                
                   <div style="margin-bottom:20px;"> <small><span id="proposed_name_msg" style="margin-top:-20px;font-style:italic;"></span></small></div>
               </div>
-
             </div>
+
             <input type="hidden" id="typeOfCooperative_value" value="">
             <div class="row">
               <div class="col-sm-12 col-md-12">
@@ -208,68 +181,59 @@
                   </select>
                 </div>
               </div>
-            </div>
-            
-          </div>
+            </div> <!-- end of row -->
+          </div> <!-- end of col md 12 -->
       
       
             <!-- ASSOCIATIONAL -->
-            <div class="row">
-           <div class="col-sm-12 col-md-12" id="associational-wrapper" style="padding:5px;">
+        <div class="row" id="associational-wrappers" style="display:none">
+          <div class="col-md-12">
             <div class="form-group">
              <label for="fieldmembershipname" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
               <input type="text" class="form-control" name="assoc_field_membership" id="assoc_field_membership" >
             </div>
+          </div>  
+
+          <div class="col-md-12">
             <div class="form-group">
               <label for="compositionOfMembers1" id="name_institution_label">Name of Association</label>
-               <div class="assoc-wrapper"></div><!-- end of wrapper -->
-               <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn_Associational"  style="margin-top:35px;">
+              <input type="text" name="name_associational[]" id="name_associational" class="form-control"/>
+            </div>  
+               <div class="assoc-wrapper"></div>          
+          
+             <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn_Associational"  style="margin-top:35px;">
                 <i class="fas fa-plus"></i> Add Additional Name of Associational</button>
-              </div>
-           </div>
-        </div><!-- end of row -->
+
+          </div>  
+        </div>
+        <!-- end of row -->
         <!-- INSTITUTIONAL -->
-        <div class="col-sm-12 col-md-12" id="institutional-wrapper" style="padding:5px;">
+        <div class="col-sm-12 col-md-12" id="institutional-wrapper" style="padding:5px;border">
           <div class="form-group">
             <label for="compositionOfMembers1" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
             <input type="text" class="form-control" name="ins_field_membership" id="ins_field_membership" >
           </div>
+
           <div class="form-group">
             <label for="compositionOfMembers1" id="name_institution_label">Name of Institution</label>
-         
             <div id="wrapper" class="con-wrapper"></div><!-- end of wrapper -->
-            
             <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn_insti"  style="margin-top:35px;">
             <i class="fas fa-plus"></i> Add Additional Name of Institution</button>
           </div>
+         
         </div>
          <!--END INSTITUTIONAL -->
 
           <!--OCCUPATIONAL-->
-          <div class="row" id="occupational-wrapper" style="">
-              <div class="col-sm-12 col-md-12 col-com">
-                <div class="form-group">
-                  <label for="compositionOfMembers1">Composition of Members </label>
-               <!--  <input type="hidden" id="comp_sition" name="comp_sition" /> -->
-                  <select class="custom-select composition-of-members" name="compositionOfMembersa[]" id="compositionOfMembersa"  style="margin-bottom:10px;">
-                    <option value="" selected></option>
-                   
-                    <?php
-                      foreach ($composition as $key) {
-                        echo '<option value="'.$key->id.'">'.$key->composition.'</option>';
-                      }
-                    ?>
-                  </select>
-
-                    <div id="wrappera" class="occupational-wrappera"></div>
-
-                </div>
-              </div>
-
-                <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
-                
+          <div class="row" id="occupational-wrapper">
+            <div class="form-group">
+              <label for="compositionOfMembers1">Composition of Members </label>
             </div>
-              <!--END OCCUPATIONAL-->
+            <div id="wrappera" class="col-md-12 occupational-wrappera"></div>
+            <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
+          </div><!--  end of row -->
+
+          <!--END OCCUPATIONAL-->
          <br/>
           <div class="col-sm-12 col-md-12">
             <div class="row">

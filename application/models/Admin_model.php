@@ -171,7 +171,7 @@ class Admin_model extends CI_Model{
   }
   public function sendEmailToSpecialist($admin_info,$coop_full_name){
     $from = "coopris.test@gmail.com";    //senders email address
-    $subject = $coop_full_name.'&rsquo;s Application';  //email subject
+    $subject = $coop_full_name.'`s Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = $coop_full_name." has been assigned to you. You can now validate this application.";
@@ -265,7 +265,7 @@ You may now print the following documents in Four (4) copies:
            2.3.  The By-Laws shall be signed by all the members on the adoption page.
      3.  Treasurer's Affidavit duly notarized by a Notary Public;
 
-The above documents shall be printed in legal size bond paper or 8.5\" x 13\" size paper.
+The above documents shall be printed in legal size bond paper or 8.5\" x 13\" or 8.5\" x 14\" size paper.
 
 In addition to the above, please attach the following in 1 original and 3 certified true photocopies signed by the Authorized Officer:
 
@@ -463,7 +463,7 @@ The client shall submit the above required documents within 30 working days from
     if($access_level > 1){
       $this->db->where(array('access_level'=>$access_level,'region_code'=>$regcode));
       $this->db->from('admin');
-      if($this->db->count_all_results()==0){
+      if($this->db->count_all_results()<2){
         return array('success'=>true,'message'=>'Not exists');
       }else{
         $recDesc = ($regcode != "0" ) ? $this->region_model->get_region_by_code($regcode)->regDesc : "Central Office";

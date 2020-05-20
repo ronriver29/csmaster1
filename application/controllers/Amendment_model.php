@@ -209,6 +209,11 @@ class amendment_model extends CI_Model{
     $query = $this->db->get();
     return $query->row();
   }
+
+  public function add_amendment($major_industry)
+  {
+    return $major_industry;
+  }
   public function add_cooperative($data,$major_industry,$subtypes_array,$members_composition){
     $data = $this->security->xss_clean($data);
     $major_industry = $this->security->xss_clean($major_industry);

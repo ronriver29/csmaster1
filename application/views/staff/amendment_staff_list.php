@@ -3,7 +3,7 @@
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
     <h5 class="text-primary text-right">
       <?php if($is_client): ?>
-      Step 8
+      Step 9
       <?php endif; ?>
     </h5>
   </div>
@@ -36,22 +36,44 @@
   </div>
 <?php endif; ?>
 <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="alert alert-info text-justify" role="alert">
+          Note:
+         <ul>
+          <li>No BOD members shall hold any position directly involved in day-to-day operation and management operation of the Cooperative</li>
+         
+         </ul>
+      </div> 
+    </div>
+
   <?php if(!$requirements_complete) : ?>
+
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-info text-justify" role="alert">
          Note:
          <ul>
-          <?php if($manager_not_exists) echo '<li>You need a Manager</li>'; ?>
-          <?php if($accountant_not_exists) echo '<li>You need a Accountant</li>'; ?>
-          <?php if($bookkeeper_not_exists) echo '<li>You need a Bookkeeper</li>'; ?>
-          <?php if($cashier_not_exists) echo '<li>You need a Cashier</li>'; ?>
-          <?php if($collector_not_exists) echo '<li>You need a Collector</li>'; ?>
-          <?php if($sales_clerk_not_exists) echo '<li>You need a Sales Clerk</li>'; ?>
+          <?php if(!$manager)
+          {
+            echo '<li>You need a Manager</li>';
+          } 
+           ?>
+       
+          <?php if(!$bookkeeper)
+          {
+             echo '<li>You need a Bookkeeper</li>';
+          } 
+          ?>
+          <?php if(!$cashier_treasury)
+          {
+            echo '<li>You need a Cashier/Treasury</li>';  
+          }  ?>
+        
          </ul>
       </div>
     </div>
   <?php endif; ?>
-  <?php if(($is_client && $coop_info->status<=1) || (!$is_client &&  $coop_info->status==3)): ?>
+  <?php if($is_client && $coop_info->status<=3): 
+  //if(($is_client && $coop_info->status<=1) || (!$is_client &&  $coop_info->status==3)): ?>
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
     <a class="btn btn-color-blue btn-block" role="button" href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_staff/add" role="button"><i class="fas fa-plus"></i> Add Staff </a>
   </div>
@@ -71,7 +93,7 @@
                 <th>Status of Appointment</th>
                 <th>Minimum Education Experience/Training</th>
                 <th>Monthly Compensation</th>
-                <?php if(($is_client && $coop_info->status<=1) || (!$is_client &&  $coop_info->status==3)): ?>
+                <?php if(($is_client && $coop_info->status<=3)): ?>
                   <th>Action</th>
                 <?php endif;?>
               </tr>
@@ -87,7 +109,8 @@
                   <td><?= $single_staff['status_of_appointment']?></td>
                   <td><?= $single_staff['minimum_education_experience_training']?></td>
                   <td align="right"><?= number_format($single_staff['monthly_compensation'],2)?></td>
-                  <?php if(($is_client && $coop_info->status<=1) || (!$is_client &&  $coop_info->status==3)): ?>
+                  <?php if($is_client && $coop_info->status<=3): 
+                  //if(($is_client && $coop_info->status<=1) || (!$is_client &&  $coop_info->status==3)): ?>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                       <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_staff/<?= encrypt_custom($this->encryption->encrypt($single_staff['id'])) ?>/edit" class="btn btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>

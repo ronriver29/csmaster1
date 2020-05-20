@@ -5,6 +5,20 @@
     </div>
   </div>
 </div> -->
+<?php
+    if($gc == 0){ 
+        echo '<div class="alert alert-danger" role="alert">';
+            echo '<h4 class="alert-heading">Unable to Create Laboratories.</h4>';
+            echo '<hr>';
+            echo 'Because of the following:';
+                echo '<p><ul>';
+                    echo '<li>Not applicable to Guardian Cooperative.</li>';
+                    echo '<li>No Cooperatives created.</li>';
+                echo '</ul>';
+        echo '</div>';
+                
+        } else {
+?>
 <?php if(!$is_client && $admin_info->access_level == 3 &&  $admin_info->is_director_active == 0) : ?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
@@ -447,3 +461,4 @@
     }
   }
 </script>
+    <?php } ?>

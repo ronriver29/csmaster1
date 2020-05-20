@@ -9,23 +9,23 @@ class Amendment_economic_Survey_model extends CI_Model{
     //Codeigniter : Write Less Do More
     $this->load->database();
   }
-  public function get_economic_survey_by_coop_id($coop_id){
-    $data = $this->security->xss_clean($coop_id);
-    $query = $this->db->get_where('amendment_economic_survey',array('cooperatives_id'=>$data));
+  public function get_economic_survey_by_coop_id($amendment_id){
+    $data = $this->security->xss_clean($amendment_id);
+    $query = $this->db->get_where('amendment_economic_survey',array('amendment_id'=>$data));
     return $query->row();
   }
-  public function get_economic_survey_by_coop_id_amend($coop_id){
-    $data = $this->security->xss_clean($coop_id);
-    $query = $this->db->where('cooperatives_id',$data)
+  public function get_economic_survey_by_coop_id_amend($amendment_id){
+    $data = $this->security->xss_clean($amendment_id);
+    $query = $this->db->where('amendment_id',$data)
     ->from('amendment_economic_survey');
     return $query->count_all_results();
   }
 
-  public function insert_economic_survey($survey_coop_id,$survey_info){
-    $survey_coop_id = $this->security->xss_clean($survey_coop_id);
+  public function insert_economic_survey($amendment_id,$survey_info){
+    $amendment_id = $this->security->xss_clean($amendment_id);
     $survey_info = $this->security->xss_clean($survey_info);
     $this->db->trans_begin();
-    $this->db->where('cooperatives_id', $survey_coop_id);
+    $this->db->where('amendment_id', $amendment_id);
     $this->db->insert('amendment_economic_survey',$survey_info);
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
@@ -36,11 +36,11 @@ class Amendment_economic_Survey_model extends CI_Model{
     }
   }
   
-  public function update_economic_survey($survey_coop_id,$survey_info){
-    $survey_coop_id = $this->security->xss_clean($survey_coop_id);
+  public function update_economic_survey($amendment_id,$survey_info){
+    $amendment_id = $this->security->xss_clean($amendment_id);
     $survey_info = $this->security->xss_clean($survey_info);
     $this->db->trans_begin();
-    $this->db->where('cooperatives_id', $survey_coop_id);
+    $this->db->where('amendment_id', $amendment_id);
     $this->db->update('amendment_economic_survey',$survey_info);
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
@@ -51,9 +51,9 @@ class Amendment_economic_Survey_model extends CI_Model{
     }
   }
   
-  public function check_survey_complete($survey_coop_id){
+  public function check_survey_complete($amendment_id){
     $counter = 0;
-    $query = $this->db->get_where('amendment_economic_survey',array('cooperatives_id'=>$survey_coop_id));
+    $query = $this->db->get_where('amendment_economic_survey',array('amendment_id'=>$amendment_id));
     if($query->num_rows()>0) {
         $data = $query->row();
         foreach ($data as $key => $value){

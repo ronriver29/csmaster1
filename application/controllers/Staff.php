@@ -60,7 +60,7 @@ class Staff extends CI_Controller{
                               $data['cashier_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"cashier");
                               $data['collector_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"collector");
                               $data['sales_clerk_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"cales clerk");
-                               $data['cashier_tresurer_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"cashier/treasurer"); //modified
+                              $data['cashier_tresurer_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"cashier/treasurer"); //modified
                                // echo $this->db->last_query();
                                // var_dump(  $data['cashier_tresurer_not_exists']);
                               $data['requirements_complete'] = $this->staff_model->requirements_complete($decoded_id);
@@ -155,7 +155,8 @@ class Staff extends CI_Controller{
                                 $data['cashier_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"Cashier");
                                 $data['collector_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"Collector");
                                 $data['sales_clerk_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"Sales clerk");
-                                 $data['sales_clerk_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"cashier/treasurer"); //modified
+                                $data['sales_clerk_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"cashier/treasurer"); //modified
+                                $data['cashier_tresurer_not_exists'] = $this->staff_model->check_position_not_exists($decoded_id,"cashier/treasurer"); //modified
                                 $data['requirements_complete'] = $this->staff_model->requirements_complete($decoded_id);
                                 $data['staff_list'] = $this->staff_model->get_all_staff_of_coop($decoded_id);
                                 $this->load->view('templates/admin_header', $data);
@@ -548,10 +549,19 @@ class Staff extends CI_Controller{
                                     $data['staff_info'] = $this->staff_model->get_staff_info($decoded_staff_id);
 
                                     //modify by json
-                                  $position_qry = $this->db->get('staff_position');
+                                  $others_from_coop_position=$this->other_position($decoded_id);
+                                  $position_qry = $this->db->get_where('staff_position',array('cooperative_id'=>0));
                                   if($position_qry->num_rows()>0)
                                   {
-                                    $data['list_position'] = $position_qry->result();
+                                    if(is_array($others_from_coop_position))
+                                    {
+                                       $data['list_position'] = array_merge($position_qry->result_array(),$others_from_coop_position);
+                                    }
+                                    else
+                                    {
+                                      $data['list_position'] = $position_qry->result_array();
+                                    }
+                                    
                                   }
                                   else
                                   {

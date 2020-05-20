@@ -28,7 +28,7 @@
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">
-    <?php echo form_open('amendment/'.$encrypted_id.'/amendment_cooperators/add',array('id'=>'addCooperatorForm','name'=>'addCooperatorForm')); ?>
+    <?php echo form_open('amendment/'.$encrypted_id.'/amendment_cooperators/add',array('id'=>'addCooperatorFormAmendment','name'=>'addCooperatorFormAmendment')); ?>
       <div class="card-body">
         <div class="row">
           <input type="hidden" class="form-control" id="amd_id" name="amd_id" value="<?=$encrypted_id ?>">
@@ -58,10 +58,10 @@
             <div class="form-group">
               <label for="membershipType">Type of Membership:</label>
               <select class="custom-select validate[required]" id="membershipType" name="membershipType">
-                <option value="" selected>--</option>
+                <option id="A" value="" selected>--</option>
                 <option value="Regular">Regular</option>
                 <?php if($bylaw_info->kinds_of_members==2) :?>
-                  <option value="Associate">Associate</option>
+                  <option id="B" value="Associate">Associate</option>
                 <?php endif?>
               </select>
             </div>
@@ -83,7 +83,8 @@
           <div class="col-sm-12 col-md-3">
             <div class="form-group">
               <label for="paidShares">No of paid-up Shares:</label>
-              <input type="number" min="1" max="<?=isset($capitalization_info->total_no_of_paid_up_capital) ? $capitalization_info->total_no_of_paid_up_capital - $total_paid: ''?>" class="form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom]]" id="amd_paidShares" name="paidShares" readonly>
+              <!-- <input type="number" min="1" max="<?=isset($capitalization_info->total_no_of_paid_up_capital) ? $capitalization_info->total_no_of_paid_up_capital - $total_paid: ''?>" class="form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustomAmendment]]" id="amd_paidShares" name="paidShares" readonly> -->
+              <input type="number" min="1" max="<?=isset($capitalization_info->total_no_of_paid_up_capital) ? $capitalization_info->total_no_of_paid_up_capital - $total_paid: ''?>" class="form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustomAmendment]]" id="amd_paidShares" name="paidShares" readonly>
               <div id="paid-note" style="color: red; font-size:12px;"></div>
             </div>
           </div>

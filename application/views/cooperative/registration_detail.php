@@ -47,7 +47,7 @@
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
                   <label for="regNo">Registration No of the Cooperative</label>
-                  <input type="text" class="form-control validate[required]" name="regNo" id="regNo" >
+                  <input type="text" class="form-control validate[required]" name="regNo" id="regNo" value="<?=$regno;?>" readonly>
                 </div>
               </div>
             </div>

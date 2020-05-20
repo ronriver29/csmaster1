@@ -27,13 +27,24 @@
               <label class="font-weight-bold" for="position">Position:</label>
               <select class="custom-select validate[required]" name="position" id="position">
                 <option value="" selected>--</option>
-                <option value="Manager">Manager</option>
-                <option value="Accountant">Accountant</option>
-                <option value="Bookkeeper">Bookkeeper</option>
-                <option value="Cashier">Cashier</option>
-                <option value="Collector">Collector</option>
-                <option value="Sales Clerk">Sales clerk</option>
-                <option value="Others">Others</option>
+                <?php if($list_postion!=NULL){?>
+                  <?php foreach($list_postion as $row) 
+                  {
+                    ?>
+                       <option value="<?=$row['position_name']?>"><?= ucfirst($row['position_name'])?></option>
+                    <?php
+                  }
+                  ?>
+                <?php } ?>
+                 <option value="Others">Others</option>
+                <!-- <option value="manager">Manager</option>
+                <option value="accountant">Accountant</option>
+                <option value="cashier/treasurer">Cashier/Treasurer</option>
+                <option value="bookkeeper">Bookkeeper</option> -->
+                <!-- <option value="Cashier">Cashier</option> -->
+               <!--  <option value="collector">Collector</option>
+                <option value="sales clerk">Sales clerk</option>
+                <option value="Others">Others</option> -->
               </select>
             </div>
       		</div>
@@ -43,6 +54,7 @@
             <div class="form-group">
               <label class="font-weight-bold" for="fName">Full Name:</label>
               <input type="text" class="form-control validate[required,custom[fullname]]" id="fName" name="fName">
+              <Label class="font-weight-bold" style="font-size:10px;color:red;"><i>* No BOD members shall hold any position directly involved in day-to-day operation and management operation of the Cooperative</i></label>
             </div>
       		</div>
           <div class="col-sm-12 col-md-4">

@@ -12,8 +12,8 @@ class Amendment_uploaded_document_model extends CI_Model{
   public function add_document_info($branchID,$coopid,$docnum,$filename,$status){
     $data = $this->security->xss_clean($data);
     $this->db->trans_begin();
-//    $this->db->delete('amendment_uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>$docnum));
-    $this->db->insert('amendment_uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>$docnum,'filename'=>$filename,'status'=>$status));
+    $this->db->delete('uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>$docnum));
+    $this->db->insert('uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>$docnum,'filename'=>$filename,'status'=>$status));
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -22,45 +22,113 @@ class Amendment_uploaded_document_model extends CI_Model{
       return true;
     }
   }
-  public function get_document_one_info($coopid){
-    $coopid = $this->security->xss_clean($coopid);
-    $query = $this->db->get_where('amendment_uploaded_documents',array('cooperatives_id'=>$coopid,'document_num'=>1));
+  
+  public function add_document_info_amendment($data){
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+     // $this->db->delete('uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>$docnum));
+
+    $this->db->insert('amendment_uploaded_documents',$data);
+   //  $last_id = $this->db->insert_id() ;
+   // $new_file_name = $last_id.'_'.$filename;
+   //  $data_new= array('filename'=>$new_file_name);
+   //  $this->db->update('uploaded_documents',$data_new,array('id'=>$last_id));
+
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
+
+  //modify json
+  public function upload_lab_document($coopID,$labID,$doc_num,$filename)
+  {
+      $data= array(
+                    'cooperatives_id'=>$coopID,
+                    'laboratory_id'=>$labID,
+                    'branch_id'=>0,
+                    'document_num'=>$doc_num,
+                    'filename' =>$filename,
+                    'status'=>1,
+                    'created_at'=>date('Y-m-d h:i:s',now('Asia/Manila'))
+      );
+
+      $this->db->trans_begin();
+      $this->db->insert('uploaded_documents',$data);
+
+      if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+      }else{
+        $this->db->trans_commit();
+        return true;
+      }
+  }
+
+   //modify by json
+  public function add_document_info_($branchID,$coopid,$docnum,$filename,$status){
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+     // $this->db->delete('uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>$docnum));
+
+    $this->db->insert('uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>$docnum,'filename'=>$filename,'status'=>$status,'created_at'=>date('Y-m-d h:i:s',now('Asia/Manila'))));
+   //  $last_id = $this->db->insert_id() ;
+   // $new_file_name = $last_id.'_'.$filename;
+   //  $data_new= array('filename'=>$new_file_name);
+   //  $this->db->update('uploaded_documents',$data_new,array('id'=>$last_id));
+
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
+  
+  public function get_document_one_info($amendment_id){
+    $amendment_id= $this->security->xss_clean($amendment_id);
+    $query = $this->db->get_where('amendment_uploaded_documents',array('amendment_id'=>$amendment_id,'document_num'=>1));
     $data = $query->row();
     return $data;
   }
-  public function get_document_two_info($coopid){
-    $coopid = $this->security->xss_clean($coopid);
-    $query = $this->db->get_where('amendment_uploaded_documents',array('cooperatives_id'=>$coopid,'document_num'=>2));
+
+  public function get_document_two_info($amendment_id){
+   $amendment_id = $this->security->xss_clean($amendment_id);
+    $query = $this->db->get_where('amendment_uploaded_documents',array('amendment_id'=>$amendment_id,'document_num'=>2));
     $data = $query->row();
     return $data;
   }
   public function get_document_5_info($branchID,$coopid){
     $coopid = $this->security->xss_clean($coopid);
-    $query = $this->db->get_where('amendment_uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>5));
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>5));
     $data = $query->row();
     return $data;
   }
   public function get_document_6_info($branchID,$coopid){
     $coopid = $this->security->xss_clean($coopid);
-    $query = $this->db->get_where('amendment_uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>6));
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>6));
     $data = $query->row();
     return $data;
   }
   public function get_document_7_info($branchID,$coopid){
     $coopid = $this->security->xss_clean($coopid);
-    $query = $this->db->get_where('amendment_uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>7));
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>7));
     $data = $query->row();
     return $data;
   }
   public function get_document_8_info($branchID,$coopid){
     $coopid = $this->security->xss_clean($coopid);
-    $query = $this->db->get_where('amendment_uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>8));
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>8));
     $data = $query->row();
     return $data;
   }
   public function get_document_9_info($branchID,$coopid){
     $coopid = $this->security->xss_clean($coopid);
-    $query = $this->db->get_where('amendment_uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>9));
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>9));
     $data = $query->row();
     return $data;
   }
@@ -69,8 +137,20 @@ class Amendment_uploaded_document_model extends CI_Model{
     $coopid = $this->security->xss_clean($coopid);
     $filename = $this->security->xss_clean($filename);
     $this->db->where(array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>$document_num,'filename'=>$filename));
-    $this->db->from('amendment_uploaded_documents');
-    $this->db->join('uploaded_documents','amendment_uploaded_documents.cooperatives_id = uploaded_documents.cooperatives_id','inner');
+    $this->db->from('uploaded_documents');
+    $count = $this->db->count_all_results();
+    if($count > 0){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  ///modify
+  public function check_document_of_cooperative_2($branchID,$labID,$document_num,$filename){
+    $labID = $this->security->xss_clean($labID);
+    $filename = $this->security->xss_clean($filename);
+    $this->db->where(array('branch_id'=>$branchID,'laboratory_id'=>$labID,'document_num'=>$document_num,'filename'=>$filename));
+    $this->db->from('uploaded_documents');
     $count = $this->db->count_all_results();
     if($count > 0){
       return true;

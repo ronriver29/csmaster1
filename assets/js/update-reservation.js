@@ -313,7 +313,7 @@
           setTimeout(function(){
             $('#reserveUpdateFormLaboratories #barangay').val(data.bCode);
             if(data.area_of_operation=='Barangay'){
-              alert(data.area_of_operation);
+              // alert(data.area_of_operation);
               $('#reserveUpdateFormLaboratories #barangay').prop("disabled",true);
               $('#reserveUpdateFormLaboratories #city').prop("disabled",true);
               $('#reserveUpdateFormLaboratories #province').prop("disabled",true);

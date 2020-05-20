@@ -62,7 +62,7 @@ class Admins extends CI_Controller{
       }
     }
   }
-  public function all_admin(){
+  public function all_admin(){ 
     if(!$this->session->userdata('logged_in')){
       redirect('admins/login');
     }else{
@@ -388,13 +388,14 @@ class Admins extends CI_Controller{
     {
      $u_email = $this->input->post('eAddressLogin');
       //check email in users
-      $check_user_query = $this->db->get_where('admin',array('email'=> $u_email));
+      $check_user_query = $this->db->get_where('admin',array('username'=> $u_email));
       if($check_user_query->num_rows()>0)
       {
         foreach($check_user_query->result_array() as $row)
         {
           $id = $row['id'];
           $user_email = $row["email"];
+          $username = $row["username"];
         }
          //echo'email already exist.';
         // $this->load->helper('string');
@@ -404,7 +405,7 @@ class Admins extends CI_Controller{
         {
           if($update_passwd)
           {
-              $send_mail = $this->sendEmailpassword($user_email,$temp_passwd);
+              $send_mail = $this->sendEmailpassword($user_email,$temp_passwd,$username);
               if($send_mail)
               {
                  $data['alert_class'] ='success';
@@ -426,7 +427,9 @@ class Admins extends CI_Controller{
       }
       else
       {
-        echo'email not recognized';
+          $data['alert_class'] ='danger';
+          $this->session->set_flashdata(array('resetpsswd_msg' => "Email not recognized."));
+//        echo'email not recognized';
       } //end of num rows
     }
       $head = 'Account recovery';
@@ -435,7 +438,28 @@ class Admins extends CI_Controller{
         $this->load->view('admin/v_forgotpassword',$data);
         $this->load->view('./templates/admin_footer'); 
   }
-
+  
+  public function sendEmailpassword($email,$temppassword,$username){
+      $from = "coopris.test@gmail.com";    //senders email address
+      $subject = 'Password recovery';  //email subject
+      $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+      $keywords = preg_split("/@/", $email);
+      $message = "Your account has been reset. Please see your updated login details below. <br>".
+      "<ul><li>Username: ".$username."</li><li>Password: ".$temppassword."</li></ul><br/>
+      Once logged in, we suggest you to change your password immediately. 
+      ";
+      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->to($email);
+      $this->email->subject($subject);
+      $this->email->message($message);
+      if($this->email->send()){
+          return true;
+      }else{
+          return false;
+      }
+  }
+  
   public function logout(){
     $this->session->unset_userdata('logged_in');
     $this->session->unset_userdata('user_id');
@@ -471,5 +495,71 @@ class Admins extends CI_Controller{
         redirect('cooperatives');
       }
     }
+  }
+
+  public function change_passwd()
+  {
+    $data['alert_class']='';
+    $u_id=  $this->session->userdata('user_id');
+    if(isset($_POST['submit-change-passwd']))
+    {
+      $input_current_passwd = $this->input->post('password');
+      $new_passwd = $this->input->post('newpassword');
+      $confirm_password = $this->input->post('conf_password');
+      // echo "new" .$new_passwd.  ' confirm' . $confirm_password;
+      if($new_passwd != $confirm_password)
+      {
+              $data['alert_class'] = 'danger';
+            $this->session->set_flashdata(array('change_password_msg'=>"Password did not match."));
+      }
+      else
+      {
+
+     
+        //check current password
+        $check_query = $this->db->get_where('admin',array('id'=>$u_id));
+        if($check_query->num_rows()>0)
+        {
+          foreach($check_query->result_array() as $row)
+          {
+            // $current_passwd = $row['password'];
+            $input_verified_passwd = password_verify($input_current_passwd,$row['password']);
+            if($input_verified_passwd ==1)
+            {
+               $u_data = array(
+                'password'=>password_hash($new_passwd, PASSWORD_BCRYPT),
+                'updated_at'=> date('Y-m-d h:i:s',now('Asia/Manila'))
+                );
+                 $update_passwd = $this->db->update('admin',$u_data,array('id'=>$u_id));
+                 if($update_passwd)
+                 {
+                  $data['alert_class'] = 'success';
+                   $this->session->set_flashdata(array('change_password_msg'=>"Successfully password changed."));//password match';
+                 }
+               
+            }
+            else
+            {
+                  $data['alert_class'] = 'danger';
+              $this->session->set_flashdata(array('change_password_msg'=>"Failed! Password not exist."));
+            }
+
+          }
+        }
+        else
+        {
+          echo "no user found.";
+        }
+       }// end of confirm password  
+    }
+
+
+      $data['admin_info'] = $this->admin_model->get_admin_info($u_id);
+      $data['header'] = 'Change Password';
+      $data['title'] = 'Change password'; 
+       $this->load->view('./templates/admin_header',$data);
+        $this->load->view('admin/change_passwords',$data);
+        $this->load->view('./templates/admin_footer',$data); 
+
   }
 }

@@ -106,7 +106,7 @@ class Laboratories_registration extends CI_Controller{
         $laboratory_registered= $this->registration_model->get_cooperative_info_laboratories($reg_no,$decoded_id);
         $data1['coop_info']= $laboratory_registered;
       // echo"<pre>";print_r( $data1['coop_info']); echo "<pre>";
-         $this->load->view('laboratories/cor_view', $data1);
+         // $this->load->view('laboratories/cor_view', $data1);
         $html2 = $this->load->view('laboratories/cor_view', $data1, TRUE);
         $J = new pdf();       
         $J->set_option('isRemoteEnabled',TRUE);

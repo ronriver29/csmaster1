@@ -67,7 +67,7 @@
               <?php if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
                     $branch_name = $branch_info->brgy;
                 } else if($branch_info->area_of_operation == 'Provincial') {
-                    $branch_name = $branch_info->brgy;
+                    $branch_name = $branch_info->city;
                 } else if ($branch_info->area_of_operation == 'Regional') {
                     $branch_name = $branch_info->city.', '.$branch_info->province;
                 } else if ($branch_info->area_of_operation == 'National') {
@@ -135,7 +135,7 @@
             </ul>
       <br><br>
         <input style="width:18%;" class="btn btn-color-blue" type="submit" id="offlineBtn" name="offlineBtn" value="Pay at CDA Treasury">
-        <input style="width:18%;" class="btn btn-color-blue" type="submit" id="onlineBtn" name="onlineBtn" value="Pay Online">
+        <input style="width:18%;" class="btn btn-color-blue" type="submit" id="onlineBtn" name="onlineBtn" value="Pay Online" disabled>
       
     </form>
     </div>

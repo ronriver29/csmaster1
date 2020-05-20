@@ -323,7 +323,7 @@
                   <li>Has participated in the affairs of the Cooperative and patronized its businesses in accordance with cooperative’s policies and guidelines;</li>
                 </ol>
               </small>
-                <!-- <label for="additionalConditionsForVoting"><strong>List down any additional condition for members to be able to vote</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> -->
+                <!-- <label for="additionalConditionsForVoting"><strong>List down any additional condition for members to be able to vote</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> --> 
                 
                 <input class="form-control " style="resize: none;" id="additionalConditionsForVoting" name="additionalConditionsForVoting[]" placeholder="Must be in a sentence"rows="8"  value="<?= $bylaw_info->additional_conditions_to_vote ?>" disabled>
               </div>

@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-sm-12 col-md-12">
-    <div class="modal fade" id="approveCooperativeModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="approveCooperativeModalLabel" aria-hidden="true">
+    <div class="modal fade" id="approveAmendmentModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="approveAmendmentModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <?php echo form_open('amendment/approve_cooperative',array('id'=>'approveCooperativeForm','name'=>'approveCooperativeForm')); ?>
+          <?php echo form_open('amendment/approve_cooperative',array('id'=>'approveAmendmentForm','name'=>'approveAmendmentForm')); ?>
             <div class="modal-header">
-              <h4 class="modal-title" id="approveCooperativeModalLabel">Are you sure you want to approve this application?</h4>
+              <h4 class="modal-title" id="approveAmendmentModalLabel">Are you sure you want to approve this application?</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -26,7 +26,7 @@
               </div> -->
             </div>
             <div class="modal-footer approveCooperativeFooter">
-              <input class="btn btn-color-blue" type="submit" id="approveCooperativeBtn" name="approveCooperativeBtn" value="Approve">
+              <input class="btn btn-color-blue" type="submit" id="approveCooperativeBtn" name="approveCooperativeBtn" value="Submit">
             </div>
           </form>
         </div>

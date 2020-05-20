@@ -64,9 +64,9 @@
             <?php
               if ($pay_from=='reservation'){
                 $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $article_info->par_value_common : $total_regular['total_paid'] * $article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $article_info->par_value_common) : ($total_regular['total_paid'] *$article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred)) *0.001 : 500.00);
-                $lrf=(($rf+$name_reservation_fee)*.01>10) ?($rf+$name_reservation_fee)*.01 : 10;
+                $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
                 if(!empty($coop_info->acronym_name)){ 
-                    $acronym_name = '('.$coop_info->acronym_name.')';
+                    $acronym_name = '('.$coop_info->acronym_name.') ';
                 } else {
                     $acronym_name = '';
                 }
@@ -135,7 +135,7 @@
         </div>
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=$encrypted_id ?>">
           <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
-          <input type="hidden" class="form-control" id="payor" name="payor" value="<?=($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronym_name.' '.$coop_info->grouping)?>">
+          <input type="hidden" class="form-control" id="payor" name="payor" value="<?=($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronym_name.''.$coop_info->grouping)?>">
           <input type="hidden" class="form-control" id="nature" name="nature" value="Name Registration">
           <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee">
           <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2) ?>">
@@ -144,7 +144,7 @@
       </div>
       <br><br>
         <input style="width:18%;" class="btn btn-color-blue" type="submit" id="offlineBtn" name="offlineBtn" value="Pay at CDA Treasury">
-        <input style="width:18%;" class="btn btn-color-blue" type="submit" id="onlineBtn" name="onlineBtn" value="Pay Online">
+        <input style="width:18%;" class="btn btn-color-blue" type="submit" id="onlineBtn" name="onlineBtn" value="Pay Online" disabled>
       
     </form>
     </div>

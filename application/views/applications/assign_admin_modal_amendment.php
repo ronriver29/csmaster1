@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-sm-12 col-md-12">
-    <div class="modal fade" id="assignSpecialistModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="assignSpecialistLabel" aria-hidden="true">
+    <div class="modal fade" id="assignSpecialistAmendmentModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="assignSpecialistLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <?php echo form_open('cooperatives/specialist',array('id'=>'assignSpecialistForm','name'=>'assignSpecialistForm')); ?>
+          <?php echo form_open('amendment/specialist',array('id'=>'assignSpecialistAmendmentForm','name'=>'assignSpecialistAmendmentForm')); ?>
             <div class="modal-header">
               <h4 class="modal-title" id="assignSpecialistLabel">Assign Specialist Form</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -12,11 +12,11 @@
             </div>
             <div class="modal-body">
               <div class="row">
-                <input type="hidden" name="cooperativesID" id="cooperativesID" value="">
+                <input type="hidden" name="amd_id" id="amd_id" value="">
                 <div class="col-sm-12 col-md-12">
                   <div class="form-group">
                     <label for="cooperativeName" class="font-weight-bold">Name of Cooperative: </label>
-                    <input type="text" class="form-control validate[required]" name="cooperativeName" id="cooperativeName" value="" readonly>
+                    <input type="text" class="form-control validate[required]" name="amdName" id="amdName" value="" readonly>
                   </div>
                 </div>
                 <div class="col-sm-12 col-md-12">

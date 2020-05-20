@@ -1069,7 +1069,7 @@
             </tr>
           </thead>
           <tbody>
-            <?php $count=0; foreach($cooperators_list as $cooperator) :?>
+            <?php $count=0; foreach($cooperators_list_regular as $cooperator) :?>
               <?=$count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>

@@ -68,7 +68,10 @@
                   $data['header'] = 'Update laboratory Information';
                   $data['regions_list'] = $this->region_model->get_regions();
                   $data['branch_info'] = $this->laboratories_model->get_branch_info($user_id,$decoded_id);
-                  $data['major_industries_by_coop_type'] = $this->major_industry_model->get_major_industries_by_type_name($data['branch_info']->type_of_cooperative);
+                  $cooperative_info = $this->laboratories_model->coop_dtl($data['branch_info']->cooperative_id);
+
+                  $data['major_industries_by_coop_type'] = $this->major_industry_model->get_major_industries_by_type_name($cooperative_info->type_of_cooperative);
+                  // $this->debug( $data['major_industries_by_coop_type']);
                   $data['major_industry_list'] = $this->laboratories_model->get_all_major_industry($decoded_id);
                   $data['encrypted_id'] = $id;
                   $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
@@ -84,11 +87,11 @@
                   //$this->load->view('cooperative/terms_and_condition');
                   $this->load->view('./template/footer', $data);
                 }else{ //else validation false
-                  echo "validation true";
+                  // echo "validation true";
                 } //end of validation false
 
               }else{ //else check submitted
-                      echo"Already submitted";
+                      // echo"Already submitted";
                       
                 // $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
                 // redirect('laboratories/'.$id);
@@ -197,7 +200,13 @@
           $data['client_info'] = $this->user_model->get_user_info($user_id);
           $data['header'] = 'Laboratories';
           $data['list_laboratories'] = $this->laboratories_model->get_all_laboratories($this->session->userdata('user_id'));
-
+          $data['coopreg_info'] = $this->laboratories_model->getCoopRegNo($user_id);
+          if(empty($data['coopreg_info'])){
+              $data['gc'] = '';
+          } else {
+              $data['gc'] = $data['coopreg_info']->gc;
+          }
+              
           $data['user_ID'] =$this->session->userdata('user_id');
           $this->load->view('template/header', $data);
           $this->load->view('applications/list_of_laboratories', $data);
@@ -232,6 +241,7 @@
               $data['registered_laboratories'] = $this->laboratories_model->get_registered_laboratories($data['admin_info']->region_code);
               $data['list_laboratories'] = $this->laboratories_model->get_all_laboratories_by_director($data['admin_info']->region_code);
             }
+            $data['gc']=1; //if admin level enable it 
             $data['user_ID'] =$this->session->userdata('user_id');
             $data['admin_accesslevel'] =$this->session->userdata('access_level');
             $this->load->view('applications/list_of_laboratories', $data);
@@ -258,6 +268,13 @@
               $data['header'] = 'Registration';
               $data['regions_list'] = $this->region_model->get_regions();             
               $data['composition'] = $this->cooperatives_model->get_composition();
+              $data['coopreg_info'] = $this->laboratories_model->getCoopRegNo($user_id);
+//              if(!empty($data['coopreg_info'])){
+//                  $data['regno'] = '';
+//              } else {
+                  $data['regno'] = $data['coopreg_info']->regNo;
+//              }
+              
               if(isset($_POST['branchAddBtn'])){
                   $temp = TRUE;
               } else {
@@ -280,11 +297,7 @@
                   'user_id' => $this->session->userdata('user_id'),
                   'labName' => $this->input->post('coopName'),
                   'cooperative_id' => $cooperative_ID,
-                  'laboratoryName' => $this->input->post('labName'), //modify by 
-                  // 'comp_college' => $this->input->post('com_college'),
-                  // 'comp_highschool' => $this->input->post('com_highschool'),
-                  // 'comp_grade' => $this->input->post('com_gradeschool'),
-                  // 'comp_outschool' => $this->input->post('com_outofschool'),
+                  'laboratoryName' => $this->input->post('labName'), 
                   'coop_id' => $this->input->post('regNo'),
                   'addrCode' => $this->input->post('barangay'),
                   'streetName' => $this->input->post('streetName'),
@@ -362,38 +375,46 @@
         {
            $cooperativeType ="No Cooperative type found";
         }
+     
+         $cooperative_doc_ = $this->cooperatives_model->get_type_of_coop($cooperativeType);
+         foreach($cooperative_doc_ as $doctypes)
+         {
+         	$doctypes['link'] = $this->count_documents_others_laboratory($Cooperative_id,$doctypes['document_num']);
+         	$data_docs[]= $doctypes;
+         }
 
-         $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($cooperativeType);
-                                $data['ching'] = array_column($data['coop_type'], 'id');
-                                $data['ching2'] = implode(',',$data['ching']);
-                                 $data['ching3'] = count($data['coop_type']);
-                                if($data['ching3']!=0){
-                                    $data['ching4'] = $data['ching'][0];
-                                    if($data['ching3'] == 2){
-                                        $data['ching5'] = $data['ching'][1];
-                                    }
-                                }
+         $data['coop_type']=$data_docs;
+         //                        $data['ching'] = array_column($data['coop_type'], 'id');
+         //                        $data['ching2'] = implode(',',$data['ching']);
+         //                         $data['ching3'] = count($data['coop_type']);
+         //                        if($data['ching3']!=0){
+         //                            $data['ching4'] = $data['ching'][0];
+         //                            if($data['ching3'] == 2){
+         //                                $data['ching5'] = $data['ching'][1];
+         //                            }
+         //                        }
 
-          if($data['ching3'] == 2){
-                                    $data['document_others'] = $this->count_documents_others($Cooperative_id,$data['ching4']);
-                                    if($data['document_others'])
-                                    {
-                                      $data['read_upload'] = $this->count_documents_others($Cooperative_id,$data['ching4']);
-                                    }
-                                    $data['document_others2'] = $this->count_documents_others2($Cooperative_id,$data['ching5']);
-                                    if($data['document_others2'])
-                                    {
-                                      $data['read_upload'] = $this->count_documents_others2($Cooperative_id,$data['ching5']);
-                                    }
-                                } else {
-                                    if($data['ching3']!=0){
-                                        $data['document_others'] = $this->count_documents_others($Cooperative_id,$data['ching4']);
-                                        if($data['document_others'])
-                                        {
-                                          $data['read_upload'] = $this->count_documents_others($Cooperative_id,$data['ching4']);
-                                        }
-                                    }
-                                }
+						   //      if($data['ching3'] == 2)
+						   //      {
+         //                            $data['document_others'] = $this->count_documents_others($Cooperative_id,$data['ching4']);
+         //                            if($data['document_others'])
+         //                            {
+         //                              $data['read_upload'] = $this->count_documents_others($Cooperative_id,$data['ching4']);
+         //                            }
+         //                            $data['document_others2'] = $this->count_documents_others2($Cooperative_id,$data['ching5']);
+         //                            if($data['document_others2'])
+         //                            {
+         //                              $data['read_upload'] = $this->count_documents_others2($Cooperative_id,$data['ching5']);
+         //                            }
+         //                        } else {
+         //                            if($data['ching3']!=0){
+         //                                $data['document_others'] = $this->count_documents_others($Cooperative_id,$data['ching4']);
+         //                                if($data['document_others'])
+         //                                {
+         //                                  $data['read_upload'] = $this->count_documents_others($Cooperative_id,$data['ching4']);
+         //                                }
+         //                            }
+         //                        }
 
 
           $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
@@ -433,6 +454,23 @@
     return $data;
 
   }
+
+   public function count_documents_others_laboratory($coop_id,$num)
+  {
+    // $query = $this->db->where('document_num = '.$num.' AND cooperatives_id ='.$coop_id.' AND status = 1')->get('uploaded_documents');
+    $query = $this->db->query("select * from uploaded_documents where cooperatives_id='$coop_id' and document_num='$num' and status=1 order by id desc limit 1");
+    if($query->num_rows()>0)
+    {
+      $data = $query->result_array();
+    }
+    else
+    {
+      $data =NULL;
+    }
+    return $data;
+
+  }
+
 
 
   //modify by json
@@ -543,7 +581,9 @@
               $lab_infos =  $this->laboratories_model->get_lab_info($decoded_id);
               $data['comment_list_director'] = $this->get_comment($decoded_id,3,25);
               $data['comment_list_senior'] = $this->get_comment($decoded_id,2,12);
-              $data['comment_list_defer_director'] = $this->get_comment($decoded_id,3,24);
+              // $data['comment_list_defer_director'] = $this->get_comment($decoded_id,3,24);
+               $data['comment_list_defer_director'] =$this->get_latest_comment($decoded_id,3,24);
+                // $this->debug( $data['comment_list_defer_director']);
               //check if document is uploaded
               $data['manual_operation'] =$this->laboratories_model->check_submitted_doc($lab_infos->cooperative_id,$decoded_id,25);
               $data['board_resolution']=$this->laboratories_model->check_submitted_doc($lab_infos->cooperative_id,$decoded_id,26);
@@ -580,6 +620,19 @@
       return $qry->row();
     }
   }
+  public function get_latest_comment($lab_id,$access_level,$laboratory_status)
+  {
+    $qry =  $this->db->query("select * from laboratory_comment where laboratory_id='$lab_id' and user_access_level='$access_level' and laboratory_status='$laboratory_status' order by id desc limit 1");
+    if($qry->num_rows()>0)
+    {
+      return $qry->row();
+    }
+  }
+
+
+
+
+
     public function evaluate($id = null){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
@@ -686,11 +739,11 @@
                               if(!$this->admin_model->check_if_director_active($user_id)){
                                 $success = $this->laboratories_model->approve_by_supervisor_laboratories($data['admin_info'],$decoded_id,$coop_full_name);
                                 if($success){
-                                  $this->session->set_flashdata('list_success_message', 'Laboratory has been approvedsss.');
+                                  $this->session->set_flashdata('list_success_message', 'Laboratory has been approved.');
                                   redirect('cooperatives');
                                 }else{
                                   $this->session->set_flashdata('list_error_message', 'Unable to approve laboraotories.');
-                                  redirect('cooperatives');
+                                  redirect('laboratories');
                                 }
                               }else{
                                 $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated by the Director.');
@@ -756,15 +809,16 @@
                                               'comment'=> trim($this->input->post('comment')),
                                               'created_at'=>date('Y-m-d h:i:s',now('Asia/Manila'))
                                             );
-                              $check_comment_senior = $this->db->get_where('laboratory_comment',array('laboratory_id'=>$decoded_id,'laboratory_status'=>12,'user_access_level'=>2));
-                                if($check_comment_senior->num_rows()>0)
-                                {
-                                  $this->db->update('laboratory_comment',$data3,array('laboratory_id'=>$decoded_id,'laboratory_status'=>12,'user_access_level'=>2));
-                                }
-                                else
-                                {
-                                  $this->db->insert('laboratory_comment',$data3); // insert comment details
-                                }
+                               $this->db->insert('laboratory_comment',$data3); // insert comment details
+                              // $check_comment_senior = $this->db->get_where('laboratory_comment',array('laboratory_id'=>$decoded_id,'laboratory_status'=>12,'user_access_level'=>2));
+                              //   if($check_comment_senior->num_rows()>0)
+                              //   {
+                              //     $this->db->update('laboratory_comment',$data3,array('laboratory_id'=>$decoded_id,'laboratory_status'=>12,'user_access_level'=>2));
+                              //   }
+                              //   else
+                              //   {
+                              //     $this->db->insert('laboratory_comment',$data3); // insert comment details
+                              //   }
                              }
                              
 
@@ -1036,9 +1090,7 @@
                 if($this->session->userdata('access_level')==5){
                   redirect('admins/login');
                 }else{
-                  
-                    if($this->laboratories_model->check_submitted_for_evaluation($decoded_id)){
-                      
+                    if($this->laboratories_model->check_submitted_for_evaluation($decoded_id)){   
                       //if(!$this->laboratories_model->check_if_denied($decoded_id)){
                         $reason_commment = $this->input->post('comment',TRUE);
                         $admin_info = $this->admin_model->get_admin_info($user_id);
@@ -1222,7 +1274,6 @@
                 if($this->session->userdata('access_level')==5){
                   redirect('admins/login');
                 }else{
-                  
                     if($this->laboratories_model->check_submitted_for_evaluation($decoded_id)){
                       if(!$this->laboratories_model->check_if_denied($decoded_id)){
                         $reason_commment = $this->input->post('comment',TRUE);
@@ -1378,8 +1429,7 @@
                     }else{
                       $this->session->set_flashdata('redirect_applications_message', 'The branch you trying to deny is not yet submitted for evaluation.');
                       redirect('laboratories');
-                    }
-                  
+                    }  
                 }
             }
           }else{
@@ -1502,8 +1552,6 @@
 
       );
          $labID = $this->encryption->decrypt(decrypt_custom($this->input->post('laboratoryID')));
-      // echo json_encode($date_or);
-    //   //modify by json
     $this->laboratories_model->save_OR(array('id' => $this->input->post('payment_id')), $data,$labID,$date_or);
        echo json_encode(array("status" => TRUE, "message"=>"O.R. No has been saved."));
       
@@ -1538,8 +1586,6 @@
         {
           echo "Unauthorized!";
         }
-
-
       } // end of logged_in  
     } //public
 
@@ -1560,7 +1606,6 @@
             {
               $this->session->set_flashdata(array('status_msg'=>'success','defer_msg'=>'Laboratory has been deferred successfully.'));
                redirect('laboratories/'.$this->input->post('laboratoryID').'/laboratories_documents');
-
             }
             else
             {
@@ -1575,6 +1620,11 @@
 
       }//end is logged  
     }//end public
+    public function debug($array)
+    {
+    		echo"<pre>";
+    		print_r($array);
+    		echo"</pre>";
+    }
   }
-
  ?>

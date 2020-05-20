@@ -172,4 +172,5 @@ $autoload['model'] = array(
   'amendment_staff_model',
   'email_model',
   'affiliators_model',
+  'amendment_capitalization_model',
 );

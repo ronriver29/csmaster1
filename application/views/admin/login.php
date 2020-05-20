@@ -30,7 +30,9 @@
               ?>
               <input class="btn btn-lg btn-primary btn-block btn-color-blue <?php echo ($this->session->flashdata("login_admin_failed") ? 'mt-4' : 'mt-5'); ?>" type="submit"></button>
             <?php echo form_close(); ?>
-            <a class="btn btn-linnk" href="<?php echo base_url();?>users/login">Client Log-in</a>
+            <a class="btn btn-link" href="<?php echo base_url();?>users/login">Client Log-in</a>
+            
+            <a class="btn btn-link" href="<?= base_url('/Admins/forgot_password')?>" style="float:right;">Forgot password</a>
           </div>
 
                    <div>

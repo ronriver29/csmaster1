@@ -17,7 +17,8 @@
               <input type="hidden" class="validate[required]" id="doc_type_" name="doc_type_"/>
               <div class="alert alert-warning" role="alert">
                 <strong><b>Warning:</b></strong>
-                <p><strong class="pdf-name-text">test</strong> will be remove in <strong class="pdf-cname-text">test</strong> uploaded documents. There is no way to recover this.</p>
+               <!--  <p><strong class="pdf-name-text">test</strong> will be remove in <strong class="pdf-cname-text">test</strong> uploaded documents. There is no way to recover this.</p> -->
+                <p><strong class="pdf-name-text"></strong> file will be remove in uploaded documents. There is no way to recover this.</p>
               </div>
             </div>
             <div class="modal-footer deleteCommitteeFooter">

@@ -112,21 +112,21 @@ $config = array(
             'label' => 'Name of the Cooperative',
             'rules' => 'trim|required'
           ),
-          array(
-            'field' => 'regNo',
-            'label' => 'Registration No of the Cooperative',
-            'rules' => 'trim|required'
-          ),
-          array(
-            'field' => 'MI[]',
-            'label' => 'Major Industry',
-            'rules' => 'trim|required'
-          ),
-          array(
-            'field' => 'SC[]',
-            'label' => 'Major Industry Subclass',
-            'rules' => 'trim|required'
-          ),
+//          array(
+//            'field' => 'regNo',
+//            'label' => 'Registration No of the Cooperative',
+//            'rules' => 'trim|required'
+//          ),
+//          array(
+//            'field' => 'MI[]',
+//            'label' => 'Major Industry',
+//            'rules' => 'trim|required'
+//          ),
+//          array(
+//            'field' => 'SC[]',
+//            'label' => 'Major Industry Subclass',
+//            'rules' => 'trim|required'
+//          ),
           array(
             'field' => 'barangay',
             'label' => 'Barangay',

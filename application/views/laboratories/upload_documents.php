@@ -258,7 +258,7 @@
               <?php if(isset($document_one)) : ?>
              
 
-                 <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$cid?>/1">
+                 <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf_laboratory/<?=$cid?>/1">
 
                   <?php if($is_client) : ?>
                     This is your Surety Bond of Accountable Officers document.
@@ -288,7 +288,7 @@
             <p class="card-text">
             
               <?php if(isset($document_two)) : ?>
-              <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$cid?>/2">
+              <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf_laboratory/<?=$cid?>/2">
 
                 <?php if($is_client) : ?>
                   This is your Pre-Registration Seminar PRS Certificate document.
@@ -327,23 +327,41 @@ $count=0;
             <div class="card-body">
               <h5 class="card-title"><?=$coop['coop_title']?></h5>
                 <p class="card-text">
-                    <?php if($count==1){?>
-                        <?php if(isset($document_others)) : ?>
+                    
+                     <!-- 
                         <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$cid?>/<?=$coop['id']?>">
 
                         <?php if($is_client) : ?>
                           This is your <?=$coop['coop_title']?> document.
                         <?php else : ?>
                           This is the <?=$coop['coop_title']?> document.
-                        <?php endif;?>
-                        </a>
-                        <?php endif ?>
-                        <?php if(!isset($document_others)) : ?>
-                            <?=$coop['coop_desc']?>
-                        <?php endif ?>
+                        <?php endif;?> -->
+
+                      <!--   </a> -->
+                       
+                         <?php 
+                            foreach($coop['link'] as $row_link)
+                            {
+                            
+                             ?>
+
+                               <a target="_blank" href="<?php echo base_url();?>laboratories_documents/view_document_one_lab3/<?=encrypt_custom($this->encryption->encrypt($row_link['id']))?>/<?=encrypt_custom($this->encryption->encrypt($row_link[
+                               'filename']))?>/<?=$row_link['document_num']?>">
+
+                                  <?php if($is_client) : ?>
+                                    This is your <?=$coop['coop_title']?> document.
+                                  <?php else : ?>
+                                    This is the <?=$coop['coop_title']?> document.
+                                  <?php endif;?>
+                             </a>
+
+                             <?php
+                            }
+                          ?> 
+                       
                         <br>
-                    <?php } else {?>
-                        <?php if(isset($document_others2)) : ?>
+                  
+                        <!-- <?php if(isset($document_others2)) : ?>
                         <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$cid?>/<?=$coop['id']?>">
 
                         <?php if($is_client) : ?>
@@ -356,8 +374,8 @@ $count=0;
                         <?php if(!isset($document_others2)) : ?>
                             <?=$coop['coop_desc']?>
                         <?php endif ?>
-                        <br>
-                    <?php } ?>
+                        <br> -->
+                  
                 </p>
                 <?php if($is_client && $coop_info->status<=1 || $coop_info->status==11): ?>
                     <a href="<?php echo base_url();?>cooperatives/<?=$cid?>/documents/upload_document_others/<?=encrypt_custom($this->encryption->encrypt($coop['id']))?>" class="btn btn-primary">Upload</a>

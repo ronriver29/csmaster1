@@ -37,18 +37,19 @@
 <?php endif; ?>
 <div class="row">
 
-  <?php if($requirements_complete==false) : ?>
+  <?php // if($requirements_complete==false) : ?>
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-info text-justify" role="alert">
-         Note:
+          Note:
          <ul>
+          <li>No BOD members shall hold any position directly involved in day-to-day operation and management operation of the Cooperative</li>
           <?php if($manager_not_exists==false) echo '<li>You need a Manager</li>'; ?>
           <?php if($bookkeeper_not_exists==false) echo '<li>You need a Bookkeeper</li>'; ?>
           <?php if($cashier_tresurer_not_exists==false) echo '<li>You need a Cashier/Treasurer</li>';?>
          </ul>
       </div> 
     </div>
-  <?php endif; ?>
+  <?php // endif; ?>
   <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
     <a class="btn btn-color-blue btn-block" role="button" href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/staff/add" role="button"><i class="fas fa-plus"></i> Add Staff </a>

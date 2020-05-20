@@ -48,9 +48,7 @@
                 <th>#</th>
                 <th>FileName</th>
                 <th>Date</th>
-                <!-- <th>status</th> -->
-             	<th></th>
-              	
+             	  <th></th>
               </tr>
             </thead>
             <tbody>
@@ -61,14 +59,14 @@
                 <td> <?=$a++;?></td>
                 <td><?=$row['filename']?></td>
                 <td><?=date('F-d-Y',strtotime($row['created_at']))?></td>
-              <!--   <td><?=$row['status']?></td> -->
+            
                
                 <td>
                 	 
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                   	<a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>laboratories/<?=$encrypted_id?>/laboratories_documents/view_document_one_lab/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
                     <?php if(($is_client)): ?>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePDFModal" data-doctypess="<?=$row['document_num']?>" data-coopid="<?= $encrypted_id ?>" data-comname="<?=$row['filename']?>" data-fname="" data-pdfid="<?= encrypt_custom($this->encryption->encrypt($row['id']))?>"><i class='fas fa-trash'></i> Delete</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePDFModal" data-doctypess="<?=$row['document_num']?>" data-coopid="<?= $encrypted_id ?>" data-comname="<?=$row['filename']?>" data-fname="<?=$row['filename']?>" data-pdfid="<?= encrypt_custom($this->encryption->encrypt($row['id']))?>"><i class='fas fa-trash'></i> Delete</button>
                     <?php endif; ?>
                   </div>
                 </td>
@@ -78,7 +76,7 @@
       <?php else: echo"<tr><td>No Documents found</td></td>"; ?>
           <?php endif; ?>
             </tbody>
-          </table>
+          </table> 
         </div>
       </div>
     </div>
@@ -86,9 +84,57 @@
 </div>
 <br>
 
-<?php if($is_client) : 
+<?php if($is_client) : ?>
+<h3>New Upload</h3>
+<div class="row">
+  <div class="col-sm-12 col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="table-responsive">
 
-else :?>
+          <table class="table table-bordered" id="committeesTable2">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>FileName</th>
+                <th>Date</th>
+                <th></th>   	
+              </tr>
+            </thead>
+            <tbody>
+            <?php if(isset($defered_uploaded_list_pdf)) :?>	
+        	<?php $a=1;foreach($defered_uploaded_list_pdf as $row): ?>
+              <tr>
+                <td> <?=$a++;?></td>
+                <td><?=$row['filename']?></td>
+                <td><?=date('F-d-Y',strtotime($row['created_at']))?></td>
+              <!--   <td><?=$row['status']?></td> -->
+               
+                <td>
+                	 
+
+                  <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                  	<a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
+                    <?php if(($is_client)): ?>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePDFModal" data-doctypess="<?=$row['document_num']?>" data-coopid="<?= $encrypted_id ?>" data-comname="<?=$row['filename']?>" data-fname="<?=$row['filename']?>" data-pdfid="<?= encrypt_custom($this->encryption->encrypt($row['id']))?>"><i class='fas fa-trash'></i> Delete</button>
+                    <?php endif; ?>
+                  </div>
+                </td>
+             
+              </tr>
+          <?php endforeach; ?>
+      <?php else: //echo "No Documents found"; ?>
+      <!-- <tr><td colspan="4">No Documents found</td></tr> -->
+
+          <?php endif; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<?php else :?>
 <h3>New Upload</h3>
 <div class="row">
   <div class="col-sm-12 col-md-12">
@@ -101,9 +147,7 @@ else :?>
                 <th>#</th>
                 <th>FileName</th>
                 <th>Date</th>
-                <!-- <th>status</th> -->
              	<th></th>
-              	
               </tr>
             </thead>
             <tbody>

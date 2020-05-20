@@ -287,6 +287,13 @@
                     "alertTextOk": "* This committee name is available.",
                     "alertTextLoad": "* Validating, please wait"
                 },
+                 "ajaxCommitteeNameCallPhpAmendment": {
+                    "url": "check_committee_name_not_exists",
+                    // you may want to pass extra data on the ajax call
+                    "alertText": "* This committee name already exists. Please select it in the dropdown.",
+                    "alertTextOk": "* This committee name is available.",
+                    "alertTextLoad": "* Validating, please wait"
+                },
                 "ajaxUserNameCallPhp": {
                     "url": "check_username_not_exists",
                     // you may want to pass extra data on the ajax call
@@ -319,6 +326,15 @@
                     "alertTextOk": "* This is greater than or equal to the minimum regular pay subscription indicated in the bylaws",
                     "alertTextLoad": "* Validating, please wait"
                 },
+                "ajaxMinimumRegularPayCallPhpAmendment": {
+                    "url": "../../amendmentbylaws/check_minimum_regular_pay",
+                    // you may want to pass extra data on the ajax call
+                    "extraDataDynamic": ['#amd_id'],
+                    "alertText": "* Must be greater than or equal to the minimum regular pay indicated in the bylaws",
+                    "alertTextOk": "* This is greater than or equal to the minimum regular pay subscription indicated in the bylaws",
+                    "alertTextLoad": "* Validating, please wait"
+                },
+
                 "ajaxMinimumAssociateSubscriptionCallPhp": {
                     "url": "../../bylaws/check_minimum_associate_subscription",
                     // you may want to pass extra data on the ajax call
@@ -327,6 +343,15 @@
                     "alertTextOk": "* This is greater than or equal to the minimum associate subscription indicated in the bylaws",
                     "alertTextLoad": "* Validating, please wait"
                 },
+                 "ajaxMinimumAssociateSubscriptionCallPhpAmendment": {
+                    "url": "../../../amendmentbylaws/check_minimum_associate_subscription",
+                    // you may want to pass extra data on the ajax call
+                    "extraDataDynamic": ['#amd_id'],
+                    "alertText": "* Must be greater than or equal to the minimum associate subscription indicated in the bylaws and Must not be greater than 10% of your Total no of paid-up capital",
+                    "alertTextOk": "* This is greater than or equal to the minimum associate subscription indicated in the bylaws",
+                    "alertTextLoad": "* Validating, please wait"
+                },
+
                 "ajaxMinimumAssociatePayCallPhp": {
                     "url": "../../bylaws/check_minimum_associate_pay",
                     // you may want to pass extra data on the ajax call
@@ -351,6 +376,14 @@
                     "alertTextOk": "* This is greater than or equal to the minimum regular pay subscription indicated in the bylaws",
                     "alertTextLoad": "* Validating, please wait"
                 },
+                "ajaxMinimumRegularPayEditCallPhpAmendment": {
+                    "url": "../../../amendmentbylaws/check_minimum_regular_pay",
+                    // you may want to pass extra data on the ajax call
+                    "extraDataDynamic": ['#amd_id'],
+                    "alertText": "* Must be greater than or equal to the minimum regular pay indicated in the bylaws",
+                    "alertTextOk": "* This is greater than or equal to the minimum regular pay subscription indicated in the bylaws",
+                    "alertTextLoad": "* Validating, please wait"
+                },
                 "ajaxMinimumAssociateSubscriptionEditCallPhp": {
 //                    "url": "../../../bylaws/check_minimum_associate_subscription",
                     "url": "../../../../bylaws/check_minimum_associate_subscription",
@@ -369,6 +402,7 @@
                     "alertTextOk": "* This is greater than or equal to the minimum associate pay subscription indicated in the bylaws",
                     "alertTextLoad": "* Validating, please wait"
                 },
+                //pay up share associate
                 "ajaxMinimumAssociatePayEditAmendmentCallPhp": {
                     "url": "../../amendmentbylaws/check_minimum_associate_pay_amendment",
                  
@@ -454,6 +488,9 @@
                 "validateNumberOfPaidUpGreater" : {
                   "alertText": "* Must not be greater than the number of subscribed shares"
                 },
+                "validateNumberOfPaidUpGreaterAmendment" : {
+                  "alertText": "* Must not be greater than the number of subscribed shares"
+                },
 	            //tls warning:homegrown not fielded
                 "dateFormat":{
                     "regex": /^\d{4}[\/\-](0?[1-9]|1[012])[\/\-](0?[1-9]|[12][0-9]|3[01])$|^(?:(?:(?:0?[13578]|1[02])(\/|-)31)|(?:(?:0?[1,3-9]|1[0-2])(\/|-)(?:29|30)))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(?:(?:0?[1-9]|1[0-2])(\/|-)(?:0?[1-9]|1\d|2[0-8]))(\/|-)(?:[1-9]\d\d\d|\d[1-9]\d\d|\d\d[1-9]\d|\d\d\d[1-9])$|^(0?2(\/|-)29)(\/|-)(?:(?:0[48]00|[13579][26]00|[2468][048]00)|(?:\d\d)?(?:0[48]|[2468][048]|[13579][26]))$/,
@@ -469,7 +506,7 @@
 	            },
                 //modified
                  "validateAmendment_proposed_name": {
-                  "alertText": "* Do not include the word Multipurpose Cooperative in the proposed name"
+                  "alertText": "* Do not include the word Cooperative or Multipurpose Cooperative in the proposed name"
                 }
             };
 

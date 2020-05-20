@@ -38,14 +38,14 @@ class Cooperators extends CI_Controller{
                     $data['chairperson_count'] = $this->cooperator_model->check_chairperson($decoded_id);
                     $data['associate_not_exists'] = $this->cooperator_model->check_associate_not_exists($decoded_id);
                     $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-//                    $data['minimum_regular_subscription'] = $this->cooperator_model->check_all_minimum_regular_subscription($decoded_id);
-//                    $data['minimum_regular_pay'] = $this->cooperator_model->check_all_minimum_regular_pay($decoded_id);
-//                    $data['minimum_associate_subscription'] = $this->cooperator_model->check_all_minimum_associate_subscription($decoded_id);
-//                    $data['minimum_associate_pay'] = $this->cooperator_model->check_all_minimum_associate_pay($decoded_id);
-                    $data['minimum_regular_subscription'] = $capitalization_info->minimum_subscribed_share_regular;
-                    $data['minimum_regular_pay'] = $capitalization_info->minimum_paid_up_share_regular;
-                    $data['minimum_associate_subscription'] = $capitalization_info->minimum_subscribed_share_associate;
-                    $data['minimum_associate_pay'] = $capitalization_info->minimum_paid_up_share_associate;
+                    $data['minimum_regular_subscription'] = $this->cooperator_model->check_all_minimum_regular_subscription($decoded_id);
+                    $data['minimum_regular_pay'] = $this->cooperator_model->check_all_minimum_regular_pay($decoded_id);
+                    $data['minimum_associate_subscription'] = $this->cooperator_model->check_all_minimum_associate_subscription($decoded_id);
+                    $data['minimum_associate_pay'] = $this->cooperator_model->check_all_minimum_associate_pay($decoded_id);
+//                    $data['minimum_regular_subscription'] = $capitalization_info->minimum_subscribed_share_regular;
+//                    $data['minimum_regular_pay'] = $capitalization_info->minimum_paid_up_share_regular;
+//                    $data['minimum_associate_subscription'] = $capitalization_info->minimum_subscribed_share_associate;
+//                    $data['minimum_associate_pay'] = $capitalization_info->minimum_paid_up_share_associate;
                     $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                     $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                     $data['check_regular_paid'] = $this->cooperator_model->check_regular_total_shares_paid_is_correct($data['total_regular']);
@@ -184,7 +184,7 @@ class Cooperators extends CI_Controller{
                         'proof_date_issued' =>$this->input->post('dateIssued'),
                         'place_of_issuance' =>$this->input->post('placeIssuance'),
                         );
-                      $success = $this->cooperator_model->add_cooperator($data);
+                      $success = $this->cooperator_model->add_cooperator($data,'');
                       if($success['success']){
                         $this->session->set_flashdata('cooperator_success', $success['message']);
                         redirect('cooperatives/'.$this->input->post('cooperativesID').'/cooperators');
@@ -274,7 +274,7 @@ class Cooperators extends CI_Controller{
                           'proof_date_issued' =>$this->input->post('dateIssued'),
                           'place_of_issuance' =>$this->input->post('placeIssuance'),
                           );
-                        $success = $this->cooperator_model->add_cooperator($data);
+                        $success = $this->cooperator_model->add_cooperator($data,'');
                         if($success['success']){
                           $this->session->set_flashdata('cooperator_success', $success['message']);
                           redirect('cooperatives/'.$this->input->post('cooperativesID').'/cooperators');
@@ -356,6 +356,7 @@ class Cooperators extends CI_Controller{
                           $data['header'] = 'Cooperators';
                           $data['encrypted_id'] = $id;
 
+                          $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
                           $data['regions_list'] = $this->region_model->get_regions();
                           $data['encrypted_cooperator_id'] = $cooperator_id;
                           $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
@@ -689,5 +690,17 @@ class Cooperators extends CI_Controller{
         show_404();
       }
     }
+  }
+
+  function get_cooperative_info($user_id,$coop_id){
+    $this->db->select('cooperatives.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+    $this->db->from('cooperatives');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->where(array('cooperatives.users_id'=>$user_id,'cooperatives.id'=>$coop_id));
+    $query = $this->db->get();
+    return $query->row();
   }
 }

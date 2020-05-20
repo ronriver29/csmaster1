@@ -13,12 +13,31 @@
             $submit = 'Approve';
         }?>
     <?php if($admin_info->access_level !=5) : ?>
+      <?php
+        if(strlen($coop_info->acronym)>0)
+        {
+            $acronym_ = '('.$coop_info->acronym .')';
+        }
+        else
+        {
+             $acronym_='';
+        }
+
+        if(count(explode(',',$coop_info->type_of_cooperative))>1)
+        {
+          $proposedName = $coop_info->proposed_name.' Multipurpose Cooperative '. $acronym_;
+        }
+        else
+        {
+           $proposedName= $coop_info->proposed_name.' Cooperative '. $acronym_;
+        }
+      ?>
       <div class="btn-group float-right" role="group" aria-label="Basic example">
         <a  class="btn btn-info btn-sm" href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_cooperative_tool">Tool</a>
-        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>><?=$submit?></button><!--  modify by Jayson change approve button to submit -->
+        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveAmendmentModal"  data-cname="<?= $proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($amendment_id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>><?=$submit?></button><!--  modify by Jayson change approve button to submit -->
     <?php if($admin_info->access_level == 3) {?>
-        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button>
-        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Defer</button>
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferCooperativeModal"  data-cname="<?=$proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Defer</button>
     <?php } ?>
       </div>
       <?php endif;?>
@@ -30,36 +49,146 @@
 <?php if($is_client) : ?>
     <?php else :?>
 <?php if(strlen(($coop_info->comment_by_specialist && $admin_info->access_level==2) || $admin_info->access_level==3)) : ?>
+<!--  <?php if(strlen($have_cds_comment)>0):?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-info" role="alert">
         <p class="font-weight-bold">CDS Comment:</p>
-        <pre><?= $coop_info->comment_by_specialist ?></pre>
+        <pre><?= $have_cds_comment ?></pre>
       </div>
     </div>
   </div>
+<?php endif; ?> -->
 <?php endif;?>
-<?php if(strlen($coop_info->comment_by_senior && $admin_info->access_level==3 || $coop_info->status==12)) : ?>
+<!-- <?php if(strlen($have_senior_comment && $admin_info->access_level==3 || $coop_info->status==12)) : ?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-info" role="alert">
         <p class="font-weight-bold">Senior Comment:</p>
-        <pre><?= $coop_info->comment_by_senior ?></pre>
+        <pre><?= $have_senior_comment ?></pre>
       </div>
     </div>
   </div>
-<?php endif;?>
-<?php if(strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==3) || ($coop_info->temp_evaluation_comment && $admin_info->access_level==2) && $coop_info->status == 6)) : ?>
-  <div class="row mt-3">
-    <div class="col-sm-12 col-md-12">
-      <div class="alert alert-danger" role="alert">
-        <p class="font-weight-bold">This cooperative has been deferred because of the following reason/s:</p>
-        <pre><?= $coop_info->temp_evaluation_comment ?></pre>
+<?php endif;?> -->
+  <?php if(strlen(($have_director_comment && $admin_info->access_level==3) || ($coop_info->temp_evaluation_comment && $admin_info->access_level==2) && $coop_info->status == 24)) : ?>
+    <div class="row mt-3">
+      <div class="col-sm-12 col-md-12">
+        <div class="alert alert-danger" role="alert">
+          <p class="font-weight-bold">This cooperative has been deferred because of the following reason/s:</p>
+          <pre><?= $have_director_comment ?></pre>
+        </div>
+      </div>
+    </div>
+
+  <?php else: ?>  
+    <!-- START CDS -->
+    <?php if(strlen($have_cds_comment)>0):?>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg">* CDS Findings</button>
+
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                CDS Findings
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+            </div>
+            <div class="modal-body">
+                <pre><?php 
+                    if(count($cds_comment)>0):
+                    foreach($cds_comment as $cc) :
+                        echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                        echo '<ul type="square">';
+                            echo '<li>'.$cc['comment'].'</li>';
+                        echo '</ul>';
+                    endforeach;
+                        echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
+                        echo '<p>'.$coop_info->tool_findings.'</p>';
+                    endif;    
+                ?></pre>  
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+        </div>
+      </div>
+    </div>
+    <?php endif; //end of strlen commetn ?>
+    <!-- END CDS -->
+   <!--  START SENIOR -->
+   <?php if(strlen($have_senior_comment)>0): ?>
+   <?php if(strlen($senior_comment && $admin_info->access_level==3 || $coop_info->status==12) || strlen($senior_comment && $admin_info->access_level==2) && $coop_info->status!=15) : ?>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg2">* Senior Findings</button>
+
+    <div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                Senior Findings
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+            </div>
+            <div class="modal-body">
+                <pre><?php 
+    //            print_r($cooperatives_comments);
+                foreach($senior_comment as $cc) :
+                    echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                    echo '<ul type="square">';
+                        echo '<li>'.$cc['comment'].'</li>';
+                    echo '</ul>';
+                endforeach;
+            ?></pre>  
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <!--            <button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+        </div>
+      </div>
+    </div>
+    <?php endif;?>
+  <?php endif; //end of strlen comment ?>
+   <!--  END SENIOR -->
+   <!--  START DIRECTOR -->
+  <?php if(strlen($have_director_comment)>0): ?>
+  <?php if(strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==3) || ($coop_info->temp_evaluation_comment && $admin_info->access_level==2) && $coop_info->status == 6 || strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Director Findings</button>
+
+  <div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              The cooperative has been deferred because of the following reason/s:
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+          </div>
+          <div class="modal-body" style="table-layout: fixed;">
+              <pre><?php 
+  //            print_r($cooperatives_comments);
+              foreach($director_comment as $cc) :
+                  echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                  echo '<ul type="square">';
+                      echo '<li>'.$cc['comment'].'</li>';
+                  echo '</ul>';
+              endforeach;
+          ?></pre>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+  <!--            <button type="button" class="btn btn-primary">Save changes</button>-->
+          </div>
       </div>
     </div>
   </div>
-<?php endif;?>
+ 
+  <?php endif; //end if director button?>  
+  <?php endif; //end of is clien?>
+
 <?php endif; ?>
+<?php endif; //end strlen of director comment?>
+<!-- END DIRECTOR -->
+<hr>
 <?php if($this->session->flashdata('redirect_documents')): ?>
 <div class="row">
   <div class="col-sm-12 col-md-12">
@@ -256,61 +385,110 @@
   </div> -->
 </div>
 <!--ANJURY-->
-<div class="row">
-<?php 
-$count=0;
-    foreach ($coop_type as $coop) : 
-?>
-    <?php $count++;?>
-    <div class="col-sm-12 col-md-4">
+<div class="row" style="padding-top:20px;">
+  <?php 
+  $count_coop_type = explode(',',$coop_info->cooperative_type_id); 
+  if(count($count_coop_type)>1)
+  {
+    ?>
+
+      <div class="col-sm-12 col-md-4">
         <div class="card">
             <div class="card-body">
-              <h5 class="card-title"><?=$coop['coop_title']?></h5>
+              <h5 class="card-title">Feasibility Study</h5>
                 <p class="card-text">
-                    <?php if($count==1){?>
-                        <?php if(isset($document_others)) : ?>
-                        <a target="_blank" href="<?php echo base_url();?>amendment_documents/list_upload_pdf/<?=$encrypted_id?>/<?=$coop['id']?>">
+                  <?php 
+                   if($feasibity)
+                   { 
+                  ?>
+                  <a href="<?php echo base_url().'amendment/'.$encrypted_id.'/amendment_documents/doc_link_view/'.encrypt_custom($this->encryption->encrypt(3));?>">Detailed Feasibility Study</a>
+                  <?php
+                   }
+                   else
+                   {
+                  ?>
+                    Detailed Feasibility Study
+                  <?php
+                   } 
+                  ?>
+                </p>
+                <?php if($is_client && $coop_info->status<=1 || $coop_info->status==11){ ?>
+                <a href="<?php echo base_url().'amendment/'.$encrypted_id.'/amendment_documents/upload_cooptype_document/'.encrypt_custom($this->encryption->encrypt(3)).'/';?>" class="btn btn-primary">Upload</a>
+              <?php } ?>
+            </div>
+        </div>
+      </div> <!-- end col-md-4 -->        
 
-                        <?php if($is_client) : ?>
-                          This is your <?=$coop['coop_title']?> document.
-                        <?php else : ?>
-                          This is the <?=$coop['coop_title']?> document.
-                        <?php endif;?>
-                        </a>
-                        <?php endif ?>
-                        <?php if(!isset($document_others)) : ?>
-                            <?=$coop['coop_desc']?>
-                        <?php endif ?>
-                        <br>
-                    <?php } else {?>
-                        <?php if(isset($document_others2)) : ?>
-                        <a target="_blank" href="<?php echo base_url();?>amendment_documents/list_upload_pdf/<?=$encrypted_id?>/<?=$coop['id']?>">
+       <div class="col-sm-12 col-md-4" >
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Books of Account</h5>
+                <p class="card-text">
+                  <?php
+                   if($books_of_account)
+                   {
+                  ?>
+                  <a href="<?php echo base_url().'amendment/'.$encrypted_id.'/amendment_documents/doc_link_view/'.encrypt_custom($this->encryption->encrypt(4));?>">
+                  Undertaking to maintain separate books of accounts for each business activity
+                  </a>
+                  <?php
+                   }
+                   else
+                   {
+                  ?>
+                     Undertaking to maintain separate books of accounts for each business activity
+                  <?php
+                   }
+                  ?>
+             
+              </p>
+                <?php if($is_client && $coop_info->status<=1 || $coop_info->status==11){ ?>
+                  <a href="<?php echo base_url().'amendment/'.$encrypted_id.'/amendment_documents/upload_cooptype_document/'.encrypt_custom($this->encryption->encrypt(4));?>" class="btn btn-primary">Upload</a>
+                <?php }?>  
+            </div>
+        </div>
+      </div> <!-- end col-md-4 -->        
+    <?php
 
-                        <?php if($is_client) : ?>
-                          This is your <?=$coop['coop_title']?> document.
-                        <?php else : ?>
-                          This is the <?=$coop['coop_title']?> document.
-                        <?php endif;?>
-                        </a>
-                        <?php endif ?>
-                        <?php if(!isset($document_others2)) : ?>
-                            <?=$coop['coop_desc']?>
-                        <?php endif ?>
-                        <br>
-                    <?php } ?>
+  }//end count
+  ?>
+<?php 
+$count=0;
+  if(is_array($coop_type))
+  {
+    foreach ($coop_types_ as $doc_) : 
+    $doc_num = $doc_['document_num'];
+?>
+    <?php $count++;?>
+    <div class="col-sm-12 col-md-4" >
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><?=$doc_['title']?></h5>
+                <p class="card-text">
+                  <?php
+                  if(strlen($doc_['link'])>0)
+                  {
+                  ?>
+                  <a target="_blank" href="<?php echo base_url().'amendment/'.$encrypted_id.'/amendment_documents/doc_link_view/'.encrypt_custom($this->encryption->encrypt($doc_num));?>"><?=$doc_['description']?></a>
+                  <?php
+                  }
+                  else
+                  {
+                  ?>
+                    <?=$doc_['description']?>
+                  <?php  
+                  }
+                  ?>
+                        
                 </p>
                 <?php if($is_client && $coop_info->status<=1 || $coop_info->status==11): ?>
-                    <a href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/upload_document_others/<?=encrypt_custom($this->encryption->encrypt($coop['id']))?>" class="btn btn-primary">Upload</a>
+                    <a href="<?php echo base_url().'amendment/'.$encrypted_id.'/amendment_documents/upload_cooptype_document/'.encrypt_custom($this->encryption->encrypt($doc_num));?>" class="btn btn-primary">Upload</a>
                 <?php endif; ?>
             </div>
         </div>
     </div>
 
     <?php endforeach; ?>
-</div>
+ <?php }?>   
+</div> <!-- end of row -->
 <!--ANJURY END-->
-<pre>
-    <?php // print_r($coop_type);?>
-    <?php // print_r($ching);?>
-    <?php // echo $ching4;?>
-</pre>

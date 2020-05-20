@@ -85,21 +85,31 @@ class Amendment_capitalization extends CI_Controller{
             }else if($this->session->userdata('access_level')!=1){
               redirect('amendment');
             }else{
-              if($this->amendment_model->check_expired_reservation_by_admin($decoded_id)){
+              if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('amendment');
               }else{
-                if($this->amendment_model->check_submitted_for_evaluation($decoded_id)){
+                if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
-                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+              
+                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
+
+          
                   if($data['bylaw_complete']){
                         $data['title'] = 'Capitalization';
                         $data['header'] = 'Capitalization';
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                         $data['encrypted_id'] = $id;
 //                        $data['requirements_complete'] = $this->capitalization_model->is_requirements_complete($decoded_id);
-                        $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                        $data['capitalization_info'] = $this->amendment_capitalization_model    ->get_capitalization_by_coop_id($decoded_id);
+                        $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
+                        $data['capitalization_info'] = $this->amendment_capitalization_model    ->get_capitalization_by_coop_id($cooperative_id,$decoded_id);
+
+                          //modified
+                    $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
+                    $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
+                    $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$decoded_id);
+                    //end modified
+                    
                         $this->load->view('./templates/admin_header', $data);
                         $this->load->view('amendment/bylaw_info/capitalization_form', $data);
                         $this->load->view('./templates/admin_footer');

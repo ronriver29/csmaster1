@@ -34,6 +34,15 @@ if($cooperator_info->position=="Board of Director" || $cooperator_info->position
     $credits = 'disabled';
     $gad = 'enabled';
     $others = 'disabled';
+} else if($cooperator_info->position=="Secretary"){
+    $audit = 'disabled';
+    $election = 'disabled';
+    $eat = 'disabled';
+    $mac = 'disabled';
+    $ethics = 'disabled';
+    $credits = 'disabled';
+    $gad = 'enabled';
+    $others = 'disabled';
 } else {
     $audit = 'enabled';
     $election = 'enabled';

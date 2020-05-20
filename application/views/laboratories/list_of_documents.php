@@ -8,7 +8,7 @@
 </div>
 <?php endif; ?>
 
-<?php if($this->session->flashdata('defer_msg')): ?>
+<!-- <?php if($this->session->flashdata('defer_msg')): ?>
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="alert alert-<?=$this->session->flashdata('status_msg')?> text-center" role="alert">
@@ -16,14 +16,17 @@
     </div>
   </div>
 </div>
-<?php endif; ?>
+<?php endif; ?> -->
 
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>laboratories/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
 
+ 
+  
+
     <?php if($is_client) : ?>
-    <h5 class="text-primary text-right">
+    <h5 class="text-primary text-right" >
       Step 9
     </h5>
   <?php else :?>
@@ -45,15 +48,21 @@
       <?php } ?>
       <?php endif;?>
   <?php endif; ?>
+
+  
+
   </div>
 </div>
+
+
+
 
 
 <?php if($admin_info->access_level==3 || $admin_info->access_level==2){//if(($admin_info->access_level ==2)  || ($admin_info->access_level ==3)){?>
 <?php if(isset($comment_list_director) && strlen($comment_list_director->comment)>0){ ?>
 
   <div class="row mt-3 col-md-12"> 
-    <div class="col-sm-12 col-md-12">
+   <div class="col-sm-12 col-md-12">
       <div class="alert alert-danger" role="alert">
         <p class="font-weight-bold">Laboratory has been denied.</p>
         <p class="font-weight-bold">Director Comment:</p>
@@ -66,8 +75,7 @@
 <?php } //end of access level?>
     
 <?php if($admin_info->access_level==3){//if(($admin_info->access_level ==2)  || ($admin_info->access_level ==3)){?>
-<?php if(isset($comment_list_senior) && strlen($comment_list_senior->comment)>0){ ?>
-
+<!-- <?php if(isset($comment_list_senior) && strlen($comment_list_senior->comment)>0){ ?>
   <div class="row mt-3 col-md-12"> 
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-info" role="alert">
@@ -76,19 +84,99 @@
       </div>
     </div>
   </div>
-<?php } ?>
+<?php } ?> -->
 <?php } //end of access level?>
 
+<?php if(isset($senior_comment) || isset($director_comment)){?>
+<div class="row mt-3 col-md-12"> 
+  <div class="col-sm-12 col-md-12">
+  <?php if(isset($senior_comment)){ ?>
+       <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg2">* Senior Findings
+    </button>
+  <?php } ?>
+
+  <?php if(is_array($director_comment)){?>
+      <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Director Findings
+    </button>
+  <?php } ?>  
+  </div>
+  </div>
+<?php } //end of button ?>
+<div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            Senior Findings
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+        </div>
+        <div class="modal-body">
+          <strong>Senior Comment : </strong>
+            <pre><?php 
+      // print_r($senior_comment);
+            if(isset($senior_comment)){
+              foreach($senior_comment as $sc){
+                 // echo'<strong>'.$sc['comment_by'].' :</strong><br>';
+                echo 'Date: '.date("F d, Y",strtotime($sc['created_at'])).'<br>';
+                echo '<ul type="square">';
+                    echo '<li>'.$sc['comment'].'</li>';
+                echo '</ul>';
+                 // echo $sc['comment'].'<br>';
+            }
+          }//end if
+        ?></pre>  
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--            <button type="button" class="btn btn-primary">Save changes</button>-->
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            Director Findings
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+        </div>
+        <div class="modal-body">
+          <strong>Director Comment :</strong>
+            <pre><?php 
+            if(isset($director_comment)){
+              foreach($director_comment as $dc){
+                // echo'<strong>'.$dc['comment_by'].' :</strong><br><br>';
+                echo 'Date: '.date("F d, Y",strtotime($dc['created_at'])).'<br>';
+                echo '<ul type="square">';
+                   echo '<li>'.$dc['comment'].'</li>';
+                // echo $dc['comment'].'<br>';
+                echo '</ul>';
+              }  
+          }//end if
+        ?></pre>  
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--            <button type="button" class="btn btn-primary">Save changes</button>-->
+        </div>
+    </div>
+  </div>
+</div>
 
 <?php if(($admin_info->access_level==2) || ($admin_info->access_level==3)){//if(($admin_info->access_level ==2)  || ($admin_info->access_level ==3)){?>
 <?php if(isset($comment_list_defer_director->comment) && strlen($comment_list_defer_director->comment)>0){ ?>
+ 
 
-  <div class="row mt-3 col-md-12"> 
+ 
+
+  <div class="row mt-3 col-md-12" > 
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-danger" role="alert">
          <p class="font-weight-bold">Laboratory has been deferred.</p>
-        <p class="font-weight-bold">Director Comment:</p>
-        <pre><?php echo $comment_list_defer_director->comment; ?></pre>
+       <!--  <p class="font-weight-bold">Director Comment:</p>
+        <pre><?php echo $comment_list_defer_director->comment; ?></pre> -->
       </div>
     </div>
   </div>
@@ -98,8 +186,7 @@
 
 
 
-
-<div class="col-sm-12 col-md-12">
+<div class="col-sm-12 col-md-12" style="margin-top:10px;">
     <div class="card border-top-blue mb-4">
       
       <div class="card-header">
@@ -343,11 +430,11 @@
         <p class="card-text">This is the generated Bylaws. </p>
         <a target="_blank" href="
         <?php if ($coop_info->category_of_cooperative === 'Primary'): ?>
-                <?= base_url().'laboratories/'.$encrypted_cid.'/laboratories_documents/bylaws_primary';?>
+                <?= base_url().'laboratories/'.$encrypted_ids.'/laboratories_documents/bylaws_primary';?>
         <?php elseif ($coop_info->grouping === 'Union'): ?>
-                <?= base_url().'laboratories/'.$encrypted_cid.'/laboratories_documents/bylaws_union';?>
+                <?= base_url().'laboratories/'.$encrypted_ids.'/laboratories_documents/bylaws_union';?>
         <?php else: ?>
-                <?= base_url().'laboratories/'.$encrypted_cid.'/laboratories_documents/bylaws_federation';?>
+                <?= base_url().'laboratories/'.$encrypted_ids.'/laboratories_documents/bylaws_federation';?>
         <?php endif; ?>
         " class="btn btn-primary">View</a>
       </div>
@@ -407,7 +494,7 @@
               <?php if(isset($document_one)) : ?>
              
 
-                 <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_cid?>/1">
+                 <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf_laboratory/<?=$encrypted_cid?>/1">
 
                   <?php if($is_client) : ?>
                     This is your Surety Bond of Accountable Officers document.
@@ -468,13 +555,35 @@ $count=0;
 
     foreach ($coop_type as $coop) : 
 ?>
-    <?php $count++;?>
+  <!--   <?php $count++;?> -->
     <div class="col-sm-12 col-md-4" style="margin-top:10px;">
         <div class="card">
             <div class="card-body">
               <h5 class="card-title"><?=$coop['coop_title']?></h5>
                 <p class="card-text">
-                    <?php if($count==1){?>
+
+
+                  <?php
+                            foreach($coop['link'] as $row_link)
+                            {
+                            
+                             ?>
+
+                               <a target="_blank" href="<?php echo base_url();?>laboratories_documents/view_document_one_lab3/<?=encrypt_custom($this->encryption->encrypt($row_link['id']))?>/<?=encrypt_custom($this->encryption->encrypt($row_link[
+                               'filename']))?>/<?=$row_link['document_num']?>">
+
+                                  <?php if($is_client) : ?>
+                                    This is your <?=$coop['coop_title']?> document.
+                                  <?php else : ?>
+                                    This is the <?=$coop['coop_title']?> document.
+                                  <?php endif;?>
+                             </a>
+
+                             <?php
+                            }
+                          ?> 
+
+                   <!--  <?php if($count==1){?>
                         <?php if(isset($document_others)) : ?>
                         <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_cid?>/<?=$coop['id']?>">
 
@@ -504,7 +613,7 @@ $count=0;
                             <?=$coop['coop_desc']?>
                         <?php endif ?>
                         <br>
-                    <?php } ?>
+                    <?php } ?> -->
                 </p>
                 <?php if($is_client && $coop_info->status<=1 || $coop_info->status==11): ?>
                     <a href="<?php echo base_url();?>cooperatives/<?=$encrypted_cid?>/documents/upload_document_others/<?=encrypt_custom($this->encryption->encrypt($coop['id']))?>" class="btn btn-primary">Upload</a>

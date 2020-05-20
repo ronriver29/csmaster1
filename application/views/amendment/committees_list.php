@@ -35,15 +35,43 @@
     </div>
   </div>
 <?php endif; ?>
+
 <?php 
-if($gad_count < 1 || $committees_count_member < 3): ?>
+//if($gad_count < 1 || $committees_count_member < 3):
+if(!$complete_position):
+ ?>
 
        <div class="col-sm-12 col-md-12">
         <div class="alert alert-info text-justify" role="alert">
+
            Note:
            <ul>
-              <?php if($gad_count < 1) echo '<li>There must be 1 GAD member on the list</li>';?>
-              <?php if($committees_count_member < 3) echo '<li>Minimum 1 and Maximum of 3 Committee</li>';?>
+            <?php 
+            if($committees_count_member < 3) echo '<li>Minimum of 1 and Maximum of 3 member per Committee</li>';
+            ?>
+             <?php if($gad_count < 1) echo '<li>There must be 1 GAD member on the list</li>';?>
+              <?php if(!$election)
+              {
+
+               echo'<li>There must be 1 Election member on the list</li>';
+              }
+
+              ?>
+              <?php if(!$ethics)
+              {
+                  echo'<li>There must be 1 Ethics member on the list</li>'; 
+              } 
+              ?>
+              <?php if(!$media_concil)
+              {
+                echo'<li>There must be 1 Mediation and Conciliation member on the list</li>';
+              } 
+              ?> 
+              <?php if(!$audit)
+              {
+                echo'<li>There must be 1 Audit member on the list</li>';
+              } 
+              ?>   
            </ul>
         </div>
        </div>
@@ -51,11 +79,11 @@ if($gad_count < 1 || $committees_count_member < 3): ?>
 <?php endif;?>
 <div class="row">
   <?php // if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
-    <?php // if($committees_count_member < 4) { ?>
+    <?php  if($is_client) {//if($committees_count_member < 4) { ?>
     <div class="col-sm-12 offset-md-10 col-md-2 mb-2">
       <a class="btn btn-color-blue btn-block" role="button"href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_committees/add" role="button"><i class="fas fa-plus"></i> Add Committee
       </a>
-    <?php // } ?>
+    <?php } ?>
     </div>
   <?php // endif; ?>
   <div class="col-sm-12 col-md-12">

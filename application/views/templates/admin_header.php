@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
   <head>
     <title>CoopRIS <?= $title ?></title>
@@ -70,9 +70,14 @@
         <li>
           <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> Settings</a>
           <ul class="collapse list-unstyled" id="pageSubmenu">
+             <li>
+              <a href="<?php echo base_url();?>admins/change_passwd"><i class="fas fa-sign-out-alt"></i> Change password</a>
+            </li>
+            
             <li>
               <a href="<?php echo base_url();?>admins/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </li>
+            
           </ul>
         </li>
       </ul>

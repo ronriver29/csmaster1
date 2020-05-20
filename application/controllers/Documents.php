@@ -52,7 +52,7 @@ class Documents extends CI_Controller{
                               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                               if($data['staff_complete']){
                                 $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
-                                $data['ching'] = array_column($data['coop_type'], 'id');
+                                $data['ching'] = array_column($data['coop_type'], 'document_num');
                                 $data['ching2'] = implode(',',$data['ching']);
                                  $data['ching3'] = count($data['coop_type']);
                                 if($data['ching3']!=0){
@@ -180,7 +180,7 @@ class Documents extends CI_Controller{
                                 $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                                 if($data['staff_complete']){
                                     $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
-                                    $data['ching'] = array_column($data['coop_type'], 'id');
+                                    $data['ching'] = array_column($data['coop_type'], 'document_num');
                                     $data['ching2'] = implode(',',$data['ching']);
                                     $data['ching3'] = count($data['coop_type']);
                                     if($data['ching3']!=0){
@@ -475,7 +475,7 @@ public function list_upload_pdf($id =null,$doc_type=null)
     $data['cid'] = $decoded_id;
     $data['encrypted_id'] = $id;
     $data['doc_types'] = $doc_type;
-    $data['uploaded_list_pdf'] =$this->count_documents($decoded_id,$doc_type);
+    $data['uploaded_list_pdf'] = $this->count_documents($decoded_id,$doc_type);
     $data['defered_uploaded_list_pdf'] =$this->defered_count_documents($decoded_id,$doc_type);
     if($data['is_client'] ==1)
     {
@@ -509,6 +509,64 @@ public function list_upload_pdf($id =null,$doc_type=null)
       
   }
 }
+
+//modify by json
+public function list_upload_pdf_laboratory($id =null,$doc_type=null)
+{
+
+  if(!$this->session->userdata('logged_in'))
+  {
+  redirect(base_url());
+ 
+  }
+  else
+  {
+    $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+    //echo $decoded_id;
+    $data['title'] = 'List of Documents';
+    $user_id = $this->session->userdata('user_id');
+    $data['client_info'] = $this->user_model->get_user_info($user_id);
+    $data['is_client'] = $this->session->userdata('client');
+    $data['header'] = 'Uploaded file';
+    $data['uid'] = $this->session->userdata('user_id');
+    $data['cid'] = $decoded_id;
+    $data['encrypted_id'] = $id;
+    $data['doc_types'] = $doc_type;
+    $data['uploaded_list_pdf'] = $this->count_documents($decoded_id,$doc_type);
+    $data['defered_uploaded_list_pdf'] =$this->defered_count_documents($decoded_id,$doc_type);
+    if($data['is_client'] ==1)
+    {
+     
+      $this->load->view('template/header',$data);
+      $this->load->view('documents/list_of_uploaded_pdf_laboratory',$data);
+      $this->load->view('documents/delete_pdf_modal');
+      $this->load->view('template/footer');
+    }
+    if($this->session->userdata('access_level')<=5 && $data['is_client']!=1 ){
+             
+    $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+    $data['header'] = 'Uploaded file';
+    $data['uid'] = $this->session->userdata('user_id');  
+    // print_r($this->session->userdata());
+     $this->load->view('templates/admin_header', $data);
+     $this->load->view('documents/list_of_uploaded_pdf_laboratory',$data);
+     $this->load->view('documents/delete_pdf_modal');
+     $this->load->view('templates/admin_footer', $data);
+
+    }
+    else
+    {
+       if(!$this->session->userdata('logged_in')){
+          redirect('admins/login');
+       }
+       
+    }      
+    
+       // print_r($this->session->userdata());
+      
+  }
+}
+
 
 
 
@@ -988,8 +1046,14 @@ public function delete_pdf()
                   $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
                   
                   $data['branches_comments_cds'] = $this->branches_model->branches_comments_cds($branch_info->id);
-                  $data['branches_comments_snr'] = $this->branches_model->branches_comments_snr($branch_info->id);
-                  $data['branches_comments'] = $this->branches_model->branches_comments($branch_info->id);
+                  if($branch_info->status == 23){
+                      $evaluator_number = $branch_info->evaluator1;
+                  } else {
+                      $evaluator_number = $branch_info->evaluator4;
+                  }
+                  $data['branches_comments_snr'] = $this->branches_model->branches_comments_snr($branch_info->id,$evaluator_number);
+                  $data['branches_comments'] = $this->branches_model->branches_comments($branch_info->id,$branch_info->evaluator5);
+                  $data['branches_comments_main'] = $this->branches_model->branches_comments_main($branch_info->id,$branch_info->evaluator2);
                                   
                   $data['type']=substr($branch_info->branchName, -7);
                 $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
@@ -1099,6 +1163,7 @@ public function delete_pdf()
                               $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
                               $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
                               $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
+                              $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                               
                               $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
                               $f = new pdf();
@@ -1179,6 +1244,7 @@ public function delete_pdf()
                                 $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
                                 $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
                                 $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
+                                $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                                 $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
                                 $f = new pdf();
                                 $f->setPaper('folio', 'portrait');
@@ -1993,7 +2059,17 @@ public function delete_pdf()
                   $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                   if($data['bylaw_complete']){
-                      $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                    if($data['coop_info']->grouping == 'Federation'){
+                        $model = 'affiliators_model';
+                        $ids = $user_id;
+                    } 
+                    else {
+                        $model = 'cooperator_model';
+                        $ids = $decoded_id;
+                    }
+                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
+                    $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                       if($data['cooperator_complete']){
                         $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                         if($data['purposes_complete']){
@@ -2060,7 +2136,17 @@ public function delete_pdf()
                     $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
                     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                     if($data['bylaw_complete']){
-                        $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                        if($data['coop_info']->grouping == 'Federation'){
+                            $model = 'affiliators_model';
+                            $ids = $user_id;
+                        } 
+                        else {
+                            $model = 'cooperator_model';
+                            $ids = $decoded_id;
+                        }
+                        $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                        $capitalization_info = $data['capitalization_info'];
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                         if($data['cooperator_complete']){
                           $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                           if($data['purposes_complete']){
@@ -3574,7 +3660,7 @@ function do_upload_others(){
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
           $coop_title = preg_replace('/\s+/', '_', $this->input->post('coop_title'));
-          $coop_id = $this->input->post('coop_id');
+          $coop_id = $this->input->post('document_num');
           
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($decoded_uid,$decoded_id);
           if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){  
@@ -3764,7 +3850,8 @@ function do_upload_two_(){
                               $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
                               $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
                               $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
-                              
+                              $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
+
                               $html2 = $this->load->view('documents/primary/bylaws_for_primary_branch', $data, TRUE);
                               $f = new pdf();
                               $f->setPaper('folio', 'portrait');
@@ -3842,8 +3929,9 @@ function do_upload_two_(){
                                 $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
                                 $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
                                 $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
-                                $html2 = $this->load->view('documents/primary/bylaws_for_primary_branch', $data, TRUE);
+                                $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
 
+                                $html2 = $this->load->view('documents/primary/bylaws_for_primary_branch', $data, TRUE);
                                 $J = new pdf();       
                                 $J->set_option('isRemoteEnabled',TRUE);
                                 $J->set_paper([0,0,612,936], "portrait"); //mm to point
@@ -3911,7 +3999,9 @@ function do_upload_two_(){
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_branch($user_id,$decoded_id);
               $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
               // if($data['bylaw_complete']){
-                  $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                  $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                  $capitalization_info = $data['capitalization_info'];
+                  $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
                   // if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     // if($data['purposes_complete']){
@@ -3937,6 +4027,7 @@ function do_upload_two_(){
                               $data['associate_cooperator_list'] = $this->cooperator_model->get_all_associate_cooperator_of_coop($decoded_id);
                               $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                               $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
+                              $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                               //$this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
                               $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data, TRUE);
                               $f = new pdf();
@@ -4018,6 +4109,7 @@ function do_upload_two_(){
                                 $data['associate_cooperator_list'] = $this->cooperator_model->get_all_associate_cooperator_of_coop($decoded_id);
                                 $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                                 $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
+                                $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                                 $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data, TRUE);
                                 $J = new pdf();       
                                 $J->set_option('isRemoteEnabled',TRUE);

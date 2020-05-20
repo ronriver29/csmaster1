@@ -31,16 +31,16 @@
               <?php if($list_position != NULL){ ?>
                 <?php foreach($list_position as $rowp){ ?>
 
-                  <?php if($staff_info->position == $rowp->position_name)
+                  <?php if($staff_info->position == $rowp['position_name'])
                   {
                   ?>
-                         <option value="<?php echo $rowp->position_name; ?>" selected> <?php echo ucfirst($rowp->position_name); ?></option> 
+                         <option value="<?php echo $rowp['position_name']; ?>" selected> <?php echo ucfirst($rowp['position_name']); ?></option> 
                   <?php  
                   }
                   else
                   {
                     ?>
-                           <option value="<?php echo $rowp->position_name; ?>"> <?php echo ucfirst($rowp->position_name); ?></option> 
+                           <option value="<?php echo $rowp['position_name']; ?>"> <?php echo ucfirst($rowp['position_name']); ?></option> 
                     <?php
 
                   }    
@@ -68,6 +68,7 @@
             <div class="form-group">
               <label class="font-weight-bold" for="fName">Full Name:</label>
               <input type="text" class="form-control validate[required,custom[fullname]]" id="fName" name="fName" value="<?= $staff_info->full_name?>">
+              <Label class="font-weight-bold" style="font-size:10px;color:red;"><i>* No BOD members shall hold any position directly involved in day-to-day operation and management operation of the Cooperative</i></label>
             </div>
       		</div>
           <div class="col-sm-12 col-md-4">

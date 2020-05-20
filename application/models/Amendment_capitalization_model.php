@@ -25,6 +25,11 @@ class Amendment_capitalization_model extends CI_Model{
     $query = $this->db->get_where('amendment_capitalization',array('cooperatives_id'=>$data));
     return $query->num_rows();
   }
+  //  public function get_capitalization_by_coop_id($amendment_id){
+  //   $data = $this->security->xss_clean($amendment_id);
+  //   $query = $this->db->get_where('amendment_capitalization',array('amendment_id'=>$data));
+  //   return $query->row();
+  // }
   // public function update_capitalization($capitalization_coop_id,$capitalization_info){
   //     $capitalization_coop_id = $this->security->xss_clean($capitalization_coop_id);
   //     $capitalization_info = $this->security->xss_clean($capitalization_info);
@@ -120,12 +125,13 @@ class Amendment_capitalization_model extends CI_Model{
       return array($ajax['fieldId'],false);
     }
   }
+
   public function check_minimum_regular_pay($ajax){
-    $decoded_id = $this->encryption->decrypt(decrypt_custom($ajax['coop_id']));
-    $this->db->select('capitalization.minimum_paid_up_share_regular');
-    $this->db->from('capitalization');
-    $this->db->join('cooperatives','cooperatives.id = capitalization.cooperatives_id','inner');
-    $this->db->where(array('cooperatives_id'=>$decoded_id));
+    $decoded_id = $this->encryption->decrypt(decrypt_custom($ajax['amendment_id']));
+    $this->db->select('amendment_capitalization.minimum_paid_up_share_regular');
+    $this->db->from('amendment_capitalization');
+    // $this->db->join('cooperatives','cooperatives.id = capitalization.cooperatives_id','inner');
+    $this->db->where(array('amendment_id'=>$decoded_id));
     $query = $this->db->get();
     $data = $query->row();
     if($data->minimum_paid_up_share_regular<= $ajax['fieldValue']){
@@ -136,10 +142,10 @@ class Amendment_capitalization_model extends CI_Model{
   }
   public function check_minimum_associate_subscription($ajax){
     $decoded_id = $this->encryption->decrypt(decrypt_custom($ajax['coop_id']));
-    $this->db->select('capitalization.minimum_subscribed_share_associate');
-    $this->db->from('capitalization');
-    $this->db->join('cooperatives','cooperatives.id = capitalization.cooperatives_id','inner');
-    $this->db->where(array('cooperatives_id'=>$decoded_id));
+    $this->db->select('amendment_capitalization.minimum_subscribed_share_associate');
+    $this->db->from('amendment_capitalization');
+    // $this->db->join('cooperatives','cooperatives.id = capitalization.cooperatives_id','inner');
+    $this->db->where(array('amendment_id'=>$decoded_id));
     $query = $this->db->get();
     $data = $query->row();
     if($data->minimum_subscribed_share_associate <= $ajax['fieldValue']){

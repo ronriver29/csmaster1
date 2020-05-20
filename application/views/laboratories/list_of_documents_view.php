@@ -558,6 +558,54 @@
   </div>
    <!-- end of modify -->
 
+  <!-- document per coop type -->
+   <?php 
+ // echo"<pre>";print_r($coop_type);echo"<pre>";
+ // echo $this->encryption->decrypt(decrypt_custom($encrypted_cid));
+$count=0;
+
+    foreach ($coop_type as $coop) : 
+?>
+  <!--   <?php $count++;?> -->
+    <div class="col-sm-12 col-md-4" style="margin-top:10px;">
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><?=$coop['coop_title']?></h5>
+                <p class="card-text">
+
+
+                  <?php
+                            foreach($coop['link'] as $row_link)
+                            {
+                            
+                             ?>
+
+                               <a target="_blank" href="<?php echo base_url();?>laboratories_documents/view_document_one_lab3/<?=encrypt_custom($this->encryption->encrypt($row_link['id']))?>/<?=encrypt_custom($this->encryption->encrypt($row_link[
+                               'filename']))?>/<?=$row_link['document_num']?>">
+
+                                  <?php if($is_client) : ?>
+                                    This is your <?=$coop['coop_title']?> document.
+                                  <?php else : ?>
+                                    This is the <?=$coop['coop_title']?> document.
+                                  <?php endif;?>
+                             </a>
+
+                             <?php
+                            }
+                          ?> 
+
+                   
+                </p>
+                <?php if($is_client && $coop_info->status<=1 || $coop_info->status==11): ?>
+                    <a href="<?php echo base_url();?>cooperatives/<?=$encrypted_cid?>/documents/upload_document_others/<?=encrypt_custom($this->encryption->encrypt($coop['id']))?>" class="btn btn-primary">Upload</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <?php endforeach; ?>
+  <!-- end document per coop type -->
+
     <div class="col-sm-12 col-md-4" style="margin-top:20px;">
       <div class="card">
         <div class="card-body">

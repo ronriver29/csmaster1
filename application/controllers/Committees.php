@@ -42,6 +42,11 @@ class Committees extends CI_Controller{
                       if($data['article_complete']){
                         if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
+                            $data['audit_count'] = $this->committee_model->get_all_audit_count_federation($user_id);
+                            $data['election_count'] = $this->committee_model->get_all_election_count_federation($user_id);
+                            $data['medcon_count'] = $this->committee_model->get_all_medcon_count_federation($user_id);
+                            $data['ethics_count'] = $this->committee_model->get_all_ethics_count_federation($user_id);
+                            $data['credit_count'] = $this->committee_model->get_all_credit_count_federation($user_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                             $data['audit_count'] = $this->committee_model->get_all_audit_count($user_id);
@@ -60,8 +65,7 @@ class Committees extends CI_Controller{
                         $data['committees_federation'] = $this->committee_model->get_all_committees_of_coop_federation($user_id);
 
                         $data['committees_count'] = $this->committee_model->get_all_committees_of_coop_gad($decoded_id); //not hear
-                    
-             
+                         
                         $this->load->view('./template/header', $data);
                         $this->load->view('committees/committees_list', $data);
                         $this->load->view('committees/delete_modal_committee');
@@ -124,13 +128,22 @@ class Committees extends CI_Controller{
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                         if($data['article_complete']){
-                          $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
+                         if($data['coop_info']->grouping == 'Federation'){
+                            $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($data['coop_info']->users_id);
+                            $data['audit_count'] = $this->committee_model->get_all_audit_count_federation($data['coop_info']->users_id);
+                            $data['election_count'] = $this->committee_model->get_all_election_count_federation($data['coop_info']->users_id);
+                            $data['medcon_count'] = $this->committee_model->get_all_medcon_count_federation($data['coop_info']->users_id);
+                            $data['ethics_count'] = $this->committee_model->get_all_ethics_count_federation($data['coop_info']->users_id);
+                            $data['credit_count'] = $this->committee_model->get_all_credit_count_federation($data['coop_info']->users_id);
+                        } else {
+                            $data['gad_count'] = $this->committee_model->get_all_gad_count($data['coop_info']->users_id);
+                            $data['audit_count'] = $this->committee_model->get_all_audit_count($data['coop_info']->users_id);
+                            $data['election_count'] = $this->committee_model->get_all_election_count($data['coop_info']->users_id);
+                            $data['medcon_count'] = $this->committee_model->get_all_medcon_count($data['coop_info']->users_id);
+                            $data['ethics_count'] = $this->committee_model->get_all_ethics_count($data['coop_info']->users_id);
+                            $data['credit_count'] = $this->committee_model->get_all_credit_count($data['coop_info']->users_id);
+                        }
                           $data['committees_count_member'] = $this->committee_model->get_all_committees_count($user_id);
-                          $data['audit_count'] = $this->committee_model->get_all_audit_count($user_id);
-                          $data['election_count'] = $this->committee_model->get_all_election_count($user_id);
-                          $data['medcon_count'] = $this->committee_model->get_all_medcon_count($user_id);
-                          $data['ethics_count'] = $this->committee_model->get_all_ethics_count($user_id);
-                          $data['credit_count'] = $this->committee_model->get_all_credit_count($user_id);
                           $data['client_info'] = $this->user_model->get_user_info($user_id);
                           $data['title'] = 'List of Committees';
                           $data['header'] = 'Committees';
@@ -216,14 +229,14 @@ class Committees extends CI_Controller{
                             $data['header'] = 'Committees';
                             $data['encrypted_id'] = $id;
                             $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                            $data['cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee($decoded_id);
+                            $data['cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee($decoded_id,$user_id);
                             $data['custom_committees'] = $this->committee_model->get_all_custom_committee_names_of_coop($decoded_id);
                             $data['applied_coop'] = $this->affiliators_model->get_applied_coop_for_committees($user_id);
                             foreach($data['applied_coop'] as $applied_coop){
                                 $result_array[] = $applied_coop['application_id'];
                             }
                             if($data['coop_info']->grouping == 'Federation'){
-                                $data['cooperators_federation'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee_federation($result_array);
+                                $data['cooperators_federation'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee_federation($result_array,$user_id);
                             }
                             $this->load->view('./template/header', $data);
                             $this->load->view('committees/add_form_committee', $data);
@@ -340,7 +353,7 @@ class Committees extends CI_Controller{
                               $data['header'] = 'Committees';
                               $data['encrypted_id'] = $id;
                               $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                              $data['cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee($decoded_id);
+                              $data['cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee($decoded_id,$user_id);
                               $data['custom_committees'] = $this->committee_model->get_all_custom_committee_names_of_coop($decoded_id);
                               $this->load->view('./templates/admin_header', $data);
                               $this->load->view('committees/add_form_committee', $data);
@@ -443,7 +456,7 @@ class Committees extends CI_Controller{
                               $data['committee_info'] = $this->committee_model->get_committee_info($decoded_committee_id);
                               $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($data['committee_info']->cooperators_id);
                               $data['custom_committees'] = $this->committee_model->get_all_custom_committee_names_of_coop($decoded_id);
-                              $data['cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee($decoded_id);
+                              $data['cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee($decoded_id,$user_id);
                               $this->load->view('./template/header', $data);
                               $this->load->view('committees/edit_form_committee', $data);
                               $this->load->view('./template/footer');
@@ -552,7 +565,7 @@ class Committees extends CI_Controller{
                                 $data['committee_info'] = $this->committee_model->get_committee_info($decoded_committee_id);
                                 $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($data['committee_info']->cooperators_id);
                                 $data['custom_committees'] = $this->committee_model->get_all_custom_committee_names_of_coop($decoded_id);
-                                $data['cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee($decoded_id);
+                                $data['cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee($decoded_id,$user_id);
                                 $this->load->view('./templates/admin_header', $data);
                                 $this->load->view('committees/edit_form_committee', $data);
                                 $this->load->view('./templates/admin_footer');

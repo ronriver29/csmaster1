@@ -26,6 +26,7 @@
 <?php if($this->uri->segment(3) == "cooperators" && $this->uri->segment(4)=="add")   : ?><script src="<?=base_url();?>assets/js/add_cooperator_custom.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(3) == "cooperators" && $this->uri->segment(5)=="edit")   : ?><script src="<?=base_url();?>assets/js/edit_cooperator_custom.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(3) == "purposes" && $this->uri->segment(4)=="edit")   : ?><script src="<?=base_url();?>assets/js/update-purposes.js"></script> <?php endif; ?>
+<?php if($this->uri->segment(3) == "amendment_update")   : ?><script src="<?=base_url();?>assets/js/update-amendment.js"></script> <?php endif; ?>
 
 <script type="text/javascript">
         $(document).ready(function () {

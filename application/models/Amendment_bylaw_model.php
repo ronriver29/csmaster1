@@ -48,13 +48,21 @@ class Amendment_bylaw_model extends CI_Model{
         }
         if($data->kinds_of_members==1){
           if($counter<=14){
-            return true;
+            if($this->ga_venue($amendment_id))
+            {
+              return true;
+            }
+            
           }else{
             return false;
           }
         }else{
           if($counter<=14){
-            return true;
+            if($this->ga_venue($amendment_id))
+            {
+              return true;
+            }
+            
           }else{
             return false;
           }
@@ -63,6 +71,35 @@ class Amendment_bylaw_model extends CI_Model{
         return false;
     }
   }
+
+  //check if there is GA Venue
+  public function ga_venue($amendment_id)
+  {
+    
+    $qry =$this->db->query("select annual_regular_meeting_day_venue from amendment_bylaws where amendment_id='$amendment_id'");
+    if($qry->num_rows()>0)
+    {
+      foreach($qry->result_array() as $row)
+      {
+        $venue = $row['annual_regular_meeting_day_venue'];
+      }
+      if(strlen($venue)>0)
+      {
+        $data=true;
+      }
+      else
+      {
+        $data=false;
+      }
+    }
+    else
+    {
+      $data= false;
+    }
+    return $data; 
+  }
+  // end GA venue
+
   public function check_minimum_regular_subscription_amendment($ajax){
     $cooperative_id = $this->encryption->decrypt(decrypt_custom($ajax['coop_id']));
     $amendment_id = $this->encryption->decrypt(decrypt_custom($ajax['amendment_id']));

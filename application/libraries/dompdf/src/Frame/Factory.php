@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package dompdf
  * @link    http://dompdf.github.com/
@@ -278,6 +279,7 @@ class Factory
      */
     protected static function getPositionerInstance($type)
     {
+        ini_set('max_execution_time', 1200); 
         if (!isset(self::$_positioners[$type])) {
             $class = '\\Dompdf\\Positioner\\'.$type;
             self::$_positioners[$type] = new $class();

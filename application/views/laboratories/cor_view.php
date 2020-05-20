@@ -138,7 +138,7 @@
 	
 </table>
 
-<table width="100%" style="margin-top:90px;">
+<table width="100%" style="margin-top:60px;">
 
 	<tr>
 		<td width="60%" colspan="2" style="padding-top:70px;"><i style="font-size: 10px">This Certificate does not bestow upon Laboratory Cooperative a juridical personality</i>
@@ -266,7 +266,7 @@
 	
 </table>
 
-<table width="100%" style="margin-top:90px;">
+<table width="100%" style="margin-top:60px;">
 
 	<tr>
 		<td width="60%" colspan="2" style="padding-top:70px;"><i style="font-size: 10px">This Certificate does not bestow upon Laboratory Cooperative a juridical personality</i>
@@ -394,7 +394,7 @@
 	
 </table>
 
-<table width="100%" style="margin-top:90px;">
+<table width="100%" style="margin-top:60px;">
 
 	<tr>
 		<td width="60%" colspan="2" style="padding-top:70px;"><i style="font-size: 10px">This Certificate does not bestow upon Laboratory Cooperative a juridical personality</i>

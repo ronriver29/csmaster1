@@ -56,7 +56,7 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <table class="bord" width="65%">
+          <table class="bord" width="65%" style="table-layout: fixed;word-wrap: break-word;">
             <tr>
               <td class="bord">Date</td>
               <td class="bord" colspan="3">

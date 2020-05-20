@@ -35,37 +35,33 @@
 <?php if($is_client) : ?>
     <?php else :?>
 <?php if(strlen(($coop_info->comment_by_specialist && $admin_info->access_level==2) && $coop_info->status != 15|| $admin_info->access_level==3) && strlen($coop_info->comment_by_specialist)>0 && $coop_info->status != 15) : ?>
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong">
-  * CDS Findings
-</button>
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg">* CDS Findings</button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">CDS Findings</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <pre><?php 
-//            print_r($cooperatives_comments);
-            foreach($cooperatives_comments_cds as $cc) :
-                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
-                echo '<ul type="square">';
-                    echo '<li>'.$cc['comment'].'</li>';
-                echo '</ul>';
-            endforeach;
-                echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
-                echo '<p>'.$coop_info->tool_findings.'</p>';
-        ?></pre>    
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-      </div>
+        <div class="modal-header">
+            CDS Findings
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+        </div>
+        <div class="modal-body">
+            <pre><?php 
+    //            print_r($cooperatives_comments);
+                foreach($cooperatives_comments_cds as $cc) :
+                    echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                    echo '<ul type="square">';
+                        echo '<li>'.$cc['comment'].'</li>';
+                    echo '</ul>';
+                endforeach;
+                    echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
+                    echo '<p>'.$coop_info->tool_findings.'</p>';
+            ?></pre>  
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+        </div>
     </div>
   </div>
 </div>
@@ -82,23 +78,19 @@
     </div>
   </div>-->
 <?php endif;?>
-<?php if(strlen($coop_info->comment_by_senior && $admin_info->access_level==3 || $coop_info->status==12)) : ?>
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong3">
-  * Senior Findings
-</button>
+<?php if(strlen($coop_info->comment_by_senior && $admin_info->access_level==3 || $coop_info->status==12) || strlen($coop_info->comment_by_senior && $admin_info->access_level==2) && $coop_info->status!=15) : ?>
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg2">* Senior Findings</button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalLong3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">Senior Findings</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <pre><?php 
+        <div class="modal-header">
+            Senior Findings
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+        </div>
+        <div class="modal-body">
+            <pre><?php 
 //            print_r($cooperatives_comments);
             foreach($cooperatives_comments_snr as $cc) :
                 echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
@@ -106,12 +98,12 @@
                     echo '<li>'.$cc['comment'].'</li>';
                 echo '</ul>';
             endforeach;
-        ?></pre>    
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-      </div>
+        ?></pre>  
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--            <button type="button" class="btn btn-primary">Save changes</button>-->
+        </div>
     </div>
   </div>
 </div>
@@ -124,23 +116,19 @@
     </div>
   </div>-->
 <?php endif;?>
-<?php if(strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==3) || ($coop_info->temp_evaluation_comment && $admin_info->access_level==2) && $coop_info->status == 6)) : ?>
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong2">
-  * Deferred Reason/s
-</button>
+<?php if(strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==3) || ($coop_info->temp_evaluation_comment && $admin_info->access_level==2) && $coop_info->status == 6 || strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Director Findings</button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">The cooperative has been deferred because of the following reason/s:</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <pre><?php 
+        <div class="modal-header">
+            The cooperative has been deferred because of the following reason/s:
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+        </div>
+        <div class="modal-body" style="table-layout: fixed;">
+            <pre><?php 
 //            print_r($cooperatives_comments);
             foreach($cooperatives_comments as $cc) :
                 echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
@@ -148,12 +136,12 @@
                     echo '<li>'.$cc['comment'].'</li>';
                 echo '</ul>';
             endforeach;
-        ?></pre>    
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-      </div>
+        ?></pre>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--            <button type="button" class="btn btn-primary">Save changes</button>-->
+        </div>
     </div>
   </div>
 </div>
@@ -369,6 +357,7 @@
 <!--ANJURY-->
 <div class="row">
 <?php 
+// print_r($ching);
 // echo"<pre>";print_r($coop_type);echo"<pre>";
 $count=0;
     foreach ($coop_type as $coop) : 
@@ -381,7 +370,7 @@ $count=0;
                 <p class="card-text">
                     <?php if($count==1){?>
                         <?php if(isset($document_others)) : ?>
-                        <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_id?>/<?=$coop['id']?>">
+                        <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_id?>/<?=$coop['document_num']?>">
 
                         <?php if($is_client) : ?>
                           This is your <?=$coop['coop_title']?> document.
@@ -396,7 +385,7 @@ $count=0;
                         <br>
                     <?php } else {?>
                         <?php if(isset($document_others2)) : ?>
-                        <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_id?>/<?=$coop['id']?>">
+                        <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_id?>/<?=$coop['document_num']?>">
 
                         <?php if($is_client) : ?>
                           This is your <?=$coop['coop_title']?> document.

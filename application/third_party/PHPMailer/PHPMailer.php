@@ -28,7 +28,7 @@
  * @author  Andy Prevost (codeworxtech) <codeworxtech@users.sourceforge.net>
  * @author  Brent R. Matzelle (original founder)
  */
-require_once "SMTP.php";
+require_once("SMTP.php");
 class PHPMailer
 {
     const CHARSET_ISO88591 = 'iso-8859-1';

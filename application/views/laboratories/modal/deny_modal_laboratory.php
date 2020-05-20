@@ -18,7 +18,7 @@
               </div>
               <div class="form-group">
                 <label for="comment">State the reason/s:</label>
-                <textarea class="form-control validate[required]" style="resize: none;" id="comment" name="comment" placeholder="" rows="8"></textarea>
+                <textarea class="form-control validate[required]" style="resize: none;" id="comment" name="comment" placeholder="" rows="8"><?php foreach($senior_comment as $srn_comment){echo $srn_comment['comment'].PHP_EOL;}?> </textarea>
               </div>
             </div>
             <div class="modal-footer denyCooperativeFooter">

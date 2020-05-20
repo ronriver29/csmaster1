@@ -52,7 +52,12 @@
                     <input type="hidden" class="form-control validate[required]" id="status" name="status" value="<?= encrypt_custom($this->encryption->encrypt($coop_info->status))?>">
                     <?php if($is_client) : ?>
                     <input type="hidden" class="form-control validate[required]" id="userID" name="userID" value="<?= $encrypted_user_id ?>">
+                    <?php else: ?>
+                       <input type="hidden" class="form-control validate[required]" id="userID" name="userID" value="<?= $encrypted_user_id ?>">
+
                     <?php endif; ?>
+
+
                   </div>
               </div>
               <div class="col-sm-12 col-md-3">
@@ -70,34 +75,32 @@
               </div>
             </div>
 
+      
         
-         <?php foreach($business_activities as $brow)
-         {
-            $business_actvty= $brow['bactivity_name'];
-         }
-         ?>
 
           <div class="row">
-            <div class="col-sm-12 col-md-6">
+            <div class="col-sm-12 col-md-6 coop-col">
               <div class="form-group">
                 <label for="typeOfCooperative1">Type of Cooperative</label>
                 
-                <?php  //echo count($cooperative_type);
+                <?php $key=1;
                 foreach($cooperative_type as $crow)
                 { 
+             
                 ?><div class="list_cooptype">
-                  <select class="custom-select coop-type " name="typeOfCooperative[]" id="typeOfCooperatives">
+                  <select class="custom-select coop-type" name="typeOfCooperative[]" id="typeOfCooperatives<?=$key++?>">
                     <?php
                     foreach($crow as $optionRow)
                     {
-
+                      $cid[]=$optionRow['id'];
                     ?>
                     <option value="<?=$optionRow['id']?>" <?=($optionRow['name']==$optionRow['amended_type']?"selected":"")?>><?=$optionRow['name']?> </option>
                     <?php
                     }
                     ?>
                   </select>
-                  <a class="customDeleleBtn TypeCoopRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                  <!-- <a class="customDeleleBtn TypeCoopRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a> -->
+                  <a class="customDeleleBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                 </div>
                 <?php
                 
@@ -119,53 +122,18 @@
             </div>
                                                                                             
 
-
-            <div class="row">
+          <div class="row">
               <div class="col-sm-12 col-md-12 col-industry-subclass">
-              
-                <div class="row">
-                  <div class="col-sm-12 col-md-12">
-                    <div class='list_major_industry' >
-                    <div class="form-group">
-                     <!-- 
-                        <a class="customDeleleBtn businessActivityRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
-                     -->
-                   
-                      <label for="majorIndustry">Major Industry Classification No.1 </label>
-                  <!--     <input class="counting_major" name="industry_name_count" value="1"/> -->
-                       <select class="custom-select form-control select-major" name="majorIndustry[]" id="majorIndustry1">
-                        
-                      <?php
-                      $count =1;
-                       $last=count($list_of_major_industry_);
-                        foreach($list_of_major_industry_ as $mrow)
-                        {
-                          $mrow['counting'] =$count++;
-                         
-                          ?>
-                         <!--  <option value="<?=$mrow['id']?>" <?=($last==$mrow['counting']?"selected":"")?>><?=$mrow['description'];?></option> -->
-                          <option value="<?=$mrow['id']?>" <?=($mrow['description']==$business_actvty?"selected":"")?>><?=$mrow['description'];?></option>
-                          <?php
-                        }
-                      ?>
-                    </select>
-                     
-                    </div>
-                  </div>
-                  </div>
-
-                  <div class="col-sm-12 col-md-12">
-                    <div class="form-group">
-                      <label for="subClass">Major Industry Classification No.1  Subclass</label>
-                      <select class="custom-select form-control select-subclass " name="subClass[]" id="subClass1">
-                      </select>
-                    </div>
-                  </div>
+                <div class="row-cis">
+                  
                 </div>
-                <div class="major-wrapper"></div>
-                <div class="test"></div>
               </div>
-            </div>
+            </div>        
+        <?php foreach($business_activities as $brow)
+         {
+            $business_actvty= $brow['bactivity_name'];
+         }
+         ?>
             <div class="row">
               <div class="col-sm-12 offset-md-9 col-md-3">
                 <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreSubclassBtn"><i class="fas fa-plus"></i> Add More Business Activity</button>
@@ -173,22 +141,25 @@
             </div>
             <div class="row">
               <div class="col-sm-12 col-md-12">
-                 <input type="" id="typeOfCooperative_value" value="">
+               <!--   <input type="hidden" class="form-control" id="typeOfCooperative_value" value=""> -->
                 <div class="form-group" style="margin-bottom: 0">
                    <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
                   <input type="text" class="form-control validate[required,funcCall[validateAmendment_proposed_name],ajax[ajaxAmendmentNameCallPhp]]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>">
-                  <input type="" id="cooperative_idss" />
+                  <input type="hidden" class="form-control" id="cooperative_idss" />
                  <!--  <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
                   <input type="text" class="form-control validate[required,funcCall[validateActivityNotNullUpdateCustom], funcCall[validateActivityInNameUpdateCustom], funcCall[validateCooperativeWordInNameCustom], <?php echo ($coop_info->status >0) ? "ajax[ajaxCoopNameUpdateCallPhp]" : "ajax[ajaxCoopNameExpiredCallPhp]";?>]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> -->
                 </div>
-                 <div style="margin-bottom:20px;"> <small><span id="type_of_coop" style="margin-top:-20px;"></span></small></div>
+                 <div style="margin-bottom:20px;"> <small><span id="type_of_coop" style="margin-top:-20px;"></span></small> </div>
+                   <div style="margin-bottom:20px;"><small>
+                  <span id="proposed_name_msg" style="margin-top:-20px;font-style:italic;"></span></small></div>
+               
 
               </div>
             </div>
-            <input type="hidden" name="count_types" id="count_types" style="border:1px solid red;" />
-
+            <input type="hidden" class="form-control" name="count_types" id="count_types" />
+             <input type="hidden" id="typeOfCooperative_value" value="">
 
              <div class="row">
               <div class="col-sm-12 col-md-12">
@@ -263,9 +234,9 @@
 
            <!--OCCUPATIONAL-->
           
-              <div class="row" id="occupational-div" style="">
+              <div class="row col-md-12" id="occupational-div">
                 <div class="col-sm-12 col-md-12 occupational-div">
-                  <div class="form-group">
+                  <div class="form-group composition_ ">
                     <label for="compositionOfMembers1">Composition of Members </label>
                     <!-- <?php
                     foreach($list_of_comp as $crows)
@@ -284,13 +255,14 @@
                     }
                     ?> -->
                     <!--  <div id="wrappera" class="col-sm-12 col-md-12 occupational-wrappera"></div> -->
-                  </div>
                   </div> <!-- end of form=group -->
-                  <button type="button" class="btn btn-success btn-sm" id="addMoreComBtne" >
-                  <i class="fas fa-plus"></i> Add Composition of Members</button>
+                
+                   
+               
                 </div>
-             
-            </div>       
+                 <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtne" style="margin-left:800px;">
+                  <i class="fas fa-plus"></i> Add Composition of Members</button>
+                </div>   
               <!--END OCCUPATIONAL-->
 
           <div class="col-sm-12 col-md-12">
@@ -309,7 +281,7 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="streetName">Street Name</label>
-                  <input type="text" class="form-control validate[required]" name="streetName" id="streetName" placeholder="">
+                  <input type="text" class="form-control " name="streetName" id="streetName" placeholder="">
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
@@ -360,7 +332,7 @@
       <div class="card-footer">
         <div class="row">
           <div class="col-sm-12 offset-md-10 col-md-2 align-self-center order-sm-2 order-1 col-reserveupdate-btn">
-              <input class="btn btn-block btn-color-blue" type="submit" id="reserveUpdateBtn2" name="reserveUpdateBtn" value="Submit" disabled>
+              <input class="btn btn-block btn-color-blue" type="submit" id="reserveUpdateBtn" name="reserveUpdateBtn" value="Submit" disabled>
           </div>
         </div>
       </div>
@@ -368,6 +340,22 @@
     </div>
   </div>
 </div>
+<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
- var list_major_array =<?=json_encode($list_of_major_industry_)?>;
+
+
+  $(document).ready(function(){
+    $("#newNamess").bind("keyup change", function(e) {
+       var typeCoop_array=[]; 
+       $('select[name="typeOfCooperative[]"] option:selected').each(function() {
+       typeCoop_array.push($(this).val());
+        console.log(typeCoop_array);
+        $('#typeOfCooperative_value').val(typeCoop_array);
+       });
+      });
+  });
+
+
+
+
 </script>

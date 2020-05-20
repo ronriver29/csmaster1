@@ -90,6 +90,9 @@
                   <td>
                     <?php $reg = $admin['region_code'];
                     switch ($reg){
+                      case "0":
+                          $reg = "Central Office";
+                          break;
                       case "001":
                           $reg = "Region I (ILOCOS REGION)";
                           break;
@@ -124,25 +127,25 @@
                           $reg = "Region XI (DAVAO REGION)";
                           break;
                       case "012":
-                          $reg = "Region XII (SOCCSKSARGEN)";
+                          $reg = "Region XII (KIDAPAWAN)";
                           break;
                       case "013":
-                          $reg = "National Capital Region (NCR)";
+                          $reg = "Region XIII (CARAGA)";
                           break;
                       case "014":
-                          $reg = "Cordillera Administrative Region (CAR)";
-                          break;
-                      case "015":
                           $reg = "Autonomous Region in Muslim Mindanao (ARMM)";
                           break;
+                      case "015":
+                          $reg = "Cordillera Administrative Region (CAR)";
+                          break;
                       case "016":
-                          $reg = "Region XIII (Caraga)";
+                          $reg = "National Capital Region (NCR)";
                           break;
-                      case "017":
-                          $reg = "Region IV-B (MIMAROPA)";
-                          break;
+                      // case "017":
+                      //     $reg = "Region IV-B (MIMAROPA)";
+                      //     break;
                       default:
-                          $reg = "Central Office";
+                          $reg = "Region IV-B (MIMAROPA)";
                           break;
                       }
                     echo $reg;

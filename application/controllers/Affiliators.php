@@ -30,7 +30,9 @@ class Affiliators extends CI_Controller{
                     $data['title'] = 'List of Affiliators';
                     $data['header'] = 'Affiliators';
                     $data['encrypted_id'] = $id;
-                    $data['requirements_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
+                    $data['requirements_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
                     $data['directors_count'] = $this->cooperator_model->check_no_of_directors($decoded_id);
                     $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($decoded_id);
                     $data['total_directors'] = $this->cooperator_model->no_of_directors($decoded_id);

@@ -191,6 +191,26 @@
               $data['cooperatives_comments'] = $this->cooperatives_model->cooperatives_comments($decoded_id);
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
               $data['business_activities'] =  $this->cooperatives_model->get_all_business_activities($decoded_id);
+              $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
+              $count=0;
+              $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
+              
+                foreach ($data['coop_type'] as $coop) : 
+
+                    $count++;
+                    if($count == 1){
+                        $data['document_others1'] = $this->uploaded_document_model->get_document_others1_info($decoded_id,$coop['document_num']);
+                    } else if($count == 2) {
+                        $data['document_others2'] = $this->uploaded_document_model->get_document_others2_info($decoded_id,$coop['document_num']);
+                    } else {
+                        $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
+                        $data['document_others2'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
+                    }
+                    
+                endforeach;
+              
+              
+                
               $data['bylawprimary'] = $data['coop_info']->category_of_cooperative=="Primary";
                 if($data['coop_info']->category_of_cooperative=="Primary"){
                     $bylawstf = $this->bylaw_model->check_bylaw_primary_complete($decoded_id);
@@ -230,10 +250,19 @@
               } else {
                     $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,0);
               }
-              if($data['coop_info']->type_of_cooperative == 'Credit'){
-                  $data['committees_complete'] = $this->committee_model->get_all_required_count_credit($user_id);
+              if($data['coop_info']->type_of_cooperative == 'Credit' || $data['coop_info']->type_of_cooperative == 'Agriculture'){
+                    if($data['coop_info']->grouping == 'Federation'){
+                        $data['committees_complete'] = $this->committee_model->get_all_required_count_credit_federation($user_id);
+                    } else {
+                        $data['committees_complete'] = $this->committee_model->get_all_required_count_credit($user_id);
+                    }
               } else {
-                  $data['committees_complete'] = $this->committee_model->get_all_required_count($user_id);
+                    if($data['coop_info']->grouping == 'Federation'){
+                        $data['committees_complete'] = $this->committee_model->get_all_required_count_federation($user_id);
+                    } else {
+                        $data['committees_complete'] = $this->committee_model->get_all_required_count($user_id);
+                    }
+                  
               }
 //              $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
               $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
@@ -285,11 +314,43 @@
                   $capitalization_info = $data['capitalization_info'];
                   $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
                   $data['inssoc'] = explode(",",$data['coop_info']->name_of_ins_assoc);
-                  $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
+//                  $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
+                  if($data['coop_info']->type_of_cooperative == 'Credit'){
+                        if($data['coop_info']->grouping == 'Federation'){
+                            $data['committees_complete'] = $this->committee_model->get_all_required_count_credit_federation($data['coop_info']->users_id);
+                        } else {
+                            $data['committees_complete'] = $this->committee_model->get_all_required_count_credit($data['coop_info']->users_id);
+                        }
+                  } else {
+                        if($data['coop_info']->grouping == 'Federation'){
+                            $data['committees_complete'] = $this->committee_model->get_all_required_count_federation($data['coop_info']->users_id);
+                        } else {
+                            $data['committees_complete'] = $this->committee_model->get_all_required_count($data['coop_info']->users_id);
+                        }
+                  }
                   $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
                   $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                   $data['affiliator_complete'] = $this->affiliators_model->is_requirements_complete($data['coop_info']->users_id);
                   $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
+                  
+                  $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
+                  $count=0;
+                  $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
+
+                  foreach ($data['coop_type'] as $coop) : 
+
+                      $count++;
+                      if($count == 1){
+                          $data['document_others1'] = $this->uploaded_document_model->get_document_others1_info($decoded_id,$coop['document_num']);
+                      } else if($count == 2) {
+                          $data['document_others2'] = $this->uploaded_document_model->get_document_others2_info($decoded_id,$coop['document_num']);
+                      } else {
+                          $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
+                          $data['document_others2'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
+                      }
+
+                  endforeach;
+                  
                   $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
                   $data['document_two'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
                   if($data['coop_info']->grouping == 'Federation'){
@@ -1644,6 +1705,51 @@
           redirect('amendment');
         }
       }
+    }
+    
+    public function count_documents($coop_id,$num)
+    {
+      $query = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coop_id, 'document_num'=>$num,'status'=>1));
+      if($query->num_rows()>0)
+      {
+        $data = $query->result_array();
+
+      }
+      else
+      {
+        $data =NULL;
+      }
+      return $data;
+
+    }
+    
+    public function count_documents_others($coop_id,$num)
+    {
+      $query = $this->db->where('document_num = '.$num.' AND cooperatives_id ='.$coop_id.' AND status = 1')->get('uploaded_documents');
+      if($query->num_rows()>0)
+      {
+        $data = $query->result_array();
+      }
+      else
+      {
+        $data =NULL;
+      }
+      return $data;
+
+    }
+    public function count_documents_others2($coop_id,$num)
+    {
+      $query = $this->db->where('document_num = '.$num.' AND cooperatives_id ='.$coop_id.' AND status = 1')->get('uploaded_documents');
+      if($query->num_rows()>0)
+      {
+        $data = $query->result_array();
+      }
+      else
+      {
+        $data =NULL;
+      }
+      return $data;
+
     }
   }
  ?>

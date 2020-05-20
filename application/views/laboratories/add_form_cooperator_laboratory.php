@@ -14,7 +14,7 @@
       <div class="card-body">
         <div class="row">
           <input type="hidden" class="form-control" name="coop_ids" id="coopids" value="<?=$encrypted_coop_id?>"/>
-          <input type="hidden" class="form-control" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_id ?>">
+          <input type="hidden" class="form-control" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_coop_id ?>">
           <input type="hidden" class="form-control validate[required]" id="userID" name="userID" value="<?= $encrypted_user_id ?>" />
 
           <div class="col-sm-12 col-md-2">

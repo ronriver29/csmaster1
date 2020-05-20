@@ -30,39 +30,39 @@ $(function(){
 
   $("#editPurposesForm #addMorePurposeBtn").on('click',function(){
     var data_selector = $(this).data("id");
-    if(data_selector ==1)
-    {
-      var html_lable = '#editPurposesForm textarea[name="purposes1[]"';
-      var array_name = 'purposes1[]';
-      var name =$('textarea[name="purposes1[]"');
+    // if(data_selector ==1)
+    // {
+      var html_lable = '#editPurposesForm textarea[name="purposes[]"';
+      var array_name = 'purposes_add[]';
+      // var name =$('textarea[name="purposes1[]"');
       var division = '#type_count1';
       var textarea_id = 'purposes1';
-    }
-    else if(data_selector ==2)
-    {
-      var html_lable = '#editPurposesForm textarea[name="purposes2[]"';
-      var array_name = 'purposes2[]';
-      var name =$('textarea[name="purposes2[]"');
-      var division = '#type_count2';
-      var textarea_id = 'purposes2';
-    }
-    else if(data_selector ==3)
-    {
-      var html_lable = '#editPurposesForm textarea[name="purposes3[]"';
-      var array_name = 'purposes3[]';
-      var name =$('textarea[name="purposes3[]"');
-      var division = '#type_count3';
-      var textarea_id = 'purposes3';
-    }
-    else
-    {
-      var html_lable = '#editPurposesForm textarea[name="purposes4[]"';
-      var array_name = 'purposes3[]';
-      var name =$('textarea[name="purposes4[]"');
-      var division = '#type_count4';
-      var textarea_id = 'purposes4';
-    }
-
+    // }
+    // else if(data_selector ==2)
+    // {
+    //   var html_lable = '#editPurposesForm textarea[name="purposes2[]"';
+    //   var array_name = 'purposes2[]';
+    //   var name =$('textarea[name="purposes2[]"');
+    //   var division = '#type_count2';
+    //   var textarea_id = 'purposes2';
+    // }
+    // else if(data_selector ==3)
+    // {
+    //   var html_lable = '#editPurposesForm textarea[name="purposes3[]"';
+    //   var array_name = 'purposes3[]';
+    //   var name =$('textarea[name="purposes3[]"');
+    //   var division = '#type_count3';
+    //   var textarea_id = 'purposes3';
+    // }
+    // else
+    // {
+    //   var html_lable = '#editPurposesForm textarea[name="purposes4[]"';
+    //   var array_name = 'purposes3[]';
+    //   var name =$('textarea[name="purposes4[]"');
+    //   var division = '#type_count4';
+    //   var textarea_id = 'purposes4';
+    // }
+  var name =$('textarea[name="purposes[]"');
     var lastCountOfPurposes = name.first().attr('id');
     var intLastCount = parseInt(lastCountOfPurposes.substr(-1));
     // var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn purposeRemoveBtn float-left text-danger'}).click(function(){
@@ -77,12 +77,17 @@ $(function(){
     // $(divColPurpose).append(divFormGroupPurpose);
     // var rowPurpose = $('#editPurposesForm .row-purposes');
 
-    var htmlfield ='<div class="purposes_wrapper"><div class="form-group"><a id="btn-remove" class="customDeleleBtn purposeRemoveBtn float-left text-danger"><i class="fas fa-minus-circle btn-delete"></i></a><label for="'+ textarea_id+'"><strong>Purpose No.</strong></label><textarea class="form-control validate[required] textarea-purpose" id="'+textarea_id+'" name="'+array_name+'" placeholder="Must be in sentence" rows="2"> </textarea></div></div>';
+    var htmlfield ='<div class="purposes_wrapper"><div class="form-group"><a id="btn-remove" class="customDeleleBtn purposeRemoveBtn float-left text-danger"><i class="fas fa-minus-circle btn-delete"></i></a><label for="'+ textarea_id+'"><strong>Purpose No.</strong></label><textarea name="purposes[]" id="'+textarea_id+'" style="display:none;"></textarea><textarea class="form-control validate[required] textarea-purpose" id="'+textarea_id+'" name="'+array_name+'" placeholder="Must be in sentence" rows="2"></textarea></div></div>';
     $(division).prepend(htmlfield);
-    // $( ".col-purpose:nth-child(2)").find('.form-group').prepend(deleteSpan);
-    $(html_lable).each(function(index){
+
+    $('#editPurposesForm textarea[name="purposes[]"').each(function(index){
+      // alert(index);
       $(this).siblings('label').html("<strong>Purpose No. " + (index+1) + "</strong>");
     });
+    // $( ".col-purpose:nth-child(2)").find('.form-group').prepend(deleteSpan);
+    // $(html_lable).each(function(index){
+    //   $(this).siblings('label').html("<strong>Purpose No. " + (index+1) + "</strong>");
+    // });
 
      $(".purposeRemoveBtn").on('click',function(){
       // $(this).parent().parent().remove();

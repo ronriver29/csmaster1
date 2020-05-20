@@ -26,7 +26,7 @@
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">
-      <?php echo form_open('branches/'.$encrypted_id.'/bupdate',array('id'=>'reserveUpdateForm','name'=>'reserveUpdateForm')); ?>
+      <?php echo form_open('branches/'.$encrypted_id.'/bupdate',array('id'=>'reserveBranchUpdateForm','name'=>'reserveBranchUpdateForm')); ?>
       <div class="card-header">
         <div class="row">
           <div class="col-sm-6 col-md-6">
@@ -103,11 +103,18 @@
                 </div>
               </div>
             </div>
+              <?php
+              if($branch_info->status == 17){
+                  $disabledtype = 'disabled';
+              } else {
+                  $disabledtype = '';
+              }
+              ?>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Type</label>
-                    <select class="custom-select validate[required]" name="typeOfbranchsatellite" id="typeOfbranchsatellite">
+                    <select class="custom-select validate[required]" name="typeOfbranchsatellite" id="typeOfbranchsatellite" <?=$disabledtype?>>
                     <option value="">--</option>
                     <option value="Branch" <?php if($branch_info->type =="Branch") echo "selected"; ?>>Branch</option>
                     <option value="Satellite" <?php if($branch_info->type =="Satellite") echo "selected"; ?>>Satellite</option>
@@ -148,7 +155,7 @@
                 <?php endforeach; ?>
               </div>
             </div>
-            <div class="row">
+<!--            <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                   <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
@@ -157,7 +164,7 @@
                     <input type="text" class="form-control validate[required,funcCall[validateActivityNotNullUpdateCustom], funcCall[validateActivityInNameUpdateCustom],  <?php echo ($branch_info->status >0) ? "ajax[ajaxCoopNameUpdateCallPhp]" : "ajax[ajaxCoopNameExpiredCallPhp]";?>]" name="proposedName" id="proposedName" placeholder="" value="<?php if($branch_info->status > 0) : ?><?=$branch_info->brgy.', '. $branch_info->city.$branch_info->branchName;?> <?php endif;?>" disabled="">
                 </div>
               </div>
-            </div>
+            </div>-->
               <input type="hidden" id="areaOfOperation" name="areaOfOperation" value="<?=$branch_info->area_of_operation?>">
 <!--            <div class="row rd-row">
               <div class="col-sm-12 col-md-6">
@@ -205,10 +212,11 @@
                 </div>
               </div>
                 <input type="hidden" class="custom-select validate[required]" name="region2" id="region">
-                 <div class="col-sm-12 col-md-4">
+                
+             <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="province">Province</label>
-                  <select class="custom-select validate[required]" name="province" id="province" disabled>
+                  <select class="custom-select validate[required]" name="province" id="province">
                   </select>
                 </div>
               </div>
@@ -216,7 +224,7 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
-                  <select class="custom-select validate[required]" name="city" id="city" disabled>
+                  <select class="custom-select validate[required]" name="city" id="city">
                   </select>
                 </div>
               </div>
@@ -226,7 +234,7 @@
                    <label for="barangay">Barangay</label>
                         <input type="hidden" class="custom-select validate[required]" name="barangay2" id="barangay2">
                         <input type="hidden" class="custom-select validate[required]" name="barangay" id="barangay2">
-                        <select class="custom-select validate[required]" name="barangay" id="barangay" readonly>
+                        <select class="custom-select validate[required]" name="barangay" id="barangay">
                   </select>
                 </div>
               </div>
@@ -246,7 +254,7 @@
       <div class="card-footer">
         <div class="row">
           <div class="col-sm-12 offset-md-10 col-md-2 align-self-center order-sm-2 order-1 col-reserveupdate-btn">
-              <input class="btn btn-block btn-color-blue" type="submit" id="reserveUpdateBtn" name="reserveUpdateBtn" value="Submit" disabled>
+              <input class="btn btn-block btn-color-blue" type="submit" id="reserveBranchUpdateBtn" name="reserveBranchUpdateBtn" value="Submit" disabled>
           </div>
         </div>
       </div>

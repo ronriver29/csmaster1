@@ -42,7 +42,7 @@ class Amendment_articles extends CI_Controller{
           }else if($this->session->userdata('access_level')!=1){
             redirect('cooperatives');
           }else{
-            if(!$this->amendment_model->check_expired_reservation_by_admin($decoded_id)){
+            if(!$this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){
               $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
               if($data['coop_info']->category_of_cooperative =="Primary"){
                 redirect('amendment/'.$id.'/articles_primary');
@@ -106,9 +106,10 @@ class Amendment_articles extends CI_Controller{
                           $data['encrypted_id'] = $id;
                           $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                           if(!$data['bylaw_info']) {
-                            $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
+                            $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                           }
                           $data['articles_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
+                          // $this->debug(  $data['articles_info']);
                           if(!$data['articles_info']) {
                             $data['articles_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
                           }
@@ -120,27 +121,45 @@ class Amendment_articles extends CI_Controller{
                           if($data['total_associate']==0) {
                             $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                           }
+                          $data['encrypted_articles_id'] = encrypt_custom($this->encryption->encrypt($data['articles_info']->id)); //modified
+                           //capitalization
+                          $capitalinfo = '';
+                            $qry_capital = $this->db->get_where('amendment_capitalization',array('amendment_id'=>$decoded_id));
+                            if($qry_capital->num_rows()>0)
+                            {
+                             $capitalinfo= $qry_capital->row();
+                            }
+                             $data['capitalization_info'] = $capitalinfo;
+                          // $this->debug($capitalinfo);
+                             // $this->debug($data['articles_info']);
                           $this->load->view('template/header', $data);
                           $this->load->view('amendment/articles_cooperation_info/articles_primary_form.php', $data);
                           $this->load->view('template/footer');
-                        }else{
-                          if(!$this->amendment_model->check_submitted_for_evaluation($decoded_id)){
+                        }else{ //true button submit
+                          if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                             $article_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('article_coop_id')));
-                            $get_record = $this->db->where("cooperatives_id",$decoded_id)->get("amendment_articles_of_cooperation");
-                            if($get_record->num_rows()==0) {
-                                $this->db->insert('amendment_articles_of_cooperation', array('cooperatives_id'=>$decoded_id));
-                                $this->db->trans_commit();
-                            }
-                                $data = array(
+                            // $get_record = $this->db->where("amendment_id",$decoded_id)->get("amendment_articles_of_cooperation");
+                            // if($get_record->num_rows()==0) {
+                            //     $this->db->insert('amendment_articles_of_cooperation', array('amendment_id'=>$decoded_id));
+                            //     $this->db->trans_commit();
+                            // }
+                                $datas = array(
+                                  'cooperatives_id'=>$cooperative_id,
+                                  'amendment_id' => $decoded_id,
                                   'years_of_existence' => $this->input->post('cooperativeExistence'),
                                   'directors_turnover_days' => $this->input->post('turnOverDirectors'),
                                   'authorized_share_capital' => str_replace(',','',$this->input->post('authorizedShareCapital')),
                                   'common_share' => str_replace(',','',$this->input->post('commonShares')),
                                   'par_value_common' => str_replace(',','',$this->input->post('parValueCommon')),
                                   'preferred_share' => str_replace(',','',$this->input->post('preferredShares')),
-                                  'par_value_preferred' =>str_replace(',','',$this->input->post('parValuePreferred'))
+                                  'par_value_preferred' =>str_replace(',','',$this->input->post('parValuePreferred')),
+                                  'guardian_cooperative' => $this->input->post('guardian_cooperative')
                                 );
-                                if($this->amendment_article_of_cooperation_model->update_article_primary($article_coop_id,$data)){
+                                // $this->debug($datas);
+                                // echo $article_coop_id;
+                                // $this->debug($this->amendment_article_of_cooperation_model->update_article_primary($article_coop_id,$datas));
+                                if($this->amendment_article_of_cooperation_model->update_article_primary($decoded_id,$datas)){
+                                  
                                   $this->session->set_flashdata('article_success', 'Successfully Updated.');
                                   redirect('amendment/'.$this->input->post('article_coop_id').'/articles_primary');
                                 }else{
@@ -183,17 +202,17 @@ class Amendment_articles extends CI_Controller{
             }else if($this->session->userdata('access_level')!=1){
               redirect('amendment');
             }else{
-              if($this->amendment_model->check_expired_reservation_by_admin($decoded_id)){
+              if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('amendment');
               }else{
-                if($this->amendment_model->check_submitted_for_evaluation($decoded_id)){
+                if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
-                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                   if($data['bylaw_complete']){
-                    $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                    $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$decoded_id);
                     if($data['cooperator_complete']){
-                      $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
+                      $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$decoded_id);
                       if($data['purposes_complete']){
                         if($this->amendment_model->get_cooperative_info_by_admin($decoded_id)->category_of_cooperative =="Primary"){
                           if($this->form_validation->run() == FALSE){
@@ -201,10 +220,22 @@ class Amendment_articles extends CI_Controller{
                             $data['header'] = 'Articles of Cooperation';
                             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                             $data['encrypted_id'] = $id;
-                            $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                            $data['articles_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
+                            $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
+                            $data['articles_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
+
                             $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                             $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
+
+                             $data['encrypted_articles_id'] = encrypt_custom($this->encryption->encrypt($data['articles_info']->id)); //modified
+                             $capitalinfo = '';
+                             
+                            $qry_capital = $this->db->get_where('amendment_capitalization',array('amendment_id'=>$decoded_id));
+                            if($qry_capital->num_rows()>0)
+                            {
+                             $capitalinfo= $qry_capital->row();
+                            }
+                             $data['capitalization_info'] = $capitalinfo;
+
                             $this->load->view('templates/admin_header', $data);
                             $this->load->view('amendment/articles_cooperation_info/articles_primary_form.php', $data);
                             $this->load->view('templates/admin_footer', $data);
@@ -226,8 +257,11 @@ class Amendment_articles extends CI_Controller{
                                 'common_share' => str_replace(',','',$this->input->post('commonShares')),
                                 'par_value_common' => str_replace(',','',$this->input->post('parValueCommon')),
                                 'preferred_share' => str_replace(',','',$this->input->post('preferredShares')),
-                                'par_value_preferred' =>str_replace(',','',$this->input->post('parValuePreferred'))
+                                'par_value_preferred' =>str_replace(',','',$this->input->post('parValuePreferred')),
+                                'guardian_cooperative'=>$this->input->post('guardian_cooperative')
                               );
+                              // $this->debug($data);
+                              // echo $article_coop_id;
                               if($this->amendment_article_of_cooperation_model->update_article_primary($article_coop_id,$data)){
                                 $this->session->set_flashdata('article_success', 'Successfully Updated.');
                                 redirect('amendment/'.$this->input->post('article_coop_id').'/articles_primary');

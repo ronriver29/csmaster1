@@ -488,8 +488,8 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
 public function delete_cooperative($coop_id,$status,$user_id){
   $this->db->trans_begin();
   $this->db->delete('cooperatives',array('id' => $coop_id));
-//  $this->delete_committees($user_id);
-  $this->db->delete('committees',array('user_id' => $user_id));
+  $this->delete_committees($user_id);
+//  $this->db->delete('committees',array('user_id' => $user_id));
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
@@ -761,6 +761,16 @@ public function check_expired_reservation($coop_id,$user_id){
 }
 public function check_expired_reservation_by_admin($coop_id){
   $query = $this->db->get_where('cooperatives',array('id'=> $coop_id));
+  $data = $query->row();
+  $coop_status = $data->status;
+  if($coop_status==0){
+    return true;
+  }else{
+    return false;
+  }
+}
+public function check_expired_reservation_by_admin_lab($lab_id){
+  $query = $this->db->get_where('laboratories',array('id'=> $lab_id));
   $data = $query->row();
   $coop_status = $data->status;
   if($coop_status==0){

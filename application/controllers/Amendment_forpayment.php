@@ -25,7 +25,7 @@ class Amendment_forpayment extends CI_Controller{
     $name = $ret->proposed_name;
     
     $from = "coopris.test@gmail.com";    //senders email address
-    $subject =$name.' Evaluation Result';  //email subject
+    $subject =' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
 
@@ -38,20 +38,27 @@ You may opt to pay thru the available online facilities listed in your CoopRIS a
 Once payment has been settled the client may now claim the Certificate of Registration. </pre>";
 
 
-//    $this->email->from($from,'CoopRIS Administrator');
-//    $this->email->to($email);
-//    $this->email->subject($subject);
-//    $this->email->message($message);
-//    if($this->email->send()){
-//        redirect('amendment/'.$id);
-//    }else{
-//        return false;
-//    }
+   $this->email->from($from,'CoopRIS Administrator');
+   $this->email->to($email);
+   $this->email->subject($subject);
+   $this->email->message($message);
+   if($this->email->send()){
+       redirect('amendment/'.$id);
+   }else{
+       return false;
+   }
         
-        redirect('amendment/'.$id);
+        redirect('amendment');
     } else {
         $this->session->set_flashdata('cooperative_error', 'Successfully updated basic information.');
-//        redirect('amendment/'.$this->input->post('cooperativeID'));
+       redirect('amendment/'.$this->input->post('cooperativeID'));
     }
   }
+
+  public function debug($array)
+    {
+        echo"<pre>";
+        print_r($array);
+        echo"</pre>";
+    }
 }

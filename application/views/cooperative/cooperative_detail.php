@@ -1,25 +1,27 @@
+<?php
+$docucount=0;
+    foreach ($coop_type as $coop) : 
+        
+        $docucount++;
+    endforeach;
+?>
 <div class="row mb-2">
   <div class="col-sm-12 col-md-2">
     <a class="btn btn-secondary btn-sm btn-block"  href="<?php echo base_url();?>cooperatives" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
   </div>
     <?php if($is_client && $coop_info->status==11 && strlen($coop_info->evaluation_comment) >= 1 && ($coop_info->evaluated_by > 0)) : ?>
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalLong">
-  * Findings
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Deferred Reason/s</button>
+<div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">The cooperative has been deferred because of the following reason/s:</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <pre><?php 
+        <div class="modal-header">
+            The cooperative has been deferred because of the following reason/s:
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+        </div>
+        <div class="modal-body" style="table-layout: fixed;">
+            <pre><?php 
 //            print_r($cooperatives_comments);
             foreach($cooperatives_comments as $cc) :
                 echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
@@ -27,13 +29,12 @@
                     echo '<li>'.$cc['comment'].'</li>';
                 echo '</ul>';
             endforeach;
-            
-        ?></pre>    
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-      </div>
+        ?></pre>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--            <button type="button" class="btn btn-primary">Save changes</button>-->
+        </div>
     </div>
   </div>
 </div>
@@ -618,12 +619,20 @@
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 font-weight-bold">Step 10</h5>
             <small class="text-muted">
-                <?php if($document_one && $document_two): ?>
-                <span class="badge badge-success">COMPLETE</span>
-              <?php endif;?>
-              <?php if(!$document_one && !$document_two): ?>
-              <span class="badge badge-secondary">PENDING</span>
-            <?php endif;?>
+                <?php if($docucount==1) {
+                    $document2 = $document_others1;
+                } else if($docucount==2){
+                    $document2 = $document_others2;
+                } else {
+                    $document2 = $document_one;
+                }
+                ?>
+                <?php if($document_one && $document_two && $document_others1 && $document2): ?>
+                    <span class="badge badge-success">COMPLETE</span>
+                <?php endif;?>
+                <?php if(!$document_one && !$document_two && !$document_others1 && !$document2): ?>
+                    <span class="badge badge-secondary">PENDING</span>
+                <?php endif;?>
             </small>
           </div>
           <p class="mb-1 font-italic">View your Bylaws, Article of Cooperation, Economic Survey, Treasurer Affidavit and
@@ -652,7 +661,7 @@
               </small>
             </div>
             <p class="mb-1 font-italic">Finalize and review all the information you provide. After reviewing your application, click proceed for evaluation of your application.</p>
-            <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two): ?>
+            <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two && $document_others1 && $document2): ?>
             <small class="text-muted">
               <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
             </small>

@@ -35,8 +35,15 @@
     </div>
   </div>
 <?php endif; ?>
-<?php 
-if($gad_count == 0 || $audit_count == 0 || $election_count == 0 || $medcon_count == 0 || $ethics_count == 0): ?>
+<?php
+
+if($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture'){ 
+    $credit = '$credit_count == 0';
+} else {
+    $credit = '';
+}
+
+if($gad_count == 0 || $audit_count == 0 || $election_count == 0 || $medcon_count == 0 || $ethics_count == 0 || $credit): ?>
 
        <div class="col-sm-12 col-md-12">
         <div class="alert alert-info text-justify" role="alert">
@@ -47,13 +54,12 @@ if($gad_count == 0 || $audit_count == 0 || $election_count == 0 || $medcon_count
               <?php if($election_count == 0) echo '<li>There must be 1 Election member on the list</li>';?>
               <?php if($medcon_count == 0) echo '<li>There must be 1 Mediation and Conciliation member on the list</li>';?>
               <?php if($ethics_count == 0) echo '<li>There must be 1 Ethics member on the list</li>';?>
-              <?php if($coop_info->type_of_cooperative == 'Credit'){
+              <?php if($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture'){
                   if($credit_count == 0) echo '<li>There must be 1 Credit member on the list</li>';
               }?>
            </ul>
         </div>
        </div>
-
 <?php endif;?>
 <div class="row">
   <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>

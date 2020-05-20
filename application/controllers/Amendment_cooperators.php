@@ -47,12 +47,19 @@ class Amendment_cooperators extends CI_Controller{
                     } else {
                         $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$decoded_id);
                     }
-                    // $this->debug(  $data['capitalization_info']);
+                    
                     $capitalization_info = $data['capitalization_info'];
+                    // $this->debug(  $data['capitalization_info']);
                     $data['minimum_regular_subscription'] = $this->amendment_cooperator_model->check_all_minimum_regular_subscription($cooperative_id,$decoded_id);
+                    // $this->debug( $data['minimum_regular_subscription']);
+                    // echo $this->db->last_query();
                     $data['minimum_regular_pay'] = $this->amendment_cooperator_model->check_all_minimum_regular_pay($cooperative_id,$decoded_id);
+                
                     $data['minimum_associate_subscription'] = $this->amendment_cooperator_model->check_all_minimum_associate_subscription($cooperative_id,$decoded_id);
+                 // var_dump( $data['minimum_associate_subscription']);
+                 //    echo $this->db->last_query();
                     $data['minimum_associate_pay'] = $this->amendment_cooperator_model->check_all_minimum_associate_pay($cooperative_id,$decoded_id);
+
                     $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
                     $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$decoded_id);
                     $data['check_regular_paid'] = $this->amendment_cooperator_model->check_regular_total_shares_paid_is_correct($data['total_regular']);
@@ -61,12 +68,17 @@ class Amendment_cooperators extends CI_Controller{
                     $data['treasurer_count'] = $this->amendment_cooperator_model->check_treasurer($cooperative_id,$decoded_id);
                     $data['secretary_count'] = $this->amendment_cooperator_model->check_secretary($cooperative_id,$decoded_id);
                     $data['list_cooperators'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop($cooperative_id,$decoded_id);
-                    // echo $this->db->last_query();
-                    // $this->debug($data['list_cooperators']);
+                   
+
                     $data['list_cooperators_count'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_regular_count($cooperative_id,$decoded_id);
                     $data['list_cooperators_regular'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_regular($cooperative_id,$decoded_id);
+                    $data['list_cooperators_associate_count'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_associate_count($decoded_id);
                     $data['list_cooperators_associate'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_associate($cooperative_id,$decoded_id);
-                    $data['ten_percent']=$this->amendment_cooperator_model->ten_percent($decoded_id);
+                    // $data['ten_percent']=$this->amendment_cooperator_model->ten_percent($decoded_id);
+                    // $this->debug($data['bylaw_info']);
+                    // $this->debug($data['capitalization_info']);
+                   // echo $data['capitalization_info']->associate_members;
+                   //  echo  $data['list_cooperators_associate_count'];
                     $this->load->view('./template/header', $data);
                     $this->load->view('cooperators/amendment_cooperators_list', $data);
                     $this->load->view('cooperators/full_info_modal_cooperator');
@@ -89,40 +101,41 @@ class Amendment_cooperators extends CI_Controller{
             }else if($this->session->userdata('access_level')!=1){
               redirect('amendment');
             }else{
-              if($this->amendment_model->check_expired_reservation_by_admin($decoded_id)){
+              if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('amendment');
               }else{
-                if($this->amendment_model->check_submitted_for_evaluation($decoded_id)){
+                if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
-                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                   if($data['bylaw_complete']){
                         $data['title'] = 'List of Cooperators';
                         $data['header'] = 'Cooperators';
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                         $data['encrypted_id'] = $id;
-                        $data['requirements_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
-                        $data['directors_count'] = $this->cooperator_model->check_no_of_directors($decoded_id);
-                        $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($decoded_id);
-                        $data['total_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
-                        $data['chairperson_count'] = $this->cooperator_model->check_chairperson($decoded_id);
-                        $data['associate_not_exists'] = $this->cooperator_model->check_associate_not_exists($decoded_id);
-                        $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                        $data['minimum_regular_subscription'] = $this->cooperator_model->check_all_minimum_regular_subscription($decoded_id);
-                        $data['minimum_regular_pay'] = $this->cooperator_model->check_all_minimum_regular_pay($decoded_id);
-                        $data['minimum_associate_subscription'] = $this->cooperator_model->check_all_minimum_associate_subscription($decoded_id);
-                        $data['minimum_associate_pay'] = $this->cooperator_model->check_all_minimum_associate_pay($decoded_id);
-                        $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
-                        $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-                        $data['check_regular_paid'] = $this->cooperator_model->check_regular_total_shares_paid_is_correct($data['total_regular']);
-                        $data['check_with_associate_paid'] = $this->cooperator_model->check_with_associate_total_shares_paid_is_correct($data['total_regular'],$data['total_associate']);
-                        $data['vice_count'] = $this->cooperator_model->check_vicechairperson($decoded_id);
-                        $data['treasurer_count'] = $this->cooperator_model->check_treasurer($decoded_id);
-                        $data['secretary_count'] = $this->cooperator_model->check_secretary($decoded_id);
-                        $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
-                        $data['ten_percent']=$this->cooperator_model->ten_percent($decoded_id);
-                        $data['list_cooperators_regular'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
-                    $data['list_cooperators_associate'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_associate($decoded_id);
+                        $data['requirements_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$decoded_id);
+                        $data['directors_count'] = $this->amendment_cooperator_model->check_no_of_directors($cooperative_id,$decoded_id);
+                        $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($cooperative_id,$decoded_id);
+                        $data['total_directors'] = $this->amendment_cooperator_model->no_of_directors($cooperative_id,$decoded_id);
+                        $data['chairperson_count'] = $this->amendment_cooperator_model->check_chairperson($cooperative_id,$decoded_id);
+                        $data['associate_not_exists'] = $this->amendment_cooperator_model->check_associate_not_exists($cooperative_id,$decoded_id);
+                        $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
+                        $data['minimum_regular_subscription'] = $this->amendment_cooperator_model->check_all_minimum_regular_subscription($cooperative_id,$decoded_id);
+                        $data['minimum_regular_pay'] = $this->amendment_cooperator_model->check_all_minimum_regular_pay($cooperative_id,$decoded_id);
+                        $data['minimum_associate_subscription'] = $this->amendment_cooperator_model->check_all_minimum_associate_subscription($cooperative_id,$decoded_id);
+                        $data['minimum_associate_pay'] = $this->amendment_cooperator_model->check_all_minimum_associate_pay($cooperative_id,$decoded_id);
+                        $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
+                        $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$decoded_id);
+                        $data['check_regular_paid'] = $this->amendment_cooperator_model->check_regular_total_shares_paid_is_correct($data['total_regular']);
+                        $data['check_with_associate_paid'] = $this->amendment_cooperator_model->check_with_associate_total_shares_paid_is_correct($data['total_regular'],$data['total_associate']);
+                        $data['vice_count'] = $this->amendment_cooperator_model->check_vicechairperson($cooperative_id,$decoded_id);
+                        $data['treasurer_count'] = $this->amendment_cooperator_model->check_treasurer($cooperative_id,$decoded_id);
+                        $data['secretary_count'] = $this->amendment_cooperator_model->check_secretary($cooperative_id,$decoded_id);
+                        $data['list_cooperators'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop($cooperative_id,$decoded_id);
+                        $data['ten_percent']=$this->amendment_cooperator_model->ten_percent($decoded_id);
+                        $data['list_cooperators_regular'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_regular($cooperative_id,$decoded_id);
+                    $data['list_cooperators_associate'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_associate($cooperative_id,$decoded_id);
+                          $data['check_if_equal_shares_paid'] =$this->amendment_cooperator_model->check_equal_shares($decoded_id);//modified                    
                         $this->load->view('./templates/admin_header', $data);
                         $this->load->view('cooperators/amendment_cooperators_list', $data);
                         $this->load->view('cooperators/full_info_modal_cooperator');
@@ -234,6 +247,8 @@ class Amendment_cooperators extends CI_Controller{
                       $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                       $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$decoded_id);
                       $data['list_cooperators'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop($cooperative_id,$decoded_id);
+                      // $this->debug( $data['list_cooperators']);
+                      // $this->debug($data['capitalization_info']);
                       $this->load->view('./template/header', $data);
                       $this->load->view('cooperators/amendment_add_form_cooperator', $data);
                       $this->load->view('./template/footer');
@@ -366,8 +381,24 @@ class Amendment_cooperators extends CI_Controller{
                           $data['encrypted_cooperator_id'] = $cooperator_id;
                           $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                           $data['cooperator_info'] = $this->amendment_cooperator_model->get_cooperator_info($cooperative_id,$decoded_id,$decoded_cooperator_id);
+                          // $this->debug( $data['cooperator_info']);
                           $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$decoded_id);
                           $data['list_cooperators'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop($cooperative_id,$decoded_id);
+                          // $area_query= $this->db->query("select area_of_operation from amend_coop where id ='$decoded_id'");
+                          // if($area_query->num_rows()>0)
+                          // {
+                          //   foreach($area_query->result() as $aof)
+                          //   {
+
+                          //     $areaOfOperation = $aof->area_of_operation;
+                          //   }
+                          // }
+                          // else
+                          // {
+                          //   $areaOfOperation ="NO Area of Opeartion found";
+                          // }
+                          // $this->debug($data['coop_info']);
+                         
                           $this->load->view('./template/header', $data);
                           $this->load->view('cooperators/amendment_edit_form_cooperator', $data);
                           $this->load->view('./template/footer');
@@ -385,15 +416,15 @@ class Amendment_cooperators extends CI_Controller{
                             'house_blk_no'=> $this->input->post('blkNo'),
                             'streetName'=> $this->input->post('streetName'),
                             'addrCode' => $this->input->post('barangay'),
-                            'number_of_subscribed_shares' =>$this->input->post('subscribedShares'),
+                            'number_of_subscribed_shares' =>$this->input->post('amd_subscribedShares'),
                             'number_of_paid_up_shares' =>$this->input->post('paidShares'),
                             'proof_of_identity' =>$this->input->post('validIdType'),
                             'proof_of_identity_number' =>$this->input->post('validIdNo'),
                             'proof_date_issued' =>$this->input->post('dateIssued'),
                             'place_of_issuance' =>$this->input->post('placeIssuance'),
                             );
-                          // $this->debug($decoded_id);
-                          $success = $this->amendment_cooperator_model->edit_cooperator($decoded_post_cooperator_id,$data);
+                          // $this->debug($data);
+                          $success = $this->amendment_cooperator_model->edit_cooperator($decoded_post_cooperator_id,$data,$decoded_id);
                           // $this->debug($success);
                           if($success['success']){
                             $this->session->set_flashdata('cooperator_success', $success['message']);
@@ -480,7 +511,7 @@ class Amendment_cooperators extends CI_Controller{
                                 'proof_date_issued' =>$this->input->post('dateIssued'),
                                 'place_of_issuance' =>$this->input->post('placeIssuance'),
                                 );
-                              $success = $this->cooperator_model->edit_cooperator($decoded_post_cooperator_id,$data);
+                              $success = $this->amendment_cooperator_model->edit_cooperator($decoded_post_cooperator_id,$data);
                               if($success['success']){
                                 $this->session->set_flashdata('cooperator_success', $success['message']);
                                 redirect('amendment/'.$id.'/amendment_cooperators');
@@ -780,6 +811,8 @@ class Amendment_cooperators extends CI_Controller{
                 // {
                 //       echo json_encode(array($data['fieldId'],true));
                 // }
+             echo json_encode($result);
+             // echo $this->db->last_query();
           }//no changes query   
          
         }else{
@@ -800,6 +833,40 @@ class Amendment_cooperators extends CI_Controller{
           if($this->amendment_model->check_own_cooperative($decoded_id,$user_id)){
               $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperator_id',true)));
               $data = $this->cooperator_model->get_cooperator_info($decoded_post_coop_id);
+              echo json_encode($data);
+          }else{
+            $this->session->set_flashdata('cooperator_redirect','Unauthorized!!');
+            redirect('amendment/'.$this->input->post('cooperativeID').'/amendment_cooperators');
+          }
+        }else{
+          if($this->session->userdata('access_level')==5){
+            redirect('admins/login');
+          }else if($this->session->userdata('access_level')!=1){
+            redirect('amendment');
+          }else{
+            $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperator_id',true)));
+            $data = $this->cooperator_model->get_cooperator_info($decoded_post_coop_id);
+            echo json_encode($data);
+          }
+        }
+      }else{
+        show_404();
+      }
+    }
+  }
+  function get_post_cooperator_info_ajax(){
+    if($this->input->method(TRUE)==="GET"){
+      redirect('amendment');
+    }else if($this->input->method(TRUE)==="POST"){
+     $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperator_id')));
+     $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('amd_ids')));
+      $user_id = $this->session->userdata('user_id');
+      $cooperative_id = $this->coop_dtl($decoded_id);
+      if(is_numeric($decoded_id) && $decoded_id!=0){
+        if($this->session->userdata('client')){
+          if($this->amendment_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
+              $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperator_id',true)));
+              $data = $this->amendment_cooperator_model->get_cooperator_info($cooperative_id,$decoded_id,$decoded_post_coop_id);
               echo json_encode($data);
           }else{
             $this->session->set_flashdata('cooperator_redirect','Unauthorized!!');
@@ -846,7 +913,7 @@ class Amendment_cooperators extends CI_Controller{
     }
     public function coop_dtl($amendment_id)
     {
-      $query = $this->db->query("select cooperative_id from amend_coop where id={$amendment_id}");
+      $query = $this->db->query("select cooperative_id from amend_coop where id='$amendment_id'");
       if($query->num_rows()>0)
       {
         foreach($query->result() as $row)
@@ -860,6 +927,40 @@ class Amendment_cooperators extends CI_Controller{
       }
       return $data;
     }
+
+  //   function get_post_cooperator_info($id){
+  //   if($this->input->method(TRUE)==="GET"){
+  //     redirect('amendment');
+  //   }else if($this->input->method(TRUE)==="POST"){
+  //     $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+  //     $user_id = $this->session->userdata('user_id');
+  //     if(is_numeric($decoded_id) && $decoded_id!=0){
+  //       if($this->session->userdata('client')){
+  //         if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
+  //             $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperator_id',true)));
+  //             $data = $this->amendment_cooperator_model->get_cooperator_info($decoded_post_coop_id);
+  //             echo json_encode($data);
+  //         }else{
+  //           $this->session->set_flashdata('cooperator_redirect','Unauthorized!!');
+  //           redirect('amendment/'.$this->input->post('cooperativeID').'/cooperators');
+  //         }
+  //       }else{
+  //         if($this->session->userdata('access_level')==5){
+  //           redirect('admins/login');
+  //         }else if($this->session->userdata('access_level')!=1){
+  //           redirect('amendment');
+  //         }else{
+  //           $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperator_id',true)));
+  //           $data = $this->cooperator_model->get_cooperator_info($decoded_post_coop_id);
+  //           echo json_encode($data);
+  //         }
+  //       }
+  //     }else{
+  //       show_404();
+  //     }
+  //   }
+  // }
+
     public function debug($array)
     {
       echo"<pre>";
