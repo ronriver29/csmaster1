@@ -50,7 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 //$route['default_controller'] = 'cooperatives';
-$route['default_controller'] = 'welcome';
+//$route['default_controller'] = 'welcome';
+$route['default_controller'] = 'users/index';
 
 $route['branches/(:any)/documents/bylaws_primary_branch'] = 'documents/bylaws_primary_branch/$1';
 $route['branches/(:any)/documents/articles_cooperation_primary_branch'] = 'documents/articles_cooperation_primary_branch/$1';
