@@ -83,7 +83,7 @@ deploy-application-production:
       cs
       ./.chart/application
   environment:
-    name: staging
+    name: production
     url: https://cs.cda.gov.ph
   only:
     - master
@@ -99,7 +99,7 @@ deploy-database-production:
       database
       ./.chart/database
   environment:
-    name: staging
+    name: production
     url: http://202.90.136.156
   only:
     - master

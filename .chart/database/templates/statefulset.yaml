@@ -162,8 +162,10 @@ spec:
       - name: config-map
         configMap:
           name: mysql
+      {{ if eq .Values.env.name "production" }}
       nodeSelector:
         type: database
+      {{ end }}
   volumeClaimTemplates:
   - metadata:
       name: data-volume
