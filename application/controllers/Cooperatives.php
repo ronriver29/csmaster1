@@ -194,7 +194,12 @@
               $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
               $count=0;
               $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
-             
+              
+              $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
+              if($data['staff_complete'])
+              {
+
+
                 foreach ($data['coop_type'] as $coop) : 
 
                     $count++;
@@ -208,7 +213,7 @@
                     }
                     
                 endforeach;
-              
+              }
               
                 
               $data['bylawprimary'] = $data['coop_info']->category_of_cooperative=="Primary";
