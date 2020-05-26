@@ -194,15 +194,10 @@
               $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
               $count=0;
               $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
-              
-<<<<<<< HEAD
               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
               if($data['staff_complete'])
               {
 
-
-=======
->>>>>>> 14caa1d11258ea55e080b4318cd4a521c925d92f
                 foreach ($data['coop_type'] as $coop) : 
                     
                     $count++;
@@ -216,12 +211,12 @@
                     }
                     
                 endforeach;
-<<<<<<< HEAD
+
               }
-=======
+
                   
               
->>>>>>> 14caa1d11258ea55e080b4318cd4a521c925d92f
+
               
                 
               $data['bylawprimary'] = $data['coop_info']->category_of_cooperative=="Primary";
