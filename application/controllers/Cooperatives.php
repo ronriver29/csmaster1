@@ -196,7 +196,7 @@
               $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
              
                 foreach ($data['coop_type'] as $coop) : 
-
+                    print_r($coop);
                     $count++;
                     if($count == 1){
                         $data['document_others1'] = $this->uploaded_document_model->get_document_others1_info($decoded_id,$coop['document_num']);
