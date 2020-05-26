@@ -195,13 +195,16 @@
               $count=0;
               $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
               
+<<<<<<< HEAD
               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
               if($data['staff_complete'])
               {
 
 
+=======
+>>>>>>> 14caa1d11258ea55e080b4318cd4a521c925d92f
                 foreach ($data['coop_type'] as $coop) : 
-
+                    
                     $count++;
                     if($count == 1){
                         $data['document_others1'] = $this->uploaded_document_model->get_document_others1_info($decoded_id,$coop['document_num']);
@@ -213,7 +216,12 @@
                     }
                     
                 endforeach;
+<<<<<<< HEAD
               }
+=======
+                  
+              
+>>>>>>> 14caa1d11258ea55e080b4318cd4a521c925d92f
               
                 
               $data['bylawprimary'] = $data['coop_info']->category_of_cooperative=="Primary";
