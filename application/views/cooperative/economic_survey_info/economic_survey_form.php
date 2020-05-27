@@ -398,7 +398,7 @@
               </label>
             </div>
             <div class="form-check">
-                <?php if(empty($survey_info->investments[1])){ $survey_info->investments[2] =0;}?>
+                <?php if(empty($survey_info->investments[2])){ $survey_info->investments[2] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="3" name="investments[]" id="jointVentures" disabled <?=($survey_info->investments[2] == 1 ?  "checked" : "")?>>
               <label class="form-check-label" for="jointVentures">
                 Joint ventures
@@ -407,14 +407,14 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
-                <?php if(empty($survey_info->investments[1])){ $survey_info->investments[3] =0;}?>
+                <?php if(empty($survey_info->investments[3])){ $survey_info->investments[3] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="4" name="investments[]" id="mutual" disabled <?=($survey_info->investments[3] == 1 ? "checked" : "") ?>>
               <label class="form-check-label" for="mutual">
                 Mutual
               </label>
             </div>
             <div class="form-check">
-                <?php if(empty($survey_info->investments[4])){ $survey_info->investments[1] =0;}?>
+                <?php if(empty($survey_info->investments[4])){ $survey_info->investments[4] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="5" name="investments[]" id="insurance" disabled <?=($survey_info->investments[4] == 1 ? "checked" :"") ?>>
               <label class="form-check-label" for="insurance">
                 Insurance
