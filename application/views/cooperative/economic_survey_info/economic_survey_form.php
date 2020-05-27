@@ -375,7 +375,8 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
-              <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="1" name="investments[]" id="cooperativeBank" disabled  <?=($survey_info->investments[0] == 1 ?  "checked" : "") ?>>
+                <?php if(empty($survey_info->investments[0])){ $survey_info->investments[0] =0;}?>
+              <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="1" name="investments[]" id="cooperativeBank" disabled  <?=($survey_info->investments[0] == 1 ?  "checked" : "")?>>
               <label class="form-check-label" for="cooperativeBank">
                 Cooperative bank
               </label>
