@@ -270,7 +270,6 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
-              class="form-check">
                  <?php if(empty($survey_info->generate_capital[0])){$survey_info->generate_capital[0]=0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="1" name="generateCapital[]" id="capitalSubscription" disabled <?=($survey_info->generate_capital[0] == 1 ?  "checked" :"") ?>>
               <label class="form-check-label" for="capitalSubscription">
