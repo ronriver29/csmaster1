@@ -389,6 +389,7 @@
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->investments[1])){ $survey_info->investments[2] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="3" name="investments[]" id="jointVentures" disabled <?=($survey_info->investments[2] == 1 ?  "checked" : "")?>>
               <label class="form-check-label" for="jointVentures">
                 Joint ventures
@@ -397,12 +398,14 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
+                <?php if(empty($survey_info->investments[1])){ $survey_info->investments[3] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="4" name="investments[]" id="mutual" disabled <?=($survey_info->investments[3] == 1 ? "checked" : "") ?>>
               <label class="form-check-label" for="mutual">
                 Mutual
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->investments[4])){ $survey_info->investments[1] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="5" name="investments[]" id="insurance" disabled <?=($survey_info->investments[4] == 1 ? "checked" :"") ?>>
               <label class="form-check-label" for="insurance">
                 Insurance
@@ -436,6 +439,7 @@
             </div>
           </div>
           <div class="col-sm-12 col-md-6">
+              <?php if(empty($survey_info->equipments_etc[0])){ $survey_info->equipments_etc[0] =0;}?>
             <div class="form-check">
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="1" name="equipments[]" id="typewriter" disabled <?=($survey_info->equipments_etc[0] == 1 ?  "checked" :"") ?>>
               <label class="form-check-label" for="typewriter">
@@ -443,42 +447,49 @@
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->equipments_etc[1])){ $survey_info->equipments_etc[1] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="2" name="equipments[]" id="computer" disabled <?=($survey_info->equipments_etc[1] == 1 ?  "checked" : "") ?>>
               <label class="form-check-label" for="computer">
                 Computer
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->equipments_etc[2])){ $survey_info->equipments_etc[2] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="3" name="equipments[]"  id="tables" disabled <?=($survey_info->equipments_etc[2] == 1 ? "checked" : "") ?>>
               <label class="form-check-label" for="tables">
                 Tables
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->equipments_etc[3])){ $survey_info->equipments_etc[3] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="4" name="equipments[]"  id="chairs" disabled <?=($survey_info->equipments_etc[3] == 1 ?  "checked" : "") ?>>
               <label class="form-check-label" for="chairs">
                 Chairs
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->equipments_etc[4])){ $survey_info->equipments_etc[4] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="5" name="equipments[]"  id="calculator" disabled <?=($survey_info->equipments_etc[4] == 1 ?  "checked" :"") ?>>
               <label class="form-check-label" for="calculator">
                 Calculator
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->equipments_etc[5])){ $survey_info->equipments_etc[5] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="6" name="equipments[]"  id="vault" disabled <?=($survey_info->equipments_etc[5] == 1 ? "checked" :"") ?>>
               <label class="form-check-label" for="vault">
                 Vault/Safe
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->equipments_etc[6])){ $survey_info->equipments_etc[6] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="7" name="equipments[]"  id="fillingCabinet" disabled <?=($survey_info->equipments_etc[6] == 1 ? "checked" : "") ?>>
               <label class="form-check-label" for="fillingCabinet">
                 Filing Cabinet
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->equipments_etc[7])){ $survey_info->equipments_etc[7] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="8" name="equipments[]"  id="medicalIntruments" disabled <?=($survey_info->equipments_etc[7] == 1 ? "checked" :"") ?>>
               <label class="form-check-label" for="medicalIntruments">
                 Medical Instruments
@@ -487,36 +498,42 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
+                <?php if(empty($survey_info->equipments_etc[8])){ $survey_info->equipments_etc[8] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="9" name="equipments[]"  id="warehouse" disabled <?=($survey_info->equipments_etc[8] == 1 ? "checked" :"") ?>>
               <label class="form-check-label" for="warehouse">
                 Warehouse
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->equipments_etc[9])){ $survey_info->equipments_etc[9] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="10" name="equipments[]"  id="milling" disabled <?=($survey_info->equipments_etc[9] == 1 ? "checked" : "") ?>>
               <label class="form-check-label" for="milling">
                 Milling
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->equipments_etc[10])){ $survey_info->equipments_etc[10] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="11" name="equipments[]"  id="farmEquipment" disabled <?=($survey_info->equipments_etc[10] == 1 ?  "checked" :"") ?>>
               <label class="form-check-label" for="farmEquipment">
                 Farm Equipment
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->equipments_etc[11])){ $survey_info->equipments_etc[11] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="12" name="equipments[]"  id="postHarvestEquipment" disabled <?=($survey_info->equipments_etc[11] == 1 ?  "checked" :"") ?>>
               <label class="form-check-label" for="postHarvestEquipment">
                 Post Harvest Equipment
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->equipments_etc[12])){ $survey_info->equipments_etc[12] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="13" name="equipments[]"  id="solarDryer" disabled <?=($survey_info->equipments_etc[12] == 1 ?  "checked" :"") ?>>
               <label class="form-check-label" for="solarDryer">
                 Solar Dryer
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->equipments_etc[13])){ $survey_info->equipments_etc[13] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="14" name="equipments[]"  id="fishingEquipment" disabled <?=($survey_info->equipments_etc[13] == 1 ? "checked" :"") ?>>
               <label class="form-check-label" for="fishingEquipment">
                 Fishing Equipment
