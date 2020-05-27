@@ -574,12 +574,14 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
+               <?php if(empty($survey_info->procure_equipments_etc[0])){$survey_info->procure_equipments_etc[0]=0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="1" name="procureEquipments[]" id="procureCashPurchase" disabled <?=($survey_info->procure_equipments_etc[0] == 1 ? "checked" :"") ?>>
               <label class="form-check-label" for="procureCashPurchase">
                 Cash purchase
               </label>
             </div>
             <div class="form-check">
+              <?php if(empty($survey_info->procure_equipments_etc[1])){$survey_info->procure_equipments_etc[1]=0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="2" name="procureEquipments[]" id="procureLoans" disabled <?=($survey_info->procure_equipments_etc[1] == 1 ? "checked" : ""); ?>>
               <label class="form-check-label" for="procureLoans">
                 Loans
@@ -588,6 +590,7 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
+               <?php if(empty($survey_info->procure_equipments_etc[2])){$survey_info->procure_equipments_etc[2]=0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="3" name="procureEquipments[]" id="procureDonations" disabled <?=($survey_info->procure_equipments_etc[2] == 1 ? "checked" : ""); ?>>
               <label class="form-check-label" for="procureDonations">
                 Donations
