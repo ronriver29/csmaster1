@@ -382,6 +382,7 @@
               </label>
             </div>
             <div class="form-check">
+                 <?php if(empty($survey_info->investments[1])){ $survey_info->investments[1] =0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="2" name="investments[]" id="federation" disabled <?=($survey_info->investments[1] == 1 ?  "checked" : "") ?>>
               <label class="form-check-label" for="federation">
                 Federation
