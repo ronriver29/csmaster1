@@ -199,8 +199,9 @@
               {
 
                 foreach ($data['coop_type'] as $coop) : 
-                    
-                    $count++;
+                if(!empty($coop['document_num']))
+                {
+                   $count++;
                     if($count == 1){
                         $data['document_others1'] = $this->uploaded_document_model->get_document_others1_info($decoded_id,$coop['document_num']);
                     } else if($count == 2) {
@@ -208,7 +209,9 @@
                     } else {
                         $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
                         $data['document_others2'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
-                    }
+                    } 
+                }
+                   
                     
                 endforeach;
 
