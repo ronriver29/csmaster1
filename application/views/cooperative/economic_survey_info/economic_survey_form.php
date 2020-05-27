@@ -204,6 +204,7 @@
           </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-check">
+
               <input type="checkbox" class="form-check-input validate[minCheckbox[1]]"value="4"  name="strategiesSupport[]" id="strategiesSupportOthers" disabled <?=(strlen($survey_info->strategies_support_members_others)> 0 ?  "checked" :"") ?>>
               <label for="strategiesSupportOthers">Others</label>
             </div>
@@ -269,18 +270,22 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
+              class="form-check">
+                 <?php if(empty($survey_info->generate_capital[0])){$survey_info->generate_capital[0]=0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="1" name="generateCapital[]" id="capitalSubscription" disabled <?=($survey_info->generate_capital[0] == 1 ?  "checked" :"") ?>>
               <label class="form-check-label" for="capitalSubscription">
                 Share Capital Subscription
               </label>
             </div>
             <div class="form-check">
+              <?php if(empty($survey_info->generate_capital[1])){$survey_info->generate_capital[1]=0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="2" name="generateCapital[]" id="deferredPayment" disabled <?=($survey_info->generate_capital[1] == 1 ? "checked" :"") ?>>
               <label class="form-check-label" for="deferredPayment">
                 Deferred payment of patronage refund/interest on share capital (Revolving Capital)
               </label>
             </div>
             <div class="form-check">
+              <?php if(empty($survey_info->generate_capital[2])){$survey_info->generate_capital[2]=0;}?>
               <input class="form-check-input  validate[minCheckbox[1]]" type="checkbox" value="3" name="generateCapital[]" id="acquisitionLoans" disabled <?=($survey_info->generate_capital[2] == 1 ?  "checked" :"") ?>>
               <label class="form-check-label" for="acquisitionLoans">
                 Acquisition of Loans/borrowings
@@ -289,12 +294,14 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
+                <?php if(empty($survey_info->generate_capital[3])){$survey_info->generate_capital[3]=0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="4" name="generateCapital[]" id="solicitationDonations" disabled <?=($survey_info->generate_capital[3] == 1 ? "checked" :"") ?>>
               <label class="form-check-label" for="solicitationDonations">
                 Solicitation/acceptance of donations, subsidies, grants, etc.
               </label>
             </div>
             <div class="form-check">
+                <?php if(empty($survey_info->generate_capital[4])){$survey_info->generate_capital[4]=0;}?>
               <input class="form-check-input validate[minCheckbox[1]]" type="checkbox" value="5" name="generateCapital[]" id="fundRaising" disabled  <?=($survey_info->generate_capital[4] == 1 ? "checked" : "") ?>>
               <label class="form-check-label" for="fundRaising">
                 Fund raising activities
