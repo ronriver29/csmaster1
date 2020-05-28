@@ -329,7 +329,7 @@ class Users extends CI_Controller{
      public function users_manual($file_name)
     {
         $filename= $this->encryption->decrypt(decrypt_custom($file_name));
-          $this->output->set_header('Content-Disposition: inline; filename="'.$decoded_filename.'"')
+          $this->output->set_header('Content-Disposition: inline; filename="'.$filename.'"')
           ->set_content_type('application/pdf','utf-8','CoopRIS')
           ->set_output(
           file_get_contents('user_guide/user_manual/'.$filename)
