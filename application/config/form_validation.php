@@ -255,7 +255,8 @@ $config = array(
                 array(
                   'field' => 'proposedName',
                   'label' => 'Proposed Name',
-                  'rules' => 'trim|required|callback_type_of_cooperative_check|callback_cooperative_word_check|callback_cooperative_name_exists_update_check'
+                   'rules' => 'trim|required|callback_cooperative_word_check|callback_cooperative_name_exists_update_check'
+                  // 'rules' => 'trim|required|callback_type_of_cooperative_check|callback_cooperative_word_check|callback_cooperative_name_exists_update_check'
                 ),
                 array(
                   'field' => 'commonBondOfMembership',
