@@ -1167,9 +1167,11 @@ public function delete_pdf()
                              // $this->load->view('documents/primary/bylaws_for_primary', $data);
 
                               $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
+
                               $f = new pdf();
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
+                              // $f->setBasePath(public_path()); // This line resolve
                               $f->render();
                               $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
                             }else{

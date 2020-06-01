@@ -9,7 +9,10 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-  <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css">
+
+
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="<?=APPPATH?>../assets/css/bootstrap.min.css">
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
   @page{margin: 96px 96px 144px 96px;}
@@ -22,7 +25,8 @@
   body{}
   </style>
 </head>
-<body style="font-family: 12 Bookman Old Style;">
+<body style="font-family: 12 Bookman Old Style !important;;">
+
 <div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
