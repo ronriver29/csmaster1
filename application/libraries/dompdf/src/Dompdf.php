@@ -608,8 +608,8 @@ class Dompdf
                                 //found at least one mediatype, but none of the accepted ones
                                 //Skip this css file.
                                 //continue;
-                                continue 2;
-                                // break;
+                                // continue 2;
+                                break;
                             }
                         }
 
