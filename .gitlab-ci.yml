@@ -19,7 +19,7 @@ build:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker build --pull -t "$CONTAINER" .
     - docker push "$CONTAINER"
-    - docker-compose build
+
   retry: 2
   only:
     - master
