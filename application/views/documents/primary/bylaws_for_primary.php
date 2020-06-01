@@ -17,14 +17,9 @@
   .table-cooperator, .table-cooperator th, .table-cooperator td {
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
-    @font-face {
-  font-family: 'BookmanOldStyleRegular';
-  font-style: normal;
-  font-weight: normal;
-  src: url('<?php base_url()?>assets/BookmanOldStyleRegular.ttf') format('truetype');
 }
   }
-  body{font-family: BookmanOldStyleRegular !important;}
+  body{}
   </style>
 </head>
 <body style="font-family: 12 Bookman Old Style;">
