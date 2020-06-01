@@ -7,7 +7,7 @@ class Documents extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
-    $this->load->library('pdf');
+      $this->load->library('pdf');
   }
 
   function index($id = null)
@@ -771,7 +771,7 @@ public function delete_pdf()
   //modify by anj
   public function count_documents_others($coop_id,$num)
   {
-    $query = $this->db->where('document_num = '.$num.' AND cooperatives_id ='.$coop_id.' AND status = 1')->get('uploaded_documents');
+    $query = $this->db->get_where('uploaded_documents',array('document_num'=>$num,'cooperatives_id'=>$coop_id,'status'=> 1));
     if($query->num_rows()>0)
     {
       $data = $query->result_array();
