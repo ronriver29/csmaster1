@@ -9,7 +9,7 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-    <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css" media="all">
     <link rel="stylesheet" href="<?=base_url();?>assets/css/validationEngine.jquery.css" type="text/css"/>
     <link rel="stylesheet" href="<?=base_url();?>assets/icons/fontawesome-free-5.5.0-web/css/all.css">
     <link rel="icon" href="<?=base_url();?>/assets/img/cda.png" type="image/png">
