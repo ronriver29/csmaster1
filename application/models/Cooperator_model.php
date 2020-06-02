@@ -375,7 +375,7 @@ public $last_query = "";
             return array('success'=>false,'message'=>'Only one Chairpeson is allowed');
           }
         }else if(strcmp($cooperator_info['position'], 'Vice-Chairperson')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name'])){
             if($this->check_directors_not_max($data->cooperatives_id)){
               $this->db->trans_begin();
               $this->db->where('id', $cooperator_id);
