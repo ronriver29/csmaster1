@@ -70,7 +70,6 @@ class Uploaded_Document_model extends CI_Model{
 
    //modify by json
   public function add_document_info_($branchID,$coopid,$docnum,$filename,$status){
-    $data = $this->security->xss_clean($data);
     $this->db->trans_begin();
      // $this->db->delete('uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>$docnum));
 

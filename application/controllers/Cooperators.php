@@ -384,14 +384,16 @@ class Cooperators extends CI_Controller{
                             'proof_date_issued' =>$this->input->post('dateIssued'),
                             'place_of_issuance' =>$this->input->post('placeIssuance'),
                             );
-                          $success = $this->cooperator_model->edit_cooperator($decoded_post_cooperator_id,$data);
-                          if($success['success']){
-                            $this->session->set_flashdata('cooperator_success', $success['message']);
-                            redirect('cooperatives/'.$this->input->post('cooperativesID').'/cooperators');
-                          }else{
-                            $this->session->set_flashdata('cooperator_error', $success['message']);
-                            redirect('cooperatives/'.$this->input->post('cooperativesID').'/cooperators');
-                          }
+                          $this->debug($decoded_post_cooperator_id);
+                          $this->debug($data);
+                          // $success = $this->cooperator_model->edit_cooperator($decoded_post_cooperator_id,$data);
+                          // if($success['success']){
+                          //   $this->session->set_flashdata('cooperator_success', $success['message']);
+                          //   redirect('cooperatives/'.$this->input->post('cooperativesID').'/cooperators');
+                          // }else{
+                          //   $this->session->set_flashdata('cooperator_error', $success['message']);
+                          //   redirect('cooperatives/'.$this->input->post('cooperativesID').'/cooperators');
+                          // }
                         }
                       }else{
                         $this->session->set_flashdata('redirect_message', 'You already submitted for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
@@ -703,4 +705,10 @@ class Cooperators extends CI_Controller{
     $query = $this->db->get();
     return $query->row();
   }
+   public function debug($array)
+    {
+        echo"<pre>";
+        print_r($array);
+        echo"</pre>";
+    }
 }
