@@ -56,9 +56,9 @@ class Documents extends CI_Controller{
                                 $data['ching2'] = implode(',',$data['ching']);
                                  $data['ching3'] = count($data['coop_type']);
                                 if($data['ching3']!=0){
-                                    if(empty($data['ching4']))
+                                    if(empty($data['ching'][0]))
                                     {
-                                      $data['ching'][0];
+                                      $data['ching'][0]=0;
                                     }
                                     $data['ching4'] = $data['ching'][0];
                                     if($data['ching3'] == 2){
