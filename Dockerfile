@@ -15,4 +15,4 @@ COPY . /srv/site
 
 WORKDIR /srv/site
 
-RUN chmod a+rwx -R /srv/site/uploads
+RUN chmod a+rwx -R /srv/site

@@ -144,7 +144,7 @@
                   <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
                  
-                  <input type="text" class="form-control validate[required,funcCall[validateActivityNotNullUpdateCustom], funcCall[validateActivityInNameUpdateCustom],  <?php echo ($coop_info->status >0) ? "ajax[ajaxCoopNameUpdateCallPhp]" : "ajax[ajaxCoopNameExpiredCallPhp]";?>]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= $coop_info->proposed_name;?> <?php endif;?>">
+                  <input type="text" class="form-control validate[required,funcCall[validateActivityNotNullUpdateCustom],funcCall[validateActivityInNameUpdateCustom],<?php echo ($coop_info->status >0) ? "ajax[ajaxCoopNameUpdateCallPhp]" : "ajax[ajaxCoopNameExpiredCallPhp]";?>]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= $coop_info->proposed_name;?> <?php endif;?>">
 
                 </div>
               </div>
