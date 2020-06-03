@@ -30,6 +30,10 @@ spec:
         - name: nginx-config-volume
           configMap:
             name: {{ .Values.web.name }}-cm
+
+        - name: shared-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.web.name }}-pvc
       containers:
       - env:
         - name: DB_HOSTNAME
@@ -55,6 +59,8 @@ spec:
         volumeMounts:
           - name: shared-files
             mountPath: /var/www/html
+          - name: shared-volume
+            mountPath: /var/www/shared-volume
         #command: ["/bin/sh"]
         #args: ["-c", "/bin/sh /srv/site/post-start.sh && php-fpm"]
         lifecycle:
@@ -78,6 +84,8 @@ spec:
           - name: nginx-config-volume
             mountPath: /etc/nginx/conf.d/default.conf
             subPath: nginx.conf
+          - name: shared-volume
+            mountPath: /var/www/shared-volume
         resources:
           limits:
             cpu: "0.5"
