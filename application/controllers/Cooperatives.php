@@ -48,10 +48,10 @@
                 }
               }
           }
-          $this->load->view('template/header', $data);
-          $this->load->view('applications/list_of_applications', $data);
-          $this->load->view('cooperative/delete_modal_cooperative');
-          $this->load->view('template/footer');
+            $this->load->view('template/header', $data);
+            $this->load->view('applications/list_of_applications', $data);
+            $this->load->view('cooperative/delete_modal_cooperative');
+            $this->load->view('template/footer');
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');

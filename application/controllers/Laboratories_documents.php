@@ -1128,7 +1128,7 @@ class Laboratories_documents extends CI_Controller{
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
-        if(file_exists('uploads/'.$decoded_filename)){
+        if(file_exists(UPLOAD_DIR.$decoded_filename)){
           // if($this->uploaded_document_model->check_document_of_cooperative(0,$decoded_id,1,$decoded_filename)){
           if($this->uploaded_document_model->check_document_of_cooperative(0,$decoded_id,$doc_type,$decoded_filename)){
             if($this->session->userdata('client')){
@@ -1157,7 +1157,7 @@ class Laboratories_documents extends CI_Controller{
                                   ->set_header('Content-Disposition: inline; filename="'.$decoded_filename.'"') //modify
                                       ->set_content_type('application/pdf','utf-8','CoopRIS')
                                       ->set_output(
-                                        file_get_contents('uploads/'.$decoded_filename)
+                                        file_get_contents(UPLOAD_DIR.$decoded_filename)
                                       );
                                 // }else{
                                 //   $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');

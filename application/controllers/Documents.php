@@ -3609,7 +3609,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($decoded_uid,$decoded_id);
           if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
            $random_ = random_string('alnum',5);
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = UPLOAD_DIR;
             $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_surety_bond.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
@@ -3672,7 +3672,7 @@ function do_upload_others(){
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($decoded_uid,$decoded_id);
           if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){  
             $random_ = random_string('alnum',5);
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = UPLOAD_DIR;
             $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_'.$coop_title.'.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
@@ -3730,7 +3730,7 @@ function do_upload_two_(){
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($decoded_uid,$decoded_id);
           if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){  
             $random_ = random_string('alnum',5);
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = UPLOAD_DIR;
             $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_pre_registration.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;

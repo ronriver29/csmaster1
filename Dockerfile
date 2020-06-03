@@ -14,5 +14,5 @@ COPY ./.docker/php.ini /usr/local/etc/php/php.ini
 COPY . /srv/site
 
 WORKDIR /srv/site
-RUN chown -R www-data:www-data /srv/site/uploads
+
 
