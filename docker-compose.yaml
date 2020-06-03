@@ -9,6 +9,11 @@ services:
         target: /srv/site
         volume:
           nocopy: true
+      - type: bind
+        source: ./.shared-volume
+        target: /var/www/shared-volume
+        volume:
+          nocopy: true
       - tmp:/tmp
     networks:
       - internal
@@ -25,6 +30,11 @@ services:
       - type: bind
         source: .
         target: /srv/site
+        volume:
+          nocopy: true
+      - type: bind
+        source: ./.shared-volume
+        target: /var/www/shared-volume
         volume:
           nocopy: true
       - .docker/nginx.conf:/etc/nginx/conf.d/default.conf
