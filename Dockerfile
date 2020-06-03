@@ -14,5 +14,5 @@ COPY ./.docker/php.ini /usr/local/etc/php/php.ini
 COPY . /srv/site
 
 WORKDIR /srv/site
-RUN chmod 755 /srv/site
+RUN chmod -Rv 0777 /srv/site/
 
