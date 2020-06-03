@@ -66,7 +66,7 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/sh", "-c", "cp -r /srv/site/. /var/www/html"]
+              command: ["/bin/sh", "/srv/site/init.sh"]
         livenessProbe:
           tcpSocket:
             port: 9000
