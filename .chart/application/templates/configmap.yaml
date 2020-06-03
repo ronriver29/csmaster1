@@ -18,6 +18,7 @@ data:
 
       location /uploads {
         root /var/www/shared-volume;
+        rewrite ^/uploads(/.*)$ $1 break;
       }
 
       location ~ \.php$ {
