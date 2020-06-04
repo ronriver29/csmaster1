@@ -26,7 +26,7 @@ class Db_dev extends CI_Controller{
       {
         $header_data[] = $hrow->COLUMN_NAME;
       }
-      if($this->uri->segment(2)=='show_fields')
+      if($this->uri->segment(2)=='show_fields_')
       {
         $this->debug($header_data);
       }

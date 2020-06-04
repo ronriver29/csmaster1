@@ -69,6 +69,36 @@ class Committee_model extends CI_Model{
       return array('success'=>false,'message'=>'Cooperator already exists in '.$data['name'].' committee');
     }
   }
+  public function add_committee_union($data){
+    $data = $this->security->xss_clean($data);
+    $this->db->where($data);
+    $this->db->from('committees_union');
+    $count = $this->db->count_all_results();
+    if($count<1){
+      $this->db->trans_begin();
+      $this->db->insert('committees_union',$data);
+      $query = $this->db->select('id')
+        ->from('committees_union')
+        ->order_by('id','DESC')
+        ->limit(1)
+        ->get();
+        if ($query->num_rows() > 0)
+        {           
+            $row = $query->row_array();
+        }
+        $data['orig_committee_id'] = $row['id'];
+        $this->db->insert('amendment_committees_federation',$data);
+      if($this->db->trans_status() === FALSE){
+        $this->db->trans_rollback();
+        return array('success'=>false,'message'=>'Unable to add committee');
+      }else{
+        $this->db->trans_commit();
+        return array('success'=>true,'message'=>'Successfully added');
+      }
+    }else{
+      return array('success'=>false,'message'=>'Cooperator already exists in '.$data['name'].' committee');
+    }
+  }
   public function edit_committee($committee_id,$committee_info){
     $cooperator_id = $this->security->xss_clean($committee_id);
     $cooperator_info = $this->security->xss_clean($committee_info);
@@ -135,6 +165,45 @@ class Committee_model extends CI_Model{
         $this->db->trans_begin();
         $this->db->where(array('id'=>$committee_id));
         $this->db->update('committees_federation',$committee_info);
+        if($this->db->trans_status() === FALSE){
+          $this->db->trans_rollback();
+          return array('success'=>false,'message'=>'Unable to update committee');
+        }else{
+          $this->db->trans_commit();
+          return array('success'=>true,'message'=>'Committee has been successfully updated');
+        }
+      }else{
+        return array('success'=>false,'message'=>'Cooperator already exists in '.$committee_info['name'].' committee');
+      }
+    }
+  }
+  public function edit_committee_union($committee_id,$committee_info){
+    $cooperator_id = $this->security->xss_clean($committee_id);
+    $cooperator_info = $this->security->xss_clean($committee_info);
+    $query = $this->db->get_where('committees_union',array('id'=>$committee_id));
+    $data = $query->row();
+    if(strcmp($data->name, $committee_info['name'])===0){
+      $this->db->trans_begin();
+      $this->db->where('id', $committee_id);
+      $this->db->update('committees_union',$committee_info);
+      $this->db->where('orig_committee_id', $committee_id);
+      $this->db->update('amendment_committees',$committee_info);
+      if($this->db->trans_status() === FALSE){
+        $this->db->trans_rollback();
+        return array('success'=>false,'message'=>'Unable to updated committee');
+      }else{
+        $this->db->trans_commit();
+        return array('success'=>true,'message'=>'Committee has been successfully updated');
+      }
+    }else{
+      $this->db->where($committee_info);
+      $this->db->where(array('cooperators_id'=>$data->cooperators_id));
+      $this->db->from('committees_union');
+      $count = $this->db->count_all_results();
+      if($count<1){
+        $this->db->trans_begin();
+        $this->db->where(array('id'=>$committee_id));
+        $this->db->update('committees_union',$committee_info);
         if($this->db->trans_status() === FALSE){
           $this->db->trans_rollback();
           return array('success'=>false,'message'=>'Unable to update committee');
@@ -216,6 +285,11 @@ class Committee_model extends CI_Model{
     $data = $query->row();
     return $data;
   }
+  public function get_committee_union_info($com_id){
+    $query = $this->db->get_where('committees_union', array('id'=>$com_id));
+    $data = $query->row();
+    return $data;
+  }
 
   public function get_all_committees_of_coop($coop_id){
     $this->db->select('committees.id as comid, committees.* ,cooperators.*');
@@ -234,6 +308,17 @@ class Committee_model extends CI_Model{
     $this->db->join('cooperators', 'cooperators.id = committees_federation.cooperators_id', 'inner');
     $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id', 'inner');
     $this->db->where('committees_federation.user_id', $coop_id);
+    $query = $this->db->get();
+    $data =  $query->result_array();
+    return $data;
+  }
+  
+  public function get_all_committees_of_coop_union($coop_id){
+    $this->db->select('committees_union.id as comid, committees_union.* ,cooperators.*');
+    $this->db->from('committees_union');
+    $this->db->join('cooperators', 'cooperators.id = committees_union.cooperators_id', 'inner');
+    $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id', 'inner');
+    $this->db->where('committees_union.user_id', $coop_id);
     $query = $this->db->get();
     $data =  $query->result_array();
     return $data;
@@ -376,6 +461,19 @@ class Committee_model extends CI_Model{
       return false;
     }
   }
+  public function check_committee_in_cooperative_union($committee_id,$cooperatives_id){
+    $this->db->select('*');
+    $this->db->from('committees_union');
+    $this->db->join('cooperators' , 'cooperators.id = cooperators_id','inner');
+    $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id','inner');
+    $this->db->where(array('committees_union.id'=>$committee_id));
+    $count = $this->db->count_all_results();
+    if($count>0){
+      return true;
+    }else{
+      return false;
+    }
+  }
   public function committee_complete_count($coop_id){
     $this->db->select('committees.name');
     $this->db->from('committees');
@@ -489,6 +587,33 @@ class Committee_model extends CI_Model{
         return false;
     }
   }
+  public function get_all_required_count_credit_union($user_id){
+    if($this->get_all_gad_count_union($user_id) != 0){
+        if($this->get_all_audit_count_union($user_id) != 0){
+            if($this->get_all_election_count_union($user_id) != 0){
+                if($this->get_all_medcon_count_union($user_id) != 0){
+                    if($this->get_all_ethics_count_union($user_id) != 0){
+                        if($this->get_all_credit_count_union($user_id) != 0){
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+  }
     public function get_all_required_count($user_id){
     if($this->get_all_gad_count($user_id) != 0){
         if($this->get_all_audit_count($user_id) != 0){
@@ -519,6 +644,30 @@ class Committee_model extends CI_Model{
             if($this->get_all_election_count_federation($user_id) != 0){
                 if($this->get_all_medcon_count_federation($user_id) != 0){
                     if($this->get_all_ethics_count_federation($user_id) != 0){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+  }
+  
+  public function get_all_required_count_union($user_id){
+    if($this->get_all_gad_count_union($user_id) != 0){
+        if($this->get_all_audit_count_union($user_id) != 0){
+            if($this->get_all_election_count_union($user_id) != 0){
+                if($this->get_all_medcon_count_union($user_id) != 0){
+                    if($this->get_all_ethics_count_union($user_id) != 0){
                         return true;
                     } else {
                         return false;
@@ -619,4 +768,42 @@ class Committee_model extends CI_Model{
     $this->db->from('committees');
     return $this->db->count_all_results();
   }
+  
+  public function get_all_gad_count_union($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Gender and Development" AND user_id ='.$user_id.'');
+    $this->db->from('committees_union');
+    return $this->db->count_all_results();
+  }
+  public function get_all_audit_count_union($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Audit" AND user_id ='.$user_id.'');
+    $this->db->from('committees_union');
+    return $this->db->count_all_results();
+  }
+  public function get_all_election_count_union($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Election" AND user_id ='.$user_id.'');
+    $this->db->from('committees_union');
+    return $this->db->count_all_results();
+  }
+  public function get_all_medcon_count_union($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Mediation and Conciliation" AND user_id ='.$user_id.'');
+    $this->db->from('committees_union');
+    return $this->db->count_all_results();
+  }
+  public function get_all_ethics_count_union($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Ethics" AND user_id ='.$user_id.'');
+    $this->db->from('committees_union');
+    return $this->db->count_all_results();
+  }
+  public function get_all_credit_count_union($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Credit" AND user_id ='.$user_id.'');
+    $this->db->from('committees_union');
+    return $this->db->count_all_results();
+  }
+  
 }

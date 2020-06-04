@@ -70,10 +70,15 @@
                 } else {
                     $acronym_name = '';
                 }
+                if($coop_info->grouping == 'Union'){
+                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->grouping.' Of '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name);
+                } else {
+                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
+                }
                 echo '
                 <tr>
                   <td class="bord">Payor</td>
-                  <td class="bord" colspan="3"><b>'.ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping).'</b></td>
+                  <td class="bord" colspan="3"><b>'.$payorname.'</b></td>
                 </tr>
                 <tr>
                   <td class="bord">Nature of Payment</td>
@@ -135,7 +140,7 @@
         </div>
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=$encrypted_id ?>">
           <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
-          <input type="hidden" class="form-control" id="payor" name="payor" value="<?=($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronym_name.''.$coop_info->grouping)?>">
+          <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$payorname?>">
           <input type="hidden" class="form-control" id="nature" name="nature" value="Name Registration">
           <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee">
           <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2) ?>">

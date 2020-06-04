@@ -124,7 +124,11 @@ $docucount=0;
         <small>
         <strong>Proposed Name:</strong>
         <p class="text-muted">
-          <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> 
+            <?php if($coop_info->grouping == 'Union') {?>
+                <?= $coop_info->proposed_name?> <?= $coop_info->grouping?> Of <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
+            <?php } else { ?>
+                <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> 
+            <?php } ?>
         </p>
         <hr>
         <strong>Category of Cooperative</strong>
@@ -250,6 +254,8 @@ $docucount=0;
         <div class="d-flex w-100 justify-content-between">
             <?php if($coop_info->grouping=="Federation"){
                 $coopaff = 'Affiliators';
+            } else if($coop_info->grouping=="Union"){
+                $coopaff = 'Federation';
             } else {
                 $coopaff = 'Cooperators';
             }?>
@@ -257,6 +263,8 @@ $docucount=0;
           <small class="text-muted">
               <?php if($coop_info->grouping == 'Federation'){
                   $grouping = $affiliator_complete;
+              } else if($coop_info->grouping == 'Union'){
+                  $grouping = $affiliates_complete;
               } else {
                   $grouping = $cooperator_complete;
               }?>
@@ -274,7 +282,7 @@ $docucount=0;
                     $stepfourdirectory = 'affiliators';
                 } else if($coop_info->grouping == 'Union') {
                     $groupingname = 'Federation';
-                    $stepfourdirectory = 'unioncoop';
+                        $stepfourdirectory = 'unioncoop';
                 } else {
                     $groupingname = 'Cooperators';
                     $stepfourdirectory = 'cooperators';
@@ -412,7 +420,11 @@ $docucount=0;
           <small class="text-muted">
             <div class="btn-group" role="group" aria-label="Basic example">
               <a  class="btn btn-info btn-sm" href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/cooperative_tool">Tool</a>
-              <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Submit</button>
+              <?php if($coop_info->grouping == 'Union'){?>
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->grouping?> Of <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Submit</button>
+              <?php } else {?>
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Submit</button>
+              <?php }?>
               <?php if($coop_info->status!=3){?>
               <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>"  <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button>
               <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>"  <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Defer</button>
@@ -484,6 +496,8 @@ $docucount=0;
             <small class="text-muted">
               <?php if($coop_info->grouping == 'Federation'){
                   $grouping = $affiliator_complete;
+              } else if($coop_info->grouping == 'Union'){
+                  $grouping = $affiliates_complete;
               } else {
                   $grouping = $cooperator_complete;
               }?>

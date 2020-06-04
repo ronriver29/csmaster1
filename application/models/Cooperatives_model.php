@@ -891,9 +891,11 @@ public function check_if_denied($coop_id){
     $this->db->where_not_in('status', array('0','4','7','10'));
     $query = $this->db->get();
     $data = $query->result_array();
+
+    //$query2 = $this->db->get_where('cooperative_type',array('id'=>$ajax['typeOfCooperative']));
+    
     foreach($data as $coop){
-      // $coop_name = strtolower(str_replace(' ', '', $coop['proposed_name']));
-      $coop_name ='';
+      $coop_name = strtolower(str_replace(' ', '', $coop['proposed_name']));
       if(strcasecmp($temp,$coop_name)==0 && $coop['type_id'] == $ajax['typeOfCooperative']){
         $uniq = false;
         break;
