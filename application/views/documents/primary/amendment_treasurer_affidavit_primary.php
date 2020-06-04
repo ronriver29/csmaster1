@@ -44,18 +44,24 @@
       <ol class="text-justify" type="1">
         <li>That I am the duly elected Treasurer of the <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> to act as such until my successor shall have been appointed and qualified in accordance with the By-laws of the Cooperative;</li>
         <li>That as such, I hereby certify that the authorized share capital of this cooperative is
-         <?= ucwords(num_format_custom(($capitalization_info->authorized_share_capital!=$capitalization_info_orig->authorized_share_capital ? "<b>".$capitalization_info->authorized_share_capital : $capitalization_info->authorized_share_capital)))?> Pesos (Php 
-          <?= str_replace(',','',($capitalization_info->authorized_share_capital!=$capitalization_info_orig->authorized_share_capital ? "<b>".$capitalization_info->authorized_share_capital."</b>" : $capitalization_info->authorized_share_capital))?>)</li>
+         <?= ($capitalization_info->authorized_share_capital!=$capitalization_info_orig->authorized_share_capital ? "<b>".ucwords(num_format_custom($capitalization_info->authorized_share_capital))."</b>" : ucwords(num_format_custom($capitalization_info->authorized_share_capital)))?> Pesos (Php 
+          <?=$capitalization_info->authorized_share_capital!=$capitalization_info_orig->authorized_share_capital ? "<b>".number_format($capitalization_info->authorized_share_capital,2)."</b>" : number_format($capitalization_info->authorized_share_capital,2);?>)</li>
         <li>That the subscribed share capital of the cooperative is 
+
           <?php 
-          $subscribed_shared_capitals= ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$article_info->par_value_common) : ucwords(num_format_custom($total_regular['total_subscribed'] * $article_info->par_value_common + $total_associate['total_subscribed'] * $article_info->par_value_preferred));
+         
+          // echo'a'. $total_regular['total_subscribed'].'<br>';
+          // echo 'b'.$article_info->par_value_common.'<br>';
+          // echo 'c'.$total_associate['total_subscribed'].'<br>';
+          // echo 'd'. $article_info->par_value_preferred;
+          $subscribed_shared_capitals_inwords= ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$capitalization_info->par_value) : ucwords(num_format_custom($total_regular['total_subscribed'] *$capitalization_info->par_value + $total_associate['total_subscribed'] * $capitalization_info->par_value));
+         
+          $subscribed_shared_capitals_orig_inwords =  ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? str_replace(',','',$total_regular_orig['total_subscribed']) * str_replace(',','',$article_info_orig->par_value_common) : ucwords(num_format_custom($total_regular_orig['total_subscribed'] * $article_info_orig->par_value_common + $total_associate_orig['total_subscribed'] * $article_info_orig->par_value_preferred));
 
-          $subscribed_shared_capitals_orig =  ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? str_replace(',','',$total_regular_orig['total_subscribed']) * str_replace(',','',$article_info_orig->par_value_common) : ucwords(num_format_custom($total_regular_orig['total_subscribed'] * $article_info_orig->par_value_common + $total_associate_orig['total_subscribed'] * $article_info_orig->par_value_preferred));
-
-          echo ($subscribed_shared_capitals!=$subscribed_shared_capitals_orig ? "<b>".$subscribed_shared_capitals."</b>" : $subscribed_shared_capitals).' Pesos';
+          echo ($subscribed_shared_capitals_inwords!=$subscribed_shared_capitals_orig_inwords ? "<b>".  $subscribed_shared_capitals_inwords."</b>" :   $subscribed_shared_capitals_inwords).' Pesos';
           ?>
            (Php <?php 
-           $subscribed_shared_capitals_num =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$article_info->par_value_common)),2) : number_format(((str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$article_info->par_value_common)) + (str_replace(',','',$total_associate['total_subscribed']) * str_replace(',','',$article_info->par_value_preferred))),2);
+           $subscribed_shared_capitals_num =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$article_info->par_value_common)),2) : number_format(((str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$capitalization_info->par_value)) + (str_replace(',','',$total_associate['total_subscribed']) * str_replace(',','',$capitalization_info->par_value))),2);
 
            $subscribed_shared_capitals_num_orig =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular_orig['total_subscribed']) * str_replace(',','',$article_info_orig->par_value_common)),2) : number_format(((str_replace(',','',$total_regular_orig['total_subscribed']) * str_replace(',','',$article_info_orig->par_value_common)) + (str_replace(',','',$total_associate_orig['total_subscribed']) * str_replace(',','',$article_info_orig->par_value_preferred))),2);
            echo ($subscribed_shared_capitals_num!=$subscribed_shared_capitals_num_orig ? "<b>".$subscribed_shared_capitals_num."</b>" : $subscribed_shared_capitals_num);

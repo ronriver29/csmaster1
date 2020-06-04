@@ -40,7 +40,7 @@
 </div>
 <?php endif; ?>
 <div class="row mt-2 mb-4">
-  <?php if(($is_client && $coop_info->status<=1)):// if(($is_client && $coop_info->status<=1) || (!$is_client &&  $coop_info->status==3)): ?>
+  <?php if(($is_client && $coop_info->status<=1 || $coop_info->status==11)):// if(($is_client && $coop_info->status<=1) || (!$is_client &&  $coop_info->status==3)): ?>
     <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
       <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_purposes/edit" class="btn btn-color-blue btn-block" id="btnEditPurposes"><i class="fas fa-<?php echo (count(array_filter($contents)) > 0) ? "edit":"plus"?>"></i> <?php echo (count(array_filter($contents)) > 0) ? "Edit":"Add"?> Purposes</a>
     </div>

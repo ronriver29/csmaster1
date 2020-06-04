@@ -29,7 +29,7 @@
         }
         else
         {
-           $proposedName= $coop_info->proposed_name.' Cooperative '. $acronym_;
+           $proposedName= $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '. $acronym_;
         }
       ?>
       <div class="btn-group float-right" role="group" aria-label="Basic example">
@@ -70,6 +70,7 @@
     </div>
   </div>
 <?php endif;?> -->
+<?php if($is_client) : ?>
   <?php if(strlen(($have_director_comment && $admin_info->access_level==3) || ($coop_info->temp_evaluation_comment && $admin_info->access_level==2) && $coop_info->status == 24)) : ?>
     <div class="row mt-3">
       <div class="col-sm-12 col-md-12">
@@ -79,10 +80,10 @@
         </div>
       </div>
     </div>
-
+<?php endif; //end if client ?>
   <?php else: ?>  
     <!-- START CDS -->
-    <?php if(strlen($have_cds_comment)>0):?>
+    <?php if(count($have_cds_comment)>0):?>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg">* CDS Findings</button>
 
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -117,8 +118,8 @@
     <?php endif; //end of strlen commetn ?>
     <!-- END CDS -->
    <!--  START SENIOR -->
-   <?php if(strlen($have_senior_comment)>0): ?>
-   <?php if(strlen($senior_comment && $admin_info->access_level==3 || $coop_info->status==12) || strlen($senior_comment && $admin_info->access_level==2) && $coop_info->status!=15) : ?>
+   <?php if(count($have_senior_comment)>0): ?>
+   <?php if(strlen($senior_comment && $admin_info->access_level==3 ) || strlen($senior_comment && $admin_info->access_level==2) && $coop_info->status!=15) : ?>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg2">* Senior Findings</button>
 
     <div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -151,8 +152,8 @@
   <?php endif; //end of strlen comment ?>
    <!--  END SENIOR -->
    <!--  START DIRECTOR -->
-  <?php if(strlen($have_director_comment)>0): ?>
-  <?php if(strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==3) || ($coop_info->temp_evaluation_comment && $admin_info->access_level==2) && $coop_info->status == 6 || strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
+  <?php if(count($have_director_comment)>0): ?>
+  <?php if(strlen(($have_director_comment && $admin_info->access_level==3) || ($have_director_comment && $admin_info->access_level==2) && $coop_info->status == 6 || strlen(($have_director_comment && $admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
   <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Director Findings</button>
 
   <div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -329,6 +330,7 @@
       </div>
   </div>
 
+ 
 
 <!-- modify json -->
   <div class="col-sm-12 col-md-4">
@@ -454,7 +456,8 @@
   ?>
 <?php 
 $count=0;
-  if(is_array($coop_type))
+
+  if(count($coop_type)>0)
   {
     foreach ($coop_types_ as $doc_) : 
     $doc_num = $doc_['document_num'];

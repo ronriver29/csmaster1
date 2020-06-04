@@ -39,7 +39,7 @@
       <td class="bord" colspan="3"><b><?=$tDate?></b></td>
     </tr>
     <?php
-      if ($nature=='Name Registration'){
+      if ($nature=='Amendment'){
         // $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $article_info->par_value_common : $total_regular['total_paid'] * $article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $article_info->par_value_common) : ($total_regular['total_paid'] *$article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred)) *0.001 : 500.00);
         $rf=0;
         $basic_reservation_fee =300; //fixed amount
@@ -56,7 +56,12 @@
         {
           $rf =  $basic_reservation_fee;
         }
-        $lrf=(($rf+$name_reservation_fee)*.01>10) ?($rf+$name_reservation_fee)*.01 : 10;
+        // $lrf=(($rf+$name_reservation_fee)*.01>10) ?($rf+$name_reservation_fee)*.01 : 10;
+               $lrf=$rf*0.01;
+                 if($lrf<10)
+                 {
+                  $lrf=10;
+                 }
          if(count(explode(',',$coop_info->type_of_cooperative))>1)
                 {
                   $proposeName = $coop_info->proposed_name.' Multipurpose Cooperative'.$coop_info->grouping;
@@ -80,16 +85,22 @@
     </tr>
     <tr>
       <td class="bord" colspan="4" align="center">Particulars</td>
-    </tr>
+    </tr>';
+
+     if($original_coop_name!=$proposeName)
+      {
+        echo' 
+        <tr>
+        <td width="23%"></td>
+        <td class="pera"width=""><b>Name Reservation Fee</b></td>
+        <td class="pera"width="5%">Php </td>
+        <td class="pera" align="right" width="13%"><b>'.number_format($name_reservation_fee,2).'</b></td>
+       </tr>';     
+      }
+   echo'
     <tr>
       <td width="23%"></td>
-      <td class="pera"width=""><b>Name Reservation Fee</b></td>
-      <td class="pera"width="5%">Php </td>
-      <td class="pera" align="right" width="13%"><b>'.number_format($name_reservation_fee,2).'</b></td>
-    </tr>
-    <tr>
-      <td width="23%"></td>
-      <td class="pera"width=""><b>Registration Fee</b></td>
+      <td class="pera"width=""><b>Amendment Fee</b></td>
       <td class="pera"width="5%"> </td>
       <td class="pera" align="right" width="13%"><b>'.number_format($rf,2).'</b></td>
     </tr>
@@ -109,5 +120,27 @@
     </tr>';
     }
     ?>
+    <div>
+    <u>Payment of Fees</u>
+        <ol type="1">
+            <li>The filing fees may be paid through any of the following modes, at the option of
+                the applicant:</li>
+                <ol type="a">
+                    <li>Online payment facilities listed and available through the CoopRIS;</li>
+                    <li>Cash or manager&#39;s check, through the CDA cashier where the proposed
+                        cooperative will be registered.</li>
+                </ol>
+            In the case of payment through mode (a), the CoopRIS will generate a &quot;Payment
+            Details&quot; that will indicate the amount of filing fees to be paid by the applicant.
+            <li>Failure to pay within ten (10) days period will result in the automatic removal of
+                the application from the system.</li>
+            <li>Fees other than the computed filing fees (e.g. bank charges) shall be shouldered
+                by the applicant.</li>
+        </ol>
+    </div>
+
   </table>
+  <br>
+  <p style="font-size: 10px;"><i>This is system generated.</i></p>
+
 </body>
