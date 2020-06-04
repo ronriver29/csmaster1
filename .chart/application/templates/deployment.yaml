@@ -33,7 +33,7 @@ spec:
 
         - name: shared-volume
           persistentVolumeClaim:
-            claimName: {{ .Values.web.name }}-pvc
+            claimName: shared-pvc
       containers:
       - env:
         - name: DB_HOSTNAME
