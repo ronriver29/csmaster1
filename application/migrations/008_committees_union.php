@@ -6,18 +6,18 @@ class Migration_committees_union extends CI_Migration
         $this->dbforge->add_field(
            array(
               'id' => array(
-                 'type' => 'BIGINT',
+                 'type' => 'INT',
                  'constraint' => 20,
                  'unsigned' => true,
                  'auto_increment' => true
               ),
               'cooperators_id'=> array(
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'constraint' =>20,
                  // 'null' => TRUE,
               ),
               'user_id'=> array(
-                'type' => 'BIGINT',
+                'type' => 'INT',
                 'constraint' =>20,
                  // 'null' => TRUE,
               ),
@@ -26,17 +26,14 @@ class Migration_committees_union extends CI_Migration
                 'constraint' =>200,
                  // 'null' => TRUE,
               ),
-              'created_at datetime default current_timestamp',
-              'updated_at datetime default current_timestamp on update current_timestamp',
-
-              // 'created_at' => array(
-              //    'type' => 'timestamp',
-              //    'default' => 'CURRENT_TIMESTAMP',
-              // ),
-              //  'updated_at' => array(
-              //    'type' => 'timestamp',
-              //    'default' => 'CURRENT_TIMESTAMP',
-              // ),
+              'created_at' => array(
+                 'type' => 'TIMESTAMP',
+                 // 'default' => 'CURRENT_TIMESTAMP',
+              ),
+               'updated_at' => array(
+                 'type' => 'TIMESTAMP',
+                 // 'default' => 'CURRENT_TIMESTAMP',
+              ),
            )
         );
 

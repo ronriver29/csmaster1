@@ -19,7 +19,7 @@ class Migration_modify_registeredcoop_table extends CI_Migration
 
     public function down()
     {
-       $this->dbforge->modify_column('registeredcoop', 'amendment_id');
+       $this->dbforge->drop_column('registeredcoop', 'amendment_id');
     }
 }
 ?>

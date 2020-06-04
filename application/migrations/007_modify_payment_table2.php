@@ -1,5 +1,5 @@
 <?php
-class Migration_modify_payment_table extends CI_Migration
+class Migration_modify_payment_table2 extends CI_Migration
 {
     public function up()
     {
@@ -10,7 +10,7 @@ class Migration_modify_payment_table extends CI_Migration
                     'type' => 'DECIMAL',
                     'constraint' => '10,2',
                     'null' => FALSE,
-                    'default' => 0.00
+                    'default' => 0.00,
                     )
                   )
         );
@@ -22,7 +22,10 @@ class Migration_modify_payment_table extends CI_Migration
 
     public function down()
     {
-       $this->dbforge->modify_column('payment', 'total');
+       if($this->db->field_exists('payment', 'total'))
+       {
+       $this->dbforge->drop_column('payment', 'total');
+      }
     }
 }
 ?>
