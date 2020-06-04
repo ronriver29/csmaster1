@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ .Values.web.name }}-pvc
 spec:
-  storageClassName: manual
+  storageClassName: 
   accessModes:
     - ReadWriteMany
   resources:
