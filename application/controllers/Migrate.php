@@ -13,7 +13,14 @@ class Migrate extends CI_Controller {
             // echo 'Migrations ran successfully!';
             if($this->document_type_seeding())
             {
+              if($this->document_coop_type_seeding())
+              {
                echo 'Migrations ran successfully!';
+              }
+              else
+              {
+                echo "Error data seeding of doc coop type";
+              }
             }
             else
             {
@@ -228,6 +235,123 @@ class Migrate extends CI_Controller {
         $data =false;
       }
       return $data;
+  }
+
+  public function document_coop_type_seeding()
+  {
+    $val = Array
+   (
+     Array
+        (
+            'coop_type_id' => 1,
+            'coop_title' => 'CLOA',
+            'coop_desc' => 'Mother CLOA in case of plantation based ARBs',
+            'document_num' => 5
+        ),
+     Array
+        (
+            'coop_type_id' => 1,
+            'coop_title' => 'DAR',
+            'coop_desc' => 'Written verfication from DAR to the effect that the Cooperative organization is needed and desired by the beneficiaries, economically viable, at least majority of the members are agrarian reform beneficiaries',
+            'document_num' => 6
+        ),
+     Array
+        (
+            'coop_type_id' => 2,
+            'coop_title' => 'Pre-feasibility Study',
+            'coop_desc' => 'Copy of the Pre-feasibility study of the housing projects undertaking certified as reviewed by National Housing Authorithy',
+            'document_num' => 7
+        ),
+     Array
+        (
+            'coop_type_id' => 3,
+            'coop_title' => 'Certification of Cooperative Education & Transport',
+            'coop_desc' => 'Certification of Cooperative Education & Transport Operation Seminar (CETOS) By Office of Transport Cooperatives OTC',
+            'document_num' => 8
+        ),
+     Array
+        (
+            'coop_type_id' => 3,
+            'coop_title' => 'Favorable Endorsement',
+            'coop_desc' => 'Favorable endorsement by Office of Transport Cooperatives (OTC)',
+            'document_num' => 9
+        ),
+     Array
+        (
+            'coop_type_id' => 4,
+            'coop_title' => 'Proof of Land Ownership',
+            'coop_desc' => 'Proof of Land ownership',
+            'document_num' => 10
+        ),
+     Array
+        (
+            'coop_type_id' => 5,
+            'coop_title' => 'Detailed Feasibility Study',
+            'coop_desc' => 'Detailed Feasibility Study indicating viability of proposed business activity',
+            'document_num' => 11
+        ),
+     Array
+        (
+            'coop_type_id' => 6,
+            'coop_title' => 'TIN',
+            'coop_desc' => 'Tax Identification Number (TIN)',
+            'document_num' => 12
+        ),
+     Array
+        (
+            'coop_type_id' => 7,
+            'coop_title' => 'TIN',
+            'coop_desc' => 'Tax Identification Number (TIN)',
+            'document_num' => 13
+        ),
+    Array
+        (
+            'coop_type_id' => 7,
+            'coop_title'=> 'Individual Profesional License',
+            'coop_desc' => 'Photocopy of valid individual Professional License of all members',
+            'document_num' => 14
+        ),
+     Array
+        (
+           'coop_type_id'=> 8,
+           'coop_title' => 'TIN',
+           'coop_desc' => 'Tax Identification Number (TIN)',
+           'document_num' => 15
+        ),
+     Array
+        (
+            'coop_type_id' => 8,
+            'coop_title' => 'Detailed Feasibility Study',
+            'coop_desc' => 'Detailed feasibility study (expressly mentioning whether the undertaking is primary, secondary or tertiary level hospital, diagnostic center, spa & wellness center, home for the aged, lying in, drop-off centers, etc.& specifying the financial, techni',
+            'document_num' => 16
+        ),
+     Array
+        (
+            'coop_type_id' => 9,
+            'coop_title' => 'TIN',
+            'coop_desc' => 'Tax Identification Number (TIN)',
+            'document_num' => 17
+        ),
+     Array
+        (
+            'coop_type_id' => 9,
+            'coop_title' => 'Certification from Mines Geo-Sciende Bureau Region',
+            'coop_desc' => 'Certification from Mines Geo-Science Bureau Regional Office that the members are licensed miners if the area of business operation is within the People Small Scale Mining Area',
+            'document_num' => 18
+        )
+
+    );
+
+    if($this->db->insert_batch('coop_type_upload',$val))
+      {
+        $data = true;
+      }
+      else
+      {
+        $data =false;
+      }
+      return $data;
+
   }
 }
 ?>

@@ -92,6 +92,7 @@ class Db_dev extends CI_Controller{
     echo phpinfo();
   }
 
+
   public function debug($array)
     {
         echo"<pre>";
