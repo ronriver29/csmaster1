@@ -87,6 +87,29 @@ class Db_dev extends CI_Controller{
 
   }
 
+  public function select_($table)
+  {
+    if(!$this->session->userdata('logged_in'))
+    {
+      redirect('users/login');
+    }
+    else
+    {
+      if($this->uri->segment(2)=='select')
+      {
+        $qry = $this->db->query("select * from ".$table);
+        foreach($qry->result_array() as $row)
+        {
+          $data[] = $row;
+        }
+        $this->debug($data);
+      } 
+      else
+      {
+        return null;
+      } 
+    }
+  }
   public function php_info()
   {
     echo phpinfo();

@@ -361,11 +361,6 @@
 // echo"<pre>";print_r($coop_type);echo"<pre>";
 $count=0;
     foreach ($coop_type as $coop) : 
-
-      echo'<pre>';print_r($coop);echo'</pre>';
-
-      
-
 ?>
     <?php $count++;?>
     <div class="col-sm-12 col-md-4">
