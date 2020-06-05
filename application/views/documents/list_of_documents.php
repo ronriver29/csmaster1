@@ -355,13 +355,13 @@
   </div> -->
 </div>
 <!--ANJURY-->
-<div class="row">
+<div class="row">cccccccccccccccccccc
 <?php 
 // print_r($ching);
 // echo"<pre>";print_r($coop_type);echo"<pre>";
 $count=0;
     foreach ($coop_type as $coop) : 
-        echo"<pre>";print_r($coop_type);echo"<pre>";
+        echo"<pre>";print_r($coop);echo"<pre>";
 ?>
     <?php $count++;?>
     <div class="col-sm-12 col-md-4">
