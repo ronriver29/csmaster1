@@ -110,6 +110,58 @@ class Db_dev extends CI_Controller{
       } 
     }
   }
+  public function select_2($table)
+  {
+    if(!$this->session->userdata('logged_in'))
+    {
+      redirect('users/login');
+    }
+    else
+    {
+      if($this->uri->segment(2)=='select2')
+      {
+        $qry = $this->db->query("select * from ".$table);
+        foreach($qry->result_array() as $row)
+        {
+          $data[] = $row;
+        }
+        $this->debug($data);
+      } 
+      else
+      {
+        return null;
+      } 
+    }
+  }
+
+  public function drop_column($table,$column)
+  {
+    if(!$this->session->userdata('logged_in'))
+    {
+      redirect('users/login');
+    }
+    else
+    {
+      if($this->uri->segment(2)=='drop_column')
+      {
+        if($qry = $this->db->query(" ALTER TABLE ".$table." DROP ".$column))
+        {
+          echo $column. " column successfully drop in ".$table;
+        }
+        else
+        {
+          echo"failed to drop column";
+        }
+        
+      } 
+      else
+      {
+        return null;
+      } 
+    }
+  }
+ 
+
   public function php_info()
   {
     echo phpinfo();
