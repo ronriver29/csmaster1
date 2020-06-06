@@ -36,6 +36,7 @@ deploy-application-staging:
       --set web.container=$CONTAINER
       --set env.name=${CI_ENVIRONMENT_NAME}
       --set env.url=${CI_ENVIRONMENT_URL}
+      --set env.domain=cs.s.cda.gov.ph
       --set env.tls=staging-tls
       --set env.tls_issuer=staging-issuer
       --set db.hostname=$DB_HOSTNAME
