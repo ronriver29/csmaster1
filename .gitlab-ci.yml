@@ -37,8 +37,8 @@ deploy-application-staging:
       --set env.name=${CI_ENVIRONMENT_NAME}
       --set env.url=${CI_ENVIRONMENT_URL}
       --set env.domain=cs.s.cda.gov.ph
-      --set env.tls=staging-tls
-      --set env.tls_issuer=letsencrypt-staging
+      --set env.tls=selfsigned-cert-tls
+      --set env.tls_issuer=selfsigned-issuer
       --set db.hostname=$DB_HOSTNAME
       --set db.username=$DB_USERNAME
       --set db.password=$DB_PASSWORD
