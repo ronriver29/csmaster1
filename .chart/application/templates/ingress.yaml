@@ -11,12 +11,15 @@ metadata:
     #nginx.ingress.kubernetes.io/session-cookie-name: "route"
     #nginx.ingress.kubernetes.io/session-cookie-expires: "604800"
     #nginx.ingress.kubernetes.io/session-cookie-max-age: "604800"
+    {{ if not (eq .Values.env.tls_issuer "none") }}
+    cert-manager.io/issuer: {{ .Values.env.tls_issuer }}
+    {{ end }}
 spec:
-  {{ if not (eq .Values.env.domain "none") }}
+  {{ if not (eq .Values.env.tls "none") }}
   tls:
   - hosts:
     - {{ .Values.env.domain }}
-    secretName: cda-tls
+    secretName: {{ .Values.env.tls }}
   {{ end }}
   rules:
   - http:
