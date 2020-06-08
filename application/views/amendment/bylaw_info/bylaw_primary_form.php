@@ -403,9 +403,19 @@
             <div class="form-group"> 
             <label><strong>General Assembly Venue</strong></label>
              <input type="text" name="Annaul_ga_venue" id="" value="<?=$bylaw_info->annual_regular_meeting_day_venue?>" class="form-control validate[required]" disabled /></div>
+
+             <div class="form-group"> 
+            <label><strong>Assembly Date </strong></label>
+            <?php 
+            $date_annual = date("Y-m-d",strtotime($bylaw_info->annual_regular_meeting_day_date));
+           
+            ?>
+             <input type="date" name="Annaul_date_venue"  value="<?=   $date_annual?>" class="form-control validate[required]" disabled /></div>
+
             </div>
              </div>
           </div>
+          
           <div class="row">
             <div class="col-sm-12 col-md-12">
               <p class="h6 font-weight-bold text-color-blue-custom">Section 8. <em>Quorum for General Assembly Meeting</em></p>

@@ -67,8 +67,18 @@ class Amendment_payments extends CI_Controller{
                                     $data['coop_capitalization']=$this->coop_capitalization($cooperative_id);
                                     $data['amendment_capitalization']= $this->amendment_capitalization($decoded_id);
                                      
-
-                                   
+                                     $data['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
+                                     if(strlen($data['coop_info_orig']->acronym_name)>0)
+                                     {
+                                       $acronym =' ('.$data['coop_info_orig']->acronym_name.')';
+                                     }
+                                     else
+                                     {
+                                      $acronym = '';
+                                     }
+                                    $coop_orig_name = $data['coop_info_orig']->proposed_name;
+                                    $data['original_coop_name']= $coop_orig_name.$acronym;
+                                    // $this->debug( $data['coop_info_orig']);
                                     $this->load->view('./template/header', $data);
                                     $this->load->view('amendment/payment_form', $data);
                                     $this->load->view('./template/footer', $data);
@@ -215,8 +225,18 @@ class Amendment_payments extends CI_Controller{
           $data1['coop_capitalization']=$this->coop_capitalization($cooperative_id);
           $data1['amendment_capitalization']= $this->amendment_capitalization($decoded_id);
 
-          set_time_limit(0);
-
+          $data1['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
+          if(strlen($data1['coop_info_orig']->acronym_name)>0)
+          {
+          $acronym =' ('.$data1['coop_info_orig']->acronym_name.')';
+          }
+          else
+          {
+          $acronym = '';
+          }
+          $coop_orig_name = $data1['coop_info_orig']->proposed_name;
+          $data1['original_coop_name']= $coop_orig_name.$acronym;
+          // $this->debug( $data1['original_coop_name']);
          // $this->load->view('amendment\order_of_payment', $data1);
           $html2 = $this->load->view('amendment/order_of_payment', $data1, TRUE);
           $J = new pdf();
@@ -232,7 +252,7 @@ class Amendment_payments extends CI_Controller{
      // $this->session->set_flashdata('redirect_applications_message', 'Payment request has been submitted');
       //redirect('cooperatives');
     }
-     else if ($this->input->post('onlineBtn')){echo "dit";
+     else if ($this->input->post('onlineBtn')){
       //change status GET YOUR CERTIFICATE
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
       $this->Payment_model->pay_online($decoded_id);

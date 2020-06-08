@@ -14,11 +14,12 @@
               <input type="hidden" id="cooperativeID" name="cooperativeID" readonly>
               <div class="alert alert-info" role="alert">
                 Cooperative Name:<br>
-                <strong class="cooperative-name-text">test</strong> <strong>Cooperative</strong>
+                <strong class="cooperative-name-text">test</strong> <strong></strong>
               </div>
               <div class="form-group">
                 <label for="comment">State the reason/s:</label>
-                <textarea class="form-control validate[required]" style="resize: none;" id="comment" name="comment" placeholder=""rows="8"><?php echo $coop_info->evaluation_comment;?></textarea>
+                <pre><textarea class="form-control validate[required]" style="resize: none;" id="comment" name="comment" placeholder=""rows="8"><?php 
+                foreach($cds_comment as $cds){echo $cds['comment'].PHP_EOL;}foreach($senior_comment as $senior){echo $senior['comment'].PHP_EOL;}?></textarea></pre>
               </div>
             </div>
             <div class="modal-footer denyCooperativeFooter">

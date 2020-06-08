@@ -563,7 +563,7 @@ class Amendmentbylaws extends CI_Controller{
                       // 'delegate_powers'=> $this->input->post('delegatePowers'),
 
                       'members_percent_quorom'=> $this->input->post('quorumPercentage'),
-                      'annual_regular_meeting_day_date'=> $this->input->post('regularMeetingDayDate'),
+                      'annual_regular_meeting_day_date'=> $this->input->post('Annaul_date_venue'),
                       'annual_regular_meeting_day_venue'=> $this->input->post('Annaul_ga_venue'),
                       'number_of_absences_disqualification'=> $this->input->post('consecutiveAbsences'),
                       'percent_of_absences_all_meettings'=> $this->input->post('consecutivePercentageAbsences'),

@@ -67,19 +67,31 @@ class Amendment_documents extends CI_Controller{
                                 $data['coop_type'] = $this->amendment_model->get_cooperatve_types($data['coop_info']->cooperative_type_id);
                                 
                                 // $this->debug($data['coop_type']);
-                                foreach($data['coop_type'] as $coopRow)
+                                if(count( $data['coop_type'])>0)
                                 {
-                                  $coopRow['link']='';
-
-                                  if($this->check_is_uploaded($decoded_id,$coopRow['document_num']))
+                                  
+                                   foreach($data['coop_type'] as $coopRow)
                                   {
+                                    $coopRow['link']='';
 
-                                    $coopRow['link']='uploaded';
+                                    if($this->check_is_uploaded($decoded_id,$coopRow['document_num']))
+                                    {
+
+                                      $coopRow['link']='uploaded';
+                                    }
+                                    $cdatas[]=$coopRow;
+                                  
                                   }
-                                  $cdatas[]=$coopRow;
-                                
+                                  // echo $this->db->last_query();
+                                  $data['coop_types_'] = $cdatas;
                                 }
-                                $data['coop_types_'] = $cdatas;
+                                else
+                                {
+                                   $data['coop_types_'] = NULL;
+                                }//end if is array
+                                
+
+                               
                                 // $this->debug($data['coop_types_']);
                              
                                  $data['feasibity']=$this->check_is_uploaded($decoded_id,3);
@@ -227,17 +239,29 @@ class Amendment_documents extends CI_Controller{
                                   $data['coop_type'] = $this->amendment_model->get_cooperatve_types($data['coop_info']->cooperative_type_id);
                                 
                                 // $this->debug($data['coop_type']);
-                                foreach($data['coop_type'] as $coopRow)
+                                if(count( $data['coop_type'])>0)
                                 {
-                                  $coopRow['link']='';
-
-                                  if($this->check_is_uploaded($decoded_id,$coopRow['document_num']))
+                                  
+                                   foreach($data['coop_type'] as $coopRow)
                                   {
-                                    $coopRow['link']='uploaded';
+                                    $coopRow['link']='';
+
+                                    if($this->check_is_uploaded($decoded_id,$coopRow['document_num']))
+                                    {
+
+                                      $coopRow['link']='uploaded';
+                                    }
+                                    $cdatas[]=$coopRow;
+                                  
                                   }
-                                  $cdatas[]=$coopRow;
+                                  // echo $this->db->last_query();
+                                  $data['coop_types_'] = $cdatas;
                                 }
-                                $data['coop_types_'] = $cdatas;
+                                else
+                                {
+                                   $data['coop_types_'] = NULL;
+                                }//end if is array
+                            
                              
                                  $data['feasibity']=$this->check_is_uploaded($decoded_id,3);
                                   $data['books_of_account']=$this->check_is_uploaded($decoded_id,4);
@@ -286,8 +310,11 @@ class Amendment_documents extends CI_Controller{
                                 $data['cds_comment'] = $this->amendment_model->admin_comment($decoded_id,1);
                                 $data['have_cds_comment'] = $this->amendment_model->admin_comment_value($decoded_id,1);
                                 $data['senior_comment'] = $this->amendment_model->admin_comment($decoded_id,2);
+                              
                                  $data['have_senior_comment'] = $this->amendment_model->admin_comment_value($decoded_id,2);
+                                
                                 $data['director_comment'] = $this->amendment_model->admin_comment($decoded_id,3);
+                               
                                  $data['have_director_comment'] = $this->amendment_model->admin_comment_value($decoded_id,3);
                                 //  $this->debug($data['have_cds_comment']);
                                 //   $data['amendment_id'] = $decoded_id;
@@ -299,8 +326,8 @@ class Amendment_documents extends CI_Controller{
                                   $this->load->view('templates/admin_header', $data);
                                   $this->load->view('documents/amendment_list_of_documents', $data);
                                   $this->load->view('amendment/evaluation/approve_modal_cooperative');
-                                  $this->load->view('cooperative/evaluation/deny_modal_cooperative');
-                                  $this->load->view('cooperative/evaluation/defer_modal_cooperative');
+                                  $this->load->view('amendment/evaluation/deny_modal_cooperative');
+                                  $this->load->view('amendment/evaluation/defer_modal_cooperative');
                                   $this->load->view('templates/admin_footer');
                                 }else{
                                   $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
@@ -377,7 +404,7 @@ public function doc_link_view($id,$document_num)
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
-        if(file_exists('uploads/amendment/'.$file_name)){
+        if(file_exists(UPLOAD_AMD_DIR.$file_name)){
 //          if($this->amendment_uploaded_document_model->check_document_of_cooperative(0,$decoded_id,1,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->amendment_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
@@ -402,7 +429,7 @@ public function doc_link_view($id,$document_num)
                                       ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
                                       ->set_content_type('application/pdf','utf-8','CoopRIS')
                                       ->set_output(
-                                        file_get_contents('uploads/amendment/'.$file_name)
+                                        file_get_contents(UPLOAD_AMD_DIR.$file_name)
                                       );
                                 }else{
                                   $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
@@ -469,7 +496,7 @@ public function doc_link_view($id,$document_num)
                                         ->set_header('Content-Disposition: inline; filename="'.$pdf_name.'.pdf"')
                                         ->set_content_type('application/pdf','utf-8')
                                         ->set_output(
-                                          file_get_contents('uploads/amendment/'.$file_name)
+                                          file_get_contents(UPLOAD_AMD_DIR.$file_name)
                                         );
                                   }else{
                                     $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
@@ -670,7 +697,7 @@ public function doc_link_view($id,$document_num)
           $cooperative_id =$this->amendment_model->coop_dtl($decoded_id);
           $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
           if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
-            $config['upload_path'] = './uploads/amendment/';
+            $config['upload_path'] = UPLOAD_AMD_DIR;
             $config['file_name'] = $this->session->userdata('user_id').'_'.$decoded_id.'_'.$doc_title.'.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
@@ -737,7 +764,7 @@ function do_upload_others(){
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($decoded_uid,$decoded_id);
           if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){  
             $random_ = random_string('alnum',5);
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = UPLOAD_AMD_DIR;
             $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_'.$coop_title.'.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
@@ -789,7 +816,9 @@ function do_upload_others(){
   else
   {
     $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
-    //echo $decoded_id;
+    $user_id = $this->session->userdata('user_id');
+     $cooperative_id =$this->amendment_model->coop_dtl($decoded_id);
+    $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
     $data['title'] = 'List of Documents';
     $user_id = $this->session->userdata('user_id');
     $data['client_info'] = $this->user_model->get_user_info($user_id);
@@ -810,7 +839,7 @@ function do_upload_others(){
     $data['defered_uploaded_list_pdf'] =$this->defered_count_documents($decoded_id,$doc_type);
     if($data['is_client'] ==1)
     {
-     
+     // $this->debug($data['coop_info']);
       $this->load->view('template/header',$data);
       $this->load->view('documents/amendment_list_of_uploaded_pdf',$data);
       $this->load->view('documents/amendment_delete_pdf_modal');
@@ -820,13 +849,14 @@ function do_upload_others(){
              
     $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
     $data['header'] = 'Uploaded file';
-    $data['uid'] = $this->session->userdata('user_id');  
-    // print_r($this->session->userdata());
+    $data['uid'] = $this->session->userdata('user_id');
+    $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);  
+
      $this->load->view('templates/admin_header', $data);
      $this->load->view('documents/amendment_list_of_uploaded_pdf',$data);
      $this->load->view('documents/amendment_delete_pdf_modal');
      $this->load->view('templates/admin_footer', $data);
-
+    // $this->debug($data['coop_info']);
     }
     else
     {
@@ -1074,7 +1104,6 @@ public function count_documents_coop($coop_id,$num)
                               $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
                            
                               $purposes=$this->amendment_purpose_model->get_all_purposes($cooperative_id,$decoded_id);
-                             
                               $data['purposes_list'] =$purposes;
                              
                               // $this->debug( $data['purposes_list']);
@@ -1167,7 +1196,7 @@ public function count_documents_coop($coop_id,$num)
                                 $data['capitalization_info_orig'] = $this->capitalization_model->get_capitalization_by_coop_id($cooperative_id);
                               } //end if had amendment
                               // $this->debug($data['capitalization_info']);
-                               //$this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data);
+                               // $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data);
                               $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data, TRUE);
                               $f = new pdf();
                               $f->setPaper('folio', 'portrait');
@@ -1425,7 +1454,7 @@ public function count_documents_coop($coop_id,$num)
     $f->stream("articles_of_cooperation_federation.pdf", array("Attachment"=>0));
   }
   function bylaws_primary($id = null){
-      ini_set('max_execution_time', '300');
+    ini_set('max_execution_time', '300');
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
@@ -1881,7 +1910,10 @@ public function count_documents_coop($coop_id,$num)
                                   if($AmendmentNo<=1)
                                   {
                                     //first amendment
+                                     $data['capitalization_info_orig'] = $this->capitalization_model->get_capitalization_by_coop_id($cooperative_id);
+
                                      $data['treasurer_of_coop_orig'] = $this->cooperator_model->get_treasurer_of_coop($cooperative_id);
+
                                     $data['bylaw_info_orig'] = $this->bylaw_model->get_bylaw_by_coop_id($cooperative_id);
                                     $data['article_info_orig'] = $this->article_of_cooperation_model->get_article_by_coop_id($cooperative_id);
                                     $data['no_of_cooperator_orig'] = $this->cooperator_model->get_total_number_of_cooperators($cooperative_id);
@@ -1894,6 +1926,7 @@ public function count_documents_coop($coop_id,$num)
                                      $amendment_dtl = $this->amendment_model->amendment_dtl($cooperative_id);
                                     $amendment_id = $amendment_dtl->id;
                                      $data['treasurer_of_coop_orig'] = $this->amendment_cooperator_model->get_treasurer_of_coop($amendment_id);
+                                    $data['capitalization_info_orig'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$amendment_id); 
                                     $data['bylaw_info_orig'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$amendment_id);
                                     $data['article_info_orig'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$amendment_id);
                                     $data['no_of_cooperator_orig'] = $this->amendment_cooperator_model->get_total_number_of_cooperators($amendment_id);
@@ -1910,6 +1943,7 @@ public function count_documents_coop($coop_id,$num)
                               }
                               else
                               {
+                                $data['capitalization_info_orig'] = $this->capitalization_model->get_capitalization_by_coop_id($cooperative_id);
                                 $data['treasurer_of_coop_orig'] = $this->cooperator_model->get_treasurer_of_coop($cooperative_id);
                               $data['bylaw_info_orig'] = $this->bylaw_model->get_bylaw_by_coop_id($cooperative_id);
                               $data['article_info_orig'] = $this->article_of_cooperation_model->get_article_by_coop_id($cooperative_id);
@@ -2479,7 +2513,7 @@ public function count_documents_coop($coop_id,$num)
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
-        if(file_exists('uploads/amendment/'.$decoded_filename)){
+        if(file_exists(UPLOAD_AMD_DIR.$decoded_filename)){
 //          if($this->amendment_uploaded_document_model->check_document_of_cooperative(0,$decoded_id,1,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->amendment_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
@@ -2504,7 +2538,7 @@ public function count_documents_coop($coop_id,$num)
                                       ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
                                       ->set_content_type('application/pdf','utf-8','CoopRIS')
                                       ->set_output(
-                                        file_get_contents('uploads/amendment/'.$decoded_filename)
+                                        file_get_contents(UPLOAD_AMD_DIR.$decoded_filename)
                                       );
                                 }else{
                                   $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
@@ -2569,7 +2603,7 @@ public function count_documents_coop($coop_id,$num)
                                         ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
                                         ->set_content_type('application/pdf','utf-8')
                                         ->set_output(
-                                          file_get_contents('uploads/amendment/'.$decoded_filename)
+                                          file_get_contents(UPLOAD_AMD_DIR.$decoded_filename)
                                         );
                                   }else{
                                     $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
@@ -2629,7 +2663,7 @@ public function count_documents_coop($coop_id,$num)
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
-        if(file_exists('uploads/'.$decoded_filename)){
+        if(file_exists(UPLOAD_AMD_DIR.$decoded_filename)){
           if($this->uploaded_document_model->check_document_of_cooperative(0,$decoded_id,2,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
@@ -2654,7 +2688,7 @@ public function count_documents_coop($coop_id,$num)
                                       ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                                       ->set_content_type('application/pdf','utf-8')
                                       ->set_output(
-                                        file_get_contents('uploads/'.$decoded_filename)
+                                        file_get_contents(UPLOAD_AMD_DIR.$decoded_filename)
                                       );
                                 }else{
                                   $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
@@ -2719,7 +2753,7 @@ public function count_documents_coop($coop_id,$num)
                                         ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                                         ->set_content_type('application/pdf','utf-8')
                                         ->set_output(
-                                          file_get_contents('uploads/'.$decoded_filename)
+                                          file_get_contents(UPLOAD_AMD_DIR.$decoded_filename)
                                         );
                                   }else{
                                     $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
@@ -2781,7 +2815,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
-        if(file_exists('uploads/'.$decoded_filename)){
+        if(file_exists(UPLOAD_AMD_DIR.$decoded_filename)){
           if($this->uploaded_document_model->check_document_of_cooperative($decoded_branch_id,$decoded_id,5,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->branches_model->check_own_branch($decoded_branch_id,$user_id)){
@@ -2791,7 +2825,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                       ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                       ->set_content_type('application/pdf','utf-8')
                       ->set_output(
-                        file_get_contents('uploads/'.$decoded_filename)
+                        file_get_contents(UPLOAD_AMD_DIR.$decoded_filename)
                       );
  
                 
@@ -2809,7 +2843,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                         ->set_content_type('application/pdf','utf-8')
                         ->set_output(
-                          file_get_contents('uploads/'.$decoded_filename)
+                          file_get_contents(UPLOAD_AMD_DIR.$decoded_filename)
                         );
                                   
                   }else{
@@ -2844,7 +2878,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
-        if(file_exists('uploads/'.$decoded_filename)){
+        if(file_exists(UPLOAD_AMD_DIR.$decoded_filename)){
           if($this->uploaded_document_model->check_document_of_cooperative($decoded_branch_id,$decoded_id,6,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->branches_model->check_own_branch($decoded_branch_id,$user_id)){
@@ -2854,7 +2888,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                       ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                       ->set_content_type('application/pdf','utf-8')
                       ->set_output(
-                        file_get_contents('uploads/'.$decoded_filename)
+                        file_get_contents(UPLOAD_AMD_DIR.$decoded_filename)
                       );
  
                 
@@ -2872,7 +2906,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                         ->set_content_type('application/pdf','utf-8')
                         ->set_output(
-                          file_get_contents('uploads/'.$decoded_filename)
+                          file_get_contents(UPLOAD_AMD_DIR.$decoded_filename)
                         );
                   }else{
                     $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.');
@@ -2906,7 +2940,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
-        if(file_exists('uploads/'.$decoded_filename)){
+        if(file_exists(UPLOAD_AMD_DIR.$decoded_filename)){
           if($this->uploaded_document_model->check_document_of_cooperative($decoded_branch_id,$decoded_id,7,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->branches_model->check_own_branch($decoded_branch_id,$user_id)){
@@ -2916,7 +2950,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                       ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                       ->set_content_type('application/pdf','utf-8')
                       ->set_output(
-                        file_get_contents('uploads/'.$decoded_filename)
+                        file_get_contents(UPLOAD_AMD_DIR.$decoded_filename)
                       );
  
                 
@@ -2934,7 +2968,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                         ->set_content_type('application/pdf','utf-8')
                         ->set_output(
-                          file_get_contents('uploads/'.$decoded_filename)
+                          file_get_contents(UPLOAD_AMD_DIR.$decoded_filename)
                         );
                     
                   }else{
@@ -3322,7 +3356,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
 
           if(!$this->branches_model->check_submitted_for_evaluation($decoded_branch_id)){
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = UPLOAD_AMD_DIR;
             $config['file_name'] = $decoded_uid.'_'.$decoded_id.'_business_plan.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
@@ -3423,7 +3457,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
 
           if(!$this->branches_model->check_submitted_for_evaluation($decoded_branch_id)){
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = UPLOAD_AMD_DIR;
             $config['file_name'] = $decoded_uid.'_'.$decoded_id.'_GA_Resolution.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
@@ -3514,6 +3548,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       redirect('users/login');
     }else{
       if($this->input->post('uploadOtherDocumentBtn')){
+
         if($this->session->userdata('access_level') && $this->session->userdata('access_level')==5){
           redirect('admins/login');
         }else if($this->session->userdata('access_level') && $this->session->userdata('access_level')<5){
@@ -3524,7 +3559,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
 
           if(!$this->branches_model->check_submitted_for_evaluation($decoded_branch_id)){
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = UPLOAD_AMD_DIR;
             $config['file_name'] = $decoded_uid.'_'.$decoded_id.'_certification.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
@@ -3566,6 +3601,8 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       redirect('users/login');
     }else{
       if($this->input->post('uploadOtherDocumentBtn')){
+       
+
         if($this->session->userdata('access_level') && $this->session->userdata('access_level')==5){
           redirect('admins/login');
         }else if($this->session->userdata('access_level') && $this->session->userdata('access_level')<5){
@@ -3576,7 +3613,9 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $cooperative_id =$this->amendment_model->coop_dtl($decoded_id);
           $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
           if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
-            $config['upload_path'] = './uploads/amendment/';
+             $data['coop_infos'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
+            $coop_status = $data['coop_infos']->status;
+            $config['upload_path'] = UPLOAD_AMD_DIR;
             $config['file_name'] = $this->session->userdata('user_id').'_'.$decoded_id.'_surety_bond.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
@@ -3587,23 +3626,23 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
               redirect('amendment/'.$this->input->post('amendment_id').'/amendment_documents');
             }else{
               $data = array('upload_data' => $this->upload->data());
-              // if($this->input->post('status')==11){
-              //     $status = 2;
-              // } else {
-              //     $status = 1;
-              // }
+              if($coop_status==11){
+                  $status_docs = 2;
+              } else {
+                  $status_docs = 1;
+              }
               $file_array = array(
                 'cooperative_id'=>$cooperative_id,
                 'amendment_id'=>$decoded_id,
                 'document_num'=>'1',
                 'filename'=>$this->upload->data('file_name'),
-                'status'=>'1',
+                'status'=> $status_docs,
                 'created_at'=>date('Y-m-d h:i:s',now('Asia/Manila')),
                 'author'=>$this->session->userdata('user_id')
               );
-              // $this->debug($file_array);
+           
               if($this->amendment_uploaded_document_model->add_document_info_amendment($file_array)){
-                $this->session->set_flashdata('document_one_success', 'Successfully uploaded document one.');
+                $this->session->set_flashdata('document_one_success', 'Successfully uploaded document.');
                 redirect('amendment/'.$this->input->post('amendment_id').'/amendment_documents');
               }else{
                 $file = $config['upload_path'].$config['file_name'];
@@ -3640,15 +3679,21 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('amendment_id')));
           $cooperative_id =$this->amendment_model->coop_dtl($decoded_id);
           $user_id = $this->session->userdata('user_id');
-          
+          $data['coop_infos'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
+            $coop_status = $data['coop_infos']->status;
           $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
           if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){  
             $random_ = random_string('alnum',5);
-            $config['upload_path'] = './uploads/amendment/';
+            $config['upload_path'] = UPLOAD_AMD_DIR;
             $config['file_name'] = $random_.'_'.$user_id.'_'.$decoded_id.'_pre_registration.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
             $this->load->library('upload', $config);
+            if($coop_status==11){
+                  $status_docs = 2;
+              } else {
+                  $status_docs = 1;
+              }
             $this->upload->initialize($config);
             if(!($this->upload->do_upload('file2'))){
               $this->session->set_flashdata('document_two_error', $this->upload->display_errors('<p>', '</p>'));
@@ -3659,7 +3704,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                     'amendment_id '=>$decoded_id,
                     'document_num'=>'2', //pre registration document
                     'filename'=>$this->upload->data('file_name'),
-                    'status' =>1,
+                    'status' =>$status_docs,
                     'created_at'=> date('Y-m-d h:i:s',now('Asia/Manila')),
                     'author' =>$user_id 
                 );
@@ -3702,7 +3747,7 @@ public function delete_pdf()
     $decoded_id =$this->encryption->decrypt(decrypt_custom($this->input->post('amendment_id')));
     $filename= $this->input->post('file_name');
      // echo $id.' amendment_id: '.$decoded_id.' filename: '.$filename;
-    $config['upload_path'] = './uploads/';
+    $config['upload_path'] = UPLOAD_AMD_DIR;
     $config['file_name'] = $filename;
     $file = $config['upload_path'].$config['file_name'];
 

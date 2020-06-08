@@ -80,7 +80,12 @@
                 {
                   $rf =  $basic_reservation_fee;
                 }
-                $lrf=(($rf+$name_reservation_fee)*.01>10) ?($rf+$name_reservation_fee)*.01 : 10;
+                // $lrf=(($rf+$name_reservation_fee)*.01>10) ?($rf+$name_reservation_fee)*.01 : 10;
+                 $lrf=$rf*0.01;
+                 if($lrf<10)
+                 {
+                  $lrf=10;
+                 }
 
                 if(count(explode(',',$coop_info->type_of_cooperative))>1)
                 {
@@ -98,12 +103,15 @@
                 </tr>
                 <tr>
                   <td class="bord">Nature of Payment</td>
-                  <td class="bord" colspan="3"><b>Name Registration</b></td>
+                  <td class="bord" colspan="3"><b>Amendment</b></td>
                 </tr>
                 <tr>
                   <td class="bord">Amount in Words</td>
                   <td class="bord" colspan="3"><b>'.ucwords(num_format_custom($rf+$lrf+$name_reservation_fee)).' Pesos</b></td>
-                </tr>
+                </tr>';
+                if($original_coop_name!=$proposeName)
+                {
+                  echo'
                 <tr>
                   <td class="bord" align="center" colspan="4">Particulars</td>
                 </tr>
@@ -112,10 +120,12 @@
                   <td class="pera" width=""><b>Name Reservation Fee</b></td>
                   <td class="pera" width="5%">Php </td>
                   <td class="pera" align="right" width="13%"><b>'.number_format($name_reservation_fee,2).'</b></td>
-                </tr>
+                </tr>';
+                }
+                echo'
                 <tr>
                   <td width="23%"></td>
-                  <td class="pera" width=""><b>Registration Fee</b></td>
+                  <td class="pera" width=""><b>Amendment Fee</b></td>
                   <td class="pera" width="5%"> </td>
                   <td class="pera" align="right" width="13%"><b>'.number_format($rf,2).'</b></td>
                 </tr>
@@ -136,10 +146,29 @@
             }
           ?>
           </table>
+          <div>
+            <u>Payment of Fees</u>
+                <ol type="1">
+                    <li>The filing fees may be paid through any of the following modes, at the option of
+                        the applicant:</li>
+                        <ol type="a">
+                            <li>Online payment facilities listed and available through the CoopRIS;</li>
+                            <li>Cash or manager&#39;s check, through the CDA cashier where the proposed
+                                cooperative will be registered.</li>
+                        </ol>
+                    In the case of payment through mode (a), the CoopRIS will generate a &quot;Payment
+                    Details&quot; that will indicate the amount of filing fees to be paid by the applicant.
+                    <li>Failure to pay within ten (10) days period will result in the automatic removal of
+                        the application from the system.</li>
+                    <li>Fees other than the computed filing fees (e.g. bank charges) shall be shouldered
+                        by the applicant.</li>
+                </ol>
+        </div>
+
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=$encrypted_id ?>">
           <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
           <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$proposeName?>">
-          <input type="hidden" class="form-control" id="nature" name="nature" value="Name Registration">
+          <input type="hidden" class="form-control" id="nature" name="nature" value="Amendment">
           <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee">
           <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2) ?>">
           <input type="hidden" class="form-control" id="total" name="total" value="<?=$rf+$lrf+$name_reservation_fee?>">
@@ -147,7 +176,7 @@
       </div>
       <br><br>
         <input style="width:18%;" class="btn btn-color-blue" type="submit" id="offlineBtn" name="offlineBtn" value="Pay at CDA Treasury">
-        <input style="width:18%;" class="btn btn-color-blue" type="submit" id="onlineBtn" name="onlineBtn" value="Pay Online">
+        <input style="width:18%;" class="btn btn-color-blue" type="submit" id="onlineBtn" name="onlineBtn" value="Pay Online" disabled>
       
     </form>
     </div>

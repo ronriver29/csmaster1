@@ -54,12 +54,21 @@ class Amendment_cooperators extends CI_Controller{
                     // $this->debug( $data['minimum_regular_subscription']);
                     // echo $this->db->last_query();
                     $data['minimum_regular_pay'] = $this->amendment_cooperator_model->check_all_minimum_regular_pay($cooperative_id,$decoded_id);
-                
+                   if($data['bylaw_info']->kinds_of_members!=1)
+                    { 
                     $data['minimum_associate_subscription'] = $this->amendment_cooperator_model->check_all_minimum_associate_subscription($cooperative_id,$decoded_id);
-                 // var_dump( $data['minimum_associate_subscription']);
+                    // echo $this->db->last_query();
+                    // var_dump( $data['minimum_associate_subscription']);
+                    }
+                 
                  //    echo $this->db->last_query();
-                    $data['minimum_associate_pay'] = $this->amendment_cooperator_model->check_all_minimum_associate_pay($cooperative_id,$decoded_id);
-
+                    $data['minimum_associate_pay']='';
+                    if($data['bylaw_info']->kinds_of_members!=1)
+                    {
+                        $data['minimum_associate_pay'] = $this->amendment_cooperator_model->check_all_minimum_associate_pay($cooperative_id,$decoded_id);
+                    }
+                  
+          
                     $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
                     $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$decoded_id);
                     $data['check_regular_paid'] = $this->amendment_cooperator_model->check_regular_total_shares_paid_is_correct($data['total_regular']);
@@ -75,10 +84,7 @@ class Amendment_cooperators extends CI_Controller{
                     $data['list_cooperators_associate_count'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_associate_count($decoded_id);
                     $data['list_cooperators_associate'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_associate($cooperative_id,$decoded_id);
                     // $data['ten_percent']=$this->amendment_cooperator_model->ten_percent($decoded_id);
-                    // $this->debug($data['bylaw_info']);
-                    // $this->debug($data['capitalization_info']);
-                   // echo $data['capitalization_info']->associate_members;
-                   //  echo  $data['list_cooperators_associate_count'];
+                   
                     $this->load->view('./template/header', $data);
                     $this->load->view('cooperators/amendment_cooperators_list', $data);
                     $this->load->view('cooperators/full_info_modal_cooperator');
@@ -122,8 +128,12 @@ class Amendment_cooperators extends CI_Controller{
                         $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                         $data['minimum_regular_subscription'] = $this->amendment_cooperator_model->check_all_minimum_regular_subscription($cooperative_id,$decoded_id);
                         $data['minimum_regular_pay'] = $this->amendment_cooperator_model->check_all_minimum_regular_pay($cooperative_id,$decoded_id);
+                        if($data['bylaw_info']->kinds_of_members!=1)
+                        { 
                         $data['minimum_associate_subscription'] = $this->amendment_cooperator_model->check_all_minimum_associate_subscription($cooperative_id,$decoded_id);
                         $data['minimum_associate_pay'] = $this->amendment_cooperator_model->check_all_minimum_associate_pay($cooperative_id,$decoded_id);
+                        }
+                        
                         $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
                         $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$decoded_id);
                         $data['check_regular_paid'] = $this->amendment_cooperator_model->check_regular_total_shares_paid_is_correct($data['total_regular']);

@@ -38,89 +38,154 @@ class Amendment_registration extends CI_Controller{
       $j=$j.'0';
     $j=$j.$x;
 
-      // $this->debug($coop_info);
-      $data_reg = array(
-        'coopName'=>$coop_info->proposed_name.' '.$coop_info->type_of_cooperative,
-        'acronym'=> $coop_info->acronym,
-        'regNo'=> $coop_info->regNo,
-        'category'=> $coop_info->category_of_cooperative,
-        'type'=> $coop_info->type_of_cooperative,
-        'dateRegistered'=>$coop_info->dateRegistered,
-        'commonBond'=> $coop_info->common_bond_of_membership,
-        'areaOfOperation'=>$coop_info->area_of_operation,
-        'noStreet'=> $coop_info->house_blk_no,
-        'Street' => $coop_info->street,
-        'addrCode'=> $coop_info->addrCode,
-        'compliant'=>'Compliant',
-        // 'qr_code'=>$j,
-        'application_id'=>$coop_info->application_id,
-        'amendment_id'=>$decoded_id
-      );
-
-      
-      
-        $this->registration_model->register_coop_amendment($decoded_id,$data_reg,$pst);
-        // $this->debug($this->registration_model->register_coop_amendment($decoded_id,$coop_info->rCode,$pst));
-        $cName=$coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping;
-        $coop_details = $this->registration_model->get_coop_info_amendment($decoded_id);
-        // $amend_coop_details = $this->registration_model->get_coop_info_amendment($decoded_id);
-        // $this->debug($coop_details);
-        // $this->debug($coop_info);
-        if (strlen($coop_info->qr_code)<1 || $coop_info->qr_code='')
+      $amendment_no ='';
+      $qry_amd_no = $this->db->query("select amendmentNo from amend_coop where cooperative_id=813 and status=15 order by id desc limit 1");
+      if($qry_amd_no->num_rows()>0)
+      {
+        if($qry_amd_no->num_rows()==1)
+        {
+           $amendment_no=1;
+         
+        }
+        else
+        {
+           $amendment_no = $qry_amd_no->num_rows()+1;
+        }
+       
+      }
+      else
+      {
+        $amendment_no = 1;
+      }
+        if($this->db->update('amend_coop',array('amendmentNo'=>$amendment_no),array('id'=>$decoded_id)))
         {
           
-          $qr_code_config = array();
-          $qr_code_config['cacheable'] = $this->config->item('cacheable');
-          $qr_code_config['cachedir'] = $this->config->item('cachedir');
-          $qr_code_config['imagedir'] = $this->config->item('imagedir');
-          $qr_code_config['errorlog'] = $this->config->item('errorlog');
-          $qr_code_config['ciqrcodelib'] = $this->config->item('ciqrcodelib');
-          $qr_code_config['quality'] = $this->config->item('quality');
-          $qr_code_config['size'] = $this->config->item('size');
-          $qr_code_config['black'] = $this->config->item('black');
-          $qr_code_config['white'] = $this->config->item('white');
-          $this->ci_qr_code->initialize($qr_code_config);
 
+            $data_reg = array(
+              'coopName'=>$coop_info->proposed_name.' '.$coop_info->type_of_cooperative,
+              'acronym'=> $coop_info->acronym,
+              'regNo'=> $coop_info->regNo,
+              'category'=> $coop_info->category_of_cooperative,
+              'type'=> $coop_info->type_of_cooperative,
+              'dateRegistered'=>$coop_info->dateRegistered,
+              'commonBond'=> $coop_info->common_bond_of_membership,
+              'areaOfOperation'=>$coop_info->area_of_operation,
+              'noStreet'=> $coop_info->house_blk_no,
+              'Street' => $coop_info->street,
+              'addrCode'=> $coop_info->addrCode,
+              'compliant'=>'Compliant',
+              // 'qr_code'=>$j,
+              'application_id'=>$coop_info->application_id,
+              'amendment_id'=>$decoded_id
+            );
 
-          // get full name and user details
-          // $image_name = $coop_details->regNo . ".png";
-           $image_name = $coop_details->regNo . ".png";
-
-          // create user content
-          $codeContents = "Cooperative Name:";
-          $codeContents .= $coop_details->coopName;
-          $codeContents .= "\n";
-          $codeContents .= "Registration No:";
-          $codeContents .= $coop_details->regNo;
-          $codeContents .= "\n";
-          $codeContents .= "Date Registered:";
-          $codeContents .= $coop_details->dateRegistered;
-
-          
-
-          $params['data'] = $codeContents;
-          $params['level'] = 'H';
-          $params['size'] = 2;
-
-          $params['savename'] = FCPATH . $qr_code_config['imagedir'] . $image_name;
-          $this->ci_qr_code->generate($params);
-
-          $this->data['qr_code_image_url'] = base_url() . $qr_code_config['imagedir'] . $image_name;
-
-          // save image path in tree table
-          if(!$this->registration_model->save_qr_code($coop_details->regNo, $image_name))
-          {
-            echo"Failed to generate QRCode";
-            exit;
-          }
-          else
-          {
-            echo"qr code saved";
-          }
-
-        } //end qr code
       
       
+            $this->registration_model->register_coop_amendment($decoded_id,$data_reg,$pst);
+            // $this->debug($this->registration_model->register_coop_amendment($decoded_id,$coop_info->rCode,$pst));
+            $cName=$coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping;
+            $coop_details = $this->registration_model->get_coop_info_amendment($decoded_id);
+            // $amend_coop_details = $this->registration_model->get_coop_info_amendment($decoded_id);
+            // $this->debug($coop_details);
+            // $this->debug($coop_info);
+            // if (strlen($coop_info->qr_code)<1 || $coop_info->qr_code='')
+            // {
+
+              $qr_code_config = array();
+              $qr_code_config['cacheable'] = $this->config->item('cacheable');
+              $qr_code_config['cachedir'] = $this->config->item('cachedir');
+              $qr_code_config['imagedir'] = $this->config->item('imagedir');
+              $qr_code_config['errorlog'] = $this->config->item('errorlog');
+              $qr_code_config['ciqrcodelib'] = $this->config->item('ciqrcodelib');
+              $qr_code_config['quality'] = $this->config->item('quality');
+              $qr_code_config['size'] = $this->config->item('size');
+              $qr_code_config['black'] = $this->config->item('black');
+              $qr_code_config['white'] = $this->config->item('white');
+              $this->ci_qr_code->initialize($qr_code_config);
+
+
+              // get full name and user details
+              // $image_name = $coop_details->regNo . ".png";
+               $image_name = $coop_details->regNo."-".$amendment_no.".png";
+
+
+              // create user content
+              $codeContents = "Cooperative Name:";
+              $codeContents .= $coop_details->coopName;
+              $codeContents .= "\n";
+              $codeContents .= "Registration No:";
+              $codeContents .= $coop_details->regNo."-".$amendment_no;
+              $codeContents .= "\n";
+              $codeContents .= "Date Registered:";
+              $codeContents .= $coop_details->dateRegistered;
+
+              
+
+              $params['data'] = $codeContents;
+              $params['level'] = 'H';
+              $params['size'] = 2;
+
+              $params['savename'] = FCPATH . $qr_code_config['imagedir'] . $image_name;
+              $this->ci_qr_code->generate($params);
+
+              $this->data['qr_code_image_url'] = base_url() . $qr_code_config['imagedir'] . $image_name;
+
+              // save image path in tree table
+              // if(!$this->registration_model->save_qr_code($coop_details->regNo, $image_name))
+              // {
+              //   echo"Failed to generate QRCode";
+              //   exit;
+              // }
+              // else
+              // {
+              //   echo"qr code saved";
+              // }
+
+              if(!$this->save_Qrcode_amendment($decoded_id,$image_name))
+              {
+                echo"Failed to generate QRCode";
+                exit;
+              }
+              else
+              {
+                // echo"success";
+              }
+              // echo $this->db->last_query();
+
+             
+
+
+
+            // } //end qr code
+        }
+        else
+        {
+          echo "Failed to update";
+        }//end update amendmentno
+        
+       
+
+
+        $query_or = $this->db->get_where('payment',array('amendment_id'=>$decoded_id));
+        if($query_or->num_rows()>0)
+        {
+          foreach($query_or->result_array() as $o)
+          {
+            $date_OR = $o['date_of_or'];
+          }
+        }
+        else
+        {
+          $date_OR=now();
+        }
+
+        $data1['date_year']= date('Y',strtotime($date_OR));
+        $data1['date_month'] =date('F',strtotime($date_OR));
+        $dateDay = date('d',strtotime($date_OR));
+        $data1['date_day']=$this->OrdinalIndicator($date_OR);
+
+        
+              
       
           $data1['chair'] = $this->registration_model->get_chairman()->chairman;
           $data1['coop_info']=$coop_details;
@@ -132,7 +197,7 @@ class Amendment_registration extends CI_Controller{
           set_time_limit(0);
           // $this->debug($coop_details);
 
-          // // $this->load->view('amendment/cor_view', $data1);
+          $this->load->view('amendment/cor_view', $data1);
           $html2 = $this->load->view('amendment/cor_view', $data1, TRUE);
           $J = new pdf();       
           $J->set_option('isRemoteEnabled',TRUE);
@@ -142,6 +207,31 @@ class Amendment_registration extends CI_Controller{
           $J->stream("certificate.pdf", array("Attachment"=>0));
     }
   }
+  //modify by json
+  public function OrdinalIndicator($dateRegistered)
+  {
+        $date_day = date('d',strtotime($dateRegistered));
+        $num_day= substr($date_day,-1);
+        $char_length = strlen($date_day);
+        $ordinal_indicator='';
+
+        switch ($num_day) {
+          case 1:
+            $ordinal_indicator='st';
+            break;
+          case 2:
+            $ordinal_indicator='nd';
+            break;  
+          case 3:
+            $ordinal_indicator='rd';
+            break;
+          default:
+             $ordinal_indicator='th';
+            break;
+        }
+        return $date_day.$ordinal_indicator;//$num_day.$ordinal_indicator;
+  }
+
 
   function branch($id = null) {
     if(!$this->session->userdata('logged_in')){
@@ -231,6 +321,29 @@ class Amendment_registration extends CI_Controller{
       
     }
   }
+
+  public function save_Qrcode_amendment($id,$qr_code)
+  {
+    // $data = array('qr_code'=> $qr_code);
+      // $this->db->trans_begin();
+    // $this->db->where('id',$id);
+      if($this->db->update('registeredcoop', array('qr_code'=>$qr_code),array('amendment_id'=>$id)))
+      {
+          return true;
+      }
+      else{
+        return false;
+      }
+
+    // if($this->db->trans_status() === FALSE){
+    //   $this->db->trans_rollback();
+    //   return false;
+    // }else{
+    //   $this->db->trans_commit();
+    //   return true;
+    // }
+  }
+
 
   public function debug($array)
     {

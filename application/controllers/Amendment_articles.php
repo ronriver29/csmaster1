@@ -222,9 +222,20 @@ class Amendment_articles extends CI_Controller{
                             $data['encrypted_id'] = $id;
                             $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                             $data['articles_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
-
-                            $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
-                            $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
+                        
+                        // Added By Anjury
+                            $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
+                                if($data['total_regular']==0){
+                                  $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($decoded_id);
+                                }
+                                
+                            $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$decoded_id);
+                                if($data['total_associate']==0) {
+                                  $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
+                                }
+                        // End Add By Anjury
+//                            $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id); // Comment By Anjury
+//                            $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id); // Comment By Anjury
 
                              $data['encrypted_articles_id'] = encrypt_custom($this->encryption->encrypt($data['articles_info']->id)); //modified
                              $capitalinfo = '';

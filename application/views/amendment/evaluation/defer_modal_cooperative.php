@@ -3,7 +3,7 @@
     <div class="modal fade" id="deferCooperativeModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="deferCooperativeModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <?php echo form_open('cooperatives/defer_cooperative',array('id'=>'deferCooperativeForm','name'=>'deferCooperativeForm')); ?>
+          <?php echo form_open('amendment/defer_cooperative',array('id'=>'deferCooperativeForm','name'=>'deferCooperativeForm')); ?>
             <div class="modal-header">
               <h4 class="modal-title" id="deferMemberModalLabel">Are you sure you want to defer this application?</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -14,11 +14,23 @@
               <input type="hidden" id="cooperativeID" name="cooperativeID" readonly>
               <div class="alert alert-info" role="alert">
                 Cooperative Name:<br>
-                <strong class="cooperative-name-text">test</strong> <strong>Cooperative</strong>
+                <strong class="cooperative-name-text">test</strong> <strong></strong>
               </div>
               <div class="form-group">
                 <label for="comment">State the reason/s:</label>
-                <textarea class="form-control validate[required]" style="resize: none;" id="comment" name="comment" placeholder=""rows="8"><?php echo $coop_info->evaluation_comment;?></textarea>
+                <pre>
+                <textarea class="form-control validate[required]" style="resize: none;" id="comment" name="comment" placeholder=""rows="8"><?php 
+                foreach($cds_comment as $cds){
+                    echo $cds['comment'].PHP_EOL;    
+                }
+                
+                echo ''.PHP_EOL;
+                echo $coop_info->tool_findings.PHP_EOL;
+                echo ''.PHP_EOL;
+                
+                foreach($senior_comment as $senior){
+                    echo $senior['comment'].PHP_EOL;
+                }?></textarea></pre>
               </div>
             </div>
             <div class="modal-footer deferCooperativeFooter">

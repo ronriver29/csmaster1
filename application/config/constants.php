@@ -85,3 +85,4 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 define('UPLOAD_DIR','/var/www/shared-volume'. DIRECTORY_SEPARATOR);
+define('UPLOAD_AMD_DIR','/var/www/shared-volume/amendment'. DIRECTORY_SEPARATOR);

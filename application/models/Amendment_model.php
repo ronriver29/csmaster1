@@ -89,7 +89,7 @@ class amendment_model extends CI_Model{
     $this->db->select('*');
     $this->db->from('payment');
     $this->db->where('amendment_id',$amendment_id);
-    $this->db->where('nature','Name Registration');
+    $this->db->where('nature','Amendment');
     $query = $this->db->get();
 
     return $query->row();
@@ -1190,8 +1190,9 @@ public function approve_by_supervisor($admin_info,$coop_id,$coop_full_name){
         return true;
   }
 }
-public function approve_by_director($admin_info,$coop_id){
+public function approve_by_director($admin_info,$coop_id,$comment){
   $coop_id = $this->security->xss_clean($coop_id);
+
   $this->db->select('amend_coop.proposed_name, amend_coop.type_of_cooperative,amend_coop.acronym, amend_coop.regNo, users.*');
   $this->db->from('amend_coop');
   $this->db->join('users' , 'users.id = amend_coop.users_id','inner');
@@ -1218,6 +1219,8 @@ public function approve_by_director($admin_info,$coop_id){
  
   $regNo = $client_info->regNo;
   $this->db->trans_begin();
+  $this->db->insert('amendment_comment',$comment);
+
   $this->db->where('id',$coop_id);
   $this->db->update('amend_coop',array('status'=>12,'third_evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(10*24*60*60)))));
   $no_of_amendments = 1;
@@ -1278,7 +1281,7 @@ public function deny_by_admin($admin_id,$coop_id,$reason_commment,$step){
     }
   }
 }
-public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step){
+public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_comment){
   
   $this->db->trans_begin();
   $this->db->where('id',$coop_id);
@@ -1293,6 +1296,7 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step){
     return false;
   }else{
     if ($step==3){
+      $this->db->insert('amendment_comment',$data_comment);
       $this->db->select('amend_coop.proposed_name, amend_coop.type_of_cooperative, amend_coop.grouping, users.*');
       $this->db->from('amend_coop');
       $this->db->join('users' , 'users.id = amend_coop.users_id','inner');
@@ -1346,7 +1350,7 @@ public function check_submitted_for_evaluation($cooperative_id,$amendment_id){
   $query = $this->db->get_where('amend_coop',array('id'=>$amendment_id,'cooperative_id'=>$cooperative_id));
   $data = $query->row();
   $coop_status = $data->status;
-  if($coop_status > 1){
+  if($coop_status > 1 && $coop_status!=11){
     return true;
   }else{
     return false;
@@ -1375,7 +1379,7 @@ public function check_first_evaluated($coop_id){
   $query = $this->db->get_where('amend_coop',array('id'=>$coop_id));
   $data = $query->row();
   $coop_status = $data->status;
-  if($coop_status>=4){
+  if($coop_status>=6 ){
     return true;
   }else{
     return false;
@@ -1385,7 +1389,7 @@ public function check_second_evaluated($coop_id){
   $query = $this->db->get_where('amend_coop',array('id'=>$coop_id));
   $data = $query->row();
   $coop_status = $data->status;
-  if($coop_status>=7){
+  if($coop_status>=9 || $coop_status ==11 ){
     return true;
   }else{
     return false;
@@ -1780,7 +1784,7 @@ public function check_if_denied($coop_id){
       {
         foreach($query->result_array() as $row)
         {
-          $data = $row['comment'];
+          $data[] = $row['comment'];
         }
       }
       else
