@@ -13,25 +13,25 @@ class Migration_committees_union extends CI_Migration
               ),
               'cooperators_id'=> array(
                 'type' => 'INT',
-                'constraint' =>20,
+                'constraint' =>20
                  // 'null' => TRUE,
               ),
               'user_id'=> array(
                 'type' => 'INT',
-                'constraint' =>20,
+                'constraint' =>20
                  // 'null' => TRUE,
               ),
               'name'=> array(
                 'type' => 'VARCHAR',
-                'constraint' =>200,
+                'constraint' =>200
                  // 'null' => TRUE,
               ),
               'created_at' => array(
-                 'type' => 'TIMESTAMP',
+                 'type' => 'TIMESTAMP'
                  // 'default' => 'CURRENT_TIMESTAMP',
               ),
                'updated_at' => array(
-                 'type' => 'TIMESTAMP',
+                 'type' => 'TIMESTAMP'
                  // 'default' => 'CURRENT_TIMESTAMP',
               ),
            )
