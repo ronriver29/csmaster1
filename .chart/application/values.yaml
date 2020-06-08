@@ -11,6 +11,8 @@ env:
   name: local
   url: localhost
   domain: none
+  tls: none
+  tls_issuer: none
 deploy:
   gitlab: 
     key: gitlab-key
