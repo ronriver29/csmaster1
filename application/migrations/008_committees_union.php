@@ -26,14 +26,8 @@ class Migration_committees_union extends CI_Migration
                 'constraint' =>200
                  // 'null' => TRUE,
               ),
-              'created_at' => array(
-                 'type' => 'TIMESTAMP'
-                 // 'default' => 'CURRENT_TIMESTAMP',
-              ),
-               'updatd_at' => array(
-                 'type' => 'TIMESTAMP'
-                 // 'default' => 'CURRENT_TIMESTAMP',
-              ),
+              'created_at datetime default current_timestamp',
+              'updated_at datetime default current_timestamp on update current_timestamp',
            )
         );
 
