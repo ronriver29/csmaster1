@@ -158,7 +158,7 @@
                 }    
              
 
-                $proposeName = $this->input->post('newNamess');
+                $proposeName = trim($this->input->post('newNamess'));
                 $type_of_cooperativeName = $this->format_name($typeOfCooperativeID);
                 $type_of = '';
                	$coopTypeID = implode(',',$typeOfCooperativeID);
@@ -832,6 +832,9 @@
                         {
                           $data['complete_position']=false;
                         }
+                        $data['director_comment'] = $this->amendment_model->admin_comment($decoded_id,3);
+                        $data['have_director_comment'] = $this->amendment_model->admin_comment_value($decoded_id,3);
+
                         // var_dump($data['article_complete']);
                         // $this->debug($data['business_activities']);
               $this->load->view('./template/header', $data);
@@ -1242,7 +1245,19 @@
                               redirect('amendment');
                             }else{
                               if($this->admin_model->check_if_director_active($user_id)){
-                                $success = $this->amendment_model->approve_by_director($data['admin_info'],$decoded_id);
+
+                                $comment = $this->input->post('comment');
+                                $data_comment = array(
+                                        'user_id' => $this->session->userdata('user_id'),
+                                        'amendment_id' => $decoded_id,
+                                        'access_level' => $this->session->userdata('access_level'),
+                                        'status'=> 12,
+                                        'comment' => $comment,
+                                        'created_at' => date('Y-m-d h:i:s'),
+                                        'author' => $this->session->userdata('user_id')
+                                        );
+                                // echo 'director';
+                                $success = $this->amendment_model->approve_by_director($data['admin_info'],$decoded_id,$data_comment);
                                 // $this->debug($success);
                                 if($success){
                                   $this->session->set_flashdata('list_success_message', 'Amendment Cooperative has been approved.');
@@ -1285,10 +1300,10 @@
                             $success = $this->amendment_model->approve_by_senior($data['admin_info'],$decoded_id,$coop_full_name,$data_comment);
                             // $this->debug($success);
                             if($success){
-                              $this->session->set_flashdata('list_success_message', 'Amendment Cooperative has been approved.');
+                              $this->session->set_flashdata('list_success_message', 'Amendment Cooperative has been submitted.');
                               redirect('amendment');
                             }else{
-                              $this->session->set_flashdata('list_error_message', 'Unable to approve cooperative.');
+                              $this->session->set_flashdata('list_error_message', 'Unable to submit cooperative.');
                               redirect('amendment');
                             }
                           }
@@ -1493,60 +1508,73 @@
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
-        if($this->form_validation->run() == TRUE){
+        // if($this->form_validation->run() == TRUE){
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID',TRUE)));
+
+          $cooperative_id =   $cooperative_id =$this->amendment_model->coop_dtl($decoded_id);
           $user_id = $this->session->userdata('user_id');
           $data['is_client'] = $this->session->userdata('client');
           if(is_numeric($decoded_id) && $decoded_id!=0){
             if($this->session->userdata('client')){
               $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-              redirect('cooperatives');
+              redirect('amendment');
             }else{
                 if($this->session->userdata('access_level')==5){
                   redirect('admins/login');
                 }else{
-                  if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
-                    if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
-                      if(!$this->cooperatives_model->check_if_denied($decoded_id)){
+                  if(!$this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){
+                    if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
+                      if(!$this->amendment_model->check_if_denied($decoded_id)){
                         $reason_commment = $this->input->post('comment',TRUE);
                         if($this->session->userdata('access_level')==4){
-                          if($this->cooperatives_model->check_first_evaluated($decoded_id)){
-                            if($this->cooperatives_model->check_second_evaluated($decoded_id)){
-                              if($this->cooperatives_model->check_last_evaluated($decoded_id)){
+                          if($this->amendment_model->check_first_evaluated($decoded_id)){
+                            if($this->amendment_model->check_second_evaluated($decoded_id)){
+                              if($this->amendment_model->check_last_evaluated($decoded_id)){
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
-                                redirect('cooperatives');
+                                redirect('amendmet');
                               }else{
                                 if(!$this->admin_model->check_if_director_active($user_id)){
-                                  $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
-                                  if($success){
-                                    $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
-                                    redirect('cooperatives');
-                                  }else{
-                                    $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
-                                    redirect('cooperatives');
-                                  }
+                                  echo "No data found";
+                                  // $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
+                                  // if($success){
+                                  //   $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
+                                  //   redirect('cooperatives');
+                                  // }else{
+                                  //   $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
+                                  //   redirect('cooperatives');
+                                  // }
                                 }else{
                                   $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated by the Director.');
-                                  redirect('cooperatives');
+                                  redirect('amendment');
                                 }
                               }
                             }else{
                               $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated first by a Senior Cooperative Development Specialist.');
-                              redirect('cooperatives');
+                              redirect('amendment');
                             }
                           }else{
-                            $this->session->set_flashdata('redirect_applications_message', 'The application must evaluate first by a Cooperative Development Specialist II.');
-                            redirect('cooperatives');
+                            $this->session->set_flashdata('redirect_applications_message', 'The application must evaluate first by a Cooperative Development Specialist II.dddd');
+                            redirect('amendment');
                           }
                         }else if($this->session->userdata('access_level')==3){
-                          if($this->cooperatives_model->check_first_evaluated($decoded_id)){
-                            if($this->cooperatives_model->check_second_evaluated($decoded_id)){
-                              if($this->cooperatives_model->check_last_evaluated($decoded_id)){
+                          if($this->amendment_model->check_first_evaluated($decoded_id)){
+                            if($this->amendment_model->check_second_evaluated($decoded_id)){
+                              if($this->amendment_model->check_last_evaluated($decoded_id)){
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                                 redirect('cooperatives');
                               }else{
                                 if($this->admin_model->check_if_director_active($user_id)){
-                                  $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
+                                $comment = $this->input->post('comment');
+                                 $data_comment = array(
+                                        'user_id' => $this->session->userdata('user_id'),
+                                        'amendment_id' => $decoded_id,
+                                        'access_level' => $this->session->userdata('access_level'),
+                                        'status'=> 11,
+                                        'comment' => $comment,
+                                        'created_at' => date('Y-m-d h:i:s'),
+                                        'author' => $this->session->userdata('user_id')
+                                        );
+                                  $success = $this->amendment_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3,$data_comment);
                                   if($success){
                                     $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
                                     redirect('cooperatives');
@@ -1556,72 +1584,74 @@
                                   }
                                 }else{
                                   $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated by the Supervising CDS.');
-                                  redirect('cooperatives');
+                                  redirect('amendment');
                                 }
                               }
                             }else{
                               $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated first by a Senior Cooperative Development Specialist.');
-                              redirect('cooperatives');
+                              redirect('amendment');
                             }
                           }else{
-                            $this->session->set_flashdata('redirect_applications_message', 'The application must evaluate first by a Cooperative Development Specialist II.');
-                            redirect('cooperatives');
+                            $this->session->set_flashdata('redirect_applications_message', 'The application must evaluate first by a Cooperative Development Specialist IIddddd.');
+                            redirect('amendment');
                           }
                         }else if($this->session->userdata('access_level')==2){
                           if($this->cooperatives_model->check_first_evaluated($decoded_id)){
                             if($this->cooperatives_model->check_second_evaluated($decoded_id)){
                               $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Senior Cooperative Development Specialist.');
-                              redirect('cooperatives');
+                              redirect('amendment');
                             }else{
                               $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,2);
                               if($success){
                                 $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
-                                redirect('cooperatives');
+                                redirect('amendment');
                               }else{
                                 $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
-                                redirect('cooperatives');
+                                redirect('amendment');
                               }
                             }
                           }else{
-                            $this->session->set_flashdata('redirect_applications_message', 'The application must evaluate first by a Cooperative Development Specialist II.');
-                            redirect('cooperatives');
+                            $this->session->set_flashdata('redirect_applications_message', 'The application must evaluate first by a Cooperative Development Specialist IIssss.');
+                            redirect('amendment');
                           }
                         }else{
                           if($this->cooperatives_model->check_first_evaluated($decoded_id)){
                             $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
-                            redirect('cooperatives');
+                            redirect('amendment');
                           }else{
                             $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,1);
                             if($success){
                               $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
-                              redirect('cooperatives');
+                              redirect('amendment');
                             }else{
                               $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
-                              redirect('cooperatives');
+                              redirect('amendment');
                             }
                           }
                         }
-                      }else{
+                      }else{ 
                         $this->session->set_flashdata('redirect_applications_message', 'The cooperative you trying to defer is already denied.');
-                        redirect('cooperatives');
+                        redirect('amendment');
                       }
                     }else{
                       $this->session->set_flashdata('redirect_applications_message', 'The cooperative you trying to deny is not yet submitted for evaluation.');
-                      redirect('cooperatives');
+                      redirect('amendment');
                     }
                   }else{
                     $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
-                    redirect('cooperatives');
+                    redirect('amendment');
                   }
                 }
             }
           }else{
-            show_404();
+             $this->session->set_flashdata('redirect_applications_message', 'No data found.');
+              redirect('amendment');
+            // show_404();
           }
-        }else{
-          $this->session->set_flashdata('cooperative_error', validation_errors('<li>','</li>'));
-          redirect('cooperatives/'.$this->input->post('cooperativeID',TRUE));
-        }
+        // }else{
+        //   $this->session->set_flashdata('amendment_error', validation_errors('<li>','</li>'));
+        //   redirect('amendment/'.$this->input->post('cooperativeID',TRUE));
+        // }
       }
     }
 
@@ -2456,6 +2486,10 @@
               elseif(strcasecmp($crow['proposed_name'],$crow['input_prosposed_name'])==0 && $crow['input_type_coop_id']==$crow['cooperative_type_id'])
               {
 
+                $crow['compare']='true'; 
+              }
+              elseif(strcasecmp($crow['proposed_name'],$crow['input_prosposed_name'])==0 && $crow['input_type_coop_id']!=$crow['cooperative_type_id'])
+              {
                 $crow['compare']='false'; 
               }
               else

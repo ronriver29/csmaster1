@@ -134,6 +134,62 @@ class Db_dev extends CI_Controller{
     }
   }
 
+  public function update_()
+  {
+    if(!$this->session->userdata('logged_in'))
+    {
+      redirect('users/login');
+    }
+    else
+    {
+      if($this->uri->segment(2)=='update')
+      {
+       
+
+        if(isset($_POST['submit']))
+        {
+          $table = $this->input->post('table');
+          $field = $this->input->post('field');
+          $value= $this->input->post('value');
+          $id = $this->input->post('id');
+          // echo $table.$field.$value.$id;
+          if($this->db->update($table,array($field=>$value),array('id'=>$id)))
+          {
+            echo"successfully updated";
+          }
+          else
+          {
+            echo "failed to update";
+          }
+
+        }
+        else
+        {
+          echo'<form method="post" action="update">';
+            echo'<input type="text" name="table"/><br>';
+            echo'<input type="text" name="field"/><br>';
+            echo'<input type="text" name="value"/><br>';
+            echo'<input type="text" name="id"/><br>';
+            echo'<input type="submit" name="submit" value="submit"/><br>';
+          echo'</form>';
+        }   
+        // if($this->db->update($table,$array1,$arry2))
+        // {
+        //   echo "successfully updated.";
+        // }
+        // else
+        // {
+        //   echo"failed to update data";
+        // }
+        
+      } 
+      else
+      {
+        return null;
+      } 
+    }
+  }
+
   public function drop_column($table,$column)
   {
     if(!$this->session->userdata('logged_in'))
@@ -144,7 +200,7 @@ class Db_dev extends CI_Controller{
     {
       if($this->uri->segment(2)=='drop_column')
       {
-        if($qry = $this->db->query(" ALTER TABLE ".$table." DROP ".$column))
+        if($qry = $this->db->query(" ALTER TABLE ".$table." dDROP ".$column))
         {
           echo $column. " column successfully drop in ".$table;
         }

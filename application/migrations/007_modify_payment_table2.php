@@ -25,7 +25,7 @@ class Migration_modify_payment_table2 extends CI_Migration
        if($this->db->field_exists('payment', 'total'))
        {
        $this->dbforge->drop_column('payment', 'total');
-      }
+       }
     }
 }
 ?>
