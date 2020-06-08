@@ -30,7 +30,7 @@ class Migration_committees_union extends CI_Migration
                  'type' => 'TIMESTAMP'
                  // 'default' => 'CURRENT_TIMESTAMP',
               ),
-               'updated_at' => array(
+               'updatd_at' => array(
                  'type' => 'TIMESTAMP'
                  // 'default' => 'CURRENT_TIMESTAMP',
               ),
