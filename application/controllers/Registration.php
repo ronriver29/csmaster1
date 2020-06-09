@@ -73,7 +73,7 @@ class registration extends CI_Controller{
         $params['savename'] = $qr_code_config['imagedir'] . $image_name;
         $this->ci_qr_code->generate($params);
 
-        $this->data['qr_code_image_url'] = base_url() . $qr_code_config['imagedir'] . $image_name;
+        $this->data['qr_code_image_url'] = $qr_code_config['imagedir'] . $image_name;
 
         // save image path in tree table
         $this->registration_model->save_qr_code($coop_details->regNo, $image_name);
