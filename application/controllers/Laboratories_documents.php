@@ -1222,7 +1222,7 @@ class Laboratories_documents extends CI_Controller{
                                         ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
                                         ->set_content_type('application/pdf','utf-8')
                                         ->set_output(
-                                          file_get_contents('uploads/'.$decoded_filename)
+                                          file_get_contents(UPLOAD_DIR.$decoded_filename)
                                         );
                                   // }else{
                                   //   $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
@@ -1289,7 +1289,7 @@ class Laboratories_documents extends CI_Controller{
       ->set_header('Content-Disposition: inline; filename="'.$decoded_filename.'"') //modify
       ->set_content_type('application/pdf','utf-8','CoopRIS')
       ->set_output(
-      file_get_contents('uploads/'.$decoded_filename)
+      file_get_contents(UPLOAD_DIR.$decoded_filename)
       );
     }
   }
@@ -1844,7 +1844,7 @@ class Laboratories_documents extends CI_Controller{
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
-        if(file_exists('uploads/'.$decoded_filename)){
+        if(file_exists(UPLOAD_DIR.$decoded_filename)){
           if($this->uploaded_document_model->check_document_of_cooperative(0,$decoded_id,1,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
@@ -1869,7 +1869,7 @@ class Laboratories_documents extends CI_Controller{
                                       ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
                                       ->set_content_type('application/pdf','utf-8','CoopRIS')
                                       ->set_output(
-                                        file_get_contents('uploads/'.$decoded_filename)
+                                        file_get_contents(UPLOAD_DIR.$decoded_filename)
                                       );
                                 }else{
                                   $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
@@ -1934,7 +1934,7 @@ class Laboratories_documents extends CI_Controller{
                                         ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
                                         ->set_content_type('application/pdf','utf-8')
                                         ->set_output(
-                                          file_get_contents('uploads/'.$decoded_filename)
+                                          file_get_contents(UPLOAD_DIR.$decoded_filename)
                                         );
                                   }else{
                                     $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
@@ -1993,7 +1993,7 @@ class Laboratories_documents extends CI_Controller{
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
-        if(file_exists('uploads/'.$decoded_filename)){
+        if(file_exists(UPLOAD_DIR.$decoded_filename)){
           if($this->uploaded_document_model->check_document_of_cooperative(0,$decoded_id,2,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
@@ -2018,7 +2018,7 @@ class Laboratories_documents extends CI_Controller{
                                       ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                                       ->set_content_type('application/pdf','utf-8')
                                       ->set_output(
-                                        file_get_contents('uploads/'.$decoded_filename)
+                                        file_get_contents(UPLOAD_DIR.$decoded_filename)
                                       );
                                 }else{
                                   $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
@@ -2083,7 +2083,7 @@ class Laboratories_documents extends CI_Controller{
                                         ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                                         ->set_content_type('application/pdf','utf-8')
                                         ->set_output(
-                                          file_get_contents('uploads/'.$decoded_filename)
+                                          file_get_contents(UPLOAD_DIR.$decoded_filename)
                                         );
                                   }else{
                                     $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
@@ -2145,7 +2145,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
-        if(file_exists('uploads/'.$decoded_filename)){
+        if(file_exists(UPLOAD_DIR.$decoded_filename)){
           if($this->uploaded_document_model->check_document_of_cooperative($decoded_branch_id,$decoded_id,5,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->branches_model->check_own_branch($decoded_branch_id,$user_id)){
@@ -2155,7 +2155,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                       ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                       ->set_content_type('application/pdf','utf-8')
                       ->set_output(
-                        file_get_contents('uploads/'.$decoded_filename)
+                        file_get_contents(UPLOAD_DIR.$decoded_filename)
                       );
  
                 
@@ -2173,7 +2173,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                         ->set_content_type('application/pdf','utf-8')
                         ->set_output(
-                          file_get_contents('uploads/'.$decoded_filename)
+                          file_get_contents(UPLOAD_DIR.$decoded_filename)
                         );
                                   
                   }else{
@@ -2208,7 +2208,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
-        if(file_exists('uploads/'.$decoded_filename)){
+        if(file_exists(UPLOAD_DIR.$decoded_filename)){
           if($this->uploaded_document_model->check_document_of_cooperative($decoded_branch_id,$decoded_id,6,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->branches_model->check_own_branch($decoded_branch_id,$user_id)){
@@ -2218,7 +2218,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                       ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                       ->set_content_type('application/pdf','utf-8')
                       ->set_output(
-                        file_get_contents('uploads/'.$decoded_filename)
+                        file_get_contents(UPLOAD_DIR.$decoded_filename)
                       );
  
                 
@@ -2236,7 +2236,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                         ->set_content_type('application/pdf','utf-8')
                         ->set_output(
-                          file_get_contents('uploads/'.$decoded_filename)
+                          file_get_contents(UPLOAD_DIR.$decoded_filename)
                         );
                   }else{
                     $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.');
@@ -2270,7 +2270,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
-        if(file_exists('uploads/'.$decoded_filename)){
+        if(file_exists(UPLOAD_DIR.$decoded_filename)){
           if($this->uploaded_document_model->check_document_of_cooperative($decoded_branch_id,$decoded_id,7,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->branches_model->check_own_branch($decoded_branch_id,$user_id)){
@@ -2280,7 +2280,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                       ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                       ->set_content_type('application/pdf','utf-8')
                       ->set_output(
-                        file_get_contents('uploads/'.$decoded_filename)
+                        file_get_contents(UPLOAD_DIR.$decoded_filename)
                       );
  
                 
@@ -2298,7 +2298,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                         ->set_content_type('application/pdf','utf-8')
                         ->set_output(
-                          file_get_contents('uploads/'.$decoded_filename)
+                          file_get_contents(UPLOAD_DIR.$decoded_filename)
                         );
                     
                   }else{
@@ -2569,7 +2569,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
 
           if(!$this->branches_model->check_submitted_for_evaluation($decoded_branch_id)){
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = UPLOAD_DIR;
             $config['file_name'] = $decoded_uid.'_'.$decoded_id.'_business_plan.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
@@ -2670,7 +2670,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
 
           if(!$this->branches_model->check_submitted_for_evaluation($decoded_branch_id)){
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = UPLOAD_DIR;
             $config['file_name'] = $decoded_uid.'_'.$decoded_id.'_GA_Resolution.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
@@ -2771,7 +2771,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
 
           if(!$this->branches_model->check_submitted_for_evaluation($decoded_branch_id)){
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = UPLOAD_DIR;
             $config['file_name'] = $decoded_uid.'_'.$decoded_id.'_certification.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
@@ -2822,7 +2822,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
 
           if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = UPLOAD_DIR;
             $config['file_name'] = $decoded_uid.'_'.$decoded_id.'_surety_bond.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
@@ -2872,7 +2872,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
           
           if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){  
-            $config['upload_path'] = './uploads/';
+            $config['upload_path'] = UPLOAD_DIR;
             $config['file_name'] = $decoded_uid.'_'.$decoded_id.'_pre_registration.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
