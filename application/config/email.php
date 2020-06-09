@@ -11,8 +11,8 @@
 
 $config = Array(
     'protocol' => 'smtp',
-    'smtp_host' => 'ssl://smtp.googlemail.com',
-    'smtp_port' => 465,
+    'smtp_host' => 'tls://smtp.gmail.com',
+    'smtp_port' => 587,
     'smtp_user' => 'cooperative.testing01@gmail.com',
     'smtp_pass' => 'kamote]]',
     'mailtype'  => 'html',
