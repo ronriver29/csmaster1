@@ -1,6 +1,6 @@
 <?php
-$config['protocol'] = 'smtp';
-$config['smtp_host'] = 'ssl://smtp.gmail.com';
+$config['protocol'] = 'ssmtp';
+$config['smtp_host'] = 'ssl://ssmtp.googlemail.com';
 $config['smtp_port'] = '465';
 $config['smtp_user'] = 'cooperative.testing01@gmail.com';
 $config['smtp_pass'] = 'kamote]]';  //sender's password

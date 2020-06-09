@@ -70,7 +70,7 @@ class registration extends CI_Controller{
         $params['level'] = 'H';
         $params['size'] = 2;
 
-        $params['savename'] = FCPATH . $qr_code_config['imagedir'] . $image_name;
+        $params['savename'] = $qr_code_config['imagedir'] . $image_name;
         $this->ci_qr_code->generate($params);
 
         $this->data['qr_code_image_url'] = base_url() . $qr_code_config['imagedir'] . $image_name;
@@ -83,8 +83,9 @@ class registration extends CI_Controller{
       $data1['coop_info']=$coop_details;
       $data1['director']=$this->registration_model->get_director($user_id)->full_name;
           set_time_limit(0);
-          $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);
-//          $html2 = $this->load->view('cooperative/cor_view', $data1);
+          
+         $html2 = $this->load->view('cooperative/cor_view', $data1);
+         $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);
            $J = new pdf();       
            $J->set_option('isRemoteEnabled',TRUE);
            $J->setPaper('folio', 'portrait');

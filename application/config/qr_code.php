@@ -17,7 +17,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 $config['cacheable'] 	= TRUE; //boolean, the default is true
 $config['cachedir'] 	= 'assets/qr_code/tmp/cache/'; //string, the default is tmp/cache/
-$config['imagedir'] 	= 'assets/qr_code/tmp/qr_codes_images/'; //string, the default is tmp/qr_codes/
+$config['imagedir'] 	= QRCODE_DIR ; //string, the default is tmp/qr_codes/
 $config['errorlog'] 	= 'assets/qr_code/tmp/logs/'; //string, the default is tmp/logs/
 $config['ciqrcodelib'] 	= 'application/third_party/qrcode/'; //string, the default is application/third_party/qr_code/
 $config['quality'] 		= TRUE; //boolean, the default is true
