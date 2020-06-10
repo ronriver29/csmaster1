@@ -54,7 +54,7 @@ class registration extends CI_Controller{
         $this->ci_qr_code->initialize($qr_code_config);
 
         // get full name and user details
-        $image_name = $coop_details->regNo . ".png";
+        $image_name = $coop_details->regNo.".png";
 
         // create user content
         $codeContents = "Cooperative Name:";

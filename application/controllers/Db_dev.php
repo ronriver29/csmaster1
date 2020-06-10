@@ -110,7 +110,7 @@ class Db_dev extends CI_Controller{
       } 
     }
   }
-  public function select_2($table)
+  public function select_2($table,$limit)
   {
     if(!$this->session->userdata('logged_in'))
     {
@@ -120,7 +120,7 @@ class Db_dev extends CI_Controller{
     {
       if($this->uri->segment(2)=='select2')
       {
-        $qry = $this->db->query("select * from ".$table);
+        $qry = $this->db->query("select * from ".$table." limit ".$limit);
         foreach($qry->result_array() as $row)
         {
           $data[] = $row;
