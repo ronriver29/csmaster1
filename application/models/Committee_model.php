@@ -336,12 +336,14 @@ class Committee_model extends CI_Model{
   }
   
   public function get_all_committees_of_coop_gad($coop_id){
-    $this->db->select('committees.id as comid, committees.* ,cooperators.*,count(committees.id) AS count');
-    $this->db->from('committees');
-    $this->db->join('cooperators', 'cooperators.id = committees.cooperators_id', 'inner');
-    $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id', 'inner');
-    $this->db->where('committees.name = "Gender and Development" AND cooperatives.id = ',$coop_id);
-    $query = $this->db->get();
+    // $this->db->select('committees.id as comid, committees.* ,cooperators.*,count(committees.id) AS count');
+    // $this->db->from('committees');
+    // $this->db->join('cooperators', 'cooperators.id = committees.cooperators_id', 'inner');
+    // $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id', 'inner');
+    // $this->db->where('committees.name = "Gender and Development" AND cooperatives.id = ',$coop_id);
+
+   $query = $this->db->query("select committees.id as comid, committees.* ,cooperators.*,count(committees.id) AS count from committees inner join cooperators on cooperators.id=committees.cooperators_id inner join cooperatives on cooperatives.id = cooperators.cooperatives_id where committees.name ='Gender and Development' and cooperatives.id='$coop_id' group by committees.id");
+    // $query = $this->db->get();
     $data =  $query->result_array();
     return $data;
   }

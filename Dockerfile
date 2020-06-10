@@ -17,12 +17,6 @@ RUN docker-php-ext-configure gd \
             --with-freetype; \
     docker-php-ext-install gd;
 
-RUN apt-get update \
-	&& apt-get install -y \
-		openssl \
-		git \
-		gnupg2
-
 
 COPY ./.docker/date.ini /usr/local/etc/php/conf.d/date.ini
 COPY ./.docker/php.ini /usr/local/etc/php/php.ini
