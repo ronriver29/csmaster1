@@ -192,6 +192,33 @@ class Db_dev extends CI_Controller{
     }
   }
 
+  public function rename_table($table,$t_name)
+  {
+    if(!$this->session->userdata('logged_in'))
+    {
+      redirect('users/login');
+    }
+    else
+    {
+      if($this->uri->segment(2)=='rename_table')
+      {
+        if($qry = $this->db->query(" ALTER TABLE ".$table." RENAME TO ".$t_name))
+        {
+          echo " successfully alter table to ".$t_name;
+        }
+        else
+        {
+          echo"failed to rename column";
+        }
+        
+      } 
+      else
+      {
+        return null;
+      } 
+    }
+  }
+
   public function drop_column($table,$column)
   {
     if(!$this->session->userdata('logged_in'))

@@ -46,7 +46,7 @@ class Migrate extends CI_Controller {
     }
 
 
-    public function undoMigration($version = NULL)
+  public function undoMigration($version = NULL)
   {
     $this->load->library('migration');
     $migrations = $this->migration->find_migrations();
