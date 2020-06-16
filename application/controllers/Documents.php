@@ -279,9 +279,9 @@ function view_document_one_branch($id = null,$filename = null,$doc_type=null){
     }else{
       $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $decoded_filename =  $this->encryption->decrypt(decrypt_custom($filename));
-      echo"<br />".$decoded_id;
-       echo"<br />".$decoded_filename;
-        echo"<br />".$doc_type;
+      // echo"<br />".$decoded_id;
+      //  echo"<br />".$decoded_filename;
+      //   echo"<br />".$doc_type;
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
@@ -304,6 +304,7 @@ function view_document_one_branch($id = null,$filename = null,$doc_type=null){
 //                }else{
 //                  if($this->branches_model->check_submitted_for_evaluation($decoded_id)){
 //                    $data['coop_info'] = $this->branches_model->get_cooperative_info_by_admin($decoded_id);
+                
                         $this->output
                             ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
                             ->set_content_type('application/pdf','utf-8')
