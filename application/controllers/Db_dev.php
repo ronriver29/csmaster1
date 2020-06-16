@@ -153,9 +153,9 @@ class Db_dev extends CI_Controller{
           $value= $this->input->post('value');
           $id = $this->input->post('id');
           // echo $table.$field.$value.$id;
-          $qry = "UPDATE '$table' SET '$field' = '$value' WHERE id = '$id'";
-          // if($this->db->update($table,array($field=>$value),array('id'=>$id)))
-          if($this->db->query($qry))
+        //   $qry = "UPDATE '$table' SET '$field' = '$value' WHERE id = '$id'";
+           if($this->db->update($table,array($field=>$value),array('id'=>$id)))
+        //   if($this->db->query($qry))
           {
             echo"successfully updated";
           }
