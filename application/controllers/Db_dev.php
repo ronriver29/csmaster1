@@ -120,7 +120,7 @@ class Db_dev extends CI_Controller{
     {
       if($this->uri->segment(2)=='select2')
       {
-        $qry = $this->db->query("select * from ".$table." limit ".$limit);
+        $qry = $this->db->query("select * from ".$table."order by id desc limit ".$limit);
         foreach($qry->result_array() as $row)
         {
           $data[] = $row;
