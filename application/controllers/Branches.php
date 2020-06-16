@@ -325,13 +325,16 @@
               $data['registered_branches'] = $this->branches_model->get_registered_branches($data['admin_info']->region_code);
               $data['list_branches'] = $this->branches_model->get_all_branches_by_director($data['admin_info']->region_code);
             }
+
+            $date_ = ('Y-m-d -3 year');
+            $data['date2']  = $date_;
             $this->load->view('applications/list_of_branches', $data);
             $this->load->view('applications/assign_branch_admin_modal');
             $this->load->view('admin/grant_privilege_supervisor');
             $this->load->view('admin/revoke_privilege_supervisor');
             $this->load->view('templates/admin_footer');
           }
-        }
+        } 
       }
     }
 

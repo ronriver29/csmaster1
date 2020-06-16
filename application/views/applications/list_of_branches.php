@@ -6,9 +6,8 @@
   </div>
 </div> -->
 <?php 
-$plus = date('Y-m-d',strtotime($date2));
+$plus = date('Y-m-d',strtotime($date2)); 
 $tomorrow = date('Y-m-d',strtotime($plus . "+3 year"));
-
 $now = date('Y-m-d');
 
 if($tomorrow>=$now){
