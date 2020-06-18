@@ -23,6 +23,8 @@
   </div>
 </div>
 <?php endif;  ?>
+
+
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">
@@ -105,7 +107,7 @@
             </div>
               <?php
               if($branch_info->status == 17){
-                  $disabledtype = 'disabled';
+                  $disabledtype = 'readonly';
               } else {
                   $disabledtype = '';
               }
@@ -114,10 +116,27 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Type</label>
-                    <select class="custom-select validate[required]" name="typeOfbranchsatellite" id="typeOfbranchsatellite" <?=$disabledtype?>>
-                    <option value="">--</option>
-                    <option value="Branch" <?php if($branch_info->type =="Branch") echo "selected"; ?>>Branch</option>
-                    <option value="Satellite" <?php if($branch_info->type =="Satellite") echo "selected"; ?>>Satellite</option>
+                    <select class="custom-select validate[required]" name="typeOfbranchsatellite" id="typeOfbranchsatellite" >
+                    <?php   
+                    if($branch_info->status == 17)
+                    {
+                      ?>
+                      
+                      <?php if($branch_info->type =="Branch"){?> 
+                      <option value="Branch" selected <?=$disabledtype?>>Branch</option>
+                      <?php } ?>
+
+                      <?php if($branch_info->type =="Satellite"){?>
+                      <option value="Satellite" selected <?=$disabledtype?> >Satellite</option>
+                     <?php }?>
+
+                   
+                    <?php }else{?>
+                          <option value="">--</option>
+                          <option value="Branch" <?=($branch_info->type =="Branch" ? "selected" :"")?> <?=$disabledtype?>>Branch</option>
+                          <option value="Satellite" <?php ($branch_info->type =="Satellite" ? "selected" :"") ?> <?=$disabledtype?>>Satellite</option>
+                    <?php } //end if == 17?>
+
                   </select>
                 </div>
               </div>

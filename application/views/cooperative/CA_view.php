@@ -9,8 +9,8 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-  <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css">
-  <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
+  <link rel="stylesheet" href="<?=APPPATH?>../assets/css/bootstrap.min.css">
+  <link rel="icon" href="<?=APPPATH?>../assets/img/cda.png" type="image/png">
    <style>
   @page{margin: 60px 40px 30px 40px;}
   /*.page_break { page-break-before: always; }*/
@@ -23,7 +23,7 @@
 	<table width=100%>
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
-			<td width="15%"><img src="<?=base_url();?>/assets/img/cda.png" width="100" height="100" ></td>
+			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
 			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
@@ -48,7 +48,7 @@ if ($branch_info->type=="Branch"){
 
 ?>
 <br/><br/>
-<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda3.png); background-repeat: no-repeat; background-position: center;">
+<table width=100% style="background-image: url(<?=APPPATH?>../assets/img/cda3.png); background-repeat: no-repeat; background-position: center;">
 	<tr>
 		<td style="text-align: right; font-size: 12pt"><b><?= $certLabel?> of Authority No: <?= $branch_info->certNo ?></b></td>
 	</tr>
@@ -140,7 +140,7 @@ if ($branch_info->type=="Branch"){
 <table width="100%" style="margin-top:<?=($branch_info->type=="Branch" ? '20px' :'0px')?>;">
 	<tr>
 		<td style="text-align:right;padding-right:45px;">
-			<img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?=$branch_info->certNo?>.png" width="100" height="100" style="float-right;"/>
+			<img src="<?=QRCODE_DIR.$branch_info->certNo?>.png" width="100" height="100" style="float-right;"/>
 		</td>
 	</tr>
 </table>
@@ -152,7 +152,7 @@ if ($branch_info->type=="Branch"){
 	<table width=100%>
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
-			<td width="15%"><img src="<?=base_url();?>/assets/img/cda.png" width="100" height="100" ></td>
+			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
 			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
@@ -261,7 +261,7 @@ if ($branch_info->type=="Branch"){
 <table width="100%" style="margin-top:<?=($branch_info->type=="Branch" ? '10px':'-10px')?>;">
 	<tr>
 		<td style="text-align:right;padding-right:45px;">
-			<img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?=$branch_info->certNo?>.png" width="100" height="100" style="float-right;"/>
+			<img src="<?=QRCODE_DIR.$branch_info->certNo?>.png" width="100" height="100" style="float-right;"/>
 		</td>
 	</tr>
 </table>
@@ -274,7 +274,7 @@ if ($branch_info->type=="Branch"){
 	<table width=100%>
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
-			<td width="15%"><img src="<?=base_url();?>/assets/img/cda.png" width="100" height="100" ></td>
+			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
 			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
@@ -381,7 +381,7 @@ if ($branch_info->type=="Branch"){
 <table width="100%" style="margin-top:<?=$branch_info->type=="Branch" ? '10px':'-10px'?>;">
 	<tr>
 		<td style="text-align:right;padding-right:45px;">
-			<img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?=$branch_info->certNo?>.png" width="100" height="100" style="float-right;"/>
+			<img src="<?=QRCODE_DIR.$branch_info->certNo?>.png" width="100" height="100" style="float-right;"/>
 		</td>
 	</tr>
 </table>

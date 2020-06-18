@@ -856,7 +856,15 @@ public function deny_by_admin($admin_info,$branch_id,$reason_commment,$step){
 }
 
 public function defer_by_admin($admin_info,$branch_id,$reason_commment,$step){
-  
+  $this->db->select('branches.coopName, branches.branchName, users.*');
+      $this->db->from('branches');
+      $this->db->join('users' , 'users.id = branches.user_id','inner');
+      $this->db->where('branches.id', $branch_id);
+      $query = $this->db->get();
+      $client_info = $query->row();
+      // return $this->db->last_query();
+      $client_info->fullname = $client_info->first_name.' '.$client_info->last_name;
+      // return  $client_info;
   $this->db->trans_begin();
   $this->db->where('id',$branch_id);
   if ($step==1)
@@ -875,12 +883,6 @@ public function defer_by_admin($admin_info,$branch_id,$reason_commment,$step){
     return false;
   }else{
     if ($step==5){
-      $this->db->select('branches.coopName, branches.branchName, users.*');
-      $this->db->from('branches');
-      $this->db->join('users' , 'users.id = branches.user_id','inner');
-      $this->db->where('branches.id', $branch_id);
-      $query = $this->db->get();
-      $client_info = $query->row();
       if($this->admin_model->sendEmailToClientDefer($client_info->fullname,$client_info->coopName.'-'.$client_info->branchName,$client_info->email,$reason_commment)){
         $this->db->trans_commit();
         return true;

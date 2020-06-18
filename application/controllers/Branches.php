@@ -87,9 +87,10 @@
                       'house_blk_no' => $this->input->post('blkNo')
                     );
                     if($this->branches_model->update_not_expired_branches($user_id,$decoded_id,$field_data)){
-                      echo '<script>alert("Successfully updated basic information");';
-                      echo "window.location.href = '" . $this->input->post('branchID') . "';</script>";
-//                      redirect('branches/'.$this->input->post('branchID'));
+                      // echo '<script>alert("Successfully updated basic information");';
+                      // echo "window.location.href = '" . $this->input->post('branchID') . "';</script>";
+                      $this->session->set_flashdata('branches_success', 'Successfully updated Branch/Satellite basic information.');
+                     redirect('branches/'.$this->input->post('branchID'));
                     }else{
                       $this->session->set_flashdata('branches_success', 'Unable to update Branch/Satellite basic information.');
                       redirect('branches/'.$this->input->post('branchID'));

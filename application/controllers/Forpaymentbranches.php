@@ -22,8 +22,9 @@ class Forpaymentbranches extends CI_Controller{
                      ->get();
     $ret = $query_payment->row();
     $email = $ret->email;
-    $name = $ret->proposed_name;
-    
+    // $name = $ret->proposed_name;
+    $name = $ret->coopName;
+      // echo '<pre>';print_r($ret); echo'</pre>';
     $from = "coopris.test@gmail.com";    //senders email address
     $subject =$name.' Evaluation Result';  //email subject
     $burl = base_url();
@@ -51,20 +52,20 @@ class Forpaymentbranches extends CI_Controller{
 
 
 
-    $this->email->from($from,'CoopRIS Administrator');
-    $this->email->to($email);
-    $this->email->subject($subject);
-    $this->email->message($message);
-    if($this->email->send()){
-        redirect('branches/'.$id);
-    }else{
-        return false;
-    }
+      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->to($email);
+      $this->email->subject($subject);
+      $this->email->message($message);
+      if($this->email->send()){
+          redirect('branches/'.$id);
+      }else{
+          return false;
+      }
         
-        redirect('branches/'.$id);
+        // redirect('branches/'.$id);
     } else {
         $this->session->set_flashdata('cooperative_error', 'Successfully updated basic information.');
-       redirect('branches/'.$this->input->post('cooperativeID'));
+       // redirect('branches/'.$this->input->post('cooperativeID'));
     }
   }
 }

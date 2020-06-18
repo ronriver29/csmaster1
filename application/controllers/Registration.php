@@ -140,7 +140,7 @@ class registration extends CI_Controller{
 
           // get full name and user details
           
-          $image_name = $branch_details->certNo . ".png";
+          $image_name = $branch_details->certNo.".png";
 
           // create user content
           $codeContents = "Name:";
@@ -156,10 +156,10 @@ class registration extends CI_Controller{
           $params['level'] = 'H';
           $params['size'] = 2;
 
-          $params['savename'] = FCPATH . $qr_code_config['imagedir'] . $image_name;
+          $params['savename'] =$qr_code_config['imagedir'] . $image_name;// FCPATH . $qr_code_config['imagedir'] . $image_name;
           $this->ci_qr_code->generate($params);
 
-          $this->data['qr_code_image_url'] = base_url() . $qr_code_config['imagedir'] . $image_name;
+          $this->data['qr_code_image_url'] =$qr_code_config['imagedir'] . $image_name;
 
           // save image path in tree table
           $this->registration_model->save_branch_qr_code($branch_details->certNo, $image_name);

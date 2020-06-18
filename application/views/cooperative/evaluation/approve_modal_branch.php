@@ -21,7 +21,7 @@
                         <label for="comment">Additional Comment:</label>
                         <textarea class="form-control " style="resize: none;" id="comment" name="comment_by_specialist_senior" placeholder=""rows="8"></textarea>
                     <?php } ?>
-              </div>
+              </div> 
               <!-- <div class="alert alert-info" role="alert">
                 Branch Name:<br>
                 <strong class="Branch-name-text">test</strong> <strong>Branch</strong>

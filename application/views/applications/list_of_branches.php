@@ -1,10 +1,12 @@
-<!-- <div class="row">
+<?php if($this->session->flashdata('branches_success')): ?>
+<div class="row">
   <div class="col-sm-12 col-md-12">
-    <div class="alert alert-primary" role="alert">
-      WELCOME!!!
+    <div class="alert alert-success text-center" role="alert">
+     <?php echo $this->session->flashdata('branches_success'); ?>
     </div>
   </div>
-</div> -->
+</div>
+<?php endif; ?>
 <?php 
 $plus = date('Y-m-d',strtotime($date2)); 
 $tomorrow = date('Y-m-d',strtotime($plus . "+3 year"));
