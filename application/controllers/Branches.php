@@ -734,7 +734,9 @@
                                         'user_level' => $data['admin_info']->access_level
                                     );
                                   $success = $this->branches_model->insert_comment_history($data_field);
-                                    $success = $this->branches_model->approve_by_admin($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior);
+                                   $coop_full_name = $this->input->post('bName',TRUE);
+                                   $reason_commment ='';
+                                    $success = $this->branches_model->approve_by_admin2($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior, $coop_full_name);
                                     if($success){
                                       $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been approved.');
                                       redirect('branches');
@@ -784,7 +786,10 @@
                                         'user_level' => $data['admin_info']->access_level
                                     );
                                   $success = $this->branches_model->insert_comment_history($data_field);
-                                  $success = $this->branches_model->approve_by_admin($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior);
+                                  // $success = $this->branches_model->approve_by_admin($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior);
+                                  $coop_full_name = $this->input->post('bName',TRUE);
+                                  $reason_commment='';
+                                    $success = $this->branches_model->approve_by_admin2($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior,$coop_full_name);
                                   if($success){
                                     $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been submitted.');
                                     redirect('branches');
@@ -824,8 +829,12 @@
                                         'user_id' => $user_id,
                                         'user_level' => $data['admin_info']->access_level
                                     );
-                                  $success = $this->branches_model->insert_comment_history($data_field);
-                                $success = $this->branches_model->approve_by_admin($admin_info,$decoded_id,$reason_commment,3,$comment_by_specialist_senior);
+                                // $this->debug($data_field);
+                             $coop_full_name = $this->input->post('bName',TRUE);
+                        
+                                $success = $this->branches_model->insert_comment_history($data_field);
+                                $reason_commment='';
+                                $success = $this->branches_model->approve_by_admin2($admin_info,$decoded_id,$reason_commment,3,$comment_by_specialist_senior,$coop_full_name);
                                 if($success){
                                   $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been submitted.');
                                   redirect('branches');
@@ -1379,6 +1388,13 @@
           }
         }
       }
+    }
+
+    public function debug($array)
+    {
+        echo"<pre>";
+        print_r($array);
+        echo"</pre>";
     }
   }
 

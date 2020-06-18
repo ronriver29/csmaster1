@@ -692,6 +692,130 @@ public function approve_by_admin($admin_info,$branch_id,$reason_commment,$step,$
   }
 }
 
+public function approve_by_admin2($admin_info,$branch_id,$reason_commment,$step,$comment_by_specialist_senior,$coop_full_name){
+  $this->db->trans_begin();
+  $this->db->where('id',$branch_id);
+  $now = date('Y-m-d H:i:s');
+  if ($step==1)
+    $this->db->update('branches',array('evaluator1'=>$admin_info->id,'status'=>5,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
+  else if($step==2)
+    $this->db->update('branches',array('evaluator2'=>$admin_info->id,'status'=>8,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
+  else if($step==3)
+    $this->db->update('branches',array('evaluator3'=>$admin_info->id,'status'=>12,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'comment_by_specialist'=>$comment_by_specialist_senior,'date_approved_cds'=>$now));
+  else if($step==4)
+    $this->db->update('branches',array('evaluator4'=>$admin_info->id,'status'=>15,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'comment_by_senior'=>$comment_by_specialist_senior,'date_approved_senior'=>$now));
+  else if($step==6)
+    $this->db->update('branches',array('evaluator2'=>$admin_info->id,'status'=>8,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>NULL,'date_approved_director'=>$now,'temp_evaluation_comment'=>NULL, 'comment_by_director_level1'=>$comment_by_specialist_senior));
+  else if($step==7)
+    $this->db->update('branches',array('evaluator1'=>$admin_info->id,'status'=>23,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'comment_by_senior_level1'=>$comment_by_specialist_senior,'date_approved_director'=>$now));
+  else 
+    $this->db->update('branches',array('evaluator5'=>$admin_info->id,'status'=>18,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'date_approved_director'=>$now));
+  if($this->db->trans_status() === FALSE){
+    $this->db->trans_rollback();
+    return false;
+  }else{
+    if($step==1){
+      $director_emails = $this->admin_model->get_emails_of_director_by_region($admin_info->region_code);
+      if($this->admin_model->sendEmailToAdmins($admin_info,$director_emails,$coop_full_name)){
+        $this->db->trans_commit();
+        return true;
+      }else{
+        $this->db->trans_rollback();
+        return false;
+      }
+    } 
+    elseif($step==2){
+      $branch=$this->get_branch_info_by_admin($branch_id);
+      $senior_emails = $this->admin_model->get_emails_of_senior_by_region($branch->rCode);
+      if($this->admin_model->sendEmailToAdmins($admin_info,$senior_emails,$coop_full_name)){
+        $this->db->trans_commit();
+        return true;
+      }else{
+        $this->db->trans_rollback();
+        return false;
+      }
+    }
+    elseif($step==3){
+      $senior_emails = $this->admin_model->get_emails_of_senior_by_region($admin_info->region_code);
+      if($this->admin_model->sendEmailToAdmins($admin_info,$senior_emails,$coop_full_name)){
+        $this->db->trans_commit();
+        return true;
+      }else{
+        $this->db->trans_rollback();
+        return false;
+      }
+    }
+    elseif($step==4){
+      $director_emails = $this->admin_model->get_emails_of_director_by_region($admin_info->region_code);
+      if($this->admin_model->sendEmailToAdmins($admin_info,$director_emails,$coop_full_name)){
+        $this->db->trans_commit();
+        return true;
+      }else{
+        $this->db->trans_rollback();
+        return false;
+      }
+    }
+    elseif ($step==5){
+      $this->db->select('branches.type,branches.coopName, branches.branchName, users.*');
+      $this->db->from('branches');
+      $this->db->join('users' , 'users.id = branches.user_id','inner');
+      $this->db->where('branches.id', $branch_id);
+      $query = $this->db->get();
+      $client_info = $query->row();
+      if($client_info->type == 'Branch'){
+        if($this->admin_model->sendEmailToClientApproveBranch($client_info->coopName.'-'.$client_info->branchName,$client_info->email)){
+          $this->db->trans_commit();
+          return true;
+        }else{
+          $this->db->trans_rollback();
+          return false;
+        }
+      } else {
+        if($this->admin_model->sendEmailToClientApproveSatellite($client_info->coopName.'-'.$client_info->branchName,$client_info->email)){
+          $this->db->trans_commit();
+          return true;
+        }else{
+          $this->db->trans_rollback();
+          return false;
+        }
+      }
+    }
+    elseif ($step==6){
+      $this->db->select('branches.coopName, branches.branchName, users.*');
+      $this->db->from('branches');
+      $this->db->join('users' , 'users.id = branches.user_id','inner');
+      $this->db->where('branches.id', $branch_id);
+      $query = $this->db->get();
+      $client_info = $query->row();
+      if($this->admin_model->sendEmailToClientApprove($client_info->coopName.'-'.$client_info->branchName,$client_info->email)){
+        $this->db->trans_commit();
+        return true;
+      }else{
+        $this->db->trans_rollback();
+        return false;
+      }
+    }elseif ($step==7){
+      $this->db->select('branches.coopName, branches.branchName, users.*');
+      $this->db->from('branches');
+      $this->db->join('users' , 'users.id = branches.user_id','inner');
+      $this->db->where('branches.id', $branch_id);
+      $query = $this->db->get();
+      $client_info = $query->row();
+      if($this->admin_model->sendEmailToClientApprove($client_info->coopName.'-'.$client_info->branchName,$client_info->email)){
+        $this->db->trans_commit();
+        return true;
+      }else{
+        $this->db->trans_rollback();
+        return false;
+      }
+    }else{
+      $this->db->trans_rollback();
+      return false;
+    }
+  }
+}
+
+
 public function deny_by_admin($admin_info,$branch_id,$reason_commment,$step){
   $this->db->trans_begin();
   $this->db->where('id',$branch_id);

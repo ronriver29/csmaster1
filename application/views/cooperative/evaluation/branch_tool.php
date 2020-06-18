@@ -43,6 +43,7 @@
                       }
                     } 
               ?>
+              <? if(empty($rem[0])){$rem[0]='';}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[0]" value="<?=$rem[0]?>"></td>
             </tr>
             <tr>
@@ -63,6 +64,7 @@
                       }
                     } 
               ?>
+              <? if(empty($rem[1])){$rem[1]='';}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[1]" value="<?=$rem[1]?>"></td>
             </tr>
             <tr>
@@ -83,6 +85,7 @@
                       }
                     } 
               ?>
+              <? if(empty($rem[2])){$rem[2]='';}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[2]" value="<?=$rem[2]?>"></td>
             </tr>
             <tr>
@@ -100,6 +103,7 @@
                       }
                     } 
               ?>
+              <? if(empty($rem[3])){$rem[3]='';}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[3]" value="<?=$rem[3]?>"></td>
             </tr>
             <tr>
@@ -117,6 +121,7 @@
                       }
                     } 
               ?>
+              <? if(empty($rem[4])){$rem[4]='';}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[4]" value="<?=$rem[4]?>"></td>
             </tr>
             <tr>
@@ -137,6 +142,7 @@
                       }
                     } 
               ?>
+              <? if(empty($rem[5])){$rem[5]='';}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[5]" value="<?=$rem[5]?>"></td>
             </tr>
             
@@ -155,6 +161,7 @@
                       }
                     } 
               ?>
+              <? if(empty($rem[6])){$rem[6]='';}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[6]" value="<?=$rem[6]?>"></td>
             </tr>
           </table>
