@@ -190,7 +190,7 @@
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                   <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
-                  <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn"><i class="fas fa-plus"></i> Add Additional Name of Institutionsssssss</button>
+                  <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn"><i class="fas fa-plus"></i> Add Additional Name of Institution</button>
                   <button type="button" class="btn btn-success btn-sm float-right" id="addMoreAssocBtn"><i class="fas fa-plus"></i> Add Additional Name of Associational</button>
                 </div>
               </div>
