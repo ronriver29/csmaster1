@@ -382,6 +382,7 @@ $route['branches/(:any)/api/barangays'] = 'api/barangays/index';
 $route['amendment/application'] = 'amendment/application';
 $route['migrate']='migrate/index';
 $route['db_dev/select/(:any)']='db_dev/select_/$1';
+$route['db_dev/drop_datas/(:any)/(:any)']='db_dev/drop_data/$1/$2';
 $route['db_dev/php_info']='db_dev/php_info';
 $route['db_dev/show_tables']='db_dev/show_tables_';
 $route['db_dev/drop_table/(:any)']='db_dev/drop_table_/$1';
