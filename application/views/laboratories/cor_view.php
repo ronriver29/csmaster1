@@ -8,9 +8,9 @@
     <!--[if lt IE 9]> 
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-  <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css">
-  <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
-  <link rel="icon" href="<?=base_url();?>assets/img/chairman.png" type="image/png">
+  <link rel="stylesheet" href="<?=APPPATH;?>../assets/css/bootstrap.min.css">
+  <link rel="icon" href="<?=APPPATH?>../assets/img/cda.png" type="image/png">
+  <link rel="icon" href="<?=APPPATH?>../assets/img/chairman.png" type="image/png">
   <style>
     @page{margin: 60px 40px 30px 40px;}
   .page_break { page-break-before: always; }
@@ -23,7 +23,7 @@
 	<table width=100%>
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
-			<td width="15%"><img src="<?=base_url();?>/assets/img/cda.png" width="100" height="100" ></td>
+			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
 			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
@@ -127,7 +127,13 @@
 
 		<td rowspan="2">		
 		</td>
-		<td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td>
+		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
+		<td style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png">
+			<div class="text" style="margin-top:-92px;">
+				<p><?= $chair ?></p>
+				<p style="margin-top:-20px;">Chairman</p></div>
+		</td>
 	</tr>
 
     <tr>
@@ -138,14 +144,14 @@
 	
 </table>
 
-<table width="100%" style="margin-top:60px;">
+<table width="100%" style="margin-top:30px;">
 
 	<tr>
 		<td width="60%" colspan="2" style="padding-top:70px;"><i style="font-size: 10px">This Certificate does not bestow upon Laboratory Cooperative a juridical personality</i>
 		</td>
 		<td   style="text-align:right;padding-right: 50px;">
 
-			<img src="<?=base_url();?>assets/qr_code/tmp/qr_codes_images/<?= $coop_info->qr_code ?>" width="100" height="100" />
+			<img src="<?=QRCODE_DIR?><?= $coop_info->qr_code ?>" width="100" height="100" />
 	</td>
 	</tr>
 
@@ -160,7 +166,7 @@
 	<table width=100%>
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
-			<td width="15%"><img src="<?=base_url();?>/assets/img/cda.png" width="100" height="100" ></td>
+			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
 			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
@@ -255,24 +261,31 @@
 
 		<td rowspan="2">	
 		</td>
-		<td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td>
+		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
+
+		<td style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png">
+			<div class="text" style="margin-top:-92px;">
+				<p><?= $chair ?></p>
+				<p style="margin-top:-20px;">Chairman</p></div>
+		</td>
 	</tr>
 
-    <tr>
+    <!-- <tr>
         	
 		<td colspan="2"><i style="color:white;">....</i></td>
-	</tr>
+	</tr> -->
 
 	
 </table>
 
-<table width="100%" style="margin-top:60px;">
+<table width="100%" style="margin-top:30px;">
 
 	<tr>
 		<td width="60%" colspan="2" style="padding-top:70px;"><i style="font-size: 10px">This Certificate does not bestow upon Laboratory Cooperative a juridical personality</i>
 		</td>
 		<td   style="text-align:right;padding-right: 50px;">
-			<img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->qr_code ?>" width="100" height="100" />
+			<img src="<?=QRCODE_DIR?><?= $coop_info->qr_code ?>" width="100" height="100" />
 	</td>
 	</tr>
 
@@ -288,14 +301,14 @@
 	<table width=100%>
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
-			<td width="15%"><img src="<?=base_url();?>/assets/img/cda.png" width="100" height="100" ></td>
+			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
 			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
 	</table>
 <?php // if($coop_info->noStreet==null && $coop_info->Street==null) $x=''; else $x=', ';?>
 <br/><br/>
-<table  width="100%" height="100%" style="margin-top:-30px;background-image: url(<?=base_url();?>/assets/img/cda3.png); background-repeat: no-repeat; background-position: center;">
+<table  width="100%" height="100%" style="margin-top:-30px;background-image: url(<?=APPPATH?>../assets/img/cda3.png); background-repeat: no-repeat; background-position: center;">
 	<tr>
 
 	<td colspan="2" style="text-align: right; font-size: 12pt;"><b>Certification of Recognition No: <?=$coop_info->certNo?></b></td>
@@ -383,24 +396,33 @@
 
 		<td rowspan="2">	
 		</td>
-		<td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td>
+		
+
+		<td style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png">
+			<div class="text" style="margin-top:-92px;">
+				<p><?= $chair ?></p>
+				<p style="margin-top:-20px;">Chairman</p></div>
+		</td>
+
+		
 	</tr>
 
-    <tr>
+    <!-- <tr>
         	
 		<td colspan="2"><i style="color:white;">....</i></td>
-	</tr>
+	</tr> -->
 
 	
 </table>
 
-<table width="100%" style="margin-top:60px;">
+<table width="100%" style="margin-top:30px;">
 
 	<tr>
 		<td width="60%" colspan="2" style="padding-top:70px;"><i style="font-size: 10px">This Certificate does not bestow upon Laboratory Cooperative a juridical personality</i>
 		</td>
 		<td   style="text-align:right;padding-right: 50px;">
-			<img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->qr_code ?>" width="100" height="100" />
+			<img src="<?=QRCODE_DIR?><?= $coop_info->qr_code ?>" width="100" height="100" />
 	</td>
 	</tr>
 

@@ -318,7 +318,8 @@
  // echo"<pre>";print_r($coop_type);echo"<pre>";
  // echo $this->encryption->decrypt(decrypt_custom($cid));
 $count=0;
-
+  if($coop_type!=NULL)
+  {  
     foreach ($coop_type as $coop) : 
 ?>
     <?php $count++;?>
@@ -385,7 +386,7 @@ $count=0;
     </div>
 
     <?php endforeach; ?>
-
+ <?php } //end if null?>   
    <!-- end modify -->
 
    <div class="col-sm-12 col-md-4" style="margin-top:20px;">

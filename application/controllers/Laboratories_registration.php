@@ -1,4 +1,4 @@
- <?php
+<?php
 use Dompdf\Options;
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -87,9 +87,9 @@ class Laboratories_registration extends CI_Controller{
          $params['level'] = 'H';
          $params['size'] = 2;
 
-         $params['savename'] = FCPATH . $qr_code_config['imagedir'] . $image_name;
+         $params['savename'] =  $qr_code_config['imagedir'] . $image_name;
          $this->ci_qr_code->generate($params);
-         $this->data['qr_code_image_url'] = base_url() . $qr_code_config['imagedir'] . $image_name;
+         $this->data['qr_code_image_url'] = $qr_code_config['imagedir'] . $image_name;
           $this->save_Qrcode_laboratory($decoded_id,$image_name);
       } //qrcode null   
 

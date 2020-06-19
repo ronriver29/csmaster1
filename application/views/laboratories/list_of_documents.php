@@ -552,8 +552,10 @@
  // echo"<pre>";print_r($coop_type);echo"<pre>";
  // echo $this->encryption->decrypt(decrypt_custom($encrypted_cid));
 $count=0;
-
+  if($coop_type!=NULL)
+  {
     foreach ($coop_type as $coop) : 
+  
 ?>
   <!--   <?php $count++;?> -->
     <div class="col-sm-12 col-md-4" style="margin-top:10px;">
@@ -583,37 +585,6 @@ $count=0;
                             }
                           ?> 
 
-                   <!--  <?php if($count==1){?>
-                        <?php if(isset($document_others)) : ?>
-                        <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_cid?>/<?=$coop['id']?>">
-
-                        <?php if($is_client) : ?>
-                          This is your <?=$coop['coop_title']?> document.
-                        <?php else : ?>
-                          This is the <?=$coop['coop_title']?> document.
-                        <?php endif;?>
-                        </a>
-                        <?php endif ?>
-                        <?php if(!isset($document_others)) : ?>
-                            <?=$coop['coop_desc']?>
-                        <?php endif ?>
-                        <br>
-                    <?php } else {?>
-                        <?php if(isset($document_others2)) : ?>
-                        <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_cid?>/<?=$coop['id']?>">
-
-                        <?php if($is_client) : ?>
-                          This is your <?=$coop['coop_title']?> document.
-                        <?php else : ?>
-                          This is the <?=$coop['coop_title']?> document.
-                        <?php endif;?>
-                        </a>
-                        <?php endif ?>
-                        <?php if(!isset($document_others2)) : ?>
-                            <?=$coop['coop_desc']?>
-                        <?php endif ?>
-                        <br>
-                    <?php } ?> -->
                 </p>
                 <?php if($is_client && $coop_info->status<=1 || $coop_info->status==11): ?>
                     <a href="<?php echo base_url();?>cooperatives/<?=$encrypted_cid?>/documents/upload_document_others/<?=encrypt_custom($this->encryption->encrypt($coop['id']))?>" class="btn btn-primary">Upload</a>
@@ -623,7 +594,7 @@ $count=0;
     </div>
 
     <?php endforeach; ?>
-
+<?php } //end if not null ?>
    <!-- end modify -->
 
    <div class="col-sm-12 col-md-4" style="margin-top:20px;">

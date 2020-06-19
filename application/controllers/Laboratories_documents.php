@@ -168,13 +168,24 @@ class Laboratories_documents extends CI_Controller{
                                   // $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($cooperativeType);
 
                                    $cooperative_doc_ = $this->cooperatives_model->get_type_of_coop($cooperativeType);
-                                   foreach($cooperative_doc_ as $doctypes)
-                                   {
-                                    $doctypes['link'] = $this->count_documents_others2($Cooperative_id,$doctypes['document_num']);
-                                    $data_docs[]= $doctypes;
-                                   }
-                                   // $this->debug($data_docs);
-                                   $data['coop_type']=$data_docs;
+                                  if(count($cooperative_doc_)>0)
+                                  {
+                                      foreach($cooperative_doc_ as $doctypes)
+                                     {
+                                      $doctypes['link'] = $this->count_documents_others2($Cooperative_id,$doctypes['document_num']);
+                                      $data_docs[]= $doctypes;
+                                     }
+                                     // $this->debug($data_docs);
+                                     $data['coop_type']=$data_docs;
+                                  }
+                                  else
+                                  {
+                                      $data['coop_type'] = NULL;
+                                  } 
+                                   
+
+         
+
          
                                   $data['Manual_of_board'] = $this->docUpload($cooperativeID,$decoded_id,25);
                                  $data['Board_of_resolution'] = $this->docUpload($cooperativeID ,$decoded_id,26);
@@ -536,7 +547,7 @@ class Laboratories_documents extends CI_Controller{
               if($this->cooperatives_model->check_submitted_for_evaluation($coop_dtl->cooperative_id)){
                 $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($coop_dtl->cooperative_id);
 
-                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($coop_dtl->cooperative_id) : true;
                 if($data['bylaw_complete']){
                     // $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
                      $data['cooperator_complete'] = $this->cooperator_model->is_cooperator_lab_complete($decoded_id);
@@ -604,7 +615,6 @@ class Laboratories_documents extends CI_Controller{
                   redirect('laboratories/'.$id);
                 }
               }else{
-              
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.sssss');
                 redirect('laboratories');
               }
@@ -1282,8 +1292,8 @@ class Laboratories_documents extends CI_Controller{
     }else{
       $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $decoded_filename =  $this->encryption->decrypt(decrypt_custom($filename));
-      echo $decoded_id.' '.$decoded_filename.' '.$doc_type;
-      $this->load->view('template_pdf/whole_template_pdf',$data);
+
+      // $this->load->view('template_pdf/whole_template_pdf',$data);
       $this->output
       ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
       ->set_header('Content-Disposition: inline; filename="'.$decoded_filename.'"') //modify

@@ -377,13 +377,21 @@
         }
      
          $cooperative_doc_ = $this->cooperatives_model->get_type_of_coop($cooperativeType);
-         foreach($cooperative_doc_ as $doctypes)
+         if(count( $cooperative_doc_)>0)
          {
-         	$doctypes['link'] = $this->count_documents_others_laboratory($Cooperative_id,$doctypes['document_num']);
-         	$data_docs[]= $doctypes;
-         }
+            foreach($cooperative_doc_ as $doctypes)
+             {
+              $doctypes['link'] = $this->count_documents_others_laboratory($Cooperative_id,$doctypes['document_num']);
+              $data_docs[]= $doctypes;
+             }
 
-         $data['coop_type']=$data_docs;
+             $data['coop_type']=$data_docs;
+         }
+         else
+         {
+            $data['coop_type'] = NULL;
+         }
+         
          //                        $data['ching'] = array_column($data['coop_type'], 'id');
          //                        $data['ching2'] = implode(',',$data['ching']);
          //                         $data['ching3'] = count($data['coop_type']);
