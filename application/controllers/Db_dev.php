@@ -113,6 +113,32 @@ class Db_dev extends CI_Controller{
     }
 
   }
+  public function delete_data($table,$id)
+  {
+    if(!$this->session->userdata('logged_in'))
+    {
+      redirect('users/login');
+    }
+    else
+    {
+      if($this->uri->segment(2)=='delete_data')
+      {
+        if($this->db->query("delete from ".$table." where id =".$id))
+        {
+          echo $table." data successfully removed";
+        }
+        else
+        {
+          echo"failed to delete data in ".$table;
+        }
+      } 
+      else
+      {
+        return null;
+      } 
+    }
+
+  }
 
 
   public function select_($table)

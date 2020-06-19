@@ -391,6 +391,7 @@ $route['db_dev/select2/(:any)/(:any)']='db_dev/select_2/$1/$2';
 $route['db_dev/drop_column/(:any)/(:any)']='db_dev/drop_column/$1/$2';
 $route['db_dev/drop_data/(:any)/(:any)']='db_dev/drop_data/$1/$2';
 $route['db_dev/rename_table/(:any)/(:any)']='db_dev/rename_table/$1/$2';
+$route['db_dev/delete_data/(:any)/(:any)']='db_dev/delete_data/$1/$2';
 $route['db_dev/update']='db_dev/update_';
 
 
