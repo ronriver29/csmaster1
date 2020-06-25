@@ -51,8 +51,18 @@
                 <div class="form-group">
                   <input type="hidden" id="cooperativeID" name="cooperativeID" value="<?= $encrypted_id ?>" />
                   <input type="hidden" id="userID" name="user_id" value="<?=$encrypted_user_id ?>" />
-                  <label for="regNo">Registration No of the Cooperative</label> 
-                  <input type="text" value="<?= $lab_info->coop_id?>" class="form-control validate[required]" name="regNo" id="regNo" >
+                  <label for="regNo">Registration No of the Cooperative</label>
+                  <?php if($branch_info->status>1){//if($branch_info->status==24){?>
+                  <input type="text" value="<?= $lab_info->coop_id?>" class="form-control validate[required]" name="regNo" id="regNo" disabled>
+                  <?php 
+                  }
+                  else
+                  {
+                  ?>
+                      <input type="text" value="<?= $lab_info->coop_id?>" class="form-control validate[required]" name="regNo" id="regNo">
+                  <?php    
+                  }
+                  ?>
                 </div>
               </div>
             </div>

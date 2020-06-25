@@ -18,11 +18,21 @@
               </div>
               <div class="form-group">
          
-                 
-                <label for="comment">State the reason/s:</label>
+              <?php if($senior_comment!=NULL){ ?>
+                <label for="comment">State the reason/s: </label>
             
-                <textarea class="form-control validate[required]" style="resize: none;align-content: left;" id="comment" name="comment" rows="8"><?php foreach($senior_comment as $srn_comment){echo $srn_comment['comment'].PHP_EOL;}?> 
-                </textarea>
+                <textarea class="form-control validate[required]" style="resize: none;align-content: left;" id="comment" name="comment" rows="8"><?php foreach($senior_comment as $srn_comment){echo $srn_comment['comment'].PHP_EOL;}?></textarea>
+              <?php 
+              }
+              else
+              {
+              ?>
+                <label for="comment">State the reason/s: </label>
+    
+                <textarea class="form-control validate[required]" style="resize: none;align-content: left;" id="comment" name="comment" rows="8"></textarea>
+              <?php  
+              }
+              ?>
             
               </div>
             </div>

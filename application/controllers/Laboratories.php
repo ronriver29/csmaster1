@@ -630,11 +630,22 @@
   }
   public function get_latest_comment($lab_id,$access_level,$laboratory_status)
   {
-    $qry =  $this->db->query("select * from laboratory_comment where laboratory_id='$lab_id' and user_access_level='$access_level' and laboratory_status='$laboratory_status' order by id desc limit 1");
+    // $qry =  $this->db->query("select * from laboratory_comment where laboratory_id='$lab_id' and user_access_level='$access_level' and laboratory_status='$laboratory_status' order by id desc limit 1");
+     $qry =  $this->db->query("select * from laboratory_comment where laboratory_id='$lab_id' and user_access_level='$access_level' and laboratory_status='$laboratory_status' order by id desc");
+
     if($qry->num_rows()>0)
     {
-      return $qry->row();
+      // return $qry->row();
+      foreach($qry->result_array() as $row)
+      {
+        $data[] = $row;
+      }
+
+    }else
+    {
+      $data=NULL;
     }
+    return $data;
   }
 
 

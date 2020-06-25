@@ -8,15 +8,7 @@
 </div>
 <?php endif; ?>
 
-<!-- <?php if($this->session->flashdata('defer_msg')): ?>
-<div class="row">
-  <div class="col-sm-12 col-md-12">
-    <div class="alert alert-<?=$this->session->flashdata('status_msg')?> text-center" role="alert">
-      <?php echo $this->session->flashdata('defer_msg'); ?>
-    </div>
-  </div>
-</div>
-<?php endif; ?> -->
+
 
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
@@ -173,11 +165,11 @@
 
   <div class="row mt-3 col-md-12" > 
     <div class="col-sm-12 col-md-12">
-      <div class="alert alert-danger" role="alert">
-         <p class="font-weight-bold">Laboratory has been deferred.</p>
+     <!--  <div class="alert alert-danger" role="alert">
+         <p class="font-weight-bold">Laboratory has been deferred.</p> -->
        <!--  <p class="font-weight-bold">Director Comment:</p>
         <pre><?php echo $comment_list_defer_director->comment; ?></pre> -->
-      </div>
+    <!--   </div> -->
     </div>
   </div>
 <?php } ?>

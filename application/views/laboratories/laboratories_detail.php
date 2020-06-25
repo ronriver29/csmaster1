@@ -2,6 +2,42 @@
   <div class="col-sm-12 col-md-2">
     <a class="btn btn-secondary btn-sm btn-block"  href="<?php echo base_url();?>laboratories" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
   </div>
+  <div class="col-sm-12 col-md-2">
+      <?php if($branch_info->status==24):  ?> <!-- modify by json -->
+
+
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Director Findings</button>
+
+        <div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    The cooperative has been deferred because of the following reason/s:
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                </div>
+                <?php if($comment_list_defer_director!=NULL) { ?>
+                <div class="modal-body" style="table-layout: fixed;">
+                    <pre><?php 
+        //            print_r($cooperatives_comments);
+                    foreach($comment_list_defer_director as $cc) :
+                        echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                        echo '<ul type="square">';
+                            echo '<li>'.$cc['comment'].'</li>';
+                        echo '</ul>';
+                    endforeach;
+                ?></pre>
+                </div>
+              <?php } //end not null ?>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!--            <button type="button" class="btn btn-primary">Save changes</button>-->
+                </div>
+            </div>
+          </div>
+        </div>
+      <?php endif; ?>
+  </div>
 </div>
 <?php if($this->session->flashdata('redirect_message')): ?>
 <div class="row">
@@ -40,6 +76,7 @@
   </div>
 <?php endif; ?>-->
 
+
 <?php if($branch_info->status==25): //old 16 ?> <!-- modified by json -->
 
   <div class="row mt-3">
@@ -52,17 +89,7 @@
   </div>
 <?php endif; ?>
 
-<?php if($branch_info->status==24):  ?> <!-- modify by json -->
 
-  <div class="row mt-3">
-    <div class="col-sm-12 col-md-12">
-      <div class="alert alert-danger" role="alert">
-        <p class="font-weight-bold">The Laboratory has been deferred because of the following reason/s:</p>
-        <p><pre><?php echo $comment_list_defer_director->comment; ?></pre></p>
-      </div>
-    </div>
-  </div>
-<?php endif; ?>
 
 <?php if(!$is_client):?>
 <?php if($branch_info->status==12):  ?> <!-- modify by json -->
