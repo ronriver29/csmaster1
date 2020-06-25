@@ -110,7 +110,13 @@
 	<tr>
 		<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 		</td>
-		<td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td>
+		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
+		<td style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png">
+			<div class="text" style="margin-top:-92px;">
+				<p><?= $chair ?></p>
+				<p style="margin-top:-20px;">Chairman</p></div>
+		</td>
 	</tr>
 	
 	
@@ -215,7 +221,12 @@
 	<tr>
 		<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 		</td>
-		<td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td>
+		<td style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png">
+			<div class="text" style="margin-top:-92px;">
+				<p><?= $chair ?></p>
+				<p style="margin-top:-20px;">Chairman</p></div>
+		</td>
 	</tr>
 	
 	
@@ -322,7 +333,12 @@
 	<tr>
 		<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 		</td>
-		<td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td>
+		<td style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png">
+			<div class="text" style="margin-top:-92px;">
+				<p><?= $chair ?></p>
+				<p style="margin-top:-20px;">Chairman</p></div>
+		</td>
 	</tr>
 	
 	

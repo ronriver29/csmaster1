@@ -272,6 +272,7 @@
               $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
               $data['affiliator_complete'] = $this->affiliators_model->is_requirements_complete($user_id);
               $data['affiliates_complete'] = $this->unioncoop_model->is_requirements_complete($user_id);
+              
               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
               $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);

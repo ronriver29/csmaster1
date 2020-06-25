@@ -173,4 +173,5 @@ $autoload['model'] = array(
   'email_model',
   'affiliators_model',
   'amendment_capitalization_model',
+  'unioncoop_model',
 );
