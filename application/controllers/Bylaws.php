@@ -84,8 +84,8 @@ class Bylaws extends CI_Controller{
                   $data['encrypted_id'] = $id;
                   $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
                   $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                  $data['reg_qualifications'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->regular_qualifications);
-                  $data['asc_qualifications'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->associate_qualifications);
+                  $data['reg_qualifications'] = explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->regular_qualifications);
+                  $data['asc_qualifications'] = explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->associate_qualifications);
                   $this->load->view('template/header', $data);
                   $this->load->view('cooperative/bylaw_info/bylaw_union_form.php', $data);
                   $this->load->view('template/footer');
@@ -125,9 +125,9 @@ class Bylaws extends CI_Controller{
                       $regQualificationsLength = sizeof($this->input->post('additionaldelegatePowers'));
                       $additionaldelegatePowers = '';
                       for($i = 0; $i< $regQualificationsLength;$i++){
-                        $additionaldelegatePowers .=  $this->input->post('additionalRequirementsForMembership')[$i].';';
+                        $additionaldelegatePowers .=  $this->input->post('additionaldelegatePowers')[$i].';';
                         }
-                      $additionaldelegatePowers = substr_replace(additionaldelegatePowers, "", -1);
+                      $additionaldelegatePowers = substr_replace($additionaldelegatePowers, "", -1);
                     }
                     
                     if($this->input->post('primaryConsideration')){
@@ -136,37 +136,40 @@ class Bylaws extends CI_Controller{
                       for($i = 0; $i< $regQualificationsLength;$i++){
                         $primaryConsideration .=  $this->input->post('additionalRequirementsForMembership')[$i].';';
                         }
-                      $primaryConsideration = substr_replace(primaryConsideration, "", -1);
+                      $primaryConsideration = substr_replace($primaryConsideration, "", -1);
                     }
+                    
+                    $membershipFee=str_replace(',','',$this->input->post('membershipFee'));
                     
                     $data = array(
                       'kinds_of_members' => $this->input->post('kindsOfMember'),
-                      'additional_requirements_for_membership' => $additionalRequirementsForMembership,
-                      'regular_qualifications' => $regQualicationsTemp,
-                      'associate_qualifications' => $ascQualicationsTemp,
                       'membership_fee' =>$membershipFee,
                       'act_upon_membership_days'=> $this->input->post('actUponMembershipDays'),
-                      'regular_percentage_shares_subscription' => $this->input->post('regularMembershipPercentageSubscription'),
-                      'regular_percentage_shares_pay' => $this->input->post('regularMembershipPercentagePay'),
-                      'associate_percentage_shares_subscription'=> $this->input->post('associateMembershipPercentageSubscription'),
-                      'associate_percentage_shares_pay'=> $this->input->post('associateMembershipPercentagePay'),
-                      'additional_conditions_to_vote' => $this->input->post('additionalConditionsForVoting'),
-                      'annual_regular_meeting_day'=> $this->input->post('regularMeetingDay'),
+                      'members_percent_quorom'=> $this->input->post('quorumPercentage'),
+                      'director_hold_term'=> $this->input->post('termHoldDirector'),
+                      'directors_term'=> $this->input->post('directorsTerm'),
+                      'additional_requirements_for_membership' => $additionalRequirementsForMembership,
+//                      'regular_qualifications' => $regQualicationsTemp,
+//                      'associate_qualifications' => $ascQualicationsTemp,
+//                      'regular_percentage_shares_subscription' => $this->input->post('regularMembershipPercentageSubscription'),
+//                      'regular_percentage_shares_pay' => $this->input->post('regularMembershipPercentagePay'),
+//                      'associate_percentage_shares_subscription'=> $this->input->post('associateMembershipPercentageSubscription'),
+//                      'associate_percentage_shares_pay'=> $this->input->post('associateMembershipPercentagePay'),
+//                      'additional_conditions_to_vote' => $this->input->post('additionalConditionsForVoting'),
+//                      'annual_regular_meeting_day'=> $this->input->post('regularMeetingDay'),
                       'delegate_powers'=> $additionaldelegatePowers,
                       'primary_consideration'=> $primaryConsideration,
-                      'members_percent_quorom'=> $this->input->post('quorumPercentage'),
-                      'number_of_absences_disqualification'=> $this->input->post('consecutiveAbsences'),
-                      'percent_of_absences_all_meettings'=> $this->input->post('consecutivePercentageAbsences'),
-                      'director_hold_term'=> $this->input->post('termHoldDirector'),
-                      'member_invest_per_month'=> $investPerMonth,
-                      'member_percentage_annual_interest'=> $this->input->post('investAnnualInterest'),
-                      'member_percentage_service'=> $this->input->post('investService'),
-                      'percent_reserve_fund'=> $this->input->post('reserveFund'),
-                      'percent_education_fund'=> $this->input->post('educationFund'),
-                      'percent_community_fund'=> $this->input->post('communityFund'),
-                      'percent_optional_fund'=> $this->input->post('othersFund'),
-                      'non_member_patron_years'=> $this->input->post('nonMemberPatronYears'),
-                      'amendment_votes_members_with'=> $this->input->post('amendmentMembersWith'),
+//                      'number_of_absences_disqualification'=> $this->input->post('consecutiveAbsences'),
+//                      'percent_of_absences_all_meettings'=> $this->input->post('consecutivePercentageAbsences'),
+//                      'member_invest_per_month'=> $investPerMonth,
+//                      'member_percentage_annual_interest'=> $this->input->post('investAnnualInterest'),
+//                      'member_percentage_service'=> $this->input->post('investService'),
+//                      'percent_reserve_fund'=> $this->input->post('reserveFund'),
+//                      'percent_education_fund'=> $this->input->post('educationFund'),
+//                      'percent_community_fund'=> $this->input->post('communityFund'),
+//                      'percent_optional_fund'=> $this->input->post('othersFund'),
+//                      'non_member_patron_years'=> $this->input->post('nonMemberPatronYears'),
+//                      'amendment_votes_members_with'=> $this->input->post('amendmentMembersWith'),
                     );
                     if($this->bylaw_model->update_bylaw_primary($bylaw_coop_id,$data)){
                       $this->session->set_flashdata('bylaw_success', 'Successfully Updated');

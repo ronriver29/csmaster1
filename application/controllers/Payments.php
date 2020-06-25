@@ -28,11 +28,13 @@ class Payments extends CI_Controller{
               if($data['bylaw_complete']){
                 $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                 if($data['article_complete']){
-                  if($data['coop_info']->grouping == 'Federation'){
+                    if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
-                    } 
-                    else {
+                    } else if($data['coop_info']->grouping == 'Union'){
+                        $model = 'unioncoop_model';
+                        $ids = $user_id;
+                    } else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
@@ -40,8 +42,10 @@ class Payments extends CI_Controller{
                     $capitalization_info = $data['capitalization_info'];
                     $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                   if($data['cooperator_complete']){
-                    if($data['coop_info']->grouping == 'Federation'){
+                        if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
+                        } else if($data['coop_info']->grouping == 'Union'){
+                            $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                         }
@@ -195,11 +199,36 @@ class Payments extends CI_Controller{
      else if ($this->input->post('onlineBtn')){
       //change status GET YOUR CERTIFICATE
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
-      $this->Payment_model->pay_online($decoded_id);
-      $this->session->set_flashdata('redirect_applications_message', 'Thank you for paying online. You may now get your certificate.');
-     redirect('cooperatives');
-     }else{
-      $this->session->set_flashdata('redirect_applications_message', 'Error');
-     redirect('cooperatives');}
-  }
+      $user_id = $this->session->userdata('user_id');
+      
+      $data['encrypted_id'] = $decoded_id;
+      $data['is_client'] = $this->session->userdata('client');
+      $data['client_info'] = $this->user_model->get_user_info($user_id);
+      $data['title'] = 'Payment Details';
+      $data['header'] = 'Online Payment';
+  //     $this->Payment_model->pay_online($decoded_id);
+  //     $this->session->set_flashdata('redirect_applications_message', 'Thank you for paying online. You may now get your certificate.');
+  //    redirect('cooperatives');
+  //    }else{
+  //     $this->session->set_flashdata('redirect_applications_message', 'Error');
+  //    redirect('cooperatives');}
+
+  // Anjury Modification
+      $this->load->view('./template/header', $data);
+      $this->load->view('cooperative/payment_form_online', $data);
+      $this->load->view('./template/footer', $data);
+      }
+    }
+
+    public function ok(){
+
+      $data['sta']='ok';
+       $this->load->view('payment_form',$data);
+    }
+      
+    public function error(){
+
+      $data['sta']='error';
+       $this->load->view('payment_form',$data);
+    }
 }

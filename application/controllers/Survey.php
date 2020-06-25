@@ -32,8 +32,10 @@ class Survey extends CI_Controller{
                 if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
-                    } 
-                    else {
+                    } else if($data['coop_info']->grouping == 'Union'){
+                        $model = 'unioncoop_model';
+                        $ids = $user_id;
+                    } else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
@@ -47,6 +49,8 @@ class Survey extends CI_Controller{
                     if($data['article_complete']){
                         if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
+                        } else if($data['coop_info']->grouping == 'Union'){
+                            $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                         }
@@ -189,6 +193,8 @@ class Survey extends CI_Controller{
                 }else{
                   if($data['coop_info']->grouping == 'Federation'){
                             $complete = 'Affiliators';
+                        } else if($data['coop_info']->grouping == 'Union'){
+                            $complete = 'Federations';
                         } else {
                             $complete = 'Cooperators';
                         }

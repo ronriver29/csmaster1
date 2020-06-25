@@ -27,8 +27,10 @@ class Committees extends CI_Controller{
                   if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
-                    } 
-                    else {
+                    } else if($data['coop_info']->grouping == 'Union'){
+                        $model = 'unioncoop_model';
+                        $ids = $user_id;
+                    } else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
@@ -47,6 +49,13 @@ class Committees extends CI_Controller{
                             $data['medcon_count'] = $this->committee_model->get_all_medcon_count_federation($user_id);
                             $data['ethics_count'] = $this->committee_model->get_all_ethics_count_federation($user_id);
                             $data['credit_count'] = $this->committee_model->get_all_credit_count_federation($user_id);
+                        } else if($data['coop_info']->grouping == 'Union'){
+                            $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
+                            $data['audit_count'] = $this->committee_model->get_all_audit_count_union($user_id);
+                            $data['election_count'] = $this->committee_model->get_all_election_count_union($user_id);
+                            $data['medcon_count'] = $this->committee_model->get_all_medcon_count_union($user_id);
+                            $data['ethics_count'] = $this->committee_model->get_all_ethics_count_union($user_id);
+                            $data['credit_count'] = $this->committee_model->get_all_credit_count_union($user_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                             $data['audit_count'] = $this->committee_model->get_all_audit_count($user_id);
@@ -63,7 +72,7 @@ class Committees extends CI_Controller{
                         $data['encrypted_id'] = $id;
                         $data['committees'] = $this->committee_model->get_all_committees_of_coop($decoded_id);
                         $data['committees_federation'] = $this->committee_model->get_all_committees_of_coop_federation($user_id);
-
+                        $data['committees_union'] = $this->committee_model->get_all_committees_of_coop_union($user_id);
                         $data['committees_count'] = $this->committee_model->get_all_committees_of_coop_gad($decoded_id); //not hear
                          
                         $this->load->view('./template/header', $data);
@@ -81,6 +90,8 @@ class Committees extends CI_Controller{
                   }else{
                     if($data['coop_info']->grouping == 'Federation'){
                             $complete = 'Affiliators';
+                        } else if($data['coop_info']->grouping == 'Union'){
+                            $complete = 'Federations';
                         } else {
                             $complete = 'Cooperators';
                         }
@@ -115,8 +126,10 @@ class Committees extends CI_Controller{
                     if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $data['coop_info']->users_id;
-                    } 
-                    else {
+                    } else if($data['coop_info']->grouping == 'Union'){
+                        $model = 'unioncoop_model';
+                        $ids = $data['coop_info']->users_id;
+                    } else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
@@ -135,6 +148,13 @@ class Committees extends CI_Controller{
                             $data['medcon_count'] = $this->committee_model->get_all_medcon_count_federation($data['coop_info']->users_id);
                             $data['ethics_count'] = $this->committee_model->get_all_ethics_count_federation($data['coop_info']->users_id);
                             $data['credit_count'] = $this->committee_model->get_all_credit_count_federation($data['coop_info']->users_id);
+                        } else if($data['coop_info']->grouping == 'Union'){
+                            $data['gad_count'] = $this->committee_model->get_all_gad_count_union($data['coop_info']->users_id);
+                            $data['audit_count'] = $this->committee_model->get_all_audit_count_union($data['coop_info']->users_id);
+                            $data['election_count'] = $this->committee_model->get_all_election_count_union($data['coop_info']->users_id);
+                            $data['medcon_count'] = $this->committee_model->get_all_medcon_count_union($data['coop_info']->users_id);
+                            $data['ethics_count'] = $this->committee_model->get_all_ethics_count_union($data['coop_info']->users_id);
+                            $data['credit_count'] = $this->committee_model->get_all_credit_count_union($data['coop_info']->users_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($data['coop_info']->users_id);
                             $data['audit_count'] = $this->committee_model->get_all_audit_count($data['coop_info']->users_id);
@@ -151,7 +171,7 @@ class Committees extends CI_Controller{
                           $data['encrypted_id'] = $id;
                           $data['committees'] = $this->committee_model->get_all_committees_of_coop($decoded_id);
                           $data['committees_federation'] = $this->committee_model->get_all_committees_of_coop_federation($data['coop_info']->users_id); 
-
+                          $data['committees_union'] = $this->committee_model->get_all_committees_of_coop_union($data['coop_info']->users_id);
                             $data['committees_count'] = $this->committee_model->get_all_committees_of_coop_gad($decoded_id); //modify
 
                           $this->load->view('./templates/admin_header', $data);
@@ -209,8 +229,10 @@ class Committees extends CI_Controller{
                   if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
-                    } 
-                    else {
+                    } else if($data['coop_info']->grouping == 'Union'){
+                        $model = 'unioncoop_model';
+                        $ids = $user_id;
+                    } else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
@@ -235,8 +257,14 @@ class Committees extends CI_Controller{
                             foreach($data['applied_coop'] as $applied_coop){
                                 $result_array[] = $applied_coop['application_id'];
                             }
+                            $data['applied_coop_union'] = $this->unioncoop_model->get_applied_coop_for_committees($user_id);
+                            foreach($data['applied_coop_union'] as $applied_coop_union){
+                                $result_array_union[] = $applied_coop_union['application_id'];
+                            }
                             if($data['coop_info']->grouping == 'Federation'){
                                 $data['cooperators_federation'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee_federation($result_array,$user_id);
+                            } else if($data['coop_info']->grouping == 'Union'){
+                                $data['cooperators_union'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee_federation($result_array_union,$user_id);
                             }
                             $this->load->view('./template/header', $data);
                             $this->load->view('committees/add_form_committee', $data);
@@ -259,6 +287,28 @@ class Committees extends CI_Controller{
                                     'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName')
                                     );
                                   $success = $this->committee_model->add_committee_federation($data);
+                                  if($success['success']){
+                                    $this->session->set_flashdata('committee_success', $success['message']);
+                                    redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
+                                  }else{
+                                    $this->session->set_flashdata('committee_error', $success['message']);
+                                    redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
+                                  }
+                                }
+                            } else if($data['coop_info']->grouping == 'Union'){
+                                if ($this->committee_model->isExistingFederation($decoded_id)){
+                                  $this->session->set_flashdata('committee_error', 'Cooperator already has committee');
+                                  redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
+                                }else if ($this->committee_model->isExisting2federation($committeeName,$user_id)){
+                                  $this->session->set_flashdata('committee_error', 'Committee already has 3 cooperators');
+                                  redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
+                                }else{
+                                  $data = array(
+                                    'user_id' => $user_id,
+                                    'cooperators_id' => $decoded_id,
+                                    'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName')
+                                    );
+                                  $success = $this->committee_model->add_committee_union($data);
                                   if($success['success']){
                                     $this->session->set_flashdata('committee_success', $success['message']);
                                     redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
@@ -420,8 +470,10 @@ class Committees extends CI_Controller{
                     if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
-                    } 
-                    else {
+                    } else if($data['coop_info']->grouping == 'Union'){
+                        $model = 'unioncoop_model';
+                        $ids = $user_id;
+                    } else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
@@ -438,8 +490,11 @@ class Committees extends CI_Controller{
                             $committee_edit = 'check_committee_in_cooperative_federation';
                             $committee_info = 'get_committee_federation_info';
                             $edit_committee_federation = 'edit_committee_federation';
-                        } 
-                        else {
+                        } else if($data['coop_info']->grouping == "Union"){
+                            $committee_edit = 'check_committee_in_cooperative_union';
+                            $committee_info = 'get_committee_union_info';
+                            $edit_committee_federation = 'edit_committee_union';
+                        } else {
                             $committee_edit = 'check_committee_in_cooperative';
                             $committee_info = 'get_committee_federation_info';
                             $edit_committee_federation = 'edit_committee';
@@ -453,7 +508,14 @@ class Committees extends CI_Controller{
                               $data['encrypted_id'] = $id;
                               $data['encrypted_committee_id'] = $committee_id;
                               $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                              $data['committee_info'] = $this->committee_model->get_committee_info($decoded_committee_id);
+                              if($data['coop_info']->grouping == "Federation"){
+                                  $data['committee_info'] = $this->committee_model->get_committee_federation_info($decoded_committee_id);
+                              } else if($data['coop_info']->grouping == "Union"){
+                                  $data['committee_info'] = $this->committee_model->get_committee_union_info($decoded_committee_id);
+                              } else {
+                                  $data['committee_info'] = $this->committee_model->get_committee_info($decoded_committee_id);
+                              }
+                              
                               $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($data['committee_info']->cooperators_id);
                               $data['custom_committees'] = $this->committee_model->get_all_custom_committee_names_of_coop($decoded_id);
                               $data['cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee($decoded_id,$user_id);

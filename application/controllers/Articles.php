@@ -24,7 +24,7 @@ class Articles extends CI_Controller{
               if($data['coop_info']->category_of_cooperative =="Primary"){
                 redirect('cooperatives/'.$id.'/articles_primary');
               }else if($data['coop_info']->category_of_cooperative =="Secondary" && $data['coop_info']->grouping =="Union"){
-                redirect('cooperatives/'.$id.'/articles_union');
+                redirect('cooperatives/'.$id.'/articles_primary');
               }else{
                 redirect('cooperatives/'.$id.'/articles_primary');
               }
@@ -46,7 +46,7 @@ class Articles extends CI_Controller{
               if($data['coop_info']->category_of_cooperative =="Primary"){
                 redirect('cooperatives/'.$id.'/articles_primary');
               }else if($data['coop_info']->category_of_cooperative =="Secondary" && $data['coop_info']->grouping =="Union"){
-                redirect('cooperatives/'.$id.'/articles_union');
+                redirect('cooperatives/'.$id.'/articles_primary');
               }else{
                 redirect('cooperatives/'.$id.'/articles_primary');
               }
@@ -80,8 +80,10 @@ class Articles extends CI_Controller{
                     if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
-                    } 
-                    else {
+                    } else if($data['coop_info']->grouping == 'Union'){
+                        $model = 'unioncoop_model';
+                        $ids = $user_id;
+                    } else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
@@ -140,6 +142,8 @@ class Articles extends CI_Controller{
                   }else{
                     if($data['coop_info']->grouping == 'Federation'){
                             $complete = 'Affiliators';
+                        } else if($data['coop_info']->grouping == 'Union'){
+                            $complete = 'Federations';
                         } else {
                             $complete = 'Cooperators';
                         }

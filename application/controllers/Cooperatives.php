@@ -48,10 +48,10 @@
                 }
               }
           }
-            $this->load->view('template/header', $data);
-            $this->load->view('applications/list_of_applications', $data);
-            $this->load->view('cooperative/delete_modal_cooperative');
-            $this->load->view('template/footer');
+          $this->load->view('template/header', $data);
+          $this->load->view('applications/list_of_applications', $data);
+          $this->load->view('cooperative/delete_modal_cooperative');
+          $this->load->view('template/footer');
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
@@ -194,14 +194,10 @@
               $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
               $count=0;
               $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
-              $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-              if($data['staff_complete'])
-              {
-
+              
                 foreach ($data['coop_type'] as $coop) : 
-                if(!empty($coop['document_num']))
-                {
-                   $count++;
+
+                    $count++;
                     if($count == 1){
                         $data['document_others1'] = $this->uploaded_document_model->get_document_others1_info($decoded_id,$coop['document_num']);
                     } else if($count == 2) {
@@ -209,24 +205,17 @@
                     } else {
                         $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
                         $data['document_others2'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
-                    } 
-                }
-                   
+                    }
                     
                 endforeach;
-
-              }
-
-                  
-              
-
-              
                 
               $data['bylawprimary'] = $data['coop_info']->category_of_cooperative=="Primary";
                 if($data['coop_info']->category_of_cooperative=="Primary"){
                     $bylawstf = $this->bylaw_model->check_bylaw_primary_complete($decoded_id);
-                } else if($data['coop_info']->category_of_cooperative=="Secondary" || $data['coop_info']->category_of_cooperative=="Tertiary"){
+                } else if($data['coop_info']->grouping=="Federation" && $data['coop_info']->category_of_cooperative=="Secondary" || $data['coop_info']->grouping=="Federation" && $data['coop_info']->category_of_cooperative=="Tertiary"){
                     $bylawstf = $this->bylaw_model->check_bylaw_primary_complete($decoded_id);
+                } else if($data['coop_info']->grouping=="Union" && $data['coop_info']->category_of_cooperative=="Secondary" || $data['coop_info']->grouping=="Union" && $data['coop_info']->category_of_cooperative=="Tertiary") {
+                    $bylawstf = $this->bylaw_model->check_bylaw_primary_complete_union($decoded_id);
                 } else {
                     $bylawstf = true;
                 }
@@ -264,12 +253,16 @@
               if($data['coop_info']->type_of_cooperative == 'Credit' || $data['coop_info']->type_of_cooperative == 'Agriculture'){
                     if($data['coop_info']->grouping == 'Federation'){
                         $data['committees_complete'] = $this->committee_model->get_all_required_count_credit_federation($user_id);
+                    } else if($data['coop_info']->grouping == 'Union'){
+                        $data['committees_complete'] = $this->committee_model->get_all_required_count_credit_union($user_id);
                     } else {
                         $data['committees_complete'] = $this->committee_model->get_all_required_count_credit($user_id);
                     }
               } else {
                     if($data['coop_info']->grouping == 'Federation'){
                         $data['committees_complete'] = $this->committee_model->get_all_required_count_federation($user_id);
+                    } else if($data['coop_info']->grouping == 'Union'){
+                        $data['committees_complete'] = $this->committee_model->get_all_required_count_union($user_id);
                     } else {
                         $data['committees_complete'] = $this->committee_model->get_all_required_count($user_id);
                     }
@@ -278,6 +271,7 @@
 //              $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
               $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
               $data['affiliator_complete'] = $this->affiliators_model->is_requirements_complete($user_id);
+              $data['affiliates_complete'] = $this->unioncoop_model->is_requirements_complete($user_id);
               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
               $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
@@ -335,6 +329,8 @@
                   } else {
                         if($data['coop_info']->grouping == 'Federation'){
                             $data['committees_complete'] = $this->committee_model->get_all_required_count_federation($data['coop_info']->users_id);
+                        } else if($data['coop_info']->grouping == 'Union'){
+                            $data['committees_complete'] = $this->committee_model->get_all_required_count_union($data['coop_info']->users_id);
                         } else {
                             $data['committees_complete'] = $this->committee_model->get_all_required_count($data['coop_info']->users_id);
                         }
@@ -342,6 +338,7 @@
                   $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
                   $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                   $data['affiliator_complete'] = $this->affiliators_model->is_requirements_complete($data['coop_info']->users_id);
+                  $data['affiliates_complete'] = $this->unioncoop_model->is_requirements_complete($data['coop_info']->users_id);
                   $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                   
                   $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
@@ -691,14 +688,16 @@
                 $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                 if($data['bylaw_complete']){
-                if($data['coop_info']->grouping == 'Federation'){
-                    $model = 'affiliators_model';
-                    $ids = $user_id;
-                } 
-                else {
-                    $model = 'cooperator_model';
-                    $ids = $decoded_id;
-                }
+                    if($data['coop_info']->grouping == 'Federation'){
+                        $model = 'affiliators_model';
+                        $ids = $user_id;
+                    } else if($data['coop_info']->grouping == 'Union'){
+                        $model = 'unioncoop_model';
+                        $ids = $user_id;
+                    } else {
+                        $model = 'cooperator_model';
+                        $ids = $decoded_id;
+                    }
                 $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
                   $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
@@ -709,6 +708,8 @@
                       if($data['article_complete']){
                         if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
+                        } else if($data['coop_info']->grouping == 'Union'){
+                            $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                         }
