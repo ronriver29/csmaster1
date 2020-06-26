@@ -406,13 +406,21 @@ class Laboratories_documents extends CI_Controller{
                                     $cooperativeType ="No Cooperative type found";
                                     }
                                       $cooperative_doc_ = $this->cooperatives_model->get_type_of_coop($cooperativeType);
-                                       foreach($cooperative_doc_ as $doctypes)
+                                      if(count($cooperative_doc_)>0)
+                                      {
+                                        foreach($cooperative_doc_ as $doctypes)
                                        {
                                         $doctypes['link'] = $this->count_documents_others2($Cooperative_id,$doctypes['document_num']);
                                         $data_docs[]= $doctypes;
                                        }
                                        // $this->debug($data_docs);
                                        $data['coop_type']=$data_docs;
+                                      }
+                                      else
+                                      {
+                                         $data['coop_type']=NULL;
+                                      }//endif count
+                                       
                                   
 
                                   $data['Manual_of_board'] = $this->docUpload($cooperativeID,$decoded_id,25);

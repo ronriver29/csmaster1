@@ -562,6 +562,8 @@
    <?php 
  // echo"<pre>";print_r($coop_type);echo"<pre>";
  // echo $this->encryption->decrypt(decrypt_custom($encrypted_cid));
+  if($coop_type!=NULL)
+  {
 $count=0;
 
     foreach ($coop_type as $coop) : 
@@ -605,7 +607,7 @@ $count=0;
 
     <?php endforeach; ?>
   <!-- end document per coop type -->
-
+<?php } //endif no null?>
     <div class="col-sm-12 col-md-4" style="margin-top:20px;">
       <div class="card">
         <div class="card-body">

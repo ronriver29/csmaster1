@@ -310,7 +310,7 @@ $(function(){
         regNo: regNo
       },
       success: function(data){
-
+       
         $('#branchAddForm #blkNo').val(data.noStreet);
         $('#branchAddForm #streetName').val(data.Street);
         $('#branchAddForm #coopName').val(data.coopName);
