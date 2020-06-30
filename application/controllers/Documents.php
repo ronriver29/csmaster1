@@ -52,6 +52,7 @@ class Documents extends CI_Controller{
                               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                               if($data['staff_complete']){
                                 $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
+                                
                                 // echo '<pre>';print_r(  $data['coop_type']);echo'</pre>';
                                 $data['ching'] = array_column($data['coop_type'], 'document_num');
                                 $data['ching2'] = implode(',',$data['ching']);
