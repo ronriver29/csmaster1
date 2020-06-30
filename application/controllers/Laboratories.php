@@ -37,7 +37,7 @@
               'lastUpdated'=> date('Y-m-d h:i:s',now('Asia/Manila')),
               'user_id'=>$user_id
         ); 
-      
+        // $this->debug($items);
           $update=$this->laboratories_model->update_laboratory($items,$decoded_id);
          
 
@@ -200,6 +200,7 @@
           $data['client_info'] = $this->user_model->get_user_info($user_id);
           $data['header'] = 'Laboratories';
           $data['list_laboratories'] = $this->laboratories_model->get_all_laboratories($this->session->userdata('user_id'));
+
           $data['coopreg_info'] = $this->laboratories_model->getCoopRegNo($user_id);
           if(empty($data['coopreg_info'])){
               $data['gc'] = '';
