@@ -462,7 +462,7 @@
                   "alertText": "* Don't include the type of your cooperative in the proposed name"
                 },
                 "validateCooperativeWordInName": {
-                  "alertText": "* Don't include the word cooperative, union, or federation"
+                  "alertText": "* Don't include the word cooperative, union, or federation and Cooperative Type"
                 },
                 "validateOthersInCommitteeName": {
                   "alertText": "* Please specify committee name. Dont use the word other/s"
