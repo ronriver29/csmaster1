@@ -326,6 +326,7 @@ class Bylaws extends CI_Controller{
                   $this->load->view('cooperative/bylaw_info/bylaw_federation_form.php', $data);
                   $this->load->view('template/footer');
                 }else{
+                   $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                   if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                     $bylaw_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('bylaw_coop_id')));
                     if($this->input->post('regularQualifications')){

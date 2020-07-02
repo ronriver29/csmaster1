@@ -63,12 +63,12 @@ class Affiliators extends CI_Controller{
                     $data['ten_percent'] = $this->cooperator_model->ten_percent($decoded_id);
                     $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
                     $data['applied_coop'] = $this->affiliators_model->get_applied_coop($user_id);
-                    $this->load->view('./template/header', $data);
-                    $this->load->view('federation/affiliators_list', $data);
-                    $this->load->view('federation/full_info_modal_registeredcoop');
-                    $this->load->view('federation/add_form_cooperator');
-                    $this->load->view('federation/delete_form_cooperator');
-                    $this->load->view('./template/footer');
+                    // $this->load->view('./template/header', $data);
+                    // $this->load->view('federation/affiliators_list', $data);
+                    // $this->load->view('federation/full_info_modal_registeredcoop');
+                    // $this->load->view('federation/add_form_cooperator');
+                    // $this->load->view('federation/delete_form_cooperator');
+                    // $this->load->view('./template/footer');
                 }else{
                   $this->session->set_flashdata('redirect_message', 'Please complete first your capitalization additional information.');
                   redirect('cooperatives/'.$id);
