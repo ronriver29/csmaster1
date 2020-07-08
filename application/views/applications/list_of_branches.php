@@ -467,8 +467,8 @@ if($tomorrow>=$now){
         dataType: "JSON",
         success: function(data)
         {
-          
-            var s=toWords(data.total);
+            
+            var s=toWords(parseInt(data.total));
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);

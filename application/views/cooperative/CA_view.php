@@ -122,14 +122,20 @@ if ($branch_info->type=="Branch"){
 	</tr>
 </table>
 
-<table width="100%">
+<table width="100%"> 
 	<tr>
 		<td><i style="color:white;">....</i></td>
-		<td width="55%"></td>
+		<td width="50%"></td>
 	</tr>
 	<tr>
-		<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?=$branch_info->certNo?>.png" width="100" height="100" > --></td>
-		<td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;	"><br><?= $chair ?><br>Chairman</td>
+		<td rowspan="2"></td>
+		<td style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png">
+			<div class="text" style="margin-top:-92px;">
+				<p><?= $chair ?></p>
+				<p style="margin-top:-20px;">Chairman</p></div>
+		</td>
+
 	</tr>
 	
 	<tr>
@@ -246,11 +252,16 @@ if ($branch_info->type=="Branch"){
 <table width="100%">
 	<tr>
 		<td><i style="color:white;">....</i></td>
-		<td width="55%"></td>
+		<td width="50%"></td>
 	</tr>
 	<tr>
-		<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?=$branch_info->certNo?>.png" width="100" height="100" > --></td>
-		<td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;	"><br><?= $chair ?><br>Chairman</td>
+		<td rowspan="2"></td>
+		<td style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png">
+			<div class="text" style="margin-top:-92px;">
+				<p><?= $chair ?></p>
+				<p style="margin-top:-20px;">Chairman</p></div>
+		</td>
 	</tr>
 	
 	<tr>
@@ -369,8 +380,13 @@ if ($branch_info->type=="Branch"){
 		<td width="55%"></td>
 	</tr>
 	<tr>
-		<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $branch_info->certNo ?>.png" width="100" height="100" > --></td>
-		<td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;	"><br><?= $chair ?><br>Chairman</td>
+		<td rowspan="2"></td>
+		<td style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png">
+			<div class="text" style="margin-top:-92px;">
+				<p><?= $chair ?></p>
+				<p style="margin-top:-20px;">Chairman</p></div>
+		</td>
 	</tr>
 	
 	<tr>
