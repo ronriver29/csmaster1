@@ -342,7 +342,7 @@
                   <td width="23%"></td>
                   <td class="pera" width="" id="particulars" style="font-weight: bold;text-align: center"></td>
                  <!--  <td class="pera" width="8%" valign="top">Php </td>
-                  <td  -->class="pera" align="right" width="13%" id="amount" style="font-weight: bold;"></td>
+                  <td  class="pera" align="right" width="13%" id="amount" style="font-weight: bold;"></td>-->
                 </tr>
                 <tr>
                   <td colspan="4"></td>
