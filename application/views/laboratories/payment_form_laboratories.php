@@ -83,7 +83,7 @@
             </tr>
 
             <tr>
-              <td class="bord" colspan="4">&nbsp</td>
+              <td class="bord" colspan="4" align="center"><!-- &nbsp  --><b>Processing Fee</b></td>
             </tr>
 
             <tr>
@@ -95,7 +95,7 @@
 
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=encrypt_custom($this->encryption->encrypt($branch_info->application_id)) ?>">
            <input type="hidden" class="form-control" id="branchID" name="branchID" value="<?=$encrypted_id ?>">
-           <input type="hidden" class="form-control" id="payor" name="payor" value="<?= ucwords($branch_info->laboratoryName.' - '.$branch_info->labName)?>">
+           <input type="hidden" class="form-control" id="payor" name="payor" value="<?=ucwords($branch_info->laboratoryName.'- '.$branch_info->labName)?>">
           <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
           <input type="hidden" class="form-control" id="nature" name="nature" value="Laboratory Registration">
           <input type="hidden" class="form-control" id="particulars" name="particulars" value="Processing Fee">
@@ -135,7 +135,7 @@
       </div><!-- end of rows -->
      
       <br><br>
-        <input style="width:18%;" class="btn btn-color-blue" type="submit" id="offlineBtn" name="offlineBtn" value="Pay at CDA Treasury">
+        <input style="width:18%;" class="btn btn-color-blue" type="submit" id="offlineBtn" name="offlineBtn" value="Pay at CDA Cashier">
         <input style="width:18%;" class="btn btn-color-blue" type="submit" id="onlineBtn" name="onlineBtn" value="Pay Online">
       
     </form>

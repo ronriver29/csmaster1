@@ -145,7 +145,7 @@ $route['laboratories/(:any)/laboratories_documents/view_document_one_lab3/(:any)
 $route['laboratories/(:any)/laboratories_documents/view_document_one_lab/(:any)/(:any)'] = 'laboratories_documents/view_document_one_lab/$1/$2/$3';//modify
 
 $route['laboratories/(:any)/laboratories_documents/document_view_review'] = 'laboratories_documents/document_view_review/$1';//modify
-$route['laboratories/(:any)/laboratories_documents/bylaws_primary'] = 'laboratories_documents/bylaws_primary/$1';//modify
+$route['laboratories/(:any)/laboratories_documents/bylaws_primary/(:any)'] = 'laboratories_documents/bylaws_primary/$1/$2';//modify
 $route['laboratories/(:any)/laboratories_documents/articles_cooperation_primary'] = 'laboratories_documents/articles_cooperation_primary/$1';//modify
 $route['laboratories/(:any)/laboratories_documents/affidavit_primary_lab'] = 'laboratories_documents/affidavit_primary_lab/$1';//modify
 $route['laboratories/(:any)/laboratories_documents/economic_survey_lab'] = 'laboratories_documents/economic_survey_lab/$1';//modify

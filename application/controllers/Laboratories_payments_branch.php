@@ -123,23 +123,25 @@ class Laboratories_payments_branch extends CI_Controller{
         'app_code_type' => $app_code_type,
         'status' => 0
       );
-
+        // $this->debug($data);
       if ($this->Payment_branch_model->check_payment_not_exist($data))
+      { 
         $this->Payment_branch_model->save_payment($data,$this->input->post('rCode'));
-      
-      //modify by json
-     $laboratory_id= $this->encryption->decrypt(decrypt_custom($this->input->post('branchID')));
-     $lab_data = array('status'=>20);
-     $this->db->update('laboratories',$lab_data,array('id'=>$laboratory_id));
+        // echo $this->db->last_query();
+      }
+        //modify by json
+       $laboratory_id= $this->encryption->decrypt(decrypt_custom($this->input->post('branchID')));
+       $lab_data = array('status'=>20);
+       $this->db->update('laboratories',$lab_data,array('id'=>$laboratory_id));
 
-      $user_id = $this->session->userdata('user_id');
-      $data1['payment'] = $this->Payment_branch_model->get_payment_info($data);
+        $user_id = $this->session->userdata('user_id');
+        $data1['payment'] = $this->Payment_branch_model->get_payment_info($data);
 
-      
+     
 
-      set_time_limit(0);
-
-         $this->load->view('cooperative/order_of_payment_branch', $data1);
+          set_time_limit(0);
+         // $this->debug($data1);
+         // $this->load->view('cooperative/order_of_payment_branch', $data1);
           $html2 = $this->load->view('cooperative/order_of_payment_branch', $data1, TRUE);
           $J = new pdf();
           $J->setPaper('folio', 'portrait');
@@ -147,8 +149,8 @@ class Laboratories_payments_branch extends CI_Controller{
           $J->render();
           $J->stream("Order_Of_Payment.pdf", array("Attachment"=>1));
 
-      $this->session->set_flashdata('redirect_applications_message', 'Payment request has been submitted');
-      redirect('laboratories');
+      // $this->session->set_flashdata('redirect_applications_message', 'Payment request has been submitted');
+      // redirect('laboratories');
     }
      else if ($this->input->post('onlineBtn')){
       //change status GET YOUR CERTIFICATE
@@ -161,5 +163,10 @@ class Laboratories_payments_branch extends CI_Controller{
      redirect('cooperatives');}
   }
 
-
+   public function debug($array)
+    {
+        echo"<pre>";
+        print_r($array);
+        echo"</pre>";
+    } 
 }

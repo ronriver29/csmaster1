@@ -900,7 +900,7 @@
      public function payment(){
       $labName = $this->encryption->decrypt(decrypt_custom($this->input->post('lab_name')));
       $coop_name = $this->encryption->decrypt(decrypt_custom($this->input->post('coop_name')));
-      $laboratory_name = $labName.' - '.$coop_name;
+      $laboratory_name = $labName.'- '.$coop_name;
       // $branch=str_replace('%20',' ',$coop);
       $data = $this->laboratories_model->get_payment_info($laboratory_name);
 

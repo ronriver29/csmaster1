@@ -340,9 +340,9 @@
                 </tr>
                 <tr>
                   <td width="23%"></td>
-                  <td class="pera" width="" id="particulars" style="font-weight: bold;"></td>
-                  <td class="pera" width="8%" valign="top">Php </td>
-                  <td class="pera" align="right" width="13%" id="amount" style="font-weight: bold;"></td>
+                  <td class="pera" width="" id="particulars" style="font-weight: bold;text-align: center"></td>
+                 <!--  <td class="pera" width="8%" valign="top">Php </td>
+                  <td  -->class="pera" align="right" width="13%" id="amount" style="font-weight: bold;"></td>
                 </tr>
                 <tr>
                   <td colspan="4"></td>
@@ -390,7 +390,7 @@
         success: function(data)
         {
           
-            var s=toWords(data.total);
+            var s=toWords(parseInt(data.total));
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);

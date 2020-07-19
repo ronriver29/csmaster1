@@ -315,7 +315,7 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
 
   public function get_payment_info($branch){
     $query = $this->db->query('select * from payment where payor="'.$branch.'"');
-
+    // return $this->db->last_query();
     return $query->row();
   }
   public function save_OR($where, $data, $id,$date_of_or){

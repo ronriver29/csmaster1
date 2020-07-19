@@ -461,12 +461,13 @@ class Laboratories_documents extends CI_Controller{
 
 
   //modify
-  function bylaws_primary($id = null){
+  function bylaws_primary($id = null,$lid = null){
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
       $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
-      $coop_dtl = $this->laboratories_model->get_coop_id($decoded_id);
+      $decoded_lid =$this->encryption->decrypt(decrypt_custom($lid));
+      $coop_dtl = $this->laboratories_model->get_coop_id($decoded_lid);
       $user_id = $this->session->userdata('user_id');
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
@@ -547,7 +548,7 @@ class Laboratories_documents extends CI_Controller{
             redirect('admins/login');
           }else{
             // if($this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
-            if($this->cooperatives_model->check_expired_reservation_by_admin_lab($decoded_id)){
+            if($this->cooperatives_model->check_expired_reservation_by_admin_lab($decoded_lid)){
               
               $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
               redirect('laboratories');
@@ -558,7 +559,7 @@ class Laboratories_documents extends CI_Controller{
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($coop_dtl->cooperative_id) : true;
                 if($data['bylaw_complete']){
                     // $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
-                     $data['cooperator_complete'] = $this->cooperator_model->is_cooperator_lab_complete($decoded_id);
+                     $data['cooperator_complete'] = $this->cooperator_model->is_cooperator_lab_complete($decoded_lid);
                      // echo $this->db->last_query();
                     if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($coop_dtl->cooperative_id);
@@ -614,7 +615,7 @@ class Laboratories_documents extends CI_Controller{
                       //   $this->session->set_flashdata('redirect_message', 'Please complete first the cooperative&apos;s purpose .');
                       //   redirect('cooperatives/'.$id);
                       // }
-                    }else{
+                    }else{ 
                       $this->session->set_flashdata('redirect_message', 'Please complete first the list of cooperator.');
                       redirect('laboratories/'.$id);
                     }
