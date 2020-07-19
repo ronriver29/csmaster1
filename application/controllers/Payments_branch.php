@@ -132,7 +132,7 @@ class Payments_branch extends CI_Controller{
 
       set_time_limit(0);
 
-         $this->load->view('cooperative/order_of_payment_branch', $data1);
+         // $this->load->view('cooperative/order_of_payment_branch', $data1);
           $html2 = $this->load->view('cooperative/order_of_payment_branch', $data1, TRUE);
           $J = new pdf();
           $J->setPaper('folio', 'portrait');
@@ -140,8 +140,8 @@ class Payments_branch extends CI_Controller{
           $J->render();
           $J->stream("Order_Of_Payment.pdf", array("Attachment"=>1));
 
-      $this->session->set_flashdata('redirect_applications_message', 'Payment request has been submitted');
-      redirect('branches');
+      // $this->session->set_flashdata('redirect_applications_message', 'Payment request has been submitted');
+      // redirect('branches');
     }
      else if ($this->input->post('onlineBtn')){
       //change status GET YOUR CERTIFICATE
