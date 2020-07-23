@@ -16,6 +16,15 @@ class Laboratories_documents extends CI_Controller{
       redirect('users/login');
     }else{
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+        $cquery = $this->db->query("select cooperative_id from laboratories where id =".$decoded_id);
+        if($cquery->num_rows()>0)
+        {
+          foreach($cquery->result() as $cros)
+          {
+            $coop_ids = $cros->cooperative_id;
+          }
+         
+        }
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
         if(is_numeric($decoded_id) && $decoded_id!=0){
@@ -201,6 +210,7 @@ class Laboratories_documents extends CI_Controller{
                                  // $this->laboratories_model->debug($data['director_comment']);
                                  //end director comment
                                 $data['encrypted_ids'] =$id;
+                                $data['encrypted_cid'] =encrypt_custom($this->encryption->encrypt($coop_ids ));
                                 //end addtional
                                   $data['user_info'] = $this->session->userdata();
                                     $this->load->view('templates/admin_header', $data);

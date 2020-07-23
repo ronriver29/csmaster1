@@ -56,12 +56,12 @@
     <tr>  
       <td class="pera" colspan="4" align="center"><b><?=$payment->particulars?></b></td>
     </tr>
-    <!-- <tr>
+    <tr>
       <td width="23%"></td>
       <td>  </td>
       <td class="pera" width="5%">Php </td>
       <td class="pera" align="right" width="13%"><b><?=$payment->amount?></b></td>
-    </tr> -->
+    </tr>
     <tr>
       <td colspan="4"><i style="color:white;">...</i></td>
     </tr>

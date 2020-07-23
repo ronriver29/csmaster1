@@ -78,19 +78,25 @@
               <td class="bord" colspan="3"><b><?=ucwords(num_format_custom(number_format($lab_fee)))?> Pesos</b></td>
             </tr>
 
-            <tr>
+             <tr>
               <td class="bord" align="center" colspan="4">Particulars</td>
             </tr>
-
             <tr>
-              <td class="bord" colspan="4" align="center"><!-- &nbsp  --><b>Processing Fee</b></td>
-            </tr>
-
-            <tr>
-              <td class="bord" colspan="2">Total </td>
+              <td width="23%"></td>
+              <td class="pera" ><b>Processing Fee</b></td>
               <td class="pera" width="5%">Php </td>
               <td class="pera" align="right" width="13%"><b><?=number_format($lab_fee,2)?></b></td>
             </tr>
+            <tr>
+              <td colspan="4">&nbsp</td>
+            </tr>
+            <tr>
+
+              <td class="bord" colspan="2">Total </td>
+              <td class="bord" width="5%" style="border-right:none;">Php </td>
+              <td class="bord" align="right" width="13%" style="border-left:none"><b><?=number_format($lab_fee,2)?></b></td>
+            </tr>
+
           </table>
 
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=encrypt_custom($this->encryption->encrypt($branch_info->application_id)) ?>">
