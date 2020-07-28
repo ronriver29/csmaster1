@@ -728,7 +728,8 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step){
       $this->db->where('cooperatives.id', $coop_id);
       $query = $this->db->get();
       $client_info = $query->row();
-      if($this->admin_model->sendEmailToClientDefer($client_info->fullname, $client_info->proposed_name.' '.$client_info->type_of_cooperative.' Cooperative '.$client_info->groping ,$client_info->email, $reason_commment)){
+      $full_name= $client_info->first_name.' '.$client_info->last_name; // modified by json
+      if($this->admin_model->sendEmailToClientDefer($full_name, $client_info->proposed_name.' '.$client_info->type_of_cooperative.' Cooperative '.$client_info->grouping ,$client_info->email, $reason_commment)){
         $this->db->trans_commit();
         return true;
       }else{

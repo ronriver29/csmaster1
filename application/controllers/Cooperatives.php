@@ -1764,5 +1764,11 @@
       return $data;
 
     }
+     public function debug($array)
+    {
+        echo"<pre>";
+        print_r($array);
+        echo"</pre>";
+    }
   }
  ?>
