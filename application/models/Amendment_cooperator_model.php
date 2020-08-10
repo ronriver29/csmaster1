@@ -980,12 +980,12 @@ $this->last_query = $this->db->last_query();
 
   public function check_equal_shares($amendment_id)
   {
-    $query= $this->db->query("select cap.total_no_of_subscribed_capital as cap_total_subscribed_capital,cap.total_no_of_paid_up_capital as cap_total_paidup_capital,
+    $query= $this->db->query("select cap.id, cap.total_no_of_subscribed_capital as cap_total_subscribed_capital,cap.total_no_of_paid_up_capital as cap_total_paidup_capital,
 sum(amendment_cooperators.number_of_subscribed_shares) as coop_total_subscribed_shares,
 sum(amendment_cooperators.number_of_paid_up_shares) as coop_total_paid_up
 from amendment_capitalization as cap
 left join amendment_cooperators on cap.amendment_id = amendment_cooperators.amendment_id
- where cap.amendment_id='$amendment_id'");
+ where cap.amendment_id='$amendment_id' group by cap.id");
     if($query->num_rows()>0)
     {
       foreach($query->result_array() as $row)
