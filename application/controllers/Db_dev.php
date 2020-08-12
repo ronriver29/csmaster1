@@ -283,7 +283,7 @@ class Db_dev extends CI_Controller{
     {
       if($this->uri->segment(2)=='drop_column')
       {
-        if($qry = $this->db->query(" ALTER TABLE ".$table." dDROP ".$column))
+        if($qry = $this->db->query(" ALTER TABLE ".$table." DROP ".$column))
         {
           echo $column. " column successfully drop in ".$table;
         }
