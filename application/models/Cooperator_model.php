@@ -168,7 +168,7 @@ public $last_query = "";
           return array('success'=>false,'message'=>'Name already exist');
         }    
       }else{
-        return array('success'=>false,'message'=>'Only one Chairpeson is allowed');
+        return array('success'=>false,'message'=>'Only one Chairperson is allowed');
       }
     }else if(strcmp($data['position'], 'Vice-Chairperson')===0){
       if($this->check_position_not_exists($data['cooperatives_id'],$data['position'],$data['full_name'])){
@@ -201,7 +201,7 @@ public $last_query = "";
           return array('success'=>false,'message'=>'Name already exist');
         }
       }else{
-        return array('success'=>false,'message'=>'Only one Vice-Chairpeson is allowed');
+        return array('success'=>false,'message'=>'Only one Vice-Chairperson is allowed');
       }
     }else if(strcmp($data['position'],'Board of Director')===0){
       if($this->check_name_not_exist($data['cooperatives_id'],$data['full_name'])){
@@ -372,7 +372,7 @@ public $last_query = "";
               return array('success'=>false,'message'=>'Maximum of 15 directors');
             }
           }else{
-            return array('success'=>false,'message'=>'Only one Chairpeson is allowed');
+            return array('success'=>false,'message'=>'Only one Chairperson is allowed');
           }
         }else if(strcmp($cooperator_info['position'], 'Vice-Chairperson')===0){
           if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name'])){
@@ -393,7 +393,7 @@ public $last_query = "";
               return array('success'=>false,'message'=>'Maximum of 15 directors');
             }
           }else{
-            return array('success'=>false,'message'=>'Only one Vice-Chairpeson is allowed');
+            return array('success'=>false,'message'=>'Only one Vice-Chairperson is allowed');
           }
         }else if(strcmp($cooperator_info['position'],'Board of Director')===0){
           if($this->check_directors_not_max($data->cooperatives_id)){
@@ -503,7 +503,7 @@ public $last_query = "";
               return array('success'=>false,'message'=>'Maximum of 15 directors');
             }
           }else{
-            return array('success'=>false,'message'=>'Only one Chairpeson is allowed');
+            return array('success'=>false,'message'=>'Only one Chairperson is allowed');
           }
         }else if(strcmp($cooperator_info['position'], 'Vice-Chairperson')===0){
           if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name'])){
@@ -522,7 +522,7 @@ public $last_query = "";
               return array('success'=>false,'message'=>'Maximum of 15 directors');
             }
           }else{
-            return array('success'=>false,'message'=>'Only one Vice-Chairpeson is allowed');
+            return array('success'=>false,'message'=>'Only one Vice-Chairperson is allowed');
           }
         }else if(strcmp($cooperator_info['position'],'Board of Director')===0){
           if($this->check_directors_not_max($data->cooperatives_id)){
