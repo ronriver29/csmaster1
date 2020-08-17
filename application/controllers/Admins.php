@@ -42,10 +42,10 @@ class Admins extends CI_Controller{
         );
           $user_data = $this->admin_model->login_admin($data);
           if($user_data){
-            if($user_data['access_level'] == 4 && $this->admin_model->get_admin_info($user_data['user_id'])->is_director_active==0){
-              $this->session->set_flashdata('login_admin_failed', 'You dont have a permission to login.');
-              redirect('admins/login');
-            }else{
+            // if($user_data['access_level'] == 4 && $this->admin_model->get_admin_info($user_data['user_id'])->is_director_active==0){
+            //   $this->session->set_flashdata('login_admin_failed', 'You dont have a permission to login.');
+            //   redirect('admins/login');
+            // }else{
               $this->session->set_userdata($user_data);
               // $this->session->set_flashdata('login_admin_success', 'You are now logged in.');
               $admin_user_id = $this->session->userdata('user_id');
@@ -54,7 +54,7 @@ class Admins extends CI_Controller{
               }else{
                 redirect('cooperatives');
               }
-            }
+            // }
           }else{
             $this->session->set_flashdata('login_admin_failed', 'Invalid username/password.');
             redirect('admins/login');
