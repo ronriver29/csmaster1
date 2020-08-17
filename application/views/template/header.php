@@ -37,7 +37,7 @@
       <ul class="list-unstyled components">
         <p class="text-left h5"><i class="fas fa-user"></i> <?=$client_info->first_name.' '.$client_info->last_name ?></p>
         <!-- <li class=" <?php if(uri_string()=='cooperatives') echo "active";?>"> -->
-        <!-- <li>
+        <li>
           <a href="<?php echo base_url();?>cooperatives"><i class="fas fa-handshake"></i> Cooperatives</a>
         </li>
         <li>
@@ -45,7 +45,7 @@
         </li>
         <li>   
           <a href="<?php echo base_url();?>laboratories"><i class="fas fa-handshake"></i> Laboratories</a>
-        </li> -->
+        </li>
 
        <li>   
           <a href="<?php echo base_url();?>amendment"><i class="fas fa-handshake"></i> Amendment</a>

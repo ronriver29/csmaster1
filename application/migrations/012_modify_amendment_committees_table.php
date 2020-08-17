@@ -30,7 +30,7 @@ class Migration_modify_amendment_committees_table extends CI_Migration
     }
 
     public function down()
-    {
+    { 
        if($this->db->field_exists('amendment_committees', 'orig_cooperators_id'))
        {
        $this->dbforge->drop_column('amendment_committees', 'orig_cooperators_id');
