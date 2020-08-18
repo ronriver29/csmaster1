@@ -9,7 +9,7 @@ class Migration_modify_cooperatives_comment_table extends CI_Migration
                     
                     'status'=>array(
                       'type'=>'BIGINT',
-                      'constraint' =>20
+                      'constraint' =>20,
                       'null' => TRUE,
                     )
                   )
