@@ -450,8 +450,9 @@ The client shall submit the above required documents within 30 working days from
       return false;
     }
   }
-  public function check_if_director_active($admin_id){
-    $query= $this->db->get_where('admin',array('id'=>$admin_id,'access_level'=>3));
+  public function check_if_director_active($admin_id,$region_code){
+    // $query= $this->db->get_where('admin',array('id'=>$admin_id,'access_level'=>3));
+    $query = $this->db->query("select * from admin where id='$admin_id' and region_code='$region_code' and access_level IN (3,4)");
     $row = $query->row();
     if($row->is_director_active ==1){
       return true;
@@ -582,5 +583,28 @@ System (CoopRIS).</pre>";
 //         return false;
 //     }
 //   }
-
+    public function is_acting_director($supervising_id)
+    {
+      $query = $this->db->get_where('admin',array('id'=>$supervising_id,'is_director_active'=>1,'access_level'=>4));
+      if($query->num_rows()>0)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+    public function is_active_director($director_id)
+    {
+      $query = $this->db->get_where('admin',array('id'=>$director_id,'is_director_active'=>1,'access_level'=>3));
+      if($query->num_rows()>0)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
 }

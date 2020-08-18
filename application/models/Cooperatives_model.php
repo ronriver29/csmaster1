@@ -214,10 +214,16 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     return $query->row();
   }
   public function cooperatives_comments($coop_id){
-    $this->db->select('*');
-    $this->db->from('cooperatives_comment');
-    $this->db->where(array('cooperatives_id'=>$coop_id,'user_level'=>3));
-    $query = $this->db->get();
+    // $this->db->select('*');
+    // $this->db->from('cooperatives_comment');
+    // $this->db->where(array('cooperatives_id'=>$coop_id,'user_level'=>3));
+     // $query = $this->db->get();
+    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and status=11 and user_level IN(3,4) ");
+    return $query->result_array();
+  }
+  //json
+  public function denied_comments($coop_id){
+    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and user_level IN(3,4) and status=10");
     return $query->result_array();
   }
   public function cooperatives_comments_cds($coop_id){
@@ -632,7 +638,7 @@ public function approve_by_supervisor($admin_info,$coop_id,$coop_full_name){
     return false;
   }else{
     if($this->admin_model->sendEmailToDirectorApprovedBySupervisor($admin_info,$supervisor_emails,$coop_full_name)){
-      if($this->admin_model->sendEmailToClientApprove($client_info)){
+      if($this->admin_model->sendEmailToClientApprove($client_info->proposed_name,$client_info->email)){ //json
         $this->db->trans_commit();
         return true;
       }else{
@@ -694,7 +700,9 @@ public function deny_by_admin($admin_id,$coop_id,$reason_commment,$step){
       $this->db->where('cooperatives.id', $coop_id);
       $query = $this->db->get();
       $client_info = $query->row();
-      if($this->admin_model->sendEmailToClientDeny($client_info->fullname, $client_info->proposed_name.' '.$client_info->type_of_cooperative.' Cooperative '.$client_info->groping ,$client_info->email, $reason_commment)){
+      // return $client_info;
+      $fullname= $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;
+      if($this->admin_model->sendEmailToClientDeny($fullname, $client_info->proposed_name.' '.$client_info->type_of_cooperative.' Cooperative '.$client_info->grouping ,$client_info->email, $reason_commment)){
         $this->db->trans_commit();
         return true;
       }else{

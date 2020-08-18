@@ -9,36 +9,7 @@ $docucount=0;
   <div class="col-sm-12 col-md-2">
     <a class="btn btn-secondary btn-sm btn-block"  href="<?php echo base_url();?>cooperatives" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
   </div>
-    <?php if($is_client && $coop_info->status==11 && strlen($coop_info->evaluation_comment) >= 1 && ($coop_info->evaluated_by > 0)) : ?>
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Deferred Reason/s</button>
-<div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-            The cooperative has been deferred because of the following reason/s:
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-        </div>
-        <div class="modal-body" style="table-layout: fixed;">
-            <pre><?php 
-//            print_r($cooperatives_comments);
-            foreach($cooperatives_comments as $cc) :
-                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
-                echo '<ul type="square">';
-                    echo '<li>'.$cc['comment'].'</li>';
-                echo '</ul>';
-            endforeach;
-        ?></pre>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-<!--            <button type="button" class="btn btn-primary">Save changes</button>-->
-        </div>
-    </div>
-  </div>
-</div>
-<?php endif; ?>
+    
 </div>
 
 <?php if($this->session->flashdata('redirect_message')): ?>
@@ -78,16 +49,77 @@ $docucount=0;
   </div>
 
 <?php endif; ?>
-<?php if($coop_info->status==10): ?>
-  <div class="row mt-3">
-    <div class="col-sm-12 col-md-12">
-      <div class="alert alert-danger" role="alert">
-        <p class="font-weight-bold">The cooperative has been denied because of the following reason/s:</p>
-        <pre><?= $coop_info->evaluation_comment ?></pre>
-      </div>
+
+<?php if($is_client && $coop_info->status==11 || $coop_info->status==10 && strlen($coop_info->evaluation_comment) >= 1 && ($coop_info->evaluated_by > 0)) : ?>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Deferred Reason/s</button>
+<div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            The cooperative has been deferred because of the following reason/s:
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+        </div>
+        <div class="modal-body" style="table-layout: fixed;">
+            <pre><?php 
+//            print_r($cooperatives_comments);
+            foreach($deferred_comments as $cc) :
+                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                echo '<ul type="square">';
+                    echo '<li>'.$cc['comment'].'</li>';
+                echo '</ul>';
+            endforeach;
+        ?></pre>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!--            <button type="button" class="btn btn-primary">Save changes</button>-->
+        </div>
     </div>
   </div>
+</div>
 <?php endif; ?>
+
+      <?php if($coop_info->status==10): ?>
+        <button type="button" style="margin-left:10px;" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg4">* Denied Reason/s</button>
+      <div class="modal fade bd-example-modal-lg4" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+              <div class="modal-header">
+                  The cooperative has been denied because of the following reason/s:
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+              </div>
+              <div class="modal-body" style="table-layout: fixed;">
+                  <pre> <?php 
+      //            print_r($cooperatives_comments);
+                  foreach($denied_comments as $cc) :
+                      echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                      echo '<ul type="square">';
+                        if(strlen($cc['comment'])>0)
+                        {
+                          echo '<li>'.$cc['comment'].'</li>';
+                        }
+                      echo '</ul>';
+                  endforeach;
+                  ?>
+                  </pre>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <!--            <button type="button" class="btn btn-primary">Save changes</button>-->
+              </div>
+          </div>
+        </div>
+      </div>
+
+      </div>
+
+       <br>
+      <?php endif; ?>
+
+
 
 <div class="row mb-2">
   <div class="col-sm-12 col-md-4">

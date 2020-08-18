@@ -9,24 +9,31 @@ class Migrate extends CI_Controller {
         if(!$this->migration->current())
         {
             echo 'Error' . $this->migration->error_string();
-        } else {
+        } 
+        else
+        {
             // echo 'Migrations ran successfully!';
-            if($this->document_type_seeding())
-            {
-              if($this->document_coop_type_seeding())
-              {
-               echo 'Migrations ran successfully!';
-              }
-              else
-              {
-                echo "Error data seeding of doc coop type";
-              }
-            }
-            else
-            {
-              echo "Error data seeding";
-            }
-        }   
+          $check = $this->db->get('amendment_coop_type_upload');
+          if($check->num_rows()>0)
+          {
+            
+          }
+          else
+          {
+            $this->document_type_seeding();
+          }
+          //next seeding
+          $check2 = $this->db->get('coop_type_upload');
+          if($check2->num_rows()>0)
+          {
+
+          }
+          else
+          {
+            $this->document_coop_type_seeding();
+          }
+          echo 'Migrations ran successfully!';
+        }     
     }    
 
     public function resetMigration()

@@ -59,7 +59,7 @@
             $data['title'] = 'List of Cooperatives';
             $data['header'] = 'Cooperatives';
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-            $this->load->view('templates/admin_header', $data);
+          
             // $data['cooperatives_comments_cds'] = $this->cooperatives_model->cooperatives_comments_cds($data['coop_info']->id);
             // $data['cooperatives_comments_snr'] = $this->cooperatives_model->cooperatives_comments_snr($data['coop_info']->id);
             // $data['cooperatives_comments'] = $this->cooperatives_model->cooperatives_comments($data['coop_info']->id);
@@ -79,6 +79,14 @@
               $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
               $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_director($data['admin_info']->region_code);
             }
+            
+             
+                 $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
+                  // var_dump($data['supervising_']);
+                  // echo $this->db->last_query();
+              // $this->debug($data['admin_info']);
+              // echo"<pre>";print_r($this->session->userdata());echo"</pre>";
+            $this->load->view('templates/admin_header', $data);
             $this->load->view('applications/list_of_applications', $data);
             $this->load->view('applications/assign_admin_modal');
             $this->load->view('admin/grant_privilege_supervisor');
@@ -188,7 +196,9 @@
               $data['client_info'] = $this->user_model->get_user_info($user_id);
               $data['title'] = 'Cooperative Details';
               $data['header'] = 'Cooperative Information';
-              $data['cooperatives_comments'] = $this->cooperatives_model->cooperatives_comments($decoded_id);
+              $data['deferred_comments'] = $this->cooperatives_model->cooperatives_comments($decoded_id);
+              // echo $this->db->last_query();
+              $data['denied_comments'] = $this->cooperatives_model->denied_comments($decoded_id);
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
               $data['business_activities'] =  $this->cooperatives_model->get_all_business_activities($decoded_id);
               $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
@@ -899,7 +909,8 @@
                               $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                               redirect('cooperatives');
                             }else{
-                              if(!$this->admin_model->check_if_director_active($user_id)){
+                              if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
+                                // $this->debug($this->cooperatives_model->approve_by_supervisor($data['admin_info'],$decoded_id,$coop_full_name));
                                 $success = $this->cooperatives_model->approve_by_supervisor($data['admin_info'],$decoded_id,$coop_full_name);
                                 if($success){
                                   $this->session->set_flashdata('list_success_message', 'Cooperative has been submitted.');
@@ -928,7 +939,8 @@
                               $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                               redirect('cooperatives');
                             }else{
-                              if($this->admin_model->check_if_director_active($user_id)){
+                              $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                              if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                 $data_field = array(
                                   'cooperatives_id' => $decoded_id,
                                   'comment' => $comment_by_specialist_senior,
@@ -1056,7 +1068,16 @@
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                                 redirect('cooperatives');
                               }else{
-                                if(!$this->admin_model->check_if_director_active($user_id)){
+                                if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
+                                   $comment_by_specialist_senior = $this->input->post('comment',TRUE);
+                                   $data_comment = array(
+                                  'cooperatives_id' => $decoded_id,
+                                  'comment' => $comment_by_specialist_senior,
+                                  'user_id' => $user_id,
+                                  'user_level' => $data['admin_info']->access_level,
+                                  'status' => 10
+                                   );
+                                   $this->cooperatives_model->insert_comment_history($data_comment);
                                   $success = $this->cooperatives_model->deny_by_admin($user_id,$decoded_id,$reason_commment,3);
                                   if($success){
                                     $this->session->set_flashdata('list_success_message', 'Cooperative has been denied.');
@@ -1085,7 +1106,8 @@
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                                 redirect('cooperatives');
                               }else{
-                                if($this->admin_model->check_if_director_active($user_id)){
+                                 $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                                if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                   $success = $this->cooperatives_model->deny_by_admin($user_id,$decoded_id,$reason_commment,3);
                                   if($success){
                                     $this->session->set_flashdata('list_success_message', 'Cooperative has been denied.');
@@ -1191,8 +1213,17 @@
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                                 redirect('cooperatives');
                               }else{
-                                if(!$this->admin_model->check_if_director_active($user_id)){
+                                 $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                                if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                   $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
+                                   $comment = array(
+                                        'cooperatives_id' => $decoded_id,
+                                        'comment' => $reason_commment,
+                                        'user_id' => $user_id,
+                                        'user_level' => $this->session->userdata('access_level'),
+                                        'status' =>11
+                                    );
+                                  $this->cooperatives_model->insert_comment_history($comment);
                                   if($success){
                                     $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
                                     redirect('cooperatives');
@@ -1221,16 +1252,17 @@
                                 redirect('cooperatives');
                               }else{
                                 $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-                                if($this->admin_model->check_if_director_active($user_id)){
+                                if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                     $data_field = array(
                                         'cooperatives_id' => $decoded_id,
                                         'comment' => $reason_commment,
                                         'user_id' => $user_id,
-                                        'user_level' => $data['admin_info']->access_level
+                                        'user_level' => $data['admin_info']->access_level,
+                                        'status' =>11
                                     );
-                                  $success = $this->cooperatives_model->insert_comment_history($data_field);
+                                  $success_comment = $this->cooperatives_model->insert_comment_history($data_field);
                                   $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
-                                  if($success){
+                                  if($success_comment && $success){
                                     $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
                                     redirect('cooperatives');
                                   }else{
@@ -1516,7 +1548,7 @@
                               $this->session->set_flashdata('redirect_applications_message', 'Laboratory already evaluated by a Director/Supervising CDS.');
                               redirect('cooperatives');
                             }else{
-                              if(!$this->admin_model->check_if_director_active($user_id)){
+                              if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                 $success = $this->cooperatives_model->approve_by_supervisor_laboratories($data['admin_info'],$decoded_id,$coop_full_name);
                                 if($success){
                                   $this->session->set_flashdata('list_success_message', 'Laboratory has been approved.');
@@ -1545,7 +1577,8 @@
                               $this->session->set_flashdata('redirect_applications_message', 'laboratories already evaluated by a Director/Supervising CDS.');
                               redirect('laboratories');
                             }else{
-                              if($this->admin_model->check_if_director_active($user_id)){
+                              $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                              if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                 $success = $this->cooperatives_model->approve_by_director_laboratories($data['admin_info'],$decoded_id);
                                 if($success){
                                   $this->session->set_flashdata('list_success_message', 'Laboratory has been approved.');

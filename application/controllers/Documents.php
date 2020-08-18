@@ -226,6 +226,9 @@ class Documents extends CI_Controller{
                                   $data['encrypted_id'] = $id;
                                   $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
                                   $data['document_two'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
+                                  $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
+                                  $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
+                            
                                   $this->load->view('templates/admin_header', $data);
                                   $this->load->view('documents/list_of_documents', $data);
                                   $this->load->view('cooperative/evaluation/approve_modal_cooperative');

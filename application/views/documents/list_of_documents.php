@@ -7,7 +7,7 @@
     </h5> 
   <?php else :?>
     <?php if ($coop_info->status !=12){?>
-    <?php if($admin_info->access_level != 3){
+    <?php if($admin_info->access_level != 3 && $admin_info->access_level != 4){
             $submit = 'Submit';
         } else {
             $submit = 'Approve';
@@ -17,9 +17,11 @@
       <?php if($coop_info->status !=15):?>
       <div class="btn-group float-right" role="group" aria-label="Basic example">
         <a  class="btn btn-info btn-sm" href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/cooperative_tool">Tool</a>
+        <?php if($admin_info->access_level ==2 || $is_active_director || $supervising_): ?>
         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>><?=$submit?></button><!--  modify by Jayson change approve button to submit -->
       <?php endif; //endo fo coop info status ?>  
-    <?php if($admin_info->access_level == 3) {?>
+        <?php endif;// is director and supervising?>
+    <?php if($admin_info->access_level == 3 && $is_active_director || $supervising_) {?>
      <?php if($coop_info->status !=15):?>
         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button>
         <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferCooperativeModal" data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>>Defer</button>
@@ -34,7 +36,7 @@
 </div>
 <?php if($is_client) : ?>
     <?php else :?>
-<?php if(strlen(($coop_info->comment_by_specialist && $admin_info->access_level==2) && $coop_info->status != 15|| $admin_info->access_level==3) && strlen($coop_info->comment_by_specialist)>0 && $coop_info->status != 15) : ?>
+<?php if(strlen(($coop_info->comment_by_specialist && $admin_info->access_level==2) && $coop_info->status != 15 || $admin_info->access_level==3 || $admin_info->access_level==4) && strlen($coop_info->comment_by_specialist)>0 && $coop_info->status != 15) : ?>
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg">* CDS Findings</button>
 
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -78,7 +80,7 @@
     </div>
   </div>-->
 <?php endif;?>
-<?php if(strlen($coop_info->comment_by_senior && $admin_info->access_level==3 || $coop_info->status==12) || strlen($coop_info->comment_by_senior && $admin_info->access_level==2) && $coop_info->status!=15) : ?>
+<?php if(strlen($coop_info->comment_by_senior && $admin_info->access_level==3 || $admin_info->access_level==4 || $coop_info->status==12) || strlen($coop_info->comment_by_senior && $admin_info->access_level==2) && $coop_info->status!=15) : ?>
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg2">* Senior Findings</button>
 
 <div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -116,7 +118,7 @@
     </div>
   </div>-->
 <?php endif;?>
-<?php if(strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==3) || ($coop_info->temp_evaluation_comment && $admin_info->access_level==2) && $coop_info->status == 6 || strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
+<?php if(strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==3) || $supervising_ || ($coop_info->temp_evaluation_comment && $admin_info->access_level==2)  && $coop_info->status == 6 || strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Director Findings</button>
 
 <div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
