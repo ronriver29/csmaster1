@@ -102,7 +102,7 @@
 	</tr>
 </table>
 
-<table width="100%" style="margin-top:-50px;">
+<table width="100%" style="position:fixed;top: 840px;left: 35px;">
 	<tr>
 		<td><i style="color:white;">....</i></td>
 		<td width="50%"></td>
@@ -111,19 +111,19 @@
 		<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 		</td>
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
-		<td style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png">
-			<div class="text" style="margin-top:-92px;">
-				<p><?= $chair ?></p>
+		<td  style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:260px;height:100px;">
+			<div class="text" style="margin-top:-75px;width:230px;margin-left:5px;">
+				<p style="font-size:12px;padding:0px;"><?= $chair ?></p>
 				<p style="margin-top:-20px;">Chairman</p></div>
 		</td>
 	</tr>
 	
 	
 </table>
-<table width="100%" style="margin-top:40px;">
+<table width="100%" style="position:fixed;top: 960px;left: 25px;">
 	<tr>
-		<td style="text-align:right;padding-right:45px;">
+		<td style="text-align:right;padding-right:70px;">
 			<img src="<?=QRCODE_DIR?><?= $coop_info->regNo ?>.png" width="100" height="100" style="float-right;"/>
 		</td>
 	</tr>
@@ -213,7 +213,7 @@
 	</tr>
 </table>
 
-<table width="100%" style="margin-top:-50px;">
+<table width="100%" style="position:fixed;top: 840px;left: 35px;">
 	<tr>
 		<td><i style="color:white;">....</i></td>
 		<td width="50%"></td>
@@ -221,26 +221,30 @@
 	<tr>
 		<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 		</td>
-		<td style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png">
-			<div class="text" style="margin-top:-92px;">
-				<p><?= $chair ?></p>
+		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
+		<td  style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:260px;height:100px;">
+			<div class="text" style="margin-top:-75px;width:230px;margin-left:5px;">
+				<p style="font-size:12px;padding:0px;"><?= $chair ?></p>
 				<p style="margin-top:-20px;">Chairman</p></div>
 		</td>
 	</tr>
 	
 	
 </table>
-<table width="100%" style="margin-top:40px;">
+<table width="100%" style="position:fixed;top: 960px;left: 25px;">
 	<tr>
-		<td style="text-align:right;padding-right:45px;">
-		<img src="<?=QRCODE_DIR?><?= $coop_info->regNo ?>.png" width="100" height="100" style="float-right;"/>
+		<td style="text-align:right;padding-right:70px;">
+			<img src="<?=QRCODE_DIR?><?= $coop_info->regNo ?>.png" width="100" height="100" style="float-right;"/>
 		</td>
 	</tr>
+</table>
+<table width="100%" style="position:fixed;top: 1080px;left: 25px;">
 	<tr>	
-		<td><i style="font-size: 10px">Duplicate Copy</i></td>
+		<td><i style="font-size: 10px;">Duplicate Copy</i></td>
 	</tr>
 </table>
+
 </div>
 <!-- end of 2nd page -->
 
@@ -325,7 +329,7 @@
 	</tr>
 </table>
 
-<table width="100%" style="margin-top:-50px;">
+<table width="100%" style="position:fixed;top: 840px;left: 35px;">
 	<tr>
 		<td><i style="color:white;">....</i></td>
 		<td width="50%"></td>
@@ -333,24 +337,29 @@
 	<tr>
 		<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 		</td>
-		<td style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png">
-			<div class="text" style="margin-top:-92px;">
-				<p><?= $chair ?></p>
+		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
+		<td  style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:260px;height:100px;">
+			<div class="text" style="margin-top:-75px;width:230px;margin-left:5px;">
+				<p style="font-size:12px;padding:0px;"><?= $chair ?></p>
 				<p style="margin-top:-20px;">Chairman</p></div>
 		</td>
 	</tr>
 	
 	
 </table>
-<table width="100%" style="margin-top:40px;">
+<table width="100%" style="position:fixed;top: 960px;left: 25px;">
 	<tr>
-		<td style="text-align:right;padding-right:45px;">
+		<td style="text-align:right;padding-right:70px;">
 			<img src="<?=QRCODE_DIR?><?= $coop_info->regNo ?>.png" width="100" height="100" style="float-right;"/>
 		</td>
 	</tr>
+	
+</table>
+
+<table width="100%" style="position:fixed;top: 1080px;left: 25px;">
 	<tr>	
-				<td><i style="font-size: 10px">Triplicate Copy</i></td>
+		<td><i style="font-size: 10px;">Triplicate Copy</i></td>
 	</tr>
 </table>
 </div>
