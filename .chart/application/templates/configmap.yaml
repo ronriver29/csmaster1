@@ -11,6 +11,10 @@ data:
       # Set nginx to serve files from the shared volume!
       root /var/www/html;
       server_name _;
+
+      # Set upload size
+      client_max_body_size 10M;
+      
       location / {
         include  /etc/nginx/mime.types;
         try_files $uri /index.php?$query_string;
