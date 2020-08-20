@@ -109,7 +109,7 @@
                         <?php if($cooperative['status']==2 || $cooperative['status']==3)echo "FOR VALIDATION"; 
                         else if($cooperative['status']==4) echo "DENIED BY CDS II";
                         else if($cooperative['status']==5) echo "DEFERRED BY CDS II";
-                        else if($cooperative['status']==6 && $cooperative['third_evaluated_by']>0) echo "FOR VALIDATION";
+                        else if($cooperative['status']==6 && $cooperative['third_evaluated_by']>0) echo "FOR RE-EVALUATION";
                         else if($cooperative['status']==6) echo "SUBMITTED BY CDS II";
                         else if($cooperative['status']==7) echo "DENIED BY SENIOR CDS";
                         else if($cooperative['status']==8) echo "DEFERRED BY SENIOR CDS";
