@@ -218,6 +218,9 @@ class Documents extends CI_Controller{
                                   $data['cooperatives_comments_cds'] = $this->cooperatives_model->cooperatives_comments_cds($decoded_id);
                                   $data['cooperatives_comments_snr'] = $this->cooperatives_model->cooperatives_comments_snr($decoded_id);
                                   $data['cooperatives_comments'] = $this->cooperatives_model->cooperatives_comments($decoded_id);
+                                  $data['supervising_comment']  = $this->cooperatives_model->admin_supervising_cds_comments($decoded_id);
+                                  
+                                  echo $this->db->last_query  ();
                                   $data['title'] = 'List of Documents';
                                   $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                                   $data['header'] = 'Documents';
@@ -1551,6 +1554,7 @@ public function delete_pdf()
                               $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                               $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                               $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
+                              // $html2 = $this->load->view('documents/primary/test', $data, TRUE);
                               $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary', $data, TRUE);
                               $f = new pdf();
                               $f->setPaper('folio', 'portrait');
@@ -1749,8 +1753,10 @@ public function delete_pdf()
                               $data['others_staff_list'] = $this->staff_model->get_all_staff_of_coop_by_other_position($decoded_id);
                               $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
                               $data['committees_list'] = $this->committee_model->get_all_committee_names_of_coop_multi($decoded_id);
+                               // $this->load->view('documents/economic_survey', $data);
                               $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
                               $f = new pdf();
+                                $f->set_option("isPhpEnabled", true);
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
                               $f->render();

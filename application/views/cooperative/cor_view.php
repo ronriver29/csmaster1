@@ -112,10 +112,10 @@
 		</td>
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
 		<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png" style="width:260px;height:100px;">
-			<div class="text" style="margin-top:-75px;width:230px;margin-left:5px;">
-				<p style="font-size:12px;padding:0px;"><?= $chair ?></p>
-				<p style="margin-top:-20px;">Chairman</p></div>
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;">
+			<div class="text" style="margin-top:-75px;width:300px;margin-left:5px;">
+				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
+				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
 		</td>
 	</tr>
 	
@@ -223,10 +223,10 @@
 		</td>
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
 		<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png" style="width:260px;height:100px;">
-			<div class="text" style="margin-top:-75px;width:230px;margin-left:5px;">
-				<p style="font-size:12px;padding:0px;"><?= $chair ?></p>
-				<p style="margin-top:-20px;">Chairman</p></div>
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;">
+			<div class="text" style="margin-top:-75px;width:300px;margin-left:5px;">
+				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
+				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
 		</td>
 	</tr>
 	
@@ -339,10 +339,10 @@
 		</td>
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
 		<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png" style="width:260px;height:100px;">
-			<div class="text" style="margin-top:-75px;width:230px;margin-left:5px;">
-				<p style="font-size:12px;padding:0px;"><?= $chair ?></p>
-				<p style="margin-top:-20px;">Chairman</p></div>
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;">
+			<div class="text" style="margin-top:-75px;width:300px;margin-left:5px;">
+				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
+				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
 		</td>
 	</tr>
 	

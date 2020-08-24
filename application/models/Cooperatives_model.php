@@ -218,7 +218,23 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     // $this->db->from('cooperatives_comment');
     // $this->db->where(array('cooperatives_id'=>$coop_id,'user_level'=>3));
      // $query = $this->db->get();
-    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and status=11 and user_level IN(3,4) ");
+    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and status=11 and user_level=3 ");
+    return $query->result_array();
+  }
+  public function supervising_cds_comments($coop_id){
+    // $this->db->select('*');
+    // $this->db->from('cooperatives_comment');
+    // $this->db->where(array('cooperatives_id'=>$coop_id,'user_level'=>3));
+     // $query = $this->db->get();
+    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and status=11 and user_level=4 ");
+    return $query->result_array();
+  }
+  public function admin_supervising_cds_comments($coop_id){
+    // $this->db->select('*');
+    // $this->db->from('cooperatives_comment');
+    // $this->db->where(array('cooperatives_id'=>$coop_id,'user_level'=>3));
+     // $query = $this->db->get();
+    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and user_level=4 ");
     return $query->result_array();
   }
   //json

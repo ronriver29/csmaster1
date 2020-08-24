@@ -90,7 +90,7 @@
                 "fullname": {
                     "regex":/^([A-Z]+[a-zA-Z ]*[\'\,\.\-]?[a-zA-Z ]*)+([ ]+[A-Z]+[a-zA-Z ]*[\'\,\.\-]?)+$/,
                     // "regex":/^[\u00F1A-Za-z _,.]*[\u00F1A-Za-z][\u00F1A-Za-z _]*$/,
-                    "regex":/^[\u00F1A-Za-z _,.]*[\u00F1A-Za-z][\u00F1A-Za-z _,-]*$/, //json
+                    "regex":/^[\u00F1A-Za-z _,.]*[\u00F1A-Za-z][\u00F1A-Za-z _,Ññ-.]*$/, //json
                     "alertText":"* Must be first and last name"
                 },
                 "validID": {
