@@ -576,6 +576,7 @@ class Bylaws extends CI_Controller{
                   $data['add_membership'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->additional_requirements_for_membership);
                   $data['add_members_vote'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->additional_conditions_to_vote);
                   $data['asc_qualifications'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->associate_qualifications);
+                  // $this->debug($data['bylaw_info']);
                   $this->load->view('template/header', $data);
                   $this->load->view('cooperative/bylaw_info/bylaw_primary_form.php', $data);
                   $this->load->view('template/footer');
@@ -912,4 +913,10 @@ class Bylaws extends CI_Controller{
       show_404();
     }
   }
+  public function debug($array)
+    {
+        echo"<pre>";
+        print_r($array);
+        echo"</pre>";
+    }
 }
