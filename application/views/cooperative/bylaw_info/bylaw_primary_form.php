@@ -271,7 +271,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <small id="emailHelp" class="form-text text-muted">Please see capitalization in Step 3</small>
+                <small id="emailHelp" class="form-text text-muted">to be filled up in Step 3</small>
             </div>
         </div>
         <br/>

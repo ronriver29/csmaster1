@@ -52,7 +52,7 @@ $(function(){
           }
         }
   });
-
+ 
   $("#signUpAgree").click(function(event){
     // var check = $(this);
     //  event.preventDefault();
@@ -592,7 +592,7 @@ $("#deleteStaffForm").validationEngine('attach',
               $('#addCommitteeForm #committeeName').on('change', function(){
                 if($(this).val()=="Others"){
                   var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
-                            '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Function and Responsibilities:</label>' +
                             '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhp]]" name="committeeNameSpecify" id="committeeNameSpecify">' +
                             '</div></div>');
                   $('#addCommitteeForm .ac-row').append(committeeNameSpecify);

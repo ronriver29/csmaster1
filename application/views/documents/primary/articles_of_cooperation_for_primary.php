@@ -19,15 +19,28 @@
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
   }
-
-  body{font-family:Bookman Old Style !important;}
   </style>
 </head>
-<body style="font-family:12 Bookman Old Style">
+<body>
+  <script type="text/php">
+        if ( isset($pdf) ) {
+            $x = 570; 
+            $y=900;
+            $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
+            $font = $fontMetrics->get_font("bokman");
+            $size = 12;
+            $color = array(0,0,0);
+            $word_space = 0.0;  //  default
+            $char_space = 0.0;  //  default
+            $angle = 0.0;   //  default
+            $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+            
+        }
+</script>
 <div class="container-fluid text-monospace">
 
   <div class="row mb-4">
-    <div class="col-sm-12 col-md-12 text-center">
+    <div class="col-sm-12 col-md-12 text-center"> 
         <p class="font-weight-bold">ARTICLES OF COOPERATION<br>of<br><?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?></p>
     </div>
   </div>
@@ -306,7 +319,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td>Sub Total</td>
+              <td>Total</td>
               <td style="text-align: center;"><?= $total_regular['total_subscribed']?></td>
               <td style="text-align: right;"><?= number_format(($total_regular['total_subscribed'] * $article_info->par_value_common),2)?></td>
               <td style="text-align: center;"><?= $total_regular['total_paid'] ?></td>
@@ -350,7 +363,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td>Sub Total</td>
+              <td>Total</td>
               <td style="text-align: center;"><?= $total_associate['total_subscribed']?></td>
               <td style="text-align: right;"><?= number_format(($total_associate['total_subscribed'] * $article_info->par_value_preferred),2)?></td>
               <td style="text-align: center;"><?= $total_associate['total_paid'] ?></td>

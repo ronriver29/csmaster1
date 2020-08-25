@@ -271,8 +271,7 @@ In addition to the above, please attach the following in 1 original and 3 certif
 
      1.  Surety Bond of Accountable Officers;
      2.  Certification of Pre-Registration Seminar (PRS); 
-     3.  Proof of Payment; and 
-     4.  Other requirements for specific type of cooperatives
+     3.  Other requirements for specific type of cooperatives
 
 The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
 

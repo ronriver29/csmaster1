@@ -47,7 +47,7 @@
             //$y = 18;
             $x = 300; 
             $y=900;
-            $text = "{PAGE_NUM} of {PAGE_COUNT}";
+            $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
             $font = $fontMetrics->get_font("bokman");
             $size = 12;
             $color = array(0,0,0);
@@ -57,7 +57,7 @@
             $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
             
         }
-    </script>
+</script>
 <div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">

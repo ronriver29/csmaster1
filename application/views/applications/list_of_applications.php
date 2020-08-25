@@ -59,11 +59,11 @@
   <?php if(!$is_client && $admin_info->access_level == 3) : ?>
     <?php if($admin_info->is_director_active == 1) : ?>
     <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
-      <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#grantSupervisorModal"><i class='fas fa-user-plus'></i> Grant All Privileges to Supervisor</button>
+      <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#grantSupervisorModal"><i class='fas fa-user-plus'></i> Grant all Privileges to Supervising CDS</button>
     </div>
     <?php else : ?>
       <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
-        <button type="button" class="btn btn-warning text-white btn-block" data-toggle="modal" data-target="#revokeSupervisorModal"><i class='fas fa-user-times'></i> Revoke All Privileges of Supervisor</button>
+        <button type="button" class="btn btn-warning text-white btn-block" data-toggle="modal" data-target="#revokeSupervisorModal"><i class='fas fa-user-times'></i> Revoke all Privileges of Supervising CDS</button>
       </div>
     <?php endif; ?>
   <?php endif;?>

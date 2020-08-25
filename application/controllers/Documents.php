@@ -868,12 +868,14 @@ public function delete_pdf()
                               $data['associate_cooperator_list'] = $this->cooperator_model->get_all_associate_cooperator_of_coop($decoded_id);
                               $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                               $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
-                              //$this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
+                              $data['pageCount']="";
+                               $f = new pdf();
                               $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
-                              $f = new pdf();
+                              $f->set_option("isPhpEnabled", true);
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
                               $f->render();
+                               $data['pageCount'] = $f->get_canvas()->get_page_count();
                               $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
                               
                             }else{
@@ -1180,6 +1182,7 @@ public function delete_pdf()
                               $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
 
                               $f = new pdf();
+                              $f->set_option("isPhpEnabled", true);
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
                               // $f->setBasePath(public_path()); // This line resolve
@@ -1555,6 +1558,7 @@ public function delete_pdf()
                               // $html2 = $this->load->view('documents/primary/test', $data, TRUE);
                               $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary', $data, TRUE);
                               $f = new pdf();
+                              $f->set_option("isPhpEnabled", true);
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
                               $f->render();
@@ -4048,6 +4052,7 @@ function do_upload_two_(){
                               //$this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
                               $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data, TRUE);
                               $f = new pdf();
+                              $f->set_option("isPhpEnabled", true);
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
                               $f->render();
@@ -4332,4 +4337,10 @@ function do_upload_two_(){
       }
     }
   }
+   public function debug($array)
+    {
+        echo"<pre>";
+        print_r($array);
+        echo"</pre>";
+    }
 }
