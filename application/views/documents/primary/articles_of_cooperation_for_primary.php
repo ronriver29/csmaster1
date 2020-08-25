@@ -38,7 +38,7 @@
   </div>
   <div class="row mb-2 ">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify font-weight-normal" style="text-indent: 50px;">We, the undersigned Filipino citizens, of legal age and residents of the Philippines, with a firm collective intent, have come together to organize voluntarily an <?= $coop_info->type_of_cooperative?> Cooperative to advance what we believe is our inherent right, under the laws of the Republic of the Philippines.</p>
+      <p class="text-justify font-weight-normal" style="text-indent: 50px;">We, the undersigned Filipino citizens, of legal age and residents of the Philippines, with a firm collective intent, have come together to organize voluntarily a <?= $coop_info->type_of_cooperative?> Cooperative to advance what we believe is our inherent right, under the laws of the Republic of the Philippines.</p>
     </div>
   </div>
   <div class="row mb-4">
@@ -100,7 +100,7 @@
             <li> To adopt such other plans as may help foster the welfare of the members, their families and the community;</li>
             <li> To advance the competitiveness and innovativeness of the industry;</li>
             <li> To coordinate with other Cooperatives on learning exchanges, coop trade, and information exchanges in fostering sustainable development;</li>
-            <li> To advocate legal framework and enabling policies appropriate for the development of credit Cooperatives; and</li>
+            <li> To advocate legal framework and enabling policies appropriate for the development of <?=$coop_info->type_of_cooperative?> Cooperative; and</li>
             <li> To be the voice and the institution of the poor and the excluded in resisting the growth-centered development aggression and instead promote people-centered development.</li>
           </ol>
     </div>

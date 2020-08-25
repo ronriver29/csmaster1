@@ -461,19 +461,20 @@ The client shall submit the above required documents within 30 working days from
     }
   }
   public function check_position_not_exists_in_region($access_level,$regcode){
-    if($access_level > 1){
-      $this->db->where(array('access_level'=>$access_level,'region_code'=>$regcode));
-      $this->db->from('admin');
-      if($this->db->count_all_results()<2){
-        return array('success'=>true,'message'=>'Not exists');
-      }else{
-        $recDesc = ($regcode != "0" ) ? $this->region_model->get_region_by_code($regcode)->regDesc : "Central Office";
-        $position = (($access_level == 1) ? "Cooperative Development Specialist II" : (($access_level == 2) ? "Senior Cooperative Development Specialist" : (($access_level == 3) ? "Director": "Supervising CDS")));
-        return array('success'=>false,'message'=> $position.' already exists in '.$recDesc);
-      }
-    }else{
-      return array('success'=>true,'message'=>'Not exists');
-    }
+    return array('success'=>true,'message'=>'allow all');
+    // if($access_level > 1){
+    //   $this->db->where(array('access_level'=>$access_level,'region_code'=>$regcode));
+    //   $this->db->from('admin');
+    //   if($this->db->count_all_results()<2){
+    //     return array('success'=>true,'message'=>'Not exists');
+    //   }else{
+    //     $recDesc = ($regcode != "0" ) ? $this->region_model->get_region_by_code($regcode)->regDesc : "Central Office";
+    //     $position = (($access_level == 1) ? "Cooperative Development Specialist II" : (($access_level == 2) ? "Senior Cooperative Development Specialist" : (($access_level == 3) ? "Director": "Supervising CDS")));
+    //     return array('success'=>false,'message'=> $position.' already exists in '.$recDesc);
+    //   }
+    // }else{
+    //   return array('success'=>true,'message'=>'Not exists');
+    // }
   }
   public function check_position_not_exists_in_region_update($access_level,$regcode,$aid){
     if($access_level > 1){

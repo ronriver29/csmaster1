@@ -217,10 +217,8 @@ class Documents extends CI_Controller{
                                 }
                                   $data['cooperatives_comments_cds'] = $this->cooperatives_model->cooperatives_comments_cds($decoded_id);
                                   $data['cooperatives_comments_snr'] = $this->cooperatives_model->cooperatives_comments_snr($decoded_id);
-                                  $data['cooperatives_comments'] = $this->cooperatives_model->cooperatives_comments($decoded_id);
+                                  $data['cooperatives_comments'] = $this->cooperatives_model->director_comments($decoded_id);
                                   $data['supervising_comment']  = $this->cooperatives_model->admin_supervising_cds_comments($decoded_id);
-                                  
-                                  echo $this->db->last_query  ();
                                   $data['title'] = 'List of Documents';
                                   $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                                   $data['header'] = 'Documents';

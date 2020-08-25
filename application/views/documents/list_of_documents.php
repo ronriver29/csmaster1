@@ -118,7 +118,7 @@
     </div>
   </div>-->
 <?php endif;?>
-<?php if(strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==3) || $supervising_ || ($coop_info->temp_evaluation_comment && $admin_info->access_level==2)  && $coop_info->status == 6 || strlen(($coop_info->temp_evaluation_comment && $admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
+<?php if((is_array($cooperatives_comments) && $admin_info->access_level==3) || (is_array($cooperatives_comments) && $supervising_) || (is_array($cooperatives_comments) && $admin_info->access_level==2  && $coop_info->status == 6) || (is_array($cooperatives_comments) && $admin_info->access_level==2 && $coop_info->status == 12)) : ?>
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Director Findings</button>
 
 <div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -147,15 +147,43 @@
     </div>
   </div>
 </div>
-<!--  <div class="row mt-3">
-    <div class="col-sm-12 col-md-12">
-      <div class="alert alert-danger" role="alert">
-        <p class="font-weight-bold">This cooperative has been deferred because of the following reason/s:</p>
-        <pre><?= $coop_info->temp_evaluation_comment ?></pre>
+
+<?php endif;?>
+<!-- SUPERVISING -->
+    <?php if(is_array($supervising_comment && $admin_info->access_level==4) || 
+    (is_array($supervising_comment) && $supervising_) ||
+    (is_array($supervising_comment) && $admin_info->access_level==2) ||
+    (is_array($supervising_comment) && $admin_info->access_level==3 
+     && $coop_info->status == 6) ||  
+    (is_array($supervising_comment) && $admin_info->access_level==2 && $coop_info->status == 12)) : ?>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg4">* Supervising CDS Findings</button>
+    <div class="modal fade bd-example-modal-lg4" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                The cooperative has been deferred because of the following reason/s:
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+            </div>
+            <div class="modal-body" style="table-layout: fixed;">
+                <pre><?php 
+                foreach($supervising_comment as $c) :
+                    echo 'Date: '.date("F d, Y",strtotime($c['date_created']));
+                    echo '<ul type="square">';
+                        echo '<li>'.$c['comment'].'</li>';
+                    echo '</ul>';
+                endforeach;
+            ?></pre>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    <!--            <button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+        </div>
       </div>
     </div>
-  </div>-->
-<?php endif;?>
+    <?php endif;?>
+<!-- END SUPERVISING -->
 <?php endif; ?>
 <?php if($this->session->flashdata('redirect_documents')): ?>
 

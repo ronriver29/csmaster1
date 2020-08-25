@@ -197,7 +197,6 @@
               $data['title'] = 'Cooperative Details';
               $data['header'] = 'Cooperative Information';
               $data['deferred_comments'] = $this->cooperatives_model->cooperatives_comments($decoded_id);
-              // echo $this->db->last_query();
               $data['denied_comments'] = $this->cooperatives_model->denied_comments($decoded_id);
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
               $data['business_activities'] =  $this->cooperatives_model->get_all_business_activities($decoded_id);

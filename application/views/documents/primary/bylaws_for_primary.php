@@ -116,8 +116,8 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12">
-        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Application for Membership.</i> An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within <?= ucwords(num_format_custom($bylaw_info->act_upon_membership_days));?> (<?= $bylaw_info->act_upon_membership_days?>) days from the date of filing. The Board of Directors shall devise a form for the purpose which shall, aside from the profile of the applicant cooperative, include the duties of an affiliate to participate in all programs including but not limited to capital build-up, patronizing the businesses and services and savings mobilization of the federation and, such other information as may be deemed necessary. </p>
-        <p class="text-justify" style="text-indent: 50px;">The application form for membership shall include an undertaking to uphold the By-laws, policies, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly. No application for membership shall be given due course if not accompanied with a membership fee of <?= ucwords(num_format_custom(str_replace(',','',$bylaw_info->membership_fee)));?> (<b>Php <?= number_format(str_replace(',','',$bylaw_info->membership_fee),2)?></b>), which shall be refunded to the applicant cooperative in case of rejection.</p>
+        <p class="text-justify font-weight-regular">Section 4. <!-- <i class="font-weight-bold"> -->Application for Membership.<!-- </i> --> An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within <?= ucwords(num_format_custom($bylaw_info->act_upon_membership_days));?> (<?= $bylaw_info->act_upon_membership_days?>) days from the date of filing. The Board of Directors shall devise a form for the purpose which shall, aside from the profile of the applicant cooperative, include the duties of an affiliate to participate in all programs including but not limited to capital build-up, patronizing the businesses and services and savings mobilization of the federation and, such other information as may be deemed necessary. </p>
+        <p class="text-justify" style="text-indent: 50px;">The application form for membership shall include an undertaking to uphold the By-laws, policies, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly. No application for membership shall be given due course if not accompanied with a membership fee of <?= ucwords(num_format_custom(str_replace(',','',$bylaw_info->membership_fee)));?> (Php <?= number_format(str_replace(',','',$bylaw_info->membership_fee),2)?>), which shall be refunded to the applicant cooperative in case of rejection.</p>
     </div>
   </div>
   <div class="row">
@@ -127,7 +127,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Minimum Share Capital Requirement.</i> An applicant for <strong>regular membership</strong> shall subscribe at least <?= num_format_custom($capitalization_info->minimum_subscribed_share_regular)?> (<?= $capitalization_info->minimum_subscribed_share_regular?>) shares and pay the value of at least <?= num_format_custom($capitalization_info->minimum_paid_up_share_regular)?> (<?= $capitalization_info->minimum_paid_up_share_regular?>) shares upon approval of his/her membership.</p>
+      <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Minimum Share Capital Requirement.</i> An applicant for regular membership shall subscribe at least <?= num_format_custom($capitalization_info->minimum_subscribed_share_regular)?> (<?= $capitalization_info->minimum_subscribed_share_regular?>) shares and pay the value of at least <?= num_format_custom($capitalization_info->minimum_paid_up_share_regular)?> (<?= $capitalization_info->minimum_paid_up_share_regular?>) shares upon approval of his/her membership.</p>
       <?php if($bylaw_info->kinds_of_members == 2) :?>
       <p class="text-justify">An applicant for <strong>associate membership</strong> shall subscribe at least <?= num_format_custom($capitalization_info->minimum_subscribed_share_associate)?> (<?= $capitalization_info->minimum_subscribed_share_associate?>) shares and pay the value of at least <?= num_format_custom($capitalization_info->minimum_paid_up_share_associate)?> (<?= $capitalization_info->minimum_paid_up_share_associate?>) shares upon approval of his/her membership.</p>
       <?php endif;?>
@@ -685,7 +685,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Officers and their Duties.</i> TThe officers of the cooperative shall include the Members of the Board of Directors, Members of the Different Committees, General Manager/Chief Executive Officer, Secretary and Treasurer who shall serve according to the functions and responsibilities of their respective offices as follows:</p>
+        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Officers and their Duties.</i> The officers of the cooperative shall include the Members of the Board of Directors, Members of the Different Committees, General Manager/Chief Executive Officer, Secretary and Treasurer who shall serve according to the functions and responsibilities of their respective offices as follows:</p>
     </div>
   </div>
   <div class="row">
