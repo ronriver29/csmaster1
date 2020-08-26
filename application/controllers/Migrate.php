@@ -4,8 +4,6 @@ class Migrate extends CI_Controller {
     {
         // load migration library
         $this->load->library('migration');
-
-        // if ( ! $this->migration->current())
         if(!$this->migration->current())
         {
             echo 'Error' . $this->migration->error_string();
@@ -16,7 +14,7 @@ class Migrate extends CI_Controller {
           $check = $this->db->get('amendment_coop_type_upload');
           if($check->num_rows()>0)
           {
-            
+            // echo "success seeding";
           }
           else
           {
@@ -26,7 +24,7 @@ class Migrate extends CI_Controller {
           $check2 = $this->db->get('coop_type_upload');
           if($check2->num_rows()>0)
           {
-
+              // echo"success seeding";
           }
           else
           {
