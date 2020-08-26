@@ -301,6 +301,11 @@ class Committee_model extends CI_Model{
     $data =  $query->result_array();
     return $data;
   }
+  public function get_all_others_committees_of_coop($coop_id){
+    $query = $this->db->get_where('committees',array('type'=>'others'));
+    $data =  $query->result_array();
+    return $data;
+  }
   
   public function get_all_committees_of_coop_federation($coop_id){
     $this->db->select('committees_federation.id as comid, committees_federation.* ,cooperators.*');
@@ -395,7 +400,7 @@ class Committee_model extends CI_Model{
     return $data;
   }
   public function get_all_committee_names_of_coop_multi($coop_id){
-    $this->db->select('committees.name');
+    $this->db->select('committees.name','committes.func_and_respons');
     $this->db->order_by('committees.name','asc');
     $this->db->from('committees');
     $this->db->join('cooperators' , 'cooperators.id = cooperators_id','inner');

@@ -417,7 +417,39 @@
             <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                       <label for="quorumPercentage"><strong>How many percent of the members are entitled to vote to constitute the quorum?</strong> <small  class="text-info"><?=$percenttext?></small></label>
-                      <input type="number" value="<?=$bylaw_info->members_percent_quorom?>"  class="form-control validate[required,min[<?=$percentage?>],max[100],custom[integer]]" id="quorumPercentage" name="quorumPercentage" min="<?=$percentage?>" max="100" placeholder="Enter Percent %" value="25" disabled>
+                      <!-- <input type="number" value="<?=$bylaw_info->members_percent_quorom?>"  class="form-control validate[required,min[<?=$percentage?>],max[100],custom[integer]]" id="quorumPercentage" name="quorumPercentage" min="<?=$percentage?>" max="100" placeholder="Enter Percent %" value="25" disabled> -->
+
+                       <select value="<?=$bylaw_info->members_percent_quorom?>" class="form-control validate[required,min[<?=$percentage?>],max[100],custom[integer]]" nid="quorumPercentage" name="quorumPercentage" disabled>
+                      <?php 
+                       if($coop_info->type_of_cooperative=='Electric')
+                       {
+                      ?>
+                        <option value="5" <?=($bylaw_info->members_percent_quorom==5 ? "selected" : "")?>>5%</option>
+                        <option value="10" <?=($bylaw_info->members_percent_quorom==10 ? "selected" : "")?>>10%</option>
+                        <option value="15" <?=($bylaw_info->members_percent_quorom==15 ? "selected" : "")?>>15%</option>
+                        <option value="20" <?=($bylaw_info->members_percent_quorom==20 ? "selected" : "")?>>20%</option>
+                      <?php     
+                       }
+                      ?>
+                          <option value="25" <?=($bylaw_info->members_percent_quorom==25 ? "selected" : "")?>>25%</option>
+                          <option value="30" <?=($bylaw_info->members_percent_quorom==30 ? "selected" : "")?>>30%</option>
+                          <option value="35" <?=($bylaw_info->members_percent_quorom==35 ? "selected" : "")?>>35%</option>
+                          <option value="40" <?=($bylaw_info->members_percent_quorom==40 ? "selected" : "")?>>40%</option>
+                          <option value="45" <?=($bylaw_info->members_percent_quorom==45 ? "selected" : "")?>>45%</option>
+                          <option value="50" <?=($bylaw_info->members_percent_quorom==50 ? "selected" : "")?>>50%</option>
+                          <option value="55" <?=($bylaw_info->members_percent_quorom==55 ? "selected" : "")?>>55%</option>
+                          <option value="60" <?=($bylaw_info->members_percent_quorom==60 ? "selected" : "")?>>60%</option>
+                          <option value="65" <?=($bylaw_info->members_percent_quorom==65 ? "selected" : "")?>>65%</option>
+                          <option value="70" <?=($bylaw_info->members_percent_quorom==70 ? "selected" : "")?>>70%</option>
+                          <option value="75" <?=($bylaw_info->members_percent_quorom==75 ? "selected" : "")?>>75%</option>
+                          <option value="80" <?=($bylaw_info->members_percent_quorom==80 ? "selected" : "")?>>80%</option>
+                          <option value="85" <?=($bylaw_info->members_percent_quorom==85 ? "selected" : "")?>>85%</option>
+                          <option value="90" <?=($bylaw_info->members_percent_quorom==90 ? "selected" : "")?>>90%</option>
+                          <option value="95" <?=($bylaw_info->members_percent_quorom==95 ? "selected" : "")?>>95%</option>
+                          <option value="100" <?=($bylaw_info->members_percent_quorom==100 ? "selected" : "")?>>100%</option>
+                          <option value="51" <?=($bylaw_info->members_percent_quorom==51 ? "selected" : "")?>>50%+1</option>
+                       </select>
+
                </div>
               </div>
           </div>

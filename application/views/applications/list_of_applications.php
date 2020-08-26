@@ -113,7 +113,8 @@
                         else if($cooperative['status']==6) echo "SUBMITTED BY CDS II";
                         else if($cooperative['status']==7) echo "DENIED BY SENIOR CDS";
                         else if($cooperative['status']==8) echo "DEFERRED BY SENIOR CDS";
-                        else if($cooperative['status']==9) echo "DELEGATED BY DIRECTOR";
+                        else if($cooperative['status']==9 && !$is_acting_director) echo "DELEGATED BY DIRECTOR";
+                        else if($cooperative['status']==9) echo "SUBMITTED BY SENIOR CDS";
                         else if($cooperative['status']==10) echo "DENIED BY DIRECTOR";
                         else if($cooperative['status']==11) echo "DEFERRED BY DIRECTOR";
                         else if($cooperative['status']==12) echo "FOR PRINT&SUBMIT";

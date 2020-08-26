@@ -342,16 +342,18 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Call to order; </li>
-        <li>Declaration/Consideration of presence of quorum; </li>
+        <!-- <li>Declaration/Consideration of presence of quorum; </li> -->
+        <li>Proof of due notice;</li>
+        <li>Roll Call;</li>
         <li>Reading, consideration and approval of the minutes of the previous meeting; </li>
-        <li>Presentation and approval of the reports of the board of directors, officers, and the committees, including audited financial statements of the Cooperative; </li>
+        <li>Presentation and approval of the reports of the board of directors, officers, and the committees, including audited financial statements of the Cooperative Annual Progress Report and all other required reports; </li>
         <li>Unfinished business; </li>
         <li>New business;
             <ol class="text-justify" type="i">
-              <li>h.1 Election of directors and committee members </li>
-              <li>h.2 Approval of Development and/or annual Plan and Budget </li>
-              <li>h.3 Hiring of External Auditor </li>
-              <li>h.4 Other related business matters </li>
+              <li><!-- h.1 --> Election of directors and committee members </li>
+              <li><!-- h.2 --> Approval of Development and/or annual Plan and Budget; </li>
+              <li><!-- h.3 --> Hiring of External Auditor </li>
+              <li><!-- h.4 --> Other related business matters </li>
             </ol>
         </li>
         <li>Announcements; and </li>
@@ -682,16 +684,60 @@
         <p class="text-justify font-weight-regular">Section 18. <i class="font-weight-bold">GAD Support Systems and Services.</i> The Cooperative shall implement other services that address GAD and GE issues and concerns. It shall also develop and establish necessary support systems that will enhance implementation of the GAD and GE services of the Cooperative</p>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 19. <i class="font-weight-bold">Others Committee.</i> By a majority vote of all its members, the Board of Directors may form such other committees as may be deemed necessary for the operation of the Cooperative.</p>
+  <?php
+    if(is_array($committees_others))
+    {
+      $count_row = 18;
+      foreach($committees_others as $rowCom)
+      {
+       $couting = $count_row++;
+  ?>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 text-left">
+            <p class="text-justify font-weight-regular">Section <?=$count_row++?>. <i class="font-weight-bold"><?=$rowCom['name']?></i> A <?=$rowCom['name']?> Committee shall be composed of three (3) members to be appointed by the Board of Directors.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 col-md-12 text-left">
+            <p class="text-justify font-weight-regular">Section <?=$count_row++?>. <i class="font-weight-bold">Functions and Responsibilities.</i> <?=$rowCom['func_and_respons']?>.</p>
+        </div>
+      </div>  
+      
+  <?php
+      }//end foreach
+  ?>
+    <div class="row">
+      <div class="col-sm-12 col-md-12 text-left">
+          <p class="text-justify font-weight-regular">Section <?php echo $count_row+1;?>. <i class="font-weight-bold">Others Committee.</i> By a majority vote of all its members, the Board of Directors may form such other committees as may be deemed necessary for the operation of the Cooperative.</p>
+      </div>
     </div>
-  </div>
-  <div class="row mb-4">
-    <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 20. <i class="font-weight-bold">Qualification and Disqualification of Committee Members.</i> The qualification and disqualification of the Board of Directors shall also apply to all the members of the committees</p>
+    <div class="row mb-4">
+      <div class="col-sm-12 col-md-12 text-left">
+          <p class="text-justify font-weight-regular">Section <?php echo $count_row+2;?>. <i class="font-weight-bold">Qualification and Disqualification of Committee Members.</i> The qualification and disqualification of the Board of Directors shall also apply to all the members of the committees</p>
+      </div>
+    </div>   
+
+  <?php    
+    }
+    else
+    {
+  ?>
+    <div class="row">
+      <div class="col-sm-12 col-md-12 text-left">
+          <p class="text-justify font-weight-regular">Section 19. <i class="font-weight-bold">Others Committee.</i> By a majority vote of all its members, the Board of Directors may form such other committees as may be deemed necessary for the operation of the Cooperative.</p>
+      </div>
     </div>
+    <div class="row mb-4">
+      <div class="col-sm-12 col-md-12 text-left">
+          <p class="text-justify font-weight-regular">Section 20. <i class="font-weight-bold">Qualification and Disqualification of Committee Members.</i> The qualification and disqualification of the Board of Directors shall also apply to all the members of the committees</p>
+      </div>
   </div>
+  <?php    
+    }
+
+  ?>
+  
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
         <p class="font-weight-bold">Article VI<br>Officers and Management Staff of the Cooperative</p>

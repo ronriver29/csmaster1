@@ -79,13 +79,8 @@
               $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
               $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_director($data['admin_info']->region_code);
             }
-            
-             
-                 $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
-                  // var_dump($data['supervising_']);
-                  // echo $this->db->last_query();
-              // $this->debug($data['admin_info']);
-              // echo"<pre>";print_r($this->session->userdata());echo"</pre>";
+            $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
+            $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
             $this->load->view('templates/admin_header', $data);
             $this->load->view('applications/list_of_applications', $data);
             $this->load->view('applications/assign_admin_modal');
