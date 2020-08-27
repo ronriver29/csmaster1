@@ -89,9 +89,28 @@ if($cooperator_info->position=="Board of Director" || $cooperator_info->position
                 <?php endforeach; ?>
                 <option value="Others" <?=$others?>>Others</option>
               </select>
+
+              
+                   
+
+               
             </div>
           </div>
         </div>
+        <?php
+          if($committee_info->type=='others')
+          {
+        ?>
+        <div class="row">
+          <div class="col-md-6">
+            <label> Function and Responsibilities:</label>
+               <textarea name="func_and_respons" class="form-control" rows="5"> <?=$committee_info->func_and_respons?>  </textarea>
+          </div>
+        </div>
+        <br>
+        <?php
+          }
+        ?>
        <!--  <div class="row">
           <div class="col-sm-12 col-md-6">
             <div class="form-group">

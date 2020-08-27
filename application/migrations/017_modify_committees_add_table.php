@@ -1,5 +1,5 @@
 <?php
-class Migration_modify_committees_table extends CI_Migration
+class Migration_modify_committees_add_table extends CI_Migration
 {
     public function up()
     {

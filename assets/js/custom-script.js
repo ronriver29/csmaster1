@@ -818,7 +818,7 @@ $("#deleteStaffForm").validationEngine('attach',
               $('#editCommitteeForm #committeeName').on('change', function(){
                 if($(this).val()=="Others"){
                   var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
-                            '<div class="form-group"><label for="committeeNameSpecify">Specify Othersfff:</label>' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
                             '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhp]]" name="committeeNameSpecify" id="committeeNameSpecify">' +
                             '</div></div>');
                   $('#editCommitteeForm .ac-row').append(committeeNameSpecify);
@@ -840,7 +840,7 @@ $("#deleteStaffForm").validationEngine('attach',
                   $('#editCommitteeForm .col-committee-specify').remove();
                 }
               });
-               
+
               // $('#editCommitteeForm #cooperatorID').on('change', function(){
               //   $("#editCommitteeForm .ac-info-row input,textarea").val("");
               //   if($(this).val() && $(this).val().length >0){
