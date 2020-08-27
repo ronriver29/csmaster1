@@ -1180,7 +1180,6 @@ public function delete_pdf()
                               $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
                               $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
                              // $this->load->view('documents/primary/bylaws_for_primary', $data);
-
                                 $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
 
                                 $f = new pdf();
@@ -1266,10 +1265,12 @@ public function delete_pdf()
                                 $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                                  $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
                               $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
-                                $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
+                               $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
                                 $f = new pdf();
+                                $f->set_option("isPhpEnabled", true);
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
+                                // $f->setBasePath(public_path()); // This line resolve
                                 $f->render();
                                 $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
                               }else{
@@ -1636,11 +1637,12 @@ public function delete_pdf()
                                 $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                                 $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
                                 $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary', $data, TRUE);
-                                $f = new pdf();
-                                $f->setPaper('folio', 'portrait');
-                                $f->load_html($html2);
-                                $f->render();
-                                $f->stream("treasurer_affidavit_primary.pdf", array("Attachment"=>0));
+                              $f = new pdf();
+                              $f->set_option("isPhpEnabled", true);
+                              $f->setPaper('folio', 'portrait');
+                              $f->load_html($html2);
+                              $f->render();
+                              $f->stream("treasurer_affidavit_primary.pdf", array("Attachment"=>0));
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                 redirect('cooperatives/'.$id);
@@ -4137,12 +4139,12 @@ function do_upload_two_(){
                                 $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
                                 $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                                 $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data, TRUE);
-                                $J = new pdf();       
-                                $J->set_option('isRemoteEnabled',TRUE);
-                                $J->set_paper([0,0,612,936], "portrait"); //mm to point
-                                $J->load_html($html2);
-                                $J->render();
-                                $J->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
+                              $f = new pdf();
+                              $f->set_option("isPhpEnabled", true);
+                              $f->setPaper('folio', 'portrait');
+                              $f->load_html($html2);
+                              $f->render();
+                              $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
                                 
                                 // $f = new pdf();
                                 // $f->setPaper('folio', 'portrait');
