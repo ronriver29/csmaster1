@@ -613,14 +613,41 @@
     	</ol>
     </div>
   </div>
-  <div class="row">
+
+  <?php $section_=10; ?>
+  <?php if($Agriculture_type){ ?>
+    <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 11. <i class="font-weight-bold">Credit Committee.</i> A Credit Committee shall be composed of three (3) members to be appointed by the Board of Directors. Within ten (10) days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until their successors shall have been appointed and qualified and without prejudice to their reappointment. No member of the Committee shall hold any other position in the Cooperative during his/her term of office.</p>
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Credit Committee.</i> A Credit Committee shall be composed of three (3) members to be appointed by the Board of Directors. Within ten (10) days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until their successors shall have been appointed and qualified and without prejudice to their reappointment. No member of the Committee shall hold any other position in the Cooperative during his/her term of office.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 12. <i class="font-weight-bold">Functions and Responsibilities.</i> The Credit Committee shall:</p>
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Functions and Responsibilities.</i> The Credit Committee shall:</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <ol class="text-justify" type="a">
+        <li>Assist the Board of Directors in the formulation of sound lending and collection policies, systems and procedure. </li>
+        <li>Responsible for the credit management of the Cooperative. </li>
+        <li>In the performance of its functions, it shall process, evaluate and act upon loan application and withdrawal of deposits, except when the applicant is a member of the committee, in which case, the application shall be acted upon by the Board of Directors; and exercise general supervision including collection over all loans to members</li>
+        <li>Responsible for the formulation and conduct of financial and credit risk management training program.</li>
+      </ol>
+    </div>
+  </div>
+  <?php 
+  }//end if Agriculture
+  ?>
+  <?php if($coop_info->type_of_cooperative=="Credit"){ ?>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 text-left">
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Credit Committee.</i> A Credit Committee shall be composed of three (3) members to be appointed by the Board of Directors. Within ten (10) days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until their successors shall have been appointed and qualified and without prejudice to their reappointment. No member of the Committee shall hold any other position in the Cooperative during his/her term of office.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 text-left">
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Functions and Responsibilities.</i> The Credit Committee shall:</p>
     </div>
   </div>
   <div class="row">
@@ -633,14 +660,15 @@
     	</ol>
     </div>
   </div>
+<?php } //end if credit ?>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 13. <i class="font-weight-bold">Gender and Development (GAD) Committee.</i> A Gender and Development (GAD) Committee shall be composed of three ( 3) members to be appointed by the Board of Directors provided that at least one member shall come from the Board. The Committee shall elect from among themselves a Chairperson. The Committee members shall hold office until replaced by the Board.</p>
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Gender and Development (GAD) Committee.</i> A Gender and Development (GAD) Committee shall be composed of three ( 3) members to be appointed by the Board of Directors provided that at least one member shall come from the Board. The Committee shall elect from among themselves a Chairperson. The Committee members shall hold office until replaced by the Board.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 14. <i class="font-weight-bold">Functions and Responsibilities.</i> The Gender and Development (GAD) Committee shall:</p>
+        <p class="text-justify font-weight-regular">Section <?php  echo ++$section_;?>. <i class="font-weight-bold">Functions and Responsibilities.</i> The Gender and Development (GAD) Committee shall:</p>
     </div>
   </div>
   <div class="row">
@@ -656,12 +684,12 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 15. <i class="font-weight-bold">GAD Focal Person.</i> A GAD Focal Person (GFP) shall be designated by the Board upon recommendation of the management. He or she must be an employee of the cooperative and shall perform GFP roles as additional function</p>
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">GAD Focal Person.</i> A GAD Focal Person (GFP) shall be designated by the Board upon recommendation of the management. He or she must be an employee of the cooperative and shall perform GFP roles as additional function</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 16. <i class="font-weight-bold">Functions and Responsibilities of GAD Focal Person (GFP). </i></p>
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Functions and Responsibilities of GAD Focal Person (GFP). </i></p>
     </div>
   </div>
   <div class="row">
@@ -676,18 +704,18 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 17. <i class="font-weight-bold">GAD Education and Training Program.</i> The Cooperative shall identify GAD and GE-related education and training programs. These shall be included in the annual education and training plan.</p>
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">GAD Education and Training Program.</i> The Cooperative shall identify GAD and GE-related education and training programs. These shall be included in the annual education and training plan.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 18. <i class="font-weight-bold">GAD Support Systems and Services.</i> The Cooperative shall implement other services that address GAD and GE issues and concerns. It shall also develop and establish necessary support systems that will enhance implementation of the GAD and GE services of the Cooperative</p>
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">GAD Support Systems and Services.</i> The Cooperative shall implement other services that address GAD and GE issues and concerns. It shall also develop and establish necessary support systems that will enhance implementation of the GAD and GE services of the Cooperative</p>
     </div>
   </div>
   <?php
     if(is_array($committees_others))
     {
-      $count_row = 18;
+      $count_row = $section_;
       foreach($committees_others as $rowCom)
       {
        $couting = $count_row++;
@@ -709,12 +737,12 @@
   ?>
     <div class="row">
       <div class="col-sm-12 col-md-12 text-left">
-          <p class="text-justify font-weight-regular">Section <?php echo $count_row+1;?>. <i class="font-weight-bold">Others Committee.</i> By a majority vote of all its members, the Board of Directors may form such other committees as may be deemed necessary for the operation of the Cooperative.</p>
+          <p class="text-justify font-weight-regular">Section <?php echo $count_row++;?>. <i class="font-weight-bold">Others Committee.</i> By a majority vote of all its members, the Board of Directors may form such other committees as may be deemed necessary for the operation of the Cooperative.</p>
       </div>
     </div>
     <div class="row mb-4">
       <div class="col-sm-12 col-md-12 text-left">
-          <p class="text-justify font-weight-regular">Section <?php echo $count_row+2;?>. <i class="font-weight-bold">Qualification and Disqualification of Committee Members.</i> The qualification and disqualification of the Board of Directors shall also apply to all the members of the committees</p>
+          <p class="text-justify font-weight-regular">Section <?php echo $count_row++;?>. <i class="font-weight-bold">Qualification and Disqualification of Committee Members.</i> The qualification and disqualification of the Board of Directors shall also apply to all the members of the committees</p>
       </div>
     </div>   
 

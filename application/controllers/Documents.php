@@ -103,7 +103,7 @@ class Documents extends CI_Controller{
                                         }
                                     }
                                 }
-  
+                                
                                 $this->load->view('template/header', $data);
                                 $this->load->view('documents/list_of_documents', $data);
                                 $this->load->view('template/footer');
@@ -875,7 +875,7 @@ public function delete_pdf()
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
                               $f->render();
-                               $data['pageCount'] = $f->get_canvas()->get_page_count();
+                               // $data['pageCount'] = $f->get_canvas()->get_page_count();
                               $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
                               
                             }else{
@@ -1178,17 +1178,18 @@ public function delete_pdf()
                               $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
                               $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                               $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
+                              $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
                              // $this->load->view('documents/primary/bylaws_for_primary', $data);
 
-                              $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
+                                $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
 
-                              $f = new pdf();
-                              $f->set_option("isPhpEnabled", true);
-                              $f->setPaper('folio', 'portrait');
-                              $f->load_html($html2);
-                              // $f->setBasePath(public_path()); // This line resolve
-                              $f->render();
-                              $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
+                                $f = new pdf();
+                                $f->set_option("isPhpEnabled", true);
+                                $f->setPaper('folio', 'portrait');
+                                $f->load_html($html2);
+                                // $f->setBasePath(public_path()); // This line resolve
+                                $f->render();
+                                $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
                               redirect('cooperatives/'.$id);

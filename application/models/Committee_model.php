@@ -302,11 +302,41 @@ class Committee_model extends CI_Model{
     return $data;
   }
   public function get_all_others_committees_of_coop($coop_id){
-    $query = $this->db->get_where('committees',array('type'=>'others'));
+    $query = $this->db->get_where('committees',array('cooperative_id'=>$coop_id,'type'=>'others'));
     $data =  $query->result_array();
     return $data;
   }
-  
+  //exclusive for Agriculture cooperative type
+  public function check_credit_committe_in_agriculture($cooperative_id)
+  {
+    $query =$this->db->query("select type_of_cooperative from cooperatives where id='$cooperative_id'");
+    if($query->num_rows()>0)
+    {
+      foreach($query->result_array() as $row)
+      {
+        if($row['type_of_cooperative'] =='Agriculture')
+        {
+          $query2 = $this->db->get_where('committees',array('cooperative_id'=>$cooperative_id,'name'=>"Credit"));
+          if($query2->num_rows()>0)
+          {
+            return true;
+          }
+          else
+          {
+            return false;
+          }
+        }
+        else
+        {
+          return false;
+        }
+      }
+    }
+    else
+    {
+      return false;
+    }
+  }
   public function get_all_committees_of_coop_federation($coop_id){
     $this->db->select('committees_federation.id as comid, committees_federation.* ,cooperators.*');
     $this->db->from('committees_federation');

@@ -329,6 +329,7 @@ class Committees extends CI_Controller{
                                     'user_id' => $user_id,
                                     'cooperators_id' => $decoded_id,
                                     'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName'),
+                                    'cooperative_id' => $data['coop_info']->id,
                                      'func_and_respons' => $this->input->post('func_and_respons'),
                                      'type' => $this->input->post('type')
                                     );
