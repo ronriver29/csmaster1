@@ -809,6 +809,8 @@ $("#deleteStaffForm").validationEngine('attach',
               end add committee form
               */
 
+               
+
 
               /*
               Start edit committee form
@@ -816,7 +818,7 @@ $("#deleteStaffForm").validationEngine('attach',
               $('#editCommitteeForm #committeeName').on('change', function(){
                 if($(this).val()=="Others"){
                   var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
-                            '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Specify Othersfff:</label>' +
                             '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhp]]" name="committeeNameSpecify" id="committeeNameSpecify">' +
                             '</div></div>');
                   $('#editCommitteeForm .ac-row').append(committeeNameSpecify);
@@ -824,6 +826,21 @@ $("#deleteStaffForm").validationEngine('attach',
                   $('#editCommitteeForm .col-committee-specify').remove();
                 }
               });
+
+               $('#editCommitteeForm #committeeName').on('change', function(){
+                if($(this).val()=="Others"){
+                  var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Function and Responsibilities:</label>' +
+                            // '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhp]]" name="func_and_respons" id="committeeNameSpecify">' +
+                             '<textarea class="form-control validate[required]" name="func_and_respons" id="func_and_respons" rows="5"></textarea>' +
+                            '<input type="hidden" value="others" name="type">' +
+                            '</div></div>');
+                  $('#editCommitteeForm .ac-row').append(committeeNameSpecify);
+                }else{
+                  $('#editCommitteeForm .col-committee-specify').remove();
+                }
+              });
+               
               // $('#editCommitteeForm #cooperatorID').on('change', function(){
               //   $("#editCommitteeForm .ac-info-row input,textarea").val("");
               //   if($(this).val() && $(this).val().length >0){

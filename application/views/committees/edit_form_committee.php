@@ -62,6 +62,14 @@ if($cooperator_info->position=="Board of Director" || $cooperator_info->position
         <div class="row ac-row">
           <input type="hidden" class="form-control" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_id ?>">
           <input type="hidden" class="form-control" id="committeeID" name="committeeID" value="<?=$encrypted_committee_id?>">
+          <div class="col-md-4">
+
+              <div class="form-group">
+                <label for="cooperatorID">Name of Cooperator:</label>
+                <input type="text" value="<?= $cooperator_info->full_name?>" class="form-control validate[required]" id="cooperatorName" name="cooperatorName" disabled>
+              </div>
+
+          </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="committeeName">Name of Committee:</label>
@@ -84,14 +92,14 @@ if($cooperator_info->position=="Board of Director" || $cooperator_info->position
             </div>
           </div>
         </div>
-        <div class="row">
+       <!--  <div class="row">
           <div class="col-sm-12 col-md-6">
             <div class="form-group">
               <label for="cooperatorID">Name of Cooperator:</label>
               <input type="text" value="<?= $cooperator_info->full_name?>" class="form-control validate[required]" id="cooperatorName" name="cooperatorName" disabled>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="row ac-info-row">
           <div class="col-sm-12 col-md-4">
             <div class="form-group">

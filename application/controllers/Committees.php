@@ -638,7 +638,9 @@ class Committees extends CI_Controller{
                                 $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
                                 $decoded_post_committee_id = $this->encryption->decrypt(decrypt_custom($this->input->post('committeeID')));
                                 $data = array(
-                                  'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName')
+                                  'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName'),
+                                  'func_and_respons' => $this->input->post('func_and_respons'),
+                                  'type' =>$this->input->post('type')
                                   );
                                 $success = $this->committee_model->edit_committee($decoded_post_committee_id,$data);
                                 if($success['success']){

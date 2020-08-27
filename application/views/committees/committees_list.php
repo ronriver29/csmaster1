@@ -38,7 +38,7 @@
 <?php
 
 if($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture'){ 
-    $credit = '$credit_count == 0';
+    $credit = $credit_count == 0;
 } else {
     $credit = '';
 }

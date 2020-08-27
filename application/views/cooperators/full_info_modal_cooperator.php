@@ -23,8 +23,7 @@
                 <strong>Position</strong><br>
                 <i class="position">Test</i>
               </div>
-              <div class="col-sm-12 col-md-4 text-center mb-2">
-                <strong>Gender</strong><br>
+              <div class="col-sm-12 col-md-4 text-center mb-2"> 
                 <i class="gender">Test</i>
               </div>
               <div class="col-sm-12 col-md-4 text-center mb-2">
