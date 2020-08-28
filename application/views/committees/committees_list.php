@@ -37,7 +37,8 @@
 <?php endif; ?>
 <?php
 
-if($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture'){ 
+// if($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture'){ 
+if($coop_info->type_of_cooperative == 'Credit'){ 
     $credit = $credit_count == 0;
 } else {
     $credit = '';

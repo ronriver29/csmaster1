@@ -80,4 +80,10 @@
   'open sans' => array(
     'normal' => $fontDir . '/open-sans-normal_bf11512877ef2223afd06e89358ef2fc',
   ),
+  'ubuntu' => array(
+    '300' => $fontDir . '/ubuntu-300_03e139313c27956116a0385cb95a7f0c',
+    'normal' => $fontDir . '/ubuntu-normal_406d7869351a86a99c4f79390fe5ac38',
+    '500' => $fontDir . '/ubuntu-500_bc411258a9fbed686c145dc8bc86637a',
+    'bold' => $fontDir . '/ubuntu-bold_2db7e231e33ea8cd91a1fe96239e0fa2',
+  ),
 ) ?>

@@ -277,7 +277,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                 </tr>
                 <tr>
                   <td class="bord">Date of OR</td>
-                  <td class="bord"><input type="date" id="dateofOR" name="dateofOR" class="form-control"></td>
+                  <td class="bord"><input type="date" id="dateofOR" name="dateofOR"  class="form-control"><span id="msgdate" style="font-size:11px;margin-left:100px;color:red;font-style: italic;"></span></td>
                 </tr>
                 <tr>
                   <td class="bord">Transaction No.</td>
@@ -326,13 +326,33 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
     </div>
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
+<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 <script src="<?=base_url();?>assets/js/toword.js"></script>
 
+
 <script type="text/javascript">
+  $(document).ready(function(){
+    function GetNow(){
+    var currentdate = new Date(); 
+    var month = currentdate.getMonth() + 1;
+    var day = currentdate.getDate();
+    var date1 = (('' + day).length < 2 ? '0' : '') + currentdate.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + day  ;
+    return date1;
+  }
+
+  $('#dateofOR').on('change',function(){
+    var selectedDate = ($(this).val());
+    var now = GetNow();
+    if(selectedDate>now)
+    {
+      $(this).val(now);
+      $("#msgdate").text("Date of O.R. must not greater than current date");
+    }
   
-
-
+  });
+});
+</script>
+<script type="text/javascript">
   function showPayment(coop_id,coop_name) {
     //save_method = 'add';
     $('#paymentForm')[0].reset(); // reset form on modals

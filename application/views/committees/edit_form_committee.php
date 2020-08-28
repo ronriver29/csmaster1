@@ -87,7 +87,7 @@ if($cooperator_info->position=="Board of Director" || $cooperator_info->position
                 <?php foreach ($custom_committees as $custom_committee) : ?>
                   <option value="<?= $custom_committee['name'] ?> " <?php if($committee_info->name==$custom_committee['name']) echo "selected";?>> <?= $custom_committee['name'] ?> </option>
                 <?php endforeach; ?>
-                <option value="Others" <?=$others?>>Others</option>
+              <!--   <option value="Others" <?=$others?>>Others</option> -->
               </select>
 
               

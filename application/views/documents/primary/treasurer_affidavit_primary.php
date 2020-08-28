@@ -9,8 +9,9 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-  <link rel="stylesheet" href="<?=APPPATH?>../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?=APPPATH?>../../../assets/css/bootstrap.min.css">
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700" rel="stylesheet" type="text/css">
   <style>
   @page{margin: 96px 96px 130px 96px;}
   .page_break { page-break-before: always; }
@@ -18,9 +19,23 @@
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
   }
+
+
+@font-face {
+        font-family: 'bookman';
+        src: url('lib/fonts/bookman.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+/*
+font-face {
+    font-family: new_font;
+    src: url('BOOKOS.TTF');
+}*/
   </style>
 </head>
-<body>
+<body style="font-size:12">
   <script type="text/php">
         if ( isset($pdf) ) {
             $x = 570; 

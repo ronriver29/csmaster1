@@ -283,7 +283,7 @@
                 },
                 "ajaxCommitteeNameCallPhp": {
                     "url": "check_committee_name_not_exists",
-                    "url": "../check_committee_name_not_exists", //for edit commitee
+                    // "url": "../check_committee_name_not_exists", //for edit commitee
                     // you may want to pass extra data on the ajax call
                     "alertText": "* This committee name already exists. Please select it in the dropdown.",
                     "alertTextOk": "* This committee name is available.",

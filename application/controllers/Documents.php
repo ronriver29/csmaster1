@@ -1560,11 +1560,16 @@ public function delete_pdf()
                               $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                               $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                               $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
-                              // $html2 = $this->load->view('documents/primary/test', $data, TRUE);
+                              // $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary', $data);
                               $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary', $data, TRUE);
                               $f = new pdf();
+                              // $f->setIsRemoteEnabled(true);
+
+                              // $f->setIsFontSubsettingEnabled(true);
+                              $f->set_option('isHtml5ParserEnabled', true);
                               $f->set_option("isPhpEnabled", true);
                               $f->setPaper('folio', 'portrait');
+                              $f->set_option('defaultFont','bookman');
                               $f->load_html($html2);
                               $f->render();
                               $f->stream("treasurer_affidavit_primary.pdf", array("Attachment"=>0));
