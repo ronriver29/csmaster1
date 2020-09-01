@@ -47,6 +47,24 @@ class Admin_model extends CI_Model{
   }
   public function add_admin($data,$raw_pass){
     $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+    $this->db->insert('admin',$data);
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      if($this->sendEmailAccountDetails($data['email'],$data['username'],$raw_pass)){
+        $this->db->trans_commit();
+        return true;
+      }else{
+        $this->db->trans_rollback();
+        return false;
+      }
+    }
+  }
+
+public function add_admin_director($data,$raw_pass){
+    $data = $this->security->xss_clean($data);
     return $data;
     if($data['access_name']=="Director")
     {
@@ -644,5 +662,4 @@ System (CoopRIS).</pre>";
         return false;
       }
     }
-
 }
