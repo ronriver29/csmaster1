@@ -95,25 +95,52 @@ public function add_admin_director($data,$raw_pass){
     }
     else if($data['access_name']=="Acting Regional Director")
     {
-
-    }
-    else
-    {
-          $this->db->trans_begin();
-          $this->db->insert('admin',$data);
-          if($this->db->trans_status() === FALSE){
-            $this->db->trans_rollback();
-            return false;
-          }else{
-            if($this->sendEmailAccountDetails($data['email'],$data['username'],$raw_pass)){
-              $this->db->trans_commit();
-              return true;
-            }else{
+      $chk_qry = $this->db->get_where('admin',array('region_code'=>$data['region_code'],'access_level'=>3));
+        if($chk_qry->num_rows()>0)
+        {
+          return array('status'=>0,'msg'=>"Regional Director already exist");//already have an director
+        }
+        
+           $chk_qry2 = $this->db->get_where('admin',array('region_code'=>$data['region_code'],'access_name'=>"Acting Regional Director"));
+          if($chk_qry2->num_rows()>0)
+          {
+             return array('status'=>0,'msg'=>"Acting Regional Director already exist");
+          }
+          else
+          {
+            $this->db->trans_begin();
+            $this->db->insert('admin',$data);
+            if($this->db->trans_status() === FALSE){
               $this->db->trans_rollback();
               return false;
+            }else{
+              if($this->sendEmailAccountDetails($data['email'],$data['username'],$raw_pass)){
+                $this->db->trans_commit();
+                return true;
+              }else{
+                $this->db->trans_rollback();
+                return false;
+              }
             }
           }
     }
+    // else
+    // {
+    //       $this->db->trans_begin();
+    //       $this->db->insert('admin',$data);
+    //       if($this->db->trans_status() === FALSE){
+    //         $this->db->trans_rollback();
+    //         return false;
+    //       }else{
+    //         if($this->sendEmailAccountDetails($data['email'],$data['username'],$raw_pass)){
+    //           $this->db->trans_commit();
+    //           return true;
+    //         }else{
+    //           $this->db->trans_rollback();
+    //           return false;
+    //         }
+    //       }
+    // }
     
     
   }

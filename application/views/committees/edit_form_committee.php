@@ -72,7 +72,6 @@ if($cooperator_info->position=="Board of Director" || $cooperator_info->position
           </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
-             <!--  <?php echo"<pre>";print_r($committee_info);echo"</pre>"; ?> -->
               <label for="committeeName">Name of Committee:</label>
               <select class="custom-select validate[required]" name="committeeName" id="committeeName">
                 <option value="" <?php if($committee_info->name=="") echo "selected";?> disabled>--</option>
@@ -85,9 +84,22 @@ if($cooperator_info->position=="Board of Director" || $cooperator_info->position
                   <option id="A" value="Credit" <?=$credits?> <?=($committee_info->type =='others' ? "disabled" : " ")?>>Credit</option>
                 <?php } ?>
                 <option value="Gender and Development" <?php if($committee_info->name=="Gender and Development") echo "selected";?> <?=$gad?> <?=($committee_info->type =='others' ? "disabled" : " ")?>>Gender and Development</option>
-                <?php foreach ($custom_committees as $custom_committee) : ?>
+                <?php $reg_name = array("Audit","Election","Education and Training","Mediation and Conciliation","Ethics","Credit","Gender and Development ");
+                  if(in_array($committee_info->name,$reg_name))
+                  {
+
+                  }
+                  else
+                  {
+                    foreach ($custom_committees as $custom_committee) : 
+                      ?>
                   <option value="<?= $custom_committee['name'] ?> " <?php if($committee_info->name==$custom_committee['name']) echo "selected";?>> <?= $custom_committee['name'] ?> </option>
-                <?php endforeach; ?>
+                <?php endforeach;
+                  }
+                ?>
+                <!-- <?php foreach ($custom_committees as $custom_committee) : ?>
+                  <option value="<?= $custom_committee['name'] ?> " <?php if($committee_info->name==$custom_committee['name']) echo "selected";?>> <?= $custom_committee['name'] ?> </option>
+                <?php endforeach; ?> -->
               <!--   <option value="Others" <?=$others?>>Others</option> -->
               </select>
 
