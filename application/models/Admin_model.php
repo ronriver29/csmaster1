@@ -47,20 +47,57 @@ class Admin_model extends CI_Model{
   }
   public function add_admin($data,$raw_pass){
     $data = $this->security->xss_clean($data);
-    $this->db->trans_begin();
-    $this->db->insert('admin',$data);
-    if($this->db->trans_status() === FALSE){
-      $this->db->trans_rollback();
-      return false;
-    }else{
-      if($this->sendEmailAccountDetails($data['email'],$data['username'],$raw_pass)){
-        $this->db->trans_commit();
-        return true;
-      }else{
-        $this->db->trans_rollback();
-        return false;
-      }
+    return $data;
+    if($data['access_name']=="Director")
+    {
+        $chk_qry = $this->db->get_where('admin',array('region_code'=>$data['region_code'],'access_level'=>3));
+        if($chk_qry->num_rows()>0)
+        {
+          return array('status'=>0,'msg'=>"Regional Director already exist");//already have an director
+        }
+        else
+        {
+          //acting director
+          $chk_acting_director = $this->get_where();
+          $this->db->trans_begin();
+          $this->db->insert('admin',$data);
+          if($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            return false;
+          }else{
+            if($this->sendEmailAccountDetails($data['email'],$data['username'],$raw_pass)){
+              $this->db->trans_commit();
+              return array('status'=>1,'msg'=>"Successfully added an Administrator.");
+            }else{
+              $this->db->trans_rollback();
+              return  array('status'=>3,'msg'=>"Unable to add admin account. Please contact system administrator.");
+            }
+          }
+        }
     }
+    else if($data['access_name']=="Acting Regional Director")
+    {
+
+    }
+    else
+    {
+          $this->db->trans_begin();
+          $this->db->insert('admin',$data);
+          if($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            return false;
+          }else{
+            if($this->sendEmailAccountDetails($data['email'],$data['username'],$raw_pass)){
+              $this->db->trans_commit();
+              return true;
+            }else{
+              $this->db->trans_rollback();
+              return false;
+            }
+          }
+    }
+    
+    
   }
   public function update_admin($aid,$data){
     $aid = $this->security->xss_clean($aid);
@@ -607,4 +644,5 @@ System (CoopRIS).</pre>";
         return false;
       }
     }
+
 }

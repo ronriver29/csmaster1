@@ -529,7 +529,8 @@ class Committees extends CI_Controller{
                               $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
                               $decoded_post_committee_id = $this->encryption->decrypt(decrypt_custom($this->input->post('committeeID')));
                               $data = array(
-                                'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName')
+                                'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName'),
+                                'func_and_respons'=>$this->input->post('func_and_respons')
                                 );
                               $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
                               $committeeName = $this->input->post('committeeName');
@@ -540,6 +541,7 @@ class Committees extends CI_Controller{
                                   $this->session->set_flashdata('committee_error', 'Committee already has 3 cooperators');
                                   redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
                                 }else{
+                                  // $this->debug($data);
                                     $success = $this->committee_model->$edit_committee_federation($decoded_post_committee_id,$data);
                                     if($success['success']){
                                       $this->session->set_flashdata('committee_success', $success['message']);
@@ -804,5 +806,11 @@ class Committees extends CI_Controller{
     }else{
       show_404();
     }
+  }
+  public function debug($array)
+  {
+    echo"<pre>";
+    print_r($array);
+    echo"<pre>";
   }
 }
