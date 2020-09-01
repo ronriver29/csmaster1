@@ -367,7 +367,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
         dataType: "JSON",
         success: function(data)
         {
-            var s=toWords(parseInt(data.total));
+            var s=toWords(parseFloat(data.total).toFixed(2));
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);
