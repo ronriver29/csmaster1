@@ -140,15 +140,25 @@ class Admins extends CI_Controller{
               'password' => password_hash($this->input->post('pword'), PASSWORD_BCRYPT)
               );
                 if($this->input->post('access_name') == 'Acting Regional Director'){
-                  $this->debug(add_admin_director($data,$raw_pass));                
-
-                    // if($this->admin_model->add_admin($data,$this->input->post('pword',true))){
-                    //     $this->session->set_flashdata('add_admin_success', 'Successfully added an administrator.');
-                    //     redirect('admins/all_admin');
-                    // }else{
-                    //     $this->session->set_flashdata('add_admin_error', 'Unable to add administrator.');
-                    //     redirect('admins/all_admin');
-                    // }
+                  // $this->debug($this->admin_model->add_admin_director($data,$this->input->post('pword',true))); 
+                  // echo $this->db->last_query();               
+                    $insert = $this->admin_model->add_admin_director($data,$this->input->post('pword',true));
+                    // echo $insert['status'].' '.$insert['msg'];
+                    if($insert['status']==1)
+                    {
+                        $this->session->set_flashdata('add_admin_success', $insert['msg']);
+                        redirect('admins/all_admin');
+                    }
+                    else if($insert['status']==0)
+                    {
+                      $this->session->set_flashdata('add_admin_error', $insert['msg']);
+                        redirect('admins/all_admin');
+                    }
+                    else
+                    {
+                        $this->session->set_flashdata('add_admin_error', 'Unable to add administrator.');
+                        redirect('admins/all_admin');
+                    }
                 } else {
                     $success = $this->admin_model->check_position_not_exists_in_region($data['access_level'],$data['region_code']);
                     if($success['success']){
