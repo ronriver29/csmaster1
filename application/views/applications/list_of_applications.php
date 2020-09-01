@@ -93,6 +93,7 @@
                     </td>
                   <?php endif; ?>
                   <td>
+                   
                       <span class="badge badge-secondary">
                       <?php if($is_client) : ?>
                         <?php if($cooperative['status']==0) echo "EXPIRED";
@@ -113,7 +114,8 @@
                         else if($cooperative['status']==6) echo "SUBMITTED BY CDS II";
                         else if($cooperative['status']==7) echo "DENIED BY SENIOR CDS";
                         else if($cooperative['status']==8) echo "DEFERRED BY SENIOR CDS";
-                        else if($cooperative['status']==9 && !$is_acting_director) echo "DELEGATED BY DIRECTOR";
+                        else if($cooperative['status']==9 && !$is_acting_director && $admin_info->access_level==3) echo "DELEGATED BY DIRECTOR";
+                        else if($cooperative['status']==9 && $supervising_ && $admin_info->access_level==4) echo "DELEGATED BY DIRECTOR";
                         else if($cooperative['status']==9) echo "SUBMITTED BY SENIOR CDS";
                         else if($cooperative['status']==10) echo "DENIED BY DIRECTOR";
                         else if($cooperative['status']==11) echo "DEFERRED BY DIRECTOR";

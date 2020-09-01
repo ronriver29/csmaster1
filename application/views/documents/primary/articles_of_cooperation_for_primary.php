@@ -24,6 +24,7 @@
 <body>
   <script type="text/php">
         if ( isset($pdf) ) {
+
             $x = 570; 
             $y=900;
             $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
@@ -36,16 +37,31 @@
             $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
             
         }
+
 </script>
+
+
 <div class="container-fluid text-monospace">
 
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center"> 
+
+
         <p class="font-weight-bold">ARTICLES OF COOPERATION<br>of<br><?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?></p>
     </div>
   </div>
   <div class="row mb-2">
-    <div class="col-sm-12 col-md-12 text-left">
+    <div class="col-sm-12 col-md-12 text-left"><!-- <script type="text/php">
+if (isset($pdf) ) {
+   $pdf->page_script ('
+if ($PAGE_NUM != 1) {
+    $current_page = $PAGE_NUM;
+    $pdf->text(550, 750, "Page $current_page", null, 10, array(0,0,0));
+ }
+
+');
+}
+</script> -->
         <p class="font-weight-bold">KNOW ALL MEN BY THESE PRESENTS:</p>
     </div>
   </div>
@@ -489,6 +505,19 @@
       </div>
     </div>
   </div>
+
+  <!-- <script type="text/php">
+  $pdf->page_script('
+    
+      if ($PAGE_NUM == $PAGE_COUNT) {
+        $font = $fontMetrics->getFont("bookman");
+        $size = 11;
+        $y = 380;
+        $x =200;// $pdf->get_width() - 138;
+        $pdf->text($x, $y, $PAGE_COUNT, $font, $size);
+      }
+  ');
+</script> -->
   <div class="row mb-3">
     <div class="col-sm-12 col-md-12">
       <p class="text-justify" style="text-indent: 50px;">All known to me to be the same persons who executed the foregoing Articles of Cooperation, and acknowledged to me that the same is their free will and voluntary deed. </p>
@@ -496,7 +525,7 @@
   </div>
   <div class="row mb-3">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>, consists of ______ pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>
+      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>, consists of <span id="page_num"> </span>______ pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>
     </div>
   </div>
 

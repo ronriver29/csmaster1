@@ -52,7 +52,7 @@ font-face {
 </script>
 <div class="container-fluid text-monospace">
   <div class="row mb-4">
-    <div class="col-sm-12 col-md-12 text-center">
+    <div class="col-sm-12 col-md-12 text-center"> 
         <p class="font-weight-bold"><b>TREASURER’S AFFIDAVIT</b></p>
     </div>
   </div>
