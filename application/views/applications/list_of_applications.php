@@ -334,18 +334,19 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
 
 <script type="text/javascript">
   $(document).ready(function(){
-    function GetNow(){
+  function GetNow()
+  {
     var currentdate = new Date(); 
     var month = currentdate.getMonth() + 1;
     var day = currentdate.getDate();
-    var date1 = (('' + day).length < 2 ? '0' : '') + currentdate.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + day  ;
+    var date1 = (currentdate.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '')  + day);
     return date1;
   }
-
   $('#dateofOR').on('change',function(){
-    var selectedDate = ($(this).val());
+    var selectedDate = $(this).val();
     var now = GetNow();
-    if(selectedDate>now)
+    // alert(now+selectedDate);
+    if(selectedDate > now)
     {
       $(this).val(now);
       $("#msgdate").text("Date of O.R. must not greater than current date");
@@ -354,6 +355,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
   });
 });
 </script>
+
 <script type="text/javascript">
   function showPayment(coop_id,coop_name) {
     //save_method = 'add';
