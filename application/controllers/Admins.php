@@ -140,10 +140,8 @@ class Admins extends CI_Controller{
               'password' => password_hash($this->input->post('pword'), PASSWORD_BCRYPT)
               );
                 if($this->input->post('access_name') == 'Acting Regional Director'){
-                  // $this->debug($this->admin_model->add_admin_director($data,$this->input->post('pword',true))); 
-                  // echo $this->db->last_query();               
+                  // $this->debug($this->admin_model->add_admin_director($data,$this->input->post('pword',true)));              
                     $insert = $this->admin_model->add_admin_director($data,$this->input->post('pword',true));
-                    // echo $insert['status'].' '.$insert['msg'];
                     if($insert['status']==1)
                     {
                         $this->session->set_flashdata('add_admin_success', $insert['msg']);
