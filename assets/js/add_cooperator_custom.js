@@ -7,7 +7,7 @@ $(function(){
       $("#subscribed-note").hide().html('');
       if(val > available_subscribed_capital) {
           $(".subscribedSharesformError").hide().html('');
-          $("#subscribed-note").show().html('Should not exceed the remaining no of subscribed sharekkkkk: '+available_subscribed_capital);
+          $("#subscribed-note").show().html('Should not exceed the remaining no of subscribed share: '+available_subscribed_capital);
       }
       console.log(val);
       console.log(available_subscribed_capital);

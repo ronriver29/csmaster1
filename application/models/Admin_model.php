@@ -172,7 +172,9 @@ public function add_admin_director($data,$raw_pass){
     $query2 = $this->db->get_where('admin',array('access_level'=>4,'region_code'=>$data->region_code));
     $supervisor = $query2->row();
     $this->db->trans_begin();
-    $this->db->where('id',$director_id);
+    // $this->db->where('id',$director_id);
+    $this->db->where('access_level',3);
+    $this->db->where('region_code',$data->region_code);
     $this->db->update('admin',array('is_director_active'=>0));
     $this->db->where('id',$supervisor->id);
     $this->db->update('admin',array('is_director_active'=>1));
@@ -190,7 +192,9 @@ public function add_admin_director($data,$raw_pass){
     $query2 = $this->db->get_where('admin',array('access_level'=>4,'region_code'=>$data->region_code));
     $supervisor = $query2->row();
     $this->db->trans_begin();
-    $this->db->where('id',$director_id);
+    // $this->db->where('id',$director_id);
+    $this->db->where('access_level',3);
+    $this->db->where('region_code',$data->region_code);
     $this->db->update('admin',array('is_director_active'=>1));
     $this->db->where('id',$supervisor->id);
     $this->db->update('admin',array('is_director_active'=>0));

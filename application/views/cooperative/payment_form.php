@@ -75,6 +75,14 @@
                 } else {
                     $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
                 }
+                $total_amount_in_words=0;
+                $amount_in_words=0;
+                  $amount_in_words = ($rf+$lrf+$name_reservation_fee);
+                ini_set('precision', 17);
+                $total_amount_in_words = ($pos = strpos( $amount_in_words,'.')) ? substr( $amount_in_words,0,$pos + 3) : number_format( $amount_in_words);
+                // $total_amount_in_words = floor($amount_in_words*100)/100;
+                var_dump($total_amount_in_words);
+              echo num_format_custom($total_amount_in_words);
                 echo '
                 <tr>
                   <td class="bord">Payor</td>
@@ -86,7 +94,7 @@
                 </tr>
                 <tr>
                   <td class="bord">Amount in Words</td>
-                  <td class="bord" colspan="3"><b>'.ucwords(num_format_custom($rf+$lrf+$name_reservation_fee)).' Pesos</b></td>
+                  <td class="bord" colspan="3" id="amt" style="text-transform:capitalize;font-weight:bold"><b> Pesos</b></td>
                 </tr>
                 <tr>
                   <td class="bord" align="center" colspan="4">Particulars</td>
@@ -155,3 +163,11 @@
     </div>
   </div>
 </div>
+
+<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+<script src="<?=base_url();?>assets/js/toword.js"></script>
+
+<script type="text/javascript">
+  var s=toWords(parseFloat(<?=$amount_in_words?>).toFixed(2));
+  $('#amt').text(s);
+</script>

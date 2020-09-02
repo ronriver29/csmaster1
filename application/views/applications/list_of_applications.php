@@ -295,7 +295,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                 </tr>
                 <tr>
                   <td class="bord">Amount in Words</td>
-                  <td class="bord" colspan="3"><b id="word"> </b></td>
+                  <td class="bord" colspan="3" style="text-transform:capitalize"><b id="word"> </b></td>
                 </tr>
                 <tr>
                   <td class="bord" colspan="4" align="center">Particulars</td>
