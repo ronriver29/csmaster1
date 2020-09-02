@@ -99,7 +99,7 @@ public function add_admin_director($data,$raw_pass){
             }else{
               if($this->sendEmailAccountDetails($data['email'],$data['username'],$raw_pass)){
                 $this->db->trans_commit();
-                return array('status'=>4,'msg'=>"Successfully added an Administrator.");
+                return array('status'=>1,'msg'=>"Successfully added an Administrator.");
               }else{
                 $this->db->trans_rollback();
                 return false;

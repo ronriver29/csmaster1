@@ -28,7 +28,7 @@
             $x = 570; 
             $y=900;
             $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
-            $font = $fontMetrics->get_font("bokman");
+           // $font = $fontMetrics->get_font("bokman");
             $size = 12;
             $color = array(0,0,0);
             $word_space = 0.0;  //  default
