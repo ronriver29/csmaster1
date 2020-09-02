@@ -51,7 +51,7 @@
             
           </div>
           <div>
-             <center>
+             <!-- <center>
               <ul>  
                   <li style="list-style: none">  
                       Users Manual
@@ -67,7 +67,7 @@
                       <li style="list-style: none"><a class="" target="_blank" href="<?=base_url()?>users/users_manual/<?=encrypt_custom($this->encryption->encrypt('CDA_Client_LaboratoyRegistration.pdf'))?>">Laboratory</a>
                       </li>
               </ul>
-            </center>
+            </center> -->
           </div>
         </div>
   </div>
