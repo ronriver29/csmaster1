@@ -23,7 +23,7 @@
                     </span>
                   </div>
                 </div>
-                <input type="email" class="form-control" name="eAddressLogin" placeholder="Email Address" required>
+                <input type="email" style="box-shadow:none" class="form-control" name="eAddressLogin" placeholder="Email Address" required>
               </div>
               <div class="input-group mb-3 mr-sm-2">
                 <div class="input-group-prepend">
@@ -33,7 +33,7 @@
                     </span>
                   </div>
                 </div>
-                <input type="password" class="form-control" name="passwordLogin" placeholder="Password" required>
+                <input type="password" style="box-shadow:none" class="form-control" name="passwordLogin" placeholder="Password" required>
               </div>
               <?php echo '<small class="text-danger form-text">'.$this->session->flashdata("login_failed").'</small>';
               ?>
