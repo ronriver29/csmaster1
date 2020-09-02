@@ -81,7 +81,7 @@
                 ini_set('precision', 17);
                 $total_amount_in_words = ($pos = strpos( $amount_in_words,'.')) ? substr( $amount_in_words,0,$pos + 3) : number_format( $amount_in_words);
                 // $total_amount_in_words = floor($amount_in_words*100)/100;
-                var_dump($total_amount_in_words);
+                
               echo num_format_custom($total_amount_in_words);
                 echo '
                 <tr>
@@ -169,5 +169,5 @@
 
 <script type="text/javascript">
   var s=toWords(parseFloat(<?=$amount_in_words?>).toFixed(2));
-  $('#amt').text(s);
+  $('#amt').text(s+' Pesos');
 </script>
