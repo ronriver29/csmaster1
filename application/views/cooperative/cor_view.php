@@ -403,8 +403,14 @@ Very truly yours,<br/>
 <br/>
 <br/>
 <br/>
-<b><?=strtoupper($director) ?></b><br/>
-<?=strtoupper('Regional Director') ?>
+<table>
+<tr>
+<td width="10%">
+<b><?=strtoupper($director->full_name) ?></b><br/>
+<?=strtoupper($director->access_name) ?>
 </p>
+</td>
+</tr>
+</table>
 </div>
 </body>

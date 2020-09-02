@@ -85,18 +85,19 @@ class registration extends CI_Controller{
       
       $data1['chair'] = $this->registration_model->get_chairman()->chairman;
       $data1['coop_info']=$coop_details;
-      $data1['director']=$this->registration_model->get_director($user_id)->full_name;
+      // $data1['director']=$this->registration_model->get_director($user_id)->full_name;
+      $data1['director']=$this->registration_model->get_director($user_id);
           set_time_limit(0);
-        var_dump($data1['director']);
+       // $this->debug($data1['director']);
           
-         // $html2 = $this->load->view('cooperative/cor_view', $data1);
-         // $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);
-         //   $J = new pdf();       
-         //   $J->set_option('isRemoteEnabled',TRUE);
-         //   $J->setPaper('folio', 'portrait');
-         //   $J->load_html($html2);
-         //   $J->render();
-         //   $J->stream("certificate.pdf", array("Attachment"=>0));
+         $html2 = $this->load->view('cooperative/cor_view', $data1);
+         $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);
+           $J = new pdf();       
+           $J->set_option('isRemoteEnabled',TRUE);
+           $J->setPaper('folio', 'portrait');
+           $J->load_html($html2);
+           $J->render();
+           $J->stream("certificate.pdf", array("Attachment"=>0));
     }
   }
 
