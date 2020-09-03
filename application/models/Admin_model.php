@@ -198,8 +198,7 @@ public function add_admin_director($data,$raw_pass){
     $this->db->where('access_level',3);
     $this->db->where('region_code',$data->region_code);
     $this->db->update('admin',array('is_director_active'=>1));
-    $this->db->where('access_level',3);
-    $this->db->where('access_level',4);
+     $this->db->where('access_level',4);
     $this->db->where('region_code',$data->region_code);
     $this->db->update('admin',array('is_director_active'=>0));
     if($this->db->trans_status() === FALSE){
