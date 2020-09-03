@@ -176,7 +176,8 @@ public function add_admin_director($data,$raw_pass){
     $this->db->where('access_level',3);
     $this->db->where('region_code',$data->region_code);
     $this->db->update('admin',array('is_director_active'=>0));
-    $this->db->where('id',$supervisor->id);
+    $this->db->where('access_level',4);
+    $this->db->where('region_code',$data->region_code);
     $this->db->update('admin',array('is_director_active'=>1));
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
@@ -191,12 +192,15 @@ public function add_admin_director($data,$raw_pass){
     $data = $query->row();
     $query2 = $this->db->get_where('admin',array('access_level'=>4,'region_code'=>$data->region_code));
     $supervisor = $query2->row();
+    
     $this->db->trans_begin();
     // $this->db->where('id',$director_id);
     $this->db->where('access_level',3);
     $this->db->where('region_code',$data->region_code);
     $this->db->update('admin',array('is_director_active'=>1));
-    $this->db->where('id',$supervisor->id);
+    $this->db->where('access_level',3);
+    $this->db->where('access_level',4);
+    $this->db->where('region_code',$data->region_code);
     $this->db->update('admin',array('is_director_active'=>0));
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
@@ -360,7 +364,7 @@ You may now submit the following requirements/ documents:
      3.  Certification for the presence of Manual of Operation and Addresses of the branch office
      4.  Audited Financial Statement for the last three years
 
-The above documents shall be printed in Legal size or î8.5 x 13î or î8.5 x 14î bond paper.
+The above documents shall be printed in Legal size or ‚Äù8.5 x 13‚Äù or ‚Äù8.5 x 14‚Äù bond paper.
 
 
 The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
@@ -394,7 +398,7 @@ You may now submit the following requirements/documents:
     3.  Certificate of Available Space and Manpower
     4.  Official Receipt
 
-The above documents shall be printed in Legal size or î8.5 x 13î or î8.5 x 14î bond paper.
+The above documents shall be printed in Legal size or ‚Äù8.5 x 13‚Äù or ‚Äù8.5 x 14‚Äù bond paper.
 
 The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
 
@@ -555,7 +559,7 @@ The client shall submit the above required documents within 30 working days from
       //sending confirmEmail($receiver) function calling link to the user, inside message body
 
 //    $message = "Congratulations ".$client_info->full_name.". Your application <b>".$client_info->proposed_name." ".$client_info->type_of_cooperative." Cooperative</b> has been approved. You can now proceed to payment. You have 10 working days to complete the payment";
-$chars ='‚Ä?'; 
+$chars ='√¢‚Ç¨?'; 
     $message="<pre><b>Congratulations!</b> Your application status is <b>FOR PRINTING AND SUBMISSION</b>.
 
 
@@ -567,7 +571,7 @@ You may now submit the following requirements/ documents:
   2. Resolution of the Board of Directors of the Guardian Cooperative accepting its
     responsibility and liability as Guardian of the Laboratory Cooperative.
 
-The above documents shall be printed in Legal size or î8.5 x 13î or î8.5 x 14î bond paper.
+The above documents shall be printed in Legal size or ‚Äù8.5 x 13‚Äù or ‚Äù8.5 x 14‚Äù bond paper.
 The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Cooperative Registration Information
 System (CoopRIS).</pre>";
 

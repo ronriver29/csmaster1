@@ -351,6 +351,10 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
       $(this).val(now);
       $("#msgdate").text("Date of O.R. must not greater than current date");
     }
+    else if(selectedDate == now)
+    {
+      $("#msgdate").text("");
+    }
     else
     {
       $("#msgdate").text("");
