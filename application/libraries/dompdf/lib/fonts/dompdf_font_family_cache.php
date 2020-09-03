@@ -86,4 +86,7 @@
     '500' => $fontDir . '/ubuntu-500_bc411258a9fbed686c145dc8bc86637a',
     'bold' => $fontDir . '/ubuntu-bold_2db7e231e33ea8cd91a1fe96239e0fa2',
   ),
+  'bookman old style' => array(
+    'normal' => $fontDir . '/bookman-old-style-normal_b57ca395c9b7aef76ab55248f1f16b0b',
+  ),
 ) ?>

@@ -19,6 +19,10 @@
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
   }
+  body{
+      /*font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 12px; */
+        font-family: 'Bookman Old Style' !important;font-size:12px;
+    }
   </style>
 </head>
 <body>
