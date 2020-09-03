@@ -20,14 +20,10 @@
     border-collapse: collapse;
   }
 
-
-@font-face {
-        font-family: 'bookman';
-        src: url('lib/fonts/bookman.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
+  body{
+      /*font-family: 'Bookman Old Style'; font-size: 12px; */
+       font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
-
 /*
 font-face {
     font-family: new_font;

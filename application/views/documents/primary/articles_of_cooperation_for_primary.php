@@ -21,11 +21,12 @@
   }
   body{
       /*font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 12px; */
-        font-family: 'Bookman Old Style' !important;font-size:12px;
+        /*font-family: 'Bookman Old Style' !important;font-size:12px;*/
+        font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
   </style>
 </head>
-<body>
+<body style="font-size:12">
   <script type="text/php">
         if ( isset($pdf) ) {
 

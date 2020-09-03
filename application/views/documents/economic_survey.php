@@ -14,7 +14,11 @@
   <link rel="stylesheet" href="<?=base_url();?>assets/icons/fontawesome-free-5.5.0-web/css/all.css">
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
-  body{font-family:Bookman Old Style !important;font-size:12}
+   body{
+      /*font-family: 'Bookman Old Style'; font-size: 12px; */
+       font-family: 'Bookman Old Style',arial !important;font-size:12px;
+    }
+
       span {
         content: "\2714";
       }
@@ -36,7 +40,7 @@
   </style>
 </head>
 
-<body>
+<body style="font-size:12">
 <script type="text/php">
         if ( isset($pdf) ) {
             $x = 570; 
