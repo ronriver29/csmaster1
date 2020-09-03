@@ -153,8 +153,7 @@
     <?php if(is_array($supervising_comment && $admin_info->access_level==4) || 
     (is_array($supervising_comment) && $supervising_) ||
     (is_array($supervising_comment) && $admin_info->access_level==2) ||
-    (is_array($supervising_comment) && $admin_info->access_level==3 
-     && $coop_info->status == 6) ||  
+    (is_array($supervising_comment) && $admin_info->access_level==3) ||  
     (is_array($supervising_comment) && $admin_info->access_level==2 && $coop_info->status == 12)) : ?>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg4">* Supervising CDS Findings</button>
     <div class="modal fade bd-example-modal-lg4" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
