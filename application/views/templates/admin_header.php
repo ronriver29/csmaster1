@@ -41,7 +41,7 @@
         </div>
         <div class="row">
           <div class="col-sm-12 text-center">
-            <small><?php echo (($admin_info->access_level == 1) ? "Cooperative Development Specialist II" : (($admin_info->access_level == 2) ? "Senior Cooperative Development Specialist" : (($admin_info->access_level == 3 && $admin_info->access_name == '') ? "Director" : (($admin_info->access_level == 3 && $admin_info->access_name == 'Acting Regional Director') ? "Acting Regional Director" : (($admin_info->access_level == 4) ? "Supervising CDS" : "Super Admin")))))?></small><br>
+            <small><?php echo (($admin_info->access_level == 1) ? "Cooperative Development Specialist II" : (($admin_info->access_level == 2) ? "Senior Cooperative Development Specialist" : (($admin_info->access_level == 3 && $admin_info->access_name == 'Director') ? "Director" : (($admin_info->access_level == 3 && $admin_info->access_name == 'Acting Regional Director') ? "Acting Regional Director" : (($admin_info->access_level == 4) ? "Supervising CDS" : "Super Admin")))))?></small><br>
             <?php if($admin_info->access_level != 5) : ?>
               <small class="font-italic"><?php echo (($admin_info->region_code =="0") ? "Central Office" : $this->region_model->get_region_by_code($admin_info->region_code)->regDesc); ?></small>
             <?php endif;?>

@@ -22,22 +22,28 @@
     border-collapse: collapse;
 }
   }
-  
+  @font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');
+}
   </style>
 </head>
 <body>
 <script type="text/php">
-        if ( isset($pdf) ) {
+        if (isset($pdf) ) {
             $x = 570; 
             $y=900;
             $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
-           // $font = $fontMetrics->get_font("bokman");
+            $font = $fontMetrics->get_font("BOOKOS");
+            
             $size = 12;
             $color = array(0,0,0);
             $word_space = 0.0;  //  default
             $char_space = 0.0;  //  default
             $angle = 0.0;   //  default
-            $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+            $pdf->page_text($x, $y, $text,$font , $size, $color, $word_space, $char_space, $angle);
             
         }
 </script>
