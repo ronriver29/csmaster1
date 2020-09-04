@@ -9,6 +9,7 @@ class Payments extends CI_Controller{
     parent::__construct();
     //Codeigniter : Write Less Do More
     $this->load->library('pdf');
+    $this->load->library('Numbertowords');
   }
 
   function index($id = null)

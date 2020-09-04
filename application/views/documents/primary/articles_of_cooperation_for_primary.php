@@ -57,16 +57,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-left"><!-- <script type="text/php">
-if (isset($pdf) ) {
-   $pdf->page_script ('
-if ($PAGE_NUM != 1) {
-    $current_page = $PAGE_NUM;
-    $pdf->text(550, 750, "Page $current_page", null, 10, array(0,0,0));
- }
 
-');
-}
-</script> -->
         <p class="font-weight-bold">KNOW ALL MEN BY THESE PRESENTS:</p>
     </div>
   </div>
@@ -528,6 +519,17 @@ if ($PAGE_NUM != 1) {
       <p class="text-justify" style="text-indent: 50px;">All known to me to be the same persons who executed the foregoing Articles of Cooperation, and acknowledged to me that the same is their free will and voluntary deed. </p>
     </div>
   </div>
+
+  <script type="text/php">
+  if (isset($pdf) ) {
+   $pdf->page_script ('
+    if ($PAGE_NUM == $PAGE_COUNT) {
+        $current_page = $PAGE_NUM;
+        $pdf->text(550, 750, "Page $current_page", null, 10, array(0,0,0));
+     }
+');
+}
+</script> 
   <div class="row mb-3">
     <div class="col-sm-12 col-md-12 text-left">
       <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>, consists of <span id="page_num"> </span>______ pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>

@@ -79,8 +79,14 @@
                 $amount_in_words=0;
                   $amount_in_words = ($rf+$lrf+$name_reservation_fee);
                 ini_set('precision', 17);
-                $total_amount_in_words = ($pos = strpos( $amount_in_words,'.')) ? substr( $amount_in_words,0,$pos + 3) : number_format( $amount_in_words);
-                // $total_amount_in_words = floor($amount_in_words*100)/100;
+                $total_ = number_format($amount_in_words,2);
+                // $total_amount_in_words = ($pos = strpos($amount_in_words,'.')) ? substr( $amount_in_words,0,$pos + 3) : number_format( $amount_in_words);
+                $peso_cents = '';
+                if(substr($total_,-3)=='.00')
+                {
+                  $peso_cents ='Pesos';
+                }
+                $w = new Numbertowords();
                 echo '
                 <tr>
                   <td class="bord">Payor</td>
@@ -92,7 +98,7 @@
                 </tr>
                 <tr>
                   <td class="bord">Amount in Words</td>
-                  <td class="bord" colspan="3" id="amt" style="text-transform:capitalize;font-weight:bold"><b> Pesos</b></td>
+                  <td class="bord" colspan="3" id="amt" style="text-transform:capitalize;font-weight:bold"><b>'.$w->convert_number($amount_in_words).' '.$peso_cents.'</b></td>
                 </tr>
                 <tr>
                   <td class="bord" align="center" colspan="4">Particulars</td>
@@ -165,7 +171,10 @@
 <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 <script src="<?=base_url();?>assets/js/toword.js"></script>
 
-<script type="text/javascript">
-  var s=toWords(parseFloat(<?=$amount_in_words?>).toFixed(2));
+<!-- <script type="text/javascript">
+  // $(document).ready(function(){
+       var s=get_rupees_in_words(444,0);
   $('#amt').text(s+' Pesos');
-</script>
+  // });
+ 
+</script> -->
