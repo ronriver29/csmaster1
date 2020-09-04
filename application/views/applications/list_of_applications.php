@@ -295,7 +295,11 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                 </tr>
                 <tr>
                   <td class="bord">Amount in Words</td>
-                  <td class="bord" colspan="3" style="text-transform:capitalize"><b id="word"> </b></td>
+                  <td class="bord" colspan="3" style="text-transform:capitalize"><b id="word">
+                  <?php
+                    $w=new Numbertowords;
+                    echo $w->convert_number($_COOKIE['tm']);
+                  ?> </b></td>
                 </tr>
                 <tr>
                   <td class="bord" colspan="4" align="center">Particulars</td>
@@ -330,8 +334,6 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
 </div><!-- /.modal -->
 <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 <script src="<?=base_url();?>assets/js/toword.js"></script>
-
-
 <script type="text/javascript">
   $(document).ready(function(){
   function GetNow()
@@ -349,7 +351,10 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
     if(selectedDate > now)
     {
       $(this).val(now);
-      $("#msgdate").text("Date of O.R. must not greater than current date");
+       $("#msgdate").text("Date of O.R. must not greater than current date");
+      setTimeout(function(){
+          $("#msgdate").text("");
+      },5000);    
     }
     else if(selectedDate == now)
     {
@@ -377,13 +382,31 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
         dataType: "JSON",
         success: function(data)
         {
-            var s=toWords(parseFloat(data.total).toFixed(2));
+          createCookie("tm", data.total, "5"); 
+          function createCookie(name, value, days)
+          { 
+              var expires; 
+                
+              if (days) { 
+                  var date = new Date(); 
+                  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); 
+                  expires = "; expires=" + date.toGMTString(); 
+              } 
+              else { 
+                  expires = ""; 
+              } 
+                
+              document.cookie = escape(name) + "=" +  
+                  escape(value) + expires + "; path=/"; 
+          } 
+
+
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
             $('#cid').val(coop_id);   
-            $('#word').text(s+' Pesos');
+            // $('#word').text(s+' Pesos');
             $('#nature').text(data.nature);
             $('#particulars').html(data.particulars);
             $('#amount').html(data.amount);
