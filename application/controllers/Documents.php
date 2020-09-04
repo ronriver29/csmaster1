@@ -879,6 +879,9 @@ public function delete_pdf()
                               $f->render();
                               $font = '';
                               $canvas = $f->get_canvas();
+                              $pg =$canvas->get_page_count();
+                             
+                              
                               // $canvas->pgc = $canvas->get_page_count();                              
                               // $canvas->page_text(512, 10, "Página: {PAGE_NUM} de {PAGE_COUNT}",$font, 8, array(0,0,0)); 
 

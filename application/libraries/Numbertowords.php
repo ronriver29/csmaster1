@@ -73,7 +73,7 @@ class Numbertowords
         {
             if (!empty($res))
             {
-                $res .= " and ";
+                $res .= " ";
             }
             if ($Dn < 2)
             {
