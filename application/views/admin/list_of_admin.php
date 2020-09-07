@@ -85,7 +85,43 @@
                   <td><?= $admin['full_name']?></td>
                   <td><?= $admin['username']?></td>
                   <td>
-                    <?php echo (($admin['access_level'] == 1) ? "Cooperative Development Specialist II" : (($admin['access_level'] == 2) ? "Senior Cooperative Development Specialist" : (($admin['access_level'] == 3 && $admin['access_name'] == 'Director') ? "Director" : (($admin['access_level'] == 3 && $admin['access_name'] == 'Acting Regional Director') ? "Acting Regional Director" : ""))))?>
+                    <?php
+                    $access_level ='';
+                      if($admin['access_level'] == 1)
+                      {
+                          $access_level ="Cooperative Development Specialist II"  ;
+                      }
+                      else if($admin['access_level'] == 2)
+                      {
+                          $access_level  ="Senior Cooperative Development Specialist";
+                      }
+                      else if($admin['access_level'] == 3 && $admin['access_name'] == 'Director')
+                      {
+                            $access_level ="Director";
+                      }else if($admin['access_level'] == 3 && $admin['access_name'] == 'Acting Regional Director')
+                      {
+                        $access_level  = "Acting Regional Director";
+                      }
+                      else if($admin['access_level'] == 4)
+                      {
+                        $access_level = "Supervising CDS";
+                      }
+                      else
+                      {
+                         $access_level='';
+                      }
+                      echo $access_level  ;
+                    ?>
+                    <!-- <?php echo (
+                      ($admin['access_level'] == 1) ? "Cooperative Development Specialist II" :
+                       (
+                         ($admin['access_level'] == 2) ? "Senior Cooperative Development Specialist" : (
+                          ($admin['access_level'] == 3 && $admin['access_name'] == 'Director') ? "Director" : (
+                            ($admin['access_level'] == 3 && $admin['access_name'] == 'Acting Regional Director') ? "Acting Regional Director" : "")
+
+                        )
+                       )
+                    )?> -->
                   </td>
                   <td>
                     <?php $reg = $admin['region_code'];
