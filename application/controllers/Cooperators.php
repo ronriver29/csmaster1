@@ -63,7 +63,7 @@ class Cooperators extends CI_Controller{
                     $this->load->view('cooperators/cooperators_list', $data);
                     $this->load->view('cooperators/full_info_modal_cooperator');
                     $this->load->view('cooperators/delete_form_cooperator');
-                    $this->load->view('./template/footer');
+                    $this->load->view('./template/footer'); 
                 }else{
                   $this->session->set_flashdata('redirect_message', 'Please complete first your capitalization additional information.');
                   redirect('cooperatives/'.$id);

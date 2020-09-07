@@ -75,7 +75,6 @@
                 } else {
                     $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
                 }
-                $total_amount_in_words=0;
                 $amount_in_words=0;
                   $amount_in_words = ($rf+$lrf+$name_reservation_fee);
                 ini_set('precision', 17);

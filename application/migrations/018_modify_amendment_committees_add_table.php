@@ -27,7 +27,7 @@ class Migration_modify_amendment_committees_add_table extends CI_Migration
 
     public function down()
     { 
-        // $qry = $this->db->query(" ALTER TABLE amendment_committees DROP COLUMN func_and_respons, type"); 
+        $qry = $this->db->query("ALTER TABLE amendment_committees DROP COLUMN func_and_respons, type"); 
     }
 }
 ?>

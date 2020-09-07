@@ -86,31 +86,6 @@ class Migrate extends CI_Controller {
   } 
   private function document_type_seeding()
   {
-     // $qry = $this->db->get('coop_type_upload');
-     //  $counter =5;
-     //  foreach($qry->result_array() as $row)
-     //  {
-     //    unset($row['id']);
-     //    $row['cooperative_type_id'] = $row['coop_type_id'];
-     //    $row['title'] = $row['coop_title'];
-     //    $row['description'] = $row['coop_desc'];
-     //    $row['document_num'] = $counter;
-     //    unset($row['coop_type_id']);
-     //    unset($row['coop_desc']);
-     //    unset($row['coop_title']);
-     //    $data[] = $row;
-     //    $counter++;
-     //  }
-     //  if($this->db->insert_batch('amendment_coop_type_upload',$data))
-     //  {
-     //    $data = true;
-     //  }
-     //  else
-     //  {
-     //   $data = false;
-     //  }
-     //  return $data;
-
     $val = Array
     (
         Array

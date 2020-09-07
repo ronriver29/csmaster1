@@ -1,4 +1,4 @@
-<div class="row">
+f<div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="modal fade" id="assignSpecialistModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="assignSpecialistLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
