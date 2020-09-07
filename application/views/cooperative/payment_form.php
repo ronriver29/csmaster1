@@ -159,7 +159,7 @@
           <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
       </div>
       <br><br>
-        <input style="width:18%;" class="btn btn-color-blue" type="submit" id="offlineBtn" name="offlineBtn" value="Pay at CDA Treasury">
+        <input style="width:18%;" class="btn btn-color-blue" type="submit" id="offlineBtn" name="offlineBtn" value="Pay at CDA Cashier">
         <input style="width:18%;" class="btn btn-color-blue" type="submit" id="onlineBtn" name="onlineBtn" value="Pay Online" disabled>
       
     </form>

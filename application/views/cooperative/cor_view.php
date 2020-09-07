@@ -13,7 +13,7 @@
   <style>
   @page{margin: 60px 40px 30px 40px;}
   /*.page_break { page-break-before: always; }*/
-  	body{font-family:Bookman Old Style !important;}
+  	body{font-family:Bookman Old Style !important; line-height: 20px;}
 
   </style>
 </head> 
@@ -74,7 +74,7 @@
 		<td><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		<td  colspan="2" style="text-align: center; font-size: 20pt;"><b><?= $coop_info->coopName?></b></td>
+		<td  colspan="2" style="text-align: center; font-size: 20pt;line-height: 35px"><b><?= $coop_info->coopName?></b></td>
 	</tr>
 	<tr>
 		<td  colspan="2" style="text-align: center; font-size: 9pt;">Name of Cooperative</td>
@@ -102,7 +102,7 @@
 	</tr>
 </table>
 
-<table width="100%" style="position:fixed;top: 840px;left: 35px;">
+<table width="100%" style="position:fixed;top: 890px;left: 35px;">
 	<tr>
 		<td><i style="color:white;">....</i></td>
 		<td width="50%"></td>
@@ -112,8 +112,8 @@
 		</td>
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
 		<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;">
-			<div class="text" style="margin-top:-75px;width:300px;margin-left:5px;">
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
+			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
 		</td>
@@ -121,7 +121,7 @@
 	
 	
 </table>
-<table width="100%" style="position:fixed;top: 960px;left: 25px;">
+<table width="100%" style="position:fixed;top: 990px;left: 25px;">
 	<tr>
 		<td style="text-align:right;padding-right:70px;">
 			<img src="<?=QRCODE_DIR?><?= $coop_info->regNo ?>.png" width="100" height="100" style="float-right;"/>
@@ -185,7 +185,7 @@
 		<td><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		<td  colspan="2" style="text-align: center; font-size: 20pt;"><b><?= $coop_info->coopName?></b></td>
+		<td  colspan="2" style="text-align: center; font-size: 20pt;line-height: 35px"><b><?= $coop_info->coopName?></b></td>
 	</tr>
 	<tr>
 		<td  colspan="2" style="text-align: center; font-size: 9pt;">Name of Cooperative</td>
@@ -213,7 +213,7 @@
 	</tr>
 </table>
 
-<table width="100%" style="position:fixed;top: 840px;left: 35px;">
+<table width="100%" style="position:fixed;top: 890px;left: 35px;">
 	<tr>
 		<td><i style="color:white;">....</i></td>
 		<td width="50%"></td>
@@ -223,8 +223,8 @@
 		</td>
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
 		<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;">
-			<div class="text" style="margin-top:-75px;width:300px;margin-left:5px;">
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
+			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
 		</td>
@@ -232,7 +232,7 @@
 	
 	
 </table>
-<table width="100%" style="position:fixed;top: 960px;left: 25px;">
+<table width="100%" style="position:fixed;top: 990px;left: 25px;">
 	<tr>
 		<td style="text-align:right;padding-right:70px;">
 			<img src="<?=QRCODE_DIR?><?= $coop_info->regNo ?>.png" width="100" height="100" style="float-right;"/>
@@ -304,7 +304,7 @@
 		<td  colspan="2" style="text-align: center; font-size: 20pt;"><b><?= $coop_info->coopName?></b></td>
 	</tr>
 	<tr>
-		<td  colspan="2" style="text-align: center; font-size: 9pt;">Name of Cooperative</td>
+		<td  colspan="2" style="text-align: center; font-size: 9pt;line-height: 35px">Name of Cooperative</td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
@@ -329,7 +329,7 @@
 	</tr>
 </table>
 
-<table width="100%" style="position:fixed;top: 840px;left: 35px;">
+<table width="100%" style="position:fixed;top: 890px;left: 35px;">
 	<tr>
 		<td><i style="color:white;">....</i></td>
 		<td width="50%"></td>
@@ -339,8 +339,8 @@
 		</td>
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
 		<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;">
-			<div class="text" style="margin-top:-75px;width:300px;margin-left:5px;">
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
+			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
 		</td>
@@ -348,7 +348,7 @@
 	
 	
 </table>
-<table width="100%" style="position:fixed;top: 960px;left: 25px;">
+<table width="100%" style="position:fixed;top: 990px;left: 25px;">
 	<tr>
 		<td style="text-align:right;padding-right:70px;">
 			<img src="<?=QRCODE_DIR?><?= $coop_info->regNo ?>.png" width="100" height="100" style="float-right;"/>
