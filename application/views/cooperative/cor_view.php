@@ -406,7 +406,7 @@ Very truly yours,<br/>
 <table>
 <tr>
 <td width="10%">
-<b><?php print_r($director);?><?=strtoupper($director->full_name) ?></b><br/>
+<b><?=strtoupper($director->full_name) ?></b><br/>
 <?=strtoupper($director->access_name) ?>
 </p>
 </td>
