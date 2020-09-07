@@ -227,7 +227,7 @@ class registration_model extends CI_Model{
     }
     else
     {
-      $query2 = $this->db->get_where('admin',array('access_level'=>3,'access_name'=>"Acting Regional Director"));
+      $query2 = $this->db->get_where('admin',array('access_level'=>3,'access_name'=>"Acting Regional Director",'region_code'=>$region_code));
       if($query2->num_rows()>0)
       {
          return $query2->row();
