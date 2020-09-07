@@ -85,7 +85,7 @@
                   <td><?= $admin['full_name']?></td>
                   <td><?= $admin['username']?></td>
                   <td>
-                    <?php echo (($admin['access_level'] == 1) ? "Cooperative Development Specialist II" : (($admin['access_level'] == 2) ? "Senior Cooperative Development Specialist" : (($admin['access_level'] == 3 && $admin['access_name'] == '') ? "Director" : (($admin['access_level'] == 3 && $admin['access_name'] == 'Acting Regional Director') ? "Acting Regional Director" : "Supervising CDS"))))?>
+                    <?php echo (($admin['access_level'] == 1) ? "Cooperative Development Specialist II" : (($admin['access_level'] == 2) ? "Senior Cooperative Development Specialist" : (($admin['access_level'] == 3 && $admin['access_name'] == 'Director') ? "Director" : (($admin['access_level'] == 3 && $admin['access_name'] == 'Acting Regional Director') ? "Acting Regional Director" : ""))))?>
                   </td>
                   <td>
                     <?php $reg = $admin['region_code'];
