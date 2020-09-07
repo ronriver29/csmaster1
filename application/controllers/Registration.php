@@ -86,9 +86,9 @@ class registration extends CI_Controller{
       $data1['chair'] = $this->registration_model->get_chairman()->chairman;
       $data1['coop_info']=$coop_details;
       // $data1['director']=$this->registration_model->get_director($user_id)->full_name;
-      $data1['director']=$this->registration_model->get_director($user_id);
+      $data1['director']=$this->registration_model->get_director($data1['coop_info']->rCode);
           set_time_limit(0);
-       // $this->debug($data1['director']);
+       // $this->debug($data1['coop_info']);
           
          $html2 = $this->load->view('cooperative/cor_view', $data1);
          $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);

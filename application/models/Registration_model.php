@@ -217,11 +217,24 @@ class registration_model extends CI_Model{
 
       return $query->row();
   }
-  public function get_director($id){
+  public function get_director($region_code){
       
-      $query = $this->db->query('select * from admin where access_level=3 and region_code=(select region_code from admin where id ='.$id.')');
+      // $query = $this->db->query('select * from admin where access_level=3 and region_code=(select region_code from admin where id ='.$id.')');
+    $query = $this->db->get_where('admin',array('region_code'=>$region_code,'access_level'=>3,'ord'=>1));
+    if($query->num_rows()>0)
+    {
+      return $query->row(); 
+    }
+    else
+    {
+      $query2 = $this->db->get_where('admin',array('access_level'=>3,'access_name'=>"Acting Regional Director"));
+      if($query2->num_rows()>0)
+      {
+         return $query2->row();
+      }
       
-      return $query->row();
+    }  
+      
   }
 
   public function save_qr_code($regNo,$qr_code){
