@@ -91,7 +91,7 @@
                     "regex":/^([A-Z]+[a-zA-Z Ññ]*[\'\,\.\-]?[a-zA-Z Ññ]*)+([ ]+[A-Z]+[a-zA-Z ]*[\'\,\.\-Ññ]?)+$/,
                     // "regex":/^[\u00F1A-Za-z _,.]*[\u00F1A-Za-z][\u00F1A-Za-z _]*$/,
                     "regex":/^[\u00F1A-Za-z _,.]*[\u00F1A-Za-z][\u00F1A-Za-z _ Ññ,-.]*$/, //json
-                    "alertText":"* Must be first and last name"
+                    "alertText":"* Must be Last Name and First Name"
                 },
                 "validID": {
                     "regex":/^(?=.*\d)[a-z\d]*$/,
