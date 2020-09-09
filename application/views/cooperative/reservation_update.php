@@ -47,7 +47,6 @@
             <div class="row">
               <div class="col-sm-12 col-md-12">
                   <div class="form-group">
-
                     <strong>Application Information:</strong>
                     <input type="hidden" class="form-control validate[required]" id="cooperativeID" name="cooperativeID" value="<?= $encrypted_id ?>">
                     <input type="hidden" class="form-control validate[required]" id="status" name="status" value="<?= encrypt_custom($this->encryption->encrypt($coop_info->status))?>">
