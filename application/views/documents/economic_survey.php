@@ -89,7 +89,7 @@
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-left">
       <ol type="A">
-        <li>Type of Cooperatives model</li>
+        <li>Type of Cooperatives</li>
           <table class="table table-borderless table-sm">
             <tbody>
               <tr>
