@@ -347,7 +347,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
     if(selectedDate > now)
     {
       $(this).val(now);
-       $("#msgdate").text("Date of O.R. must not greater than current date");
+       $("#msgdate").text("Date of O.R. should not be future date");
       setTimeout(function(){
           $("#msgdate").text("");
       },5000);    
@@ -379,22 +379,6 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
         dataType: "JSON",
         success: function(data)
         {
-
-          createCookie("tm", data.total, "0.1"); 
-          function createCookie(name, value, days)
-          { 
-              var expires; 
-              if (days) { 
-                  var date = new Date(); 
-                  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); 
-                  expires = "; expires=" + date.toGMTString(); 
-              } 
-              else { 
-                  expires = ""; 
-              } 
-              document.cookie = escape(name) + "=" +  
-                  escape(value) + expires + "; path=/"; 
-          } 
 
              var s = convert(data.total);
             $('#payment_id').val(data.id);
@@ -441,13 +425,6 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
           dataType: "JSON",
           success: function(data)
           {
-            var date = new Date(); 
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); 
-            expires = "; expires=" + date.toGMTString(); 
-
-            document.cookie = "Tm=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-
               if(data.status) //if success close modal and reload ajax table
               {
                   $('#paymentModal').modal('hide');
