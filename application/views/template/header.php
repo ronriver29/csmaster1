@@ -46,6 +46,7 @@
         <li>
           <a href="<?php echo base_url();?>cooperatives"><i class="fas fa-handshake"></i> Cooperatives</a>
         </li>
+        <?php /*
         <li>
           <a href="<?php echo base_url();?>branches"><i class="fas fa-handshake"></i> Branches and Satellites</a>
         </li>
@@ -56,6 +57,7 @@
        <li>   
           <a href="<?php echo base_url();?>amendment"><i class="fas fa-handshake"></i> Amendment</a>
         </li>
+        */ ?> 
         <li>
           <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> Settings</a>
           <ul class="collapse list-unstyled" id="pageSubmenu">
