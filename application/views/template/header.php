@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="<?=base_url();?>assets/css/malibu_scrollbar/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="<?=base_url();?>assets/css/sweetalert2.min.css">
     <style type="text/css">
-      select,input {
+      select,input,textarea {
         /*border:0.2px solid #47748b !important;*/
         box-shadow: 1px 1px;
       }

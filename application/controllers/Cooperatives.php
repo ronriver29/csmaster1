@@ -48,6 +48,10 @@
                 }
               }
           }
+          if(isset($_POST['tos']))
+          {
+            $data['tos'] = $_POST['tos'];
+          }
           $this->load->view('template/header', $data);
           $this->load->view('applications/list_of_applications', $data);
           $this->load->view('cooperative/delete_modal_cooperative');
@@ -91,7 +95,6 @@
         }
       }
     }
-
     public function reservation(){
     	$major_industries = array();
     	$major_industry_sub_classes = array();

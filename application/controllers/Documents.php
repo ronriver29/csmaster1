@@ -868,25 +868,22 @@ public function delete_pdf()
                               $data['associate_cooperator_list'] = $this->cooperator_model->get_all_associate_cooperator_of_coop($decoded_id);
                               $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                               $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
-                              $data['pageCount']="";
                               $f = new pdf();
-                              $data['f'] =$f;
                               $f->set_option("isPhpEnabled", true);
                               $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
                              
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
                               $f->render();
-                              $font = '';
-                              $canvas = $f->get_canvas();
-                              $pg =$canvas->get_page_count();
-                             
-                              
-                              // $canvas->pgc = $canvas->get_page_count();                              
-                              // $canvas->page_text(512, 10, "Página: {PAGE_NUM} de {PAGE_COUNT}",$font, 8, array(0,0,0)); 
-
-                               // $data['pageCount'] = $f->get_canvas()->get_page_count();
                               $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
+                              $this->load->library('session');
+                              $path = 'articles_of_cooperation_primary.pdf';
+                              $getTotalPages = $f->get_canvas()->get_page_count();
+                              $user_data = array(
+                                // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
+                                'pagecount' => $getTotalPages
+                              );
+                              $this->session->set_userdata($user_data);
                               
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
@@ -970,6 +967,14 @@ public function delete_pdf()
                                 $f->load_html($html2);
                                 $f->render();
                                 $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
+                                $this->load->library('session');
+                              $path = 'articles_of_cooperation_primary.pdf';
+                              $getTotalPages = $f->get_canvas()->get_page_count();
+                              $user_data = array(
+                                // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
+                                'pagecount' => $getTotalPages
+                              );
+                              $this->session->set_userdata($user_data);
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                 redirect('cooperatives/'.$id);

@@ -165,6 +165,7 @@ $route['cooperatives/bylaws/check_minimum_associate_pay'] = 'bylaws/check_minimu
 $route['cooperatives/(:any)/payments'] = 'payments/index/$1';
 $route['cooperatives/(:any)/evaluate'] = 'cooperatives/evaluate/$1';
 // $route['cooperatives/(:any)/documents/view_document_one/(:any)'] = 'documents/view_document_one/$1/$2';
+$route['cooperatives/sp'] = 'cooperatives/sp';
 //modiy by json
 $route['cooperatives/(:any)/documents/view_document_one/(:any)/(:any)'] = 'documents/view_document_one/$1/$2/$3';
 $route['cooperatives/(:any)/documents/view_document_two/(:any)'] = 'documents/view_document_two/$1/$2';

@@ -296,10 +296,6 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                 <tr>
                   <td class="bord">Amount in Words</td>
                   <td class="bord" colspan="3" style="text-transform:capitalize"><b id="word">
-                  <?php
-                    $w=new Numbertowords;
-                    echo $w->convert_number($_COOKIE['tm']);
-                  ?> </b></td>
                 </tr>
                 <tr>
                   <td class="bord" colspan="4" align="center">Particulars</td>
@@ -370,6 +366,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
 </script>
 
 <script type="text/javascript">
+
   function showPayment(coop_id,coop_name) {
     //save_method = 'add';
     $('#paymentForm')[0].reset(); // reset form on modals
@@ -382,11 +379,11 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
         dataType: "JSON",
         success: function(data)
         {
-          createCookie("tm", data.total, "30"); 
+
+          createCookie("tm", data.total, "0.1"); 
           function createCookie(name, value, days)
           { 
               var expires; 
-                
               if (days) { 
                   var date = new Date(); 
                   date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); 
@@ -395,18 +392,17 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
               else { 
                   expires = ""; 
               } 
-                
               document.cookie = escape(name) + "=" +  
                   escape(value) + expires + "; path=/"; 
           } 
 
-            var stotal = data.total;
+             var s = convert(data.total);
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
             $('#cid').val(coop_id);   
-            // $('#word').text(s+' Pesos');
+            $('#word').text(s);
             $('#nature').text(data.nature);
             $('#particulars').html(data.particulars);
             $('#amount').html(data.amount);
@@ -445,6 +441,13 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
           dataType: "JSON",
           success: function(data)
           {
+            var date = new Date(); 
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000)); 
+            expires = "; expires=" + date.toGMTString(); 
+
+            document.cookie = "Tm=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+
               if(data.status) //if success close modal and reload ajax table
               {
                   $('#paymentModal').modal('hide');
