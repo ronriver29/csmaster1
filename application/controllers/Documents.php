@@ -1888,6 +1888,7 @@ public function delete_pdf()
                                 $data['committees_list'] = $this->committee_model->get_all_committee_names_of_coop_multi($decoded_id);
                                 $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
                                 $f = new pdf();
+                                 $f->set_option("isPhpEnabled", true);
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
                                 $f->render();
