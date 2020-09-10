@@ -299,8 +299,20 @@ class Db_dev extends CI_Controller{
       } 
     }
   }
- 
-
+  public function custom_query($query)
+  {
+    if(!$this->session->userdata('logged_in'))
+    {
+      redirect('users/login');
+    }
+    else
+    {
+        if($this->uri->segment(2)=='custom_query')
+        {
+          $this->db->query($query);
+        }
+   }
+  }
   public function php_info()
   {
     echo phpinfo();
