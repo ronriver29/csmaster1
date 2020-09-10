@@ -165,16 +165,16 @@
                       case "012":
                           $reg = "Region XII (KIDAPAWAN)";
                           break;
-                      case "013":
+                      case "016":
                           $reg = "Region XIII (CARAGA)";
                           break;
-                      case "014":
+                      case "015":
                           $reg = "Autonomous Region in Muslim Mindanao (ARMM)";
                           break;
-                      case "015":
+                      case "014":
                           $reg = "Cordillera Administrative Region (CAR)";
                           break;
-                      case "016":
+                      case "013":
                           $reg = "National Capital Region (NCR)";
                           break;
                       // case "017":

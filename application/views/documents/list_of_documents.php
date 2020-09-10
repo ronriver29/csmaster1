@@ -256,13 +256,13 @@
         <p class="card-text">This is the generated Article  of Cooperation</p>
         <a target="_blank" href="
         <?php if ($coop_info->category_of_cooperative === 'Primary'): ?>
-                <?= base_url().'cooperatives/'.$encrypted_id.'/documents/articles_cooperation_primary';?>
+                <?php $url_ =  base_url().'cooperatives/'.$encrypted_id.'/documents/articles_cooperation_primary';?>
         <?php elseif ($coop_info->grouping === 'Union'): ?>
-                <?= base_url().'cooperatives/'.$encrypted_id.'/documents/articles_cooperation_union';?>
+                <?php $url_= base_url().'cooperatives/'.$encrypted_id.'/documents/articles_cooperation_union';?>
         <?php else: ?>
-                <?= base_url().'cooperatives/'.$encrypted_id.'/documents/articles_cooperation_federation';?>
+                <?php $url_ =base_url().'cooperatives/'.$encrypted_id.'/documents/articles_cooperation_federation';?>
         <?php endif; ?>
-        " class="btn btn-primary">View</a>
+        " class="btn btn-primary" id="btn-article">View</a>
       </div>
     </div>
   </div>
@@ -444,3 +444,14 @@ $count=0;
     <?php // print_r($ching);?>
     <?php // echo $ching4;?>
 </pre>
+<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('#btn-article').on('click',function(){
+          alert("If total number of pages in Acknowledgement didn't appear, please refresh the page.");
+            window.open('<?=$url_?>');
+            return false;
+      });
+  });
+  
+</script>
