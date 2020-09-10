@@ -963,6 +963,7 @@ public function delete_pdf()
                                 $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
                                 $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
                                 $f = new pdf();
+                                 $f->set_option("isPhpEnabled", true);
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
                                 $f->render();
