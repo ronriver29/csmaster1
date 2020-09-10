@@ -875,7 +875,7 @@ public function delete_pdf()
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
                               $f->render();
-                              $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
+                              
                               $this->load->library('session');
                               $path = 'articles_of_cooperation_primary.pdf';
                               $getTotalPages = $f->get_canvas()->get_page_count();
@@ -884,7 +884,7 @@ public function delete_pdf()
                                 'pagecount' => $getTotalPages
                               );
                               $this->session->set_userdata($user_data);
-                              
+                              $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
                               redirect('cooperatives/'.$id);

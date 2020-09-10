@@ -1,3 +1,8 @@
+<style type="text/css">
+  input[type="radio"]{
+    box-shadow:   none;
+  }
+</style>
 <div class="row">
   <div class="col">
     <div class="row mb-2">
