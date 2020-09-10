@@ -299,7 +299,7 @@ class Db_dev extends CI_Controller{
       } 
     }
   }
-  public function custom_query($query)
+  public function custom_query()
   {
     if(!$this->session->userdata('logged_in'))
     {
@@ -309,7 +309,22 @@ class Db_dev extends CI_Controller{
     {
         if($this->uri->segment(2)=='custom_query')
         {
-          $this->db->query($query);
+          if(isset($_POST['submit']))
+          {
+            $query = $this->input->post('qry');
+              if($this->db->query($query))
+              {
+                echo "query successfully";
+              }
+          }
+          else
+          {
+            echo'<form method="post" action="update">';
+            echo'<input type="text" name="qry"/><br>';
+            echo'<input type="submit" name="submit" value="submit"/><br>';
+            echo'</form>';
+          }
+        
         }
    }
   }
