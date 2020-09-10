@@ -278,6 +278,7 @@ class Users extends CI_Controller{
     $this->session->unset_userdata('user_id');
     $this->session->unset_userdata('email');
     $this->session->unset_userdata('client');
+    $this->session->unset_userdata('pagecount');
     redirect('users/login');
   }
   public function fullname_check($fname = null){

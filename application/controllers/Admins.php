@@ -476,7 +476,7 @@ class Admins extends CI_Controller{
     $this->session->unset_userdata('username');
     $this->session->unset_userdata('client');
     $this->session->unset_userdata('access_level');
-    setcookie("tm", "", time()-3600,"/");
+    $this->session->unset_userdata('pagecount');
     redirect('admins/login');
   }
 
