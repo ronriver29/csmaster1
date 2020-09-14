@@ -207,7 +207,7 @@ class Admins extends CI_Controller{
               $data = array(
                 'full_name' => $this->input->post('fName'),
                 'username'=> $this->input->post('uname'),
-                'password' =>  password_hash($this->input->post('pword'), PASSWORD_BCRYPT),
+                // 'password' =>  password_hash($this->input->post('pword'), PASSWORD_BCRYPT),
                 'access_level' => $this->input->post('access_level'),
                 'access_name' => $this->input->post('access_name'),
                 'is_director_active' =>  (($this->input->post('access_level') ==4) ? 0 : 1),

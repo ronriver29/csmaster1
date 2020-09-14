@@ -56,18 +56,18 @@
               <input type="text" class="form-control validate[required,minSize[4],ajax[ajaxUserNameCallPhpEdit]]" id="uname" name="uname" value="<?=$edit_admin_info->username?>">
             </div>
           </div>
-          <div class="col-sm-12 col-md-4">
+         <!--  <div class="col-sm-12 col-md-4">
             <div class="form-group form-group-pword">
               <label for="pword">Password:</label>
               <input type="password" class="form-control validate[required,minSize[4]]" id="pword" name="pword">
             </div>
-          </div>
-          <div class="col-sm-12 col-md-4">
+          </div> -->
+          <!-- <div class="col-sm-12 col-md-4">
             <div class="form-group form-group-cPword">
               <label for="cPword">Confirm Password:</label>
               <input type="password" class="form-control validate[equals[pword]]" id="cPword" name="cPword">
             </div>
-          </div>    
+          </div>   -->  
         </div>
       </div>
       <div class="card-footer editAdministratorFooter">
