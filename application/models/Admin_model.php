@@ -551,13 +551,14 @@ The client shall submit the above required documents within 30 working days from
     else
     {
       if($data['access_level'] > 1 && $data['access_name'] != "Acting Regional Director"){
-        $this->db->where(array('access_level'=>$data['access_level'],'region_code'=>$data['region_code'],'id!='=>$aid));
-        $this->db->from('admin');
-        if($this->db->count_all_results()==0){
-          return array('success'=>true,'message'=>'Not exists');
-        }else{
-          return array('success'=>false,'message'=> $data['access_name'].' already exists in '.$recDesc);
-        }
+        return array('success'=>true,'message'=>'Not exists');
+        // $this->db->where(array('access_level'=>$data['access_level'],'region_code'=>$data['region_code'],'id!='=>$aid));
+        // $this->db->from('admin');
+        // if($this->db->count_all_results()==0){
+        //   return array('success'=>true,'message'=>'Not exists');
+        // }else{
+        //   return array('success'=>false,'message'=> $data['access_name'].' already exists in '.$recDesc);
+        // }
       }else{
        return array('success'=>true,'message'=>'Not exists');
       }
