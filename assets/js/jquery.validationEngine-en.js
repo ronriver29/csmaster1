@@ -296,9 +296,17 @@
                     "alertTextOk": "* This committee name is available.",
                     "alertTextLoad": "* Validating, please wait"
                 },
-                "ajaxUserNameCallPhp": {
+                "ajaxUserNameCallPhpEdit": { 
                     "url": "check_username_not_exists",
                     // you may want to pass extra data on the ajax call
+                    "alertText": "* This username already exists.",
+                    "alertTextOk": "* This username is available.",
+                    "alertTextLoad": "* Validating, please wait"
+                },
+                "ajaxUserNameCallPhpEdit": { 
+                    "url": "../check_username_not_exists_edit",
+                    // you may want to pass extra data on the ajax call
+                    "extraDataDynamic": ['#adID'],
                     "alertText": "* This username already exists.",
                     "alertTextOk": "* This username is available.",
                     "alertTextLoad": "* Validating, please wait"

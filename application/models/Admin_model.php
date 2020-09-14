@@ -534,19 +534,33 @@ The client shall submit the above required documents within 30 working days from
     //   return array('success'=>true,'message'=>'Not exists');
     // }
   }
-  public function check_position_not_exists_in_region_update($access_level,$regcode,$aid){
-    if($access_level > 1){
-      $this->db->where(array('access_level'=>$access_level,'region_code'=>$regcode,'id!='=>$aid));
-      $this->db->from('admin');
-      if($this->db->count_all_results()==0){
-        return array('success'=>true,'message'=>'Not exists');
-      }else{
-        $recDesc = ($regcode != "0" ) ? $this->region_model->get_region_by_code($regcode)->regDesc : "Central Office";
-        $position = (($access_level == 1) ? "Cooperative Development Specialist II" : (($access_level == 2) ? "Senior Cooperative Development Specialist" : (($access_level == 3) ? "Director": "Supervising CDS")));
-        return array('success'=>false,'message'=> $position.' already exists in '.$recDesc);
+  public function check_position_not_exists_in_region_update($data,$aid){
+    $recDesc = ($data['region_code'] != "0" ) ? $this->region_model->get_region_by_code($data['region_code'])->regDesc : "Central Office";
+    if($data['access_name'] == "Acting Regional Director")
+    {
+      $qry_check = $this->db->get_where('admin',array('region_code'=>$data['region_code'],'access_name'=>"Acting Regional Director"));
+      if($qry_check->num_rows()>0)
+      {
+        return array('success'=>false,'message'=> $data['access_name'].' already exists in '.$recDesc);
       }
-    }else{
-      return array('success'=>true,'message'=>'Not exists');
+      else
+      {
+         return array('success'=>true,'message'=>'Not exists');
+      }
+    }
+    else
+    {
+      if($data['access_level'] > 1 && $data['access_name'] != "Acting Regional Director"){
+        $this->db->where(array('access_level'=>$data['access_level'],'region_code'=>$data['region_code'],'id!='=>$aid));
+        $this->db->from('admin');
+        if($this->db->count_all_results()==0){
+          return array('success'=>true,'message'=>'Not exists');
+        }else{
+          return array('success'=>false,'message'=> $data['access_name'].' already exists in '.$recDesc);
+        }
+      }else{
+       return array('success'=>true,'message'=>'Not exists');
+      }
     }
   }
   

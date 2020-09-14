@@ -206,12 +206,17 @@ class Admins extends CI_Controller{
               $decoded_aid = $this->encryption->decrypt(decrypt_custom($this->input->post('adID')));
               $data = array(
                 'full_name' => $this->input->post('fName'),
+                'username'=> $this->input->post('uname'),
+                'password' =>  password_hash($this->input->post('pword'), PASSWORD_BCRYPT),
                 'access_level' => $this->input->post('access_level'),
+                'access_name' => $this->input->post('access_name'),
                 'is_director_active' =>  (($this->input->post('access_level') ==4) ? 0 : 1),
                 'email' => $this->input->post('eAddress'),
                 'region_code' => $this->input->post('region')
                 );
-              $success = $this->admin_model->check_position_not_exists_in_region_update($data['access_level'],$data['region_code'],$decoded_aid);
+              // $this->debug($data);
+              $success = $this->admin_model->check_position_not_exists_in_region_update($data,$decoded_aid);
+              // $this->debug($success);
               if($success['success']){
                 if($this->admin_model->update_admin($decoded_aid,$data)){
                   $this->session->set_flashdata('update_admin_success', 'Successfully updated an administrator.');
@@ -508,6 +513,54 @@ class Admins extends CI_Controller{
     }
   }
 
+  public function check_username_not_exists_edit(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        if(!$this->session->userdata('access_level')==5){
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }else{
+          if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('adID')){
+
+            $data = array(
+              'fieldId'=>$this->input->get('fieldId'),
+              'fieldValue'=>$this->input->get('fieldValue'),
+              'id' => $this->encryption->decrypt(decrypt_custom($this->input->get('adID')))
+            );
+            $qry =$this->db->get_where('admin',array('id'=>$data['id']));
+            if($qry->num_rows()>0)
+            {
+              foreach($qry->result() as $urow)
+              {
+                if($data['fieldValue']==$urow->username)
+                {
+                  echo json_encode(array($data['fieldId'],true));
+                }
+                else
+                {
+                  $result = $this->admin_model->is_username_unique($data);
+                  echo json_encode($result);
+                }
+              }
+            }
+            else
+            {
+              $result = $this->admin_model->is_username_unique($data);
+              echo json_encode($result);
+            }
+          }else{
+            $this->session->set_flashdata('redirect_admin_applications_message', 'Unauthorized!!.');
+            redirect('admins/all_admin');
+          }
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('cooperatives');
+      }
+    }
+  }
   public function change_passwd()
   {
     $data['alert_class']='';
