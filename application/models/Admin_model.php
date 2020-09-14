@@ -541,7 +541,18 @@ The client shall submit the above required documents within 30 working days from
       $qry_check = $this->db->get_where('admin',array('region_code'=>$data['region_code'],'access_name'=>"Acting Regional Director"));
       if($qry_check->num_rows()>0)
       {
-        return array('success'=>false,'message'=> $data['access_name'].' already exists in '.$recDesc);
+        foreach($qry_check->result() as $act_row)
+        {
+          if($act_row->id == $aid)
+          {
+            return array('success'=>true,'message'=>'Not exists'); 
+          }
+          else
+          {
+             return array('success'=>false,'message'=> $data['access_name'].' already exists in '.$recDesc);
+          }
+        }
+       
       }
       else
       {
