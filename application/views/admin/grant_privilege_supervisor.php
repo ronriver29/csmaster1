@@ -5,7 +5,7 @@
         <div class="modal-content">
           <?php echo form_open('admins/grant_supervisor',array('id'=>'grantSupervisorForm','name'=>'grantSupervisorForm')); ?>
             <div class="modal-header">
-              <h4 class="modal-title" id="grantSupervisorModallLabel">Are you sure you want to grant all privilege to Supervising CDS?</h4>
+              <h4 class="modal-title" id="grantSupervisorModallLabel">Are you sure you want to grant all authority to Supervising CDS?</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>

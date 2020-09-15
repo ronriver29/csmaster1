@@ -346,7 +346,7 @@ class Admins extends CI_Controller{
           if($this->input->post('grantSupervisorBtn')){
             $admin_user_id = $this->session->userdata('user_id');
             if($this->admin_model->grant_privilege_supervisor($admin_user_id)){
-              $this->session->set_flashdata('list_success_message', 'Successfully granted all privileges to Supervising CDS.');
+              $this->session->set_flashdata('list_success_message', 'Successfully granted all authority to Supervising CDS.');
               redirect('cooperatives');
             }else{
               $this->session->set_flashdata('list_error_message', 'Unable to grant all privileges to Supervising CDS.');
