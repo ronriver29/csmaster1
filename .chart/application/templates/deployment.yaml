@@ -111,7 +111,7 @@ spec:
         #  periodSeconds: 2
         #  successThreshold: 1
         #  failureThreshold: 3
-      {{ if eq .Values.env.name "staging" }}
+      {{ if ne .Values.env.name "local" }}
       imagePullSecrets:
        - name: {{ .Values.deploy.gitlab.key }}
       {{ end }}
