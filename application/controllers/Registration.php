@@ -90,7 +90,7 @@ class registration extends CI_Controller{
           set_time_limit(0);
        // $this->debug($data1['coop_info']);
           
-         $html2 = $this->load->view('cooperative/cor_view', $data1);
+         // $html2 = $this->load->view('cooperative/cor_view', $data1);
          $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);
            $J = new pdf();       
            $J->set_option('isRemoteEnabled',TRUE);
