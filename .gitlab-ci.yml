@@ -78,8 +78,8 @@ deploy-application-production:
       --kubeconfig $KUBECONFIG_PRODUCTION
       --set web.name="ris-${CI_COMMIT_REF_SLUG}"
       --set web.container=$CONTAINER
-      --set env.name=${CI_ENVIRONMENT_NAME}
-      --set env.url=${CI_ENVIRONMENT_URL}
+      --set env.name=production
+      --set env.url=https://cs.cda.gov.ph
       --set env.domain=cs.cda.gov.ph
       --set env.tls=cda-tls
       --set db.hostname=$DB_HOSTNAME
@@ -88,9 +88,6 @@ deploy-application-production:
       --set db.database=$DB_DATABASE
       cs
       ./.chart/application
-  environment:
-    name: production
-    url: https://cs.cda.gov.ph
   only:
     - master
 
@@ -104,8 +101,5 @@ deploy-database-production:
       --kubeconfig $KUBECONFIG_PRODUCTION
       database
       ./.chart/database
-  environment:
-    name: production
-    url: http://202.90.136.156
   only:
     - master
