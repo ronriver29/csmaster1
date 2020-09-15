@@ -406,8 +406,8 @@ Very truly yours,<br/>
 <table>
 <tr>
 <td width="10%">
-	<?php var_dump($director); ?>
-<b><?=strtoupper($director->full_name) ?></b><br/>
+	<!-- <?php var_dump($director); ?> -->
+<b><?=(is_array($director) ? strtoupper($director->full_name) : "") ?></b><br/>
 <?=strtoupper($director->access_name) ?>
 </p>
 </td>
