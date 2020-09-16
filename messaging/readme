@@ -1,0 +1,39 @@
+Hi Sir Jayson!
+
+So basically there's a few types of use cases for a queue message.
+
+#1) Simple straight (I like to call it deferred processing)
+
+(P) -> (stack) -> (C)
+
+Description:
+  So this is basically deferring processing from the main request to a background service so that we could release the connection and more clients would be able to use the server. The basic issue that this solves is when the script executes too long due to long running process (i.e. report generation, data deletion, 3rd party integrations)
+
+#2) Work queues (distribution of workload)
+                -> (C1)
+(P) -> (stack)
+                -> (C2)
+
+Description:
+  So this is an advanced version of the simple straight. This happens when the incoming message rate is higher than the outgoing message. The basic issue that this solves is when the simple straight cannot cope up with the number of queued messages (i.e. incoming message is around 1k/sec but the processing rate or outgoing message rate is around 100/sec, this could blow up the stack)
+
+#3) Publish/Subscribe (multiple-independent processing)
+        (stack1) -> (C1)
+(P) ->
+        (stack2) -> (C2)
+
+Description:
+  So this is a different approach, where in multiple different processes should be done for the data without waiting for each step (i.e. a user signup sends a message to two different stacks, (1) one for email sending, (1) one for data collection, each processes should be done but are not a blocking issue for a user to proceed with the interaction on the UI side)
+
+legends:
+- (P): publisher, source of data that publishes to the stack
+- (stack): storage (in our scenario it's the rabbitmq service), stores the messages/data
+- (C): consumer, consumes the data from the (stack) and does what it should be on the data
+
+
+I created a simple straight here "/messaging"
+- publisher: created a page that sends data to the queue with a fixed id:1, can be anything :)
+- consumer: you should be able to see the "app-php-background_x" when you monitor the logs
+
+I recommend you check the following topics as well:
+- acknowledgement

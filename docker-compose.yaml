@@ -19,6 +19,7 @@ services:
       - internal
     links:
       - database
+      - messaging
     environment: 
       DB_HOSTNAME: database
       DB_USERNAME: dbuser
@@ -58,6 +59,35 @@ services:
       - internal
     ports:
       - "33060:3306"
+  messaging:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: mquser
+      RABBITMQ_DEFAULT_PASS: password
+    networks:
+      - internal
+  app-php-background:
+    build:
+      context: .
+    volumes:
+      - type: bind
+        source: .
+        target: /srv/site
+        volume:
+          nocopy: true
+      - type: bind
+        source: ./.shared-volume
+        target: /var/www/shared-volume
+        volume:
+          nocopy: true
+      - tmp:/tmp
+    networks:
+      - internal
+    links:
+      - messaging
+    command: "php /srv/site/messaging/consumer.php"
 volumes:
   tmp:
 networks:
