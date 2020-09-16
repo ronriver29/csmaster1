@@ -86,7 +86,6 @@ deploy-application-production:
       --set db.username=$DB_USERNAME
       --set db.password=$DB_PASSWORD
       --set db.database=$DB_DATABASE
-      --set deploy.gitlab.key=gitlab
       cs
       ./.chart/application
   only:
