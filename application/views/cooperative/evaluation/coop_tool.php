@@ -16,6 +16,7 @@
       <?php echo form_open('cooperative_tool/save', 'name="toolForm" id="toolForm"');?>
       <div class="card-body">
         <div class="row">
+         
           <input type="hidden" name="id" value="<?=$encrypted_id?>"/>
           <table class="table table-bordered" Width="100%">
             <tr>
@@ -44,6 +45,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[0])){$rem[0]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[0]" value=""><?=$rem[0]?></textarea></td>
             </tr>
             <tr>
@@ -61,6 +63,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[1])){$rem[1]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[1]" value=""><?=$rem[1]?></textarea></td>
             </tr>
 <!--            <tr>
@@ -153,6 +156,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[2])){$rem[2]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[2]" value=""><?=$rem[2]?></textarea></td>
             </tr>
             <tr>
@@ -172,6 +176,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[3])){$rem[3]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[3]" value=""><?=$rem[3]?></textarea></td>
             </tr>
             <tr>
@@ -189,6 +194,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[4])){$rem[4]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[4]" value=""><?=$rem[4]?></textarea></td>
             </tr>
             <tr>
@@ -206,6 +212,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[5])){$rem[5]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[5]" value=""><?=$rem[5]?></textarea></td>
             </tr>
             <tr>
@@ -226,6 +233,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[6])){$rem[6]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[6]" value=""><?=$rem[6]?></textarea></td>
             </tr>
             <tr>
@@ -248,6 +256,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[7])){$rem[7]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[7]" value=""><?=$rem[7]?></textarea></td>
             </tr>
             <tr>
@@ -265,6 +274,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[8])){$rem[8]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[8]" value=""><?=$rem[8]?></textarea></td>
             </tr>
             <tr>
@@ -282,6 +292,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[9])){$rem[9]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[9]" value=""><?=$rem[9]?></textarea></td>
             </tr>
             <tr>
@@ -299,6 +310,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[10])){$rem[10]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[10]" value=""><?=$rem[10]?></textarea></td>
             </tr>
 <!--            <tr>
@@ -337,6 +349,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[11])){$rem[11]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[11]" value=""><?=$rem[11]?></textarea></td>
             </tr>
             <tr>
@@ -354,7 +367,9 @@
                       }
                     } 
               ?>
-              <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[12]" value=""><?=$rem[12]?></textarea></td><tr>
+              <?php if(empty($rem[12])){$rem[12]=NULL;}?>
+              <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[12]" value=""><?=$rem[12]?></textarea></td>
+            </tr>
             <tr>
               <td style="padding-left: 30px">d.3. The cooperative is offering a high/fixed rate  of return on savings deposit and share capital (Means of verification: interview at least 3 members)</td>
               <?php if ($ans==null){
@@ -370,6 +385,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[13])){$rem[13]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[13]" value=""><?=$rem[13]?></textarea></td>
             </tr>
 <!--            <tr>
@@ -465,6 +481,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[14])){$rem[14]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[14]" value=""><?=$rem[14]?></textarea></td>
             </tr>
             <tr>
@@ -482,7 +499,8 @@
                       }
                     } 
               ?>
-              <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[15]" value=""><?=$rem[15]?></textarea></td> 
+              <?php if(empty($rem[15])){$rem[15]=NULL;}?>
+              <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[15]" value=""><?=$rem[15]?></textarea></td>
             </tr>
             <tr>
               <td style="padding-left: 30px">f.3.The economic survey shows the potential viability if the proposed economic activity</td>
@@ -499,6 +517,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[16])){$rem[16]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[16]" value=""><?=$rem[16]?></textarea></td>
             </tr>
             <tr>
@@ -516,6 +535,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[17])){$rem[17]=NULL;}?>
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[17]" value=""><?=$rem[17]?></textarea></td>
             </tr>
 <!--            <tr>
@@ -560,13 +580,13 @@
               <td><b>Other Findings</b> <i>(within existing law, rules and regulations and CDA guidelines)</i></td>
             </tr>
             <tr>
-              <td><textArea rows="4" cols="115" name="findings"><?php echo $findings;?></textArea></td>
+              <td><textArea rows="4" cols="147" name="findings"><?php echo $findings;?></textArea></td>
             </tr>
             <tr>
               <td><b>Recommendations</b> <i>(clear and specific as to induce a strong belief/judgment by the approving officer)</i></td>
             </tr>
             <tr>
-              <td><textArea rows="4" cols="115" name="comments"><?php echo $comments;?></textArea></td>
+              <td><textArea rows="4" cols="147" name="comments"><?php echo $comments;?></textArea></td>
             </tr>
           </table>
             
