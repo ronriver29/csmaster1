@@ -75,15 +75,18 @@ class cooperative_tool extends CI_Controller{
             $remark='';
             $yn='';
             foreach ($this->input->post('ans') as $itm) {
+             
               $yn=$yn.$itm;
             }
             foreach ($this->input->post('sagot') as $itm) {
               $remark=$remark.$itm.'~^~';
             }
+
             $remark=substr_replace($remark, "", -1);
             $remark=substr_replace($remark, "", -1);
             $remark=substr_replace($remark, "", -1);
 
+            // echo "<pre>";print_r($yn);echo"</pre>";
             $data1 = array(
               'tool_yn_answer' => $yn,
               'tool_remark' => $remark,
