@@ -328,7 +328,7 @@ class Db_dev extends CI_Controller{
         }
    }
   }
-  public function spec_table()
+  public function spec_table($table)
   {
     if(!$this->session->userdata('logged_in'))
     {
@@ -342,7 +342,13 @@ class Db_dev extends CI_Controller{
              NUMERIC_PRECISION, DATETIME_PRECISION, 
              IS_NULLABLE 
               from INFORMATION_SCHEMA.COLUMNS
-              where TABLE_NAME='TableName'");
+              where TABLE_NAME='$table'");
+          if($query->num_rows()>0)
+          {
+             $this->debug($query->result_array());
+          }
+         
+
         }
     }      
 
