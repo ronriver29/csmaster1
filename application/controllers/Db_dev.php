@@ -328,6 +328,25 @@ class Db_dev extends CI_Controller{
         }
    }
   }
+  public function spec_table()
+  {
+    if(!$this->session->userdata('logged_in'))
+    {
+      redirect('users/login');
+    }
+    else
+    {
+        if($this->uri->segment(2)=='spec_table')
+        {
+          $query= $this->db->query("select COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, 
+             NUMERIC_PRECISION, DATETIME_PRECISION, 
+             IS_NULLABLE 
+              from INFORMATION_SCHEMA.COLUMNS
+              where TABLE_NAME='TableName'");
+        }
+    }      
+
+  }
   public function php_info()
   {
     echo phpinfo();
