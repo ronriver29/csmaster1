@@ -201,10 +201,12 @@
               $data['coop_type_upload_doc'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
 
               $data['document_completed'] =false;
+              $array_upload[] = array();
               if(is_array($data['coop_type_upload_doc']))
               {
                 foreach ($data['coop_type_upload_doc'] as $coop) : 
                   //if uploaded or not
+
                   $coop['status']=$this->uploaded_document_model->check_document_exist($decoded_id,$coop['document_num']);
                   $array_upload[] = $coop['status'];
                 endforeach;
@@ -213,8 +215,7 @@
                     $data['document_completed'] =true;
                   }
               }  
-             
-              
+          
               $data['bylawprimary'] = $data['coop_info']->category_of_cooperative=="Primary";
                 if($data['coop_info']->category_of_cooperative=="Primary"){
                     $bylawstf = $this->bylaw_model->check_bylaw_primary_complete($decoded_id);
