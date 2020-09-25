@@ -198,24 +198,22 @@
               $data['denied_comments'] = $this->cooperatives_model->denied_comments($decoded_id);
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
               $data['business_activities'] =  $this->cooperatives_model->get_all_business_activities($decoded_id);
-              $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
-              $count=0;
-              $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
-              
-                foreach ($data['coop_type'] as $coop) : 
+              $data['coop_type_upload_doc'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
 
-                    $count++;
-                    if($count == 1){
-                        $data['document_others1'] = $this->uploaded_document_model->get_document_others1_info($decoded_id,$coop['document_num']);
-                    } else if($count == 2) {
-                        $data['document_others2'] = $this->uploaded_document_model->get_document_others2_info($decoded_id,$coop['document_num']);
-                    } else {
-                        $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
-                        $data['document_others2'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
-                    }
-                    
+              $data['document_completed'] =false;
+              if(is_array($data['coop_type_upload_doc']))
+              {
+                foreach ($data['coop_type_upload_doc'] as $coop) : 
+                  //if uploaded or not
+                  $coop['status']=$this->uploaded_document_model->check_document_exist($decoded_id,$coop['document_num']);
+                  $array_upload[] = $coop['status'];
                 endforeach;
-                
+              }  
+              if(!in_array(false,$array_upload))
+              {
+                $data['document_completed'] =true;
+              }
+              
               $data['bylawprimary'] = $data['coop_info']->category_of_cooperative=="Primary";
                 if($data['coop_info']->category_of_cooperative=="Primary"){
                     $bylawstf = $this->bylaw_model->check_bylaw_primary_complete($decoded_id);
@@ -282,8 +280,8 @@
               
               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-              $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
-              $data['document_two'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
+              $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);//surety
+              $data['document_two'] = $this->uploaded_document_model->get_document_two_info($decoded_id);//pre regis
               $data['submitted'] = $this->cooperatives_model->check_submitted_for_evaluation($decoded_id);
               $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
               $data['committeescount'] = $this->committee_model->get_all_committees_of_coop_gad($decoded_id);

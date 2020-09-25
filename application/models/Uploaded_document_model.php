@@ -168,4 +168,17 @@ class Uploaded_Document_model extends CI_Model{
       return false;
     }
   }
+  //modified
+  public function check_document_exist($coop_id,$doc_num)
+  {
+    $query = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coop_id,'document_num'=>$doc_num));
+    if($query->num_rows()>0)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
 }

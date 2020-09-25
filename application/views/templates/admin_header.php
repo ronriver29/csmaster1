@@ -49,7 +49,6 @@
                     if($admin_info->region_code =="0")
                     {
                       $reg_desc ="Central Office";
-
                     }
                     else
                     {

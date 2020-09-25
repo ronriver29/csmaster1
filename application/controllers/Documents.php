@@ -488,6 +488,7 @@ public function list_upload_pdf($id =null,$doc_type=null)
     $data['doc_types'] = $doc_type;
     $data['uploaded_list_pdf'] = $this->count_documents($decoded_id,$doc_type);
     $data['defered_uploaded_list_pdf'] =$this->defered_count_documents($decoded_id,$doc_type);
+    $data['coop_info'] = $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
     if($data['is_client'] ==1)
     {
      

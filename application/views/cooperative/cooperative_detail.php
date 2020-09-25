@@ -1,10 +1,3 @@
-<?php
-$docucount=0;
-    foreach ($coop_type as $coop) : 
-        
-        $docucount++;
-    endforeach;
-?>
 <div class="row mb-2">
   <div class="col-sm-12 col-md-2">
     <a class="btn btn-secondary btn-sm btn-block"  href="<?php echo base_url();?>cooperatives" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
@@ -665,18 +658,11 @@ $docucount=0;
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 font-weight-bold">Step 10</h5>
             <small class="text-muted">
-                <?php if($docucount==1) {
-                    $document2 = $document_others1;
-                } else if($docucount==2){
-                    $document2 = $document_others2;
-                } else {
-                    $document2 = $document_one;
-                }
-                ?>
-                <?php if($document_one && $document_two && $document_others1 && $document2): ?>
+
+                <?php if($document_one && $document_two && $document_completed): ?>
                     <span class="badge badge-success">COMPLETE</span>
                 <?php endif;?>
-                <?php if(!$document_one && !$document_two && !$document_others1 && !$document2): ?>
+                <?php if(!$document_one && !$document_two && !$document_completed): ?>
                     <span class="badge badge-secondary">PENDING</span>
                 <?php endif;?>
             </small>
@@ -707,7 +693,7 @@ $docucount=0;
               </small>
             </div>
             <p class="mb-1 font-italic">Finalize and review all the information you provide. After reviewing your application, click proceed for evaluation of your application.</p>
-            <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two && $document_others1 && $document2): ?>
+            <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two && $document_completed): ?>
             <small class="text-muted">
               <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
             </small>
