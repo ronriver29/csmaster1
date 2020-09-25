@@ -177,9 +177,9 @@
                       case "013":
                           $reg = "National Capital Region (NCR)";
                           break;
-                      // case "017":
-                      //     $reg = "Region IV-B (MIMAROPA)";
-                      //     break;
+                      case "017":
+                          $reg = "Region IV-B (MIMAROPA)";
+                          break;
                       default:
                           $reg = "";
                           break;

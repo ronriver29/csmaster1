@@ -208,11 +208,12 @@
                   $coop['status']=$this->uploaded_document_model->check_document_exist($decoded_id,$coop['document_num']);
                   $array_upload[] = $coop['status'];
                 endforeach;
+                 if(!in_array(false,$array_upload))
+                  {
+                    $data['document_completed'] =true;
+                  }
               }  
-              if(!in_array(false,$array_upload))
-              {
-                $data['document_completed'] =true;
-              }
+             
               
               $data['bylawprimary'] = $data['coop_info']->category_of_cooperative=="Primary";
                 if($data['coop_info']->category_of_cooperative=="Primary"){

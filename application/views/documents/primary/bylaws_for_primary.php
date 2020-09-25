@@ -371,8 +371,11 @@
       <?php
         if($bylaw_info->members_percent_quorom ==51)
         {
-            $quorum_word =  num_format_custom($bylaw_info->members_percent_quorom).' percent plus one';
-            $quorum = $bylaw_info->members_percent_quorom.'%+1';
+            $members_percent_quorom = 50;
+            $quorum_word =  num_format_custom( $members_percent_quorom).' percent plus one';
+            $quorum =  $members_percent_quorom.'%+1';
+            // $quorum_word =  num_format_custom($bylaw_info->members_percent_quorom).' percent plus one';
+            // $quorum = $bylaw_info->members_percent_quorom.'%+1';
         }
         else
         {
