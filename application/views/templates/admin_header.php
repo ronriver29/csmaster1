@@ -53,7 +53,7 @@
                     else
                     {
                         $readdesc= $this->region_model->get_region_by_code($admin_info->region_code);
-                         $reg_desc = (strlen($readdesc)>0 ? $readdesc->regDesc : "");
+                         $reg_desc = (!empty($readdesc) ? $readdesc->regDesc : "");
                     }
                     echo $reg_desc;
                 ?>
