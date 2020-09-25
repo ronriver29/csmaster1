@@ -181,7 +181,7 @@
                       //     $reg = "Region IV-B (MIMAROPA)";
                       //     break;
                       default:
-                          $reg = "Region IV-B (MIMAROPA)";
+                          $reg = "";
                           break;
                       }
                     echo $reg;

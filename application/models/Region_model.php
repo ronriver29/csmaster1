@@ -18,7 +18,11 @@ class Region_model extends CI_Model{
     $this->db->select('regDesc,regCode');
     $this->db->where('regCode',$regCode);
     $query = $this->db->get('refregion');
-    return $query->row();
+    if($query->num_rows()>0)
+    {
+       return $query->row();
+    }else{return null;}
+   
   }
 
 }
