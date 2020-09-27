@@ -660,9 +660,9 @@
             <small class="text-muted">
 
                 <?php if($document_one && $document_two && $document_completed): ?>
-                    <span class="badge badge-success">COMPLETE</span> 
-               <?php endif; ?>
-                <?php if(!$document_one && !$document_two && !$document_completed): ?>
+                    <span class="badge badge-success">COMPLETE</span>
+               
+                <?php else ://   (!$document_one && !$document_two && !$document_completed): ?>
                     <span class="badge badge-secondary">PENDING</span>
                 <?php endif;?>
             </small>

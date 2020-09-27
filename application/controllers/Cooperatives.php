@@ -214,6 +214,10 @@
                   {
                     $data['document_completed'] =true;
                   }
+              }
+              else
+              {
+                 $data['document_completed'] =true;
               }  
           
               $data['bylawprimary'] = $data['coop_info']->category_of_cooperative=="Primary";
