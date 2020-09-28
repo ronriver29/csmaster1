@@ -203,8 +203,18 @@
                             <label for="compositionOfMembers1" id="name_institution_label">Name of Institution</label>
                             <label for="compositionOfMembers1" id="name_associational_label">Name of Association</label>
                         <?php
-                            foreach($inssoc as $insoc){
+
+                            foreach($inssoc as $key=> $insoc){
+                              if($insoc!=" " && $insoc!="")
+                              {
                                 echo '<input type="text" class="form-control" name="name_institution[]" id="name_institution" value="'.$insoc.'"><br>';
+                              }
+
+                              // if($key>0)
+                              // {
+                              //   echo'<a class="customDeleleBtn institutionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>';
+                              // }
+
                             }
                         ?>
                             <label for="compositionOfMembers" id="composition_of_members_label">Composition of Members </label> 
