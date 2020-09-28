@@ -206,10 +206,8 @@
               {
                 foreach ($data['coop_type_upload_doc'] as $coop) : 
                   //if uploaded or not
-
                   $coop['statuses']=$this->uploaded_document_model->check_document_exist($decoded_id,$coop['document_num']);
                   $array_upload[] = $coop['statuses'];
-                  var_dump($coop['statuses']);
                 endforeach;
                  if(in_array('false',$array_upload))
                   {
@@ -224,8 +222,7 @@
               {
                  $data['document_completed'] =true;
               }  
-            var_dump($data['document_completed']);
-            echo $this->db->last_query();
+
               $data['bylawprimary'] = $data['coop_info']->category_of_cooperative=="Primary";
                 if($data['coop_info']->category_of_cooperative=="Primary"){
                     $bylawstf = $this->bylaw_model->check_bylaw_primary_complete($decoded_id);
@@ -306,9 +303,9 @@
 //              print_r($data['inssoc']);
               $data['committees_count_member'] = $this->committee_model->get_all_committees_count($user_id);
               $data['list_cooperators_count'] = $this->cooperator_model->get_all_cooperator_of_coop_regular_count($decoded_id);
-              // $this->load->view('./template/header', $data);
-              // $this->load->view('cooperative/cooperative_detail', $data);
-              // $this->load->view('./template/footer');
+              $this->load->view('./template/header', $data);
+              $this->load->view('cooperative/cooperative_detail', $data);
+              $this->load->view('./template/footer');
             }else{
               $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
               redirect('cooperatives');
