@@ -174,11 +174,11 @@ class Uploaded_Document_model extends CI_Model{
     $query = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coop_id,'document_num'=>$doc_num));
     if($query->num_rows()>0)
     {
-      return true;
+      return 'true';
     }
     else
     {
-      return false;
+      return 'false';
     }
   }
 }

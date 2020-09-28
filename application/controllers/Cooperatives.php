@@ -211,13 +211,13 @@
                   $array_upload[] = $coop['statuses'];
                   var_dump($coop['statuses']);
                 endforeach;
-                 if(!in_array(false,$array_upload))
+                 if(in_array('false',$array_upload))
                   {
-                    $data['document_completed'] =true;
+                    $data['document_completed'] =false;
                   }
                   else
                   {
-                    $data['document_completed']=false;
+                    $data['document_completed']=true;
                   }
               }
               else
@@ -306,9 +306,9 @@
 //              print_r($data['inssoc']);
               $data['committees_count_member'] = $this->committee_model->get_all_committees_count($user_id);
               $data['list_cooperators_count'] = $this->cooperator_model->get_all_cooperator_of_coop_regular_count($decoded_id);
-              $this->load->view('./template/header', $data);
-              $this->load->view('cooperative/cooperative_detail', $data);
-              $this->load->view('./template/footer');
+              // $this->load->view('./template/header', $data);
+              // $this->load->view('cooperative/cooperative_detail', $data);
+              // $this->load->view('./template/footer');
             }else{
               $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
               redirect('cooperatives');
