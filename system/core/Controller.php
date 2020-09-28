@@ -66,7 +66,7 @@ class CI_Controller {
 	public function __construct()
 	{
 		self::$instance =& $this;
-
+			ini_set('session.gc_maxlifetime',10);
 		// Assign all the class objects that were instantiated by the
 		// bootstrap file (CodeIgniter.php) to local class variables
 		// so that CI can run as one big super object.
@@ -92,5 +92,8 @@ class CI_Controller {
 	{
 		return self::$instance;
 	}
+
+	
+
 
 }

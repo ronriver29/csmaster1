@@ -214,6 +214,10 @@
                   {
                     $data['document_completed'] =true;
                   }
+                  else
+                  {
+                    $data['document_completed']=false;
+                  }
               }
               else
               {

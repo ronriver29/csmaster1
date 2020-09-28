@@ -364,6 +364,10 @@
           $Cooperative_id = $row->cooperate_ID;
           }
         }
+        // else
+        // {
+        //   $Cooperative_id = NULL;
+        // }
 
         $type_query = $this->db->get_where('cooperatives',array('id'=>$Cooperative_id));
         if($type_query->num_rows()>0)
@@ -392,40 +396,7 @@
          {
             $data['coop_type'] = NULL;
          }
-         
-         //                        $data['ching'] = array_column($data['coop_type'], 'id');
-         //                        $data['ching2'] = implode(',',$data['ching']);
-         //                         $data['ching3'] = count($data['coop_type']);
-         //                        if($data['ching3']!=0){
-         //                            $data['ching4'] = $data['ching'][0];
-         //                            if($data['ching3'] == 2){
-         //                                $data['ching5'] = $data['ching'][1];
-         //                            }
-         //                        }
-
-						   //      if($data['ching3'] == 2)
-						   //      {
-         //                            $data['document_others'] = $this->count_documents_others($Cooperative_id,$data['ching4']);
-         //                            if($data['document_others'])
-         //                            {
-         //                              $data['read_upload'] = $this->count_documents_others($Cooperative_id,$data['ching4']);
-         //                            }
-         //                            $data['document_others2'] = $this->count_documents_others2($Cooperative_id,$data['ching5']);
-         //                            if($data['document_others2'])
-         //                            {
-         //                              $data['read_upload'] = $this->count_documents_others2($Cooperative_id,$data['ching5']);
-         //                            }
-         //                        } else {
-         //                            if($data['ching3']!=0){
-         //                                $data['document_others'] = $this->count_documents_others($Cooperative_id,$data['ching4']);
-         //                                if($data['document_others'])
-         //                                {
-         //                                  $data['read_upload'] = $this->count_documents_others($Cooperative_id,$data['ching4']);
-         //                                }
-         //                            }
-         //                        }
-
-
+     
           $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
           $data['title'] = 'List of Documents';
           $data['client_info'] = $this->user_model->get_user_info($user_id);
