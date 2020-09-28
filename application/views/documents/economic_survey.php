@@ -120,9 +120,41 @@
           <table class="table table-borderless table-sm">
             <tbody>
               <tr><!--foreach-->
-                <td><?php foreach($members_composition as $compo) : ?>
-                    <?= $compo['composition'] ?><br/>
-                    <?php endforeach; ?></td>
+                <td>
+                  <?php 
+                  if($coop_info->common_bond_of_membership=='Residential')
+                  {
+                    echo"Working and/or residing in the area of operaion.";
+                  }
+                  else if($coop_info->common_bond_of_membership=='Occupational')
+                  {
+                      foreach($members_composition as $compo) : 
+                      echo $compo['composition'].'<br/>';
+
+                     endforeach;
+                  }
+                  else
+                  {
+                    echo $coop_info->field_of_membership.' of ';
+                    $name_of_ins_assoc = explode(',',$coop_info->name_of_ins_assoc);
+                    if(count($name_of_ins_assoc)==2)
+                    {
+                        echo $name_of_ins_assoc[0].' and '.$name_of_ins_assoc[1].'.';
+                    }
+                    else if(count($name_of_ins_assoc)==3)
+                    {
+                       echo $name_of_ins_assoc[0].', '.$name_of_ins_assoc[1].' and '.$name_of_ins_assoc[2].'.';
+                    }
+                    else if(count($name_of_ins_assoc)==4)
+                    {
+                       echo $name_of_ins_assoc[0].', '.$name_of_ins_assoc[1].', '.$name_of_ins_assoc[2].' and '.$name_of_ins_assoc[3].'.';
+                    }
+                    else
+                    {
+                      echo $coop_info->name_of_ins_assoc;
+                    }
+                  }
+                  ?></td>
               </tr>
             </tbody>
           </table>

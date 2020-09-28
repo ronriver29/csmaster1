@@ -1773,7 +1773,15 @@ public function delete_pdf()
                               $data['title'] = "Economic Survey";
                               $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                               $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
-                              $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
+                              // if($data['coop_info']->common_bond_of_membership=='Residential')
+                              // {
+                              //    $data['members_composition']="Working and/or residing in the area of operaion."
+                              // }
+                              // else
+                              // {
+                              //    $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
+                              // }
+                               $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
                               $data['survey_info'] = $this->economic_survey_model->get_economic_survey_by_coop_id($decoded_id);
                               $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
                               $data['cooperators_list_bods'] = $this->cooperator_model->get_all_cooperator_of_bods($decoded_id);
@@ -1786,7 +1794,7 @@ public function delete_pdf()
                               $data['others_staff_list'] = $this->staff_model->get_all_staff_of_coop_by_other_position($decoded_id);
                               $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
                               $data['committees_list'] = $this->committee_model->get_all_committee_names_of_coop_multi($decoded_id);
-                               // $this->load->view('documents/economic_survey', $data);
+                               $this->load->view('documents/economic_survey', $data);
                               $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
                               $f = new pdf();
                                 $f->set_option("isPhpEnabled", true);
