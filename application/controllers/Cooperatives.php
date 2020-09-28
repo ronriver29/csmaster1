@@ -223,7 +223,7 @@
               {
                  $data['document_completed'] =true;
               }  
-            // var_dump($data['document_completed']);
+            var_dump($data['document_completed']);
               $data['bylawprimary'] = $data['coop_info']->category_of_cooperative=="Primary";
                 if($data['coop_info']->category_of_cooperative=="Primary"){
                     $bylawstf = $this->bylaw_model->check_bylaw_primary_complete($decoded_id);
