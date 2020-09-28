@@ -658,7 +658,7 @@
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 font-weight-bold">Step 10</h5>
             <small class="text-muted">
-              <?php var_dump($document_completed); ?>
+             
                 <?php 
                 if($document_one && $document_two && $document_completed): ?>
                     <span class="badge badge-success">COMPLETE</span>
