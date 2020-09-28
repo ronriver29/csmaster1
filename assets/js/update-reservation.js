@@ -227,6 +227,13 @@
 
     //end cooperative Update reservation validation
   });
+
+  //start
+  $("#reserveUpdateForm #remove_ins").on('click',function(){ 
+     $(this).closest('.ins-div').remove();
+  });
+  //end
+
     $('#reserveUpdateForm #addMoreInsBtn').on('click', function(){
       var lastCountOfcom = $('#name_institution').last().attr('id');
       intLastCount = parseInt(lastCountOfcom.substr(-1)); 

@@ -207,13 +207,18 @@
                             foreach($inssoc as $key=> $insoc){
                               if($insoc!=" " && $insoc!="")
                               {
-                                echo '<input type="text" class="form-control" name="name_institution[]" id="name_institution" value="'.$insoc.'"><br>';
+                                echo '<div class="ins-div"><input type="text" class="form-control" name="name_institution[]" id="name_institution" value="'.$insoc.'"><br>';
+                                 if($key>0)
+                                  {
+                                    echo'<a id="remove_ins" class="customDeleleBtn institutionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a></div>';
+                                  }
+                                  else
+                                  {
+                                    echo"</div>";
+                                  }
                               }
 
-                              // if($key>0)
-                              // {
-                              //   echo'<a class="customDeleleBtn institutionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>';
-                              // }
+                             
 
                             }
                         ?>
