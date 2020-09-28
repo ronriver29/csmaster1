@@ -207,8 +207,9 @@
                 foreach ($data['coop_type_upload_doc'] as $coop) : 
                   //if uploaded or not
 
-                  $coop['status']=$this->uploaded_document_model->check_document_exist($decoded_id,$coop['document_num']);
-                  $array_upload[] = $coop['status'];
+                  $coop['statuses']=$this->uploaded_document_model->check_document_exist($decoded_id,$coop['document_num']);
+                  $array_upload[] = $coop['statuses'];
+                  var_dump($coop['statuses']);
                 endforeach;
                  if(!in_array(false,$array_upload))
                   {
