@@ -684,7 +684,7 @@
           <li class="list-group-item  flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1 font-weight-bold">Step 11</h5>
-              <small class="text-muted"><?php  var_dump($document_completed); echo "<br"; var_dump($document_one); echo "<br"; var_dump($document_two); echo "<br";  ?>
+              <small class="text-muted">
                 <?php if($coop_info->status > 1) :?>
                 <span class="badge badge-success">COMPLETE</span>
                 <?php endif; ?>
