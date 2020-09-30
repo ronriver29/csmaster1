@@ -388,6 +388,7 @@
 <?php 
 // print_r($ching);
 // echo"<pre>";print_r($coop_type);echo"<pre>";
+if(!empty($coop_type)):
 $count=0;
     foreach ($coop_type as $coop) : 
 ?>
@@ -438,12 +439,9 @@ $count=0;
 
     <?php endforeach; ?>
 </div>
+<?php endif; //not empty?>
 <!--ANJURY END-->
-<pre>
-    <?php // print_r($coop_type);?>
-    <?php // print_r($ching);?>
-    <?php // echo $ching4;?>
-</pre>
+
 <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){

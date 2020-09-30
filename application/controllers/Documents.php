@@ -52,58 +52,65 @@ class Documents extends CI_Controller{
                               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                               if($data['staff_complete']){
                                 $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
-                                
-                                // echo '<pre>';print_r(  $data['coop_type']);echo'</pre>';
-                                $data['ching'] = array_column($data['coop_type'], 'document_num');
-                                $data['ching2'] = implode(',',$data['ching']);
-                                 $data['ching3'] = count($data['coop_type']);
-                                if($data['ching3']!=0){
-                                    if(empty($data['ching'][0]))
+                                  $data['document_others2'] = NULL;
+                                    $data['document_others'] =NULL;
+                                if(!empty($data['coop_type']))
+                                {
+                                  foreach($data['coop_type'] as $key => $docs_type)
+                                  {
+                                    if($key==0)
+                                    { 
+                                      if($data['coop_info']->status==11) //deferred
+                                      {
+                                       $data['document_others']= $this->defered_count_documents($decoded_id,$docs_type['document_num']);
+                                      }
+                                      else
+                                      {
+                                       $data['document_others']= $this->count_documents_others($decoded_id,$docs_type['document_num']);
+                                      }
+                                    }
+                                    
+                                    if($key==1)
                                     {
-                                      $data['ching'][0]=0;
+                                      if($data['coop_info']->status==11) //deferred
+                                      {
+                                       $data['document_others2']= $this->defered_count_documents($decoded_id,$docs_type['document_num']);
+                                      }
+                                      else
+                                      {
+                                       $data['document_others2']= $this->count_documents_others($decoded_id,$docs_type['document_num']);
+                                      }
                                     }
-                                    $data['ching4'] = $data['ching'][0];
-                                    if($data['ching3'] == 2){
-                                        $data['ching5'] = $data['ching'][1];
-                                    }
+                                  }
                                 }
+                                
+                               
                                 $data['title'] = 'List of Documents';
                                 $data['client_info'] = $this->user_model->get_user_info($user_id);
                                 $data['header'] = 'Documents';
                                 $data['uid'] = $this->session->userdata('user_id');
                                 $data['cid'] = $decoded_id;
                                 $data['encrypted_id'] = $id;
-                                $data['document_one'] = $this->count_documents($decoded_id,1);
-                                if($data['document_one'])
+    
+                                if($data['coop_info']->status==11) //deferred
                                 {
-                                  $data['read_upload'] = $this->count_documents($decoded_id,1);
+                                  $data['document_one']= $this->defered_count_documents($decoded_id,1);
+                                  $data['document_two']= $this->defered_count_documents($decoded_id,2);
                                 }
-                                $data['document_two'] = $this->count_documents($decoded_id,2);
-                                if($data['document_two'])
+                                else
                                 {
-                                  $data['read_upload'] = $this->count_documents($decoded_id,2);
+                                  $data['document_one'] = $this->count_documents($decoded_id,1);
+                                  if($data['document_one'])
+                                  {
+                                    $data['read_upload'] = $this->count_documents($decoded_id,1);
+                                  }
+                                   $data['document_two'] = $this->count_documents($decoded_id,2);
+                                  if($data['document_two'])
+                                  {
+                                    $data['read_upload'] = $this->count_documents($decoded_id,2);
+                                  }
                                 }
-                                if($data['ching3'] == 2){
-                                    $data['document_others'] = $this->count_documents_others($decoded_id,$data['ching4']);
-                                    if($data['document_others'])
-                                    {
-                                      $data['read_upload'] = $this->count_documents_others($decoded_id,$data['ching4']);
-                                    }
-                                    $data['document_others2'] = $this->count_documents_others2($decoded_id,$data['ching5']);
-                                    if($data['document_others2'])
-                                    {
-                                      $data['read_upload'] = $this->count_documents_others2($decoded_id,$data['ching5']);
-                                    }
-                                } else {
-                                    if($data['ching3']!=0){
-                                        $data['document_others'] = $this->count_documents_others($decoded_id,$data['ching4']);
-                                        if($data['document_others'])
-                                        {
-                                          $data['read_upload'] = $this->count_documents_others($decoded_id,$data['ching4']);
-                                        }
-                                    }
-                                }
-                                
+                                  
                                 $this->load->view('template/header', $data);
                                 $this->load->view('documents/list_of_documents', $data);
                                 $this->load->view('template/footer');
@@ -1773,14 +1780,6 @@ public function delete_pdf()
                               $data['title'] = "Economic Survey";
                               $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                               $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
-                              // if($data['coop_info']->common_bond_of_membership=='Residential')
-                              // {
-                              //    $data['members_composition']="Working and/or residing in the area of operaion."
-                              // }
-                              // else
-                              // {
-                              //    $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
-                              // }
                                $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
                               $data['survey_info'] = $this->economic_survey_model->get_economic_survey_by_coop_id($decoded_id);
                               $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
