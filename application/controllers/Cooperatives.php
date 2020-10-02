@@ -450,9 +450,16 @@
                       $category = substr($this->input->post('categoryOfCooperative'),0,strpos($this->input->post('categoryOfCooperative'),'-')-1);
                       $group = substr($this->input->post('categoryOfCooperative'), strpos($this->input->post('categoryOfCooperative'),'-')+2 , strlen($this->input->post('categoryOfCooperative')) - strpos($this->input->post('categoryOfCooperative'),'-')-2);
                     }
-                    
-                    $name_of_ins_assoc = $this->input->post('name_institution');
-                    $name_of_ins_assoc = implode(", ",$this->input->post('name_institution'));
+                
+                    $name_of_ins_assoc = array_filter($this->input->post('name_institution'));
+                    if(count($name_of_ins_assoc)>0 )
+                    {
+                        $name_of_ins_assoc = implode(", ",$this->input->post('name_institution'));
+                    }
+                    else
+                    {
+                        $name_of_ins_assoc='';
+                    }
                     
                     $field_data = array(
                       'users_id' => $this->session->userdata('user_id'),

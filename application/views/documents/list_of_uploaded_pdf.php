@@ -52,7 +52,7 @@
               </tr>
             </thead>
             <tbody>
-             
+<?php if($uploaded_list_pdf!=NULL): ?>
             <?php if(isset($uploaded_list_pdf)) :?>	
         	<?php $a=1;foreach($uploaded_list_pdf as $row): ?>
               <tr>
@@ -76,6 +76,7 @@
           <?php endforeach; ?>
       <?php else: echo"<tr><td>No Documents found</td></td>"; ?>
           <?php endif; ?>
+<?php endif; //not null?>          
             </tbody>
           </table> 
         </div>
@@ -109,11 +110,8 @@
                 <td> <?=$a++;?></td>
                 <td><?=$row['filename']?></td>
                 <td><?=date('F-d-Y',strtotime($row['created_at']))?></td>
-              <!--   <td><?=$row['status']?></td> -->
-               
                 <td>
-                	 
-
+                
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                   	<a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
                     <?php if(($is_client)): ?>
@@ -121,7 +119,6 @@
                     <?php endif; ?>
                   </div>
                 </td>
-             
               </tr>
           <?php endforeach; ?>
       <?php else: //echo "No Documents found"; ?>

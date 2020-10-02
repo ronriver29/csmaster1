@@ -205,8 +205,8 @@
                         <?php
 
                             foreach($inssoc as $key=> $insoc){
-                              if($insoc!=" " && $insoc!="")
-                              {
+                              // if($insoc!=" " && $insoc!="")
+                              // {
                                 echo '<div class="ins-div"><input type="text" class="form-control" name="name_institution[]" id="name_institution" value="'.$insoc.'"><br>';
                                  if($key>0)
                                   {
@@ -216,9 +216,7 @@
                                   {
                                     echo"</div>";
                                   }
-                              }
-
-                             
+                              // }
 
                             }
                         ?>
