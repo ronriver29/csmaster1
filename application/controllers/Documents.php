@@ -66,7 +66,7 @@ class Documents extends CI_Controller{
                                     //   }
                                     //   else
                                     //   {
-                                       $data['document_others']= $this->count_documents_others($decoded_id,$docs_type['document_num']);
+                                       $data['document_others']= $this->get_documentss($decoded_id,$docs_type['document_num']);//$this->count_documents_others($decoded_id,$docs_type['document_num']);
                                       // }
                                     }
                                     
@@ -78,7 +78,7 @@ class Documents extends CI_Controller{
                                       // }
                                       // else
                                       {
-                                       $data['document_others2']= $this->count_documents_others($decoded_id,$docs_type['document_num']);
+                                       $data['document_others2']= $this->get_documentss($decoded_id,$docs_type['document_num']);
                                       // }
                                     }
                                   }
