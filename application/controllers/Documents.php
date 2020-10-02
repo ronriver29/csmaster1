@@ -622,7 +622,17 @@ public function delete_pdf()
        }
        else
        {
-            $this->session->set_flashdata('delete_error', 'Error file not exist.');
+         if($this->db->delete('uploaded_documents',array('id'=>$id)))
+            {
+              $this->session->set_flashdata('delete_success', 'File Successfully deleted.');
+                  redirect('/documents/list_upload_pdf/'.$coop_id.'/'.$doc_type);
+            }
+            else
+            {
+                $this->session->set_flashdata('delete_error', 'Failed to delete in database.');
+                  redirect('/documents/list_upload_pdf/'.$coop_id.'/'.$doc_type);
+            }
+            // $this->session->set_flashdata('delete_error', 'Error file not exist.');
                   redirect('/documents/list_upload_pdf/'.$coop_id.'/'.$doc_type);
        }
       
