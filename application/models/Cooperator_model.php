@@ -804,6 +804,14 @@ $this->last_query = $this->db->last_query();
     $this->db->from('cooperators');
     return $this->db->count_all_results();
   }
+  public function get_total_count_regular($cooperatives_id)
+  {
+     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->where('cooperatives_id',$cooperatives_id);
+    $this->db->where('type_of_member',"Regular");
+    $this->db->from('cooperators');
+    return $this->db->count_all_results();
+  }
   public function check_no_of_directors($cooperatives_id){
     $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);

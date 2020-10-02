@@ -158,7 +158,7 @@
               </tr>
             </tbody>
           </table>
-        <li>Total No. of Regular Members only. <u><?=$no_of_cooperator?></u>
+        <li>Total No. of Regular Members only. <u><?=$total_no_of_regular_cptr?></u>
         </li>
         <li>Projected Increase of Membership for:</li>
         <table class="table table-borderless table-sm">

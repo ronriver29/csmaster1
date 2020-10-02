@@ -1802,6 +1802,7 @@ public function delete_pdf()
                               $data['staff_list'] = $this->staff_model->get_all_staff_of_coop_by_position($decoded_id);
                               $data['others_staff_list'] = $this->staff_model->get_all_staff_of_coop_by_other_position($decoded_id);
                               $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
+                              $data['total_no_of_regular_cptr']=$this->cooperator_model->get_total_count_regular($decoded_id);
                               $data['committees_list'] = $this->committee_model->get_all_committee_names_of_coop_multi($decoded_id);
                                $this->load->view('documents/economic_survey', $data);
                               $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
