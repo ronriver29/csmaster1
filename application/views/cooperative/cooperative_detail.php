@@ -688,7 +688,7 @@
                 <?php if($coop_info->status > 1 && $coop_info->status !=11) :?>
                 <span class="badge badge-success">COMPLETE</span>
                 <?php endif; ?>
-                <?php if($coop_info->status == 1 || $coop_info->status =11) :?>
+                <?php if($coop_info->status == 1 || $coop_info->status ==11) :?>
                 <span class="badge badge-secondary">PENDING</span>
                 <?php endif; ?>
               </small>

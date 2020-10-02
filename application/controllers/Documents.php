@@ -92,13 +92,13 @@ class Documents extends CI_Controller{
                                 $data['cid'] = $decoded_id;
                                 $data['encrypted_id'] = $id;
     
-                                if($data['coop_info']->status==11) //deferred
-                                {
-                                  $data['document_one']= $this->defered_count_documents($decoded_id,1);
-                                  $data['document_two']= $this->defered_count_documents($decoded_id,2);
-                                }
-                                else
-                                {
+                                // if($data['coop_info']->status==11) //deferred
+                                // {
+                                //   $data['document_one']= $this->defered_count_documents($decoded_id,1);
+                                //   $data['document_two']= $this->defered_count_documents($decoded_id,2);
+                                // }
+                                // else
+                                // {
                                   $data['document_one'] = $this->count_documents($decoded_id,1);
                                   if($data['document_one'])
                                   {
@@ -109,7 +109,7 @@ class Documents extends CI_Controller{
                                   {
                                     $data['read_upload'] = $this->count_documents($decoded_id,2);
                                   }
-                                }
+                                // }
                                   
                                 $this->load->view('template/header', $data);
                                 $this->load->view('documents/list_of_documents', $data);
