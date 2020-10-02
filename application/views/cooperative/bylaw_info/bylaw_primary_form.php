@@ -569,6 +569,8 @@
         		 </div>
         		</div>
           </div>
+          <?php else: ?>
+             <input type="hidden" value="___" class="form-control validate[required" id="nonMemberPatronYears" name="nonMemberPatronYears" placeholder="how many years" disabled>
         <?php endif; ?>
           <div class="row">
             <div class="col-sm-12 col-md-12 text-center">
