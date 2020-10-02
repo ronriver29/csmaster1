@@ -59,27 +59,27 @@ class Documents extends CI_Controller{
                                   foreach($data['coop_type'] as $key => $docs_type)
                                   {
                                     if($key==0)
-                                    { 
-                                      if($data['coop_info']->status==11) //deferred
-                                      {
-                                       $data['document_others']= $this->defered_count_documents($decoded_id,$docs_type['document_num']);
-                                      }
-                                      else
-                                      {
+                                    // { 
+                                    //   if($data['coop_info']->status==11) //deferred
+                                    //   {
+                                    //    $data['document_others']= $this->defered_count_documents($decoded_id,$docs_type['document_num']);
+                                    //   }
+                                    //   else
+                                    //   {
                                        $data['document_others']= $this->count_documents_others($decoded_id,$docs_type['document_num']);
-                                      }
+                                      // }
                                     }
                                     
                                     if($key==1)
                                     {
-                                      if($data['coop_info']->status==11) //deferred
-                                      {
-                                       $data['document_others2']= $this->defered_count_documents($decoded_id,$docs_type['document_num']);
-                                      }
-                                      else
+                                      // if($data['coop_info']->status==11) //deferred
+                                      // {
+                                      //  $data['document_others2']= $this->defered_count_documents($decoded_id,$docs_type['document_num']);
+                                      // }
+                                      // else
                                       {
                                        $data['document_others2']= $this->count_documents_others($decoded_id,$docs_type['document_num']);
-                                      }
+                                      // }
                                     }
                                   }
                                 }
@@ -99,12 +99,12 @@ class Documents extends CI_Controller{
                                 // }
                                 // else
                                 // {
-                                  $data['document_one'] = $this->count_documents($decoded_id,1);
+                                  $data['document_one'] = $this->get_documentss($decoded_id,1);//$this->count_documents($decoded_id,1);
                                   if($data['document_one'])
                                   {
                                     $data['read_upload'] = $this->count_documents($decoded_id,1);
                                   }
-                                   $data['document_two'] = $this->count_documents($decoded_id,2);
+                                   $data['document_two'] =$this->get_documentss($decoded_id,2);
                                   if($data['document_two'])
                                   {
                                     $data['read_upload'] = $this->count_documents($decoded_id,2);
@@ -785,6 +785,21 @@ public function delete_pdf()
   public function count_documents($coop_id,$num)
   {
     $query = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coop_id, 'document_num'=>$num,'status'=>1));
+    if($query->num_rows()>0)
+    {
+      $data = $query->result_array();
+
+    }
+    else
+    {
+      $data =NULL;
+    }
+    return $data;
+
+  }
+  public function get_documentss($coop_id,$num)
+  {
+    $query = $this->db->query("select * from uploaded_documents where cooperatives_id='$coop_id' and document_num='$num' and status IN(1,2) order by id desc limit 1");//get_where('uploaded_documents',array('cooperatives_id'=>$coop_id, 'document_num'=>$num,'status'=>1));
     if($query->num_rows()>0)
     {
       $data = $query->result_array();
