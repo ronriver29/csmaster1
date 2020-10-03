@@ -1344,7 +1344,6 @@ public function delete_pdf()
                                 $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                                  $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
                               $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
-                               $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                               // $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
                                $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
                                 $f = new pdf();
@@ -1952,6 +1951,7 @@ public function delete_pdf()
                                 $data['others_staff_list'] = $this->staff_model->get_all_staff_of_coop_by_other_position($decoded_id);
                                 $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
                                 $data['committees_list'] = $this->committee_model->get_all_committee_names_of_coop_multi($decoded_id);
+                                 $data['total_no_of_regular_cptr']=$this->cooperator_model->get_total_count_regular($decoded_id);
                                 $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
                                 $f = new pdf();
                                  $f->set_option("isPhpEnabled", true);
