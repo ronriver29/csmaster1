@@ -21,7 +21,7 @@ class Migration_modify_admins_table extends CI_Migration
 
     public function down()
     { 
-        $qry = $this->db->query(" ALTER TABLE admin DROP COLUMN ord"); 
+        $qry = $this->db->query("ALTER TABLE admin DROP COLUMN ord"); 
     }
 }
 ?>
