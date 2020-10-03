@@ -88,6 +88,18 @@ class registration extends CI_Controller{
       // $data1['director']=$this->registration_model->get_director($user_id)->full_name;
       $data1['director']=$this->registration_model->get_director($data1['coop_info']->rCode);
           set_time_limit(0);
+
+       $data1['date_year']= date('Y',strtotime($data1['coop_info']->dateofor));
+        $data1['date_month'] =date('F',strtotime($data1['coop_info']->dateofor));
+        $dateDay = date('d',strtotime($data1['coop_info']->dateofor));
+        $data1['date_day']=$this->OrdinalIndicator($data1['coop_info']->dateofor);
+
+        $dt_data = substr($data1['date_day'],0,1);
+       if($dt_data=="0")
+        {
+          $data1['date_day']=substr($data1['date_day'],1);
+        }
+      
        // $this->debug($data1['coop_info']);
           
          // $html2 = $this->load->view('cooperative/cor_view', $data1);
@@ -100,7 +112,29 @@ class registration extends CI_Controller{
            $J->stream("certificate.pdf", array("Attachment"=>0));
     }
   }
+  public function OrdinalIndicator($dateRegistered)
+  {
+        $date_day = date('d',strtotime($dateRegistered));
+        $num_day= substr($date_day,-1);
+        $char_length = strlen($date_day);
+        $ordinal_indicator='';
 
+        switch ($num_day) {
+          case 1:
+            $ordinal_indicator='st';
+            break;
+          case 2:
+            $ordinal_indicator='nd';
+            break;  
+          case 3:
+            $ordinal_indicator='rd';
+            break;
+          default:
+             $ordinal_indicator='th';
+            break;
+        }
+        return $date_day.$ordinal_indicator;//$num_day.$ordinal_indicator;
+  }
   function branch($id = null) {
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
