@@ -303,7 +303,7 @@
 		<td><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		<td  colspan="2" style="text-align: center; font-size: 20pt;"><b><?= $coop_info->coopName?></b></td>
+		<td  colspan="2" style="text-align: center; font-size: 20pt;line-height: 35px"><b><?= $coop_info->coopName?></b></td>
 	</tr>
 	<tr>
 		<td  colspan="2" style="text-align: center; font-size: 9pt;line-height: 35px">Name of Cooperative</td>
