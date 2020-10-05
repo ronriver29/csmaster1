@@ -266,8 +266,7 @@
 <table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda3.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;">
 
 	<tr>
-		
-		<td colspan="2" style="text-align: right; font-size: 12pt;"><b>Registration No: <?= $coop_info->regNo ?></b></td>
+	<td  colspan="2" style="text-align: center; font-size: 20pt;line-height: 35px"><b><?= $coop_info->coopName?></b></td>n="2" style="text-align: right; font-size: 12pt;"><b>Registration No: <?= $coop_info->regNo ?></b></td>
 	</tr>
 
 	<tr>
@@ -380,7 +379,7 @@
 <br/>
 Gentlemen:<br/>
 <br/>
-Please find enclosed Certificate of Registration No. <?= $coop_info->regNo ?> dated <u><?=date("F d, Y", strtotime( (substr($coop_info->dateofor,0,2).'-'.substr($coop_info->dateofor,6,4)) ) ); ?></u> of the <u><?=$coop_info->coopName?></u> together with Articles of Cooperation and By-laws which gives the organization legal personality. We commend you for the initiative you have taken in the organization of said cooperative.
+Please find enclosed Certificate of Registration No. <?= $coop_info->regNo ?> dated <u><?=date("F d, Y", strtotime( ($coop_info->dateofor))); ?></u> of the <u><?=$coop_info->coopName?></u> together with Articles of Cooperation and By-laws which gives the organization legal personality. We commend you for the initiative you have taken in the organization of said cooperative.
 <br/><br/>
 For the proper guidance of the members of the board of directors and committees, as well as the officers in the discharge of their respective duties, you are hereby required to call a special general assembly within ninety (90) days from the date of Registration of your cooperative pursuant to Article 34 (3) Chapter IV of the R. A. 9520 to consider the following:
 <br/>
