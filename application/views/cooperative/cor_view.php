@@ -266,8 +266,10 @@
 <table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda3.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;">
 
 	<tr>
-	<td  colspan="2" style="text-align: center; font-size: 20pt;line-height: 35px"><b><?= $coop_info->coopName?></b></td>n="2" style="text-align: right; font-size: 12pt;"><b>Registration No: <?= $coop_info->regNo ?></b></td>
+		
+		<td colspan="2" style="text-align: right; font-size: 12pt;"><b>Registration No: <?= $coop_info->regNo ?></b></td>
 	</tr>
+
 
 	<tr>
 		<td></td>
