@@ -1254,6 +1254,9 @@ public function delete_pdf()
                               $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
                               $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
                               $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
+                              // echo $this->db->last_query();
+                              // $data['cooperator_directors'] = $this->cooperator_model->get_list_of_directors($decoded_id);
+                              // $this->debug($data['cooperator_directors']);
                               $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
                               $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                               $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id); 

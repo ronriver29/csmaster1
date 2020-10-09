@@ -1252,21 +1252,24 @@
       </div>
     </div>
   <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=10) :?>
+
+  <?php if(sizeof($cooperator_directors) >=9) :?>
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
                 <td><b><?=$cooperator_directors[8]['full_name']?></b><br>Director</td>
+                 <?php if(!empty($cooperator_directors[9])):?>
                 <td><b><?=$cooperator_directors[9]['full_name']?></b><br>Director</td> 
+                <?php endif; ?>
               </tr>
           </table>
         </div>
       </div>
     </div>
   <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=11 && sizeof($cooperator_directors)<=13 ) :?>
+  <?php if(sizeof($cooperator_directors) >=10 && sizeof($cooperator_directors)<=13 ) :?>
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
@@ -1285,6 +1288,7 @@
       </div>
     </div>
   <?php endif;?>
+
  <!--  <?php if(sizeof($cooperator_directors) >=14) :?>
     <div class="row">
       <div class="col-sm-12 col-md-12">
