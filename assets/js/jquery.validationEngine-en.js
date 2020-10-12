@@ -126,7 +126,7 @@
 
 					return (date.getFullYear() == year && date.getMonth() == (month - 1) && date.getDate() == day);
 				},
-			 "alertText": "* Invalid date, must be in MM-DD-YYYY format"
+			 "alertText": "* Invalid date, must be in DD-MM-YYYY format"
                 },
                 "ipv4": {
                     "regex": /^((([01]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))[.]){3}(([0-1]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))$/,

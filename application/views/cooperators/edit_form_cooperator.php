@@ -386,6 +386,7 @@
       {
           $( "#dateIssued" ).prop( "disabled", true );
           $("#dateIssued").prop('required',false);
+            $("#dateIssued").val('');
       }
       else
       {
