@@ -167,6 +167,15 @@ class Cooperators extends CI_Controller{
                    // if($this->form_validation->run() == FALSE){
                   if($this->input->post('fName')) {
                       $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
+                       $dateIssued_ = '';
+                          if($this->input->post('dateIssued'))
+                          {
+                             $dateIssued_ =$this->input->post('dateIssued');
+                          }
+                          if($this->input->post('dateIssued_chk'))
+                          {
+                            $dateIssued_  = $this->input->post('dateIssued_chk');
+                          }
                       $data = array(
                         'cooperatives_id' => $decoded_post_coop_id,
                         'full_name' => $this->input->post('fName'),
@@ -181,7 +190,7 @@ class Cooperators extends CI_Controller{
                         'number_of_paid_up_shares' =>$this->input->post('paidShares'),
                         'proof_of_identity' =>$this->input->post('validIdType'),
                         'proof_of_identity_number' =>$this->input->post('validIdNo'),
-                        'proof_date_issued' =>$this->input->post('dateIssued'),
+                        'proof_date_issued' => $dateIssued_,
                         'place_of_issuance' =>$this->input->post('placeIssuance'),
                         );
                       $success = $this->cooperator_model->add_cooperator($data,'');
@@ -368,6 +377,15 @@ class Cooperators extends CI_Controller{
                           $this->load->view('./template/footer');
                         }else{
                           $decoded_post_cooperator_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
+                          $dateIssued_ = '';
+                          if($this->input->post('dateIssued'))
+                          {
+                             $dateIssued_ =$this->input->post('dateIssued');
+                          }
+                          if($this->input->post('dateIssued_chk'))
+                          {
+                            $dateIssued_  = $this->input->post('dateIssued_chk');
+                          }
                           $data = array(
                             'full_name' => $this->input->post('fName'),
                             'gender' => $this->input->post('gender'),
@@ -381,7 +399,7 @@ class Cooperators extends CI_Controller{
                             'number_of_paid_up_shares' =>$this->input->post('paidShares'),
                             'proof_of_identity' =>$this->input->post('validIdType'),
                             'proof_of_identity_number' =>$this->input->post('validIdNo'),
-                            'proof_date_issued' =>$this->input->post('dateIssued'),
+                            'proof_date_issued' => $dateIssued_ ,
                             'place_of_issuance' =>$this->input->post('placeIssuance'),
                             );
                          

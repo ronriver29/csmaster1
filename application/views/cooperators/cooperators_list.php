@@ -185,6 +185,10 @@
                   <td><?= $cooperator['number_of_subscribed_shares']?></td>
                   <td><?= $cooperator['number_of_paid_up_shares']?></td>
                   <td>
+                    <?php if($cooperator['proof_date_issued'] =='0000-00-00'):
+                      $cooperator['proof_date_issued'] = 'N/A';
+                    endif;
+                    ?>
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                       <button type="button" class="btn btn-info" data-fname="<?=$cooperator['full_name']?>" data-placeissuance="<?= $cooperator['place_of_issuance']?>" data-dateissued="<?= $cooperator['proof_date_issued']?>" data-valididno="<?= $cooperator['proof_of_identity_number']?>" data-validid="<?= $cooperator['proof_of_identity']?>" data-paid="<?= $cooperator['number_of_paid_up_shares']?>" data-subscribed="<?= $cooperator['number_of_subscribed_shares']?>" data-membertype="<?= $cooperator['type_of_member']?>" data-pos="<?= $cooperator['position']?>" data-paddress="<?= $cooperator['addrCode']?>" data-bdate="<?=$cooperator['birth_date']?>" data-gender="<?=$cooperator['gender']?>" data-toggle="modal" data-target="#fullInfoCooperatorModal" ><i class='fas fa-eye'></i> View</button>
                       <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>

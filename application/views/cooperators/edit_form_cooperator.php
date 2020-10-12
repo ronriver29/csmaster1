@@ -324,15 +324,15 @@
           </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
+
               <label for="dateIssued"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>In Accordance with Notarial Law.</li>"></i> Date Issued:</label>
-              <?php if($cooperator_info->proof_date_issued==NULL):
-              
+              <?php if($cooperator_info->proof_date_issued=='N/A'):
                 ?>
-               <input type="date" class="form-control " id="dateIssued" name="dateIssued" disabled>
-                <input type="checkbox" name="dateIssued" value="" id="chkID" checked> <small>ID Date Issued not available</small>
+               <input type="date" class="form-control" id="dateIssued" name="dateIssued" disabled>
+                <input type="checkbox" name="dateIssued_chk" value="N/A" id="chkID" checked> <small>ID Date Issued not available</small>
               <?php else: ?>
                     <input type="date" class="form-control  validate[required,custom[date],past[now]] " id="dateIssued" name="dateIssued"  value="<?=$cooperator_info->proof_date_issued?>">
-                     <input type="checkbox" name="dateIssued" value="" id="chkID"> <small>ID Date Issued not available</small>
+                     <input type="checkbox" name="dateIssued_chk" value="N/A" id="chkID"> <small>ID Date Issued not available</small>
               <?php endif;?>
              <!-- <input type="text" class="form-control validate[required]" id="dateIssued" name="dateIssued"> -->
               <!-- <small style="margin-left: 20px;"><span><i>  yyyy-mm-dd </i></span></small> -->

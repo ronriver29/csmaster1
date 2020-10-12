@@ -254,7 +254,7 @@
               <input type="date" class="form-control validate[required,custom[date],past[now]]" id="dateIssued" name="dateIssued">
              <!-- <input type="text" class="form-control validate[required]" id="dateIssued" name="dateIssued"> -->
               <!-- <small style="margin-left: 20px;"><span><i>  yyyy-mm-dd </i></span></small> -->
-              <input type="checkbox" name="dateIssued" id="chkID" value=""> <small>ID Date Issued not available</small>
+              <input type="checkbox" name="dateIssued_chk" id="chkID" value="N/A"> <small>ID Date Issued not available</small>
             </div>
       		</div>
           <div class="col-sm-12 col-md-12">
@@ -274,7 +274,7 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
-  document.getElementById("membershipType").options[2].disabled = true;
+  // document.getElementById("membershipType").options[2].disabled = true;
   document.getElementById("position").options[0].disabled = true;
   $( "#position" ).click(function() {
     var x = document.getElementById("position").value;
