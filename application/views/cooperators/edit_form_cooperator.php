@@ -325,8 +325,18 @@
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="dateIssued"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>In Accordance with Notarial Law.</li>"></i> Date Issued:</label>
-              <input type="text" class="form-control validate[required]" id="dateIssued" name="dateIssued" value="<?=$cooperator_info->proof_date_issued ?>">
-              <small style="margin-left: 20px;"><span><i>  yyyy-mm-dd </i></span></small>
+              <?php if($cooperator_info->proof_date_issued==NULL):
+              
+                ?>
+               <input type="date" class="form-control " id="dateIssued" name="dateIssued" disabled>
+                <input type="checkbox" name="dateIssued" value="" id="chkID" checked> <small>ID Date Issued not available</small>
+              <?php else: ?>
+                    <input type="date" class="form-control  validate[required,custom[date],past[now]] " id="dateIssued" name="dateIssued"  value="<?=$cooperator_info->proof_date_issued?>">
+                     <input type="checkbox" name="dateIssued" value="" id="chkID"> <small>ID Date Issued not available</small>
+              <?php endif;?>
+             <!-- <input type="text" class="form-control validate[required]" id="dateIssued" name="dateIssued"> -->
+              <!-- <small style="margin-left: 20px;"><span><i>  yyyy-mm-dd </i></span></small> -->
+             
             </div>
           </div>
           <div class="col-sm-12 col-md-12">
@@ -346,7 +356,7 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
-  document.getElementById("membershipType").options[2].disabled = false;
+  // document.getElementById("membershipType").options[2].disabled = false;
   document.getElementById("position").options[0].disabled = true;
   $( "#position" ).ready(function() {
     var x = document.getElementById("position").value;
@@ -368,4 +378,21 @@
     }
     // alert( "Handler for .click() called." );
   });
+
+ $(document).ready(function(){
+    $("#chkID").on('click',function(){
+      alert("disabled");
+      if($(this).is(":checked"))
+      {
+          $( "#dateIssued" ).prop( "disabled", true );
+          $("#dateIssued").prop('required',false);
+      }
+      else
+      {
+           $( "#dateIssued" ).prop( "disabled", false );
+            $("#dateIssued").prop('required',true);
+      }
+
+    });
+ });
 </script>

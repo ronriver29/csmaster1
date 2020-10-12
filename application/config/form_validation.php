@@ -700,11 +700,11 @@ $config = array(
                   'label' => 'Valid ID No.',
                   'rules' => 'trim|required'
                 ),
-                array(
-                  'field' => 'dateIssued',
-                  'label' => 'Date Issued',
-                  'rules' => 'trim|required'
-                ),
+                // array(
+                //   'field' => 'dateIssued',
+                //   'label' => 'Date Issued',
+                //   'rules' => 'trim|required'
+                // ),
                 array(
                   'field' => 'placeIssuance',
                   'label' => 'Place of Issuance',
@@ -819,11 +819,11 @@ $config = array(
                   'label' => 'Valid ID No.',
                   'rules' => 'trim|required'
                 ),
-                array(
-                  'field' => 'dateIssued',
-                  'label' => 'Date Issued',
-                  'rules' => 'trim|required'
-                ),
+                // array(
+                //   'field' => 'dateIssued',
+                //   'label' => 'Date Issued',
+                //   'rules' => 'trim|required'
+                // ),
                 array(
                   'field' => 'placeIssuance',
                   'label' => 'Place of Issuance',
