@@ -119,7 +119,7 @@ class registration extends CI_Controller{
         $char_length = strlen($date_day);
         $ordinal_indicator='';
         $nums ='';
-        $num_array = array(10,11,12,13,14,15,16,17,18,19,20);
+        $num_array = array(10,11,12,13,14,15,16,17,18,19,20,30);
         if(in_array($date_day,$num_array))
         {
           $ordinal_indicator ='th';
