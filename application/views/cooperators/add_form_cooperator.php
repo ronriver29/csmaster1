@@ -251,7 +251,9 @@
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="dateIssued"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>In Accordance with Notarial Law.</li>"></i> Date Issued:</label>
-              <input type="date" class="form-control validate[required,custom[date],past[now]]" id="dateIssued" name="dateIssued">
+            <!--   <input type="date" class="form-control validate[required,custom[date],past[now]]" id="dateIssued" name="dateIssued"> -->
+             <input type="text" class="form-control validate[required]" id="dateIssued" name="dateIssued">
+              <small style="margin-left: 20px;"><span><i>  yyyy-mm-dd </i></span></small>
             </div>
       		</div>
           <div class="col-sm-12 col-md-12">
