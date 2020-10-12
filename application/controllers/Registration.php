@@ -118,21 +118,30 @@ class registration extends CI_Controller{
         $num_day= substr($date_day,-1);
         $char_length = strlen($date_day);
         $ordinal_indicator='';
-
-        switch ($num_day) {
-          case 1:
-            $ordinal_indicator='st';
-            break;
-          case 2:
-            $ordinal_indicator='nd';
-            break;  
-          case 3:
-            $ordinal_indicator='rd';
-            break;
-          default:
-             $ordinal_indicator='th';
-            break;
+        $nums ='';
+        $num_array = array(10,11,12,13,14,15,16,17,18,19,20);
+        if(in_array($date_day,$num_array))
+        {
+          $ordinal_indicator ='th';
         }
+        else
+        {
+            switch ($num_day) {
+            case 1:
+              $ordinal_indicator='st';
+              break;
+            case 2:
+              $ordinal_indicator='nd';
+              break;  
+            case 3:
+              $ordinal_indicator='rd';
+              break;
+            default:
+               $ordinal_indicator='th';
+              break;
+          }
+        }
+        
         return $date_day.$ordinal_indicator;//$num_day.$ordinal_indicator;
   }
   function branch($id = null) {
