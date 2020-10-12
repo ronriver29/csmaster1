@@ -381,7 +381,7 @@
 
  $(document).ready(function(){
     $("#chkID").on('click',function(){
-      alert("disabled");
+
       if($(this).is(":checked"))
       {
           $( "#dateIssued" ).prop( "disabled", true );
