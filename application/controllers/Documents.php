@@ -3666,6 +3666,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
             $config['upload_path'] = UPLOAD_DIR;
             $config['file_name'] = $decoded_uid.'_'.$decoded_id.'_surety_bond.pdf';
             $config['allowed_types'] = 'pdf';
+            $config['max_size']     = '10000';
             $config['overwrite'] = true;
             $this->load->library('upload', $config);
             $this->upload->initialize($config);
@@ -3680,7 +3681,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                   $status = 1;
               }
               if($this->uploaded_document_model->add_document_info(0,$decoded_id,1,$this->upload->data('file_name'),$status)){
-                $this->session->set_flashdata('document_one_success', 'Successfully uploaded document one.');
+                $this->session->set_flashdata('document_one_success', 'Successfully uploaded Surety_Bond.');
                 redirect('cooperatives/'.$this->input->post('cooperativesID').'/documents');
               }else{
                 $file = $config['upload_path'].$config['file_name'];
@@ -3859,7 +3860,7 @@ function do_upload_two_(){
                     $status = 1;
                 }
               if($this->uploaded_document_model->add_document_info_(0,$decoded_id,2,$this->upload->data('file_name'),$status)){
-                $this->session->set_flashdata('document_two_success', 'Successfully uploaded document two.');
+                $this->session->set_flashdata('document_two_success', 'Successfully uploaded PRS.');
                 redirect('cooperatives/'.$this->input->post('cooperativesID').'/documents');
               }else{
                 $file = $config['upload_path'].$config['file_name'];

@@ -683,7 +683,7 @@ public function approve_by_director($admin_info,$coop_id){
   $client_info = $query->row_array();
   $this->db->trans_begin();
   $this->db->where('id',$coop_id);
-  $this->db->update('cooperatives',array('status'=>12,'third_evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60)))));
+  $this->db->update('cooperatives',array('status'=>12,'third_evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(30*24*60*60)))));
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
