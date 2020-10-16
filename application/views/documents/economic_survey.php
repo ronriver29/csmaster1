@@ -186,12 +186,12 @@
             </tr>
             <tr>
               <td>Subscribed Capital :</td>
-              <td><u><?php echo($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_subscribed'] * $article_info->par_value_common),2) : number_format((($total_regular['total_subscribed'] * $article_info->par_value_common) + ($total_associate['total_subscribed'] * $article_info->par_value_preferred)),2);?></u></td>
+              <td><u><?php echo($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_subscribed'] * $capitalization_info->par_value),2) : number_format((($total_regular['total_subscribed'] * $capitalization_info->par_value) + ($total_associate['total_subscribed'] * $capitalization_info->par_value)),2);?></u></td>
             </tr>
             <tr>
 
               <td>Paid-up Capital :</td>
-              <td><u><?php echo($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_paid'] * $article_info->par_value_common),2) : number_format((($total_regular['total_paid'] * $article_info->par_value_common) + ($total_associate['total_paid'] * $article_info->par_value_preferred)),2);?></u></td>
+              <td><u><?php echo($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_paid'] * $capitalization_info->par_value),2) : number_format((($total_regular['total_paid'] * $capitalization_info->par_value) + ($total_associate['total_paid'] * $capitalization_info->par_value)),2);?></u></td>
             </tr>
             <tr>
               <td>Par value :</td> 
