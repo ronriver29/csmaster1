@@ -1253,9 +1253,9 @@
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
-             
+              <?php if(!empty($cooperator_directors[5]['full_name'])): ?>
                 <td><b><?=$cooperator_directors[5]['full_name']?></b><br>Director</td>
-             
+              <?php endif; ?>
               <?php if(!empty($cooperator_directors[6]['full_name'])):?>
                 <td><b><?=$cooperator_directors[6]['full_name']?></b><br>Director</td>
               <?php endif;?>
@@ -1292,7 +1292,7 @@
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
-                <?php if(!empty($cooperator_directors[11])):?>
+                <?php if(!empty($cooperator_directors[10])):?>
                 <td><b><?=$cooperator_directors[10]['full_name']?></b><br>Director</td>
               <?php endif;?>
                 <?php if(!empty($cooperator_directors[11])):?>
