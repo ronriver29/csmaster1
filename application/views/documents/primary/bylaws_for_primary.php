@@ -1208,7 +1208,7 @@
       </div>
     </div>
   </div>
-<!--   <?php if(sizeof($cooperator_directors) >=3) :?> -->
+
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
@@ -1228,7 +1228,7 @@
         </div>
       </div>
     </div>
-  <!-- <?php endif;?> -->
+
 
     <div class="row">
       <div class="col-sm-12 col-md-12">
@@ -1292,7 +1292,9 @@
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+                <?php if(!empty($cooperator_directors[11])):?>
                 <td><b><?=$cooperator_directors[10]['full_name']?></b><br>Director</td>
+              <?php endif;?>
                 <?php if(!empty($cooperator_directors[11])):?>
                     <td><b><?=$cooperator_directors[11]['full_name']?></b><br>Director</td>
                 <?php endif; ?>
