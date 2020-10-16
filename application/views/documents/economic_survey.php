@@ -182,7 +182,7 @@
           <tbody>
             <tr>
               <td>Authorized Capital :</td>
-              <td><u><?= number_format($article_info->authorized_share_capital,2)?></u></td>
+              <td><u><?= number_format($capitalization_info->authorized_share_capital,2)?></u></td>
             </tr>
             <tr>
               <td>Subscribed Capital :</td>
