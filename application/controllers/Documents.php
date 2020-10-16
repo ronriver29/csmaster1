@@ -1855,7 +1855,7 @@ public function delete_pdf()
                                $this->load->view('documents/economic_survey', $data);
                               $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
                               $f = new pdf();
-                                $f->set_option("isPhpEnabled", true);
+                              $f->set_option("isPhpEnabled", true);
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
                               $f->render();
@@ -4150,6 +4150,7 @@ function do_upload_two_(){
                               $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
                               $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                               //$this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
+
                               $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data, TRUE);
                               $f = new pdf();
                               $f->set_option("isPhpEnabled", true);

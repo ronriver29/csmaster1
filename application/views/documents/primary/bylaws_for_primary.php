@@ -1005,7 +1005,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="font-weight-regular text-justify">Section 6. <i class="font-weight-bold">Share Capital Certificate.</i> TThe Board of Directors shall issue a Share Capital Certificate only to a member who has fully paid his/her subscription. The Certificate shall be serially numbered and contain the shareholder’s name, the number of shares owned, the par value, and duly signed by the Chairperson and the Secretary, and bearing the official seal of the cooperative. All certificates issued and/or transferred shall be registered in the cooperative’s Share and Transfer Book.</p>
+        <p class="font-weight-regular text-justify">Section 6. <i class="font-weight-bold">Share Capital Certificate.</i> The Board of Directors shall issue a Share Capital Certificate only to a member who has fully paid his/her subscription. The Certificate shall be serially numbered and contain the shareholder’s name, the number of shares owned, the par value, and duly signed by the Chairperson and the Secretary, and bearing the official seal of the cooperative. All certificates issued and/or transferred shall be registered in the cooperative’s Share and Transfer Book.</p>
         <p class="text-justify" style="text-indent: 50px;">The number of paid share required for the issuance of Share Capital Certificate shall be determined by the Board of Directors.</p>
         <p class="text-justify" style="text-indent: 50px;">The shares may be purchased, owned or held only by persons who are eligible for membership. Subject to existing government rules or laws, interests shall be paid only to paid-up shares which may be in cash; or credited as payment of unpaid subscriptions, outstanding accounts, or additional shares or to the revolving fund of the cooperative.</p>
     </div>
@@ -1208,58 +1208,75 @@
       </div>
     </div>
   </div>
-  <?php if(sizeof($cooperator_directors) >=3) :?>
+<!--   <?php if(sizeof($cooperator_directors) >=3) :?> -->
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+                <?php if(!empty($cooperator_directors[0]['full_name'])):?>
                 <td><b><?=$cooperator_directors[0]['full_name']?></b><br>Director</td>
+              <?php endif; ?>
+              <?php if(!empty($cooperator_directors[1]['full_name'])):?>
                 <td><b><?=$cooperator_directors[1]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+              <?php if(!empty($cooperator_directors[2]['full_name'])):?>
                 <td><b><?=$cooperator_directors[2]['full_name']?></b><br>Director</td>
+              <?php endif; ?>
               </tr>
           </table>
         </div>
       </div>
     </div>
-  <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=5) :?>
-    <div class="row">
-      <div class="col-sm-12 col-md-12">
-        <div class="table-responsive text-center">
-          <table class="table table-borderless table-sm table-director">
-              <tr>
-                <td><b><?=$cooperator_directors[3]['full_name']?></b><br>Director</td>
-                <td><b><?=$cooperator_directors[4]['full_name']?></b><br>Director</td>
-              </tr>
-          </table>
-        </div>
-      </div>
-    </div>
-  <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=8) :?>
-    <div class="row">
-      <div class="col-sm-12 col-md-12">
-        <div class="table-responsive text-center">
-          <table class="table table-borderless table-sm table-director">
-              <tr>
-                <td><b><?=$cooperator_directors[5]['full_name']?></b><br>Director</td>
-                <td><b><?=$cooperator_directors[6]['full_name']?></b><br>Director</td>
-                <td><b><?=$cooperator_directors[7]['full_name']?></b><br>Director</td>
-              </tr>
-          </table>
-        </div>
-      </div>
-    </div>
-  <?php endif;?>
+  <!-- <?php endif;?> -->
 
-  <?php if(sizeof($cooperator_directors) >=9) :?>
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+                <?php if(!empty($cooperator_directors[3]['full_name'])):?>
+                <td><b><?=$cooperator_directors[3]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+              <?php if(!empty($cooperator_directors[4]['full_name'])):?>
+                <td><b><?=$cooperator_directors[4]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+              </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <div class="table-responsive text-center">
+          <table class="table table-borderless table-sm table-director">
+              <tr>
+             
+                <td><b><?=$cooperator_directors[5]['full_name']?></b><br>Director</td>
+             
+              <?php if(!empty($cooperator_directors[6]['full_name'])):?>
+                <td><b><?=$cooperator_directors[6]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+              <?php if(!empty($cooperator_directors[7]['full_name'])):?>
+                <td><b><?=$cooperator_directors[7]['full_name']?></b><br>Director</td>
+              <?php endif; ?>
+              </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <div class="table-responsive text-center">
+          <table class="table table-borderless table-sm table-director">
+              <tr>
+                <?php if(!empty($cooperator_directors[8]['full_name'])):?>
                 <td><b><?=$cooperator_directors[8]['full_name']?></b><br>Director</td>
+              <?php endif;?>
                  <?php if(!empty($cooperator_directors[9])):?>
                 <td><b><?=$cooperator_directors[9]['full_name']?></b><br>Director</td> 
                 <?php endif; ?>
@@ -1268,8 +1285,8 @@
         </div>
       </div>
     </div>
-  <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=10 && sizeof($cooperator_directors)<=13 ) :?>
+ 
+
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
@@ -1281,35 +1298,15 @@
                 <?php endif; ?>
                 <?php if(!empty($cooperator_directors[12])):?>
                 <td><b><?=$cooperator_directors[12]['full_name']?></b><br>Director</td>
-                <?php endif; ?>
+                <?php endif; ?> 
               </tr>
           </table>
         </div>
       </div>
     </div>
-  <?php endif;?>
 
- <!--  <?php if(sizeof($cooperator_directors) >=14) :?>
-    <div class="row">
-      <div class="col-sm-12 col-md-12">
-        <div class="table-responsive text-center">
-          <table class="table table-borderless table-sm table-director">
-              <tr>
-             
-              <?php if(!empty($cooperator_directors[13])):?>
-                <td><b><?=$cooperator_directors[13]['full_name']?></b><br>Director</td>
-              <?php endif; ?>
-              <?php if(!empty($cooperator_directors[14])):?>
-                <td><b><?=$cooperator_directors[14]['full_name']?></b><br>Director</td>
-              <?php endif; ?>
-              </tr>
-          </table>
-        </div>
-      </div>
-    </div>
-  <?php endif;?> -->
 
-  <?php if(sizeof($cooperator_directors) >=14) :?>
+
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
@@ -1318,13 +1315,17 @@
                 <?php if(!empty($cooperator_directors[13])):?>
                 <td><b><?=$cooperator_directors[13]['full_name']?></b><br>Director</td>
                <?php endif; ?>
-          <!--       <td><b><?=$cooperator_directors[14]['full_name']?></b><br>Director</td> -->
+               <?php if(!empty($cooperator_directors[14]['full_name'])):?>
+                <td><b><?=$cooperator_directors[14]['full_name']?></b><br>Director</td>
+              <?php endif;?>
               </tr>
           </table>
         </div>
       </div>
     </div>
-  <?php endif;?>
+
+
+  <?php //var_dump($cooperator_directors[5]['full_name']);// echo"<pre>"; print_r($cooperator_directors); echo"</pre>";?>
 </div>
 <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 <script src="<?=base_url();?>assets/js/popper.min.js"></script>
