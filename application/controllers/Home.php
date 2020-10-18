@@ -12,7 +12,7 @@ class Home extends CI_Controller{
   function index()
   {
     if(!$this->session->userdata('logged_in')){
-      redirect('users/login');
+      //redirect('users/login');
     }else{
       // $uid = $this->session->userdata('user_id');
       // if($this->cooperatives_model->check_cooperative_exist($uid)){
