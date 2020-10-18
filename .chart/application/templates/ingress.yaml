@@ -14,7 +14,7 @@ spec:
   {{ if not (eq .Values.env.tls "none") }}
   tls:
   - hosts:
-    - {{ .Values.env.domain }}
+      - {{ .Values.env.domain }}
     secretName: {{ .Values.env.tls }}
   {{ end }}
   rules:
@@ -23,7 +23,7 @@ spec:
       - path: /
         backend:
           serviceName: {{ .Values.web.name }}-service
-          servicePort: http
+          servicePort: 80
     {{ if not (eq .Values.env.domain "none") }}
     host: {{ .Values.env.domain }}
     {{ end }}
