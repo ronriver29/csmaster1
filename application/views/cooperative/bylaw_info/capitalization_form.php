@@ -169,13 +169,14 @@
                         <td>Amount of Common Share</td>
                         <td>
                             <?php 
+                            $tot_comon_share = '';
                             if($total_regular['total_subscribed']<=0 )
                             {
-                                    $total_regular['total_subscribed']='';
+                                    $total_regular['total_subscribed']=0;
                             }
                             if($par_value<=0 )
                             {
-                                $par_value='';
+                                $par_value=0;
                             }
                             ?>
                             <input type="text" name="item[amount_of_common_share_subscribed]" id="amount_of_common_share_subscribed" class="form-control" value="<?=$total_regular['total_subscribed'] * $par_value?>" readonly=""/>
