@@ -291,8 +291,8 @@ class Committee_model extends CI_Model{
     return $data;
   }
 
-  public function get_all_committees_of_coop($coop_id){
-    $query = $this->db->query("SELECT committees.id as comid, committees.*,cooperators.* from committees left join cooperators ON committees.cooperators_id = cooperators.id WHERE cooperative_id = '$coop_id'");
+  public function get_all_committees_of_coop($user_id){
+    $query = $this->db->query("SELECT committees.id as comid, committees.*,cooperators.* from committees left join cooperators ON committees.cooperators_id = cooperators.id WHERE user_id = '$user_id'");
     // $this->db->select('committees.id as comid, committees.* ,cooperators.*');
     // $this->db->from('committees');
     // $this->db->join('cooperators', 'cooperators.id = committees.cooperators_id', 'inner');
