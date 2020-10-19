@@ -87,13 +87,14 @@ if($gad_count == 0 || $audit_count == 0 || $election_count == 0 || $medcon_count
             </thead>
             <tbody>
             <?php 
+            // var_dump($coop_info->grouping);
                 if($coop_info->grouping == 'Federation'){
                     $grouping = $committees_federation;
                 } else {
-                    $grouping = $committees;
+                    // $grouping = $committees;
                 }
             ?>
-            <?php foreach($grouping as $committee) : ?>
+            <?php foreach($committees as $committee) : ?>
               <tr>
                 <td><?= $committee['name']?></td>
                 <td><?= $committee['full_name']?></td>
