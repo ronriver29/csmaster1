@@ -513,31 +513,106 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
   //       return true;
   //     }
   // }
-public function delete_cooperative($coop_id,$status,$user_id){
-  $this->db->trans_begin();
-  $this->db->delete('cooperatives',array('id' => $coop_id));
-  $this->delete_committees($user_id);
-//  $this->db->delete('committees',array('user_id' => $user_id));
-  if($this->db->trans_status() === FALSE){
-    $this->db->trans_rollback();
-    return false;
-  }else{
-    $this->db->trans_commit();
-    return true;
+
+public function remove_file($coop_id)
+{
+  $query_file = $this->db->get_where("uploaded_documents",array('cooperatives_id'=>$coop_id));
+  if($query_file->num_rows()>0)
+  {
+    foreach($query_file->result_array() as $rowf)
+    {
+      $config['upload_path'] = UPLOAD_DIR;
+      $config['file_name'] = $rowf['filename'];
+      $file = $config['upload_path'].$config['file_name'];
+
+      if(is_readable($file)){
+         if(unlink($file))
+          {
+             if($this->db->delete('uploaded_documents',array('cooperatives_id'=>$coop_id)))
+             {
+              return true;
+             } 
+             else
+             {
+              return false;
+             }
+          }
+      } 
+      else
+      {
+        if($this->db->delete('uploaded_documents',array('cooperatives_id'=>$coop_id)))
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }    
+          
+    }
+    
+  }
+  else
+  {
+    return true;//no file upload
   }
 }
+public function delete_cooperative($coop_id,$status,$user_id){
+  
+ if($this->remove_file($coop_id))
+ {
+    $this->db->trans_begin();
+    if($this->db->delete('committees',array('user_id'=>$user_id)))
+    {
+      if($this->db->delete('capitalization',array('cooperatives_id'=>$coop_id)))
+      {
+        if($this->db->delete('bylaws',array('cooperatives_id'=>$coop_id)))
+        {
+          if($this->db->delete('cooperators',array('cooperatives_id'=>$coop_id)))
+          {
+            if($this->db->delete('purposes',array('cooperatives_id'=>$coop_id)))
+            {
+              if($this->db->delete('articles_of_cooperation',array('cooperatives_id'=>$coop_id)))
+              {
+                if($this->db->delete('economic_survey',array('cooperatives_id'=>$coop_id)))
+                {
+                  if($this->db->delete('staff',array('cooperatives_id'=>$coop_id)))
+                  {
+                    if($this->db->delete('uploaded_documents',array('cooperatives_id'=>$coop_id)))
+                    {
+                      $this->db->delete('cooperatives',array('id' => $coop_id));
+                    }  
+                  }  
+                }     
+              }  
+            }  
+          }    
+        } 
+      }   
+    }
+      if($this->db->trans_status() === FALSE){
+        $this->db->trans_rollback();
+        return false;
+      }else{
+        $this->db->trans_commit();
+        return true;
+      }
+  }                      
+}
 public function delete_cooperative_federation($coop_id,$status,$user_id){
-  $this->db->trans_begin();
-  $this->db->delete('cooperatives',array('id' => $coop_id));
-  $this->db->delete('affiliators',array('user_id' => $user_id));
-  $this->db->delete('committees_federation',array('user_id' => $user_id));
-  if($this->db->trans_status() === FALSE){
-    $this->db->trans_rollback();
-    return false;
-  }else{
-    $this->db->trans_commit();
-    return true;
-  }
+  return "a";
+  // $this->db->trans_begin();
+  // $this->db->delete('cooperatives',array('id' => $coop_id));
+  // $this->db->delete('affiliators',array('user_id' => $user_id));
+  // $this->db->delete('committees_federation',array('user_id' => $user_id));
+  // if($this->db->trans_status() === FALSE){
+  //   $this->db->trans_rollback();
+  //   return false;
+  // }else{
+  //   $this->db->trans_commit();
+  //   return true;
+  // }
 }
 
 public function delete_committees($user_id){

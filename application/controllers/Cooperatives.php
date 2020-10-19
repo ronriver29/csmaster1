@@ -604,20 +604,25 @@
             if(is_numeric($decoded_id) && $decoded_id!=0){
               if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
                 if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
-                    $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
-                    if($data['coop_info']=="Federation"){
-                        $deletecoop = 'delete_cooperative';
-                    } else {
-                        $deletecoop = 'delete_cooperative_federation';
+                    // $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
+                  $data['coop_info']= $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
+                    // if($data['coop_info']=="Federation"){
+                    //     $deletecoop = 'delete_cooperative';
+                    // } else {
+                    //     $deletecoop = 'delete_cooperative_federation';
+                    // }
+                    if($data['coop_info']->category_of_cooperative == 'Primary')
+                    {
+                     $success =  $this->cooperatives_model->delete_cooperative($decoded_id,$data['coop_info']->status,$user_id);
+                      if($success){
+                        $this->session->set_flashdata('list_success_message', 'Cooperative has been deleted.');
+                        redirect('cooperatives');
+                      }else{
+                        $this->session->set_flashdata('list_error_message', 'Unable to delete cooperative.');
+                        redirect('cooperatives');
+                      }
                     }
-                  $success = $this->cooperatives_model->$deletecoop($decoded_id,$data['coop_info']->status,$user_id);
-                  if($success){
-                    $this->session->set_flashdata('list_success_message', 'Cooperative has been deleted.');
-                    redirect('cooperatives');
-                  }else{
-                    $this->session->set_flashdata('list_error_message', 'Unable to delete cooperative.');
-                    redirect('cooperatives');
-                  }
+                   
                 }else{
                   if(!$this->cooperatives_model->check_if_denied($decoded_id)){
                     $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');

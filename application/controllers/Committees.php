@@ -71,12 +71,10 @@ class Committees extends CI_Controller{
                         $data['header'] = 'Committees';
                         $data['encrypted_id'] = $id;
                         $data['committees'] = $this->committee_model->get_all_committees_of_coop($decoded_id);
-                        // echo $this->db->last_query();
-                        // $this->debug($data['committees']);
                         $data['committees_federation'] = $this->committee_model->get_all_committees_of_coop_federation($user_id);
                         $data['committees_union'] = $this->committee_model->get_all_committees_of_coop_union($user_id);
                         $data['committees_count'] = $this->committee_model->get_all_committees_of_coop_gad($decoded_id); //not hear
-                         
+                        
                         $this->load->view('./template/header', $data);
                         $this->load->view('committees/committees_list', $data);
                         $this->load->view('committees/delete_modal_committee');
