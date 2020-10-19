@@ -260,7 +260,6 @@ class Committee_model extends CI_Model{
   
   public function isExistingFederation($co_id){
     $query = $this->db->get_where('committees_federation', array('cooperators_id'=>$co_id));
-    
     if ($query->num_rows()>0)
       return true;
     else
@@ -298,7 +297,7 @@ class Committee_model extends CI_Model{
     // $this->db->join('cooperators', 'cooperators.id = committees.cooperators_id', 'inner');
     // $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id', 'inner');
     // $this->db->where('cooperatives.id', $coop_id);
-    // $query = $this->db->get();
+    // $query = $this->db->get(); 
     $data =  $query->result_array();
     return $data;
   }
