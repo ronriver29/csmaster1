@@ -48,9 +48,9 @@
         <li>
           <a href="<?php echo base_url();?>cooperatives"><i class="fas fa-handshake"></i> Cooperatives</a>
         </li>
-         <li>
+        <!--  <li>
           <a href="<?php echo base_url();?>branches"><i class="fas fa-handshake"></i> Branches and Satellites</a>
-        </li>
+        </li> -->
         <!--
         <li>   
           <a href="<?php echo base_url();?>laboratories"><i class="fas fa-handshake"></i> Laboratories</a>
