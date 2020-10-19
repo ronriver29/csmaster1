@@ -172,7 +172,7 @@
                             $tot_comon_share = '';
                             if($total_regular['total_subscribed']<=0 )
                             {
-                                    $total_regular['total_subscribed']=0;
+                                $total_regular['total_subscribed']=0;
                             }
                             if($par_value<=0 )
                             {
