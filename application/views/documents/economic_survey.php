@@ -480,7 +480,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12 col-md-12">
+    <div class="col-sm-12 col-md-12"> 
       <div class="table-responsive text-center">
         <table class="table table-borderless table-sm table-director">
           <tbody>
@@ -494,93 +494,122 @@
     </div>
   </div>
     <?php } ?>
-  <?php if(sizeof($cooperator_directors) >=3) :?>
+ 
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+              <?php if(!empty($cooperator_directors[0]['full_name'])):?>
                 <td><b><?=$cooperator_directors[0]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+               <?php if(!empty($cooperator_directors[1]['full_name'])):?>
                 <td><b><?=$cooperator_directors[1]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+               <?php if(!empty($cooperator_directors[2]['full_name'])):?>
                 <td><b><?=$cooperator_directors[2]['full_name']?></b><br>Director</td>
+              <?php endif;?>
               </tr>
           </table>
         </div>
       </div>
     </div>
-  <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=5) :?>
+
+
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+              <?php if(!empty($cooperator_directors[3]['full_name'])):?>
                 <td><b><?=$cooperator_directors[3]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+               <?php if(!empty($cooperator_directors[4]['full_name'])):?>
                 <td><b><?=$cooperator_directors[4]['full_name']?></b><br>Director</td>
+              <?php endif;?>
               </tr>
           </table>
         </div>
       </div>
     </div>
-  <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=8) :?>
+
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+              <?php if(!empty($cooperator_directors[5]['full_name'])):?>
                 <td><b><?=$cooperator_directors[5]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+               <?php if(!empty($cooperator_directors[6]['full_name'])):?>
                 <td><b><?=$cooperator_directors[6]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+               <?php if(!empty($cooperator_directors[7]['full_name'])):?>  
                 <td><b><?=$cooperator_directors[7]['full_name']?></b><br>Director</td>
+              <?php endif;?>
               </tr>
           </table>
         </div>
       </div>
     </div>
-  <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=10) :?>
+
+
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+                 <?php if(!empty($cooperator_directors[8]['full_name'])):?>  
                 <td><b><?=$cooperator_directors[8]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+               <?php if(!empty($cooperator_directors[9]['full_name'])):?>  
                 <td><b><?=$cooperator_directors[9]['full_name']?></b><br>Director</td>
+              <?php endif;?>
               </tr>
           </table>
         </div>
       </div>
     </div>
-  <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=13) :?>
+
+
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+                 <?php if(!empty($cooperator_directors[10]['full_name'])):?>  
                 <td><b><?=$cooperator_directors[10]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+               <?php if(!empty($cooperator_directors[11]['full_name'])):?>  
                 <td><b><?=$cooperator_directors[11]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+               <?php if(!empty($cooperator_directors[12]['full_name'])):?>  
                 <td><b><?=$cooperator_directors[12]['full_name']?></b><br>Director</td>
+              <?php endif;?>
               </tr>
           </table>
         </div>
       </div>
     </div>
-  <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=15) :?>
+
+
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+                 <?php if(!empty($cooperator_directors[13]['full_name'])):?>  
                 <td><b><?=$cooperator_directors[13]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+               <?php if(!empty($cooperator_directors[14]['full_name'])):?>  
                 <td><b><?=$cooperator_directors[14]['full_name']?></b><br>Director</td>
+              <?php endif;?>
               </tr>
           </table>
         </div>
       </div>
     </div>
-  <?php endif;?>
+
   <div class="row mt-4 mb-4">
     <div class="col-sm-12 col-md-12 text-left">
       <p class="text-justify font-weight-normal" style="text-indent: 50px;">Subscribed and sworn to before me this _______ day of _________, 201___ in _______________, Philippines above affiants exhibiting to me their valid proof of identity:</p>
