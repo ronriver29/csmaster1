@@ -36,18 +36,18 @@
 //          $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives($this->session->userdata('user_id'));
           $data['count_cooperatives'] = $this->cooperatives_model->get_count_cooperatives($this->session->userdata('user_id'));
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
-          if(!empty($data['coop_info']->id)){
-              if($data['coop_info']->status != 15){
-                if(date('Y-m-d H:i:s',strtotime($data['coop_info']->expire_at)) < date('Y-m-d H:i:s')){
-                  // echo '<script>alert("Your Reserved Cooperative Name has Expired. Reserved Name now will be deleted.");</script>';
-                  $success = $this->cooperatives_model->delete_cooperative($data['coop_info']->id,$data['coop_info']->status,$user_id);
-                  if($success){
-                    $this->session->set_flashdata('list_success_message', 'Reserved Cooperative Name has Expired.');
-                    redirect('cooperatives');
-                  }
-                }
-              }
-          }
+          // if(!empty($data['coop_info']->id)){
+          //     if($data['coop_info']->status != 15){
+          //       if(date('Y-m-d H:i:s',strtotime($data['coop_info']->expire_at)) < date('Y-m-d H:i:s')){
+          //         // echo '<script>alert("Your Reserved Cooperative Name has Expired. Reserved Name now will be deleted.");</script>';
+          //         $success = $this->cooperatives_model->delete_cooperative($data['coop_info']->id,$data['coop_info']->status,$user_id);
+          //         if($success){
+          //           $this->session->set_flashdata('list_success_message', 'Reserved Cooperative Name has Expired.');
+          //           redirect('cooperatives');
+          //         }
+          //       }
+          //     }
+          // }
           if(isset($_POST['tos']))
           {
             $data['tos'] = $_POST['tos'];
