@@ -36,12 +36,8 @@ class Users extends CI_Controller{
         );
         if($this->user_model->login_user($data)){
           $user_data = $this->user_model->check_email_verified($data);
-          $user_data['time'] = time();
-          if($user_data){
-              
+          if($user_data){    
            $this->session->set_userdata($user_data);
-           // print_r($this->session->userdata());
-        
             $this->session->set_flashdata('login_success', 'You are now logged in.');
             redirect('cooperatives');
           }else{
