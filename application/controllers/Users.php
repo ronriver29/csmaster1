@@ -75,8 +75,6 @@ class Users extends CI_Controller{
       // }else{
         if(isset($_POST['signUpBtn']))
         {
-
-
         $data = array(
           'last_name' => $this->input->post('LastName'),
           'first_name' => $this->input->post('Name'),
