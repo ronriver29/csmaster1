@@ -239,6 +239,7 @@
                 <option value="OFW">OFW</option>
                 <option value="Single Parent">Single Parent</option>
                 <option value="PWD">PWD</option>
+                <option value="pag-ibig">Pag-IBIG</option>
               </select>
             </div>
           </div>

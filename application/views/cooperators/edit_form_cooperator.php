@@ -313,6 +313,7 @@
                 <option value="OFW" <?php if($cooperator_info->proof_of_identity == "OFW") echo "selected"; ?>>OFW</option>
                 <option value="Single Parent" <?php if($cooperator_info->proof_of_identity == "Single Parent") echo "selected"; ?>>Single Parent</option>
                 <option value="PWD" <?php if($cooperator_info->proof_of_identity == "PWD") echo "selected"; ?>>PWD</option>
+                  <option value="pag-ibig" <?php if($cooperator_info->proof_of_identity == "pag-ibig") echo "selected"; ?>>Pag-IBIG</option>
               </select>
             </div>
           </div>
