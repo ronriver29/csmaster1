@@ -1852,21 +1852,10 @@ public function delete_pdf()
                               $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
                               $data['total_no_of_regular_cptr']=$this->cooperator_model->get_total_count_regular($decoded_id);
                               $data['committees_list'] = $this->committee_model->get_all_committee_names_of_coop_multi($decoded_id);
-                              // $f = new pdf();
-                              //  // $this->load->view('documents/economic_survey', $data);
-                              // $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
-                            
-                              // $f->set_option("isPhpEnabled", true);
-                              // $f->setPaper('folio', 'portrait');
-                              // $f->load_html($html2);
-                              // $f->render();
-                              // $f->stream("economic_survey.pdf", array("Attachment"=>0));
-
+                              
+                               $this->load->view('documents/economic_survey', $data);
                               $f = new pdf();
                              $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
-
-                              // $f->setIsRemoteEnabled(true);
-                              // $f->setIsFontSubsettingEnabled(true);
                               $f->set_option('isHtml5ParserEnabled', true);
                               $f->set_option("isPhpEnabled", true);
                               $f->setPaper('folio', 'portrait');
@@ -1875,7 +1864,7 @@ public function delete_pdf()
                               $f->render();
                              $pageCount['pageCount']=  $f->get_canvas()->get_page_count();
                               $f->stream("economic_survey.pdf", array("Attachment"=>0));
-                              
+
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
                               redirect('cooperatives/'.$id);
