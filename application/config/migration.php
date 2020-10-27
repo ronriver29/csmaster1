@@ -83,3 +83,4 @@ $config['migration_version'] = 22;
 */
 $config['migration_path'] = APPPATH.'migrations/';
  
+ 

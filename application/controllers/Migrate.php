@@ -333,5 +333,16 @@ class Migrate extends CI_Controller {
       return $data;
 
   }
+  public function charter_cities_seeding()
+  {
+    // $query = $this->db->get('chartered_citied');
+    // if($query->num_rows()>0)
+    // {
+    //   foreach($query->result_array() as $row)
+    //   {
+    //     $this->db->insert('charter_cities');
+    //   }
+    // }
+  }
 }
 ?>
