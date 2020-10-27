@@ -109,8 +109,7 @@ class Documents extends CI_Controller{
                                   {
                                     $data['read_upload'] = $this->count_documents($decoded_id,2);
                                   }
-                                // }
-                                  
+                                // }  
                                 $this->load->view('template/header', $data);
                                 $this->load->view('documents/list_of_documents', $data);
                                 $this->load->view('template/footer');
