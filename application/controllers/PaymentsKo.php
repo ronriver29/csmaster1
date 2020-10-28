@@ -9,10 +9,11 @@ class PaymentsKo extends CI_Controller{
     //Codeigniter : Write Less Do More
   }
 
-  public function index()
+  public function index($id = null)
   {
-    
-    $this->load->view('payment_form');
+    $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+    $data['encrypted_id'] = $id;
+    $this->load->view('payment_form',$data);
   }
 
   public function ok(){
