@@ -4,7 +4,7 @@ class Migration_create_charter_cities_table extends CI_Migration
     public function up()
     {
       $this->dbforge->add_field(array(
-                        'd' => array(
+                        'id' => array(
                                 'type' => 'INT',
                                 'constraint' => 5,
                                 'unsigned' => TRUE,

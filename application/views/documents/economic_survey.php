@@ -99,7 +99,7 @@
             </tbody>
           </table>
         <li><?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?>
-        Office Address of Cooperative: <?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=$coop_info->city?> <?= $coop_info->province?> <?=$coop_info->region?></li>
+        Office Address of Cooperative: <?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?> <?=$coop_info->region?></li>
         <li>Area of Operation:</li>
           <table class="table table-borderless table-sm">
             <tbody>
