@@ -2,9 +2,6 @@
   <div class="col-sm-12 col-md-12">
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
     <h5 class="text-primary text-right">
-      <?php if($is_client): ?>
-      Step 10
-      <?php endif; ?>
     </h5>
   </div>
 </div>
@@ -48,7 +45,7 @@
           <input type="text" name="PayorEmail" value="akotagaturomo@gmail.com">
           <input type="text" name="ReturnURLOK" value="<?=base_url()?>PaymentsKo/ok.php">
           <input type="text" name="ReturnURLError" value="<?=base_url()?>PaymentsKo/error.php">
-          <input type="text" name="Hash" value="<?=LowerCase(MD5('00000001' + '10000000' + '2500.00'))?>"/>
+          <input type="text" name="Hash" value="<?=MD5('00000001' + '10000000' + '2500.00')?>"/>
           <input type="submit" value="POST TO EPP"/>
           </form>
 
