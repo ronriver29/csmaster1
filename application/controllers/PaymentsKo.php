@@ -28,3 +28,4 @@ class PaymentsKo extends CI_Controller{
      $this->load->view('payment_form',$data);
   }
 }
+?>
