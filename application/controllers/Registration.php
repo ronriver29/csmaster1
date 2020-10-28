@@ -100,8 +100,14 @@ class registration extends CI_Controller{
           $data1['date_day']=substr($data1['date_day'],1);
         }
       
-       // $this->debug($data1['coop_info']);
-          
+        $data1['in_chartered_cities'] =false;
+        // $this->debug($data1['coop_info']);
+        if($this->charter_model->in_charter_city($data1['coop_info']->cCode))
+        {
+          $data1['in_chartered_cities']=true;
+          $data1['chartered_cities'] =$this->charter_model->get_charter_city($data1['coop_info']->cCode);
+        }
+       
          // $html2 = $this->load->view('cooperative/cor_view', $data1);
          $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);
            $J = new pdf();       

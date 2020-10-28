@@ -174,4 +174,5 @@ $autoload['model'] = array(
   'affiliators_model',
   'amendment_capitalization_model',
   'unioncoop_model',
+  'charter_model'
 );

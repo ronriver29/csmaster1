@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content=""> 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
@@ -18,7 +18,7 @@
       /*font-family: 'Bookman Old Style'; font-size: 12px; */
        font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
-
+/*
       span {
         content: "\2714";
       }
@@ -27,7 +27,7 @@
         font-style: normal;
         font-weight: normal;
         src: url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');
-    }
+    }*/
   @page{margin: 96px 96px 144px 96px;}
   .page_break { page-break-before: always; }
   /* table, th, td {
@@ -99,7 +99,7 @@
             </tbody>
           </table>
         <li><?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?>
-        Office Address of Cooperative: <?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=$coop_info->city?> <?= $coop_info->province?> <?=$coop_info->region?></li>
+        Office Address of Cooperative: <?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?> <?=$coop_info->region?></li>
         <li>Area of Operation:</li>
           <table class="table table-borderless table-sm">
             <tbody>

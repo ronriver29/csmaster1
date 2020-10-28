@@ -1,5 +1,5 @@
 <?php
-class Migration_insert_in_id_list_table extends CI_Migration
+class Migration_insert_id_list_table extends CI_Migration
 {
     public function up()
     {
@@ -12,7 +12,6 @@ class Migration_insert_in_id_list_table extends CI_Migration
 
     public function down()
     { 
-       
       $this->db->delete('id_list',array('id_name'=>"Pag-IBIG"));
     }
 }

@@ -30,6 +30,15 @@ class Migrate extends CI_Controller {
           {
             $this->document_coop_type_seeding();
           }
+          $charter_query = $this->db->get('charter_cities');
+          if($charter_query->num_rows()>0)
+          {
+           
+          }
+          else
+          {
+             $this->charter_cities_seeding();
+          }
           echo 'Migrations ran successfully!';
         }     
     }    
@@ -332,6 +341,18 @@ class Migrate extends CI_Controller {
       }
       return $data;
 
+  }
+  private function charter_cities_seeding()
+  {
+    $query = $this->db->get('chartered_cities');
+    if($query->num_rows()>0)
+    {
+      foreach($query->result_array() as $row)
+      {
+       $data[] = $row;
+      }
+      $this->db->insert_batch('charter_cities',$data);
+    }
   }
 }
 ?>

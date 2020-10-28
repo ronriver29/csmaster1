@@ -199,7 +199,7 @@
        }else{
          echo "Philippines";
        }
-       ?>. Its principal office shall be located at <?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?><?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=$coop_info->city?> <?= $coop_info->province?> <?=$coop_info->region?>.</p>
+       ?>. Its principal office shall be located at <?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?><?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?> <?=$coop_info->region?>.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -227,7 +227,7 @@
               <?=$count++;?>
               <tr>
                 <td><b><?=$count.'. '.$cooperator['full_name']?></b></td>
-                <td><?php if($cooperator['house_blk_no']==null && $cooperator['streetName']==null) $x=''; else $x=', '; ?><?=$cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', '.$cooperator['city'].', '.$cooperator['province']?></td>
+                <td><?php if($cooperator['house_blk_no']==null && $cooperator['streetName']==null) $x=''; else $x=', '; ?><?=$cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', ';?> <?=($in_chartered_cities ? $chartered_cities : $cooperator['city'].', '.$cooperator['province'])?></td>
               </tr>
             <?php endforeach;?>
           </tbody>
