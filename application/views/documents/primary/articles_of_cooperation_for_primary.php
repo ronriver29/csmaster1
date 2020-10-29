@@ -13,7 +13,7 @@
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <link rel="shortcut/icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
-  @page{margin: 96px 96px 144px 96px;}
+  @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   table, th, td {
     border: 0.5px solid #000 !important;
