@@ -1,6 +1,6 @@
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
-    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i>Go Back</a>
+    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
     <h5 class="text-primary text-right">
     </h5>
   </div>
@@ -48,10 +48,12 @@
           <input type="text" name="Hash" value="<?=MD5('00000001' + '10000000' + '2500.00')?>"/>
           <input type="submit" value="POST TO EPP"/>
           </form>
+
       </div>
       <div class="card-footer paymentFooter" style="display: none;">
         <
       </div>
+    
     </div>
   </div>
 </div>
