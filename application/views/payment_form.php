@@ -36,7 +36,7 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <form action=" https://222.127.109.48/epp_mobile/" method="POST">
+         <!--  <form action=" https://222.127.109.48/epp_mobile/" method="POST">
           <input type="text" name="MerchantCode"  value="00000001">
           <input type="text" name="MerchantRefNo" value="10000000">
           <input type="text" name="Particulars" value="transaction_type=Registration Fee;Desc=Registration payment;SID=1;Name=Johnny Tee;">
@@ -47,7 +47,7 @@
           <input type="text" name="ReturnURLError" value="<?=base_url()?>PaymentsKo/error.php">
           <input type="text" name="Hash" value="<?=MD5('00000001' + '10000000' + '2500.00')?>"/>
           <input type="submit" value="POST TO EPP"/>
-          </form>
+          </form> -->
 
       </div>
       <div class="card-footer paymentFooter" style="display: none;">
