@@ -103,14 +103,14 @@ spec:
           periodSeconds: 20
           successThreshold: 1
           failureThreshold: 1 
-        readinessProbe:
-          httpGet:
-            path: /readiness.php
-            port: 80
-          initialDelaySeconds: 60
-          periodSeconds: 20
-          successThreshold: 1
-          failureThreshold: 3
+        #readinessProbe:
+        #  httpGet:
+        #    path: /readiness.php
+        #    port: 80
+        #  initialDelaySeconds: 60
+        #  periodSeconds: 20
+        #  successThreshold: 1
+        #  failureThreshold: 3
       {{ if ne .Values.env.name "local" }}
       imagePullSecrets:
        - name: {{ .Values.deploy.gitlab.key }}
