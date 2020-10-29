@@ -511,7 +511,6 @@
     </div>
   </div>
 
-
   <div class="row mb-3">
     <div class="col-sm-12 col-md-12">
       <p class="text-justify" style="text-indent: 50px;">All known to me to be the same persons who executed the foregoing Articles of Cooperation, and acknowledged to me that the same is their free will and voluntary deed. </p>
@@ -547,6 +546,5 @@
 <script src="<?=base_url();?>assets/js/popper.min.js"></script>
 <script src="<?=base_url();?>assets/js/bootstrap.min.js"></script>
 </body>
-
 </html>
 
