@@ -225,9 +225,17 @@
           <tbody>
             <?php $count=0; foreach($cooperators_list_board as $cooperator) :?>
               <?=$count++;?>
+              <?php
+              $in_chartered_cities_cptr =false;
+                              if($this->charter_model->in_charter_city($cooperator['cCode']))
+                              {
+                              $in_chartered_cities_cptr=true;
+                              $chartered_cities_cptr =$this->charter_model->get_charter_city($cooperator['cCode']);
+                              }
+              ?>                
               <tr>
                 <td><b><?=$count.'. '.$cooperator['full_name']?></b></td>
-                <td><?php if($cooperator['house_blk_no']==null && $cooperator['streetName']==null) $x=''; else $x=', '; ?><?=$cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', ';?> <?=($in_chartered_cities ? $chartered_cities : $cooperator['city'].', '.$cooperator['province'])?></td>
+                <td><?php if($cooperator['house_blk_no']==null && $cooperator['streetName']==null) $x=''; else $x=', '; ?><?=$cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', ';?> <?=($in_chartered_cities_cptr ? $chartered_cities_cptr : $cooperator['city'].', '.$cooperator['province'])?></td>
               </tr>
             <?php endforeach;?>
           </tbody>
