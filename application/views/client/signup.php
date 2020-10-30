@@ -1,4 +1,4 @@
-<body oncontextmenu="return false" onselectstart="return false"
+ <body oncontextmenu="return false" onselectstart="return false"
       onkeydown="if ((arguments[0] || window.event).ctrlKey) return false">
 <div class="row">
   <div class="col text-center">
@@ -145,11 +145,26 @@
             <a class="btn btn-link" href="<?php echo base_url();?>users/login" role="button">Sign In Instead</a>
           </div>
           <div class="col-sm-12 offset-md-8 col-md-2 align-self-center order-xs-2 order-sm-2 order-1 col-signup-btn">
-              <input class="btn btn-block btn-color-blue" type="submit" id="signUpBtn" name="signUpBtn" value="Submit">
+              <input class="btn btn-block btn-color-blue" type="submit" id="signUpBtn" name="signUpBtn" value="Submit" disabled>
           </div>
         </div>
       </div>
-      <?php echo form_close(); ?>
+      <?php echo form_close(); ?> 
     </div>
   </div>
 </div>
+<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+  $('#signUpAgree').click(function(){
+      if ($(this).is(':checked')) {
+      $("#signUpBtn").removeAttr('disabled');
+      }
+      else
+      {
+          $("#signUpBtn").attr('disabled','disabled');
+      }
+  });
+    });
+ 
+</script>
