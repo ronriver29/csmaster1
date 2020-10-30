@@ -376,7 +376,7 @@
 <br/>
 <b>THE BOARD OF DIRECTORS</b><br/>
 <?=$coop_info->coopName?><br/>
-<?= ucwords($coop_info->noStreet)?> <?= ucwords($coop_info->Street).$x ?><?= $coop_info->brgy?>, <?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?>, <?= $coop_info->region?>, <?= $coop_info->region?><br/>
+<?= ucwords($coop_info->noStreet)?> <?= ucwords($coop_info->Street).$x ?><?= $coop_info->brgy?>, <?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?>, <?= $coop_info->region?><br/>
 <br/>
 <br/>
 Gentlemen:<br/>
@@ -392,7 +392,7 @@ The success of the cooperative depends on the quality and loyalty of the members
 <br/><br/>
 <ol type="a">
  <li>Continuous education for the members, officers and employees, not only on the principles and practices of cooperatives, but also on how the members can increase their income and resources;</li>
- <li>Continuous savings of the members to increase the capital of the cooperative. Increased capital would mean greater members? participation, improved business service and adequate salaries and wages for the employees.</li>
+ <li>Continuous savings of the members to increase the capital of the cooperative. Increased capital would mean greater members participation, improved business service and adequate salaries and wages for the employees.</li>
  <li>Constant meetings, seminars and dialogue with the members is highly recommended for immediate solution of common problems through group action and to make them aware of their duties and responsibilities.</li>
 </ol>
 You should refer to your economic feasibility study and compare your budget with actual performance of the cooperative. Any material variance of the actual with your forecasts should be immediately discussed, noted and acted upon by your board, committee and the hired management.
