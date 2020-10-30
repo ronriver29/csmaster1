@@ -1877,10 +1877,10 @@ public function delete_pdf()
                                $this->load->view('documents/economic_survey', $data);
                               $f = new pdf();
                              $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
-                              $f->set_option('isHtml5ParserEnabled', true);
+                              // $f->set_option('isHtml5ParserEnabled', true);
                               $f->set_option("isPhpEnabled", true);
                               $f->setPaper('folio', 'portrait');
-                              $f->set_option('defaultFont','bookman');
+                              // $f->set_option('defaultFont','bookman');
                               $f->load_html($html2);
                               $f->render();
                              $pageCount['pageCount']=  $f->get_canvas()->get_page_count();
