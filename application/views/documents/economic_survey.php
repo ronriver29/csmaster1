@@ -1,6 +1,5 @@
-<?php global $pager;; ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
   <head> 
     <title>CoopRIS <?= $title ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -11,23 +10,14 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
   <link rel="stylesheet" href="<?=APPPATH?>../assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="<?=base_url();?>assets/icons/fontawesome-free-5.5.0-web/css/all.css">
+  <!-- <link rel="stylesheet" href="<?=base_url();?>assets/icons/fontawesome-free-5.5.0-web/css/all.css"> -->
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
    body{
       /*font-family: 'Bookman Old Style'; font-size: 12px; */
        font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
-/*
-      span {
-        content: "\2714";
-      }
-    @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: normal;
-        src: url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');
-    }*/
+
   @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   /* table, th, td {

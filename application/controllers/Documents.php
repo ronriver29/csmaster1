@@ -1874,7 +1874,7 @@ public function delete_pdf()
                               $data['in_chartered_cities']=true;
                               $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                               }
-                               $this->load->view('documents/economic_survey', $data);
+                               // $this->load->view('documents/economic_survey', $data);
                               $f = new pdf();
                              $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
                               // $f->set_option('isHtml5ParserEnabled', true);
