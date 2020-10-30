@@ -1,3 +1,5 @@
+<body oncontextmenu="return false" onselectstart="return false"
+      onkeydown="if ((arguments[0] || window.event).ctrlKey) return false">
 <div class="row">
   <div class="col text-center">
       <img class="mt-4" src="<?=base_url()?>/assets/img/cda.png" alt="" width="80" height="80">
@@ -66,6 +68,12 @@
               <div class="form-group form-group-eAddress">
                 <label for="eAddress">Email Address:</label>
                 <input type="email" class="form-control validate[required,custom[email],ajax[ajaxEmailCallPhp]]" id="eAddress" name="eAddress">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group form-group-eAddress">
+                <label for="eAddress">Confirm Email Address:</label>
+                <input type="email" class="form-control validate[equals[eAddress]]" id="coneAddress" name="coneAddress">
               </div>
             </div>
             <div class="col-sm-12 col-md-8">

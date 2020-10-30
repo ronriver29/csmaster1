@@ -36,7 +36,12 @@ $(function(){
             'equals': {
               'message': "* The specified passwords do not match"
             }
-          }
+          },
+          '#coneAddress' :{
+            'equals' :{
+              'message': "* The specified emails do not match"
+            }
+         }
         },
         onValidationComplete: function(form,status){
           if(status==true){
