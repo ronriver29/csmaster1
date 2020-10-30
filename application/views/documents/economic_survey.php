@@ -28,7 +28,7 @@
         font-weight: normal;
         src: url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');
     }*/
-  @page{margin: 96px 96px 144px 96px;}
+  @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   /* table, th, td {
     border: 0.5px solid #000 !important;

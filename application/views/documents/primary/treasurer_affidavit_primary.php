@@ -13,7 +13,7 @@
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700" rel="stylesheet" type="text/css">
   <style>
-  @page{margin: 96px 96px 130px 96px;}
+  @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   table, th, td {
     border: 0.5px solid #000 !important;
