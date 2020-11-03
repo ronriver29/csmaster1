@@ -303,6 +303,14 @@
 //              print_r($data['inssoc']);
               $data['committees_count_member'] = $this->committee_model->get_all_committees_count($user_id);
               $data['list_cooperators_count'] = $this->cooperator_model->get_all_cooperator_of_coop_regular_count($decoded_id);
+              //payment download form
+               $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+               $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
+                $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+                $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
+                $data['name_reservation_fee']=100.00;
+                $data['pay_from']='reservation';
+              //END payment download form
               $this->load->view('./template/header', $data);
               $this->load->view('cooperative/cooperative_detail', $data);
               $this->load->view('./template/footer');

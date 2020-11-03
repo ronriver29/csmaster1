@@ -733,6 +733,57 @@
                 <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/payments" class="btn btn-color-blue btn-sm ">Payment</a>
               </small>
             <?php endif ?>
+             <!-- donwload payment form -->
+              <?php
+              if(($coop_info->status ==13) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two)
+              {
+
+                if ($pay_from=='reservation'){
+                $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $article_info->par_value_common : $total_regular['total_paid'] * $article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $article_info->par_value_common) : ($total_regular['total_paid'] *$article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred)) *0.001 : 500.00);
+                $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                if(!empty($coop_info->acronym_name)){ 
+                    $acronym_name = '('.$coop_info->acronym_name.') ';
+                } else {
+                    $acronym_name = '';
+                }
+                if($coop_info->grouping == 'Union'){
+                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->grouping.' Of '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name);
+                } else {
+                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
+                }
+                $amount_in_words=0;
+                  $amount_in_words = ($rf+$lrf+$name_reservation_fee);
+                ini_set('precision', 17);
+                $total_ = number_format($amount_in_words,2);
+                // $total_amount_in_words = ($pos = strpos($amount_in_words,'.')) ? substr( $amount_in_words,0,$pos + 3) : number_format( $amount_in_words);
+                $peso_cents = '';
+                if(substr($total_,-3)=='.00')
+                {
+                  $peso_cents ='Pesos';
+                }
+                $w = new Numbertowords();
+                ?>
+                   <?php echo form_open('payments/add_payment',array('id'=>'paymentForm','name'=>'paymentForm')); ?>
+                   <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=$encrypted_id ?>">
+                  <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
+                  <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$payorname?>">
+                  <input type="hidden" class="form-control" id="nature" name="nature" value="Name Registration">
+                  <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee">
+                  <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2) ?>">
+                  <input type="hidden" class="form-control" id="total" name="total" value="<?=$rf+$lrf+$name_reservation_fee?>">
+                  <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
+                
+                 <input style="width:20%;" class="btn btn-info btn-sm" type="submit" id="offlineBtn" name="offlineBtn" value="Download O.R">
+                
+
+            </form>
+
+                   
+                <?php
+                }
+              }
+            ?>
+              <!-- END download payment form -->
           </li>
       </ul>
     </div>
