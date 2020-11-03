@@ -1981,11 +1981,13 @@ public function delete_pdf()
                                 $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
                                 $data['committees_list'] = $this->committee_model->get_all_committee_names_of_coop_multi($decoded_id);
                                  $data['total_no_of_regular_cptr']=$this->cooperator_model->get_total_count_regular($decoded_id);
+                                  $data['in_chartered_cities'] =false;
                                   if($this->charter_model->in_charter_city($data['coop_info']->cCode))
                                   {
                                   $data['in_chartered_cities']=true;
                                   $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                                   }
+                                  // var_dump(  $data['in_chartered_cities']);
                                 $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
                                 $f = new pdf();
                                  $f->set_option("isPhpEnabled", true);

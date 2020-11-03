@@ -11,6 +11,7 @@ class Db_dev extends CI_Controller{
 
   public function index()
   {
+   
 
   }
   public function show_fields_($table)
@@ -365,4 +366,6 @@ class Db_dev extends CI_Controller{
         print_r($array);
         echo"</pre>";
     }
+
+   
 }
