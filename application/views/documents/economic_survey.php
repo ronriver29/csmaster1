@@ -179,7 +179,6 @@
               <td><u><?php echo($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_subscribed'] * $capitalization_info->par_value),2) : number_format((($total_regular['total_subscribed'] * $capitalization_info->par_value) + ($total_associate['total_subscribed'] * $capitalization_info->par_value)),2);?></u></td>
             </tr>
             <tr>
-
               <td>Paid-up Capital :</td>
               <td><u><?php echo($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_paid'] * $capitalization_info->par_value),2) : number_format((($total_regular['total_paid'] * $capitalization_info->par_value) + ($total_associate['total_paid'] * $capitalization_info->par_value)),2);?></u></td>
             </tr>
@@ -197,7 +196,6 @@
                 <td><span style="font-family: DejaVu Sans, sans-serif;"><?php echo ($survey_info->previously_registered_with_dole == "2") ? "X - ": ""?></span>DOLE</td>
                 <td><span style="font-family: DejaVu Sans, sans-serif;"><?php echo ($survey_info->previously_registered_with_none == "4") ? "X - ": ""?></span>None
                  </td>
-
               </tr>
               <tr>
                 <td colspan="2"><span style="font-family: DejaVu Sans; sans-serif;"> <?php echo (strlen($survey_info->previously_registered_with_others) > 0) ? "X - ": ""?></span> Others, specify <?php echo (strlen($survey_info->previously_registered_with_others) > 0) ? "<u>".$survey_info->previously_registered_with_others."</u>" : "___________" ?> </u></td>
@@ -205,7 +203,6 @@
              <!--  <tr>
                 <td colspan="2">
                   <span style="font-family: DejaVu Sans, sans-serif;"></span>None</td>
-                  
                 </td>
               </tr> -->
             </tbody>
