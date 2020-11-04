@@ -43,11 +43,11 @@ deploy-application-staging:
       --set db.username=$DB_USERNAME
       --set db.password=$DB_PASSWORD
       --set db.database=$DB_DATABASE
-      cs
+      ris
       ./.chart/application
   environment:
     name: staging
-    url: https://cs.s.cda.gov.ph
+    url: https://cs.s.cda.gov.ph/ecoopris
   only:
     - master
 
@@ -79,14 +79,14 @@ deploy-application-production:
       --set web.name="ris-${CI_COMMIT_REF_SLUG}"
       --set web.container=$CONTAINER
       --set env.name=production
-      --set env.url=https://cs.cda.gov.ph
+      --set env.url=https://cs.cda.gov.ph/ecoopris
       --set env.domain=cs.cda.gov.ph
       --set env.tls=cda-tls
       --set db.hostname=$DB_HOSTNAME
       --set db.username=$DB_USERNAME
       --set db.password=$DB_PASSWORD
       --set db.database=$DB_DATABASE
-      cs
+      ris
       ./.chart/application
   only:
     - master
