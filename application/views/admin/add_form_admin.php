@@ -42,7 +42,7 @@
               <label for="region">Region</label>
               <select class="custom-select validate[required]" name="region" id="region">
                 <option value="" selected></option>
-                  <option value="00">Central Office</option>
+                  <option value="0">Central Office</option>
                 <?php foreach ($regions_list as $region_list) : ?>
                   <option value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
                 <?php endforeach; ?>

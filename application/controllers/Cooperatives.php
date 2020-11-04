@@ -68,54 +68,20 @@
             // $data['cooperatives_comments_snr'] = $this->cooperatives_model->cooperatives_comments_snr($data['coop_info']->id);
             // $data['cooperatives_comments'] = $this->cooperatives_model->cooperatives_comments($data['coop_info']->id);
             if($this->session->userdata('access_level')==1){
-              if($data['admin_info']->region_code=="00"){
-              // Registered Coop Process by Head Office
-                $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
-              // End Registered Coop Process by Head Office
+              if($data['admin_info']->region_code=="0"){
                 $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_specialist_central_office($data['admin_info']->region_code);
               }else{
-                // Registered Coop Process by Head Office
-                  $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
-                // End Registered Coop Process by Head Office
                 $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_specialist($data['admin_info']->region_code,$user_id);
               }
             }else if($this->session->userdata('access_level')==2){
-              if($data['admin_info']->region_code=="00"){
-                // Registered Coop Process by Head Office
-                  $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
-                // End Registered Coop Process by Head Office
-                $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
-                $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_ho_senior($data['admin_info']->region_code);
-                $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
-              } else {
-                // Registered Coop Process by Head Office
-                  $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
-                // End Registered Coop Process by Head Office
-                $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
-                $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_senior($data['admin_info']->region_code);
-                $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
-              }
-              // echo '<pre>';
-              // echo count($data['list_cooperatives']);
-              // echo $data['list_cooperatives'][0]['status'];
-              // print_r($data['list_cooperatives']);
-              // echo '</pre>';
+              $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
+              $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_senior($data['admin_info']->region_code);
+              $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
             }else{
-              if($data['admin_info']->region_code=="00"){
-                // Registered Coop Process by Head Office
-                  $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
-                // End Registered Coop Process by Head Office
-                $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
-                $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_ho_director($data['admin_info']->region_code);
-              } else {
-                // Registered Coop Process by Head Office
-                  $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
-                // End Registered Coop Process by Head Office
-                $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
-                $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_director($data['admin_info']->region_code);
-              }
+              $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
+              $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_director($data['admin_info']->region_code);
             }
             $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
             $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
@@ -792,30 +758,8 @@
                               if($data['document_one'] && $data['document_two']){
                                 if($this->cooperatives_model->check_if_deferred($decoded_id)){
                                   if($this->cooperatives_model->submit_for_reevaluation($user_id,$decoded_id)){
-                                    if($data['coop_info']->house_blk_no==null && $data['coop_info']->street==null) $x=''; else $x=', ';
-
-                                      $brgyforemail = ucwords($data['coop_info']->house_blk_no).' '.ucwords($data['coop_info']->street).$x.' '.$data['coop_info']->brgy.', '.$data['coop_info']->city.', '.$data['coop_info']->province.', '.$data['coop_info']->region;
-                                      if($data['coop_info']->type_of_cooperative=='Electric' || $data['coop_info']->type_of_cooperative=='Cooperative Bank' || $data['coop_info']->type_of_cooperative=='Insurance Cooperative' || $data['coop_info']->type_of_cooperative=='Health Service' || $data['coop_info']->type_of_cooperative=='Small Scale Mining' || $data['coop_info']->type_of_cooperative=='Professional Service')
-                                      {
-                                        $regioncode = '00';
-                                      } else {
-                                        $regioncode = '0'.mb_substr($data['coop_info']->refbrgy_brgyCode, 0, 2);
-                                      }
-                                      $data['senior_info'] = $this->admin_model->get_senior_info($regioncode);
-                                      $data['client_info'] = $this->user_model->get_user_info($user_id);
-
-                                      $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
-
-                                      if(!empty($data['coop_info']->acronym_name)){ 
-                                        $acronymname = '('.$data['coop_info']->acronym_name.')';
-                                      }else{ $acronymname = '';}
-
-                                      $proposednameemail = $data['coop_info']->proposed_name.' '.$data['coop_info']->grouping.' '.$data['coop_info']->type_of_cooperative.' Cooperative ';
-
-                                      if($this->admin_model->sendEmailToSeniorHO($proposednameemail,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email)){
-                                      $this->session->set_flashdata('cooperative_success','Successfully resubmitted your application. Please Wait for an e-mail notification list of documents for submission');
-                                      redirect('cooperatives/'.$id);
-                                    }
+                                    $this->session->set_flashdata('cooperative_success','Successfully resubmitted your application. Please Wait for an e-mail notification list of documents for submission');
+                                    redirect('cooperatives/'.$id);
                                   }else{
                                     $this->session->set_flashdata('cooperative_error','Unable to submit your application');
                                     redirect('cooperatives/'.$id);
@@ -823,28 +767,8 @@
                                 }else{
                                   if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                                     if($this->cooperatives_model->submit_for_evaluation($user_id,$decoded_id)){
-
-                                      if($data['coop_info']->house_blk_no==null && $data['coop_info']->street==null) $x=''; else $x=', ';
-
-                                      $brgyforemail = ucwords($data['coop_info']->house_blk_no).' '.ucwords($data['coop_info']->street).$x.' '.$data['coop_info']->brgy.', '.$data['coop_info']->city.', '.$data['coop_info']->province.', '.$data['coop_info']->region;
-
-                                      $regioncode = '0'.mb_substr($data['coop_info']->refbrgy_brgyCode, 0, 2);
-
-                                      $data['senior_info'] = $this->admin_model->get_senior_info($regioncode);
-                                      $data['client_info'] = $this->user_model->get_user_info($user_id);
-
-                                      $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
-
-                                      if(!empty($data['coop_info']->acronym_name)){ 
-                                        $acronymname = '('.$data['coop_info']->acronym_name.')';
-                                      }else{ $acronymname = '';}
-
-                                      $proposednameemail = $data['coop_info']->proposed_name.' '.$data['coop_info']->grouping.' '.$data['coop_info']->type_of_cooperative.' Cooperative ';
-
-                                      if($this->admin_model->sendEmailToSenior($proposednameemail,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email)){
-                                        $this->session->set_flashdata('cooperative_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
-                                        redirect('cooperatives/'.$id);
-                                      }
+                                      $this->session->set_flashdata('cooperative_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
+                                      redirect('cooperatives/'.$id);
                                     }else{
                                       $this->session->set_flashdata('cooperative_error','Unable to submit your application');
                                      redirect('cooperatives/'.$id);
