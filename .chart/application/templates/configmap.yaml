@@ -17,6 +17,11 @@ data:
       client_body_buffer_size 50M;
       
       location /ecoopris {
+        # Rewrite to root
+        rewrite ^/ecoopris(/.*)$ $1 break;
+      }
+
+      location / {
         include  /etc/nginx/mime.types;
         try_files $uri /index.php?$query_string;
       }
