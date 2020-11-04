@@ -773,7 +773,7 @@
                   <input type="hidden" class="form-control" id="total" name="total" value="<?=$rf+$lrf+$name_reservation_fee?>">
                   <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
                 
-                 <input style="width:20%;" class="btn btn-info btn-sm" type="submit" id="offlineBtn" name="offlineBtn" value="Download O.R">
+                 <input style="width:20%;" class="btn btn-info btn-sm" type="submit" id="offlineBtn" name="offlineBtn" value="Download O.P">
                 
 
             </form>
