@@ -184,7 +184,7 @@
         </div>
       </div>
     </div>
-<?php if(!$is_client) :?>
+<?php if(!$is_client && $admin_info->region_code != '00') :?>
 <h4 style="
 padding: 15px 10px;
 background: #fff;
@@ -221,7 +221,77 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                   </td>
                   <td>
                     <span class="badge badge-secondary">
-                      <?php if($cooperative_registered['status']==15) { echo "REGISTERED"; }?>
+                      <?php if($cooperative_registered['status']==15) { echo "Re-Print Certificate"; }?>
+                    </span>
+                  </td>
+                  <td width="31%">
+                    <?php $ar = array(2,5); $viewdoc_array = array(2,3,5) ?>
+                    <?php if(in_array($admin_info->access_level,$ar)):?>
+                      <ul id="ul-admin">
+                        <li>
+                      <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print Registration</a>
+                    </li>
+                     <?php endif; ?>
+                     <?php if(in_array($admin_info->access_level,$viewdoc_array)): ?>
+                    <li style="list-style: none;">
+                      <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/documents" class="btn btn-sm btn-info"><i class='fas fa-eye'></i> View Document</a>
+                    </li>
+                     <?php endif; //end of viewdoc array?>
+                  </ul>
+
+                   
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <?endif;?>
+
+
+<!-- Registered Coop Process by Head Office -->
+<?php if(!$is_client) :?>
+<h4 style="
+padding: 15px 10px;
+background: #fff;
+background-color: rgb(255, 255, 255);
+border: none;
+border-radius: 0;
+margin-bottom: 20px;
+box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by Head Office</h4>
+</div>
+
+<div class="col-sm-12 col-md-12">
+    <div class="card border-top-blue shadow-sm mb-4">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="cooperativesTable2">
+            <thead>
+              <tr>
+                <th>Name of Cooperative</th>
+                <?php if(!$is_client) : ?>
+                  <th>Office Address</th>
+                <?php endif;?>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($list_cooperatives_registered_by_ho as $cooperative_registered) : ?>
+                <tr>
+                  <td><?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>
+                  </td>
+                  <td>
+                    <?php if($cooperative_registered['house_blk_no']==null && $cooperative_registered['street']==null) $x=''; else $x=', ';?>
+                    <?=$cooperative_registered['house_blk_no']?> <?=$cooperative_registered['street'].$x?><?=$cooperative_registered['brgy']?>, <?=$cooperative_registered['city']?>, <?= $cooperative_registered['province']?> <?=$cooperative_registered['region']?>
+                  </td>
+                  <td>
+                    <span class="badge badge-secondary">
+                      <?php if($cooperative_registered['status']==15) { echo "Re-Print Certificate"; }?>
                     </span>
                   </td>
                   <td width="31%">
@@ -250,6 +320,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
     </div>
   </div><?endif;?>
 </div>
+<!-- End of Registered Coop Process by Head Office -->
 
 <!-- Bootstrap modal -->
  <div class="modal fade" id="paymentModal" role="dialog">
