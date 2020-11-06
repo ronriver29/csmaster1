@@ -270,7 +270,7 @@ public function add_admin_director($data,$raw_pass){
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Good day! A deferred application for registration with the following details has been re-submitted for re-evaluation:<p>
+    $message = "Good day! A deferred application for registration with the following details has been re-submitted for re-evaluationnnnnns:<p>
 
     <ol type='a'> 
       <li>".$proposedname."</li>
