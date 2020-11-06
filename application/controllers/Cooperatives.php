@@ -8,7 +8,6 @@
       parent::__construct();
       //Codeigniter : Write Less Do More
     }
-
     public function saveor($was){
       $data = array(
         'id' => $this->input->post('payment_id'),
@@ -21,7 +20,6 @@
       $this->cooperatives_model->save_OR(array('id' => $this->input->post('payment_id')), $data, $this->input->post('tae'),$date_of_or);
       echo json_encode(array("status" => TRUE, "message"=>"O.R. No has been saved."));
     }
-
     public function index(){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
@@ -379,7 +377,6 @@
                           $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
                           $data['document_others2'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
                       }
-
                   endforeach;
                   
                   $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
