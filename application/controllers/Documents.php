@@ -1163,8 +1163,7 @@ public function delete_pdf()
                   }
                   $data['branches_comments_snr'] = $this->branches_model->branches_comments_snr($branch_info->id,$evaluator_number);
                   $data['branches_comments'] = $this->branches_model->branches_comments($branch_info->id,$branch_info->evaluator5);
-                  $data['branches_comments_main'] = $this->branches_model->branches_comments_main($branch_info->id,$branch_info->evaluator2);
-                                  
+                  $data['branches_comments_main'] = $this->branches_model->branches_comments_main($branch_info->id,$branch_info->evaluator2);                           
                   $data['type']=substr($branch_info->branchName, -7);
                 $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
                 $data['document_one'] = $this->uploaded_document_model->get_document_one_info($branch_info->application_id);
@@ -1188,15 +1187,11 @@ public function delete_pdf()
               
             }
           }
-
         }else{
           show_404();
         }
     }
   }
-
-
-  
 
   function articles_cooperation_union(){
     $data['title'] = 'Articles of Cooperation for Union';
