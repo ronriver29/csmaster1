@@ -888,6 +888,7 @@ public function delete_pdf()
   // end modify by anj
 //end modify
   function articles_cooperation_primary($id = null){
+     ini_set('memory_limit', '1024');
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
@@ -938,6 +939,7 @@ public function delete_pdf()
                               $data['in_chartered_cities']=true;
                               $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                               }
+
                               $f = new pdf();
                               $f->set_option("isPhpEnabled", true);
                               $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
