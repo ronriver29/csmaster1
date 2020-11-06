@@ -388,7 +388,7 @@
 
 <?php 
 // print_r($ching);
-// echo"<pre>";print_r($coop_type);echo"<pre>";
+// echo"<pre>";print_r($coop_type);"<pre>";
 if(!empty($coop_type)):
 $count=0;
     foreach ($coop_type as $coop) : 

@@ -126,35 +126,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status IN ("2","3","4","5","16") OR (status = 6 AND type_of_cooperative NOT IN ("Electric","Cooperative Bank","Insurance Cooperative","Health Service","Small Scale Mining","Professional Service")) OR (status = 12 AND type_of_cooperative NOT IN ("Electric","Cooperative Bank","Insurance Cooperative","Health Service","Small Scale Mining","Professional Service")) OR (status = 13 AND type_of_cooperative NOT IN ("Electric","Cooperative Bank","Insurance Cooperative","Health Service","Small Scale Mining","Professional Service")) OR (status = 14 AND type_of_cooperative NOT IN ("Electric","Cooperative Bank","Insurance Cooperative","Health Service","Small Scale Mining","Professional Service"))');
-    // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
-    $query = $this->db->get();
-    $data = $query->result_array();
-    return $data;
-  }
-  public function get_all_cooperatives_by_ho_senior($regcode){
-    $this->db->select('cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
-    $this->db->from('cooperatives');
-    $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
-    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
-    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
-    $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status IN ("6","12","13","14") AND type_of_cooperative IN ("Electric","Cooperative Bank","Insurance Cooperative","Health Service","Small Scale Mining","Professional Service")');
-    // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
-    $query = $this->db->get();
-    $data = $query->result_array();
-    return $data;
-  }
-  public function get_all_cooperatives_by_ho_director($regcode){
-    $this->db->select('cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
-    $this->db->from('cooperatives');
-    $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
-    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
-    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status IN ("9") AND type_of_cooperative = "Electric" OR type_of_cooperative = "Cooperative Bank" OR type_of_cooperative = "Insurance Cooperative" OR type_of_cooperative = "Health Service" OR type_of_cooperative = "Small Scale Mining" OR type_of_cooperative = "Professional Service"');
+    $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
@@ -167,8 +139,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status IN ("7","8") OR (status = 9 AND type_of_cooperative != "Electric" AND type_of_cooperative != "Cooperative Bank" AND type_of_cooperative != "Insurance Cooperative" AND type_of_cooperative != "Health Service" AND type_of_cooperative != "Small Scale Mining" AND type_of_cooperative != "Professional Service")');
-    // $this->db->where_in('status',array('7','8','9'));
+    $this->db->where_in('status',array('7','8','9'));
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
@@ -181,28 +152,11 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status = 15 AND type_of_cooperative NOT IN ("Electric","Cooperative Bank","Insurance Cooperative","Health Service","Small Scale Mining","Professional Service")');
+    $this->db->where_in('status',array('15'));
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
   }
-
-  // Registered Coop List Process by Head Office - Query
-    public function get_all_cooperatives_registration_by_ho($regcode){
-    $this->db->select('cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
-    $this->db->from('cooperatives');
-    $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
-    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
-    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status = 15 AND type_of_cooperative IN ("Electric","Cooperative Bank","Insurance Cooperative","Health Service","Small Scale Mining","Professional Service")');
-    $query = $this->db->get();
-    $data = $query->result_array();
-    return $data;
-  }
-  // End Registered Coop List Process by Head Office - Query
-
   // public function get_all_business_activity($coop_id){
   //   $this->db->select('business_activity.id as bactivity_id, business_activity.name as bactivity_name, business_activity_subtype.id as bactivitysubtype_id, business_activity_subtype.name as bactivitysubtype_name');
   //   $this->db->from('business_activities_of_cooperatives');
@@ -729,7 +683,12 @@ public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$comm
   $this->db->trans_begin();
   $this->db->where('id',$coop_id);
   $this->db->update('cooperatives',array('status'=>6,'evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL,'comment_by_specialist'=>$comment_by_specialist_senior,'specialist_submit_at'=>$now));
-  $senior_emails = $this->admin_model->get_emails_of_senior_by_region($temp->rCode);
+  if($temp->type_of_cooperative == "Cooperative Bank" || $temp->type_of_cooperative == "Electric" || $temp->type_of_cooperative == "Insurance Cooperative" || $temp->type_of_cooperative == "Health Service" || $temp->type_of_cooperative == "Small Scale Mining" || $temp->type_of_cooperative == "Professional Service")
+  {
+    $senior_emails = $this->admin_model->get_emails_of_senior_by_region("00");
+  } else {
+    $senior_emails = $this->admin_model->get_emails_of_senior_by_region($temp->rCode);
+  }
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
