@@ -273,11 +273,11 @@ public function add_admin_director($data,$raw_pass){
     $message = "Good day! A deferred application for registration with the following details has been re-submitted for re-evaluation:<p>
 
     <ol type='a'> 
-      <li>".$proposedname."</li>
-      <li>".$brgy."</li>
-      <li>".$fullname."</li>
-      <li>".$contactnumber."</li>
-      <li>".$email."</li>
+      <li> Proposed Name of Cooperative:".$proposedname."</li>
+      <li> Address of Proposed Cooeprative:".$brgy."</li>
+      <li> Contact Person: ".$fullname."</li>
+      <li> Contact Number: ".$contactnumber."</li>
+      <li> Email Address: ".$email."</li>
     </ol>";
     $this->email->from($from,'CoopRIS Administrator');
     $this->email->to($senioremail);
@@ -297,11 +297,11 @@ public function add_admin_director($data,$raw_pass){
     $message = "Good day! An application for registration with the following details has been submittedddddd:<p>
 
     <ol type='a'> 
-      <li>".$proposedname."</li>
-      <li>".$brgy."</li>
-      <li>".$fullname."</li>
-      <li>".$contactnumber."</li>
-      <li>".$email."</li>
+      <li> Proposed Name of Cooperative:".$proposedname."</li>
+      <li> Address of Proposed Cooeprative:".$brgy."</li>
+      <li> Contact Person: ".$fullname."</li>
+      <li> Contact Number: ".$contactnumber."</li>
+      <li> Email Address: ".$email."</li>
     </ol>";
     $this->email->from($from,'CoopRIS Administrator');
     $this->email->to($senioremail);
