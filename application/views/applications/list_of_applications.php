@@ -184,7 +184,7 @@
         </div>
       </div>
     </div>
-<?php if(!$is_client) :?>
+<?php if(!$is_client && $admin_info->region_code != '00') :?>
 <h4 style="
 padding: 15px 10px;
 background: #fff;
@@ -221,9 +221,6 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                   </td>
                   <td>
                     <span class="badge badge-secondary">
-<<<<<<< Updated upstream
-                      <?php if($cooperative_registered['status']==15) { echo "REGISTERED"; }?>
-=======
                       <?php if($cooperative_registered['status']==15) { echo "Re-Print Certificate"; }?>
                     </span>
                   </td>
@@ -295,7 +292,6 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
                   <td>
                     <span class="badge badge-secondary">
                       <?php if($cooperative_registered['status']==15) { echo "Re-Print Certificate"; }?>
->>>>>>> Stashed changes
                     </span>
                   </td>
                   <td width="31%">
@@ -324,6 +320,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
     </div>
   </div><?endif;?>
 </div>
+<!-- End of Registered Coop Process by Head Office -->
 
 <!-- Bootstrap modal -->
  <div class="modal fade" id="paymentModal" role="dialog">
