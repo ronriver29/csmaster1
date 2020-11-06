@@ -683,7 +683,12 @@ public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$comm
   $this->db->trans_begin();
   $this->db->where('id',$coop_id);
   $this->db->update('cooperatives',array('status'=>6,'evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL,'comment_by_specialist'=>$comment_by_specialist_senior,'specialist_submit_at'=>$now));
-  $senior_emails = $this->admin_model->get_emails_of_senior_by_region($temp->rCode);
+  if($temp->type_of_cooperative == "Cooperative Bank" || $temp->type_of_cooperative == "Electric" || $temp->type_of_cooperative == "Insurance Cooperative" || $temp->type_of_cooperative == "Health Service" || $temp->type_of_cooperative == "Small Scale Mining" || $temp->type_of_cooperative == "Professional Service")
+  {
+    $senior_emails = $this->admin_model->get_emails_of_senior_by_region("00");
+  } else {
+    $senior_emails = $this->admin_model->get_emails_of_senior_by_region($temp->rCode);
+  }
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;

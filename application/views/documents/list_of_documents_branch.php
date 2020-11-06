@@ -648,3 +648,58 @@
   </div> 
 </div>
 <?php endif; ?>  
+<?php 
+// if(!empty($coop_type)):
+$count=0;
+
+    foreach ($coop_type as $coop) : 
+
+?>
+    <?php $count++;?>
+    <div class="col-sm-12 col-md-4">
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><?=$coop['coop_title']?></h5>
+                <p class="card-text">
+                    <?php if($count==1){?>
+                        <?php if(isset($document_others)) : ?>
+                        <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_id?>/<?=$coop['document_num']?>">
+
+                        <?php if($is_client) : ?>
+                          This is your <?=$coop['coop_title']?> document.
+                        <?php else : ?>
+                          This is the <?=$coop['coop_title']?> document.
+                        <?php endif;?>
+                        </a>
+                        <?php endif ?>
+                        <?php if(!isset($document_others)) : ?>
+                            <?=$coop['coop_desc']?>
+                        <?php endif ?>
+                        <br>
+                    <?php } else {?>
+                        <?php if(isset($document_others2)) : ?>
+                        <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_id?>/<?=$coop['document_num']?>">
+
+                        <?php if($is_client) : ?>
+                          This is your <?=$coop['coop_title']?> document.
+                        <?php else : ?>
+                          This is the <?=$coop['coop_title']?> document.
+                        <?php endif;?>
+                        </a>
+                        <?php endif ?>
+                        <?php if(!isset($document_others2)) : ?>
+                            <?=$coop['coop_desc']?>
+                        <?php endif ?>
+                        <br>
+                    <?php } ?>
+                </p>
+                <?php if($is_client && $branch_info->status<=1 || $branch_info->status==11): ?>
+                    <a href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/upload_document_others/<?=encrypt_custom($this->encryption->encrypt($coop['id']))?>" class="btn btn-primary">Upload</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <?php endforeach; ?>
+</div>
+<? //php// endif; //not empty?>

@@ -1126,6 +1126,7 @@ public function delete_pdf()
                 $data['document_7'] = $this->uploaded_document_model->get_document_7_info($branch_info->id,$branch_info->application_id);
                 $data['document_8'] = $this->uploaded_document_model->get_document_8_info($branch_info->id,$branch_info->application_id);
                 $data['document_9'] = $this->uploaded_document_model->get_document_9_info($branch_info->id,$branch_info->application_id);
+                $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['branch_info']->type);
                 
                 $this->load->view('template/header', $data);
                 $this->load->view('documents/list_of_documents_branch', $data);
