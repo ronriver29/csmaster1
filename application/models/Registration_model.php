@@ -134,7 +134,7 @@ class registration_model extends CI_Model{
   }
 
   public function get_coop_info($coop){
-    $this->db->select('registeredcoop.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,payment.date_of_or as dateofor,cooperatives.type_of_cooperative');
+    $this->db->select('registeredcoop.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,payment.date_of_or as dateofor');
     $this->db->from('registeredcoop');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');

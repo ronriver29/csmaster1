@@ -86,12 +86,7 @@ class registration extends CI_Controller{
       $data1['chair'] = $this->registration_model->get_chairman()->chairman;
       $data1['coop_info']=$coop_details;
       // $data1['director']=$this->registration_model->get_director($user_id)->full_name;
-      if($coop_info->type_of_cooperative == "Cooperative Bank" || $coop_info->type_of_cooperative == "Electric" || $coop_info->type_of_cooperative == "Insurance Cooperative" || $coop_info->type_of_cooperative == "Health Service" || $coop_info->type_of_cooperative == "Small Scale Mining" || $coop_info->type_of_cooperative == "Professional Service")
-      { 
-        $data1['director']=$this->registration_model->get_director("00");
-      } else {
-        $data1['director']=$this->registration_model->get_director($data1['coop_info']->rCode);
-      }
+      $data1['director']=$this->registration_model->get_director($data1['coop_info']->rCode);
           set_time_limit(0);
 
        $data1['date_year']= date('Y',strtotime($data1['coop_info']->dateofor));

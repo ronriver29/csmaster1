@@ -172,7 +172,6 @@ public function add_admin_director($data,$raw_pass){
     $query2 = $this->db->get_where('admin',array('access_level'=>4,'region_code'=>$data->region_code));
     $supervisor = $query2->row();
     $this->db->trans_begin();
-    
     // $this->db->where('id',$director_id);
     $this->db->where('access_level',3);
     $this->db->where('region_code',$data->region_code);
@@ -184,34 +183,16 @@ public function add_admin_director($data,$raw_pass){
       $this->db->trans_rollback();
       return false;
     }else{
-      // Send email for granting proviliges
-      $from = "coopris.test@gmail.com";    //senders email address
-      $subject = 'Cooperative Application for Registration';  //email subject
-      $burl = base_url();
-      //sending confirmEmail($receiver) function calling link to the user, inside message body
-      $message = "Good day! The Regional Director granted you all the authority to process the application for registration.<p>
-
-<label>Date stamp:".date("m/d/Y")."
-<label>Time stamp:".date("h:i:s a")."";
-      $this->email->from($from,'CoopRIS Administrator');
-      $this->email->to($supervisor->email);
-      $this->email->subject($subject);
-      $this->email->message($message);
-    // End Seding email for granding priviliges
-      if($this->email->send()){
-          $this->db->trans_commit();
-        return true;
-      }else{
-          return false;
-      }
-      
+      $this->db->trans_commit();
+      return true;
     }
   }
   public function revoke_privilege_supervisor($director_id){
     $query = $this->db->get_where('admin',array('id'=>$director_id,'access_level'=>3));
     $data = $query->row();
-    $query2 = $this->db->get_where('admin',array('access_level'=>4,'region_code'=>$data->region_code,'is_director_active'=>1));
+    $query2 = $this->db->get_where('admin',array('access_level'=>4,'region_code'=>$data->region_code));
     $supervisor = $query2->row();
+    
     $this->db->trans_begin();
     // $this->db->where('id',$director_id);
     $this->db->where('access_level',3);
@@ -224,26 +205,8 @@ public function add_admin_director($data,$raw_pass){
       $this->db->trans_rollback();
       return false;
     }else{
-      // Send email for granting proviliges
-      $from = "coopris.test@gmail.com";    //senders email address
-      $subject = 'Cooperative Application for Registration';  //email subject
-      $burl = base_url();
-      //sending confirmEmail($receiver) function calling link to the user, inside message body
-      $message = "Good day! The Authority to process all application for registration has been revoked by the Regional Director.<p>
-
-<label>Date stamp:".date("m/d/Y")."
-<label>Time stamp:".date("h:i:s a")."";
-      $this->email->from($from,'CoopRIS Administrator');
-      $this->email->to($supervisor->email);
-      $this->email->subject($subject);
-      $this->email->message($message);
-    // End Seding email for granding priviliges
-      if($this->email->send()){
-          $this->db->trans_commit();
-        return true;
-      }else{
-        return false;
-      }
+      $this->db->trans_commit();
+      return true;
     }
   }
 
@@ -264,54 +227,6 @@ public function add_admin_director($data,$raw_pass){
       }else{
           return false;
       }
-  }
-  public function sendEmailToSeniorHO($proposedname,$brgy,$fullname,$contactnumber,$email,$senioremail){
-    $from = "coopris.test@gmail.com";    //senders email address
-    $subject = $proposedname.' Application';  //email subject
-    $burl = base_url();
-    //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Good day! A deferred application for registration with the following details has been re-submitted for re-evaluation:<p>
-
-    <ol type='a'> 
-      <b><li> Proposed Name of Cooperative:</b>".$proposedname."</li>
-      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
-      <b><li> Contact Person:</b> ".$fullname."</li>
-      <b><li> Contact Number: </b>".$contactnumber."</li>
-      <b><li> Email Address: </b>".$email."</li>
-    </ol>";
-    $this->email->from($from,'CoopRIS Administrator');
-    $this->email->to($senioremail);
-    $this->email->subject($subject);
-    $this->email->message($message);
-    if($this->email->send()){
-        return true;
-    }else{
-        return false;
-    }
-  }
-  public function sendEmailToSenior($proposedname,$brgy,$fullname,$contactnumber,$email,$senioremail){
-    $from = "coopris.test@gmail.com";    //senders email address
-    $subject = $proposedname.' Application';  //email subject
-    $burl = base_url();
-    //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Good day! An application for registration with the following details has been submitted:<p>
-
-    <ol type='a'> 
-      <b><li> Proposed Name of Cooperative:</b>".$proposedname."</li>
-      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
-      <b><li> Contact Person:</b> ".$fullname."</li>
-      <b><li> Contact Number: </b>".$contactnumber."</li>
-      <b><li> Email Address: </b>".$email."</li>
-    </ol>";
-    $this->email->from($from,'CoopRIS Administrator');
-    $this->email->to($senioremail);
-    $this->email->subject($subject);
-    $this->email->message($message);
-    if($this->email->send()){
-        return true;
-    }else{
-        return false;
-    }
   }
   public function sendEmailToSpecialist($admin_info,$coop_full_name){
     $from = "coopris.test@gmail.com";    //senders email address
@@ -411,13 +326,13 @@ You may now print the following documents in Four (4) copies:
 
 The above documents shall be printed in legal size bond paper or 8.5\" x 13\" or 8.5\" x 14\" size paper.
 
-In addition to the above, please attach the following in 1 original and 3 photocopies:
+In addition to the above, please attach the following in 1 original and 3 certified true photocopies signed by the Authorized Officer:
 
      1.  Surety Bond of Accountable Officers;
      2.  Certification of Pre-Registration Seminar (PRS); 
      3.  Other requirements for specific type of cooperatives
 
-The client shall submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
+The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
 
 
     $this->email->from($from,'CoopRIS Administrator');
@@ -557,15 +472,6 @@ The client shall submit the above required documents within 30 working days from
       return $data;
     }
   }
-  public function get_emails_of_revoke_director_by_region($regcode){
-    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>4));
-    $data = $query->result_array();
-    if($this->db->count_all_results()==0){
-      return array();
-    }else{
-      return $data;
-    }
-  }
   public function get_all_specialist_by_region($regcode){
     $this->db->like('region_code',$regcode);
     $query = $this->db->get_where('admin',array('access_level'=>1));
@@ -575,12 +481,6 @@ The client shall submit the above required documents within 30 working days from
     }else{
       return $data;
     }
-  }
-  public function get_senior_info($data){
-    $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>2));
-    $row = $query->row();
-    return $row;
   }
   public function get_admin_info($data){
     $data = $this->security->xss_clean($data);
