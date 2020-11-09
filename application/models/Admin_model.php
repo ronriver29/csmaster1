@@ -273,11 +273,11 @@ public function add_admin_director($data,$raw_pass){
     $message = "Good day! A deferred application for registration with the following details has been re-submitted for re-evaluation:<p>
 
     <ol type='a'> 
-      <li> Proposed Name of Cooperative:".$proposedname."</li>
-      <li> Address of Proposed Cooeprative:".$brgy."</li>
-      <li> Contact Person: ".$fullname."</li>
-      <li> Contact Number: ".$contactnumber."</li>
-      <li> Email Address: ".$email."</li>
+      <b><li> Proposed Name of Cooperative:</b>".$proposedname."</li>
+      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
+      <b><li> Contact Person:</b> ".$fullname."</li>
+      <b><li> Contact Number: </b>".$contactnumber."</li>
+      <b><li> Email Address: </b>".$email."</li>
     </ol>";
     $this->email->from($from,'CoopRIS Administrator');
     $this->email->to($senioremail);
@@ -294,14 +294,14 @@ public function add_admin_director($data,$raw_pass){
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Good day! An application for registration with the following details has been submittedddddd:<p>
+    $message = "Good day! An application for registration with the following details has been submitted:<p>
 
     <ol type='a'> 
-      <li> Proposed Name of Cooperative:".$proposedname."</li>
-      <li> Address of Proposed Cooeprative:".$brgy."</li>
-      <li> Contact Person: ".$fullname."</li>
-      <li> Contact Number: ".$contactnumber."</li>
-      <li> Email Address: ".$email."</li>
+      <b><li> Proposed Name of Cooperative:</b>".$proposedname."</li>
+      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
+      <b><li> Contact Person:</b> ".$fullname."</li>
+      <b><li> Contact Number: </b>".$contactnumber."</li>
+      <b><li> Email Address: </b>".$email."</li>
     </ol>";
     $this->email->from($from,'CoopRIS Administrator');
     $this->email->to($senioremail);
