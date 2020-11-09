@@ -411,13 +411,13 @@ You may now print the following documents in Four (4) copies:
 
 The above documents shall be printed in legal size bond paper or 8.5\" x 13\" or 8.5\" x 14\" size paper.
 
-In addition to the above, please attach the following in 1 original and 3 certified true photocopies signed by the Authorized Officer:
+In addition to the above, please attach the following in 1 original and 3 photocopies:
 
      1.  Surety Bond of Accountable Officers;
      2.  Certification of Pre-Registration Seminar (PRS); 
      3.  Other requirements for specific type of cooperatives
 
-The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
+The client shall submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
 
 
     $this->email->from($from,'CoopRIS Administrator');
@@ -550,6 +550,15 @@ The client shall submit the above required documents within 30 working days from
   }
   public function get_emails_of_director_by_region($regcode){
     $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>3));
+    $data = $query->result_array();
+    if($this->db->count_all_results()==0){
+      return array();
+    }else{
+      return $data;
+    }
+  }
+  public function get_emails_of_revoke_director_by_region($regcode){
+    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>4));
     $data = $query->result_array();
     if($this->db->count_all_results()==0){
       return array();
