@@ -756,6 +756,12 @@ public function approve_by_senior($admin_info,$coop_id,$coop_full_name,$comment_
   $this->db->where('id',$coop_id);
   $this->db->update('cooperatives',array('status'=>9,'second_evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL,'comment_by_senior'=>$comment_by_specialist_senior,'senior_submit_at'=>$now));
   $director_emails = $this->admin_model->get_emails_of_director_by_region($admin_info->region_code);
+    foreach($director_emails as $email){
+      if($email['is_director_active'] == 0){
+        $director_emails = $this->admin_model->get_emails_of_revoke_director_by_region($admin_info->region_code);
+      }
+    }
+  
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
