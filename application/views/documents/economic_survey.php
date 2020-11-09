@@ -262,7 +262,7 @@
               <p class="text-justify font-weight-normal"><span style="font-family: DejaVu Sans; sans-serif;"><?php echo ($survey_info->generate_capital[4] == "1") ? "X - ": ""?></span>Fund raising activities</p>
             </li>
             <li>
-               How much is the Cooperative’s initial operating capital? <u><?=number_format($capitalization_info->total_amount_of_paid_up_capital,2)?></u>.
+               How much is the Cooperative’s initial operating capital? <u><?=number_format($survey_info->amount_initial_operating_capital,2)?></u>.
             </li>
             <li>
               Strategies for internal capital build-up. <u><?=$survey_info->strategy_capital_build_up?></u>.
