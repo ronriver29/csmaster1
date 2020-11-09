@@ -8,7 +8,6 @@ $config['mailtype'] = 'html';
 $config['charset'] = 'iso-8859-1';
 $config['wordwrap'] = 'TRUE';
 $config['newline'] = "\r\n";
-
 // $config = Array(
 //     'protocol' => 'smtp',
 //     'smtp_host' => 'ssl://smtp.googlemail.com',
