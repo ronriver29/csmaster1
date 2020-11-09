@@ -114,6 +114,7 @@ class Users extends CI_Controller{
       );
       $data = $this->security->xss_clean($data);
       $msg = $this->user_model->verifyEmail($data);
+      // echo"<pre>";print_r($data); echo "<pre>";
       if($msg['success']){
         $this->load->view('./template/header', $head);
         $this->load->view('verification/verify_success',$msg);

@@ -410,8 +410,11 @@ Very truly yours,<br/>
 <table>
 <tr>
 <td width="10%">
-
+<?php if($coop_info->type_of_cooperative == 'Cooperative Bank' || $coop_info->type_of_cooperative == 'Electric' || $coop_info->type_of_cooperative == 'Insurance Cooperative' || $coop_info->type_of_cooperative == 'Health Service' || $coop_info->type_of_cooperative == 'Small Scale Mining' || $coop_info->type_of_cooperative == 'Professional Service'){
+	echo '<b>'.strtoupper("RAY R. ELEVAZO, csee, mnsa").'</b><br/>';
+} else {?>
 <b><?=strtoupper($director->full_name); ?></b><br/>
+<?php } ?>
 <?=strtoupper($director->access_name); ?>
 </p>
 </td>

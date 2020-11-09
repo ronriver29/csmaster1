@@ -65,6 +65,7 @@ class User_model extends CI_Model{
 
   //activate account
   function verifyEmail($data){
+    // return $data;
       $query = $this->db->get_where('users', $data);
       $row = $query->row();
       if(isset($row)){
