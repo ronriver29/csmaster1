@@ -1,0 +1,31 @@
+<?php
+class Migration_modify_capris_table_cais extends CI_Migration
+{
+    public function up()
+    {
+        $this->dbforge->add_field(
+           $field = array
+                  (
+                     'capris_year_exces_field'=>array(
+                      'type'=>'INT',
+                      'constraint' =>11,
+                      'null' => TRUE,
+                    )
+                  )
+        );
+        $this->dbforge->add_column('capris',$field);
+    }
+
+    public function down()
+    { 
+        $result = $this->db->query("SHOW COLUMNS FROM `capris` LIKE 'capris_year_exces_field'");
+        // $exists = ($result)?TRUE:FALSE;
+        if($result->num_rows()>0)
+        {
+           $qry = $this->db->query("ALTER TABLE capris DROP COLUMN capris_year_exces_field"); 
+        }
+
+      
+    }
+}
+?>
