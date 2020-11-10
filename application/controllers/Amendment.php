@@ -2417,10 +2417,12 @@
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
+         ini_set('memory_limit', '2048');
         $data='';
         $proposed_name = strtolower($this->input->get('fieldValue'));
         $type_of_coop = $this->input->get('typeOfCooperative_value');
         $coop_id = $this->input->get('cooperative_idss');
+        // echo  $proposed_name.' '.$type_of_coop.' '.$coop_id;
         $qry = $this->db->query("select cooperative_id,cooperative_type_id,proposed_name from amend_coop where cooperative_id='$coop_id'");
         // echo $this->db->last_query();
         if($qry->num_rows()>0)
@@ -2458,11 +2460,12 @@
         }
         else
         {
-          
+          // echo"dito";
           $coop_query = $this->db->query("select id,proposed_name,type_of_cooperative from cooperatives");
-           // $query= $this->db->last_query();
+           // echo $coop_query->num_rows();
             foreach($coop_query->result_array() as $crow)
             {
+
               $crow['input_coop_id'] = $coop_id;
               $crow['input_type_coop_id'] = $type_of_coop;
               $crow['input_prosposed_name'] = $proposed_name;
@@ -2501,7 +2504,7 @@
               // $d[] = array($crow['input_coop_id'],$coopid_db = $crow['id'], $crow['input_prosposed_name'],$crow['proposed_name'],  $crow['input_type_coop_id'],  $crow['cooperative_type_id']);
               $compare_array[] = $crow['compare'];
           
-            }
+            } //end foreach
             if(is_array($compare_array))
             {
                if(in_array('false',$compare_array))
@@ -2536,8 +2539,8 @@
                 //   $data ="wala";
                 // }
         }
-        // echo json_encode( $data);
-        echo json_encode(array($this->input->get("fieldId"),$data));
+        // // echo json_encode( $data);
+        // echo json_encode(array($this->input->get("fieldId"),$data));
       }
     }
 

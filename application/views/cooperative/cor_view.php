@@ -208,7 +208,7 @@
 	</tr>
 	<tr>
 		<td  colspan="2" style="text-align: justify; text-indent: 40px;">Given in Quezon City, Philippines, this <?=$date_day?> day of <?= $date_month,', '.$date_year?>.
-			<!-- <?=date("F d, Y", strtotime($coop_info->dateofor));?> --></td>
+			
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
@@ -326,7 +326,7 @@
 	</tr>
 	<tr>
 		<td  colspan="2" style="text-align: justify; text-indent: 40px;">Given in Quezon City, Philippines, this <?=$date_day?> day of <?= $date_month,', '.$date_year?>
-			<!-- <?=date("F d, Y", strtotime($coop_info->dateofor));?> --></td>
+			
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
