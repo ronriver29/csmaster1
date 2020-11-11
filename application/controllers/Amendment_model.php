@@ -26,7 +26,11 @@ class amendment_model extends CI_Model{
 
   return $query->row();
   }
-
+  public function all_coop($id)
+  {
+    $qry =$this->db->query("select id,proposed_name,type_of_cooperative from cooperatives");
+    return true;
+  }
   public function get_business_activity_coop($regNo){
     $this->db->select('business_activities_cooperative.industry_subclass_by_coop_type_id as BAC_id, major_industry.description as mdesc, subclass.description as sdesc');
     $this->db->from('registeredcoop');

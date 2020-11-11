@@ -638,6 +638,7 @@ class amendment_model extends CI_Model{
           $row_committees['orig_cooperators_id'] = $row_committees['cooperators_id'];
           unset($row_committees['cooperators_id']);
           unset($row_committees['id']);
+          unset($row_committees['committees_year']);
           $data_committiees[] = $row_committees;
         }
       }   
@@ -777,7 +778,7 @@ class amendment_model extends CI_Model{
       foreach($qry_file->result_array() as $row_file)
       {
 
-        $process++;
+         $process++;
         $row_file['amendment_id']=$id;
         $row_file['cooperative_id'] = $row_file['cooperatives_id'];
         unset($row_file['id']);
@@ -788,13 +789,20 @@ class amendment_model extends CI_Model{
         $row_file['created_at']=date('Y-m-d h:i:s',now('Asia/Manila'));
         $row_file['author'] = $this->session->userdata('user_id');
         // if(copy(APPPATH.'../uploads/'.$row_file['filename'],APPPATH.'../uploads/amendment/'.$new_name))
-        if(copy(UPLOAD_DIR.$row_file['filename'],UPLOAD_AMD_DIR.$new_name))
-
+        if(file_exists(UPLOAD_DIR.$row_file['filename'] ))
         {
-          $success++;
-        }
+
+          if(copy(UPLOAD_DIR.$row_file['filename'],UPLOAD_AMD_DIR.$new_name))
+
+          {
+            
+          }
+
+        
+        }//end of file exist 
+        $success++;
         $row_file['filename'] = $new_name;
-         $data_file[]=$row_file;
+        $data_file[]=$row_file;
       }
     }
     // return  $data_file;

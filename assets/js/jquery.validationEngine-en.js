@@ -203,7 +203,6 @@
                 //Amendment name
                 "ajaxAmendmentNameCallPhp": {
                     "url": "check_amendment_name_exists",
-                 
                     // you may want to pass extra data on the ajax call
                     "extraDataDynamic":['#typeOfCooperative_value','#cooperative_idss'],
                     "alertText": "* This  Cooperative name is not available",

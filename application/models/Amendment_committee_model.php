@@ -265,6 +265,7 @@ class Amendment_committee_model extends CI_Model{
     $this->db->join('amendment_cooperators', 'amendment_cooperators.id = amendment_committees.amendment_cooperators_id', 'inner');
     $this->db->join('amend_coop', 'amend_coop.id = amendment_cooperators.amendment_id', 'inner');
     $this->db->where('amendment_committees.name = "Gender and Development" AND amend_coop.id = ',$amendment_id);
+    $this->db->group_by('amendment_committees.id');
     $query = $this->db->get();
     $data =  $query->result_array();
     return $data;

@@ -2029,12 +2029,12 @@
 
     public function get_coopTypeID($type_name)
     {
-      $qry=$this->db->get_where('cooperative_type',array('name'=>$type_name));
+      $qry=$this->db->query("select id from cooperative_type where name='$type_name'");//'cooperative_type',array('name'=>$type_name));
       if($qry->num_rows()>0)
       {
         foreach($qry->result_array() as $row)
         {
-          $data[] = $row;
+          $data = $row['id'];
         }
       }
       else
@@ -2417,12 +2417,11 @@
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
-         ini_set('memory_limit', '2048');
+        ini_set('memory_limit', '-1');
         $data='';
         $proposed_name = strtolower($this->input->get('fieldValue'));
         $type_of_coop = $this->input->get('typeOfCooperative_value');
         $coop_id = $this->input->get('cooperative_idss');
-        // echo  $proposed_name.' '.$type_of_coop.' '.$coop_id;
         $qry = $this->db->query("select cooperative_id,cooperative_type_id,proposed_name from amend_coop where cooperative_id='$coop_id'");
         // echo $this->db->last_query();
         if($qry->num_rows()>0)
@@ -2460,51 +2459,55 @@
         }
         else
         {
-          // echo"dito";
-          $coop_query = $this->db->query("select id,proposed_name,type_of_cooperative from cooperatives");
-           // echo $coop_query->num_rows();
-            foreach($coop_query->result_array() as $crow)
+          
+          $coop_query = $this->db->query("select id,proposed_name,type_of_cooperative from cooperatives ");
+          // $this->db->select('id','proposed_name','type_of_cooperative');
+          // $coop_query = $this->db->get('cooperatives');
+          $c=count($coop_query->result_array());
+          // echo $this->db->last_query();
+          // echo $coop_query->num_rows();
+          $crow=$coop_query->result_array();
+            for($i =0;  $i < $c; $i++)
             {
-
-              $crow['input_coop_id'] = $coop_id;
-              $crow['input_type_coop_id'] = $type_of_coop;
-              $crow['input_prosposed_name'] = $proposed_name;
-              $coopid_db = $crow['id'];
-              $proposed_name_coop = $crow['proposed_name'];
-
-              $coop_typeName = $crow['type_of_cooperative'];
-              $coop_type_name_array= $this->get_coopTypeID($coop_typeName);
-                foreach($coop_type_name_array as $coop_typeID)
-                {
-                  $coop_id_type = $coop_typeID['id'];
-                }
-              $crow['cooperative_type_id'] = $coop_id_type;
-              $crow['compare']='';
-              if(strcasecmp($crow['proposed_name'],$crow['input_prosposed_name'])==0 && $crow['input_type_coop_id']==$crow['cooperative_type_id'] &&  $crow['input_coop_id']==$crow['id'])
+               
+            
+              $crow[$i]['input_coop_id'] = $coop_id;
+              $crow[$i]['input_type_coop_id'] = $type_of_coop;
+              $crow[$i]['input_prosposed_name'] = $proposed_name;
+              $coopid_db = $crow[$i]['id'];
+              $proposed_name_coop = $crow[$i]['proposed_name'];
+               // echo"<pre>"; print_r($crow[$i]);echo"</pre>";
+              $coop_typeName = $crow[$i]['type_of_cooperative'];
+              // echo $coop_typeName;
+             $coop_typeID['id']= $this->get_coopTypeID($coop_typeName);
+        
+              $crow[$i]['cooperative_type_id'] =   $coop_typeID['id'];
+              $crow[$i]['compare']='';
+              if(strcasecmp($crow[$i]['proposed_name'],$crow[$i]['input_prosposed_name'])==0 && $crow[$i]['input_type_coop_id']==$crow[$i]['cooperative_type_id'] &&  $crow[$i]['input_coop_id']==$crow[$i]['id'])
               {
-                 $crow['compare']='true'; 
+                 $crow[$i]['compare']='true'; 
                  
               
               }
-              elseif(strcasecmp($crow['proposed_name'],$crow['input_prosposed_name'])==0 && $crow['input_type_coop_id']==$crow['cooperative_type_id'])
+              elseif(strcasecmp($crow[$i]['proposed_name'],$crow[$i]['input_prosposed_name'])==0 && $crow[$i]['input_type_coop_id']==$crow[$i]['cooperative_type_id'])
               {
 
-                $crow['compare']='true'; 
+                $crow[$i]['compare']='true'; 
               }
-              elseif(strcasecmp($crow['proposed_name'],$crow['input_prosposed_name'])==0 && $crow['input_type_coop_id']!=$crow['cooperative_type_id'])
+              elseif(strcasecmp($crow[$i]['proposed_name'],$crow[$i]['input_prosposed_name'])==0 && $crow[$i]['input_type_coop_id']!=$crow[$i]['cooperative_type_id'])
               {
-                $crow['compare']='false'; 
+                $crow[$i]['compare']='false'; 
               }
               else
               {
                 // $crow['compare'] ="matched available";
-                $crow['compare']='true'; 
+                $crow[$i]['compare']='true'; 
          
               }
               // $d[] = array($crow['input_coop_id'],$coopid_db = $crow['id'], $crow['input_prosposed_name'],$crow['proposed_name'],  $crow['input_type_coop_id'],  $crow['cooperative_type_id']);
-              $compare_array[] = $crow['compare'];
-          
-            } //end foreach
+              $compare_array[] = $crow[$i]['compare'];
+          // echo"success";
+            } //end of for loop
             if(is_array($compare_array))
             {
                if(in_array('false',$compare_array))
@@ -2520,27 +2523,9 @@
             {
               echo "invalid";
             }
-          
-                // $coop_type_name_array= $this->get_coopTypeID($coop_typeName);
-                // foreach($coop_type_name_array as $coop_typeID)
-                // {
-                //   $coop_id_type = $coop_typeID['id'];
-                // }
-                // if( strcasecmp($proposed_name, $proposed_name_coop)==0)
-                // {$query='1';
-                //   $data = "a;skdf;a";
-                // }
-                // else if($coop_id_type == $type_of_coop && strcasecmp($proposed_name,$proposed_name_coop)==0)
-                // {$query='2';
-                //   $data ="ditod";
-                // }
-                // else
-                // {
-                //   $data ="wala";
-                // }
         }
-        // // echo json_encode( $data);
-        // echo json_encode(array($this->input->get("fieldId"),$data));
+        // echo json_encode( $data);
+        echo json_encode(array($this->input->get("fieldId"),$data));
       }
     }
 
