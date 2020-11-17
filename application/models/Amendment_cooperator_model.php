@@ -1035,14 +1035,15 @@ left join amendment_cooperators on cap.amendment_id = amendment_cooperators.amen
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $amendment_id = $this->security->xss_clean($amendment_id);
     $temp = $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperatives_id,$amendment_id)->minimum_subscribed_share_associate;
-    // if($temp=NULL)
-    // {
-    //   $temp =0;
-    // }
+    if($temp==NULL || $temp=='' || $temp <0)
+    {
+      $temp =0;
+    }
     // return $this->db->last_query();
-    $this->db->where(array('amendment_id'=>$amendment_id,'type_of_member'=>'Associate'));
-    $this->db->where('number_of_subscribed_shares <', $temp);
-    $this->db->from('amendment_cooperators');
+    // $this->db->where(array('amendment_id'=>$amendment_id,'type_of_member'=>'Associate'));
+    // $this->db->where('number_of_subscribed_shares <', $temp);
+    // $this->db->from('amendment_cooperators');
+    $query = $this->db->query("SELECT * FROM amendment_cooperators WHERE amendment_id='$amendment_id' AND type_of_member='Associate' AND number_of_subscribed_shares < $temp");
     if($this->db->count_all_results()==0){
       return true;
     }else{
