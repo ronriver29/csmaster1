@@ -126,14 +126,15 @@
                             <span id="authorized_share_capital_note" class="err-message-note"></span>
                         </td>
                         <td>Par Value</td>
-                        <td>
-                            <input type="number" name="item[par_value]" id="par_value" class="form-control" value="<?=$par_value;?>"/>
+                        <td><?php if($par_value>0 && $par_value!=""){$par_value = number_format($par_value);}?>
+                            <input type="number" name="item[par_value]" id="par_value" class="form-control" value="<?=$par_value?>"/>
+                        
                         </td>
                     </tr>
                     <tr>
-                        <td>Common Share</td>
+                        <td>Common Share</td> 
                         <td>
-                            <input type="number" name="item[common_share]" id="common_share" class="form-control" value="<?=$common_share;?>"/>
+                            <input type="text" name="item[common_share]" id="common_share" class="form-control" value="<?=number_format($common_share), "\n"?>"/>
                             <br/>
                             <span id="common_share_note" class="err-message-note"></span>
                         </td>
@@ -154,6 +155,12 @@
                     <tr>
                         <td>Total amount of subscribed capital</td>
                         <td>
+                        <?php
+                            if($total_amount_of_subscribed_capital>0 && $total_amount_of_subscribed_capital!= "")
+                            {
+                                $total_amount_of_subscribed_capital =number_format($total_amount_of_subscribed_capital);
+                            }
+                        ?>
                             <input type="number" name="item[total_amount_of_subscribed_capital]" id="total_amount_of_subscribed_capital" class="form-control" value="<?=$total_amount_of_subscribed_capital;?>"/>
                             <br/>
                             <span id="total_amount_of_subscribed_capital_note" class="err-message-note"></span>
@@ -166,7 +173,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Amount of Common Share</td>
+                        <td>Amount of Common Share </td>
                         <td>
                             <?php 
                             $tot_comon_share = '';
@@ -179,7 +186,7 @@
                                 $par_value=0;
                             }
                             ?>
-                            <input type="text" name="item[amount_of_common_share_subscribed]" id="amount_of_common_share_subscribed" class="form-control" value="<?=$total_regular['total_subscribed'] * $par_value?>" readonly=""/>
+                            <input type="text" name="item[amount_of_common_share_subscribed]" id="amount_of_common_share_subscribed" class="form-control" value="<?=$total_regular['total_subscribed'] * number_format($par_value,2)?>" readonly=""/>
                             <br/>
                             <span id="amount_of_common_share_subscribed_note" class="err-message-note"></span>
                             
@@ -225,7 +232,7 @@
                     <tr>
                         <td>Amount of Common Share</td>
                         <td>
-                            <input type="text" name="item[amount_of_common_share_paidup]" id="amount_of_common_share_paidup" class="form-control" value="<?=$total_regular['total_paid'] * $par_value;?>" readonly=""/>
+                            <input type="text" name="item[amount_of_common_share_paidup]" id="amount_of_common_share_paidup" class="form-control" value="<?=$total_regular['total_paid'] * number_format($par_value,2);?>" readonly=""/>
                             <br/>
                             <!--<span id="amount_of_common_share_paidup_note" class="err-message-note"></span>-->
                         </td>
