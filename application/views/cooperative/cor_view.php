@@ -208,7 +208,7 @@
 	</tr>
 	<tr>
 		<td  colspan="2" style="text-align: justify; text-indent: 40px;">Given in Quezon City, Philippines, this <?=$date_day?> day of <?= $date_month,', '.$date_year?>.
-			
+			<!-- <?=date("F d, Y", strtotime($coop_info->dateofor));?> --></td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
@@ -326,7 +326,7 @@
 	</tr>
 	<tr>
 		<td  colspan="2" style="text-align: justify; text-indent: 40px;">Given in Quezon City, Philippines, this <?=$date_day?> day of <?= $date_month,', '.$date_year?>
-			
+			<!-- <?=date("F d, Y", strtotime($coop_info->dateofor));?> --></td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
@@ -410,8 +410,15 @@ Very truly yours,<br/>
 <table>
 <tr>
 <td width="10%">
-
+<?php // Get Count Coop Type for HO
+    $this->db->where(array('name'=>$coop_info->type_of_cooperative,'active'=>1));
+    $this->db->from('head_office_coop_type');
+  // End Get Count Coop Type
+  if($this->db->count_all_results()>0){
+	echo '<b>'.strtoupper("RAY R. ELEVAZO, csee, mnsa").'</b><br/>';
+} else {?>
 <b><?=strtoupper($director->full_name); ?></b><br/>
+<?php } ?>
 <?=strtoupper($director->access_name); ?>
 </p>
 </td>
