@@ -49,7 +49,7 @@ class User_model extends CI_Model{
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $keywords = preg_split("/@/", $receiver);
       $message = "Dear User,<br><br> Please click on the below activation link to verify your email address<br><br>
-      <a href='".$burl."users/verify/".$keywords[0]."%40".$keywords[1]."/".$hash."'>".$burl."users/verify/".$keywords[0]."%40".$keywords[1]."/".$hash."</a><br><br>Thanks";
+      <a href='".$burl."users/verify/".$keywords[0]."%40".$keywords[1]."/".$hash."'>".$burl."ecoopris/users/verify/".$keywords[0]."%40".$keywords[1]."/".$hash."</a><br><br>Thanks";
 
       $this->email->from($from);
       $this->email->to($receiver);
