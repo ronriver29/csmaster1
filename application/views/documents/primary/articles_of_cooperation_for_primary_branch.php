@@ -13,31 +13,56 @@
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <link rel="shortcut/icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
-  @page{margin: 96px 96px 144px 96px;}
+  @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   table, th, td {
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
   }
-
-  body{font-family:Bookman Old Style !important;}
+  body{
+        font-family: 'Bookman Old Style',arial !important;font-size:12px;
+    }
   </style>
+
 </head>
-<body style="font-family:12 Bookman Old Style">
+<body style="font-size:12">
+  <script type="text/php">
+        if ( isset($pdf) ) {
+
+            $x = 570; 
+            $y=900;
+            $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
+            $font = '';
+            $size = 12;
+            $color = array(0,0,0);
+            $word_space = 0.0;  //  default
+            $char_space = 0.0;  //  default
+            $angle = 0.0;   //  default
+            $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+            
+        }
+
+</script>
+
+
 <div class="container-fluid text-monospace">
+
   <div class="row mb-4">
-    <div class="col-sm-12 col-md-12 text-center">
+    <div class="col-sm-12 col-md-12 text-center"> 
+
+
         <p class="font-weight-bold">ARTICLES OF COOPERATION<br>of<br><?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?></p>
     </div>
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-left">
+
         <p class="font-weight-bold">KNOW ALL MEN BY THESE PRESENTS:</p>
     </div>
   </div>
   <div class="row mb-2 ">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify font-weight-normal" style="text-indent: 50px;">We, the undersigned Filipino citizens, of legal age and residents of the Philippines, with a firm collective intent, have come together to organize voluntarily an <?= $coop_info->type_of_cooperative?> Cooperative to advance what we believe is our inherent right, under the laws of the Republic of the Philippines.</p>
+      <p class="text-justify font-weight-normal" style="text-indent: 50px;">We, the undersigned Filipino citizens, of legal age and residents of the Philippines, with a firm collective intent, have come together to organize voluntarily a <?= $coop_info->type_of_cooperative?> Cooperative to advance what we believe is our inherent right, under the laws of the Republic of the Philippines.</p>
     </div>
   </div>
   <div class="row mb-4">
@@ -99,7 +124,7 @@
             <li> To adopt such other plans as may help foster the welfare of the members, their families and the community;</li>
             <li> To advance the competitiveness and innovativeness of the industry;</li>
             <li> To coordinate with other Cooperatives on learning exchanges, coop trade, and information exchanges in fostering sustainable development;</li>
-            <li> To advocate legal framework and enabling policies appropriate for the development of credit Cooperatives; and</li>
+            <li> To advocate legal framework and enabling policies appropriate for the development of <?=$coop_info->type_of_cooperative?> Cooperative; and</li>
             <li> To be the voice and the institution of the poor and the excluded in resisting the growth-centered development aggression and instead promote people-centered development.</li>
           </ol>
     </div>
@@ -149,7 +174,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">That the common bond of membership of this Cooperative is <?= $coop_info->common_bond_of_membership?> and the <?php if($coop_info->common_bond_of_membership=="Institutional" || $coop_info->common_bond_of_membership=="Associational"){ echo $coop_info->field_of_membership; } else { echo 'field of membership'; }?> shall be open to all <?php if($coop_info->common_bond_of_membership=="Residential"){ echo 'members working and/or residing in the area of operation'; } else if($coop_info->common_bond_of_membership=="Institutional" || $coop_info->common_bond_of_membership=="Associational") { echo $coop_info->name_of_ins_assoc; } else { foreach($members_composition as $compo){ echo $compo['composition']; }} ?>
+      <p class="text-justify" style="text-indent: 50px;">That the common bond of membership of this Cooperative is <?= $coop_info->common_bond_of_membership?> and the field of membership shall be open to all <?php if($coop_info->common_bond_of_membership=="Institutional" || $coop_info->common_bond_of_membership=="Associational"){ echo $coop_info->field_of_membership; } ?> of <?php if($coop_info->common_bond_of_membership=="Residential"){ echo 'members working and/or residing in the area of operation'; } else if($coop_info->common_bond_of_membership=="Institutional" || $coop_info->common_bond_of_membership=="Associational") { echo $coop_info->name_of_ins_assoc; } else { foreach($members_composition as $compo){ echo $compo['composition']; }} ?>
         who are natural persons, Filipino citizens, of legal age, with the capacity to contract and possess all the qualifications and none of the disqualifications provided for in the By-laws and this Articles of Cooperation.</p>
     </div>
   </div>
@@ -172,7 +197,7 @@
        }else{
          echo "Philippines";
        }
-       ?>. Its principal office shall be located at <?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?><?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=$coop_info->city?> <?= $coop_info->province?> <?=$coop_info->region?>.</p>
+       ?>. Its principal office shall be located at <?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?><?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?> <?=$coop_info->region?>.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -198,9 +223,17 @@
           <tbody>
             <?php $count=0; foreach($cooperators_list_board as $cooperator) :?>
               <?=$count++;?>
+              <?php
+              $in_chartered_cities_cptr =false;
+                              if($this->charter_model->in_charter_city($cooperator['cCode']))
+                              {
+                              $in_chartered_cities_cptr=true;
+                              $chartered_cities_cptr =$this->charter_model->get_charter_city($cooperator['cCode']);
+                              }
+              ?>                
               <tr>
                 <td><b><?=$count.'. '.$cooperator['full_name']?></b></td>
-                <td><?php if($cooperator['house_blk_no']==null && $cooperator['streetName']==null) $x=''; else $x=', '; ?><?=$cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', '.$cooperator['city'].', '.$cooperator['province']?></td>
+                <td><?php if($cooperator['house_blk_no']==null && $cooperator['streetName']==null) $x=''; else $x=', '; ?><?=$cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', ';?> <?=($in_chartered_cities_cptr ? $chartered_cities_cptr : $cooperator['city'].', '.$cooperator['province'])?></td>
               </tr>
             <?php endforeach;?>
           </tbody>
@@ -246,15 +279,15 @@
   </div>
   <div class="row ">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">That the Authorized Share Capital of this Cooperative is <?= ucwords(num_format_custom($article_info->authorized_share_capital))?> PESOS (Php <?=number_format($article_info->authorized_share_capital,2)?>), divided into:</p>
+      <p class="text-justify" style="text-indent: 50px;">That the Authorized Share Capital of this Cooperative is <?= ucwords(num_format_custom($capitalization_info->authorized_share_capital))?> PESOS (Php <?=number_format($capitalization_info->authorized_share_capital)?>), divided into:</p>
     </div>
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        <li> <?= ucwords(num_format_custom($article_info->common_share))?> (<?= number_format($article_info->common_share,2)?>) common shares with a par value of <?= ucwords(num_format_custom($article_info->par_value_common))?> (Php <?=number_format($article_info->par_value_common,2)?> ) per share;</li>
+        <li> <?= ucwords(num_format_custom($capitalization_info->common_share))?> (<?= number_format($capitalization_info->common_share)?>) common shares with a par value of <?= ucwords(num_format_custom($capitalization_info->par_value))?> (<?=number_format($capitalization_info->par_value)?> ) per share;</li>
         <?php if($bylaw_info->kinds_of_members == 2) :?>
-        <li> <?= ucwords(num_format_custom($article_info->preferred_share))?> (<?= number_format($article_info->preferred_share,2)?>) preferred shares with a par value of <?= ucwords(num_format_custom($article_info->par_value_preferred))?> (Php <?=number_format($article_info->par_value_preferred,2)?> ) per share.</li>
+        <li> <?= ucwords(num_format_custom($capitalization_info->preferred_share))?> (<?= number_format($capitalization_info->preferred_share)?>) preferred shares with a par value of <?= ucwords(num_format_custom($capitalization_info->par_value))?> (<?=$capitalization_info->par_value?> ) per share.</li>
         <?php endif;?>
       </ol>
     </div>
@@ -267,10 +300,10 @@
   <div class="row ">
     <div class="col-sm-12 col-md-12 text-left">
       <p class="text-justify" style="text-indent: 50px;">That of the authorized share capital, the amount of
-        <?php echo ucwords(num_format_custom(($bylaw_info->kinds_of_members == 1) ? $total_regular['total_subscribed'] * $article_info->par_value_common : ($total_regular['total_subscribed'] * $article_info->par_value_common) + ($total_associate['total_subscribed'] * $article_info->par_value_preferred)));?>
-        (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_subscribed'] * $article_info->par_value_common),2) : number_format((($total_regular['total_subscribed'] * $article_info->par_value_common) + ($total_associate['total_subscribed'] * $article_info->par_value_preferred)),2);?>) has been subscribed, and
-        <?php echo ucwords(num_format_custom(($bylaw_info->kinds_of_members == 1) ? ($total_regular['total_paid'] * $article_info->par_value_common) : ($total_regular['total_paid'] * $article_info->par_value_common) + ($total_associate['total_paid'] * $article_info->par_value_preferred)));?>
-        (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_paid'] * $article_info->par_value_common),2) : number_format((($total_regular['total_paid'] * $article_info->par_value_common) + ($total_associate['total_paid'] * $article_info->par_value_preferred)),2);?>) of the total subscription has been paid by the following members-subscribers:</p>
+        <?php echo ucwords(num_format_custom(($bylaw_info->kinds_of_members == 1) ? $total_regular['total_subscribed'] * $capitalization_info->par_value : ($total_regular['total_subscribed'] * $capitalization_info->par_value) + ($total_associate['total_subscribed'] * $capitalization_info->par_value))).' Pesos';?>
+        (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_subscribed'] * $capitalization_info->par_value),2) : number_format((($total_regular['total_subscribed'] * $capitalization_info->par_value) + ($total_associate['total_subscribed'] * $capitalization_info->par_value)),2);?>) has been subscribed, and
+        <?php echo ucwords(num_format_custom(($bylaw_info->kinds_of_members == 1) ? ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] * $capitalization_info->par_value) + ($total_associate['total_paid'] * $capitalization_info->par_value))).' Pesos';?>
+        (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_paid'] * $capitalization_info->par_value),2) : number_format((($total_regular['total_paid'] * $capitalization_info->par_value) + ($total_associate['total_paid'] * $capitalization_info->par_value)),2);?>) of the total subscription has been paid by the following members-subscribers:</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -297,19 +330,19 @@
             <tr>
               <td><?=$count.'. '. $regular['full_name']?></td>
               <td style="text-align: center;"><?= $regular['number_of_subscribed_shares']?></td>
-              <td style="text-align: right;"><?= number_format(($regular['number_of_subscribed_shares'] * $article_info->par_value_common),2)?></td>
+              <td style="text-align: right;"><?= number_format(($regular['number_of_subscribed_shares'] * $capitalization_info->par_value),2)?></td>
               <td style="text-align: center;"><?= $regular['number_of_paid_up_shares']?></td>
-              <td style="text-align: right;"><?= number_format(($regular['number_of_paid_up_shares'] * $article_info->par_value_common),2)?></td>
+              <td style="text-align: right;"><?= number_format(($regular['number_of_paid_up_shares'] * $capitalization_info->par_value),2)?></td>
             </tr>
           <?php endforeach; ?>
           </tbody>
           <tfoot>
             <tr>
-              <td>Sub Total</td>
+              <td>Total</td>
               <td style="text-align: center;"><?= $total_regular['total_subscribed']?></td>
-              <td style="text-align: right;"><?= number_format(($total_regular['total_subscribed'] * $article_info->par_value_common),2)?></td>
+              <td style="text-align: right;"><?= number_format(($total_regular['total_subscribed'] * $capitalization_info->par_value),2)?></td>
               <td style="text-align: center;"><?= $total_regular['total_paid'] ?></td>
-              <td style="text-align: right;"><?= number_format(($total_regular['total_paid'] * $article_info->par_value_common),2)?></td>
+              <td style="text-align: right;"><?= number_format(($total_regular['total_paid'] * $capitalization_info->par_value),2)?></td>
             </tr>
           </tfoot>
         </table>
@@ -341,26 +374,26 @@
             <tr>
               <td><?=$count.'. '. $associate['full_name']?></td>
               <td style="text-align: center;"><?= $associate['number_of_subscribed_shares']?></td>
-              <td style="text-align: right;"><?= number_format(($associate['number_of_subscribed_shares'] * $article_info->par_value_preferred),2)?></td>
+              <td style="text-align: right;"><?= number_format(($associate['number_of_subscribed_shares'] * $capitalization_info->par_value),2)?></td>
               <td style="text-align: center;"><?= $associate['number_of_paid_up_shares']?></td>
-              <td style="text-align: right;"><?= number_format(($associate['number_of_paid_up_shares'] * $article_info->par_value_preferred),2)?></td>
+              <td style="text-align: right;"><?= number_format(($associate['number_of_paid_up_shares'] * $capitalization_info->par_value),2)?></td>
             </tr>
           <?php endforeach; ?>
           </tbody>
           <tfoot>
             <tr>
-              <td>Sub Total</td>
+              <td>Total</td>
               <td style="text-align: center;"><?= $total_associate['total_subscribed']?></td>
-              <td style="text-align: right;"><?= number_format(($total_associate['total_subscribed'] * $article_info->par_value_preferred),2)?></td>
+              <td style="text-align: right;"><?= number_format(($total_associate['total_subscribed'] * $capitalization_info->par_value),2)?></td>
               <td style="text-align: center;"><?= $total_associate['total_paid'] ?></td>
-              <td style="text-align: right;"><?= number_format(($total_associate['total_paid'] * $article_info->par_value_preferred),2)?></td>
+              <td style="text-align: right;"><?= number_format(($total_associate['total_paid'] * $capitalization_info->par_value),2)?></td>
             </tr>
             <tr>
               <td>Grand Total</td>
               <td style="text-align: center;"><?= $total_regular['total_subscribed'] + $total_associate['total_subscribed']?></td>
-              <td style="text-align: right;"><?= number_format((($total_regular['total_subscribed'] * $article_info->par_value_common) + ($total_associate['total_subscribed'] * $article_info->par_value_preferred)),2)?></td>
+              <td style="text-align: right;"><?= number_format((($total_regular['total_subscribed'] * $capitalization_info->par_value) + ($total_associate['total_subscribed'] * $capitalization_info->par_value)),2)?></td>
               <td style="text-align: center;"><?= $total_regular['total_paid'] + $total_associate['total_paid']?></td>
-              <td style="text-align: right;"><?= number_format((($total_regular['total_paid'] * $article_info->par_value_common) + ($total_associate['total_paid'] *  $article_info->par_value_preferred)),2)?></td>
+              <td style="text-align: right;"><?= number_format((($total_regular['total_paid'] * $capitalization_info->par_value) + ($total_associate['total_paid'] *  $capitalization_info->par_value)),2)?></td>
             </tr>
           </tfoot>
         </table>
@@ -475,14 +508,16 @@
       </div>
     </div>
   </div>
+
   <div class="row mb-3">
     <div class="col-sm-12 col-md-12">
       <p class="text-justify" style="text-indent: 50px;">All known to me to be the same persons who executed the foregoing Articles of Cooperation, and acknowledged to me that the same is their free will and voluntary deed. </p>
     </div>
   </div>
+
   <div class="row mb-3">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>, consists of ______ pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>
+      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>, consists of <u><?=$this->session->userdata('pagecount')?></u> pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>
     </div>
   </div>
 
@@ -491,6 +526,7 @@
       <p class="text-justify" style="text-indent: 50px;">WITNESS my hand and seal this____ day of ________, 20____at_____________Philippines.</p>
     </div>
   </div>
+
   <div class="row">
     <div class="col-xs-12 text-left">
       <p class="font-weight-bold float-right" style="text-indent: -100px;">NOTARY PUBLIC</p>
@@ -508,5 +544,5 @@
 <script src="<?=base_url();?>assets/js/popper.min.js"></script>
 <script src="<?=base_url();?>assets/js/bootstrap.min.js"></script>
 </body>
-
 </html>
+
