@@ -4003,6 +4003,8 @@ function do_upload_two_(){
                               $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
                               $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
                               $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
+                              $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
+                              $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id); 
 
                               $html2 = $this->load->view('documents/primary/bylaws_for_primary_branch', $data, TRUE);
                               $f = new pdf();
@@ -4082,7 +4084,8 @@ function do_upload_two_(){
                                 $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
                                 $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
                                 $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
-
+                                $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
+                                $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id); 
                                 $html2 = $this->load->view('documents/primary/bylaws_for_primary_branch', $data, TRUE);
                                 $J = new pdf();       
                                 $J->set_option('isRemoteEnabled',TRUE);
@@ -4180,6 +4183,12 @@ function do_upload_two_(){
                               $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                               $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
                               $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
+                              $data['in_chartered_cities'] =false;
+                              if($this->charter_model->in_charter_city($data['coop_info']->cCode))
+                              {
+                              $data['in_chartered_cities']=true;
+                              $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
+                              }
                               //$this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
 
                               $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data, TRUE);
@@ -4264,6 +4273,12 @@ function do_upload_two_(){
                                 $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                                 $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
                                 $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
+                                $data['in_chartered_cities'] =false;
+                              if($this->charter_model->in_charter_city($data['coop_info']->cCode))
+                              {
+                              $data['in_chartered_cities']=true;
+                              $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
+                              }
                                 $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data, TRUE);
                               $f = new pdf();
                               $f->set_option("isPhpEnabled", true);
@@ -4326,6 +4341,7 @@ function do_upload_two_(){
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($decoded_id) && $decoded_id!=0){
         if($this->session->userdata('client')){
+          $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
           // if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
           //   if(!$this->cooperatives_model->check_expired_reservation($decoded_id,$user_id)){
               // $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_branch($user_id,$decoded_id);
@@ -4402,6 +4418,7 @@ function do_upload_two_(){
             }else{
               // if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                 $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin_branch($decoded_id);
+                $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
               //   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
               //   if($data['bylaw_complete']){
               //       $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);

@@ -86,7 +86,15 @@ class registration extends CI_Controller{
       $data1['chair'] = $this->registration_model->get_chairman()->chairman;
       $data1['coop_info']=$coop_details;
       // $data1['director']=$this->registration_model->get_director($user_id)->full_name;
-      $data1['director']=$this->registration_model->get_director($data1['coop_info']->rCode);
+      // Get Count Coop Type for HO
+        $this->db->where(array('name'=>$coop_info->type_of_cooperative,'active'=>1));
+        $this->db->from('head_office_coop_type');
+      // End Get Count Coop Type
+      if($this->db->count_all_results()>0){
+        $data1['director']=$this->registration_model->get_director("00");
+      } else {
+        $data1['director']=$this->registration_model->get_director($data1['coop_info']->rCode);
+      }
           set_time_limit(0);
 
        $data1['date_year']= date('Y',strtotime($data1['coop_info']->dateofor));
