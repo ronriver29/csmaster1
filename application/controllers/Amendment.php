@@ -2433,7 +2433,7 @@
             }
               if($coopType_id == $type_of_coop && strcasecmp($proposed_name,$proposed_names)==0)
               {
-                $data=  true;
+                $data=  "dito"  ;
               }
               else
               {
@@ -2448,12 +2448,12 @@
                       }
                       else
                       {
-                        $data =  true;
+                        $data =  "hear your";
                       }
                   }
                   else
                   {
-                     $data = true;
+                     $data = "ayos dito";
                   }
               }
         }
