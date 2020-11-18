@@ -123,6 +123,8 @@ $(function(){
         },
         success: function(data)
         {
+          var cooperativeID = data.application_id;
+          $("#cooperative_idss").val(cooperativeID);
           $("#typeOfCooperative_value").val(data.type_id);
 
           if (data.coopTypes=='Multipurpose'){
@@ -196,8 +198,7 @@ $(function(){
               $("#institutional-wrapper").remove();
               $("#associational-wrapper").remove(); 
                intLastCount = 0;//parseInt(lastCountOfcoop.substr(-1)); 
-                var cooperativeID = data.application_id;
-                $("#cooperative_idss").val(cooperativeID);
+              
                 $.ajax({
                   type : "POST",
                   url  : "composition_of_members_",

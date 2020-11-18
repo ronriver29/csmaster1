@@ -2433,7 +2433,7 @@
             }
               if($coopType_id == $type_of_coop && strcasecmp($proposed_name,$proposed_names)==0)
               {
-                $data=  "dito"  ;
+                $data=  true  ;
               }
               else
               {
@@ -2448,12 +2448,12 @@
                       }
                       else
                       {
-                        $data =  "hear your";
+                        $data = true;
                       }
                   }
                   else
                   {
-                     $data = "ayos dito";
+                     $data = true;
                   }
               }
         }
@@ -2468,8 +2468,7 @@
           $a=1;
             for($i =0;  $i < $c; $i++)
             {
-               
-            
+
               $crow[$i]['input_coop_id'] = $coop_id;
               $crow[$i]['input_type_coop_id'] = $type_of_coop;
               $crow[$i]['input_prosposed_name'] = $proposed_name;
