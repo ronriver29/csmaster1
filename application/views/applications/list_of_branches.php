@@ -81,6 +81,12 @@ if($tomorrow>=$now){
       </div>
     <?php endif; ?>
   <?php endif;?>
+  <?php if($is_client){
+    $adminregioncode = '';
+  } else {
+    $adminregioncode = $admin_info->region_code;
+  }?>
+  <?php if($adminregioncode != '00'){ ?>
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue shadow-sm mb-4">
       <div class="card-body">
@@ -100,15 +106,15 @@ if($tomorrow>=$now){
                 <tr>
                   <td><?= $branch['coopName']?></td>
                   <?php
-                  	if($branch['area_of_operation'] == 'Barangay' || $branch['area_of_operation'] == 'Municipality/City'){
-	                    $brancharea = $branch['brgy'];
-	                } else if($branch['area_of_operation'] == 'Provincial') {
-	                    $brancharea = $branch['city'];
-	                } else if ($branch['area_of_operation'] == 'Regional') {
-	                    $brancharea = $branch['city'].', '.$branch['province'];
-	                } else if ($branch['area_of_operation'] == 'National') {
-	                    $brancharea = $branch['city'].', '.$branch['province'];
-	                }
+                    if($branch['area_of_operation'] == 'Barangay' || $branch['area_of_operation'] == 'Municipality/City'){
+                      $brancharea = $branch['brgy'];
+                  } else if($branch['area_of_operation'] == 'Provincial') {
+                      $brancharea = $branch['city'];
+                  } else if ($branch['area_of_operation'] == 'Regional') {
+                      $brancharea = $branch['city'].', '.$branch['province'];
+                  } else if ($branch['area_of_operation'] == 'National') {
+                      $brancharea = $branch['city'].', '.$branch['province'];
+                  }
 
                     // if($branch['area_of_operation'] == 'Provincial'){
                     //     $brancharea = $branch['city'];
@@ -180,17 +186,17 @@ if($tomorrow>=$now){
                  
 
                   <?php if(!$is_client) :?>
-                  	<?php 
-                  		if($branch['area_of_operation'] == 'Barangay' || $branch['area_of_operation'] == 'Municipality/City'){
-		                    $brancharea = $branch['brgy'];
-		                } else if($branch['area_of_operation'] == 'Provincial') {
-		                    $brancharea = $branch['city'];
-		                } else if ($branch['area_of_operation'] == 'Regional') {
-		                    $brancharea = $branch['city'].', '.$branch['province'];
-		                } else if ($branch['area_of_operation'] == 'National') {
-		                    $brancharea = $branch['city'].', '.$branch['province'];
-		                }
-                  	?>
+                    <?php 
+                      if($branch['area_of_operation'] == 'Barangay' || $branch['area_of_operation'] == 'Municipality/City'){
+                        $brancharea = $branch['brgy'];
+                    } else if($branch['area_of_operation'] == 'Provincial') {
+                        $brancharea = $branch['city'];
+                    } else if ($branch['area_of_operation'] == 'Regional') {
+                        $brancharea = $branch['city'].', '.$branch['province'];
+                    } else if ($branch['area_of_operation'] == 'National') {
+                        $brancharea = $branch['city'].', '.$branch['province'];
+                    }
+                    ?>
                     <td>
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                         <?php if($branch['status']==9 && $branch['evaluator3']!=0 && $admin_info->access_level==2): ?>
@@ -235,13 +241,16 @@ if($tomorrow>=$now){
       </div>
     </div>
   </div>
+<?php } ?>
 <?php if($is_client) :?>
 <?php else : ?>
 <?php
   if($admin_info->access_level == 3 || $admin_info->access_level == 2){
 ?>
 <div class="col-sm-12 col-md-12">
+    <?php if($admin_info->region_code != '00'){ ?>
     <h3>Outside The Region</h3>
+    <?php } ?>
     <div class="card border-top-blue shadow-sm mb-4">
       <div class="card-body">
         <div class="table-responsive">
