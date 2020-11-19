@@ -1250,6 +1250,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     $this->db->from('registeredcoop');
     $this->db->join('cooperatives','ON registeredcoop.application_id = cooperatives.id','inner');
     $this->db->where(array('cooperatives.users_id'=> $user_id));
+    $this->db->order_by('registeredcoop.id','DESC');
     $query = $this->db->get();
     return $query->row();
   }
