@@ -416,10 +416,12 @@ Very truly yours,<br/>
   // End Get Count Coop Type
   if($this->db->count_all_results()>0){
 	echo '<b>'.strtoupper("RAY R. ELEVAZO, csee, mnsa").'</b><br/>';
+	echo strtoupper("Executive Director");
 } else {?>
 <b><?=strtoupper($director->full_name); ?></b><br/>
-<?php } ?>
 <?=strtoupper($director->access_name); ?>
+<?php } ?>
+
 </p>
 </td>
 </tr>
