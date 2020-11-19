@@ -1050,7 +1050,7 @@ public function get_coop($regNo){
   $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
   $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
   $this->db->where('regNo', $regNo);
-  $this->db->order_by('registeredcoop','desc');
+  $this->db->order_by('registeredcoop.id','desc');
   $query = $this->db->get();
   
   return $query->row();
