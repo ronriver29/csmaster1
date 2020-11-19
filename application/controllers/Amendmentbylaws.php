@@ -513,8 +513,6 @@ class Amendmentbylaws extends CI_Controller{
                     $data['asc_qualifications'] =  explode(";",$this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id)->associate_qualifications);
                   }
                  
-
-
                   $this->load->view('template/header', $data);
                   $this->load->view('amendment/bylaw_info/bylaw_primary_form.php', $data);
                   $this->load->view('template/footer');
