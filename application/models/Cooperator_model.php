@@ -591,6 +591,7 @@ public $last_query = "";
   public function delete_cooperator($data){
     $this->db->trans_begin();
     $this->db->delete('cooperators',array('id' => $data));
+    $this->db->delete('committees',array('cooperators_id'=>$data));
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;

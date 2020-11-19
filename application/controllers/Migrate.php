@@ -4,6 +4,7 @@ class Migrate extends CI_Controller {
     {
         // load migration library
         $this->load->library('migration');
+   
         if(!$this->migration->current())
         {
             echo 'Error' . $this->migration->error_string();
@@ -30,15 +31,16 @@ class Migrate extends CI_Controller {
           {
             $this->document_coop_type_seeding();
           }
-          // $charter_query = $this->db->get('charter_cities');
-          // if($charter_query->num_rows()>0)
-          // {
+          $ho_query = $this->db->get('head_office_coop_type');
+          if($ho_query->num_rows()>0)
+          {
            
-          // }
-          // else
-          // {
-          //    $this->charter_cities_seeding();
-          // }
+          }
+          else
+          {
+               $this->head_office_coop_type_seeding();
+          }
+        
           echo 'Migrations ran successfully!';
         }     
     }    
@@ -353,6 +355,69 @@ class Migrate extends CI_Controller {
       }
       $this->db->insert_batch('charter_cities',$data);
     }
+  }
+  private function head_office_coop_type_seeding()
+  {
+    $val=Array
+    (
+   Array
+        (
+            'id' => 1,
+            'name' => 'Electric'
+        ),
+         Array
+        (
+            'id' => 2,
+            'name' => 'Bank'
+            
+        ),
+         Array
+        (
+            'id' => 3,
+            'name' => 'Labor Service'
+           
+        ),
+         Array
+        (
+            'id' => 4,
+            'name' => 'Workers'
+           
+        ),
+         Array
+        (
+            'id' => 5,
+            'name' => 'Small Scale Mining'
+          
+        ),
+         Array
+        (
+            'id' => 6,
+            'name' => 'Health Service'
+          
+        ),
+         Array
+        (
+            'id' => 7,
+            'name' => 'Professionals'
+          
+        ),
+         Array
+        (
+            'id' => 8,
+            'name'=> 'Service'
+           
+        )
+
+  );
+    if($this->db->insert_batch('head_office_coop_type',$val))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    
   }
 }
 ?>

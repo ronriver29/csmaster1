@@ -168,14 +168,15 @@ class Documents extends CI_Controller{
                       if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $data['coop_info']->users_id;
-                    } 
-                    else {
+                      } 
+                      else
+                       {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
-                    }
-                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                    $capitalization_info = $data['capitalization_info'];
-                    $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
+                      }
+                      $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                      $capitalization_info = $data['capitalization_info'];
+                       $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                       if($data['cooperator_complete']){
                         $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                         if($data['purposes_complete']){
@@ -183,10 +184,12 @@ class Documents extends CI_Controller{
                           if($data['article_complete']){
                             if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($data['coop_info']->users_id);
-                        } else {
-                            $data['gad_count'] = $this->committee_model->committee_complete_count($decoded_id);
-                        }
-                      if($data['gad_count']>0){
+                            } 
+                            else 
+                            {
+                                $data['gad_count'] = $this->committee_model->committee_complete_count($decoded_id);
+                            }
+                            if($data['gad_count']>0){
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
                               if($data['economic_survey_complete']){
                                 $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
@@ -219,38 +222,7 @@ class Documents extends CI_Controller{
                                     }
                                   }
                                 }  
-                                    
-                                //     $data['ching'] = array_column($data['coop_type'], 'document_num');
-                                //     $data['ching2'] = implode(',',$data['ching']);
-                                //     $data['ching3'] = count($data['coop_type']);
-                                //     if($data['ching3']!=0){
-                                //         $data['ching4'] = $data['ching'][0];
-                                //         if($data['ching3'] == 2){
-                                //             $data['ching5'] = $data['ching'][1];
-                                //         }
-                                //     }
-                                //   if($data['ching3'] == 2){
-                                //     $data['document_others'] = $this->count_documents_others($decoded_id,$data['ching4']);
-                                //     if($data['document_others'])
-                                //     {
-                                //       $data['read_upload'] = $this->count_documents_others($decoded_id,$data['ching4']);
-                                //     }
-                                //     $data['document_others2'] = $this->count_documents_others2($decoded_id,$data['ching5']);
-                                //     if($data['document_others2'])
-                                //     {
-                                //       $data['read_upload'] = $this->count_documents_others2($decoded_id,$data['ching5']);
-                                //     }
-                                // } else {
-                                //     if($data['ching3']!=0){
-                                //         $data['document_others'] = $this->count_documents_others($decoded_id,$data['ching4']);
-                                //         if($data['document_others'])
-                                //         {
-                                //           $data['read_upload'] = $this->count_documents_others($decoded_id,$data['ching4']);
-                                //         }
-                                //     }
-                                // }
-
-                                
+                                         
                                   $data['cooperatives_comments_cds'] = $this->cooperatives_model->cooperatives_comments_cds($decoded_id);
                                   $data['cooperatives_comments_snr'] = $this->cooperatives_model->cooperatives_comments_snr($decoded_id);
                                   $data['cooperatives_comments'] = $this->cooperatives_model->director_comments($decoded_id);
@@ -272,21 +244,24 @@ class Documents extends CI_Controller{
                                   $this->load->view('cooperative/evaluation/deny_modal_cooperative');
                                   $this->load->view('cooperative/evaluation/defer_modal_cooperative');
                                   $this->load->view('templates/admin_footer');
-                                }else{
-                                  $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
-                                  redirect('cooperatives/'.$id);
+                                }else{echo"dito";
+                                  // $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
+                                  // redirect('cooperatives/'.$id);
                                 }
-                              }else{
-                                $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
-                                redirect('cooperatives/'.$id);
+                              }else{ echo"hear";
+                                // $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
+                                // redirect('cooperatives/'.$id);
                               }
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
-                              redirect('cooperatives/'.$id);
                             }
-                          }else{
-                            $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
-                            redirect('cooperatives/'.$id);
+                            else
+                            {echo"ddd";
+                              echo $this->db->last_query();
+                              // $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
+                              // redirect('cooperatives/'.$id);
+                            }
+                          }else{ echo"dddddf";
+                            // $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
+                            // redirect('cooperatives/'.$id);
                           }
                         }else{
                           $this->session->set_flashdata('redirect_message', 'Please complete first the cooperative&apos;s purpose .');
