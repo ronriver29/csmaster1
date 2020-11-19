@@ -127,7 +127,7 @@
                     <?php $reg = $admin['region_code'];
                     switch ($reg){
                       case "0":
-                          $reg = "Central Office";
+                          $reg = "Head Office";
                           break;
                       case "001":
                           $reg = "Region I (ILOCOS REGION)";
