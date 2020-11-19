@@ -134,7 +134,7 @@
                     <tr>
                         <td>Common Share</td> 
                         <td>
-                            <input type="text" name="item[common_share]" id="common_share" class="form-control" value="<?=number_format($common_share), "\n"?>"/>
+                            <input type="text" name="item[common_share]" id="common_share" class="form-control" value="<?=$common_share?>"/>
                             <br/>
                             <span id="common_share_note" class="err-message-note"></span>
                         </td>
