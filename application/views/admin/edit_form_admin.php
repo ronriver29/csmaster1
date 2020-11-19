@@ -43,7 +43,7 @@
               <label for="region">Region</label>
               <select class="custom-select validate[required]" name="region" id="region">
                 <option value=""></option>
-                <option value="0" <?php if($edit_admin_info->region_code=="0") echo "selected" ?>>Central Office</option>
+                <option value="0" <?php if($edit_admin_info->region_code=="0") echo "selected" ?>>Head Office</option>
                 <?php foreach ($regions_list as $region_list) : ?>
                   <option value ="<?php echo $region_list['regCode'];?>" <?php if($edit_admin_info->region_code==$region_list['regCode']) echo "selected"?>><?php echo $region_list['regDesc']?></option>
                 <?php endforeach; ?>

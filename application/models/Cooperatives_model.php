@@ -394,7 +394,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     return $query->row();
   }
   public function get_cooperative_info_by_admin($coop_id){
-    $this->db->select('cooperatives.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+    $this->db->select('cooperatives.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,cooperatives.type_of_cooperative');
     $this->db->from('cooperatives');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -796,7 +796,7 @@ public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$comm
   $this->db->where('id',$coop_id);
   $this->db->update('cooperatives',array('status'=>6,'evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL,'comment_by_specialist'=>$comment_by_specialist_senior,'specialist_submit_at'=>$now));
   // Get Count Coop Type for HO
-    $this->db->where(array('name'=>$coop_id,'active'=>1));
+    $this->db->where(array('name'=>$temp->type_of_cooperative,'active'=>1));
     $this->db->from('head_office_coop_type');
   // End Get Count Coop
   if($this->db->count_all_results()>0){
