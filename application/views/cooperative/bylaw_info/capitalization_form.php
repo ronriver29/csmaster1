@@ -126,7 +126,7 @@
                             <span id="authorized_share_capital_note" class="err-message-note"></span>
                         </td>
                         <td>Par Value</td>
-                        <td><?php if($par_value>0 && $par_value!=""){$par_value = number_format($par_value);}?>
+                        <td><?php if($par_value>0 && $par_value!=""){$par_value = (int)$par_value;}?>
                             <input type="number" name="item[par_value]" id="par_value" class="form-control" value="<?=$par_value?>"/>
                         
                         </td>
@@ -134,7 +134,7 @@
                     <tr>
                         <td>Common Share</td> 
                         <td>
-                            <input type="text" name="item[common_share]" id="common_share" class="form-control" value="<?=number_format($common_share), "\n"?>"/>
+                            <input type="text" name="item[common_share]" id="common_share" class="form-control" value="<?=$common_share?>"/>
                             <br/>
                             <span id="common_share_note" class="err-message-note"></span>
                         </td>
@@ -153,13 +153,16 @@
                         <td colspan="4"></td>
                     </tr>
                     <tr>
-                        <td>Total amount of subscribed capital</td>
+                        <td>Total amount of subscribed capital </td>
                         <td>
                         <?php
+                    
                             if($total_amount_of_subscribed_capital>0 && $total_amount_of_subscribed_capital!= "")
                             {
-                                $total_amount_of_subscribed_capital =number_format($total_amount_of_subscribed_capital);
+                                $total_amount_of_subscribed_capital = (int)$total_amount_of_subscribed_capital  ; 
                             }
+
+                            
                         ?>
                             <input type="number" name="item[total_amount_of_subscribed_capital]" id="total_amount_of_subscribed_capital" class="form-control" value="<?=$total_amount_of_subscribed_capital;?>"/>
                             <br/>
