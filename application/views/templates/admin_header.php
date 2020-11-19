@@ -49,7 +49,7 @@
                  // $reg_desc = (($admin_info->region_code =="0") ? "Central Office" : $this->region_model->get_region_by_code($admin_info->region_code)->regDesc); 
                     if($admin_info->region_code =="0")
                     {
-                      $reg_desc ="Central Office";
+                      $reg_desc ="Head Office";
                     }
                     else
                     {
