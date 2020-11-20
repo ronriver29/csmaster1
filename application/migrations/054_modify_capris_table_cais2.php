@@ -1,5 +1,5 @@
 <?php
-class Migration_modify_capris_table_cais extends CI_Migration
+class Migration_modify_capris_table_cais2 extends CI_Migration
 {
     public function up()
     {
