@@ -2,8 +2,7 @@ image: docker:18.09.7
 
 stages:
   - build
-  - deploy_staging
-  - deploy_production
+  - deploy
 
 variables:
   CONTAINER: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
@@ -15,17 +14,17 @@ services:
 build:
   stage: build
   script:
-
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker build --pull -t "$CONTAINER" .
     - docker push "$CONTAINER"
-
   retry: 2
   only:
     - master
+  allow_failure: false
 
-deploy-application-staging:
-  stage: deploy_staging
+deploy-staging:
+  needs: ["build"]
+  stage: deploy
   image: devth/helm:v3.0.2
   script:
     - echo "Deploying to ${CI_ENVIRONMENT_NAME}"
@@ -34,8 +33,8 @@ deploy-application-staging:
       --kubeconfig $KUBECONFIG_STAGING
       --set web.name="ris-${CI_COMMIT_REF_SLUG}"
       --set web.container=$CONTAINER
-      --set env.name=${CI_ENVIRONMENT_NAME}
-      --set env.url=${CI_ENVIRONMENT_URL}
+      --set env.name=staging
+      --set env.url=https://cs.s.cda.gov.ph/ecoopris
       --set env.domain=cs.s.cda.gov.ph
       --set env.tls=selfsigned-cert-tls
       --set env.tls_issuer=selfsigned-issuer
@@ -45,31 +44,13 @@ deploy-application-staging:
       --set db.database=$DB_DATABASE
       ris
       ./.chart/application
-  environment:
-    name: staging
-    url: https://cs.s.cda.gov.ph/ecoopris
   only:
     - master
 
-deploy-database-staging:
+deploy-production:
+  needs: ["build"]
   when: manual
-  stage: deploy_staging
-  image: devth/helm:v3.0.2
-  script:
-    - echo "Deploying to ${CI_ENVIRONMENT_NAME}"
-    - helm install
-      --kubeconfig $KUBECONFIG_STAGING
-      database
-      ./.chart/database
-  environment:
-    name: staging
-    url: http://202.90.136.155
-  only:
-    - master
-
-deploy-application-production:
-  when: manual
-  stage: deploy_production
+  stage: deploy
   image: devth/helm:v3.0.2
   script:
     - echo "Deploying to production"
@@ -88,18 +69,5 @@ deploy-application-production:
       --set db.database=$DB_DATABASE
       ris
       ./.chart/application
-  only:
-    - master
-
-deploy-database-production:
-  when: manual
-  stage: deploy_production
-  image: devth/helm:v3.0.2
-  script:
-    - echo "Deploying to production"
-    - helm install
-      --kubeconfig $KUBECONFIG_PRODUCTION
-      database
-      ./.chart/database
   only:
     - master
