@@ -568,9 +568,10 @@
              </div>
             </div>
           </div>
+          <?php if($coop_info->type_of_cooperative!=='Credit'):?>
           <div class="row">
             <div class="col-sm-12 col-md-12">
-              <p class="h6 font-weight-bold text-color-blue-custom">Section 2. <em>Interest on Share Capital and Patronage Refund</em></p>
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 2. <em>Interest on Share Capital and Patronage Refund</em></p> 
             </div>
           </div>
           <div class="row">
@@ -581,6 +582,9 @@
              </div>
             </div>
           </div>
+          <?php else: ?>
+             <input type="hidden" value="___" class="form-control validate[required" id="nonMemberPatronYears" name="nonMemberPatronYears" placeholder="how many years" disabled>
+        <?php endif; ?>
           <div class="row">
             <div class="col-sm-12 col-md-12 text-center">
               <p class="font-weight-bold h5 text-color-blue-custom">Article XI. Amendments</p>

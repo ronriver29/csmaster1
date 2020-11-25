@@ -13,7 +13,7 @@
   </div>
 </div>
 <div class="row mt-3">
-  <div class="col-sm-12 col-md-12">
+  <div class="col-sm-12 col-md-12"> 
     <div class="alert alert-info" role="alert">
     <strong>Reminder: <small>(The information below is in your bylaws (capitalization))</small></strong>
      <ul>
@@ -241,6 +241,7 @@
                 <option value="OFW">OFW</option>
                 <option value="Single Parent">Single Parent</option>
                 <option value="PWD">PWD</option>
+                <option value="pag-ibig">Pag-IBIG</option>
               </select>
             </div>
           </div>
@@ -254,6 +255,7 @@
             <div class="form-group">
               <label for="dateIssued"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>In Accordance with Notarial Law.</li>"></i> Date Issued:</label>
               <input type="date" class="form-control validate[required,custom[date],past[now]]" id="dateIssued" name="dateIssued">
+              <input type="checkbox" name="dateIssued_chk" id="chkID" value="N/A"> <small>ID Date Issued not available</small>
             </div>
           </div>
           <div class="col-sm-12 col-md-12">
@@ -285,4 +287,19 @@
     }
     // alert( "Handler for .click() called." );
   });
+
+  $(document).ready(function(){
+    $("#chkID").on('click',function(){
+
+      if($(this).is(":checked"))
+      {
+          $( "#dateIssued" ).prop( "disabled", true );
+      }
+      else
+      {
+           $( "#dateIssued" ).prop( "disabled", false );
+      }
+
+    });
+ });
 </script>

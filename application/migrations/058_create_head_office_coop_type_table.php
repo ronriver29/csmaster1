@@ -25,7 +25,7 @@ class Migration_create_head_office_coop_type_table extends CI_Migration
         );
 
         $this->dbforge->add_key('id', TRUE);
-        $this->dbforge->create_table('head_office_coop_type');
+        $this->dbforge->create_table('head_office_coop_type',TRUE);
     }
 
     public function down()

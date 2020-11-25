@@ -246,6 +246,11 @@
                 <option value="SSS ID" <?php if($cooperator_info->proof_of_identity == "SSS ID") echo "selected"; ?>>SSS ID</option>
                 <option value="TIN" <?php if($cooperator_info->proof_of_identity == "TIN") echo "selected"; ?>>TIN</option>
                 <option value="Voter's ID" <?php if($cooperator_info->proof_of_identity == "Voter's ID") echo "selected"; ?>>Voter's ID</option>
+                <option value="Philhealth" <?php if($cooperator_info->proof_of_identity == "Philhealth") echo "selected"; ?>>Philhealth</option>
+                <option value="OFW" <?php if($cooperator_info->proof_of_identity == "OFW") echo "selected"; ?>>OFW</option>
+                <option value="Single Parent" <?php if($cooperator_info->proof_of_identity == "Single Parent") echo "selected"; ?>>Single Parent</option>
+                <option value="PWD" <?php if($cooperator_info->proof_of_identity == "PWD") echo "selected"; ?>>PWD</option>
+                  <option value="pag-ibig" <?php if($cooperator_info->proof_of_identity == "pag-ibig") echo "selected"; ?>>Pag-IBIG</option>
               </select>
             </div>
           </div>
@@ -258,7 +263,15 @@
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="dateIssued"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>In Accordance with Notarial Law.</li>"></i> Date Issued:</label>
-              <input type="date" class="form-control validate[required,custom[date],past[now]" id="dateIssued" name="dateIssued" value="<?=$cooperator_info->proof_date_issued ?>">
+               <?php if($cooperator_info->proof_date_issued=='N/A'):
+                ?>
+               <input type="date" class="form-control" id="dateIssued" name="dateIssued" disabled>
+                <input type="checkbox" name="dateIssued_chk" value="N/A" id="chkID" checked> <small>ID Date Issued not available</small>
+              <?php else: ?>
+                    <input type="date" class="form-control  validate[required,custom[date],past[now]] " id="dateIssued" name="dateIssued"  value="<?=$cooperator_info->proof_date_issued?>">
+                     <input type="checkbox" name="dateIssued_chk" value="N/A" id="chkID"> <small>ID Date Issued not available</small>
+              <?php endif;?>
+              <!-- <input type="date" class="form-control validate[required,custom[date],past[now]" id="dateIssued" name="dateIssued" value="<?=$cooperator_info->proof_date_issued ?>"> -->
             </div>
           </div>
           <div class="col-sm-12 col-md-12">
@@ -276,3 +289,23 @@
     </div>
   </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#chkID").on('click',function(){
+
+      if($(this).is(":checked"))
+      {
+          $( "#dateIssued" ).prop( "disabled", true );
+          $("#dateIssued").prop('required',false);
+            $("#dateIssued").val('');
+      }
+      else
+      {
+           $( "#dateIssued" ).prop( "disabled", false );
+            $("#dateIssued").prop('required',true);
+      }
+
+    });
+ });
+</script>

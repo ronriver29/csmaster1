@@ -217,7 +217,16 @@ class Amendment_cooperators extends CI_Controller{
                   if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                    // if($this->form_validation->run() == FALSE){
                     if($this->input->post('fName')) {
-                       
+                       $dateIssued_ = '';
+                          if($this->input->post('dateIssued'))
+                          {
+                             $dateIssued_ =$this->input->post('dateIssued');
+                          }
+                          if($this->input->post('dateIssued_chk'))
+                          {
+                            $dateIssued_  = $this->input->post('dateIssued_chk');
+                          }
+
                       $data = array(
                         'cooperatives_id' => $cooperative_id,
                         'amendment_id' => $decoded_id,
@@ -233,7 +242,7 @@ class Amendment_cooperators extends CI_Controller{
                         'number_of_paid_up_shares' =>$this->input->post('paidShares'),
                         'proof_of_identity' =>$this->input->post('validIdType'),
                         'proof_of_identity_number' =>$this->input->post('validIdNo'),
-                        'proof_date_issued' =>$this->input->post('dateIssued'),
+                        'proof_date_issued' => $dateIssued_,
                         'place_of_issuance' =>$this->input->post('placeIssuance'),
                         );
                       // $this->debug($data);
@@ -415,6 +424,15 @@ class Amendment_cooperators extends CI_Controller{
                         }else{
 //                                exit;
                           $decoded_post_cooperator_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
+                          $dateIssued_ = '';
+                          if($this->input->post('dateIssued'))
+                          {
+                             $dateIssued_ =$this->input->post('dateIssued');
+                          }
+                          if($this->input->post('dateIssued_chk'))
+                          {
+                            $dateIssued_  = $this->input->post('dateIssued_chk');
+                          }
                           $data = array(
                             'id'=> $decoded_post_cooperator_id ,
                             'amendment_id'=>$decoded_id,
@@ -430,7 +448,7 @@ class Amendment_cooperators extends CI_Controller{
                             'number_of_paid_up_shares' =>$this->input->post('paidShares'),
                             'proof_of_identity' =>$this->input->post('validIdType'),
                             'proof_of_identity_number' =>$this->input->post('validIdNo'),
-                            'proof_date_issued' =>$this->input->post('dateIssued'),
+                            'proof_date_issued' => $dateIssued_,
                             'place_of_issuance' =>$this->input->post('placeIssuance'),
                             );
                           // $this->debug($data);
