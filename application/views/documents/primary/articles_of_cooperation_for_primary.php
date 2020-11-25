@@ -186,11 +186,12 @@
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
       <p class="text-justify" style="text-indent: 50px;">That the membership of this Cooperative shall come from
-       <?php if($coop_info->area_of_operation=="Barangay"){
-         echo $coop_info->brgy.' '.$coop_info->city.' '.$coop_info->province.' '.$coop_info->region;
-       }else if($coop_info->area_of_operation=="Municipality/City"){
-         echo $coop_info->city.' '.$coop_info->province.' '.$coop_info->region;
-       }else if($coop_info->area_of_operation=="Provincial"){
+       <?php if($coop_info->area_of_operation=="Barangay"){ ?>
+
+         <?= ($in_chartered_cities ? $coop_info->brgy.' '.$chartered_cities.' '.$coop_info->region : $coop_info->brgy.' '.$coop_info->city.' '.$coop_info->province.' '.$coop_info->region)?>
+       <?php }else if($coop_info->area_of_operation=="Municipality/City"){ ?>
+         <?=($in_chartered_cities ? $chartered_cities.' '.$coop_info->region : $coop_info->city.' '.$coop_info->province.' '.$coop_info->region)?>
+      <?php }else if($coop_info->area_of_operation=="Provincial"){
          echo $coop_info->province.' '.$coop_info->region;
        }else if($coop_info->area_of_operation=="Regional"){
          echo $coop_info->region;

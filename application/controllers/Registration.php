@@ -30,7 +30,7 @@ class registration extends CI_Controller{
       else
         $pst="3";
       if(!empty($coop_info->acronym_name)){ 
-          $acronymname = '('.$coop_info->acronym_name.') ';
+          $acronymname = '('.$coop_info->acronym_name.')';
       } else {
           $acronymname = '';
       }
