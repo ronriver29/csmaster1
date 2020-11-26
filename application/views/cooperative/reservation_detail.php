@@ -131,7 +131,7 @@
                 <div class="form-group">
                   <label for="acronymofCooperative"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Acronym of Cooperative Name:</label>
-                  <input type="text" class="form-control" name="acronym_name" id="proposedName" placeholder="(Optional)">
+                  <input type="text" class="form-control validate[funcCall[validateCooperativeParenthesesInAcronymCustom]]" name="acronym_name" id="proposedName" placeholder="(Optional)">
                 </div>
               </div>
             </div>

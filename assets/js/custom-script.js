@@ -2417,6 +2417,16 @@ function validateCooperativeWordInNameCustom(field, rules, i, options){
     }
   }
 }
+function validateCooperativeParenthesesInAcronymCustom(field, rules, i, options){
+  let tempName = $.trim($(field).val());
+  if(tempName.length >0){
+    var checkName = new RegExp('[.,/)]', 'i');
+    var result = checkName.test(tempName);
+    if(result){
+      return options.allrules.validateCooperativeParenthesesInAcronym.alertText;
+    }
+  }
+}
 
 function validateOthersInCommitteeNameCustom(field, rules, i, options){
   let tempCommitteeOthersName = $.trim($(field).val());

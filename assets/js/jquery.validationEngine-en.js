@@ -473,6 +473,9 @@
                 "validateCooperativeWordInName": {
                   "alertText": "* Don't include the word cooperative, union, or federation and Cooperative Type"
                 },
+                "validateCooperativeParenthesesInAcronym": {
+                  "alertText": "* Don't include Parentheses in Acronym Name"
+                },
                 "validateOthersInCommitteeName": {
                   "alertText": "* Please specify committee name. Dont use the word other/s"
                 },
