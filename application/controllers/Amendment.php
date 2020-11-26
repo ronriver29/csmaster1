@@ -384,24 +384,17 @@
                   
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
 
-                  $coopType= explode(',',$data['coop_info']->type_of_cooperative);
-                 foreach($coopType as $trow)
-                 {
-                  $list_type[] = $this->coop_type($trow);
-                     $list_of_major_industry_cooptype = $this->major_industry_model->get_major_industries_by_type_name($trow);
-                     $list_coop_type_id[] =$this->get_coopTypeID($trow); 
-                 }
-          
-
+                  $coopTypeName= $data['coop_info']->type_of_cooperative;
+                  $list_of_major_industry_cooptype =$this->major_industry_model->get_major_industries_by_type_name($coopTypeName);
+                  $list_type[] = $this->coop_type($coopTypeName);
+                  $list_coop_type_id[] =$this->get_coopTypeID($coopTypeName); 
+             
                  //get major industry id
                   foreach($list_coop_type_id as $row_coop_type_id)
-                  {
-                  	//extract multiple coop type id
-                  	foreach($row_coop_type_id as $coopID)
-                  	{
-                  		//get major class industry id
-                  		$mjor_ins_id[]=$this->industry_subclass_per_coop_type($coopID['id']);
-                  	}
+                  { 	
+                  	//get major class industry id
+                  		$mjor_ins_id[]=$this->industry_subclass_per_coop_type( $row_coop_type_id);
+
                   }
                 
                    	//extract all major industrial id
@@ -456,6 +449,7 @@
                   $data['load_subclass'] = $list_subclass;
 
                   $qry_business_act = $this->db->get_where('business_activities_cooperative_amendment',array('amendment_id'=>$decoded_id));
+
                   if($qry_business_act->num_rows()>0)
                   {
                     foreach($qry_business_act->result_array() as $brow)
@@ -470,37 +464,40 @@
                       $brow['load_major'] =  $list_majors;
                       $brow['load_subclass'] = $list_subclass;
                       $business_data[] =$brow;
+
+                       // $this->debug( $business_data);
+                        $data['list_of_major_industry_']= $business_data;
+
+                        // $this->debug( $data['list_of_major_industry_']);
+                        
+                        foreach($cooptype_id_array as $ctype_id)
+                        {
+                          $mdata[] = $this->list_of_majorindustry($ctype_id);
+                        }
+
+                        $data['mjor_list']=$mdata;
+                       
+                        foreach($mdata as $m)
+                        {
+                          //$this->$this->major_industry_description_subclass($['sublcass+i']);
+                          $subclass_data[]=$this->list_of_subclasss($m['major_industry_id']);
+                        }
+                        // $this->debug($subclass_data);
+                       foreach($subclass_data as $sdata){
+                        foreach($sdata as $srow)
+                        {
+                          $list_subclass[]= $this->major_industry_description_subclass($srow['subclass_id']);
+                        }
+                       }
+
+                       $data['list_subclass'] = $list_subclass;
+
                     }
                   }
 
                  // $this->debug($business_data);
                  
-                  // $this->debug( $business_data);
-                  $data['list_of_major_industry_']= $business_data;
-
-                  // $this->debug( $data['list_of_major_industry_']);
-                  
-                  foreach($cooptype_id_array as $ctype_id)
-                  {
-                    $mdata[] = $this->list_of_majorindustry($ctype_id);
-                  }
-
-                  $data['mjor_list']=$mdata;
                  
-                  foreach($mdata as $m)
-                  {
-                    //$this->$this->major_industry_description_subclass($['sublcass+i']);
-                    $subclass_data[]=$this->list_of_subclasss($m['major_industry_id']);
-                  }
-                  // $this->debug($subclass_data);
-                 foreach($subclass_data as $sdata){
-                  foreach($sdata as $srow)
-                  {
-                    $list_subclass[]= $this->major_industry_description_subclass($srow['subclass_id']);
-                  }
-                 }
-
-                 $data['list_subclass'] = $list_subclass;
                 
                   $this->load->view('./template/header', $data);
                   $this->load->view('cooperative/amendment_reservation_update', $data);
@@ -1789,10 +1786,11 @@
             $this->db->join('major_industry', 'major_industry.id = industry_subclass_by_coop_type.major_industry_id','inner');
             $this->db->join('subclass', 'subclass.id = industry_subclass_by_coop_type.subclass_id','inner');
             $this->db->where('business_activities_cooperative_amendment.amendment_id', $decoded_id);
+            echo json_encode($this->db->last_query());
            $qrys  = $this->db->get();
            $data2 = $qrys->result_array();
             $result->business_activities = $data2;
-            echo json_encode($result);
+            // echo json_encode($result);
           }else{
             echo json_encode(array('error'=>'Internal Server Error.'));
           }

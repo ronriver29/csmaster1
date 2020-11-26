@@ -1039,12 +1039,12 @@ left join amendment_cooperators on cap.amendment_id = amendment_cooperators.amen
     {
       $temp =0;
     }
-    // return $this->db->last_query();
     // $this->db->where(array('amendment_id'=>$amendment_id,'type_of_member'=>'Associate'));
     // $this->db->where('number_of_subscribed_shares <', $temp);
     // $this->db->from('amendment_cooperators');
     $query = $this->db->query("SELECT * FROM amendment_cooperators WHERE amendment_id='$amendment_id' AND type_of_member='Associate' AND number_of_subscribed_shares < $temp");
-    if($this->db->count_all_results()==0){
+    // if($this->db->count_all_results()==0){
+    if($query->num_rows()==0){
       return true;
     }else{
       return false;

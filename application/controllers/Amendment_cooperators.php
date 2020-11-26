@@ -84,7 +84,7 @@ class Amendment_cooperators extends CI_Controller{
                     $data['list_cooperators_associate_count'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_associate_count($decoded_id);
                     $data['list_cooperators_associate'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_associate($cooperative_id,$decoded_id);
                     // $data['ten_percent']=$this->amendment_cooperator_model->ten_percent($decoded_id);
-                   
+          
                     $this->load->view('./template/header', $data);
                     $this->load->view('cooperators/amendment_cooperators_list', $data);
                     $this->load->view('cooperators/full_info_modal_cooperator');

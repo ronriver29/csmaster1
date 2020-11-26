@@ -129,11 +129,7 @@
                 </div>
               </div>
             </div>        
-        <?php foreach($business_activities as $brow)
-         {
-            $business_actvty= $brow['bactivity_name'];
-         }
-         ?>
+    
             <div class="row">
               <div class="col-sm-12 offset-md-9 col-md-3">
                 <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreSubclassBtn"><i class="fas fa-plus"></i> Add More Business Activity</button>

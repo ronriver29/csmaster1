@@ -750,7 +750,7 @@ class Amendmentbylaws extends CI_Controller{
         $result = $this->amendment_capitalization_model->check_minimum_associate_subscription($data);
         echo json_encode($result);
       }else{
-        show_404();
+        echo'show_404()';
       }
     }
   }

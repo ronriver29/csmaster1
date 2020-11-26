@@ -2320,6 +2320,12 @@ $(document).on('change','#editCooperatorForm #membershipType', function(){
   $('#editCooperatorForm #subscribedShares').trigger('blur');
   $('#editCooperatorForm #paidShares').trigger('blur');
 });
+//amendment
+$(document).on('change','#editCooperatorForm #membershipType', function(){
+  $('#editCooperatorForm #amd_subscribedShares').trigger('blur'); 
+  $('#editCooperatorForm #amd_paidShares').trigger('blur');
+});
+
 $(document).on('click','.regularQualificationRemoveBtn', function(){
   if(!($(this).siblings('input').prop("disabled"))){
     $(this).parent().parent().remove();
@@ -2569,7 +2575,7 @@ function validateRegularAssociateAuthorizedCapitalCustom(field, rules, i, option
     return output;
   }
 }
-function validateAddNumberOfPaidUpGreaterCustom(field,rules, i, options){
+function validateAddNumberOfPaidUpGreaterCustom(field,rules, i, options){ 
   let tempPaidUp = $.trim($(field).val());
   let tempSubscribed = $.trim($("#addCooperatorForm #subscribedShares").val());
   if(tempPaidUp.length >0 && tempPaidUp > 0){
@@ -2589,7 +2595,7 @@ function validateAddNumberOfPaidUpGreaterCustomAmendment(field,rules, i, options
   }
 }
 function validateAddNumberOfPaidUpGreaterCustomAmendmentEdit(field,rules, i, options){
-  let tempPaidUp = $.trim($(field).val());
+  let tempPaidUp = $.trim($(field).val()); 
   let tempSubscribed = $.trim($("#editCooperatorForm #amd_subscribedShares").val());
   if(tempPaidUp.length >0 && tempPaidUp > 0){
     if(parseInt(tempPaidUp) > parseInt(tempSubscribed)){

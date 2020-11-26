@@ -246,6 +246,7 @@ $(function(){
         // }
         //business activity
           var count_id = 1;
+          console.log(data);
           $.each(data.business_activities, function(x,business_activy){
             // console.log(business_activy);
           var c = count_id++;
