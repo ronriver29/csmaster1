@@ -26,12 +26,12 @@
                       <option value="">--</option>
                         <option value="1">Back to Client</option>
                         <option value="2">For Validation</option>
-                        <option value="4">Denied by CDS II</option>
-                        <option value="5">Deferred by CDS II</option>
+                        <!-- <option value="4">Denied by CDS II</option> -->
+                        <!-- <option value="5">Deferred by CDS II</option> -->
                         <option value="6">For Re-Evaluation</option>
                         <!-- <option value="6.1">Submitted by CDS II</option> -->
-                        <option value="7">Denied by Senior CDS</option>
-                        <option value="8">Deferred by CDS II</option>
+                        <!-- <option value="7">Denied by Senior CDS</option> -->
+                        <!-- <option value="8">Deferred by CDS II</option> -->
                         <option value="9">Submitted By Senior CDS</option>
                         <option value="10">Denied by Director</option>
                         <option value="11">Deferred by Director</option>
