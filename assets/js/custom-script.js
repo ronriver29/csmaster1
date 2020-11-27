@@ -2194,6 +2194,35 @@ $('#editStaffForm #position').on('change', function(){
   //   }
   // });
 
+  $('#changestatusModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var coop_name = button.data('cname');
+    var coop_id = button.data('coopid');
+    var statusid = button.data('statusid');
+    var modal = $(this)
+    modal.find('.modal-body #status_id').val(statusid);
+    modal.find('.modal-body #cooperativesID').val(coop_id);
+    modal.find('.modal-body #cooperativeName').val(coop_name);
+  });
+  $("#changestatusForm").validationEngine('attach',
+      {promptPosition: 'inline',
+      scroll: false,
+      focusFirstField : false,
+      onValidationComplete: function(form,status){
+          if(status==true){
+            if($("#changestatusLoadingBtn").length <= 0){
+              $("#changestatusForm #statuschangeBtn").hide();
+              $("#changestatusForm .changestatusFooter").append($('<button></button>').attr({'id':'changestatusLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
+              return true;
+            }else{
+              return false;
+            }
+          }else{
+            return false;
+          }
+        }
+  });
+
   /* END UPDATE COOPERATIVE FORM*/
   $('#assignSpecialistModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);

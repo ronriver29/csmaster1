@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-sm-12 col-md-12">
-    <div class="modal fade" id="assignSpecialistModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="assignSpecialistLabel" aria-hidden="true">
+    <div class="modal fade" id="changestatusModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="assignSpecialistLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <?php echo form_open('admins/change_status',array('id'=>'assignSpecialistForm','name'=>'assignSpecialistForm')); ?>
+          <?php echo form_open('admins/change_status',array('id'=>'changestatusForm','name'=>'changestatusForm')); ?>
             <div class="modal-header">
               <h4 class="modal-title" id="assignSpecialistLabel">Change Status Form</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -12,6 +12,7 @@
             </div>
             <div class="modal-body">
               <div class="row">
+                <input type="hidden" name="statusid" id="status_id" value="">
                 <input type="hidden" name="cooperativesID" id="cooperativesID" value="">
                 <div class="col-sm-12 col-md-12">
                   <div class="form-group">
@@ -63,8 +64,8 @@
                 </div>
               </div>
             </div>
-            <div class="modal-footer assignSpecialistFooter">
-              <input class="btn btn-color-blue btn-block" type="submit" id="assignSpecialistBtn" name="assignSpecialistBtn" value="Assign">
+            <div class="modal-footer changestatusFooter">
+              <input class="btn btn-color-blue btn-block" type="submit" id="statuschangeBtn" name="statuschangeBtn" value="Assign">
             </div>
           </form>
         </div>

@@ -666,14 +666,32 @@ class Admins extends CI_Controller{
   public function change_status(){
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID',TRUE)));
       $decoded_specialist_id = $this->input->post('statuschange');
-      
-      $success =  $this->cooperatives_model->change_status_cooperatives($decoded_id,$decoded_specialist_id);
+      $status_id = $this->input->post('statusid');
+      $admin_user_id = $this->session->userdata('user_id');
+      $now = date('Y-m-d h:i:s');
+      // echo $admin_user_id.'-';
+      // echo $status_id;
+      // echo $now;
+      $data_field = array(
+          'from' => $status_id,
+          'to' => $decoded_specialist_id,
+          'edited_by' => $admin_user_id,
+          'cooperative_id' => $decoded_id,
+          'date_modified' => $now
+      );
+      $success =  $this->cooperatives_model->insert_audit_log_cooperatives_change_status($data_field);
         if($success){
-          $this->session->set_flashdata('list_success_message', 'Cooperative Status has been Changed.');
-          redirect('admins/cooperatives_list');
+        $success =  $this->cooperatives_model->change_status_cooperatives($decoded_id,$decoded_specialist_id);
+          if($success){
+            $this->session->set_flashdata('list_success_message', 'Cooperative Status has been Changed.');
+            redirect('admins/cooperatives_list');
+          }else{
+            $this->session->set_flashdata('list_error_message', 'Unable to Change Status Cooperative.');
+            redirect('admins/cooperatives_list');
+          }
         }else{
-          $this->session->set_flashdata('list_error_message', 'Unable to Change Status Cooperative.');
-          redirect('admins/cooperatives_list');
-        }
+            $this->session->set_flashdata('list_error_message', 'Unable to Change Status Cooperative.');
+            redirect('admins/cooperatives_list');
+          }
     } 
 }

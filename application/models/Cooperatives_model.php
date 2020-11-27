@@ -1497,5 +1497,18 @@ public function approve_by_director_laboratories($admin_info,$coop_id){
 //        $data = $query->result_array();
 //        return $data;
     }
+
+    public function insert_audit_log_cooperatives_change_status($data_field){
+        $this->db->trans_begin();
+        $this->db->insert('cooperatives_status_change_audit',$data_field);
+        $id = $this->db->insert_id();
+        if($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            return false;
+        }else{
+            $this->db->trans_commit();
+            return true;
+        }
+  }
 // ANJURY END
 }
