@@ -3,7 +3,7 @@
     <div class="modal fade" id="assignSpecialistModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="assignSpecialistLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <?php echo form_open('cooperatives_list/change_status',array('id'=>'assignSpecialistForm','name'=>'assignSpecialistForm')); ?>
+          <?php echo form_open('admins/change_status',array('id'=>'assignSpecialistForm','name'=>'assignSpecialistForm')); ?>
             <div class="modal-header">
               <h4 class="modal-title" id="assignSpecialistLabel">Change Status Form</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">

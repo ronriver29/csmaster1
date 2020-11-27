@@ -626,9 +626,54 @@ class Admins extends CI_Controller{
 
   }
    public function debug($array)
-    {
-        echo"<pre>";
-        print_r($array);
-        echo"</pre>";
+   {
+      echo"<pre>";
+      print_r($array);
+      echo"</pre>";
+   }
+
+   public function cooperatives_list(){
+      if(!$this->session->userdata('logged_in')){
+        redirect('admins/login');
+      }else{
+        $data['is_client'] = $this->session->userdata('client');
+        if(!$this->session->userdata('client')){
+          $admin_user_id = $this->session->userdata('user_id');
+          if($this->admin_model->check_super_admin($admin_user_id)){
+            $data['title'] = 'List of Users';
+            $data['header'] = 'List of Users';
+            $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
+            $data['users_list'] = $this->admin_model->get_all_user();
+
+            $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_ho();
+            $this->load->view('templates/admin_header', $data);
+            $this->load->view('applications/list_of_all_cooperatives', $data);
+            $this->load->view('applications/change_cooperative_status');
+            $this->load->view('admin/grant_privilege_supervisor');
+            $this->load->view('admin/revoke_privilege_supervisor');
+            $this->load->view('templates/admin_footer');
+          }else{
+            $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+            redirect('cooperatives');
+          }
+        }else{
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }
+      }
     }
+
+  public function change_status(){
+      $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID',TRUE)));
+      $decoded_specialist_id = $this->input->post('statuschange');
+      
+      $success =  $this->cooperatives_model->change_status_cooperatives($decoded_id,$decoded_specialist_id);
+        if($success){
+          $this->session->set_flashdata('list_success_message', 'Cooperative Status has been Changed.');
+          redirect('admins/cooperatives_list');
+        }else{
+          $this->session->set_flashdata('list_error_message', 'Unable to Change Status Cooperative.');
+          redirect('admins/cooperatives_list');
+        }
+    } 
 }

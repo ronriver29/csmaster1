@@ -47,7 +47,7 @@
               <small class="font-italic">
                 <?php
                  // $reg_desc = (($admin_info->region_code =="0") ? "Central Office" : $this->region_model->get_region_by_code($admin_info->region_code)->regDesc); 
-                    if($admin_info->region_code == "0" || $admin_info->access_level == "5")
+                    if($admin_info->region_code == "0")
                     {
                       $reg_desc ="Head Office";
                     }
@@ -74,6 +74,9 @@
           <li>
             <a href="<?php echo base_url();?>admins/all_user"><i class="fas fa-user-tie"></i> Users</a>
           </li>
+          <li>   
+            <a href="<?php echo base_url();?>admins/cooperatives_list"><i class="fas fa-handshake"></i> All Cooperatives List</a>
+          </li>
         <?php endif; ?>
       
         <?php if($admin_info->access_level < 5) : ?>
@@ -90,11 +93,6 @@
           <li>   
             <a href="<?php echo base_url();?>amendment"><i class="fas fa-handshake"></i> Amendment</a>
           </li>    -->
-          <?php if($admin_info->region_code == "00") : ?>
-            <li>   
-            <a href="<?php echo base_url();?>cooperatives_list"><i class="fas fa-handshake"></i> All Cooperatives List</a>
-          </li>
-          <?php endif; ?>
         <?php endif; ?>
         <li>
           <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> Settings</a>
