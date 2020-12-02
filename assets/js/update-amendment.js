@@ -42,9 +42,9 @@ $(function(){
     var business_activities = data.business_activities;
      var cbom = data.common_bond_of_membership;
       $("#cooperative_idss").val(data.cooperative_id);
-    if(data.common_bond_of_membership == 'Occupational')
+         if(data.common_bond_of_membership == 'Occupational')
         {
-           
+      
             $("#occupational-div").show();
             $("#institutional-wrapper").remove();
             $("#associational-wrapper").remove();
@@ -130,7 +130,7 @@ $(function(){
                // $(".omposition-cof-members option[value='"+cid+"']").attr("selected", "selected")
             
              
-        }
+        } //occupational
         else if(data.common_bond_of_membership == 'Institutional')
         {
           $("#institutional-wrapper").show();
@@ -150,10 +150,8 @@ $(function(){
           });
              $("#reserveUpdateForm #name_institutional").val(data.name_of_ins_assoc); 
         }
-
         else if(data.common_bond_of_membership == 'Associational')
         {
-          
           $("#reserveUpdateForm #associational-wrapper").show()
           $("#reserveUpdateForm #occupational-div").remove();
           $("#reserveUpdateForm #institutional-wrapper").remove();
@@ -246,9 +244,9 @@ $(function(){
         // }
         //business activity
           var count_id = 1;
-          console.log(data);
+          // console.log(data.business_activities);
           $.each(data.business_activities, function(x,business_activy){
-            // console.log(business_activy);
+        
           var c = count_id++;
           var htmls= $('<div></div>').attr({'class':'list-major'});
           var divFormGroupSubclass= $('<div></div>').attr({'class':'form-group'});
@@ -523,7 +521,7 @@ $(".coop-type").on('change',function(){
              dataType: "json",
              data: {cooptype_:cooptype_value},
              success: function(responsetxt){
-              console.log(responsetxt['desciption']);
+              // console.log(responsetxt['desciption']);
               $.each(responsetxt,function(a,major_industry){
                  $('.major-industry').append($('<option></option>').attr('value',major_industry['description']).text(major_industry['description']));
 

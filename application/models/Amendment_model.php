@@ -578,10 +578,11 @@ class amendment_model extends CI_Model{
     //   $major =3;// $subtypes_array[$key];
     //   $major_data[] = $major;
     // }
-    $major_data= array_combine($major_industry,$subtypes_array);
+    $major_data= array_combine($major_industry,$subtypes_array); 
     foreach($major_data as $major => $subclasses)
     {
       $qrys = $this->db->query("select id,cooperative_type_id from industry_subclass_by_coop_type where major_industry_id='$major' and subclass_id='$subclasses'");
+      // return $this->db->last_query();
       foreach($qrys->result() as $r)
       {
         $cooperative_typeID = $r->cooperative_type_id;
@@ -589,7 +590,7 @@ class amendment_model extends CI_Model{
       }
       $data_major_and_subclasses[] = array('cooperatives_id'=> $cooperative_ID,'amendment_id'=>$id,'industry_subclass_by_coop_type_id'=>$industry_subclassID,'cooperative_type_id'=>$cooperative_typeID,'major_industry_id'=>$major,'subclass_id'=>$subclasses);
     }
-    // return  $data_major_and_subclasses;
+    
     $this->db->insert_batch('business_activities_cooperative_amendment', $data_major_and_subclasses);
 
       //capitalization
@@ -1803,5 +1804,15 @@ public function check_if_denied($coop_id){
       }
       return $data;
     }
+
+    public function get_total_count_regular($amendment_id)
+    {
+       $amendment_id = $this->security->xss_clean($amendment_id);
+      $this->db->where('cooperatives_id',$amendment_id);
+      $this->db->where('type_of_member',"Regular");
+      $this->db->from('amendment_cooperators');
+      return $this->db->count_all_results();
+    }
+
 
 }

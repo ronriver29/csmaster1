@@ -824,7 +824,7 @@
                                     $this->session->set_flashdata('cooperative_error','Unable to submit your application');
                                     redirect('cooperatives/'.$id);
                                   }
-                                }else{
+                                }else{ 
                                   if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                                     if($this->cooperatives_model->submit_for_evaluation($user_id,$decoded_id)){
 
@@ -844,10 +844,14 @@
                                       }else{ $acronymname = '';}
 
                                       $proposednameemail = $data['coop_info']->proposed_name.' '.$data['coop_info']->grouping.' '.$data['coop_info']->type_of_cooperative.' Cooperative ';
-
+                                     
                                       if($this->admin_model->sendEmailToSenior($proposednameemail,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email)){
                                         $this->session->set_flashdata('cooperative_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
                                         redirect('cooperatives/'.$id);
+                                      }
+                                      else
+                                      {
+                                        echo"invalid";
                                       }
                                     }else{
                                       $this->session->set_flashdata('cooperative_error','Unable to submit your application');

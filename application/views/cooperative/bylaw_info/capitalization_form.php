@@ -189,7 +189,7 @@
                                 $par_value=0;
                             }
                             ?>
-                            <input type="text" name="item[amount_of_common_share_subscribed]" id="amount_of_common_share_subscribed" class="form-control" value="<?=$total_regular['total_subscribed'] * number_format($par_value,2)?>" readonly=""/>
+                            <input type="text" name="item[amount_of_common_share_subscribed]" id="amount_of_common_share_subscribed" class="form-control" value="<?=$total_regular['total_subscribed'] * $par_value?>" readonly=""/>
                             <br/>
                             <span id="amount_of_common_share_subscribed_note" class="err-message-note"></span>
                             

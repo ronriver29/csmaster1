@@ -2304,7 +2304,7 @@ public function count_documents_coop($coop_id,$num)
                               
                                  $data['committees_list_orig'] = $this->committee_model->get_all_committee_names_of_coop_multi($cooperative_id);
                               }//end of had amendment
-                              
+                              $data['total_no_of_regular_cptr']=$this->amendment_model->get_total_count_regular($decoded_id);
                               // $this->load->view('documents/amendment_economic_survey', $data);
                               $html2 = $this->load->view('documents/amendment_economic_survey', $data, TRUE);
                               $f = new pdf();

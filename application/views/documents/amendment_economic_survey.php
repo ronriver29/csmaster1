@@ -181,7 +181,7 @@
               </tr>
             </tbody>
           </table>
-        <li>No. of Founding/Organizing Members: <u><?=($no_of_cooperator!=$no_of_cooperator_orig ? '<b>'.$no_of_cooperator.'</b>' : $no_of_cooperator)?></u>
+        <li>Total No. of Regular Members only. <u><?=($total_regular!=$total_regular_orig ? '<b>'.$no_of_cooperator.'</b>' : $no_of_cooperator)?></u>
         </li>
         <li>Projected Increase of Membership for:</li>
         <table class="table table-borderless table-sm">

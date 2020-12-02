@@ -565,36 +565,6 @@ $(function(){
 
 
 
-   $('#amendmentAddForm select[name="majorIndustry[]"').each(function(index){
-            $(this).on('change',function(){ 
-              $('#amendmentAddForm #subClass'+(index+1)).empty();
-              $('#amendmentAddForm #subClass'+(index+1)).prop("disabled",true);
-              if($(this).val() && ($(this).val()).length > 0){
-                var subClassTemp =   $('#amendmentAddForm #subClass'+(index+1));
-                $(subClassTemp).prop("disabled",false);
-                var major_industry = $(this).val();
-                // var coop_type = $('#amendmentAddForm .coop_type').val(); 
-               var coop_type=$('select[name="typeOfCooperative[]"] option:selected').val();
-                if(coop_type.length > 0 ){ alert(coop_type);
-                    $.ajax({
-                    type : "POST",
-                    url  : "../api/industry_subclasses",
-                    dataType: "json",
-                    data : {
-                      coop_type: coop_type,
-                      major_industry: major_industry
-                    },
-                    success: function(data){
-                        $(subClassTemp).append($('<option></option>').attr('value',"").text(""));
-                        $.each(data, function(key,value){
-                          $(subClassTemp).append($('<option></option>').attr('value',value.id).text(value.description));
-                        });
-                    }
-                  });
-                }
-              }
-            });
-          });
 
 
     $("#amendmentAddForm #newNamess").bind("keyup change",function(){
@@ -681,17 +651,17 @@ $(function(){
   });
   //end 
 
-  //start function modified
-  function less_count_updateName($num_value)
-  {
-    if($num_value<=1){
-             console.log($num_value);
-             var orig_name = $("#newName2").val();
-             console.log(orig_name);
-              $("#newNamess").val(orig_name);
-          }
-  }
-  //end function modified
+	//start function modified
+	function less_count_updateName($num_value)
+	{
+	  if($num_value<=1){
+	           console.log($num_value);
+	           var orig_name = $("#newName2").val();
+	           console.log(orig_name);
+	            $("#newNamess").val(orig_name);
+	        }
+	}
+ 	//end function modified
 
     //start
     $('#amendmentAddForm #addMoreInsBtn_Associational').on('click', function(){
@@ -829,24 +799,24 @@ $(function(){
   //add coop type dynamically modified
   var count_text_input =1;
   $("#amendmentAddForm #addCoop").on('click', function(e){ 
-      var name_origin =  $("#newName2").val();
-      count_text_input++;
-      $('#count_type').text(count_text_input );
-      if(count_text_input>1)
-      {
-        var proposeName = $("#newNamess").val();
-        $("#type_of_coop").html(proposeName+' Multipurpose Cooperative');
-      }else{
+	    var name_origin =  $("#newName2").val();
+	    count_text_input++;
+	    $('#count_type').text(count_text_input );
+	    if(count_text_input>1)
+	    {
+	      var proposeName = $("#newNamess").val();
+	      $("#type_of_coop").html(proposeName+' Multipurpose Cooperative');
+	    }else{
 
-         $("#type_of_coop").html(proposeName);
-      }
-      var lastCountOfcoop = $('select[name="typeOfCooperative[]"]').last().attr('id');
-      intLastCount = parseInt(lastCountOfcoop.substr(-1)); 
-      var htmlc= $('<div></div>').attr({'class':'col-md-6 list-cooptype'});
-      var divRow = $('<div></div>').attr({'class':'row col-md-12'});
-      var divFormGroup= $('<div></div>').attr({'class':'form-group'});
-      var selectCoop = $('<select></select>').attr({'class': 'custom-select coop-type form-control validate[required]','name': 'typeOfCooperative[]', 'id': 'typeOfCooperative1' + (intLastCount + 1)}).prop("disabled",false);
-      var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn float-right text-danger'}).click(function(e){
+	       $("#type_of_coop").html(proposeName);
+	    }
+	    var lastCountOfcoop = $('select[name="typeOfCooperative[]"]').last().attr('id');
+	    intLastCount = parseInt(lastCountOfcoop.substr(-1)); 
+	    var htmlc= $('<div></div>').attr({'class':'col-md-6 list-cooptype'});
+	    var divRow = $('<div></div>').attr({'class':'row col-md-12'});
+	    var divFormGroup= $('<div></div>').attr({'class':'form-group'});
+	    var selectCoop = $('<select></select>').attr({'class': 'custom-select coop-type form-control validate[required]','name': 'typeOfCooperative[]', 'id': 'typeOfCooperative1' + (intLastCount + 1)}).prop("disabled",false);
+	    var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn float-right text-danger'}).click(function(e){
        
         $(this).parent().remove();
         // count_text_input--;
@@ -870,7 +840,7 @@ $(function(){
            typeCoop_arrays.push($(this).val());
             // alert(typeCoop_arrays);
             $('#typeOfCooperative_value').val(typeCoop_arrays);
-              $.each(typeCoop_arrays , function(n,type_coop_id){
+            	$.each(typeCoop_arrays , function(n,type_coop_id){
             
 
                     $.ajax({
@@ -889,7 +859,7 @@ $(function(){
                     });
                    }
                   }); //end ajax
-             }); //end $.each
+      	     }); //end $.each
      }); //end onchange of type coop
   
     
@@ -898,7 +868,7 @@ $(function(){
       e.preventDefault();
     }); //end of addCoop function
 
-    //list coopt type
+  	//list coopt type
     function list_cooperative_type($select_id)
     {
 
@@ -918,42 +888,42 @@ $(function(){
     //end list coop type
 
     //start list_coop_type2
-  function list_cooperative_type2($select_id,$selected_id)
-  {
-   $(document).ready(function(){
-              $.ajax({
-               type : "POST",
-               url  : "cooperative_type_ajax",
-               dataType: "json",
-               success: function(responsetxt){
-                // console.log(responsetxt);
-                $.each(responsetxt,function(a,coop_type){
-                  var selected="";
-                 
-                    $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
-                   // $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
-                  if($selected_id == coop_type['id'] )
-                  {
-                    // alert(coop_type['id']);
-                    var val = coop_type['id'];
-                    var c_name = coop_type['name'];
-                    $selected ="selected";
-                      $($select_id).val(val).prop('selected', true);
-                    // $($select_id).append($('<option selected></option>').attr('value',val).text(c_name));
-                    // $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
-                  }
-                   
-                    
+	function list_cooperative_type2($select_id,$selected_id)
+	{
+	 $(document).ready(function(){
+	            $.ajax({
+	             type : "POST",
+	             url  : "cooperative_type_ajax",
+	             dataType: "json",
+	             success: function(responsetxt){
+	              // console.log(responsetxt);
+	              $.each(responsetxt,function(a,coop_type){
+	                var selected="";
+	               
+	                  $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
+	                 // $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
+	                if($selected_id == coop_type['id'] )
+	                {
+	                  // alert(coop_type['id']);
+	                  var val = coop_type['id'];
+	                  var c_name = coop_type['name'];
+	                  $selected ="selected";
+	                    $($select_id).val(val).prop('selected', true);
+	                  // $($select_id).append($('<option selected></option>').attr('value',val).text(c_name));
+	                  // $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
+	                }
+	                 
+	                  
 
-                  
-                });//end ajax
-                     // $($select_id).append($('<option></option>').attr('value',"1").text("Credit"));
+	                
+	              });//end ajax
+	                   // $($select_id).append($('<option></option>').attr('value',"1").text("Credit"));
 
-               }
-              }); 
-      }); //end document ready        
-  }
-  //end list_coop_type2
+	             }
+	            }); 
+	    }); //end document ready        
+	}
+	//end list_coop_type2
 
 
 

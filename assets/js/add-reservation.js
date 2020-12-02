@@ -197,7 +197,7 @@ $(function(){
   });
 
   $('#reserveAddForm select[name="majorIndustry[]"').each(function(index){
-    $(this).on('change',function(){
+    $(this).on('change',function(){ alert("asdfasdfasd");
       $('#reserveAddForm #subClass'+(index+1)).empty();
       $('#reserveAddForm #subClass'+(index+1)).prop("disabled",true);
       if($(this).val() && ($(this).val()).length > 0){
@@ -225,7 +225,7 @@ $(function(){
       }
     });
   });
-
+ 
   $('#reserveAddForm #addMoreSubclassBtn').on('click', function(){
     if($('#reserveAddForm #typeOfCooperative').val() && ($('#reserveAddForm #typeOfCooperative').val()).length > 0){
       var lastCountOfSubclass = $('select[name="subClass[]"').last().attr('id'); 

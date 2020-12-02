@@ -96,19 +96,7 @@
               }
               if ($temp == FALSE){
                 $data['regNo'] =$this->load_regNo($user_id);
-                // $qry_coop = $this->db->get('cooperative_type');
-                // if($qry_coop->num_rows()>0)
-                // {
-                //   foreach($qry_coop->result_array() as $ror_coop)
-                //   {
-                //     $list_coop[] = $ror_coop;
-                //   }
-                // }
-                // else
-                // {
-                //    $list_coop=NULL;
-                // }
-                // $data['list_cooperative_type'] = $list_coop;
+
                 ini_set('display_errors', 1);
                 $this->load->view('./template/header', $data);
                 $this->load->view('cooperative/amendment_detail', $data);
@@ -230,8 +218,7 @@
                 }
                 else
                 {
-                	// $this->debug($occu_comp_of_membship);
-                	// $this->debug($this->amendment_model->add_cooperative($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative));
+                    // $this->debug($this->amendment_model->add_cooperative($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative));
 	                if($this->amendment_model->add_cooperative($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative)){
 	             
 	                  $this->session->set_flashdata('list_success_message', 'Your reservation is confirmed.');
@@ -449,7 +436,7 @@
                   $data['load_subclass'] = $list_subclass;
 
                   $qry_business_act = $this->db->get_where('business_activities_cooperative_amendment',array('amendment_id'=>$decoded_id));
-
+                 // $this->debug($this->db->last_query());
                   if($qry_business_act->num_rows()>0)
                   {
                     foreach($qry_business_act->result_array() as $brow)
@@ -494,10 +481,6 @@
 
                     }
                   }
-
-                 // $this->debug($business_data);
-                 
-                 
                 
                   $this->load->view('./template/header', $data);
                   $this->load->view('cooperative/amendment_reservation_update', $data);
@@ -1786,8 +1769,8 @@
             $this->db->join('major_industry', 'major_industry.id = industry_subclass_by_coop_type.major_industry_id','inner');
             $this->db->join('subclass', 'subclass.id = industry_subclass_by_coop_type.subclass_id','inner');
             $this->db->where('business_activities_cooperative_amendment.amendment_id', $decoded_id);
-            echo json_encode($this->db->last_query());
            $qrys  = $this->db->get();
+            echo json_encode($this->db->last_query());
            $data2 = $qrys->result_array();
             $result->business_activities = $data2;
             // echo json_encode($result);

@@ -88,23 +88,7 @@
               </div>
             </div>
             <div class="row type-coop-row">
-              <!-- <div class="col-sm-12 col-md-6  coop-col">
-                <div class="form-group">
-                  <label for="typeOfCooperative1">Type of Cooperative</label>
-                  <select class="custom-select coop-type validate[required]" name="typeOfCooperative[]" id="typeOfCooperative1">
-                    <option value="">--</option>
-                    <?php
-                      foreach($list_cooperative_type as $row_coop)
-                      {
-                        ?>
-                          <option value="<?=$row_coop['id']?>"><?=$row_coop['name'] ?></option>
-                        <?php
-                      }
-                    ?>
-                  </select>
-                </div>
-
-              </div> -->
+          
             </div>
            <!--  <span id="count_type" style="border:1px solid red;"></span> -->
           <div class="col-sm-12 col-md-12">
