@@ -84,6 +84,18 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $data = $query->result_array();
     return $data;
   }
+  public function get_all_cooperatives_ho(){
+    $this->db->select('cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->from('cooperatives');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->where('cooperatives.status NOT IN (1,15)');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
   public function get_count_cooperatives($user_id){
     $this->db->select('COUNT(*) AS coop_count');
     $this->db->from('cooperatives');
@@ -670,6 +682,24 @@ public function remove_file($coop_id)
     return true;//no file upload
   }
 }
+
+public function change_status_cooperatives($decoded_id,$status){
+  $decoded_id = $this->security->xss_clean($decoded_id);
+  $status = $this->security->xss_clean($status);
+
+  $this->db->trans_begin();
+  $this->db->where(array('id'=>$decoded_id));
+  $this->db->update('cooperatives',array('status'=>$status));
+  if($this->db->trans_status() === FALSE){
+    $this->db->trans_rollback();
+    return false;
+  }else{
+    $this->db->trans_commit();
+    return true;
+  }
+}
+
+
 public function delete_cooperative($coop_id,$status,$user_id){
   
  if($this->remove_file($coop_id))
@@ -1467,5 +1497,18 @@ public function approve_by_director_laboratories($admin_info,$coop_id){
 //        $data = $query->result_array();
 //        return $data;
     }
+
+    public function insert_audit_log_cooperatives_change_status($data_field){
+        $this->db->trans_begin();
+        $this->db->insert('cooperatives_status_change_audit',$data_field);
+        $id = $this->db->insert_id();
+        if($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            return false;
+        }else{
+            $this->db->trans_commit();
+            return true;
+        }
+  }
 // ANJURY END
 }
