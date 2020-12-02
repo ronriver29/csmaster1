@@ -192,14 +192,12 @@
                             <input type="text" name="item[amount_of_common_share_subscribed]" id="amount_of_common_share_subscribed" class="form-control" value="<?=$total_regular['total_subscribed'] * $par_value?>" readonly=""/>
                             <br/>
                             <span id="amount_of_common_share_subscribed_note" class="err-message-note"></span>
-                            
                         </td>
                         <td></td>
                         <td>
                             <input type="text" name="item[amount_of_common_share_subscribed_pervalue]" id="amount_of_common_share_subscribed_pervalue" class="form-control" value="<?=$total_regular['total_subscribed']?>" readonly=""/>
                             <br/>
-                            <!--<span id="amount_of_common_share_subscribed_note" class="err-message-note"></span>-->
-                            
+                            <!--<span id="amount_of_common_share_subscribed_note" class="err-message-note"></span>-->  
                         </td>
                     </tr>
                     <?php if($bylaw_info->kinds_of_members ==2) : ?>
