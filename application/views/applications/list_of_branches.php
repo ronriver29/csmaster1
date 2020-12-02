@@ -457,7 +457,7 @@ if($tomorrow>=$now){
     </div>
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
+<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 <script src="<?=base_url();?>assets/js/toword.js"></script>
 
 <script type="text/javascript">
@@ -477,7 +477,7 @@ if($tomorrow>=$now){
         success: function(data)
         {
             
-            var s=convert(parseInt(data.total));
+            var s=toWords(parseInt(data.total));
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);
