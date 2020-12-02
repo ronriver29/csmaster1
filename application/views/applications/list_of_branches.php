@@ -477,7 +477,7 @@ if($tomorrow>=$now){
         success: function(data)
         {
             
-            var s=toWords(parseInt(data.total));
+            var s=convert(parseInt(data.total));
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);
