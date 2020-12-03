@@ -469,7 +469,6 @@ if($tomorrow>=$now){
     $('#paymentForm')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty();
-
     $.ajax({
         url : "<?php echo base_url('branches/payment')?>/" + coop_name,
         type: "GET",
@@ -477,13 +476,13 @@ if($tomorrow>=$now){
         success: function(data)
         {
             
-            var s=toWords(parseInt(data.total));
+            var s=convert(data.total);
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
             $('#branch_ID').val(coop_id);   
-            $('#word').text(s+' Pesos');
+            $('#word').text(s);
             $('#nature').text(data.nature);
             $('#particulars').html(data.particulars);
             $('#amount').html(data.amount);
