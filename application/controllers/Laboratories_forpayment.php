@@ -24,7 +24,7 @@ class Laboratories_forpayment extends CI_Controller{
     $email = $ret->email;
     $name = $ret->laboratoryName;
 
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject =$name.' Laboratory Result';  //email subject
      $message="<pre><b>Congratulations!</b> Your application status is <b> FOR PAYMENT</b>.
 

@@ -24,7 +24,7 @@ class Forpayment extends CI_Controller{
     $email = $ret->email;
     $name = $ret->proposed_name;
     
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject =$name.' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body

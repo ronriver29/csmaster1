@@ -49,7 +49,7 @@ class Email_model extends CI_Model{
     }
   }
   public function sendEmailToSpecialistAmendment($admin_info,$coop_full_name){
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $coop_full_name.'\'s Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -78,7 +78,7 @@ class Email_model extends CI_Model{
     //   }else{
     //     $receiver = $emails[0]['email'];
     //   }
-      $from = "coopris.test@gmail.com";    //senders email address
+      $from = "ecoopris@cda.gov.ph";    //senders email address
       // $subject = $coop_full_name.' Evaluation Result';  //email subject
        $subject =' Evaluation Result';  //email subject
 
@@ -103,7 +103,7 @@ class Email_model extends CI_Model{
   public function sendEmailToDirectorAmendment($admin_info,$emails,$coop_full_name)
   {
     
-      $from = "coopris.test@gmail.com";    //senders email address
+      $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = $coop_full_name.' Evaluation Result';  //email subject
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -224,7 +224,7 @@ The client shall submit the above required documents within 30 working days from
   }
   public function sendEmailToClientAmendmentApprove($name,$email){
 //    echo $name;
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject =$name.' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body

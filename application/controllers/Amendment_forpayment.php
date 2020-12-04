@@ -24,7 +24,7 @@ class Amendment_forpayment extends CI_Controller{
     $email = $ret->email;
     $name = $ret->proposed_name;
     
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "Amendment_forpayment.php";    //senders email address
     $subject =' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body

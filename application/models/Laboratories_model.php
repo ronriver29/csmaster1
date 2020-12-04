@@ -1464,7 +1464,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
   //modify by json
     public function sendEmailToClientDenyLaboratory($email,$coopname,$labname,$comment){
 
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $coopname.'-'.$labname.' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -1483,7 +1483,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
   //modify by json
     public function sendEmailToClientDeferLaboratory($email,$coopname,$labname,$comment){
 
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $coopname.'-'.$labname.' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body

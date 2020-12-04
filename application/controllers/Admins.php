@@ -454,7 +454,7 @@ class Admins extends CI_Controller{
   }
   
   public function sendEmailpassword($email,$temppassword,$username){
-      $from = "coopris.test@gmail.com";    //senders email address
+      $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = 'Password recovery';  //email subject
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body

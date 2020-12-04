@@ -25,7 +25,7 @@ class Forpaymentbranches extends CI_Controller{
     // $name = $ret->proposed_name;
     $name = $ret->coopName;
       // echo '<pre>';print_r($ret); echo'</pre>';
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject =$name.' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body

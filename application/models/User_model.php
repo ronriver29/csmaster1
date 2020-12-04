@@ -43,7 +43,7 @@ class User_model extends CI_Model{
   }
   //send confirm mail
   public function sendEmail($receiver,$hash){
-      $from = "coopris.test@gmail.com";    //senders email address
+      $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = 'Verify email address';  //email subject
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
