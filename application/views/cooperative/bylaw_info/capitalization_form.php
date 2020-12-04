@@ -233,7 +233,7 @@
                     <tr>
                         <td>Amount of Common Share</td>
                         <td>
-                            <input type="text" name="item[amount_of_common_share_paidup]" id="amount_of_common_share_paidup" class="form-control" value="<?=$total_regular['total_paid'] * number_format($par_value,2);?>" readonly=""/>
+                            <input type="text" name="item[amount_of_common_share_paidup]" id="amount_of_common_share_paidup" class="form-control" value="<?=$total_regular['total_paid'] * $par_value;?>" readonly=""/>
                             <br/>
                             <!--<span id="amount_of_common_share_paidup_note" class="err-message-note"></span>-->
                         </td>
