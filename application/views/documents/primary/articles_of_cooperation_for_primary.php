@@ -280,7 +280,7 @@
   </div>
   <div class="row ">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">That the Authorized Share Capital of this Cooperative is <?= ucwords(num_format_custom($capitalization_info->authorized_share_capital))?> PESOS (Php <?=number_format($capitalization_info->authorized_share_capital,2)?>), divided into:</p>
+      <p class="text-justify" style="text-indent: 50px;">That the Authorized Share Capital of this Cooperative is <?= ucwords(num_format_custom($capitalization_info->authorized_share_capital))?> Pesos (Php <?=number_format($capitalization_info->authorized_share_capital,2)?>), divided into:</p>
     </div>
   </div>
   <div class="row mb-4">

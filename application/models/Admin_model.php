@@ -185,7 +185,7 @@ public function add_admin_director($data,$raw_pass){
       return false;
     }else{
       // Send email for granting proviliges
-      $from = "coopris.test@gmail.com";    //senders email address
+      $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = 'Cooperative Application for Registration';  //email subject
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -225,7 +225,7 @@ public function add_admin_director($data,$raw_pass){
       return false;
     }else{
       // Send email for granting proviliges
-      $from = "coopris.test@gmail.com";    //senders email address
+      $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = 'Cooperative Application for Registration';  //email subject
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -248,7 +248,7 @@ public function add_admin_director($data,$raw_pass){
   }
 
   public function sendEmailAccountDetails($email,$username,$password){
-      $from = "coopris.test@gmail.com";    //senders email address
+      $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = 'Admin Account Details';  //email subject
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -266,7 +266,7 @@ public function add_admin_director($data,$raw_pass){
       }
   }
   public function sendEmailToSeniorHO($proposedname,$brgy,$fullname,$contactnumber,$email,$senioremail){
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -290,7 +290,7 @@ public function add_admin_director($data,$raw_pass){
     }
   }
   public function sendEmailToSenior($proposedname,$brgy,$fullname,$contactnumber,$email,$senioremail){
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -314,7 +314,7 @@ public function add_admin_director($data,$raw_pass){
     }
   }
   public function sendEmailToSeniorBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail){
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -339,7 +339,7 @@ public function add_admin_director($data,$raw_pass){
     }
   }
   public function sendEmailToDirector($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail){
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -364,7 +364,7 @@ public function add_admin_director($data,$raw_pass){
     }
   }
   public function sendEmailToClientBranch($email){
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = 'Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -380,7 +380,7 @@ public function add_admin_director($data,$raw_pass){
     }
   }
   public function sendEmailToSpecialist($admin_info,$coop_full_name){
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $coop_full_name.'`s Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -407,7 +407,7 @@ public function add_admin_director($data,$raw_pass){
       }else{
         $receiver = $emails[0]['email'];
       }
-      $from = "coopris.test@gmail.com";    //senders email address
+      $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = $coop_full_name.' Evaluation Result';  //email subject
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -437,7 +437,7 @@ public function add_admin_director($data,$raw_pass){
       }else{
         $receiver = $emails[0]['email'];
       }
-      $from = "coopris.test@gmail.com";    //senders email address
+      $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = $coop_full_name.' Evaluation Result';  //email subject
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -457,7 +457,7 @@ public function add_admin_director($data,$raw_pass){
   }
   public function sendEmailToClientApprove($name,$email){
 //	  echo $name;
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $name.' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -499,7 +499,7 @@ The client shall submit the above required documents within 30 days from the dat
   }
   public function sendEmailToClientApproveBranch($name,$email){
 //	  echo $name;
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject =$name.' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -533,7 +533,7 @@ The client shall submit the above required documents within 30 working days from
   }
   public function sendEmailToClientApproveSatellite($name,$email){
 //	  echo $name;
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject =$name.' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -566,7 +566,7 @@ The client shall submit the above required documents within 30 working days from
   }
   public function sendEmailToClientDeny($full_name,$name,$email,$comment){
     //$step_str = (($step==1) ? "First" : (($step==2) ? "Second" : "Third"));
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $name.' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -582,7 +582,7 @@ The client shall submit the above required documents within 30 working days from
     }
   }
   public function sendEmailToClientDefer($full_name,$name,$email,$comment){
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject =$name.' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -751,7 +751,7 @@ The client shall submit the above required documents within 30 working days from
   
    public function sendEmailToClientApproveLaboratories($name,$email){
     // echo $name;
-    $from = "coopris.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject =$name.' Laboratory Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -785,7 +785,7 @@ System (CoopRIS).</pre>";
   }
 //    public function sendEmailToClientApproveLaboratories($name,$email){
 //     echo $name;
-//     $from = "coopris.test@gmail.com";    //senders email address
+//     $from = "ecoopris@cda.gov.ph";    //senders email address
 //     $subject =$name.' Laboratory Result';  //email subject
 //     $burl = base_url();
 //       //sending confirmEmail($receiver) function calling link to the user, inside message body
