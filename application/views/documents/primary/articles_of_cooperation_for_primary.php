@@ -286,7 +286,7 @@
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        <li> <?= ucwords(num_format_custom($capitalization_info->common_share))?> Pesos (<?= number_format($capitalization_info->common_share,2)?>) common shares with a par value of <?= ucwords(num_format_custom($capitalization_info->par_value))?> Pesos (<?=number_format($capitalization_info->par_value,2)?> ) per share;</li>
+        <li> <?= ucwords(num_format_custom($capitalization_info->common_share))?> (<?= number_format($capitalization_info->common_share)?>) common shares with a par value of <?= ucwords(num_format_custom($capitalization_info->par_value))?> Pesos (<?=number_format($capitalization_info->par_value,2)?> ) per share;</li>
         <?php if($bylaw_info->kinds_of_members == 2) :?>
         <li> <?= ucwords(num_format_custom($capitalization_info->preferred_share))?> Pesos (<?= number_format($capitalization_info->preferred_share,2)?>) preferred shares with a par value of <?= ucwords(num_format_custom($capitalization_info->par_value))?> (<?=$capitalization_info->par_value?> ) per share.</li>
         <?php endif;?>
