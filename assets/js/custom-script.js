@@ -532,7 +532,7 @@ $("#deleteStaffForm").validationEngine('attach',
               Start add committee form
               */
               $('#addCommitteeForm #committeeName').on('change', function(){
-                if($(this).val()=="Others"){
+                if($(this).val()=="Others"){ 
                   var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
                             '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
                             '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhp]]" name="committeeNameSpecify" id="committeeNameSpecify">' +
@@ -595,7 +595,7 @@ $("#deleteStaffForm").validationEngine('attach',
               Start add committee form
               */
               $('#addCommitteeForm #committeeName').on('change', function(){
-                if($(this).val()=="Others"){
+                if($(this).val()=="Others"){ 
                   var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
                             '<div class="form-group"><label for="committeeNameSpecify">Function and Responsibilities:</label>' +
                             // '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhp]]" name="func_and_respons" id="committeeNameSpecify">' +
@@ -611,7 +611,7 @@ $("#deleteStaffForm").validationEngine('attach',
                 $("#addCommitteeForm .ac-info-row input,textarea").val("");
                 if($(this).val() && $(this).val().length >0){
                  var cooperator_id = $(this).val() ;
-          // alert(cooperator_ID);
+
                   $.ajax({
                       type : "POST",
                       url  : "../cooperators/get_post_cooperator_info",
@@ -660,11 +660,22 @@ $("#deleteStaffForm").validationEngine('attach',
               */
               $('#addCommitteeFormAmendment #committeeName').on('change', function(){
                 if($(this).val()=="Others"){
-                  var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+                  // var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+                  //           '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
+                  //           '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhpAmendment]]" name="committeeNameSpecify" id="committeeNameSpecify">' +
+                  //           '</div></div>');
+
+                   var committeeSpecifyOthers = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
                             '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
                             '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhpAmendment]]" name="committeeNameSpecify" id="committeeNameSpecify">' +
                             '</div></div>');
-                  $('#addCommitteeFormAmendment .ac-row').append(committeeNameSpecify);
+                   var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Function and Responsibilities:</label>' +
+                             '<textarea class="form-control validate[required]" name="func_and_respons" id="func_and_respons" rows="5"></textarea>' +
+                            '<input type="hidden" value="others" name="type">' +
+                            '</div></div>');
+
+                  $('#addCommitteeFormAmendment .ac-row').append(committeeSpecifyOthers,committeeNameSpecify);
                 }else{
                   $('#addCommitteeFormAmendment .col-committee-specify').remove();
                 }
@@ -898,7 +909,7 @@ $("#deleteStaffForm").validationEngine('attach',
                             '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhp]]" name="committeeNameSpecify" id="committeeNameSpecify">' +
                             '</div></div>');
                   $('#editCommitteeFormAmendment .ac-row').append(committeeNameSpecify);
-                }else{
+                }else{ 
                   $('#editCommitteeFormAmendment .col-committee-specify').remove();
                 }
               });

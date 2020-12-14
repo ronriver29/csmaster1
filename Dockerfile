@@ -8,7 +8,10 @@ RUN apt-get -y update \
 && docker-php-ext-install sockets
 
 
-
+RUN apt-get update \
+     && apt-get install -y libzip-dev \
+     && docker-php-ext-install zip
+     
 RUN apt-get install -y libwebp-dev libjpeg62-turbo-dev libpng-dev libxpm-dev \
     libfreetype6-dev
 

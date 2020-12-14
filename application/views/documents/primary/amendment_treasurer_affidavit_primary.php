@@ -9,20 +9,37 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-  <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?=APPPATH?>../../../assets/css/bootstrap.min.css">
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
-  @page{margin: 96px 96px 130px 96px;}
-  .page_break { page-break-before: always; }
+  @page{margin: 96px 96px 70px 96px;}
+  .page_break { page-break-before: always; } 
   table, th, td {
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
   }
 
-   body{font-family:Bookman Old Style !important;font-size:12;font-style: normal;}
+  body{
+      /*font-family: 'Bookman Old Style'; font-size: 12px; */
+       font-family: 'Bookman Old Style',arial !important;font-size:12px;
+    }
   </style>
 </head>
 <body>
+    <script type="text/php">
+        if ( isset($pdf) ) {
+            $x = 570; 
+            $y=900;
+            $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
+            $font = $fontMetrics->get_font("bokman");
+            $size = 12;
+            $color = array(0,0,0);
+            $word_space = 0.0;  //  default
+            $char_space = 0.0;  //  default
+            $angle = 0.0;   //  default
+            $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);;     
+        }
+</script>
 <div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
@@ -63,12 +80,12 @@
            (Php <?php 
            $subscribed_shared_capitals_num =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$article_info->par_value_common)),2) : number_format(((str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$capitalization_info->par_value)) + (str_replace(',','',$total_associate['total_subscribed']) * str_replace(',','',$capitalization_info->par_value))),2);
 
-           $subscribed_shared_capitals_num_orig =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular_orig['total_subscribed']) * str_replace(',','',$article_info_orig->par_value_common)),2) : number_format(((str_replace(',','',$total_regular_orig['total_subscribed']) * str_replace(',','',$article_info_orig->par_value_common)) + (str_replace(',','',$total_associate_orig['total_subscribed']) * str_replace(',','',$article_info_orig->par_value_preferred))),2);
+           $subscribed_shared_capitals_num_orig =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular_orig['total_subscribed']) * str_replace(',','',$article_info_orig->par_value_common)),2) : number_format(((str_replace(',','',$total_regular_orig['total_subscribed']) * str_replace(',','',$capitalization_info_orig->par_value)) + (str_replace(',','',$total_associate_orig['total_subscribed']) * str_replace(',','',$capitalization_info_orig->par_value))),2);
            echo ($subscribed_shared_capitals_num!=$subscribed_shared_capitals_num_orig ? "<b>".$subscribed_shared_capitals_num."</b>" : $subscribed_shared_capitals_num);
             ?>) which is at least twenty five (25%) percent of the authorized capital;</li>
         <li>That the paid-up share capital of the cooperative is 
           <?php 
-          $paid_up = ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? ucwords(num_format_custom($total_regular['total_paid'] * $article_info->par_value_common)) : ucwords(num_format_custom($total_regular['total_paid'] * $article_info->par_value_common + $total_associate['total_paid'] * $article_info->par_value_preferred));
+          $paid_up = ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? ucwords(num_format_custom($total_regular['total_paid'] * $capitalization_info->par_value)) : ucwords(num_format_custom($total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] * $capitalization_info->par_value));
 
            $paid_up_orig = ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? ucwords(num_format_custom($total_regular_orig['total_paid'] * $article_info_orig->par_value_common)) : ucwords(num_format_custom($total_regular_orig['total_paid'] * $article_info_orig->par_value_common + $total_associate_orig['total_paid'] * $article_info_orig->par_value_preferred));
            echo ($paid_up!=$paid_up_orig ? "<b>".$paid_up."</b>" : $paid_up).' Pesos';

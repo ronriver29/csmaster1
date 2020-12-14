@@ -9,21 +9,13 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-  <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.css">
+  <link rel="stylesheet" href="<?=APPPATH?>../assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="<?=base_url();?>assets/icons/fontawesome-free-5.5.0-web/css/all.css">
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
-  body{font-family:Bookman Old Style !important;font-size:12}
-      span {
-        content: "\2714";
-      }
-    @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: normal;
-        src: url(http://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');
-    }
-  @page{margin: 96px 96px 144px 96px;}
+    
+ 
+ @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   /* table, th, td {
     border: 0.5px solid #000 !important;
@@ -32,10 +24,29 @@
   li {
     margin: 3px 0;
   }
+   body{
+      /*font-family: 'Bookman Old Style'; font-size: 12px; */
+       font-family: 'Bookman Old Style',arial !important;font-size:12px;
+    }
+
   </style>
 </head>
 
-<body style="font-family: 12 Bookman Old Style">
+<body style="font-size:12">
+<script type="text/php">
+        if ( isset($pdf) ) {
+            $x = 570; 
+            $y=900;
+            $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
+            $font = $fontMetrics->get_font("bokman");
+            $size = 12;
+            $color = array(0,0,0);
+            $word_space = 0.0;  //  default
+            $char_space = 0.0;  //  default
+            $angle = 0.0;   //  default
+            $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);;     
+        }
+</script>
 <div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
@@ -159,25 +170,54 @@
           <table class="table table-borderless table-sm">
             <tbody>
               <tr><!--foreach-->
-                <td><?php foreach($members_composition as $key => $compo) : ?>
-                <?php
-                if(empty($members_composition_orig[$key]))
-                {
-                   $members_composition_orig[$key]=0;
-                   $compo_orig['composition']=null;
-                }
-                else
-                {
-                   $compo_orig = $members_composition_orig[$key];
-                }
-               
-                // if($compo_orig['composition']!=$compo['composition'])
-                // {
-                //   $compo_orig['composition'] = '';
-                // }
-                ?>
-                    <?= ($compo['composition']!=$compo_orig['composition'] ? '<b>'.$compo['composition'].'</b>' : $compo['composition']) ?><br/>
-                    <?php endforeach; ?></td>
+                <td>
+                  <?php
+                  $bold_tag = null;
+                  $bold_tag_close = null;
+                    if($coop_info->common_bond_of_membership!=$coop_info_orig->common_bond_of_membership  )
+                    {
+                     $bold_tag='<b>';
+                     $bold_tag_close ='</b>';
+                    }
+
+                  if($coop_info->common_bond_of_membership=='Residential')
+                  {
+                    
+                      echo $bold_tag."Working and/or residing in the area of operaion.</b>".$bold_tag_close  ;
+                   
+                   
+                  }
+                  else if($coop_info->common_bond_of_membership=='Occupational')
+                  {
+                      foreach($members_composition as $compo) : 
+                      echo $bold_tag.$compo['composition'].$bold_tag_close.'<br/>';
+
+                     endforeach;
+                  }
+                  else
+                  {
+                    echo $bold_tag.$coop_info->field_of_membership.' of ';
+                    $name_of_ins_assoc = explode(',',$coop_info->name_of_ins_assoc);
+                    if(count($name_of_ins_assoc)==2)
+                    {
+                        echo $name_of_ins_assoc[0].' and '.$name_of_ins_assoc[1].'.'.$bold_tag_close;
+                    }
+                    else if(count($name_of_ins_assoc)==3)
+                    {
+                       echo $name_of_ins_assoc[0].', '.$name_of_ins_assoc[1].' and '.$name_of_ins_assoc[2].'.'.$bold_tag_close;
+                    }
+                    else if(count($name_of_ins_assoc)==4)
+                    {
+                       echo $name_of_ins_assoc[0].', '.$name_of_ins_assoc[1].', '.$name_of_ins_assoc[2].' and '.$name_of_ins_assoc[3].'.'.$bold_tag_close;
+                    }
+                    else
+                    {
+                      echo $coop_info->name_of_ins_assoc.$bold_tag_close;
+                    }
+                  }
+                  ?>
+                    
+                  </td>
               </tr>
             </tbody>
           </table>
@@ -260,13 +300,13 @@
 
             </tr>
             <tr>
-              <td>Par value :</td>
+              <td>Par value : </td>
               <!-- <td><u><?php echo(($bylaw_info->kinds_of_members == 1) ? number_format($article_info->par_value_common,2) : number_format(($article_info->par_value_common + $article_info->par_value_preferred),2));?></u></td> -->
               <?php
-                $par_val = ($article_info->par_value_common!=$article_info_orig->par_value_common ? '<b>'.number_format($article_info->par_value_common,2).'</b>' : number_format($article_info->par_value_common,2));
+                $par_val = ($capitalization_info->par_value!=$capitalization_info_orig->par_value ? '<b>'.number_format($capitalization_info->par_value,2).'</b>' : number_format($capitalization_info->par_value,2));
 
-                $par_value = ($article_info->par_value_common + $article_info->par_value_preferred);
-                $par_value_orig = ($article_info_orig->par_value_common + $article_info_orig->par_value_preferred);
+                $par_value = ($capitalization_info->par_value + $capitalization_info->par_value);
+                $par_value_orig = ($capitalization_info_orig->par_value + $capitalization_info_orig->par_value);
                 if($par_value!=$par_value_orig)
                 {
                   $par_value = '<b>'.$par_value.'</b>';
@@ -475,7 +515,7 @@
             </li>
             <li>
                How much is the Cooperative’s initial operating capital? <u><?php
-               $operating_capital = ($survey_info->amount_initial_operating_capital!=$survey_info_orig->amount_initial_operating_capital ? '<b>'.number_format($survey_info->amount_initial_operating_capital,2).'</b>': number_format($survey_info->amount_initial_operating_capital,2));
+               $operating_capital = ($capitalization_info->total_amount_of_paid_up_capital!=$capitalization_info->total_amount_of_paid_up_capital ? '<b>'.number_format($capitalization_info->total_amount_of_paid_up_capital,2).'</b>': number_format($capitalization_info->total_amount_of_paid_up_capital,2));
                echo $operating_capital;
                ?></u>.
             </li>
@@ -741,7 +781,7 @@
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12">
       <div class="table-responsive">
-        <table class="table table-bordered table-sm">
+        <table class="table table-bordered table-sm" style="margin-left:-60px">
           <thead>
             <tr>
               <th>Position</th>
@@ -806,11 +846,12 @@
             <?php //echo '<pre>';print_r($committees_list); echo'</pre>'; ?>
             <?php foreach($committees_list as $key => $committee) : ?>
               <?php //$committee_orig =array();
-              if(empty($committees_list_orig[$key]))
+              if(isset($committees_list_orig[$key]))
               {
-                $committees_list_orig[$key]=0;
+                // $committees_list_orig[$key]=0;
+                $committee_orig = $committees_list_orig[$key]; 
               }
-               $committee_orig = $committees_list_orig[$key]; 
+               
                ?>
             <li><strong><?= ($committee['name_of_committee']!=$committee_orig['name_of_committee'] ? '<b>'.$committee['name_of_committee'].'</b>' : $committee['name_of_committee'])?></strong>
               <ol class="text-justify" type="1">

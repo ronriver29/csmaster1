@@ -231,7 +231,7 @@ $route['cooperatives/(:any)/cooperators/api/cities'] = 'api/cities/index';
 $route['cooperatives/(:any)/cooperators/api/barangays'] = 'api/barangays/index';
 $route['cooperatives/(:any)/cooperators/check_edit_cooperator_not_exist'] = 'cooperators/check_edit_cooperator_not_exist';
 $route['cooperatives/(:any)/cooperators/check_edit_position_not_exist'] = 'cooperators/check_edit_position_not_exist';
-
+$route['cooperatives/phpinfo']= 'cooperatives/phpinfos';
 // $route['cooperatives/reservation_update_expired'] = 'cooperatives/reservation_update_expired';
 // $route['cooperatives/reservation_update'] = 'cooperatives/reservation_update';
 
@@ -397,7 +397,9 @@ $route['db_dev/rename_table/(:any)/(:any)']='db_dev/rename_table/$1/$2';
 $route['db_dev/delete_data/(:any)/(:any)']='db_dev/delete_data/$1/$2';
 $route['db_dev/update']='db_dev/update_';
 $route['db_dev/spec_table/(:nay)']='db_dev/spec_table/$1';
-
+//upload amendment
+$route['amendment_upload'] ='amendment_upload';
+//end upload 
 
 
 

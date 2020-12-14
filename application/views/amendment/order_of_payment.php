@@ -39,7 +39,7 @@
       <td class="bord" colspan="3"><b><?=$tDate?></b></td>
     </tr>
     <?php
-      if ($nature=='Amendment'){
+      if ($nature=='Amendment'){ 
         // $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $article_info->par_value_common : $total_regular['total_paid'] * $article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $article_info->par_value_common) : ($total_regular['total_paid'] *$article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred)) *0.001 : 500.00);
         $rf=0;
         $basic_reservation_fee =300; //fixed amount

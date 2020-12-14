@@ -21,9 +21,7 @@
       <?php echo form_open('amendment/'.$encrypted_id.'/amendment_committees/add',array('id'=>'addCommitteeFormAmendment','name'=>'addCommitteeFormAmendment')); ?>
       <input type="hidden" class="form-control validate[required]" id="cooperativesID" name="amendmentID" value="<?=$encrypted_id ?>">
       <div class="card-body">
-        <div class="row ac-row">
-          
-          
+        <div class="row ac-row"> 
         
           <div class="col-sm-12 col-md-4">
             <div class="form-group">

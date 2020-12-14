@@ -83,7 +83,7 @@
 <?php endif; //end if client ?>
   <?php else: ?>  
     <!-- START CDS -->
-    <?php if(count($have_cds_comment)>0):?>
+    <?php if(!empty($have_cds_comment) && is_array($have_cds_comment)):?>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg">* CDS Findings</button>
 
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -118,7 +118,7 @@
     <?php endif; //end of strlen commetn ?>
     <!-- END CDS -->
    <!--  START SENIOR -->
-   <?php if(count($have_senior_comment)>0): ?>
+   <?php if(!empty($have_senior_comment) && is_array($have_senior_comment)): ?>
    <?php if(strlen($senior_comment && $admin_info->access_level==3 ) || strlen($senior_comment && $admin_info->access_level==2) && $coop_info->status!=15) : ?>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg2">* Senior Findings</button>
 
@@ -152,7 +152,7 @@
   <?php endif; //end of strlen comment ?>
    <!--  END SENIOR -->
    <!--  START DIRECTOR -->
-  <?php if(count($have_director_comment)>0): ?>
+  <?php if(!empty($have_director_comment) && is_array($have_director_comment)): ?>
   <?php if(strlen(($have_director_comment && $admin_info->access_level==3) || ($have_director_comment && $admin_info->access_level==2) && $coop_info->status == 6 || strlen(($have_director_comment && $admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
   <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Director Findings</button>
 
@@ -260,13 +260,13 @@
         <p class="card-text">This is the generated Article  of Cooperation</p>
         <a target="_blank" href="
         <?php if ($coop_info->category_of_cooperative === 'Primary'): ?>
-                <?= base_url().'amendment/'.$encrypted_id.'/amendment_documents/articles_cooperation_primary';?>
+                <?php $url_ = base_url().'amendment/'.$encrypted_id.'/amendment_documents/articles_cooperation_primary';?>
         <?php elseif ($coop_info->grouping === 'Union'): ?>
-                <?= base_url().'amendment/'.$encrypted_id.'/amendment_documents/articles_cooperation_union';?>
+                <?php $ulr_= base_url().'amendment/'.$encrypted_id.'/amendment_documents/articles_cooperation_union';?>
         <?php else: ?>
-                <?= base_url().'amendment/'.$encrypted_id.'/amendment_documents/articles_cooperation_federation';?>
+                <?php $url_ = base_url().'amendment/'.$encrypted_id.'/amendment_documents/articles_cooperation_federation';?>
         <?php endif; ?>
-        " class="btn btn-primary">View</a>
+        " class="btn btn-primary" id="btn-article">View</a>
       </div>
     </div>
   </div>
@@ -360,31 +360,7 @@
       </div>
   </div>
 
-     <!-- <div class="col-sm-12 col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Pre-Registration Seminar PRS Certificate</h5>
-            <p class="card-text">
-              <?php if($document_two) : ?>
-              <a target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/view_document_two/<?= encrypt_custom($this->encryption->encrypt($document_two->filename))?>">
-                <?php if($is_client) : ?>
-                  This is your Pre-Registration Seminar PRS Certificate document.
-                <?php else : ?>
-                  This is the Pre-Registration Seminar PRS Certificate document.
-                <?php endif;?>
-               </a>
-              <?php endif ?>
-              <?php if(!$document_two) : ?>
-              Please upload your required Pre-Registration PRS Certificate document
-              <?php endif ?>
-              <br>
-            </p>
-          <?php if($is_client && $coop_info->status<=1): ?>
-            <a href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/upload_document_two" class="btn btn-primary">Upload</a>
-          <?php endif; ?>
-        </div>
-      </div>
-  </div> -->
+    
 </div>
 <!--ANJURY-->
 <div class="row" style="padding-top:20px;">
@@ -495,3 +471,15 @@ $count=0;
  <?php }?>   
 </div> <!-- end of row -->
 <!--ANJURY END-->
+
+<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('#btn-article').on('click',function(){
+          alert("If total number of pages in Acknowledgement didn't appear, please refresh the page.");
+            window.open('<?=$url_?>');
+            return false;
+      });
+  });
+  
+</script>

@@ -23,10 +23,18 @@
         <div class="row ac-row">
           <input type="hidden" class="form-control" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_id ?>">
           <input type="hidden" class="form-control" id="committeeID" name="committeeID" value="<?=$encrypted_committee_id?>">
+           <div class="col-md-4">
+
+              <div class="form-group">
+                <label for="cooperatorID">Name of Cooperator:</label>
+                <input type="text" value="<?= $cooperator_info->full_name?>" class="form-control validate[required]" id="cooperatorName" name="cooperatorName" disabled>
+              </div>
+
+          </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="committeeName">Name of Committee:</label>
-              <?= $cooperator_info->position?>
+             <!--  <?= $cooperator_info->position?> -->
               <select class="custom-select validate[required]" name="committeeName" id="committeeName">
                 <option value="" <?php if($committee_info->name=="") echo "selected";?>>--</option>
                 <?php
@@ -107,14 +115,22 @@
             </div>
           </div>
         </div>
+        
+         <?php
+          if($committee_info->type=='others')
+          {
+        ?>
         <div class="row">
-          <div class="col-sm-12 col-md-6">
-            <div class="form-group">
-              <label for="cooperatorID">Name of Cooperator:</label>
-              <input type="text" value="<?= $cooperator_info->full_name?>" class="form-control validate[required]" id="cooperatorName" name="cooperatorName" disabled>
-            </div>
+          <div class="col-md-6">
+            <label> Function and Responsibilities:</label>
+               <textarea name="func_and_respons" class="form-control" rows="5"> <?=$committee_info->func_and_respons?>  </textarea>
           </div>
         </div>
+        <br>
+        <?php
+          }
+        ?>
+        
         <div class="row ac-info-row">
           <div class="col-sm-12 col-md-4">
             <div class="form-group">

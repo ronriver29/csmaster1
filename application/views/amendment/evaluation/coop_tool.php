@@ -1,3 +1,8 @@
+<style type="text/css">
+  input[type="radio"]{
+      box-shadow: none;
+  }
+</style>
 <div class="row">
   <div class="col">
     <div class="row mb-2">
@@ -43,6 +48,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[0])){$rem[0]=null;}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[0]" value="<?=$rem[0]?>"></td>
             </tr>
             <tr>
@@ -60,6 +66,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[1])){$rem[1]=null;}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[1]" value="<?=$rem[1]?>"></td>
             </tr>
             <tr>
@@ -83,6 +90,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[2])){$rem[2]=null;}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[2]" value="<?=$rem[2]?>"></td>
             </tr>
             <tr>
@@ -103,6 +111,7 @@
                       }
                     } 
               ?>
+              <?php if(empty($rem[3])){$rem[3]=null;}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[3]" value="<?=$rem[3]?>"></td>
             </tr>
             <tr>
@@ -120,11 +129,12 @@
                       }
                     } 
               ?>
+                 <?php if(empty($rem[4])){$rem[4]=null;} ?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[4]" value="<?=$rem[4]?>"></td>
             </tr>
             
             <tr>
-              <td colspan="4"><b>d. Principal Office</b></td>
+              <td colspan="4"><b>d. Principal Office </b></td>
             </tr>
             <tr>
               <td style="padding-left: 30px">d.1 The proposed principal office is available (Means of verification : ocular inspection or availability or a lease contract of the proposed office address)</td>
@@ -141,6 +151,7 @@
                       }
                     } 
               ?>
+                 <?php if(empty($rem[5])){$rem[5]=null;}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[5]" value="<?=$rem[5]?>"></td>
             </tr>
             
@@ -162,6 +173,7 @@
                       }
                     } 
               ?>
+                 <?php if(empty($rem[6])){$rem[6]=null;}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[6]" value="<?=$rem[6]?>"></td>
             </tr>
             <tr>
@@ -179,6 +191,7 @@
                       }
                     } 
               ?>
+                 <?php if(empty($rem[7])){$rem[7]=null;}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[7]" value="<?=$rem[7]?>"></td>
             </tr>
             <tr>
@@ -196,6 +209,7 @@
                       }
                     } 
               ?>
+                 <?php if(empty($rem[8])){$rem[8]=null;}?>
               <td width="50%"><input type="text" class="form-control" name ="sagot[8]" value="<?=$rem[8]?>"></td>
             </tr>
             

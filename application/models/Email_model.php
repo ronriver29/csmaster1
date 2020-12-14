@@ -32,7 +32,7 @@ class Email_model extends CI_Model{
       }
   }
   public function sendEmailToSpecialist($admin_info,$coop_full_name){
-    $from = "coopris4.test@gmail.com";    //senders email address
+    $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $coop_full_name.'&rsquo;s Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
@@ -54,16 +54,19 @@ class Email_model extends CI_Model{
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = $coop_full_name." has been assigned to you. You can now evaluate this application.";
-//    $this->email->from($from,'CoopRIS Administrator');
-//    $this->email->to($admin_info->email);
-//    $this->email->subject($subject);
-//    $this->email->message($message);
-//    if($this->email->send()){
-    if($this->sendMail($admin_info->email, $subject, $message)){
-        return true;
-    }else{
-        return false;
-    }
+   $this->email->from($from,'CoopRIS Administrator');
+   $this->email->to($admin_info->email);
+   $this->email->subject($subject);
+   $this->email->message($message);
+   if($this->email->send())
+   {
+      return true;
+   }
+   else
+   {
+    return false;
+   }
+
   }
 
   public function sendEmailToSeniorAmendment($admin_info,$emails,$coop_full_name){
@@ -85,12 +88,11 @@ class Email_model extends CI_Model{
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = $coop_full_name." has been approved by ".$admin_info->full_name.". You can now evaluate this application.";
-//      $this->email->from($from,'CoopRIS Administrator');
-//      $this->email->to($receiver);
-//      $this->email->subject($subject);
-//      $this->email->message($message);
-//      if($this->email->send()){
-      if($this->sendMail($emails, $subject, $message)){
+   $this->email->from($from,'CoopRIS Administrator');
+   $this->email->to($admin_info->email);
+   $this->email->subject($subject);
+   $this->email->message($message);
+     if($this->email->send()){
           return true;
       }else{
           return false;
@@ -108,9 +110,15 @@ class Email_model extends CI_Model{
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = $coop_full_name." has been submitted by ".$admin_info->full_name.". You can now evaluate this application.";
+       $this->email->from($from,'CoopRIS Administrator');
+       $this->email->to($admin_info->email);
+       $this->email->subject($subject);
+       $this->email->message($message);
 
-      if($this->sendMail($emails, $subject, $message)){
+      // if($this->sendMail($emails, $subject, $message)){
+       if($this->email->send()){
           return true;
+       
       }else{
           return false;
       }
@@ -254,12 +262,12 @@ In addition to the above, please attach the following in 1 original and 3 certif
 The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS)..</pre>";
 
 
-//    $this->email->from($from,'CoopRIS Administrator');
-//    $this->email->to($email);
-//    $this->email->subject($subject);
-//    $this->email->message($message);
-//    if($this->email->send()){
-    if($this->sendMail($email, $subject, $message)){
+   $this->email->from($from,'CoopRIS Administrator');
+   $this->email->to($email);
+   $this->email->subject($subject);
+   $this->email->message($message);
+   if($this->email->send()){
+    // if($this->sendMail($email, $subject, $message)){
         return true;
     }else{
         return false;
@@ -348,30 +356,30 @@ The client shall submit the above required documents within 30 working days from
   
   public function sendMail($recipient,$subject,$content){
         
-            $this->load->library('mailer');
-            $mail = new PHPMailer;
+            // $this->load->library('mailer');
+            // $mail = new PHPMailer;
 
-            $mail->isSMTP();                            // Set mailer to use SMTP
-            $mail->Host = 'smtp.gmail.com';             // Specify main and backup SMTP servers
-            $mail->SMTPAuth = true;                     // Enable SMTP authentication
-            $mail->Username = 'cooperative.testing20@gmail.com';          // SMTP username
-            $mail->Password = 'kamote]]'; // SMTP password
-            $mail->SMTPSecure = 'tls';                  // Enable TLS encryption, `ssl` also accepted
-            $mail->Port = 587;                          // TCP port to connect to
+            // $mail->isSMTP();                            // Set mailer to use SMTP
+            // $mail->Host = 'smtp.gmail.com';             // Specify main and backup SMTP servers
+            // $mail->SMTPAuth = true;                     // Enable SMTP authentication
+            // $mail->Username = 'cooperative.testing20@gmail.com';          // SMTP username
+            // $mail->Password = 'kamote]]'; // SMTP password
+            // $mail->SMTPSecure = 'tls';                  // Enable TLS encryption, `ssl` also accepted
+            // $mail->Port = 587;                          // TCP port to connect to
 
-            $mail->SetFrom('coopris4.test@gmail.com', 'CoopRIS Administrator');
-            $mail->addAddress($recipient);   // Add a recipient
+            // $mail->SetFrom('coopris4.test@gmail.com', 'CoopRIS Administrator');
+            // $mail->addAddress($recipient);   // Add a recipient
 
-            $mail->isHTML(true);  // Set email format to HTML
+            // $mail->isHTML(true);  // Set email format to HTML
 
-            $bodyContent = utf8_decode($content);
+            // $bodyContent = utf8_decode($content);
 
-            $mail->Subject = $subject;
-            $mail->Body    = $bodyContent;
-            if($mail->send()) {
-                return TRUE;
-            }else{
-                return FALSE;
-            }
+            // $mail->Subject = $subject;
+            // $mail->Body    = $bodyContent;
+            // if($mail->send()) {
+            //     return TRUE;
+            // }else{
+            //     return FALSE;
+            // }
     }
 }

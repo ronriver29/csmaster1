@@ -309,18 +309,22 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                   <td class="bord">Date</td>
                   <td class="bord" colspan="3"><b id="tDate"></b></td>
                 </tr>
-                <tr>
-                  <td>
-                    O.R Date
-                  </td>
-                  <td>
-                    <input type="date" name="orDate" id="orDate" class="form-control" value="<?=date('Y-m-d')?>" />
-                  </td>
-                </tr>
+               
                 <tr>
                   <td class="bord">O.R. No</td>
                   <td class="bord"><input type="text" id="orNo" name="orNo" class="form-control" placeholder="Type here..."></td>
                 </tr>
+
+                 <tr>
+                  <td>
+                    Date of O.R
+                  </td>
+                  <td>
+                    <input type="date" name="orDate" id="orDate" class="form-control" value="" />
+                    <span id="msgdate" style="font-size:11px;margin-left:100px;color:red;font-style: italic;"></span>
+                  </td>
+                </tr>
+
                 <tr>
                   <td class="bord">Transaction No.</td>
                   <td class="bord" colspan="3"><b id="tNo"></b></td>
@@ -369,12 +373,42 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
+<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 <script src="<?=base_url();?>assets/js/toword.js"></script>
-
 <script type="text/javascript">
   
-
+$(document).ready(function(){
+  function GetNow()
+  {
+    var currentdate = new Date(); 
+    var month = currentdate.getMonth() + 1;
+    var day = currentdate.getDate();
+    var date1 = (currentdate.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '')  + day);
+    return date1;
+  }
+  $('#orDate').on('change',function(){
+    var selectedDate = $(this).val();
+    var now = GetNow();
+    // alert(now+selectedDate);
+    if(selectedDate > now)
+    {
+      $(this).val(now);
+       $("#msgdate").text("Date of O.R. should not be future date");
+      setTimeout(function(){
+          $("#msgdate").text("");
+      },5000);    
+    }
+    else if(selectedDate == now)
+    {
+      $("#msgdate").text("");
+    }
+    else
+    {
+      $("#msgdate").text("");
+    }
+  
+  });
+});
 
   function showPayment(coop_id,coop_name) {
     //save_method = 'add';
@@ -389,13 +423,13 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
         data: {coop_id:coop_id},
         success: function(data)
         {
-            var s=toWords(data.total);
+            var s = convert(data.total);
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
             $('#cid').val(coop_id);   
-            $('#word').text(s+' Pesos');
+            $('#word').text(s);
             $('#nature').text(data.nature);
             $('#particulars').html(data.particulars);
             $('#amount').html(data.amount); 

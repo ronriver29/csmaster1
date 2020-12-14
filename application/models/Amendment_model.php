@@ -943,14 +943,15 @@ class amendment_model extends CI_Model{
     //     'content'  => $this->get_purpose_content($data['type_of_cooperative'])
     //   );
 
-   $cooptypess = explode(',',$data['type_of_cooperative']);
+   $cooptypess = explode(',',$data['type_of_cooperative']); 
     foreach($cooptypess as $type_coop)
     {
        $temp_purpose = array(
         'amendment_id' => $amendment_id,
-        'content'  => $this->get_purpose_content($type_coop)
+        'content'  => $this->get_purpose_content($type_coop),
+        'cooperative_type' => $type_coop
       ); 
-
+       // return  $temp_purpose;
        $this->db->where('amendment_id',$amendment_id);
       $this->db->update('amendment_purposes',$temp_purpose);
 
@@ -1095,14 +1096,16 @@ public function assign_to_specialist($coop_id,$specialist_id,$coop_full_name){
   $this->db->trans_begin();
   $query = $this->db->get_where('admin',array('id'=>$specialist_id));
   $admin_info = $query->row();
+// return $admin_info;
   $this->db->where(array('id'=>$coop_id));
   $this->db->update('amend_coop',array('status'=>3,'evaluated_by'=>$specialist_id));
-  
+ 
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
-    return false;
+       return false; 
   }else{
-    
+
+    // return $this->email_model->sendEmailToSpecialistAmendment($admin_info,$coop_full_name);
      if($this->email_model->sendEmailToSpecialistAmendment($admin_info,$coop_full_name)){
        $this->db->trans_commit();
        return true;
@@ -1110,8 +1113,6 @@ public function assign_to_specialist($coop_id,$specialist_id,$coop_full_name){
        $this->db->trans_rollback();
        return false;  
      }
-     // $this->db->trans_commit();
-     // return true;
   }
 }
 public function approve_by_specialist($admin_info,$coop_id,$coop_full_name){
@@ -1243,6 +1244,7 @@ public function approve_by_director($admin_info,$coop_id,$comment){
     $this->db->trans_rollback();
     return false;
   }else{
+   
    
    if($this->email_model->sendEmailToClientAmendmentApprove($proposedName,$client_info->email)){
      $this->db->trans_commit();
@@ -1807,7 +1809,7 @@ public function check_if_denied($coop_id){
 
     public function get_total_count_regular($amendment_id)
     {
-       $amendment_id = $this->security->xss_clean($amendment_id);
+      $amendment_id = $this->security->xss_clean($amendment_id);
       $this->db->where('cooperatives_id',$amendment_id);
       $this->db->where('type_of_member',"Regular");
       $this->db->from('amendment_cooperators');

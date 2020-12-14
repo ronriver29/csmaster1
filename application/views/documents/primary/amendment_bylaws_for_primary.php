@@ -9,25 +9,40 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-  <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?=APPPATH?>../assets/css/bootstrap.min.css">
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
-  @page{margin: 96px 96px 144px 96px;}
+ @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   .table-cooperator, .table-cooperator th, .table-cooperator td {
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
-    @font-face {
-  font-family: 'BookmanOldStyleRegular';
-  font-style: normal;
-  font-weight: normal;
-  src: url('<?php base_url()?>assets/BookmanOldStyleRegular.ttf') format('truetype');
-}
   }
-  body{font-family: BookmanOldStyleRegular !important;}
+  
+  body
+  {
+      /*font-family: 'Bookman Old Style'; font-size: 12px; */
+    font-family: 'Bookman Old Style',arial !important;font-size:12px;
+  }
   </style>
 </head>
-<body style="font-family: 12 Bookman Old Style;">
+<body style="font-size:12">
+<script type="text/php">
+        if (isset($pdf) ) {
+            $x = 570; 
+            $y=900;
+            $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
+            $font = $fontMetrics->get_font("BOOKOS");
+            
+            $size = 12;
+            $color = array(0,0,0);
+            $word_space = 0.0;  //  default
+            $char_space = 0.0;  //  default
+            $angle = 0.0;   //  default
+            $pdf->page_text($x, $y, $text,$font , $size, $color, $word_space, $char_space, $angle);
+            
+        }
+</script>
 <div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
@@ -223,12 +238,12 @@
        
       ?>
 
-        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Application for Membership.</i> An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within <?= ucwords(num_format_custom($bylaw_info->act_upon_membership_days));?> (<?= $bylaw_info->act_upon_membership_days?>) days from the date of filing. The Board of Directors shall devise a form for the purpose which shall, aside from the profile of the applicant cooperative, include the duties of an affiliate to participate in all programs including but not limited to capital build-up, patronizing the businesses and services and savings mobilization of the federation and, such other information as may be deemed necessary. </p>
-          <p class="text-justify" style="text-indent: 50px;">The application form for membership shall include an undertaking to uphold the By-laws, policies, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly. No application for membership 
+        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Application for Membership.</i> An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within <?= ucwords(num_format_custom($bylaw_info->act_upon_membership_days));?> (<?= $bylaw_info->act_upon_membership_days?>)  days from the date of filing. The Board of Directors shall devise a form for the purpose which shall, aside from the personal data of applicant, include the duties of a member to participate in all programs including but not limited to capital build-up and savings mobilization of the cooperative and, such other information as may be deemed necessary. </p>
+          <p class="text-justify" style="text-indent: 50px;">The application form for membership shall include an undertaking to uphold the By-laws, policies, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly. No application for membership shall be given due course if not accompanied with a membership fee of 
             <?=  $membership_fee2 ?>
              (Php <?= str_replace(',','', $membership_feeSS)?>
 
-          ), which shall be refunded to the applicant cooperative in case of rejection.</p>
+          ), which shall be refunded to the applicant in case of rejection.</p>
     </div>
   </div>
   <div class="row">
@@ -670,14 +685,14 @@ $minimum_paid_up_share_associate_3 ='';
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 8. <i class="font-weight-bold">Vacancies.</i> Any vacancy occurring in the Board of Directors by reason of death, incapacity, removal or resignation may be filled-up within thirty (30) days by a majority vote of the remaining directors, if still constituting a quorum; otherwise, such vacancy shall be filled by the General Assembly in a regular or special meeting called for the purpose. The elected director shall serve only for the unexpired term of his/her predecessor in office.</p>
+        <p class="text-justify font-weight-regular">Section 9. <i class="font-weight-bold">Vacancies.</i> Any vacancy occurring in the Board of Directors by reason of death, incapacity, removal or resignation may be filled-up within thirty (30) days by a majority vote of the remaining directors, if still constituting a quorum; otherwise, such vacancy shall be filled by the General Assembly in a regular or special meeting called for the purpose. The elected director shall serve only for the unexpired term of his/her predecessor in office.</p>
         <p class="text-justify" style="text-indent: 50px;">In the event that the General Assembly failed to muster a quorum to fill the positions vacated by directors whose term have expired and said directors refuse to continue their functions on a hold-over capacity, the remaining members of the Board together with the members of the Audit Committee shall designate, from the qualified regular members of the General Assembly, their replacements who shall serve temporarily as such until their successors shall have been elected and qualified in a regular or special General Assembly meeting called for the purpose.</p>
         <p class="text-justify" style="text-indent: 50px;">If a vacancy occurs in any elective committee it shall be filled by the remaining members of the said committee, if still constituting a quorum, otherwise, the Board, in its discretion, may appoint or hold a special election to fill such vacancy.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class=text-justify "font-weight-regular">Section 9. <i class="font-weight-bold">Removal of Members of the Board of Directors and Committee Members.</i>All complaints for the removal of any elected officer shall be filed with the Board of Directors and such officer shall be given the opportunity to be heard. Majority of the Board of Directors may place the officer concerned under preventive suspension pending the resolution of the investigation. Upon finding of a prima facie evidence of guilt, the Board of Directors shall present its recommendation for removal to the General Assembly. For this purpose, the Board of Directors shall provide a policy on suspension in consultation with the Ethics Committee subject to the approval of the General Assembly.</p>
+        <p class=text-justify "font-weight-regular">Section 10. <i class="font-weight-bold">Removal of Members of the Board of Directors and Committee Members.</i>All complaints for the removal of any elected officer shall be filed with the Board of Directors and such officer shall be given the opportunity to be heard. Majority of the Board of Directors may place the officer concerned under preventive suspension pending the resolution of the investigation. Upon finding of a prima facie evidence of guilt, the Board of Directors shall present its recommendation for removal to the General Assembly. For this purpose, the Board of Directors shall provide a policy on suspension in consultation with the Ethics Committee subject to the approval of the General Assembly.</p>
         <p class="text-justify" style="text-indent: 50px;">An elective officer may be removed by three-fourths (¾) of the regular members present and constituting a quorum, in a Regular or Special General Assembly meeting called for the purpose. The officer concerned shall be given the opportunity to be heard at said assembly. The decision of the General Assembly on the matter is final and executory.</p>
         <p class="text-justify" style="text-indent: 50px;">In cases where the officers sought to be removed consist of the majority of the Board of Directors, at least 10% of the members with voting rights may file a petition with the Cooperative Development Authority to call a Special General Assembly meeting for the purpose of removing the Board of Director/s upon failure of the Board of Directors to call an assembly meeting to commence the proceeding for their removal.</p>
         <p class="text-justify" style="text-indent: 50px;">An officer appointed by the Board of Directors may be removed from office for cause by a majority vote of all the members of the Board of Directors.</p>
@@ -685,7 +700,7 @@ $minimum_paid_up_share_associate_3 ='';
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 10. <i class="font-weight-bold">Prohibitions.</i> Any member of the Board of Directors shall not hold any other position directly involved in the day-to-day operation and management of the Cooperative nor engage in any business similar to that of the Cooperative or who in any way has a conflict of interest with it</p>
+        <p class="text-justify font-weight-regular">Section 11. <i class="font-weight-bold">Prohibitions.</i> Any member of the Board of Directors shall not hold any other position directly involved in the day-to-day operation and management of the Cooperative nor engage in any business similar to that of the Cooperative or who in any way has a conflict of interest with it</p>
         <p class="text-justify" style="text-indent: 50px;">The extent of conflict of interest shall be clearly defined in the policy of the Cooperative.</p>
     </div>
   </div>
@@ -811,55 +826,82 @@ $minimum_paid_up_share_associate_3 ='';
     	</ol>
     </div>
   </div>
-  <div class="row">
+  <?php $section_=10; ?>
+  <?php if($Agriculture_type){ ?>
+    <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 11. <i class="font-weight-bold">Credit Committee.</i> A Credit Committee shall be composed of three (3) members to be appointed by the Board of Directors. Within ten (10) days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until their successors shall have been appointed and qualified and without prejudice to their reappointment. No member of the Committee shall hold any other position in the Cooperative during his/her term of office.</p>
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Credit Committee.</i> A Credit Committee shall be composed of three (3) members to be appointed by the Board of Directors. Within ten (10) days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until their successors shall have been appointed and qualified and without prejudice to their reappointment. No member of the Committee shall hold any other position in the Cooperative during his/her term of office.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 12. <i class="font-weight-bold">Functions and Responsibilities.</i> The Credit Committee shall:</p>
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Functions and Responsibilities.</i> The Credit Committee shall:</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Assist the Board of Directors in the formulation of sound lending and collection policies, systems and procedure. </li>
-    		<li>Responsible for the credit management of the Cooperative. </li>
-    		<li>In the performance of its functions, it shall process, evaluate and act upon loan application and withdrawal of deposits, except when the applicant is a member of the committee, in which case, the application shall be acted upon by the Board of Directors; and exercise general supervision including collection over all loans to members</li>
-    		<li>Responsible for the formulation and conduct of financial and credit risk management training program.</li>
-    	</ol>
+        <li>Responsible for the credit management of the Cooperative. </li>
+        <li>In the performance of its functions, it shall process, evaluate and act upon loan application and withdrawal of deposits, except when the applicant is a member of the committee, in which case, the application shall be acted upon by the Board of Directors; and exercise general supervision including collection over all loans to members</li>
+        <li>Responsible for the formulation and conduct of financial and credit risk management training program.</li>
+      </ol>
+    </div>
+  </div>
+  <?php 
+  }//end if Agriculture
+  ?>
+  <?php if($coop_info->type_of_cooperative=="Credit"){ ?>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 text-left">
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Credit Committee.</i> A Credit Committee shall be composed of three (3) members to be appointed by the Board of Directors. Within ten (10) days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until their successors shall have been appointed and qualified and without prejudice to their reappointment. No member of the Committee shall hold any other position in the Cooperative during his/her term of office.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 13. <i class="font-weight-bold">Gender and Development (GAD) Committee.</i> A Gender and Development (GAD) Committee shall be composed of three ( 3) members to be appointed by the Board of Directors provided that at least one member shall come from the Board. The Committee shall elect from among themselves a Chairperson. The Committee members shall hold office until replaced by the Board.</p>
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Functions and Responsibilities.</i> The Credit Committee shall:</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <ol class="text-justify" type="a">
+        <li>Assist the Board of Directors in the formulation of sound lending and collection policies, systems and procedure. </li>
+        <li>Responsible for the credit management of the Cooperative. </li>
+        <li>In the performance of its functions, it shall process, evaluate and act upon loan application and withdrawal of deposits, except when the applicant is a member of the committee, in which case, the application shall be acted upon by the Board of Directors; and exercise general supervision including collection over all loans to members</li>
+        <li>Responsible for the formulation and conduct of financial and credit risk management training program.</li>
+      </ol>
+    </div>
+  </div>
+<?php } //end if credit ?>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 text-left">
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Gender and Development (GAD) Committee.</i> A Gender and Development (GAD) Committee shall be composed of three ( 3) members to be appointed by the Board of Directors provided that at least one member shall come from the Board. The Committee shall elect from among themselves a Chairperson. The Committee members shall hold office until replaced by the Board.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 14. <i class="font-weight-bold">Functions and Responsibilities.</i> The Gender and Development (GAD) Committee shall:</p>
+        <p class="text-justify font-weight-regular">Section <?php  echo ++$section_;?>. <i class="font-weight-bold">Functions and Responsibilities.</i> The Gender and Development (GAD) Committee shall:</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Conduct gender analysis;</li>
-    		<li>Develop and recommend Gender and Development ( GAD )and Gender Equality (GE )policies and programs/activities/projects to the Board;</li>
-    		<li>Monitor and assess progress in the implementation of Gender and Development (GAD) programs/activities/projects towards achieving Gender Equality (GE );</li>
-    		<li>Submit report to the Board; and</li>
+        <li>Develop and recommend Gender and Development ( GAD )and Gender Equality (GE )policies and programs/activities/projects to the Board;</li>
+        <li>Monitor and assess progress in the implementation of Gender and Development (GAD) programs/activities/projects towards achieving Gender Equality (GE );</li>
+        <li>Submit report to the Board; and</li>
         <li>Provide directional guidance.</li>
-    	</ol>
+      </ol>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 15. <i class="font-weight-bold">GAD Focal Person.</i> A GAD Focal Person (GFP) shall be designated by the Board upon recommendation of the management. He or she must be an employee of the cooperative and shall perform GFP roles as additional function</p>
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">GAD Focal Person.</i> A GAD Focal Person (GFP) shall be designated by the Board upon recommendation of the management. He or she must be an employee of the cooperative and shall perform GFP roles as additional function</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 16. <i class="font-weight-bold">Functions and Responsibilities of GAD Focal Person (GFP). </i></p>
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Functions and Responsibilities of GAD Focal Person (GFP). </i></p>
     </div>
   </div>
   <div class="row">
@@ -874,24 +916,67 @@ $minimum_paid_up_share_associate_3 ='';
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 17. <i class="font-weight-bold">GAD Education and Training Program.</i> The Cooperative shall identify GAD and GE-related education and training programs. These shall be included in the annual education and training plan.</p>
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">GAD Education and Training Program.</i> The Cooperative shall identify GAD and GE-related education and training programs. These shall be included in the annual education and training plan.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 18. <i class="font-weight-bold">GAD Support Systems and Services.</i> The Cooperative shall implement other services that address GAD and GE issues and concerns. It shall also develop and establish necessary support systems that will enhance implementation of the GAD and GE services of the Cooperative</p>
+        <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">GAD Support Systems and Services.</i> The Cooperative shall implement other services that address GAD and GE issues and concerns. It shall also develop and establish necessary support systems that will enhance implementation of the GAD and GE services of the Cooperative</p>
     </div>
   </div>
+  <?php
+    if(is_array($committees_others))
+    {
+      $count_row = $section_;
+      foreach($committees_others as $rowCom) 
+      {
+       $couting = $count_row++;
+  ?>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 text-left">
+            <p class="text-justify font-weight-regular">Section <?=$count_row++?>. <i class="font-weight-bold"><?=$rowCom['name']?></i> A <?=$rowCom['name']?> Committee shall be composed of three (3) members to be appointed by the Board of Directors.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 col-md-12 text-left">
+            <p class="text-justify font-weight-regular">Section <?=$count_row++?>. <i class="font-weight-bold">Functions and Responsibilities.</i> <?=$rowCom['func_and_respons']?>.</p>
+        </div>
+      </div>  
+      
+  <?php
+      }//end foreach
+  ?>
   <div class="row">
-    <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 19. <i class="font-weight-bold">Others Committee.</i> By a majority vote of all its members, the Board of Directors may form such other committees as may be deemed necessary for the operation of the Cooperative.</p>
+      <div class="col-sm-12 col-md-12 text-left">
+          <p class="text-justify font-weight-regular">Section <?php echo $count_row++;?>. <i class="font-weight-bold">Others Committee.</i> By a majority vote of all its members, the Board of Directors may form such other committees as may be deemed necessary for the operation of the Cooperative.</p>
+      </div>
     </div>
-  </div>
-  <div class="row mb-4">
-    <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 20. <i class="font-weight-bold">Qualification and Disqualification of Committee Members.</i> The qualification and disqualification of the Board of Directors shall also apply to all the members of the committees</p>
+    <div class="row mb-4">
+      <div class="col-sm-12 col-md-12 text-left">
+          <p class="text-justify font-weight-regular">Section <?php echo $count_row++;?>. <i class="font-weight-bold">Qualification and Disqualification of Committee Members.</i> The qualification and disqualification of the Board of Directors shall also apply to all the members of the committees</p>
+      </div>
+    </div>   
+
+  <?php    
+    }
+    else
+    {
+  ?>
+    <div class="row">
+      <div class="col-sm-12 col-md-12 text-left">
+          <p class="text-justify font-weight-regular">Section 19. <i class="font-weight-bold">Others Committee.</i> By a majority vote of all its members, the Board of Directors may form such other committees as may be deemed necessary for the operation of the Cooperative.</p>
+      </div>
     </div>
+    <div class="row mb-4">
+      <div class="col-sm-12 col-md-12 text-left">
+          <p class="text-justify font-weight-regular">Section 20. <i class="font-weight-bold">Qualification and Disqualification of Committee Members.</i> The qualification and disqualification of the Board of Directors shall also apply to all the members of the committees</p>
+      </div>
   </div>
+  <?php    
+    }
+
+  ?>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
         <p class="font-weight-bold">Article VI<br>Officers and Management Staff of the Cooperative</p>
@@ -1147,7 +1232,7 @@ $minimum_paid_up_share_associate_3 ='';
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="font-weight-regular text-justify">Section 6. <i class="font-weight-bold">Share Capital Certificate.</i> TThe Board of Directors shall issue a Share Capital Certificate only to a member who has fully paid his/her subscription. The Certificate shall be serially numbered and contain the shareholder’s name, the number of shares owned, the par value, and duly signed by the Chairperson and the Secretary, and bearing the official seal of the cooperative. All certificates issued and/or transferred shall be registered in the cooperative’s Share and Transfer Book.</p>
+        <p class="font-weight-regular text-justify">Section 6. <i class="font-weight-bold">Share Capital Certificate.</i> The Board of Directors shall issue a Share Capital Certificate only to a member who has fully paid his/her subscription. The Certificate shall be serially numbered and contain the shareholder’s name, the number of shares owned, the par value, and duly signed by the Chairperson and the Secretary, and bearing the official seal of the cooperative. All certificates issued and/or transferred shall be registered in the cooperative’s Share and Transfer Book.</p>
         <p class="text-justify" style="text-indent: 50px;">The number of paid share required for the issuance of Share Capital Certificate shall be determined by the Board of Directors.</p>
         <p class="text-justify" style="text-indent: 50px;">The shares may be purchased, owned or held only by persons who are eligible for membership. Subject to existing government rules or laws, interests shall be paid only to paid-up shares which may be in cash; or credited as payment of unpaid subscriptions, outstanding accounts, or additional shares or to the revolving fund of the cooperative.</p>
     </div>
@@ -1417,94 +1502,122 @@ $minimum_paid_up_share_associate_3 ='';
       </div>
     </div>
   </div>
-  <?php if(sizeof($cooperator_directors) >=3) :?>
-    <div class="row">
+  <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+                <?php if(!empty($cooperator_directors[0]['full_name'])):?>
                 <td><b><?=$cooperator_directors[0]['full_name']?></b><br>Director</td>
+              <?php endif; ?>
+              <?php if(!empty($cooperator_directors[1]['full_name'])):?>
                 <td><b><?=$cooperator_directors[1]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+              <?php if(!empty($cooperator_directors[2]['full_name'])):?>
                 <td><b><?=$cooperator_directors[2]['full_name']?></b><br>Director</td>
+              <?php endif; ?>
               </tr>
           </table>
         </div>
       </div>
     </div>
-  <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=5) :?>
+
+
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+                <?php if(!empty($cooperator_directors[3]['full_name'])):?>
                 <td><b><?=$cooperator_directors[3]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+              <?php if(!empty($cooperator_directors[4]['full_name'])):?>
                 <td><b><?=$cooperator_directors[4]['full_name']?></b><br>Director</td>
+              <?php endif;?>
               </tr>
           </table>
         </div>
       </div>
     </div>
-  <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=8) :?>
+
+
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+              <?php if(!empty($cooperator_directors[5]['full_name'])): ?>
                 <td><b><?=$cooperator_directors[5]['full_name']?></b><br>Director</td>
+              <?php endif; ?>
+              <?php if(!empty($cooperator_directors[6]['full_name'])):?>
                 <td><b><?=$cooperator_directors[6]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+              <?php if(!empty($cooperator_directors[7]['full_name'])):?>
                 <td><b><?=$cooperator_directors[7]['full_name']?></b><br>Director</td>
+              <?php endif; ?>
               </tr>
           </table>
         </div>
       </div>
     </div>
-  <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=10) :?>
+
+
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+                <?php if(!empty($cooperator_directors[8]['full_name'])):?>
                 <td><b><?=$cooperator_directors[8]['full_name']?></b><br>Director</td>
-                <td><b><?=$cooperator_directors[9]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+                 <?php if(!empty($cooperator_directors[9])):?>
+                <td><b><?=$cooperator_directors[9]['full_name']?></b><br>Director</td> 
+                <?php endif; ?>
               </tr>
           </table>
         </div>
       </div>
     </div>
-  <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=13) :?>
+ 
+
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+                <?php if(!empty($cooperator_directors[10])):?>
                 <td><b><?=$cooperator_directors[10]['full_name']?></b><br>Director</td>
-                <td><b><?=$cooperator_directors[11]['full_name']?></b><br>Director</td>
+              <?php endif;?>
+                <?php if(!empty($cooperator_directors[11])):?>
+                    <td><b><?=$cooperator_directors[11]['full_name']?></b><br>Director</td>
+                <?php endif; ?>
+                <?php if(!empty($cooperator_directors[12])):?>
                 <td><b><?=$cooperator_directors[12]['full_name']?></b><br>Director</td>
+                <?php endif; ?> 
               </tr>
           </table>
         </div>
       </div>
-    </div>
-  <?php endif;?>
-  <?php if(sizeof($cooperator_directors) >=15) :?>
+    </div> 
+
+
+
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
+                <?php if(!empty($cooperator_directors[13])):?>
                 <td><b><?=$cooperator_directors[13]['full_name']?></b><br>Director</td>
+               <?php endif; ?>
+               <?php if(!empty($cooperator_directors[14]['full_name'])):?>
                 <td><b><?=$cooperator_directors[14]['full_name']?></b><br>Director</td>
+              <?php endif;?>
               </tr>
           </table>
         </div>
       </div>
     </div>
-  <?php endif;?>
-</div>
 <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 <script src="<?=base_url();?>assets/js/popper.min.js"></script>
 <script src="<?=base_url();?>assets/js/bootstrap.min.js"></script>

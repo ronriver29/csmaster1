@@ -197,7 +197,7 @@ $(function(){
   });
 
   $('#reserveAddForm select[name="majorIndustry[]"').each(function(index){
-    $(this).on('change',function(){ alert("asdfasdfasd");
+    $(this).on('change',function(){ 
       $('#reserveAddForm #subClass'+(index+1)).empty();
       $('#reserveAddForm #subClass'+(index+1)).prop("disabled",true);
       if($(this).val() && ($(this).val()).length > 0){
@@ -277,7 +277,7 @@ $(function(){
       var coop_type_val = $('#reserveAddForm #typeOfCooperative').val();
       $.ajax({
           type : "POST",
-          url  : "../api/major_industries",
+          url  : "../api/major_industries", 
           dataType: "json",
           data : {
             coop_type: coop_type_val

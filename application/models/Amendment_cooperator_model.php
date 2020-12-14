@@ -395,7 +395,7 @@ $this->last_query = $this->db->last_query();
           else
           {
               if($this->check_position_not_exists($data->cooperatives_id,$amendment_id,$cooperator_info['position'])){
-                if($this->check_directors_not_max($data->cooperatives_id)){
+                if($this->check_directors_not_max($data->cooperatives_id,$amendment_id)){
                   $this->db->trans_begin();
                   $this->db->where('id', $cooperator_id);
                   $this->db->update('amendment_cooperators',$cooperator_info);
@@ -433,7 +433,7 @@ $this->last_query = $this->db->last_query();
           else
           {
               if($this->check_position_not_exists($data->cooperatives_id,$amendment_id,$cooperator_info['position'])){
-                if($this->check_directors_not_max($data->cooperatives_id)){
+                if($this->check_directors_not_max($data->cooperatives_id,$amendment_id)){
                   $this->db->trans_begin();
                   $this->db->where('id', $cooperator_id);
                   $this->db->update('amendment_cooperators',$cooperator_info);
@@ -453,7 +453,7 @@ $this->last_query = $this->db->last_query();
           } //end num rows 
           
         }else if(strcmp($cooperator_info['position'],'Board of Director')===0){
-          if($this->check_directors_not_max($data->cooperatives_id)){
+          if($this->check_directors_not_max($data->cooperatives_id,$amendment_id)){
             $this->db->trans_begin();
             $this->db->where('id', $cooperator_id);
             $this->db->update('amendment_cooperators',$cooperator_info);
@@ -557,7 +557,7 @@ $this->last_query = $this->db->last_query();
       if ($this->checkname_not_id($cooperator_id, $cooperator_info['full_name'], $data->cooperatives_id)) {
         if(strcmp($cooperator_info['position'], 'Chairperson')===0){
           if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'])){
-            if($this->check_directors_not_max($data->cooperatives_id)){
+            if($this->check_directors_not_max($data->cooperatives_id,$amendment_id)){
               $this->db->trans_begin();
               $this->db->where('id', $cooperator_id);
               $this->db->update('laboratories_cooperators',$cooperator_info);
@@ -576,7 +576,7 @@ $this->last_query = $this->db->last_query();
           }
         }else if(strcmp($cooperator_info['position'], 'Vice-Chairperson')===0){
           if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'])){
-            if($this->check_directors_not_max($data->cooperatives_id)){
+            if($this->check_directors_not_max($data->cooperatives_id,$amendment_id)){
               $this->db->trans_begin();
               $this->db->where('id', $cooperator_id);
               $this->db->update('laboratories_cooperators',$cooperator_info);

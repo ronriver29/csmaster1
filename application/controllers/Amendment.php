@@ -501,7 +501,8 @@
 	                $typeOfCooperative = implode(',',$this->input->post('typeOfCooperative'));
 
 	                 // $type_of_cooperativeName = $this->format_name($typeOfCooperative);
-
+                  $field_memship ='';
+                  $name_of_ins_assoc ='';
 	                if($this->input->post('commonBondOfMembership')=='Institutional')
 	                {
 	                       $name_of_ins_assoc = implode(',',$this->input->post('name_ins_assoc'));
@@ -588,14 +589,14 @@
                     );
                     // $this->debug($field_data);
                     // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry));
-                    // if($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry)){
+                    if($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry)){
 
-                    //   $this->session->set_flashdata('cooperative_success', 'Successfully updated expired reservation.');
-                    //   redirect('amendment/'.$this->input->post('cooperativeID'));
-                    // }else{
-                    //   $this->session->set_flashdata('cooperative_error', 'Unable to reserve cooperative.');
-                    //   redirect('amendment/'.$this->input->post('cooperativeID'));
-                    // }
+                      $this->session->set_flashdata('cooperative_success', 'Successfully updated expired reservation.');
+                      redirect('amendment/'.$this->input->post('cooperativeID'));
+                    }else{
+                      $this->session->set_flashdata('cooperative_error', 'Unable to reserve cooperative.');
+                      redirect('amendment/'.$this->input->post('cooperativeID'));
+                    }
                   }
                 }
               }else{
@@ -814,9 +815,12 @@
                         }
                         $data['director_comment'] = $this->amendment_model->admin_comment($decoded_id,3);
                         $data['have_director_comment'] = $this->amendment_model->admin_comment_value($decoded_id,3);
-
-                        // var_dump($data['article_complete']);
-                        // $this->debug($data['business_activities']);
+                  //download payment      
+                  $data['coop_capitalization']=$this->coop_capitalization($coop_id);
+                  $data['amendment_capitalization']= $this->amendment_capitalization($decoded_id);      
+                  $data['name_reservation_fee']=100.00;
+                  $data['pay_from']='reservation'; 
+                  //end of download payment       
               $this->load->view('./template/header', $data);
               $this->load->view('cooperative/amendment_details', $data);
               $this->load->view('./template/footer');
@@ -1134,12 +1138,12 @@
                     if((is_numeric($decoded_id) && $decoded_id!=0) && (is_numeric($decoded_specialist_id) && $decoded_specialist_id!=0)){
                       if($this->amendment_model->check_not_yet_assigned($decoded_id)){
                         
-                        // echo($this->amendment_model->assign_to_specialist($decoded_id,$decoded_specialist_id,$coop_full_name));
+                       // $this->debug($this->amendment_model->assign_to_specialist($decoded_id,$decoded_specialist_id,$coop_full_name));
                         if($this->amendment_model->assign_to_specialist($decoded_id,$decoded_specialist_id,$coop_full_name)){
                           $this->session->set_flashdata('list_success_message', 'Successfully assigned the application to an validator.');
                           redirect('amendment');
                         }else{
-                          $this->session->set_flashdata('list_error_message', 'Unable to assign the application to an evaluator.');
+                          $this->session->set_flashdata('list_error_message', 'Unable to assign the application to an evaluator.cccc');
                           redirect('amendment');
                         }
                       }else{
@@ -1224,7 +1228,7 @@
                               $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                               redirect('amendment');
                             }else{
-                              if($this->admin_model->check_if_director_active($user_id)){
+                              if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
 
                                 $comment = $this->input->post('comment');
                                 $data_comment = array(
@@ -1770,10 +1774,10 @@
             $this->db->join('subclass', 'subclass.id = industry_subclass_by_coop_type.subclass_id','inner');
             $this->db->where('business_activities_cooperative_amendment.amendment_id', $decoded_id);
            $qrys  = $this->db->get();
-            echo json_encode($this->db->last_query());
+            // echo json_encode($this->db->last_query());
            $data2 = $qrys->result_array();
             $result->business_activities = $data2;
-            // echo json_encode($result);
+            echo json_encode($result);
           }else{
             echo json_encode(array('error'=>'Internal Server Error.'));
           }
@@ -2518,146 +2522,34 @@
     	$result = $this->amendment_model->amendment_info($amendment_id);
     	echo json_encode($result);
     }
-//     public function test()
-//     {
-//       $qry = $this->db->get('amendment_coop_type_upload');
-//       $counter =5;
-//       foreach($qry->result_array() as $row)
-//       {
-       
-//         $data[] = $row;
-//         $counter++;
-//       }
 
-// $val = Array
-//     (
-//         Array
-//         (
-//             'cooperative_type_id' => '',
-//             'title' => "Feasibility Study",
-//             'description' => "Detailed Feasibility Study",
-//             'document_num' => 1
-//           )
-//         ,
-//         Array
-//         (
-//             'cooperative_type_id' => '',
-//             'title' => "Books of Account",
-//             'description' => "Undertaking to maintain separate books of accounts for each business activity",
-//             'document_num' => 2
-//           )
-//         ,
-//         Array
-//         (
-//             'cooperative_type_id' => 8,
-//             'title' => "CLOA",
-//             'description' => "Mother CLOA in case of plantation based ARBs",
-//             'document_num' => 5
-//           )
-//         ,
-//          Array
-//         (
-//             'cooperative_type_id' => 8,
-//             'title' => "DAR",
-//             'description' => "Written verfication from DAR to the effect that the Cooperative organization is needed and desired by the beneficiaries, economically viable, at least",
-//             'document_num' => 6
-//           )
-//         ,
-//          Array
-//         (
-//             'cooperative_type_id' => 20,
-//             'title' => "Pre-feasibility Study",
-//             'description' => "Copy of the Pre-feasibility study of the housing projects undertaking certified as reviewed by National Housing Authorithy",
-//             'document_num' => 7
-//         ),
-//          Array
-//         (
-//             'cooperative_type_id' => 17,
-//             'title' => "Certification of Cooperative Education & Transport",
-//             'description' => "Certification of Cooperative Education & Transport Operation Seminar (CETOS) By Office of Transport Cooperatives OTC",
-//             'document_num' => 8
-//         ),
-//          Array
-//         (
-//             'cooperative_type_id' => 17,
-//             'title' => "Favorable Endorsement",
-//             'description' => "Favorable endorsement by Office of Transport Cooperatives (OTC)",
-//             'document_num' => 9
-//         ),
-//          Array
-//         (
-//             'cooperative_type_id' => 18,
-//             'title' => "Proof of Land Ownership",
-//             'description' => "Proof of Land ownership",
-//             'document_num' => 10
-//         ),
-//          Array
-//         (
-//             'cooperative_type_id' => 12,
-//             'title' => "Detailed Feasibility Study",
-//             'description' => "Detailed Feasibility Study indicating viability of proposed business activity",
-//             'document_num' => 11
-//         ),
-//          Array
-//         (
-//             'cooperative_type_id' => 21,
-//             'title' => "TIN",
-//             'description' => "Tax Identification Number (TIN)",
-//             'document_num' => 12
-//         ),
-//          Array
-//         (
-//             'cooperative_type_id' => 3,
-//             'title' => "TIN",
-//             'description' => "Tax Identification Number (TIN)",
-//             'document_num' => 13
-//         ),
-//          Array
-//         (
-//             'cooperative_type_id' => 3,
-//             'title' => "Individual Profesional License",
-//             'description' => "Photocopy of valid individual Professional License of all members",
-//             'document_num' => 14
-//         ),
-//          Array
-//         (
-//             'cooperative_type_id' => 15,
-//             'title' => "TIN",
-//             'description' => "Tax Identification Number (TIN)",
-//             'document_num' => 15
-//         ),
-//          Array
-//         (
-//             'cooperative_type_id' => 15,
-//             'title' => "Detailed Feasibility Study",
-//             'description' => "Detailed feasibility study (expressly mentioning whether the undertaking is primary, secondary or tertiary level hospital, diagnostic center, spa & we",
-//             'document_num' => 16
-//         ),
-//          Array
-//         (
-//             'cooperative_type_id' => 23,
-//             'title' => "TIN",
-//             'description' => "Tax Identification Number (TIN)",
-//             'document_num' => 17
-//         ),
-//          Array
-//         (
-//             'cooperative_type_id' => 23,
-//             'title' => "Certification from Mines Geo-Sciende Bureau Region",
-//             'description' => "Certification from Mines Geo-Science Bureau Regional Office that the members are licensed miners if the area of business operation is within the People",
-//             'document_num' => 18
-//         )
-// );
-//       if($this->db->insert_batch('amendment_coop_type_upload',$val))
-//       {
-//         echo"success";
-//       }
-//       else
-//       {
-//         echo "failed to replicate data";
-//       }
-//       // $this->debug($data);
-//     }
+    public function coop_capitalization($cooperative_id)
+    {
+      $qry =$this->db->query("select * from capitalization where cooperatives_id='$cooperative_id'");
+      if($qry->num_rows()>0)
+      {
+        $data = $qry->row();
+      }
+      else
+      {
+        $data  ='No data found.';
+      }
+      return $data;
+    }
+    public function amendment_capitalization($amendment_id)
+    {
+      $qry =$this->db->query("select * from amendment_capitalization where amendment_id='$amendment_id'");
+      if($qry->num_rows()>0)
+      {
+        $data = $qry->row();
+      }
+      else
+      {
+        $data  ='No data found.';
+      }
+      return $data;
+    }
+
     public function debug($array)
     {
     		echo"<pre>";

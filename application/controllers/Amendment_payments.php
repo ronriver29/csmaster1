@@ -245,12 +245,43 @@ class Amendment_payments extends CI_Controller{
           $J->render();
           $J->stream("order_of_payment.pdf", array("Attachment"=>1));
         }//end payment save
-      } //end check paymet exist
-      
-      
+      }
+      else{
+          $user_id = $this->session->userdata('user_id');
+          $data1['tDate'] = $this->Payment_model->get_payment_info_amendment($data)->date;
+          // echo $this->db->last_query();
+          $data1['nature'] = $this->Payment_model->get_payment_info_amendment($data)->nature;
 
-     // $this->session->set_flashdata('redirect_applications_message', 'Payment request has been submitted');
-      //redirect('cooperatives');
+          $data1['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
+          $data1['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
+          $data1['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
+          // $data1['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+          // $data1['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
+          $data1['name_reservation_fee']=100.00;
+          $data1['coop_capitalization']=$this->coop_capitalization($cooperative_id);
+          $data1['amendment_capitalization']= $this->amendment_capitalization($decoded_id);
+
+          $data1['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
+          if(strlen($data1['coop_info_orig']->acronym_name)>0)
+          {
+          $acronym =' ('.$data1['coop_info_orig']->acronym_name.')';
+          }
+          else
+          {
+          $acronym = '';
+          }
+          $coop_orig_name = $data1['coop_info_orig']->proposed_name;
+          $data1['original_coop_name']= $coop_orig_name.$acronym;
+          // $this->debug( $data1['original_coop_name']);
+         // $this->load->view('amendment\order_of_payment', $data1);
+          $html2 = $this->load->view('amendment/order_of_payment', $data1, TRUE);
+          $J = new pdf();
+          $J->setPaper('folio', 'portrait');
+          $J->load_html($html2);
+          $J->render();
+          $J->stream("order_of_payment.pdf", array("Attachment"=>1));
+
+      } //end check paymet exist
     }
      else if ($this->input->post('onlineBtn')){
       //change status GET YOUR CERTIFICATE

@@ -244,7 +244,7 @@ $(function(){
         // }
         //business activity
           var count_id = 1;
-          // console.log(data.business_activities);
+          console.log(data.business_activities);
           $.each(data.business_activities, function(x,business_activy){
         
           var c = count_id++;
@@ -478,7 +478,7 @@ function get_specific_subclass_desc(id)
      $('select[name="typeOfCooperative[]"] option:selected').each(function() {
      typeCoop_arrays.push($(this).val());
       console.log(typeCoop_arrays);
-      $('#typeOfCooperative_value').val(typeCoop_arrays);
+      $('#typeOfCooperative_value').val(typeCoop_arrays); alert("dd");
      });
   
         // alert(cooptype_value);
@@ -507,28 +507,102 @@ function get_specific_subclass_desc(id)
 //modified by json
 $(".coop-type").on('change',function(){
         var cooptype_value = this.value;
-        // alert(cooptype_value);
         var typeCoop_arraysa=[]; 
-     $('select[name="typeOfCooperative[]"] option:selected').each(function() {
-     typeCoop_arraysa.push($(this).val());
-    // alert(typeCoop_arraysa);
-      $('#typeOfCooperative_value').val(typeCoop_arraysa);
-     });
-          
+           $('select[name="typeOfCooperative[]"] option:selected').each(function() {
+               typeCoop_arraysa.push($(this).val());
+              $('#typeOfCooperative_value').val(typeCoop_arraysa);
+           });
+
             $.ajax({
              type : "POST",
              url  : "get_major_industry_ajax",
              dataType: "json",
              data: {cooptype_:cooptype_value},
              success: function(responsetxt){
-              // console.log(responsetxt['desciption']);
-              $.each(responsetxt,function(a,major_industry){
-                 $('.major-industry').append($('<option></option>').attr('value',major_industry['description']).text(major_industry['description']));
+              
+              $.each(responsetxt,function(a,major_industry){ console.log(major_industry['major_industry_id']);
+                 $('.major-ins').append($('<option></option>').attr('value',major_industry['major_industry_id']).text(major_industry['description']));
 
               });
              }
             }); 
         }); 
+
+  //major
+  $(document).on('change','.major-ins',function(){
+        const current_major_id =  $(this).attr('id');
+        var intLastCount = parseInt(current_major_id.substr(-1));
+      $('#reserveUpdateForm #subClass'+(intLastCount)).empty();
+      $('#reserveUpdateForm #subClass'+(intLastCount)).prop("disabled",true);
+          if($(this).val() && ($(this).val()).length > 0){
+            var subClassTemp =   $('#reserveUpdateForm #subClass'+(intLastCount));
+            $(subClassTemp).prop("disabled",false);
+            var major_industry = $(this).val();
+            var typeCoop_arrays=[]; 
+            $('select[name="typeOfCooperative[]"] option:selected').each(function() {
+            typeCoop_arrays.push($(this).val());
+            $('#typeOfCooperative_value').val(typeCoop_arrays);
+              $.each(typeCoop_arrays , function(n,type_coop_id){
+
+                if(type_coop_id.length > 0 ){
+                    $.ajax({
+                    type : "POST",
+                    url  : "../../api/industry_subclasses",
+                    dataType: "json",
+                    data : {
+                      coop_type: type_coop_id,
+                      major_industry: major_industry
+                    },
+                    success: function(dataa){
+                        $(subClassTemp).append($('<option></option>').attr('value',"").text(""));
+                        $.each(dataa, function(key,value){ console.log(value);
+                          $(subClassTemp).append($('<option></option>').attr('value',value.id).text(value.description));
+                        });
+                    }
+                  });
+                }
+              });  
+            });    
+          }
+
+     });
+  //end major
+     // $('#reserveUpdateForm select[name="typeOfCooperative[]"').each(function(index){ alert("success");
+     //    $('#reserveAddForm #addMoreSubclassBtn').prop("disabled",true);
+     //    $("#reserveAddForm #proposedName").prop("disabled",true);
+     //    $('#reserveAddForm select[name="majorIndustry[]"').each(function(index){
+     //      $(this).empty();
+     //      $(this).prop("disabled",true);
+     //    });
+     //    $('#reserveAddForm select[name="subClass[]"').each(function(index){
+     //      $(this).empty();
+     //      $(this).prop("disabled",true);
+     //    });
+     //    if($(this).val() && ($(this).val()).length > 0){
+     //      $("#reserveAddForm #addMoreSubclassBtn").prop("disabled",false);
+     //      $("#reserveAddForm #proposedName").prop("disabled",false);
+     //      var coop_type = $(this).val();
+     //        $.ajax({
+     //        type : "POST",
+     //        url  : "../api/major_industries",
+     //        dataType: "json",
+     //        data : {
+     //          coop_type: coop_type
+     //        },
+     //        success: function(data){
+     //          $('#reserveAddForm select[name="majorIndustry[]"').each(function(index){
+     //            var majorIndustry = $(this);
+     //            $(majorIndustry).prop("disabled",false);
+     //            $(majorIndustry).append($('<option></option>').attr('value',"").text(""));
+     //            $.each(data, function(key,value){
+     //              $(majorIndustry).append($('<option></option>').attr('value',value.id).text(value.description));
+     //            });
+     //          });
+     //        }
+     //      });
+     //    }
+     //  });
+
 //endo modified
 
 //modified add major industry dynamically

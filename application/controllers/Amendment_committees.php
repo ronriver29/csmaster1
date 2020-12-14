@@ -240,7 +240,8 @@ class Amendment_committees extends CI_Controller{
                             $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                             // $data['cooperators'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_for_committee($decoded_id);
                             $data['cooperators'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_for_committee2($decoded_id);
-                            $data['custom_committees'] = $this->committee_model->get_all_custom_committee_names_of_coop($decoded_id);
+                            $data['custom_committees'] = $this->amendment_committee_model->get_all_custom_committee_names_of_coop($decoded_id);
+                            // $this->debug($data['custom_committees']);
                             $this->load->view('./template/header', $data);
                             $this->load->view('amendment/add_form_committee', $data);
                             $this->load->view('./template/footer');
@@ -257,6 +258,9 @@ class Amendment_committees extends CI_Controller{
                                 'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName'),
                                 'amendment_cooperators_id'=> $decoded_id,
                                 'amendment_id'=>$amendment_id_,
+                                'cooperative_id' => $cooperative_id,
+                                'func_and_respons' => $this->input->post('func_and_respons'),
+                                'type' => $this->input->post('type')
                                 );
                               // $this->debug($data);
                               $success = $this->amendment_committee_model->add_committee($data);
@@ -442,13 +446,14 @@ class Amendment_committees extends CI_Controller{
                               $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
                               $decoded_post_committee_id = $this->encryption->decrypt(decrypt_custom($this->input->post('committeeID')));
                               $data_com = array(
-                                'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName'),
+                                 'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName'),
+                                  'func_and_respons' => $this->input->post('func_and_respons'),
+                                  // 'type' =>$this->input->post('type'),
                                 'amendment_id' => $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID'))),
                                 'id' => $this->encryption->decrypt(decrypt_custom($this->input->post('committeeID')))
                                 );
+                               // $this->debug($data_com);
                               $success = $this->amendment_committee_model->edit_committee($decoded_post_committee_id,$data_com);
-                              // $this->debug($success);
-                              // $this->debug($data);
                               if($success['success']){
                                 $this->session->set_flashdata('committee_success', $success['message']);
                                 redirect('amendment/'.$this->input->post('cooperativesID').'/committees');

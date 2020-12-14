@@ -9,19 +9,21 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-  <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?=APPPATH?>../assets/css/bootstrap.min.css">
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <link rel="shortcut/icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
-  @page{margin: 96px 96px 144px 96px;}
+  @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   table, th, td {
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
   }
-
-  body{font-family:Bookman Old Style !important;}
+  body{
+        font-family: 'Bookman Old Style',arial !important;font-size:12px;
+    }
   </style>
+
 </head>
 <body style="font-family:12 Bookman Old Style">
 <div class="container-fluid text-monospace">
@@ -731,7 +733,7 @@
   </div>
   <div class="row mb-3">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>, consists of ______ pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>
+      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>, consists of <u><?=$this->session->userdata('pagecount')?></u> pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>
     </div>
   </div>
 

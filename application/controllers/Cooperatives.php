@@ -1911,5 +1911,8 @@
         print_r($array);
         echo"</pre>";
     }
+    public function phpinfos(){
+      echo phpinfo();
+    }
   }
  ?>

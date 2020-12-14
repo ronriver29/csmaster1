@@ -669,7 +669,7 @@
         </li>
           <li class="list-group-item  flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1 font-weight-bold">Step 11</h5>
+              <h5 class="mb-1 font-weight-bold">Step 11 </h5>
               <small class="text-muted">
                 <?php if($coop_info->status > 1) :?>
                 <span class="badge badge-success">COMPLETE</span>
@@ -727,6 +727,62 @@
                 <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_payments" class="btn btn-color-blue btn-sm ">Payment</a>
               </small>
             <?php endif ?>
+            <!-- Download payment -->
+            <?php
+            if(($coop_info->status ==13) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $economic_survey_complete && $staff_complete && $status_document_one && $status_document_two && $status_document_cooptype && $complete_position)
+              {
+                  
+                if ($pay_from=='reservation')
+                {
+                  $rf=0;
+                  $basic_reservation_fee =300; //fixed amount
+                  $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_capitalization->total_amount_of_paid_up_capital;
+                  //amendment paid up is greater than coop total paid up
+                  if($diff_amount>0)
+                  {
+                    $percentage_of_onepercent= $diff_amount * 0.01; //x 1%
+                    $pecentage_of_ten_percent = $percentage_of_onepercent *0.1; //10% of one percent 
+                    $total_reservation_fee = $pecentage_of_ten_percent+ $basic_reservation_fee;
+                    $rf = $total_reservation_fee;
+                  }
+                  else
+                  {
+                    $rf =  $basic_reservation_fee;
+                  }
+                  // $lrf=(($rf+$name_reservation_fee)*.01>10) ?($rf+$name_reservation_fee)*.01 : 10;
+                   $lrf=$rf*0.01;
+                   if($lrf<10)
+                   {
+                    $lrf=10;
+                   }
+                }
+
+                if(count(explode(',',$coop_info->type_of_cooperative))>1)
+                {
+                  $proposeName = $coop_info->proposed_name.' Multipurpose Cooperative'.$coop_info->grouping;
+                }
+                else
+                {
+                    $proposeName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.'  Cooperative '.$coop_info->grouping;
+                }
+                ?>
+                
+               <?php echo form_open('Amendment_payments/add_payment',array('id'=>'paymentForm','name'=>'paymentForm')); ?>
+                 <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=$encrypted_id ?>">
+                <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
+                <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$proposeName?>">
+                <input type="hidden" class="form-control" id="nature" name="nature" value="Amendment">
+                <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee">
+                <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2) ?>">
+                <input type="hidden" class="form-control" id="total" name="total" value="<?=$rf+$lrf+$name_reservation_fee?>">
+                <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
+                 <input style="width:20%;" class="btn btn-info btn-sm" type="submit" id="offlineBtn" name="offlineBtn" value="Downlaod O.P">
+            </div>
+          </form>
+            <?php
+             }  
+            ?>
+            <!-- end download payment -->
           </li>
       </ul>
     </div>

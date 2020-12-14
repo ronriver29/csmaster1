@@ -406,4 +406,39 @@ class Amendment_committee_model extends CI_Model{
       return array($ajax['fieldId'],true);
     }
   }
+  public function get_all_others_committees_of_coop($amendment_id){
+    $query = $this->db->get_where('amendment_committees',array('amendment_id'=>$amendment_id,'type'=>'others'));
+    $data =  $query->result_array();
+    return $data;
+  }
+  public function check_credit_committe_in_agriculture($amendment_id)
+  {
+    $query =$this->db->query("select type_of_cooperative from cooperatives where id='$amendment_id'");
+    if($query->num_rows()>0)
+    {
+      foreach($query->result_array() as $row)
+      {
+        if($row['type_of_cooperative'] =='Agriculture')
+        {
+          $query2 = $this->db->get_where('amendment_committees',array('amendment_id'=>$amendment_id,'name'=>"Credit"));
+          if($query2->num_rows()>0)
+          {
+            return true;
+          }
+          else
+          {
+            return false;
+          }
+        }
+        else
+        {
+          return false;
+        }
+      }
+    }
+    else
+    {
+      return false;
+    }
+  }
 }

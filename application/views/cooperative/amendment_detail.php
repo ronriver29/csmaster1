@@ -112,13 +112,15 @@
                 <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreSubclassBtn"><i class="fas fa-plus"></i> Add More Business Activity</button>
               </div>
             </div>
+            
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group" style="margin-bottom: 0">
                   <label for="newName"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your new name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
 
-                    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendment_proposed_name],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess">
+                 <!--    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendment_proposed_name],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess"> -->
+                    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendment_proposed_name]]" name="newNamess" id="newNamess">
                   <input type="hidden" class="form-control" name="newName2" id="newName2">
                   <input type="hidden" id="cooperative_idss" />
                 </div>
