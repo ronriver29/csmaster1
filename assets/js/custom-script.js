@@ -1579,7 +1579,7 @@ $('#editStaffForm #position').on('change', function(){
     /* START APPROVE AMENDMENT*/
   $('#approveAmendmentModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
-    var coop_name = button.data('cname');
+    var coop_name = button.data('cname'); 
     var coop_id = button.data('coopid');
     var modal = $(this)
     modal.find('.modal-body #cooperativeID').val(coop_id);

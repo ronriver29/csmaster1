@@ -7,7 +7,7 @@
     </h5> 
   <?php else :?>
     <?php if ($coop_info->status !=12){?>
-    <?php if($admin_info->access_level != 3){
+    <?php if($admin_info->access_level != 3 && $admin_info->access_level != 4){
             $submit = 'Submit';
         } else {
             $submit = 'Approve';
@@ -34,11 +34,15 @@
       ?>
       <div class="btn-group float-right" role="group" aria-label="Basic example">
         <a  class="btn btn-info btn-sm" href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_cooperative_tool">Tool</a>
-        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveAmendmentModal"  data-cname="<?= $proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($amendment_id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>><?=$submit?></button><!--  modify by Jayson change approve button to submit -->
-    <?php if($admin_info->access_level == 3) {?>
+        <!-- Supervising -->
+        <?php if($admin_info->access_level ==2 || $is_active_director || $supervising_): ?>
+        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveAmendmentModal"  data-cname="<?= $proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($amendment_id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>><?=$submit?></button>
+      <?php endif; ?>
+        <!-- end Supervising -->
+    <?php if($admin_info->access_level == 3 && $is_active_director || $supervising_) {?>
         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button>
         <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferCooperativeModal"  data-cname="<?=$proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Defer</button>
-    <?php } ?>
+    <?php } //end Supervising?>
       </div>
       <?php endif;?>
         <?php } ?>

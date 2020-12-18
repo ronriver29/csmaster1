@@ -49,27 +49,6 @@ $(function(){
             $("#institutional-wrapper").remove();
             $("#associational-wrapper").remove();
 
-            // var htmlFielda = '<div class="com-div"> <select class="custom-select composition-of-members" name="compositionOfMembersa[]" id="compositionOfMembersa required="required" ></select><a class="customDeleleBtn compositionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a></div> ';
-            
-            // $.ajax({
-            //     type : "POST",
-            //     url  : "composition",
-            //     dataType: "json",
-            //     success: function(data){
-            //          $('#compositionOfMembersa').append($('<option></option>').attr('value',"").text(""));
-            //         $.each(data, function(key,value){
-                   
-
-            //           $('.composition-of-members').append($('<option></option>').attr('value',value.id).text(value.composition));
-            //          $("#compositionOfMembersa option[value='"+data.comp_of_membership+"']").attr("selected", "selected");
-            //         });
-
-            //       // $(".omposition-cof-members option[value='"+data.comp_of_membership+"']").attr("selected", "selected")
-            //     }
-
-            //   }); //end ajax
-            //   $(".composition_").append(htmlFielda);
-
               cid =data.comp_of_membership;
               var composition_arr = data.comp_of_membership.split(',');;
               // console.log(composition_arr);
@@ -125,9 +104,9 @@ $(function(){
 
                   }); //end ajax
                   
-                  //end specifi composition
+                 
               }); //end each composition array
-               // $(".omposition-cof-members option[value='"+cid+"']").attr("selected", "selected")
+              
             
              
         } //occupational
@@ -244,7 +223,7 @@ $(function(){
         // }
         //business activity
           var count_id = 1;
-          console.log(data.business_activities);
+          console.log(data);
           $.each(data.business_activities, function(x,business_activy){
         
           var c = count_id++;

@@ -62,7 +62,7 @@ font-face {
       <p class="text-justify" style="text-indent: 50px;">I, <?= $treasurer_of_coop->full_name?>, after having been duly sworn to in accordance with law, do hereby depose and say:</p>
     </div>
   </div>
-  <div class="row mb-4">
+  <div class="row mb-4"> 
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="1">
         <li>That I am the duly elected Treasurer of the <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> to act as such until my successor shall have been appointed and qualified in accordance with the By-laws of the Cooperative;</li>

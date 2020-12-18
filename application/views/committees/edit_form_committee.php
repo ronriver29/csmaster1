@@ -53,7 +53,7 @@ if($cooperator_info->position=="Board of Director" || $cooperator_info->position
     $gad = 'enabled';
     $others = 'enabled';
 }
-?>
+?> 
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">
@@ -94,7 +94,7 @@ if($cooperator_info->position=="Board of Director" || $cooperator_info->position
                     foreach ($custom_committees as $custom_committee) : 
                       ?>
                   <option value="<?= $custom_committee['name'] ?> " <?php if($committee_info->name==$custom_committee['name']) echo "selected";?>> <?= $custom_committee['name'] ?> </option>
-                <?php endforeach;
+                <?php endforeach; 
                   }
                 ?>
                 <!-- <?php foreach ($custom_committees as $custom_committee) : ?>

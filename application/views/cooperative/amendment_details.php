@@ -440,6 +440,7 @@
                   $proposedName_ = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronym_;
                 }
               ?>
+
               <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveAmendmentModal"  data-cname="<?= $proposedName_?>" data-coopid="<?=encrypt_custom($this->encryption->encrypt($amendment_id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Submit </button>
               <?php if($coop_info->status!=3){?>
               <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>"  <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button>
@@ -449,6 +450,7 @@
           </small>
           <?php endif; ?>
         </li>
+    
     </ul>
   </div>
   <?php else : ?>

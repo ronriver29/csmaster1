@@ -1252,7 +1252,7 @@ public function delete_pdf()
                              // $this->load->view('documents/primary/bylaws_for_primary', $data); 
                                 $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
 
-                                $f = new pdf();
+                                $f = new pdf(); 
                                 $f->set_option("isPhpEnabled", true);
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);

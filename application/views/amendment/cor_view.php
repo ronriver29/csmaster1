@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+  <head> 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -8,9 +8,11 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-  <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css">
-  <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
-  <link rel="icon" href="<?=base_url();?>assets/img/chairman.png" type="image/png">
+  <link rel="stylesheet" href="<?=APPPATH?>../assets/css/bootstrap.min.css">
+  <link rel="icon" href="<?=APPPATH?>../assets/img/cda.png" type="image/png">
+  <link rel="icon" href="<?=APPPATH?>../assets/img/chairman.png" type="image/png">
+
+  
   <style>
   @page{margin:60px 40px 30px 40px;}
   .page_break { page-break-before: always; }
@@ -23,7 +25,7 @@
 	<table width=100%>
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
-			<td width="15%"><img src="<?=base_url();?>/assets/img/cda.png" width="100" height="100" ></td>
+			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
 			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
@@ -91,16 +93,21 @@
 		<tr>
 			<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 			</td>
-			<td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td>
+			<td  style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
+			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
+				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
+				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
+			</td>
 		</tr>
 		
 		
 	</table>
 
-	<table width="100%" style="margin-top:70px;">
+	<table width="100%" style="margin-top:50px;">
 		<tr>
 			<td style="text-align:right;padding-right:45px;">
-				<img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->qr_code?>" width="100" height="100" style="float-right;"/>
+				<img src="<?=QRCODE_DIR?><?= $coop_info->qr_code?>" width="100" height="100" style="float-right;"/>
 			</td>
 		</tr>
 		
@@ -114,7 +121,7 @@
 	<table width=100%>
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
-			<td width="15%"><img src="<?=base_url();?>/assets/img/cda.png" width="100" height="100" ></td>
+			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
 			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
@@ -182,32 +189,40 @@
 		<tr>
 			<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 			</td>
-			<td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td>
+			<td  style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
+			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
+				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
+				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
+			</td>
 		</tr>
 		
 		
 	</table>
 
-<!-- <i style="font-size: 10px"><?=date('Y/m/d');?></i> -->
-	<table width="100%" style="margin-top:70px;">
+	<table width="100%" style="margin-top:50px;">
 		<tr>
 			<td style="text-align:right;padding-right:45px;">
-				<img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->qr_code ?>" width="100" height="100" style="float-right;"/>
+				<img src="<?=QRCODE_DIR?><?= $coop_info->qr_code?>" width="100" height="100" style="float-right;"/>
 			</td>
 		</tr>
 		<tr>	
-			<td style="padding-top:20px;"><i style="font-size: 10px">Duplicate Copy</i></td>
+			<td style="padding-top:10px;"><i style="font-size: 10px">Duplicate Copy</i></td>
 		</tr>
+		
 	</table>
+
+
+
 </div>
 <!-- END 2ND PAGE -->
 
 <!-- START 3RD PAGE -->
-		<div  style="height: 1060px;border: 10px black double; border-radius: 30px; padding: 20px">
+	<div  style="height: 1060px;border: 10px black double; border-radius: 30px; padding: 20px">
 	<table width=100%>
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
-			<td width="15%"><img src="<?=base_url();?>/assets/img/cda.png" width="100" height="100" ></td>
+			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
 			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
@@ -216,7 +231,7 @@
 <br/><br/>
 	<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda3.png); background-repeat: no-repeat; background-position: center;">
 		<tr>
-			<td style="text-align: right; font-size: 12pt"><b>Registration No: <?= $coop_info->regNo ?></b></td>
+			<td style="text-align: right; font-size: 12pt"><b>Registration No: <?= $coop_info->regNo?></b></td>
 		</tr>
 	        <tr>
 			<td style="text-align: right; font-size: 12pt"><b>Amendment No: <?= $coop_info->regNo.'-'.$coop_info->amendmentNo ?></b></td>
@@ -275,23 +290,29 @@
 		<tr>
 			<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 			</td>
-			<td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td>
+			<td  style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
+			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
+				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
+				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
+			</td>
 		</tr>
 		
 		
 	</table>
 
-<!-- <i style="font-size: 10px"><?=date('Y/m/d');?></i> -->
-	<table width="100%" style="margin-top:70px;">
+	<table width="100%" style="margin-top:50px;">
 		<tr>
 			<td style="text-align:right;padding-right:45px;">
-				<img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->qr_code ?>" width="100" height="100" style="float-right;"/>
+				<img src="<?=QRCODE_DIR?><?= $coop_info->qr_code?>" width="100" height="100" style="float-right;"/>
 			</td>
 		</tr>
 		<tr>	
-			<td style="padding-top:20px;"><i style="font-size: 10px">Triplicate Copy</i></td>
+			<td style="padding-top:10px;"><i style="font-size: 10px">Triplicate Copy</i></td>
 		</tr>
+		
 	</table>
+
 </div>
 <!-- END 3RD PAGE -->
 </body>

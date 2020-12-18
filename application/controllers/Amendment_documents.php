@@ -317,8 +317,9 @@ class Amendment_documents extends CI_Controller{
                                 // $this->debug($data['have_senior_comment']);
                                 //   $data['amendment_id'] = $decoded_id;
                                 //   $this->debug($data['have_director_comment']);
+                                  $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
+                                  $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
                                   $data['amendment_id'] = $decoded_id;
-
                                   $this->load->view('templates/admin_header', $data);
                                   $this->load->view('documents/amendment_list_of_documents', $data);
                                   $this->load->view('amendment/evaluation/approve_modal_cooperative');

@@ -13,7 +13,7 @@
             $submit = 'Approve';
         }?>
 
-    <?php if($admin_info->access_level !=5) : ?>
+    <?php if($admin_info->access_level !=5) : ?> 
       <?php if($coop_info->status !=15):?>
       <div class="btn-group float-right" role="group" aria-label="Basic example">
         <a  class="btn btn-info btn-sm" href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/cooperative_tool">Tool</a>

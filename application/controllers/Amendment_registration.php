@@ -60,7 +60,7 @@ class Amendment_registration extends CI_Controller{
         if($this->db->update('amend_coop',array('amendmentNo'=>$amendment_no),array('id'=>$decoded_id)))
         {
           
-
+ 
             $data_reg = array(
               'coopName'=>$coop_info->proposed_name.' '.$coop_info->type_of_cooperative,
               'acronym'=> $coop_info->acronym,
@@ -104,6 +104,8 @@ class Amendment_registration extends CI_Controller{
               $this->ci_qr_code->initialize($qr_code_config);
 
 
+
+
               // get full name and user details
               // $image_name = $coop_details->regNo . ".png";
                $image_name = $coop_details->regNo."-".$amendment_no.".png";
@@ -125,7 +127,7 @@ class Amendment_registration extends CI_Controller{
               $params['level'] = 'H';
               $params['size'] = 2;
 
-              $params['savename'] = FCPATH . $qr_code_config['imagedir'] . $image_name;
+              $params['savename'] = $qr_code_config['imagedir'] . $image_name;
               $this->ci_qr_code->generate($params);
 
               $this->data['qr_code_image_url'] = base_url() . $qr_code_config['imagedir'] . $image_name;
@@ -191,13 +193,14 @@ class Amendment_registration extends CI_Controller{
           $data1['coop_info']=$coop_details;
           // $this->debug($data1['coop_info']);
           $data1['amend_coop_info']=$coop_details;
-          $data1['director']=$this->registration_model->get_director($user_id)->full_name;
+      
+          $data1['director']=$this->registration_model->get_director($coop_details->rCode);
           $data1['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($coop_info->cooperative_id,$decoded_id);
         
           set_time_limit(0);
           // $this->debug($coop_details);
-
-          $this->load->view('amendment/cor_view', $data1);
+       
+          // $this->load->view('amendment/cor_view', $data1);
           $html2 = $this->load->view('amendment/cor_view', $data1, TRUE);
           $J = new pdf();       
           $J->set_option('isRemoteEnabled',TRUE);

@@ -575,7 +575,7 @@ $(function(){
                 var major_industry = $(this).val();
                 // var coop_type = $('#amendmentAddForm .coop_type').val(); 
                var coop_type=$('select[name="typeOfCooperative[]"] option:selected').val();
-                if(coop_type.length > 0 ){ alert(coop_type);
+                if(coop_type.length > 0 ){ 
                     $.ajax({
                     type : "POST",
                     url  : "../api/industry_subclasses",
@@ -1034,7 +1034,6 @@ $(function(){
   //modified add major industry dynamically
   let count_major_industry=parseInt($('.major-industry').length);
   $('#amendmentAddForm #addMoreSubclassBtn').on('click', function(){
-  // alert("aaa");
         if($('#amendmentAddForm #typeOfCooperative1').val() && ($('#amendmentAddForm #typeOfCooperative1').val()).length > 0)
         {
           var lastCountOfSubclass = $('select[name="subClass[]"').last().attr('id'); 
