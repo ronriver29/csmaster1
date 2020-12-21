@@ -131,12 +131,10 @@
                         else if($cooperative['status']==6) echo "SUBMITTED BY CDS II";
                         else if($cooperative['status']==7) echo "DENIED BY SENIOR CDS";
                         else if($cooperative['status']==8) echo "DEFERRED BY SENIOR CDS";
-                        else if($cooperative['status']==9 && !$is_acting_director && $admin_info->access_level==3) echo "DELEGATED BY DIRECTOR";
-                        else if($cooperative['status']==9 && $supervising_ && $admin_info->access_level==4) echo "DELEGATED BY DIRECTOR";
-                        else if($cooperative['status']==9) echo "SUBMITTED BY SENIOR CDS";
+                        else if($cooperative['status']==9) echo "APPROVED BY SENIOR CDS";
                         else if($cooperative['status']==10) echo "DENIED BY DIRECTOR";
                         else if($cooperative['status']==11) echo "DEFERRED BY DIRECTOR";
-                        else if($cooperative['status']==12) echo "FOR PRINT&SUBMIT";
+                        else if($cooperative['status']==12) echo "FOR PAYMENT";
                         else if($cooperative['status']==13) echo "WAITING FOR O.R.";
                         else if($cooperative['status']==14) echo "FOR PRINTING";
                         else if($cooperative['status']==15) echo "REGISTERED"; 
@@ -145,7 +143,7 @@
 
                       </span>
                     </td>
-                  <?php if($is_client) :?>
+                  <?php if($is_client) :?> 
                     <td>
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                         <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View</a>
@@ -218,80 +216,10 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> 
 </div>
-
-<?php if((!$is_client) && $admin_info->region_code != '00') :?>
-
- <h4 style="
-padding: 15px 10px;
-background: #fff;
-background-color: rgb(255, 255, 255);
-border: none;
-border-radius: 0;
-margin-bottom: 20px;
-box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
-<div class="row">
-  <div class="col-sm-12 col-md-12">
-    <div class="card border-top-blue shadow-sm mb-4">
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered" id="cooperativesTable2">
-            <thead>
-              <tr>
-                <th>Name of Cooperative</th>
-                <?php if(!$is_client) : ?>
-                <th>Office Address</th>
-                <?php endif;?>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($list_cooperatives_registered as $cooperative_registered) : ?>
-              <tr>
-                <td><?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>
-                </td>
-                <td>
-                  <?php if($cooperative_registered['house_blk_no']==null && $cooperative_registered['street']==null) $x=''; else $x=', ';?>
-                  <?=$cooperative_registered['house_blk_no']?> <?=$cooperative_registered['street'].$x?><?=$cooperative_registered['brgy']?>, <?=$cooperative_registered['city']?>, <?= $cooperative_registered['province']?> <?=$cooperative_registered['region']?>
-                </td>
-                <td>
-                  <span class="badge badge-secondary">
-                    <?php if($cooperative_registered['status']==15) { echo "REGISTERED"; }?>
-                  </span>
-                </td>
-                <td width="31%">
-                  <?php $ar = array(2,5); $viewdoc_array = array(2,3,5) ?>
-                  <?php if(in_array($admin_info->access_level,$ar)):?>
-                  <ul id="ul-admin">
-                    <li>
-                      <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print Registration</a>
-                    </li>
-                    <?php endif; ?>
-                    <?php if(in_array($admin_info->access_level,$viewdoc_array)): ?>
-                    <li style="list-style: none;">
-                      <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/documents" class="btn btn-sm btn-info"><i class='fas fa-eye'></i> View Document</a>
-                    </li>
-                    <?php endif; //end of viewdoc array?>
-                  </ul>
-                  
-                </td>
-              </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div><?endif;?>
-</div>
-
-  
-  <!-- Registered Coop Process by Head Office -->
 
 <?php if(!$is_client) :?>
- 
 <h4 style="
 padding: 15px 10px;
 background: #fff;
@@ -299,11 +227,10 @@ background-color: rgb(255, 255, 255);
 border: none;
 border-radius: 0;
 margin-bottom: 20px;
-box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by Head Office</h4>
+box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
+</div>
 
-
-<div class="row">
-  <div class="col-sm-12 col-md-12">
+<div class="col-sm-12 col-md-12">
     <div class="card border-top-blue shadow-sm mb-4">
       <div class="card-body">
         <div class="table-responsive">
@@ -312,43 +239,44 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
               <tr>
                 <th>Name of Cooperative</th>
                 <?php if(!$is_client) : ?>
-                <th>Office Address</th>
+                  <th>Office Address</th>
                 <?php endif;?>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              <?php foreach ($list_cooperatives_registered_by_ho as $cooperative_registered) : ?>
-              <!--  <?php echo"<pre>";print_r($cooperative_registered);echo"</pre>"; ?> -->
-              <tr>
-                <td><?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>
-                </td>
-                <td>
-                  <?php if($cooperative_registered['house_blk_no']==null && $cooperative_registered['street']==null) $x=''; else $x=', ';?>
-                  <?=$cooperative_registered['house_blk_no']?> <?=$cooperative_registered['street'].$x?><?=$cooperative_registered['brgy']?>, <?=$cooperative_registered['city']?>, <?= $cooperative_registered['province']?> <?=$cooperative_registered['region']?>
-                </td>
-                <td>
-                  <span class="badge badge-secondary">
-                    <?php if($cooperative_registered['status']==15) { echo "Re-Print Certificate"; }?>
-                  </span>
-                </td>
-                <td width="31%">
-                  <?php $ar = array(2,5); $viewdoc_array = array(2,3,5) ?>
-                  <?php if(in_array($admin_info->access_level,$ar)):?>
-                  
-                  <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/amendment_registration" class="btn btn-sm btn-info" style="font-size:13px"><i class='fas fa-print'></i> Re-print Registration</a>
-                  
-                  <?php endif; ?>
-                  <?php if(in_array($admin_info->access_level,$viewdoc_array)): ?>
-                  
-                  <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/amendment_documents" class="btn btn-sm btn-info" style="font-size: 13px;"><i class='fas fa-eye'></i> View Document</a>
-                  
-                  <?php endif; //end of viewdoc array?>
-                  
-                  
-                </td>
-              </tr>
+              <?php foreach ($list_cooperatives_registered as $cooperative_registered) : ?>
+                <tr>
+                  <td><?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>
+                  </td>
+                  <td>
+                    <?php if($cooperative_registered['house_blk_no']==null && $cooperative_registered['street']==null) $x=''; else $x=', ';?>
+                    <?=$cooperative_registered['house_blk_no']?> <?=$cooperative_registered['street'].$x?><?=$cooperative_registered['brgy']?>, <?=$cooperative_registered['city']?>, <?= $cooperative_registered['province']?> <?=$cooperative_registered['region']?>
+                  </td>
+                  <td>
+                    <span class="badge badge-secondary">
+                      <?php if($cooperative_registered['status']==15) { echo "REGISTERED"; }?>
+                    </span>
+                  </td>
+                  <td width="31%">
+                    <?php $ar = array(2,5); $viewdoc_array = array(2,3,5) ?>
+                    <?php if(in_array($admin_info->access_level,$ar)):?>
+                      <ul id="ul-admin">
+                        <li>
+                      <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print Registration</a>
+                    </li>
+                     <?php endif; ?>
+                     <?php if(in_array($admin_info->access_level,$viewdoc_array)): ?>
+                    <li style="list-style: none;">
+                      <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/documents" class="btn btn-sm btn-info"><i class='fas fa-eye'></i> View Document</a>
+                    </li>
+                     <?php endif; //end of viewdoc array?>
+                  </ul>
+
+                   
+                  </td>
+                </tr>
               <?php endforeach; ?>
             </tbody>
           </table>
@@ -356,8 +284,8 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
       </div>
     </div>
   </div><?endif;?>
-</div> <!-- end row -->
-<!-- End of Registered Coop Process by Head Office -->
+</div>
+
 
 <!-- Bootstrap modal -->
  <div class="modal fade" id="paymentModal" role="dialog">
@@ -381,22 +309,18 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
                   <td class="bord">Date</td>
                   <td class="bord" colspan="3"><b id="tDate"></b></td>
                 </tr>
-               
+                <tr>
+                  <td>
+                    O.R Date
+                  </td>
+                  <td>
+                    <input type="date" name="orDate" id="orDate" class="form-control" value="<?=date('Y-m-d')?>" />
+                  </td>
+                </tr>
                 <tr>
                   <td class="bord">O.R. No</td>
                   <td class="bord"><input type="text" id="orNo" name="orNo" class="form-control" placeholder="Type here..."></td>
                 </tr>
-
-                 <tr>
-                  <td>
-                    Date of O.R
-                  </td>
-                  <td>
-                    <input type="date" name="orDate" id="orDate" class="form-control" value="" />
-                    <span id="msgdate" style="font-size:11px;margin-left:100px;color:red;font-style: italic;"></span>
-                  </td>
-                </tr>
-
                 <tr>
                   <td class="bord">Transaction No.</td>
                   <td class="bord" colspan="3"><b id="tNo"></b></td>
@@ -445,42 +369,12 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+
 <script src="<?=base_url();?>assets/js/toword.js"></script>
+
 <script type="text/javascript">
   
-$(document).ready(function(){
-  function GetNow()
-  {
-    var currentdate = new Date(); 
-    var month = currentdate.getMonth() + 1;
-    var day = currentdate.getDate();
-    var date1 = (currentdate.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '')  + day);
-    return date1;
-  }
-  $('#orDate').on('change',function(){
-    var selectedDate = $(this).val();
-    var now = GetNow();
-    // alert(now+selectedDate);
-    if(selectedDate > now)
-    {
-      $(this).val(now);
-       $("#msgdate").text("Date of O.R. should not be future date");
-      setTimeout(function(){
-          $("#msgdate").text("");
-      },5000);    
-    }
-    else if(selectedDate == now)
-    {
-      $("#msgdate").text("");
-    }
-    else
-    {
-      $("#msgdate").text("");
-    }
-  
-  });
-});
+
 
   function showPayment(coop_id,coop_name) {
     //save_method = 'add';
@@ -495,13 +389,13 @@ $(document).ready(function(){
         data: {coop_id:coop_id},
         success: function(data)
         {
-            var s = convert(data.total);
+            var s=toWords(data.total);
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
             $('#cid').val(coop_id);   
-            $('#word').text(s);
+            $('#word').text(s+' Pesos');
             $('#nature').text(data.nature);
             $('#particulars').html(data.particulars);
             $('#amount').html(data.amount); 
