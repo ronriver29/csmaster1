@@ -1069,7 +1069,7 @@ $(function(){
           //$(this).val() is the value of major industry
             // subclass
             var major_id = $(this).val();
-            alert(major_id);
+            // alert(major_id);
                   $(selectSubClass).empty();
                   $(selectSubClass).prop("disabled",true);
                   // if($(this).val() && ($(this).val()).length > 0){

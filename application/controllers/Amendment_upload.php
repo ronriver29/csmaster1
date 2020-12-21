@@ -7,6 +7,7 @@ parent::__construct();
 // load model
 $this->load->model('Import_model', 'import');
 $this->load->helper(array('url','html','form'));
+ $this->load->database();
 }    
 public function index() {
 	$this->load->view('amendment/v_upload');
@@ -48,37 +49,84 @@ public function importFile(){
 				$flag = true;
 				$i=2;
 				// $this->debug($allDataInSheet);
+				//last amendment id 
+				$amendment_id =1;
+				$aq = $this->db->query("select id from amend_coop order by id desc limit 1");
+				if($aq->num_rows()>0)
+				{
+					foreach($aq->result() as $row_id)
+					{
+						$amendment_id = $row_id->id;
+					}
+					// echo"las ID: ".$amendment_id;
+				}
 				foreach ($allDataInSheet as $value) 
 				{
+					
 					if($flag){
 					$flag =false;
 					continue;
 					}
+					if(strlen($value['F'])>0)
+					{	
+						$amendment_id++;
+						$inserdata[$i]['id'] = $amendment_id;
+						$inserdata[$i]['regNo'] = $value['C'];
+						$inserdata[$i]['amendmentNo']=1;
+						$inserdata[$i]['users_id']=null;
+						$inserdata[$i]['category_of_cooperative'] = $value['D'];
+						$inserdata[$i]['type_of_cooperative']= $value['E'];
+						$inserdata[$i]['cooperative_type_id']=null;
+						$inserdata[$i]['grouping']=null;
+						$inserdata[$i]['proposed_name'] =$value['F'];
+						$inserdata[$i]['acronym']=$value['G'];
+						$inserdata[$i]['common_bond_of_membership']= $value['K'];
+						$inserdata[$i]['field_of_membership']= $value['L'];
+						$inserdata[$i]['name_of_ins_assoc']=$value['M'];
+						$type = explode(',',$value['E']);
+						$final_type = 'Single';
+						if(count($type)>1)
+						{
+							$final_type = 'Multipurpose';
+						}
+						$inserdata[$i]['type']=$final_type;
+						$inserdata[$i]['area_of_operation']=$value['N'];
+						$inserdata[$i]['refbrgy_brgyCode']='';
+						$inserdata[$i]['street']=$value['Q'];
+						$inserdata[$i]['house_blk_no']=$value['P'];
+						$inserdata[$i]['status']=1;
+						
+						//major industry
+						if(strlen($value['H'])>0)
+						{
+							$q = $this->db->get_where('major_industry',array('description'=> $value['H']));
+							if($q->num_rows()>0)
+							{
+								foreach($q->result() as $qrow)
+								{
+									// $this->debug($qrow->id.': '.$qrow->description);
+									$data_business_activity = array(
+										'major_industry_id'=>$qrow->id;
+									);	
+								}
+							}
+							//subclass
+							$qs = $this->db->get_where('subclass',array('description'=>$value['I']));
+							if($qs->num_rows()>0)
+							{
+								foreach($qs->result() as $srow)
+								{
+									$data_business_activity_subclass = array(
+										'subclass_id'=>$srow->id;
+									);
+									// $this->debug($srow->id.': '.$srow->description);
+								}
+							}
+							// $this->debug($this->db->last_query());
+						}
+					}//end if		
 					
-					$inserdata[$i]['regNo'] = $value['C'];
-					$inserdata[$i]['amendmentNo']=1;
-					$inserdata[$i]['users_id']=null;
-					$inserdata[$i]['category_of_cooperative'] = $value['D'];
-					$inserdata[$i]['type_of_cooperative']= $value['E'];
-					$inserdata[$i]['cooperative_type_id']=null;
-					$inserdata[$i]['grouping']=null;
-					$inserdata[$i]['proposed_name'] =$value['F'];
-					$inserdata[$i]['acronym']=$value['G'];
-					$inserdata[$i]['common_bond_of_membership']= $value['K'];
-					$inserdata[$i]['field_of_membership']= $value['L'];
-					$inserdata[$i]['name_of_ins_assoc']=$value['M'];
-					$type = explode(',',$value['E']);
-					$final_type = 'Single';
-					if(count($type)>1)
-					{
-						$final_type = 'Multipurpose';
-					}
-					$inserdata[$i]['type']=$final_type;
-					$inserdata[$i]['area_of_operation']=$value['N'];
-					$inserdata[$i]['refbrgy_brgyCode']='';
-					$inserdata[$i]['street']=$value['Q'];
-					$inserdata[$i]['house_blk_no']=$value['P'];
-					$inserdata[$i]['status']=1;
+					// $this->debug('amendment_id :'. $amendment_id);
 					$i++;
 				}      
 					$this->debug($inserdata);
@@ -104,7 +152,12 @@ public function importFile(){
 	}//end of submit
 		$this->load->view('amendment/v_upload');
 } //end of public
- public function debug($array)
+	
+	// public function get_coop_id($regNo)
+	// {
+	// 	$query = $this->db->query('');
+	// }		
+ 	public function debug($array)
     {
         echo"<pre>";
         print_r($array);
