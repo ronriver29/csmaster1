@@ -100,7 +100,7 @@ class amendment_model extends CI_Model{
      $query=$this->db->query('select * from composition_of_members order by composition asc');
     // $query = $this->db->get();
 
-    return $query->result();
+    return $query->result(); 
   }
   public function get_payment_info($amendment_id){
     $this->db->select('*');
