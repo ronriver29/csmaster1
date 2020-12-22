@@ -522,12 +522,15 @@ $(".coop-type").on('change',function(){
         var typeCoop_arraysa=[]; 
          $('#reserveUpdateForm .major-ins').empty();
          $('#reserveUpdateForm .major-ins').prop("disabled",true);
+          $('#reserveUpdateForm .subclass-in').empty();
+         $('#reserveUpdateForm .subclass-in').prop("disabled",true);
 
            $('select[name="typeOfCooperative[]"] option:selected').each(function() {
                typeCoop_arraysa.push($(this).val());
               $('#typeOfCooperative_value').val(typeCoop_arraysa);
            });
             $('#reserveUpdateForm .major-ins').prop("disabled",false);
+             $('#reserveUpdateForm .subclass-in').prop("disabled",false);
             $.ajax({
              type : "POST",
              url  : "get_major_industry_ajax",
