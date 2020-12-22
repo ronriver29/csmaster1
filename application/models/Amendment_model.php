@@ -123,7 +123,6 @@ class amendment_model extends CI_Model{
       $this->db->trans_commit();
       return array('success'=>true,'message'=>'O.R. No. has been successfully saved.');
     }
-
   }
   public function get_all_cooperatives($user_id){
     $this->db->select('amend_coop.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
