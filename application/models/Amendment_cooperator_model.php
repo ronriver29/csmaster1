@@ -1053,7 +1053,12 @@ left join amendment_cooperators on cap.amendment_id = amendment_cooperators.amen
   public function check_all_minimum_associate_pay($cooperatives_id,$amendment_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $amendment_id = $this->security->xss_clean($amendment_id);
+
     $temp =  $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperatives_id,$amendment_id)->minimum_paid_up_share_associate;
+    if($temp == 0 || $temp==NULL)
+    {
+      $temp=0;
+    }
     $this->db->where(array('amendment_id'=>$amendment_id,'type_of_member'=>'Associate'));
     $this->db->where('number_of_paid_up_shares <', $temp);
     $this->db->from('amendment_cooperators');
