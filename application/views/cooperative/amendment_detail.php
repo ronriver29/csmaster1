@@ -130,7 +130,7 @@
               </div>
             </div>
 
-            <input type="" id="typeOfCooperative_value" value="">
+            <input type="hidden" id="typeOfCooperative_value" value="">
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
