@@ -450,43 +450,45 @@
                     {
                       
                       // $this->debug($brow);
-                      $major_id = $brow['major_industry_id'];
-                      $brow['major_description_']=$this->major_industry_description2($major_id);
-                   
-                      $brow['subclass_description_']=$this->major_industry_description_subclass2($brow['subclass_id']);
-                      $business_data[] =$brow;
-                      $cooptype_id_array[] = $brow['cooperative_type_id'];
-                      $brow['load_major'] =  $list_majors;
-                      $brow['load_subclass'] = $list_subclass;
-                    
+                      if($brow['cooperative_type_id']!=NULL || $brow['cooperative_type_id'] !='')
+                      {
+                        $major_id = $brow['major_industry_id'];
+                        $brow['major_description_']=$this->major_industry_description2($major_id);
+                     // echo $this->db->last_query();
+                        $brow['subclass_description_']=$this->major_industry_description_subclass2($brow['subclass_id']);
+                        $business_data[] =$brow;
+                        $cooptype_id_array[] = $brow['cooperative_type_id'];
+                        $brow['load_major'] =  $list_majors;
+                        $brow['load_subclass'] = $list_subclass;
+                      
 
-                       // $this->debug( $business_data);
-                        $data['list_of_major_industry_']= $business_data;
+                         // $this->debug( $business_data);
+                          $data['list_of_major_industry_']= $business_data;
 
-                        // $this->debug( $data['list_of_major_industry_']);
-                        
-                        foreach($cooptype_id_array as $ctype_id)
-                        {
-                          $mdata[] = $this->list_of_majorindustry($ctype_id);
-                        }
+                          // $this->debug( $data['list_of_major_industry_']);
+                          
+                          foreach($cooptype_id_array as $ctype_id)
+                          {
+                            $mdata[] = $this->list_of_majorindustry($ctype_id);
+                          }
 
-                          $data['mjor_list']=$mdata;
-                       
-                        foreach($mdata as $m)
-                        {
-                          //$this->$this->major_industry_description_subclass($['sublcass+i']);
-                          $subclass_data[]=$this->list_of_subclasss($m['major_industry_id']);
-                        }
-                        // $this->debug($subclass_data);
-                       foreach($subclass_data as $sdata){
-                        foreach($sdata as $srow)
-                        {
-                          $list_subclass[]= $this->major_industry_description_subclass($srow['subclass_id']);
-                        }
-                       }
+                            $data['mjor_list']=$mdata;
+                         
+                          foreach($mdata as $m)
+                          {
+                            //$this->$this->major_industry_description_subclass($['sublcass+i']);
+                            $subclass_data[]=$this->list_of_subclasss($m['major_industry_id']);
+                          }
+                          // $this->debug($subclass_data);
+                         foreach($subclass_data as $sdata){
+                          foreach($sdata as $srow)
+                          {
+                            $list_subclass[]= $this->major_industry_description_subclass($srow['subclass_id']);
+                          }
+                         }
 
-                       $data['list_subclass'] = $list_subclass;
-
+                         $data['list_subclass'] = $list_subclass;
+                      } //end if cooperative type id 
                     }
                   }
                   $data['business'] =  $business_data;

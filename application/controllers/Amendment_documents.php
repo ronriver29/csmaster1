@@ -1195,12 +1195,15 @@ public function count_documents_coop($coop_id,$num)
                               } //end if had amendment
                               // $this->debug($data['capitalization_info']);
                                // $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data);
-                              $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data, TRUE);
                               $f = new pdf();
+                              $f->set_option("isPhpEnabled", true);
+                              $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data,TRUE);
+                             
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
                               $f->render();
-                               $this->load->library('session');
+                              
+                              $this->load->library('session');
                               $path = 'articles_of_cooperation_primary.pdf';
                               $getTotalPages = $f->get_canvas()->get_page_count();
                               $user_data = array(
@@ -1208,7 +1211,7 @@ public function count_documents_coop($coop_id,$num)
                                 'pagecount' => $getTotalPages
                               );
                               $this->session->set_userdata($user_data);
-                              $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));  
+                              $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
                               
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
@@ -1379,6 +1382,7 @@ public function count_documents_coop($coop_id,$num)
 
                                 $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data, TRUE);
                                 $f = new pdf();
+                                $f->set_option("isPhpEnabled", true);
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
                                 $f->render();

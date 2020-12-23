@@ -23,9 +23,26 @@
         font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
   </style>
-
+ 
 </head>
-<body style="font-family:12 Bookman Old Style">
+<body style="font-size:12">
+  <script type="text/php">
+        if ( isset($pdf) ) {
+
+            $x = 570; 
+            $y=900;
+            $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
+            $font = '';
+            $size = 12;
+            $color = array(0,0,0);
+            $word_space = 0.0;  //  default
+            $char_space = 0.0;  //  default
+            $angle = 0.0;   //  default
+            $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+            
+        }
+
+</script>
 <div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
@@ -358,12 +375,12 @@
     if($capitalization_info_orig->authorized_share_capital!=$capitalization_info->authorized_share_capital)
     {
       $authorized_share_capital = '<strong>'.$capitalization_info->authorized_share_capital.'</strong>';
-       $authorized_share_capital2 = '<strong>'.number_format($capitalization_info->authorized_share_capital).'</strong>';
+       $authorized_share_capital2 = '<strong>'.number_format($capitalization_info->authorized_share_capital,2).'</strong>';
     }
     else
     {
        $authorized_share_capital = $capitalization_info->authorized_share_capital;
-        $authorized_share_capital2 = number_format($capitalization_info->authorized_share_capital);
+        $authorized_share_capital2 = number_format($capitalization_info->authorized_share_capital,2);
     }
     if($capitalization_info_orig->common_share!=$capitalization_info->common_share)
     {
@@ -407,7 +424,7 @@
     ?>
 
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">That the Authorized Share Capital of this Cooperative is <?= $authorized_share_capital?> PESOS (Php <?= $authorized_share_capital2?>), divided into:</p>
+      <p class="text-justify" style="text-indent: 50px;">That the Authorized Share Capital of this Cooperative is <?= $authorized_share_capital?> Pesos (Php <?=$authorized_share_capital2?>), divided into:</p>
     </div>
   </div>
   <div class="row mb-4">
