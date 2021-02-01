@@ -123,6 +123,7 @@ class amendment_model extends CI_Model{
       $this->db->trans_commit();
       return array('success'=>true,'message'=>'O.R. No. has been successfully saved.');
     }
+
   }
   public function get_all_cooperatives($user_id){
     $this->db->select('amend_coop.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
@@ -922,14 +923,13 @@ class amendment_model extends CI_Model{
     $data = $this->security->xss_clean($field_data);
     $coop_id = $data['cooperative_id'];
     $subclass_array = $this->security->xss_clean($subclass_array);
-    // return $subclass_array;
     $subclass_array = implode(",",$subclass_array);
     $param1 = $data['cooperative_type_id'];
      $major_industry = implode(",",$major_industry);
     $coopertiveTypeID=explode(",",$data['cooperative_type_id']);
    // return $data;
      $query_type = $this->db->query("select * from industry_subclass_by_coop_type where cooperative_type_id IN({$param1}) AND major_industry_id IN($major_industry) AND subclass_id IN($subclass_array)");
-     // return $this->db->last_query();
+
      if($query_type->num_rows()>0){
       foreach($query_type->result_array() as $row)
       {
