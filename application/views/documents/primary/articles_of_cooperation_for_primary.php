@@ -16,7 +16,7 @@
   @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   table, th, td {
-    border: 0.5px solid #000 !important;
+    border: 0.5px solid #000 !important; 
     border-collapse: collapse;
   }
   body{

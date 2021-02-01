@@ -1195,10 +1195,18 @@ public function count_documents_coop($coop_id,$num)
                               } //end if had amendment
                               // $this->debug($data['capitalization_info']);
                                // $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data);
+
+                              //  $html2 = $this->load->view('documents/primary/amendment_treasurer_affidavit_primary', $data, TRUE);
+                              // $f = new pdf();
+                              // $f->set_option("isPhpEnabled", true);
+                              // $f->setPaper('folio', 'portrait');
+                              // $f->load_html($html2);
+                              // $f->render();
+                              // $f->stream("treasurer_affidavit_primary.pdf", array("Attachment"=>0));
+
+                               $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data,TRUE);
                               $f = new pdf();
                               $f->set_option("isPhpEnabled", true);
-                              $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data,TRUE);
-                             
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
                               $f->render();

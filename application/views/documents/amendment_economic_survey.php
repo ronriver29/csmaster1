@@ -245,14 +245,14 @@
           <tbody>
             <tr>
               <td>Authorized Capital :</td>
-              <td><u><?= ($article_info->authorized_share_capital!=$article_info_orig->authorized_share_capital ? '<b>'.number_format($article_info->authorized_share_capital,2).'</b>' : number_format($article_info->authorized_share_capital,2))?></u></td>
+              <td><u><?= ($capitalization_info->authorized_share_capital!=$capitalization_info_orig->authorized_share_capital ? '<b>'.number_format($capitalization_info->authorized_share_capital,2).'</b>' : number_format($capitalization_info->authorized_share_capital,2))?></u></td>
             </tr>
             <tr>
               <td>Subscribed Capital :</td>
             
              <?php
-              $total_reg_subscribed = ($total_regular['total_subscribed'] * $article_info->par_value_common);
-                $total_reg_subscribed_orig = ($total_regular_orig['total_subscribed'] * $article_info_orig->par_value_common);
+              $total_reg_subscribed = ($total_regular['total_subscribed'] * $capitalization_info->par_value);
+                $total_reg_subscribed_orig = ($total_regular_orig['total_subscribed'] *$capitalization_info->par_value);
               if($total_reg_subscribed!=$total_reg_subscribed_orig)
               {
                 $total_reg_subscribed = '<b>'.number_format($total_reg_subscribed,2).'</b>';
@@ -262,9 +262,9 @@
                 $total_reg_subscribed = number_format($total_reg_subscribed,2);
               }  
 
-              $total_regSubscribed = ($total_regular['total_subscribed'] * $article_info->par_value_common) + ($total_associate['total_subscribed'] * $article_info->par_value_preferred);
+              $total_regSubscribed = ($total_regular['total_subscribed'] * $capitalization_info->par_value) + ($total_associate['total_subscribed'] * $capitalization_info->par_value);
 
-              $total_regSubscribed_orig = ($total_regular_orig['total_subscribed'] * $article_info_orig->par_value_common) + ($total_associate_orig['total_subscribed'] * $article_info_orig->par_value_preferred);
+              $total_regSubscribed_orig = ($total_regular_orig['total_subscribed'] * $capitalization_info->par_value) + ($total_associate_orig['total_subscribed'] * $capitalization_info->par_value);
               if( $total_regSubscribed!= $total_regSubscribed_orig)
               {
                  $total_regSubscribed = '<b>'.number_format($total_regSubscribed,2).'</b>';
@@ -282,14 +282,14 @@
               <!-- <td><u><?php echo($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_paid'] * $article_info->par_value_common),2) : number_format((($total_regular['total_paid'] * $article_info->par_value_common) + ($total_associate['total_paid'] * $article_info->par_value_preferred)),2);?></u></td> -->
 
               <?php
-                $tot_reg_paid =($total_regular['total_paid'] * $article_info->par_value_common);
-                $tot_reg_paid_orig =($total_regular_orig['total_paid'] * $article_info_orig->par_value_common);
+                $tot_reg_paid =($total_regular['total_paid'] * $capitalization_info->par_value);
+                $tot_reg_paid_orig =($total_regular_orig['total_paid'] * $capitalization_info_orig->par_value);
                 if( $tot_reg_paid != $tot_reg_paid_orig)
                 {
                    $tot_reg_paid ='<b>'.number_format($tot_reg_paid,2).'</b>';
                 }
-                $tot_reg_paid2 = ($total_regular['total_paid'] * $article_info->par_value_common) + ($total_associate['total_paid'] * $article_info->par_value_preferred);
-                $tot_reg_paid2_orig = ($total_regular_orig['total_paid'] * $article_info_orig->par_value_common) + ($total_associate_orig['total_paid'] * $article_info_orig->par_value_preferred);
+                $tot_reg_paid2 = ($total_regular['total_paid'] * $capitalization_info->par_value) + ($total_associate['total_paid'] * $capitalization_info->par_value);
+                $tot_reg_paid2_orig = ($total_regular_orig['total_paid'] * $capitalization_info->par_value) + ($total_associate_orig['total_paid'] * $capitalization_info->par_value);
                 if( $tot_reg_paid2!= $tot_reg_paid2_orig)
                 {
                    $tot_reg_paid2 = '<b>'.number_format(($tot_reg_paid2),2).'</b>';

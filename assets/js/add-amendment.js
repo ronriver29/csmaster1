@@ -977,14 +977,10 @@ $(function(){
        if($(this).val() && ($(this).val()).length > 0){
             var majorIndustryTemp =   $('#amendmentAddForm #majorIndustry'+(intLastCount));
             $(majorIndustryTemp).prop("disabled",false);
-        }    
+        }  
+          
       $('select[name="typeOfCooperative[]"] option:selected').each(function() {
        typeCoop_arrays.push($(this).val());
-        // alert(typeCoop_arrays);
-         //  $('#amendmentAddForm .major-ins'+(index+1)).empty();
-         // $('#amendmentAddForm #subClass'+(index+1)).prop("disabled",true);
-
-        
       });
 
          $('#typeOfCooperative_value').val(typeCoop_arrays);

@@ -13,20 +13,20 @@
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <link rel="shortcut/icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
-  @page{margin: 96px 96px 70px 96px;}
+   @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   table, th, td {
-    border: 0.5px solid #000 !important;
+    border: 0.5px solid #000 !important; 
     border-collapse: collapse;
   }
   body{
         font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
   </style>
- 
+
 </head>
 <body style="font-size:12">
-  <script type="text/php">
+    <script type="text/php">
         if ( isset($pdf) ) {
 
             $x = 570; 
@@ -374,12 +374,12 @@
     $authorized_share_capital2='';
     if($capitalization_info_orig->authorized_share_capital!=$capitalization_info->authorized_share_capital)
     {
-      $authorized_share_capital = '<strong>'.$capitalization_info->authorized_share_capital.'</strong>';
+      $authorized_share_capital = '<strong>'.ucwords(num_format_custom($capitalization_info->authorized_share_capital)).'</strong>';
        $authorized_share_capital2 = '<strong>'.number_format($capitalization_info->authorized_share_capital,2).'</strong>';
     }
     else
     {
-       $authorized_share_capital = $capitalization_info->authorized_share_capital;
+       $authorized_share_capital = ucwords(num_format_custom($capitalization_info->authorized_share_capital));
         $authorized_share_capital2 = number_format($capitalization_info->authorized_share_capital,2);
     }
     if($capitalization_info_orig->common_share!=$capitalization_info->common_share)
@@ -424,15 +424,15 @@
     ?>
 
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">That the Authorized Share Capital of this Cooperative is <?= $authorized_share_capital?> Pesos (Php <?=$authorized_share_capital2?>), divided into:</p>
+      <p class="text-justify" style="text-indent: 50px;">That the Authorized Share Capital of this Cooperative is <?= $authorized_share_capital?> Pesos (Php <?= $authorized_share_capital2?>), divided into:</p>
     </div>
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        <li> <?= ucwords(num_format_custom($capitalization_info->common_share))?> (<?= number_format($capitalization_info->common_share)?>) common shares with a par value of <?= ucwords(num_format_custom($capitalization_info->par_value))?> (Php <?=number_format($capitalization_info->par_value)?> ) per share;</li>
+        <li> <?= ucwords(num_format_custom($capitalization_info->common_share))?> (<?= number_format($capitalization_info->common_share)?>) common shares with a par value of <?= ucwords(num_format_custom($capitalization_info->par_value))?> Pesos (Php <?=number_format($capitalization_info->par_value,2)?> ) per share;</li>
         <?php if($bylaw_info->kinds_of_members == 2) :?>
-        <li> <?= $preferred_share?> (<?= $preferred_share3?>) preferred shares with a par value of <?= $par_value_preferred?> (Php <?=number_format($article_info->par_value_preferred)?> ) per share.</li>
+        <li> <?= $preferred_share?> (<?= $preferred_share3?>) preferred shares with a par value of <?= $par_value_preferred?> Pesos (Php <?=number_format($article_info->par_value_preferred,2)?> ) per share.</li>
         <?php endif;?>
       </ol>
     </div>

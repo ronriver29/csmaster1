@@ -130,7 +130,7 @@
           $bylaws_kind_of_members = ($bylaw_info->kinds_of_members == 1 ? "regular members only" : "regular and associate members");
         }
 
-      ?>
+      ?> 
       <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Kinds of Membership.</i> This Cooperative shall have <?= $bylaws_kind_of_members?>.</p>
       <p class="text-justify" style="text-indent: 50px;">Regular Members are those who have complied with all the membership requirements and are entitled to all the rights and privileges of membership.</p>
       <?php if($bylaw_info->kinds_of_members == 2) :?>
@@ -240,7 +240,7 @@
 
         <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Application for Membership.</i> An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within <?= ucwords(num_format_custom($bylaw_info->act_upon_membership_days));?> (<?= $bylaw_info->act_upon_membership_days?>)  days from the date of filing. The Board of Directors shall devise a form for the purpose which shall, aside from the personal data of applicant, include the duties of a member to participate in all programs including but not limited to capital build-up and savings mobilization of the cooperative and, such other information as may be deemed necessary. </p>
           <p class="text-justify" style="text-indent: 50px;">The application form for membership shall include an undertaking to uphold the By-laws, policies, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly. No application for membership shall be given due course if not accompanied with a membership fee of 
-            <?=  $membership_fee2 ?>
+            <?=  $membership_fee2 ?> Pesos
              (Php <?= str_replace(',','', $membership_feeSS)?>
 
           ), which shall be refunded to the applicant in case of rejection.</p>

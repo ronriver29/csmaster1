@@ -106,7 +106,7 @@ public function importFile(){
 								{
 									// $this->debug($qrow->id.': '.$qrow->description);
 									$data_business_activity = array(
-										'major_industry_id'=>$qrow->id;
+										'major_industry_id'=>$qrow->id
 									);	
 								}
 							}
@@ -117,7 +117,7 @@ public function importFile(){
 								foreach($qs->result() as $srow)
 								{
 									$data_business_activity_subclass = array(
-										'subclass_id'=>$srow->id;
+										'subclass_id'=>$srow->id
 									);
 									// $this->debug($srow->id.': '.$srow->description);
 								}

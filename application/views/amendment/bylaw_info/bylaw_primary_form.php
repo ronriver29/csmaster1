@@ -15,7 +15,7 @@
       Whatever information you enter will appear in the by laws document.
     </div>
   </div>
-</div>
+</div> 
 <?php endif; ?>
 <?php if($this->session->flashdata('bylaw_redirect')): ?>
 <div class="row">
