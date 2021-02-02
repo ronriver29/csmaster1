@@ -390,13 +390,13 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
         data: {coop_id:coop_id},
         success: function(data)
         {
-            var s=toWords(data.total);
+            var s=convert(data.total);
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
             $('#cid').val(coop_id);   
-            $('#word').text(s+' Pesos');
+            $('#word').text(s);
             $('#nature').text(data.nature);
             $('#particulars').html(data.particulars);
             $('#amount').html(data.amount); 
