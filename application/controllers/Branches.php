@@ -857,9 +857,9 @@
                                   }
                                   $this->db->where(array('name'=>$branch_info->registeredtype,'active'=>1));
                                   $this->db->from('head_office_coop_type_branch');
-                                  if($this->db->count_all_results()>0){
-                                    $step = 7;
-                                  }
+                                  // if($this->db->count_all_results()>0){
+                                  //   $step = 7;
+                                  // }
                                   $data_field = array(
                                         'branches_id' => $decoded_id,
                                         'comment' => $comment_by_specialist_senior,
@@ -873,16 +873,18 @@
                                     $this->db->where(array('name'=>$branch_info->registeredtype,'active'=>1));
                                     $this->db->from('head_office_coop_type_branch');
                                   // End Get Count Coop Type
-                                  if($this->db->count_all_results()>0)
-                                  {
-                                    $regioncode = "00";
-                                  } else {
+                                  // if($this->db->count_all_results()>0)
+                                  // {
+                                  //   $regioncode = "00";
+                                  // } else {
                                     $regioncode = "0".mb_substr($branch_info->addrCode, 0, 2);
-                                  }
+                                  // }
                                   // echo $regioncode;
                                   // echo '<script>alert('.printf("%02d", 0).');</script>';
-                                  $data['director_info'] = $this->admin_model->get_director_info($regioncode);
-                                  if($this->admin_model->is_active_director($data['director_info']->id)){
+                                  $this->db->where(array('region_code'=>$regioncode,'is_director_active'=>1,'access_level'=>3));
+                                  $this->db->from('admin');
+                                  if($this->db->count_all_results()>0)
+                                  {
                                     $data['director_info'] = $this->admin_model->get_emails_of_director_by_region($regioncode);
                                   } else {
                                     $data['director_info'] = $this->admin_model->get_emails_of_supervisor_by_region($regioncode);

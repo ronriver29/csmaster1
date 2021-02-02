@@ -13,8 +13,8 @@
   <link rel="icon" href="<?=APPPATH?>../assets/img/chairman.png" type="image/png">
   <style>
     @page{margin: 60px 40px 30px 40px;}
-  .page_break { page-break-before: always; }
-  body{font-family:Bookman Old Style !important;font-size:12;}
+  /*.page_break { page-break-before: always; }*/
+  body{font-family:Bookman Old Style !important; line-height: 18px;}
   
   </style>
 </head>

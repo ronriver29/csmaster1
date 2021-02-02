@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,7 +13,8 @@
    <style>
   @page{margin: 60px 40px 30px 40px;}
   /*.page_break { page-break-before: always; }*/
-  	body{font-family:Bookman Old Style !important;}
+  	/*body{font-family:Bookman Old Style !important;}*/
+  	body{font-family:Bookman Old Style !important; line-height: 20px;}
 
   </style>
 </head>
