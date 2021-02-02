@@ -100,7 +100,7 @@ class Laboratories_registration extends CI_Controller{
       }//if status      
         $data1['chair'] = $this->registration_model->get_chairman()->chairman;
         // $data1['coop_info']=$lab_details;
-        $data1['director']=$this->registration_model->get_director($user_id)->full_name;
+        // $data1['director']=$this->registration_model->get_director($user_id)->full_name;
         set_time_limit(0);
         //get again after update qr and cert
         $laboratory_registered= $this->registration_model->get_cooperative_info_laboratories($reg_no,$decoded_id);
