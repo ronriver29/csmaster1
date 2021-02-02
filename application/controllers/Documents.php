@@ -1149,6 +1149,9 @@ public function delete_pdf()
                 $data['document_8'] = $this->uploaded_document_model->get_document_8_info($branch_info->id,$branch_info->application_id);
                 $data['document_9'] = $this->uploaded_document_model->get_document_9_info($branch_info->id,$branch_info->application_id);
                 
+                $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
+                $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
+                
                   $this->load->view('templates/admin_header', $data);
                   $this->load->view('documents/list_of_documents_branch', $data);
                   $this->load->view('cooperative/evaluation/approve_modal_branch');
