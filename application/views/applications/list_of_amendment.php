@@ -275,8 +275,6 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                     </li>
                      <?php endif; //end of viewdoc array?>
                   </ul>
-
-                   
                   </td>
                 </tr>
               <?php endforeach; ?>
