@@ -143,7 +143,7 @@
                        
                         <?php if($laboratory['status']==25) echo "DENIED"; ?>
                         <?php if($laboratory['status']==24) echo "DEFFERED"; ?>
-                        <?php if($laboratory['status']==18) echo "WAITING FOR PAYMENT"; ?>
+                        <?php if($laboratory['status']==18) echo "OK FOR PAYMENT"; ?>
                         <?php if($laboratory['status']==19) echo "PAY AT CDA"; ?>
                         <?php if($laboratory['status']==20) echo "GET YOUR CERTIFICATE"; ?>
                         <?php if($laboratory['status']==21) echo "REGISTERED"; ?>
