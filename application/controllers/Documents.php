@@ -1333,8 +1333,8 @@ public function delete_pdf()
                                 $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
                                 $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
                                 $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
-                                 $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
-                              $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
+                                $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
+                                $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
                               // $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
                                $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
                                 $f = new pdf();

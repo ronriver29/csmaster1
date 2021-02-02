@@ -756,7 +756,7 @@
                               $this->session->set_flashdata('redirect_applications_message', 'laboratories already evaluated by a Director/Supervising CDS.');
                               redirect('laboratories');
                             }else{
-                              if($this->admin_model->check_if_director_active($user_id)){
+                              if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                 // echo "ANO :" . $decoded
                                 $success = $this->laboratories_model->approve_by_director_laboratories($data['admin_info'],$decoded_id);
                               

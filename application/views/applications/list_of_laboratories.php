@@ -238,7 +238,6 @@
     </div>
   </div>
 
-
 <?php if($is_client) :?>
 <?php else : ?>
   <h3 style="margin-left:30px;">Registered</h3>
@@ -333,7 +332,7 @@
                 </tr>
                 <tr>
                   <td class="bord">Amount in Words</td>
-                  <td class="bord" colspan="3"><b id="word"> </b></td>
+                  <td class="bord" colspan="3" style="text-transform:capitalize"><b id="word"> </b></td>
                 </tr>
                 <tr>
                   <td class="bord" colspan="4" align="center">Particulars</td>
@@ -390,7 +389,7 @@
         success: function(data)
         {
           
-            var s=toWords(parseInt(data.total));
+            var s=convert(data.total);
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);
