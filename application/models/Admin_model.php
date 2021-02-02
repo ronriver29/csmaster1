@@ -655,6 +655,12 @@ The client shall submit the above required documents within 30 working days from
     $row = $query->row();
     return $row;
   }
+  public function get_supervising_info($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>4));
+    $row = $query->row();
+    return $row;
+  }
   public function get_admin_info($data){
     $data = $this->security->xss_clean($data);
     $query= $this->db->get_where('admin',array('id'=>$data));
