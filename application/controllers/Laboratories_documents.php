@@ -773,6 +773,15 @@ class Laboratories_documents extends CI_Controller{
                                 $data['associate_cooperator_list'] = $this->cooperator_model->get_all_associate_cooperator_of_coop($decoded_id);
                                 $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                                 $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
+                                
+                                $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                                $data['in_chartered_cities'] =false;
+                                if($this->charter_model->in_charter_city($data['coop_info']->cCode))
+                                {
+                                $data['in_chartered_cities']=true;
+                                $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
+                                }
+
                                 $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
                                 $f = new pdf();
                                 $f->setPaper('folio', 'portrait');
