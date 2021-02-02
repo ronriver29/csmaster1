@@ -131,7 +131,9 @@
                         else if($cooperative['status']==6) echo "SUBMITTED BY CDS II";
                         else if($cooperative['status']==7) echo "DENIED BY SENIOR CDS";
                         else if($cooperative['status']==8) echo "DEFERRED BY SENIOR CDS";
-                        else if($cooperative['status']==9) echo "APPROVED BY SENIOR CDS";
+                        else if($cooperative['status']==9 && !$is_acting_director && $admin_info->access_level==3) echo "DELEGATED BY DIRECTOR";
+                        else if($cooperative['status']==9 && $supervising_ && $admin_info->access_level==4) echo "DELEGATED BY DIRECTOR";
+                        else if($cooperative['status']==9) echo "SUBMITTED BY SENIOR CDS";
                         else if($cooperative['status']==10) echo "DENIED BY DIRECTOR";
                         else if($cooperative['status']==11) echo "DEFERRED BY DIRECTOR";
                         else if($cooperative['status']==12) echo "FOR PAYMENT";
@@ -140,8 +142,7 @@
                         else if($cooperative['status']==15) echo "REGISTERED"; 
                         else if($cooperative['status']==16) echo "FOR PAYMENT"; ?>
                       <?php endif ?>
-
-                      </span>
+                      </span> 
                     </td>
                   <?php if($is_client) :?> 
                     <td>
@@ -389,13 +390,13 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
         data: {coop_id:coop_id},
         success: function(data)
         {
-            var s=toWords(data.total);
+            var s=convert(data.total);
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
             $('#cid').val(coop_id);   
-            $('#word').text(s+' Pesos');
+            $('#word').text(s);
             $('#nature').text(data.nature);
             $('#particulars').html(data.particulars);
             $('#amount').html(data.amount); 
