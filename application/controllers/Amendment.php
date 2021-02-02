@@ -610,7 +610,6 @@ class amendment extends CI_Controller{
                       'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
                     );
                     // $this->debug($field_data);
-
                   // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition));
                     // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition));
                     if($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition)){
