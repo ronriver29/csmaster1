@@ -185,7 +185,6 @@ class Amendment_registration extends CI_Controller{
         $data1['date_month'] =date('F',strtotime($date_OR));
         $dateDay = date('d',strtotime($date_OR));
         $data1['date_day']=$this->OrdinalIndicator($date_OR);
-
         $dt_data = substr($data1['date_day'],0,1);
        if($dt_data=="0")
         {
