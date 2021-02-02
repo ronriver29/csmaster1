@@ -343,6 +343,9 @@
               }
             }
 
+            $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
+            $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
+
             $date_ = ('Y-m-d -3 year');
             $data['date2']  = $date_;
             $this->load->view('applications/list_of_branches', $data);
@@ -737,7 +740,7 @@
                                     $regioncode = "0".mb_substr($branch_info->addrCode, 0, 2);
                                   // echo $regioncode;
                                   // echo '<script>alert('.printf("%02d", 0).');</script>';
-                                  $data['director_info'] = $this->admin_model->get_director_info($regioncode);
+                                  $data['director_info'] = $this->admin_model->get_supervising_info($regioncode);
                                   if($this->admin_model->is_active_director($data['director_info']->id)){
                                     $data['director_info'] = $this->admin_model->get_emails_of_director_by_region($regioncode);
                                   } else {

@@ -158,6 +158,8 @@ if($tomorrow>=$now){
                         else if($branch['status']==12) echo "SUBMITTED BY CDS II";
                         else if($branch['status']==13) echo "DENIED BY SENIOR CDS";
                         else if($branch['status']==14) echo "DEFERRED BY SENIOR CDS";
+                        else if($branch['status']==15 && !$is_acting_director && $admin_info->access_level==3) echo "DELEGATED BY DIRECTOR";
+                        else if($branch['status']==15 && $supervising_ && $admin_info->access_level==4) echo "DELEGATED BY DIRECTOR";
                         else if($branch['status']==15) echo "SUBMITTED BY SENIOR CDS";
                         else if($branch['status']==16) echo "DENIED BY DIRECTOR";
                         else if($branch['status']==17) echo "DEFERRED BY DIRECTOR";
@@ -203,7 +205,7 @@ if($tomorrow>=$now){
                           <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-cname="<?=$brancharea.' '?><?= $branch['branchName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Re-Assign Validator</a>
                         <?php endif; ?>
                           
-                        <?php if(($branch['status']>=2 && $branch['status']<17 && $admin_info->access_level == 1) || ($branch['status']>9 && $branch['status']<17 && $admin_info->access_level == 2 || $admin_info->access_level == 3)  && $branch['status']!=8 || ($branch['status']==2 && $admin_info->access_level == 2)) : ?>
+                        <?php if(($branch['status']>=2 && $branch['status']<17 && $admin_info->access_level == 1) || ($branch['status']>9 && $branch['status']<17 && $admin_info->access_level == 2 || ($admin_info->access_level == 3 && $is_acting_director)) || ($supervising_)  && $branch['status']!=8 || ($branch['status']==2 && $admin_info->access_level == 2)) : ?>
                           <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
                           
                         <?php elseif($branch['status']==8 && $branch['evaluator3']==0): ?>

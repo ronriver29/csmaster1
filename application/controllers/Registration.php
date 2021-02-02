@@ -230,7 +230,7 @@ class registration extends CI_Controller{
         
         $data1['chair'] = $this->registration_model->get_chairman()->chairman;
         $data1['branch_info']=$branch_details;
-        $data1['director']=$this->registration_model->get_director($user_id)->full_name;
+        // $data1['director']=$this->registration_model->get_director($user_id)->full_name;
         $data1['type']=$type;
         
         set_time_limit(0);
