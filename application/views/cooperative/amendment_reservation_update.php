@@ -83,25 +83,54 @@
               <div class="form-group">
                 <label for="typeOfCooperative1">Type of Cooperative</label>
                 
+                <?php 
+                $indx = 1;
+                  foreach($amd_type_of_coop as $row_type)
+                  {
+                    ?>
+                    <div class="list_cooptype">
+                      <select class="custom-select coop-type" name="typeOfCooperative[]" id="typeOfCooperatives<?=$indx  ++?>">
+                        <!-- <option value=""><?=$row_type?></option> -->
+                        <?php
+                          foreach($list_type_coop as $coop)
+                          {
+                            $selected ='';
+                            if($coop['name'] == $row_type)
+                            {
+                              $selected = 'selected';
+                            }
+                            ?>
+                              <option value="<?=$coop['id']?>" <?=$selected?>><?=$coop['name']?></option>
+                            <?php
+                          }
+                        ?>
+                      </select>  
+                      <a class="customDeleleBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                </div>    
+                    <?php
+                  }
+
+                ?>
                 <?php $key=1;
                 foreach($cooperative_type as $crow)
                 { 
              
-                ?><div class="list_cooptype">
-                  <select class="custom-select coop-type" name="typeOfCooperative[]" id="typeOfCooperatives<?=$key++?>">
+                ?>
+                <!-- <div class="list_cooptype"> -->
+                <!--   <select class="custom-select coop-type" name="typeOfCooperative[]" id="typeOfCooperatives<?=$key++?>">
                     <?php
                     foreach($crow as $optionRow)
                     {
                       $cid[]=$optionRow['id'];
                     ?>
-                    <option value="<?=$optionRow['id']?>" <?=($optionRow['name']==$optionRow['amended_type']?"selected":"")?>><?=$optionRow['name']?> </option>
+                    <option value="<?=$optionRow['id']?>" <?=(in_array($optionRow['name'],$optionRow['amended_type']) ?"selected":"")?>><?=$optionRow['name']?> </option>
                     <?php
                     }
                     ?>
-                  </select>
+                  </select> -->
                   <!-- <a class="customDeleleBtn TypeCoopRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a> -->
-                  <a class="customDeleleBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
-                </div>
+                <!--   <a class="customDeleleBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                </div> -->
                 <?php
                 
                 }
@@ -122,59 +151,10 @@
             </div>
                                                                                             
 
-            <div class="row">
+          <div class="row">
               <div class="col-sm-12 col-md-12 col-industry-subclass">
                 <div class="row-cis">
-                  <?php
-                  $count =1;
-                  $count2=1;
-                  $count_major=1;
-                  $count_subclass =1;
-                    foreach(array_reverse($business) as $brow)
-                    {
-                      // echo $brow['major_industry_id'].' '.$brow['major_description_'].'<br>';
-                      // echo $brow['subclass_id'].' '.$brow['subclass_description_'];
-                    ?>
-                  <div class="list-major">
-                      <div class="form-group">
-                        <label>Major Industry Classification No.<?=$count_major++?> </label>
-                        <select name="majorIndustry[]" id="majorIndustry<?=$count++?>" class="custom-select major-ins form-control validate[required]">
-                          <?php
-                            if(is_array($major_industry_list))
-                            {
-                              foreach($major_industry_list as $mrow)
-                              {
-                                ?>
-                                <option value="<?=$mrow['major_industry_id']?>" <?=($mrow['major_industry_id'] == $brow['major_industry_id'] ? "selected" : "")?>> <?=$mrow['major_description']?></option>
-                                <?php
-                              }
-                            }
-                           ?>
-                        </select>
-                      </div>
-
-                      <div class="form-group">
-                        <label> Major Industry Classification No.<?=$count_subclass++?> Subclass</label>
-                        <select name="subClass[]" id="subClass<?=$count2++?>" class="custom-select form-control subclass-in">
-                          <?php
-                          if(is_array($major_subclass_list))
-                          {
-                            foreach($major_subclass_list as $srow)
-                            {
-                              ?>
-                              <option value="<?=$srow['subclass_id']?>" <?=($srow['subclass_id'] == $brow['subclass_id']? "selected" : "")?>><?=$srow['subclass_descriptions']?></option>
-                              <?php
-                            }
-                          }
-                          ?>
-                        </select>
-                         <a class="customDeletebtn businessActivityRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
-                      </div>
-                  </div>
-
-                  <?php
-                     } //end of row business activity
-                  ?>
+                  
                 </div>
               </div>
             </div>        

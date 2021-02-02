@@ -840,8 +840,6 @@ $(function(){
 
          $("#type_of_coop").html(proposeName);
       }
-      
-
       var lastCountOfcoop = $('select[name="typeOfCooperative[]"]').last().attr('id');
       intLastCount = parseInt(lastCountOfcoop.substr(-1)); 
       var htmlc= $('<div></div>').attr({'class':'col-md-6 list-cooptype'});
@@ -859,48 +857,43 @@ $(function(){
       $(divFormGroup).append(selectCoop,deleteSpan);
 
       $(htmlc).append(divFormGroup);
-      $(divRow).append(htmlc);
+       $(divRow).append(htmlc);
       $("#amendmentAddForm .type-coop-row").append(divRow);
-    
-      
-    
-      
-
 
      //modified by json
-     //  $(".coop-type").on('change',function(){
-     //    var cooptype_value = this.value;
-     //    // alert('unal');
-     //       var typeCoop_arrays=[]; 
-     //       $('select[name="typeOfCooperative[]"] option:selected').each(function() {
-     //       typeCoop_arrays.push($(this).val());
-     //        // alert(typeCoop_arrays);
-     //        $('#typeOfCooperative_value').val(typeCoop_arrays);
-     //          $.each(typeCoop_arrays , function(n,type_coop_id){
+      $(".coop-type").on('change',function(){
+        var cooptype_value = this.value;
+
+           var typeCoop_arrays=[]; 
+           $('select[name="typeOfCooperative[]"] option:selected').each(function() {
+           typeCoop_arrays.push($(this).val());
+            // alert(typeCoop_arrays);
+            $('#typeOfCooperative_value').val(typeCoop_arrays);
+              $.each(typeCoop_arrays , function(n,type_coop_id){
             
 
-     //                $.ajax({
-     //               type : "POST",
-     //               url  : "get_major_industry_ajax",
-     //               dataType: "json",
-     //               data: {cooptype_:type_coop_id},
-     //               success: function(responsetxt){
-     //                // alert("success");
-     //                $.each(responsetxt,function(a,major_industry){
-     //                 console.log(major_industry);
-     //                   // $('.major-industry').append($('<option></option>').attr('value',major_industry['major_industry_id']).text(major_industry['description']));
+                    $.ajax({
+                   type : "POST",
+                   url  : "get_major_industry_ajax",
+                   dataType: "json",
+                   data: {cooptype_:type_coop_id},
+                   success: function(responsetxt){
+                    // alert("success");
+                    $.each(responsetxt,function(a,major_industry){
+                      // console.log(major_industry['description']);
+                       $('.major-industry').append($('<option></option>').attr('value',major_industry['id']).text(major_industry['description']));
 
-     //                   // $('.select-major').append($('<option></option>').attr('value',major_industry['description']).text(major_industry['description']));
+                       // $('.select-major').append($('<option></option>').attr('value',major_industry['description']).text(major_industry['description']));
 
-     //                });
-     //               }
-     //              }); //end ajax
-     //         }); //end $.each
-     // }); //end onchange of type coop
+                    });
+                   }
+                  }); //end ajax
+             }); //end $.each
+     }); //end onchange of type coop
   
     
             
-        // }); 
+        }); 
       e.preventDefault();
     }); //end of addCoop function
 
@@ -914,7 +907,6 @@ $(function(){
                  dataType: "json",
                  success: function(responsetxt){
                   // console.log(responsetxt);
-                    $select_id.append($('<option selected></option>').attr('value',"").text(""));
                   $.each(responsetxt,function(a,coop_type){
                      $($select_id).append($('<option></option>').attr('value',coop_type['id']).text(coop_type['name']));
 
@@ -966,45 +958,44 @@ $(function(){
 
     //onchge coop type
     $(document).on('change','.coop-type',function(){
-        var cooptype_value = this.value; 
+        var cooptype_value = this.value;
       const current_cooperative_id =  $(this).attr('id');
       var intLastCount = parseInt(current_cooperative_id.substr(-1));
-      $('#amendmentAddForm .major-ins').empty();
-       $('#amendmentAddForm .subclass-in').empty();
-      // $('#amendmentAddForm #majorIndustry'+(intLastCount)).prop("disabled",true);
-    // alert("dd");
+      $('#amendmentAddForm #majorIndustry'+(intLastCount)).empty();
+      $('#amendmentAddForm #majorIndustry'+(intLastCount)).prop("disabled",true);
+    
       var typeCoop_arrays=[]; 
        if($(this).val() && ($(this).val()).length > 0){
             var majorIndustryTemp =   $('#amendmentAddForm #majorIndustry'+(intLastCount));
             $(majorIndustryTemp).prop("disabled",false);
-        }  
-          
+        }    
       $('select[name="typeOfCooperative[]"] option:selected').each(function() {
        typeCoop_arrays.push($(this).val());
-      });
-
-         $('#typeOfCooperative_value').val(typeCoop_arrays);
+        // alert(typeCoop_arrays);
+        $('#typeOfCooperative_value').val(typeCoop_arrays);
           $.each(typeCoop_arrays , function(n,type_coop_id){
-           console.log(typeCoop_arrays);
-           // alert(type_coop_id);
+            // console.log(type_coop_id);
+
               $('#amendmentAddForm #majorIndustry'+(intLastCount)).append($('<option></option').attr({'selected':true}).val(""));
               $.ajax({
                  type : "POST",
                  url  : "get_major_industry_ajax",
                  dataType: "json",
-                 data: {cooptype_:type_coop_id},
+                 data: {cooptype_:cooptype_value},
                  success: function(responsetxt){
                   $.each(responsetxt,function(a,major_industry){
                    console.log(major_industry);
-                   // alert('isa');
-                     $('.major-ins').append($('<option></option>').attr('value',major_industry['major_industry_id']).text(major_industry['description']));                     
+
+                     $('.major-ins').append($('<option></option>').attr('value',major_industry['major_industry_id']).text(major_industry['description']));
+                     
                      // $('.select-major').append($('<option></option>').attr('value',major_industry['description']).text(major_industry['description']));
+
                   });
                  }
-              }); //end ajax
+                }); //end ajax
 
           });
-
+      });
      }); 
     // //end onchange coop type
 
@@ -1018,23 +1009,20 @@ $(function(){
             $(subClassTemp).prop("disabled",false);
             var major_industry = $(this).val();
             var coop_type = $('#amendmentAddForm #typeOfCooperative'+intLastCount).val();
-            // alert( major_industry);
-       
+            // alert(coop_type + major_industry);
             if(coop_type.length > 0 ){
                 $.ajax({
                 type : "POST",
-                url  : "major_industry_description_subclass_ajax",
+                url  : "../api/industry_subclasses",
                 dataType: "json",
                 data : {
                   coop_type: coop_type,
-                  // major_industry: major_industry
-                   major_types:major_industry
+                  major_industry: major_industry
                 },
                 success: function(data){
                     $(subClassTemp).append($('<option></option>').attr('value',"").text(""));
                     $.each(data, function(key,value){
-                      console.log(value);
-                      $(subClassTemp).append($('<option></option>').attr('value',value.sub_class_id).text(value.subclass_description));
+                      $(subClassTemp).append($('<option></option>').attr('value',value.id).text(value.description));
                     });
                 }
               });
@@ -1046,7 +1034,6 @@ $(function(){
   //modified add major industry dynamically
   let count_major_industry=parseInt($('.major-industry').length);
   $('#amendmentAddForm #addMoreSubclassBtn').on('click', function(){
-  // alert("aaa");
         if($('#amendmentAddForm #typeOfCooperative1').val() && ($('#amendmentAddForm #typeOfCooperative1').val()).length > 0)
         {
           var lastCountOfSubclass = $('select[name="subClass[]"').last().attr('id'); 

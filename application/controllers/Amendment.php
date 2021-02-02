@@ -420,10 +420,11 @@ class amendment extends CI_Controller{
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
 
                   $coopTypeName= $data['coop_info']->type_of_cooperative;
+                  $typeName_arr = explode(',',$coopTypeName);
                   $list_of_major_industry_cooptype =$this->major_industry_model->get_major_industries_by_type_name($coopTypeName);
                   $list_type[] = $this->coop_type($coopTypeName);
-                  $list_coop_type_id[] =$this->get_coopTypeID($coopTypeName); 
-             
+                  $list_coop_type_id[] =$this->get_coopTypeID( $typeName_arr); 
+                  // echo $this->db->last_query();
                  //get major industry id
                   foreach($list_coop_type_id as $row_coop_type_id)
                   { 	
@@ -454,7 +455,7 @@ class amendment extends CI_Controller{
                   // }
                   // $this->debug($subclass_description);
 
-                 $data['cooperative_type'] = $list_type;
+                 $data['cooperative_type'] = $list_type; 
                  $data['major_industries_by_coop_type'] = $list_of_major_industry_cooptype;
                  $data['list_of_major_industry'] = $this->get_major_industry($list_of_major_industry_cooptype);
 
@@ -491,7 +492,7 @@ class amendment extends CI_Controller{
                     {
                       // $this->debug($brow);
                       $major_id = $brow['major_industry_id'];
-                      $brow['major_description_']=$this->major_industry_description2( $major_id);
+                      $brow['major_description_']=$this->major_industry_description2($major_id);
                    
                       $brow['subclass_description_']=$this->major_industry_description_subclass2($brow['subclass_id']);
                      
@@ -529,7 +530,11 @@ class amendment extends CI_Controller{
 
                     }
                   }
-                
+
+                  $data['list_type_coop'] = $this->coop_type($coopTypeName);
+                  // $this->debug($data['list_type_coop']);
+                  //cooperative type value
+                  $data['amd_type_of_coop'] = $typeName_arr;
                   $this->load->view('./template/header', $data);
                   $this->load->view('cooperative/amendment_reservation_update', $data);
                   if($this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
@@ -607,6 +612,7 @@ class amendment extends CI_Controller{
                     // $this->debug($field_data);
 
                   // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition));
+                    // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition));
                     if($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition)){
                       $this->session->set_flashdata('cooperative_success', 'Successfully updated basic information.');
                       redirect('amendment/'.$this->input->post('Amendment_ID'));
@@ -2015,7 +2021,7 @@ class amendment extends CI_Controller{
   		$coop_type = $this->db->get('cooperative_type');
   		foreach($coop_type->result_array() as $row)
   		{
-  			$row['amended_type'] = $existing_type;
+  			$row['amended_type'] = explode(',',$existing_type);
   			$data[] = $row;
   		}
   		return $data;
@@ -2085,7 +2091,9 @@ class amendment extends CI_Controller{
 
     public function get_coopTypeID($type_name)
     {
-      $qry=$this->db->query("select id from cooperative_type where name='$type_name'");//'cooperative_type',array('name'=>$type_name));
+      // $qry=$this->db->query("select id from cooperative_type where name IN('$type_name')");//'cooperative_type',array('name'=>$type_name));
+      $qry = $this->db->select('id')->where_in('name',$type_name)->get('cooperative_type');
+
       if($qry->num_rows()>0)
       {
         foreach($qry->result_array() as $row)
