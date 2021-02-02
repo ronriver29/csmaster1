@@ -185,7 +185,19 @@ class Amendment_registration extends CI_Controller{
         $data1['date_month'] =date('F',strtotime($date_OR));
         $dateDay = date('d',strtotime($date_OR));
         $data1['date_day']=$this->OrdinalIndicator($date_OR);
-
+        $dt_data = substr($data1['date_day'],0,1);
+       if($dt_data=="0")
+        {
+          $data1['date_day']=substr($data1['date_day'],1);
+        }
+      
+        $data1['in_chartered_cities'] =false;
+        // $this->debug($data1['coop_info']);
+        if($this->charter_model->in_charter_city($coop_info->cCode))
+        {
+          $data1['in_chartered_cities']=true;
+          $data1['chartered_cities'] =$this->charter_model->get_charter_city($data1['coop_info']->cCode);
+        }
         
               
       
@@ -217,21 +229,30 @@ class Amendment_registration extends CI_Controller{
         $num_day= substr($date_day,-1);
         $char_length = strlen($date_day);
         $ordinal_indicator='';
-
-        switch ($num_day) {
-          case 1:
-            $ordinal_indicator='st';
-            break;
-          case 2:
-            $ordinal_indicator='nd';
-            break;  
-          case 3:
-            $ordinal_indicator='rd';
-            break;
-          default:
-             $ordinal_indicator='th';
-            break;
+        $nums ='';
+        $num_array = array(10,11,12,13,14,15,16,17,18,19,20,30);
+        if(in_array($date_day,$num_array))
+        {
+          $ordinal_indicator ='th';
         }
+        else
+        {
+            switch ($num_day) {
+            case 1:
+              $ordinal_indicator='st';
+              break;
+            case 2:
+              $ordinal_indicator='nd';
+              break;  
+            case 3:
+              $ordinal_indicator='rd';
+              break;
+            default:
+               $ordinal_indicator='th';
+              break;
+          }
+        }
+        
         return $date_day.$ordinal_indicator;//$num_day.$ordinal_indicator;
   }
 
