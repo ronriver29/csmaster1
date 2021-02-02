@@ -26,14 +26,14 @@
       <div class="btn-group float-right" role="group" aria-label="Basic example">
         <!--<a  class="btn btn-info btn-sm" href="<?php echo base_url();?>laboratories/<?= $encrypted_id ?>/laboratories_cooperative_tool">Tool</a>-->
 
-        <?php if( $admin_info->access_level==3){?>
+        <?php if( $admin_info->access_level==3 || $admin_info->access_level==4){?>
            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $lab_info->laboratoryName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($lab_info->id))?>">Approve</button>
         <?php }else{ ?> 
       
         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $lab_info->laboratoryName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($lab_info->id))?>">Submit</button>
         <?php } ?>
 
-         <?php if( $admin_info->access_level==3){?> 
+         <?php if( $admin_info->access_level==3 || $admin_info->access_level==4){?> 
         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyLaboratoryModal" data-cname="<?= $lab_info->laboratoryName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($lab_info->id))?>">Deny</button>
         <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferLaboratoryModal"  data-cname="<?= $lab_info->laboratoryName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($lab_info->id))?>">Defer</button>
       </div>
@@ -50,7 +50,7 @@
 
 
 
-<?php if($admin_info->access_level==3 || $admin_info->access_level==2){//if(($admin_info->access_level ==2)  || ($admin_info->access_level ==3)){?>
+<?php if($admin_info->access_level==3 || $admin_info->access_level==4 || $admin_info->access_level==2){//if(($admin_info->access_level ==2)  || ($admin_info->access_level ==3)){?>
 <?php if(isset($comment_list_director) && strlen($comment_list_director->comment)>0){ ?>
 
   <div class="row mt-3 col-md-12"> 
@@ -66,7 +66,7 @@
 <?php } ?>
 <?php } //end of access level?>
     
-<?php if($admin_info->access_level==3){//if(($admin_info->access_level ==2)  || ($admin_info->access_level ==3)){?>
+<?php if($admin_info->access_level==3 || $admin_info->access_level==4){//if(($admin_info->access_level ==2)  || ($admin_info->access_level ==3)){?>
 <!-- <?php if(isset($comment_list_senior) && strlen($comment_list_senior->comment)>0){ ?>
   <div class="row mt-3 col-md-12"> 
     <div class="col-sm-12 col-md-12">
@@ -157,7 +157,7 @@
   </div>
 </div>
 
-<?php if(($admin_info->access_level==2) || ($admin_info->access_level==3)){//if(($admin_info->access_level ==2)  || ($admin_info->access_level ==3)){?>
+<?php if(($admin_info->access_level==2) || ($admin_info->access_level==3 || $admin_info->access_level==4)){//if(($admin_info->access_level ==2)  || ($admin_info->access_level ==3)){?>
 <?php if(isset($comment_list_defer_director->comment) && strlen($comment_list_defer_director->comment)>0){ ?>
  
 

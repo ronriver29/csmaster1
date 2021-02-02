@@ -242,6 +242,10 @@
               $data['registered_laboratories'] = $this->laboratories_model->get_registered_laboratories($data['admin_info']->region_code);
               $data['list_laboratories'] = $this->laboratories_model->get_all_laboratories_by_director($data['admin_info']->region_code);
             }
+            $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
+            $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
+            $data['user_id'] = $user_id;
+
             $data['gc']=1; //if admin level enable it 
             $data['user_ID'] =$this->session->userdata('user_id');
             $data['admin_accesslevel'] =$this->session->userdata('access_level');
@@ -723,24 +727,24 @@
                       if($this->session->userdata('access_level')==4){
                         if($this->cooperatives_model->check_first_evaluated($decoded_id)){
                           if($this->cooperatives_model->check_second_evaluated_laboratories($decoded_id)){
-                            if($this->cooperatives_model->check_last_evaluated($decoded_id)){
-                              $this->session->set_flashdata('redirect_applications_message', 'Laboratory already evaluated by a Director/Supervising CDS.');
-                              redirect('cooperatives');
-                            }else{
-                              if(!$this->admin_model->check_if_director_active($user_id)){
-                                $success = $this->laboratories_model->approve_by_supervisor_laboratories($data['admin_info'],$decoded_id,$coop_full_name);
+                            // if($this->laboratories_model->check_last_evaluated($decoded_id)){
+                            //   $this->session->set_flashdata('redirect_applications_message', 'Laboratory already evaluated by a Director/Supervising CDS.');
+                            //   redirect('cooperatives');
+                            // }else{
+                              // if(!$this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
+                                $success = $this->laboratories_model->approve_by_director_laboratories($data['admin_info'],$decoded_id);
                                 if($success){
                                   $this->session->set_flashdata('list_success_message', 'Laboratory has been approved.');
-                                  redirect('cooperatives');
+                                  redirect('laboratories');
                                 }else{
                                   $this->session->set_flashdata('list_error_message', 'Unable to approve laboraotories.');
                                   redirect('laboratories');
                                 }
-                              }else{
-                                $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated by the Director.');
-                                redirect('cooperatives');
-                              }
-                            }
+                              // }else{
+                              //   $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated by the Director.');
+                              //   redirect('cooperatives');
+                              // }
+                            // }
                           }else{
                             $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated first by a Senior Cooperative Development Specialist.');
                             redirect('cooperatives');

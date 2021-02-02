@@ -150,7 +150,10 @@
                       <?php else : ?>
                         <!-- admin view -->
                         <?php if($laboratory['status']==2) echo "FOR VALIDATION"; ?>
-                         <?php if($laboratory['status']==12) echo "SUBMITTED BY SENIOR"; ?>
+                         <?php // if($laboratory['status']==12) echo "SUBMITTED BY SENIOR";
+                          if($laboratory['status']==12 && $is_acting_director && $admin_info->access_level==3) echo "SUBMITTED BY SENIOR";
+                          else if($laboratory['status']==12) echo "DELEGATED BY DIRECTOR"; ?>
+
                           <?php if($laboratory['status']==24) echo "DEFERRED"; ?>
                         <!-- <?php if($laboratory['status']==3 || $laboratory['status']==6 || $laboratory['status']==10 || $laboratory['status']==13 || $laboratory['status']==16) echo "DENIED"; ?> -->
                        <!--  <?php if($laboratory['status']==4 || $laboratory['status']==7 || $laboratory['status']==11 || $laboratory['status']==14 || $laboratory['status']==17) echo "DEFERRED"; ?> -->
@@ -178,7 +181,7 @@
                   <?php if(!$is_client) :?>
                     <td>
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                      <?php if($admin_accesslevel==3 || ($admin_accesslevel==5)){?>
+                      <?php if(($supervising_) || ($admin_accesslevel==3 && $is_acting_director) || ($admin_accesslevel==5)){?>
                         <?php if($laboratory['status']>=2 && $laboratory['status']<=17  && $laboratory['status']!=8) : ?>
                           <a href="<?php echo base_url();?>laboratories/<?= encrypt_custom($this->encryption->encrypt($laboratory['id'])) ?>/laboratories_documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
                             <!--<a href="<?php echo base_url();?>laboratories/<?= encrypt_custom($this->encryption->encrypt($laboratory['id'])) ?>/assign" data-toggle="modal" data-target="#assignSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($laboratory['id']))?>" data-cname="<?= $laboratory['labName']?> Cooperative " class="btn btn-color-blue"><i class='fas fa-user-check'></i> Assign Validator</a>-->

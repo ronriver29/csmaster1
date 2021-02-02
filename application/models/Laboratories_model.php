@@ -9,7 +9,16 @@ class laboratories_model extends CI_Model{
     //Codeigniter : Write Less Do More
     $this->load->database();
   }
-
+  public function check_last_evaluated($coop_id){
+  $query = $this->db->get_where('laboratories',array('id'=>$coop_id));
+  $data = $query->row();
+  $coop_status = $data->status;
+  if($coop_status>=10){
+    return false;
+  }else{
+    return true;
+  }
+}
   public function get_business_activity_coop($regNo){
     $this->db->select('business_activities_cooperative.industry_subclass_by_coop_type_id as BAC_id, major_industry.description as mdesc, subclass.description as sdesc');
     $this->db->from('registeredcoop');
