@@ -131,7 +131,9 @@
                         else if($cooperative['status']==6) echo "SUBMITTED BY CDS II";
                         else if($cooperative['status']==7) echo "DENIED BY SENIOR CDS";
                         else if($cooperative['status']==8) echo "DEFERRED BY SENIOR CDS";
-                        else if($cooperative['status']==9) echo "APPROVED BY SENIOR CDS";
+                        else if($cooperative['status']==9 && !$is_acting_director && $admin_info->access_level==3) echo "DELEGATED BY DIRECTOR";
+                        else if($cooperative['status']==9 && $supervising_ && $admin_info->access_level==4) echo "DELEGATED BY DIRECTOR";
+                        else if($cooperative['status']==9) echo "SUBMITTED BY SENIOR CDS";
                         else if($cooperative['status']==10) echo "DENIED BY DIRECTOR";
                         else if($cooperative['status']==11) echo "DEFERRED BY DIRECTOR";
                         else if($cooperative['status']==12) echo "FOR PAYMENT";
@@ -140,8 +142,7 @@
                         else if($cooperative['status']==15) echo "REGISTERED"; 
                         else if($cooperative['status']==16) echo "FOR PAYMENT"; ?>
                       <?php endif ?>
-
-                      </span>
+                      </span> 
                     </td>
                   <?php if($is_client) :?> 
                     <td>
