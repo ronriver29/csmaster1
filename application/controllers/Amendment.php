@@ -51,8 +51,10 @@ class amendment extends CI_Controller{
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
             
               $list_coop_type_arr  = $this->amendment_model->check_ho_multipurpose_type($data['admin_info']->region_code);
+              // echo $this->db->last_query();
                // $amendment_id_ho = array();
                $amendment_id  = array();
+                // $this->debug($list_coop_type_arr);
               foreach($list_coop_type_arr as $row)
               {
                  $types_coop = explode(',',$row['type_of_cooperative']);
@@ -79,14 +81,14 @@ class amendment extends CI_Controller{
               // $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_senior($data['admin_info']->region_code);
               // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
             
-                
+             
               if($data['admin_info']->region_code=="00"){
                 // Registered Coop Process by Head Office
                   $data['list_cooperatives_registered_by_ho'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
                 // End Registered Coop Process by Head Office
                 // $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_ho_senior($data['admin_info']->region_code,$amendment_id);
-
+                     echo "dididid";
                 // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
               }
               else 
@@ -96,8 +98,8 @@ class amendment extends CI_Controller{
                 // End Registered Coop Process by Head Office
                 $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_senior($data['admin_info']->region_code,$amendment_id);
-             
-                $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
+                // echo $this->db->last_query();
+                $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code); 
 
               }
 
