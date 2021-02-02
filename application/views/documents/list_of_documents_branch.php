@@ -48,8 +48,10 @@
                 $branch_name = $branch_info->city.', '.$branch_info->province;
             }
             ?>
+            <?php if($admin_info->access_level ==2 || $admin_info->access_level ==1 || $is_active_director || $supervising_): ?>
             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if(($branch_info->tool_yn_answer==null && $branch_info->status>=9 || $branch_info->status>=23)) echo 'disabled';?> ><?=$submit?></button>
-            <?php if($admin_info->access_level == 3) {?>
+            <?php endif; //endo fo coop info status ?>  
+            <?php if($admin_info->access_level == 3 && $is_active_director || $supervising_) {?>
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyBranchModal" data-cname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer==null && $branch_info->status>=9) echo 'disabled';?> >Deny</button>
                 <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferBranchModal" data-comment="<?php foreach($branches_comments_cds as $cc) : echo $cc['comment']; endforeach;?>
                         
