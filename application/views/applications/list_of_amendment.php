@@ -1,4 +1,4 @@
-
+    
 <div class="row">
   <div class="col-md-12">
 <?php if($this->session->flashdata('amendment_msg')) :?>       
@@ -94,7 +94,7 @@
                     if(count($count_tYpe)>1)
 
                     {
-                    	$proposeNames = $cooperative['proposed_name'].' Multipurpose Cooperative '.$acronym_.' '.$cooperative['grouping'];
+                      $proposeNames = $cooperative['proposed_name'].' Multipurpose Cooperative '.$acronym_.' '.$cooperative['grouping'];
                     }
                     else
                     {
@@ -133,7 +133,7 @@
                         else if($cooperative['status']==8) echo "DEFERRED BY SENIOR CDS";
                         else if($cooperative['status']==9 && !$is_acting_director && $admin_info->access_level==3) echo "DELEGATED BY DIRECTOR";
                         else if($cooperative['status']==9 && $supervising_ && $admin_info->access_level==4) echo "DELEGATED BY DIRECTOR";
-                        else if($cooperative['status']==9) echo "SUBMITTED BY SENIOR CDS";
+                        else if($cooperative['status']==9) echo "APPROVED BY SENIOR CDS";
                         else if($cooperative['status']==10) echo "DENIED BY DIRECTOR";
                         else if($cooperative['status']==11) echo "DEFERRED BY DIRECTOR";
                         else if($cooperative['status']==12) echo "FOR PAYMENT";
@@ -142,7 +142,8 @@
                         else if($cooperative['status']==15) echo "REGISTERED"; 
                         else if($cooperative['status']==16) echo "FOR PAYMENT"; ?>
                       <?php endif ?>
-                      </span> 
+
+                      </span>
                     </td>
                   <?php if($is_client) :?> 
                     <td>
@@ -264,18 +265,16 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                     <?php $ar = array(2,5); $viewdoc_array = array(2,3,5) ?>
                     <?php if(in_array($admin_info->access_level,$ar)):?>
                       <ul id="ul-admin">
-                        <li>
-                      <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print Registration</a>
+                        <li style="list-style: none;">
+                      <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/amendment_registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print Registration</a>
                     </li>
                      <?php endif; ?>
                      <?php if(in_array($admin_info->access_level,$viewdoc_array)): ?>
                     <li style="list-style: none;">
-                      <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/documents" class="btn btn-sm btn-info"><i class='fas fa-eye'></i> View Document</a>
+                      <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/amendment_documents" class="btn btn-sm btn-info"><i class='fas fa-eye'></i> View Document</a>
                     </li>
                      <?php endif; //end of viewdoc array?>
                   </ul>
-
-                   
                   </td>
                 </tr>
               <?php endforeach; ?>
