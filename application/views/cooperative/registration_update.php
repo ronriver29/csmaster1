@@ -235,7 +235,7 @@
              <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="province">Province</label>
-                  <select class="custom-select validate[required]" name="province" id="province">
+                  <select class="custom-select" name="province" id="province">
                   </select>
                 </div>
               </div>
@@ -243,7 +243,7 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
-                  <select class="custom-select validate[required]" name="city" id="city">
+                  <select class="custom-select" name="city" id="city">
                   </select>
                 </div>
               </div>
@@ -253,7 +253,7 @@
                    <label for="barangay">Barangay</label>
                         <input type="hidden" class="custom-select validate[required]" name="barangay2" id="barangay2">
                         <input type="hidden" class="custom-select validate[required]" name="barangay" id="barangay2">
-                        <select class="custom-select validate[required]" name="barangay" id="barangay">
+                        <select class="custom-select" name="barangay" id="barangay">
                   </select>
                 </div>
               </div>
