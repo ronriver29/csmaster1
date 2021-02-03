@@ -127,14 +127,25 @@
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
         <ol class="text-justify" type="1">
+
     			<?php foreach($purposes_list as $key => $purpose) :
-            if(empty($purposes_list_orig[$key]))
-            {
-              $purposes_list_orig[$key]=0;
-            }
-            $purpose_orig =$purposes_list_orig[$key];
+            // if(empty($purposes_list_orig[$key]))
+            // {
+            //   $purposes_list_orig[$key]=;
+
+            // }
+           
           ?>
-                <li type="I" style="margin-top: 20px;"><?= ($purpose['cooperative_type']!==$purpose_orig ['cooperative_type']?'<strong>'.$purpose['cooperative_type'].'</strong>': $purpose['cooperative_type'])?></li>              
+
+          <?php if(isset($purposes_list_orig[$key])){
+               $purpose_orig =$purposes_list_orig[$key];
+           ?>
+
+                <li type="I" style="margin-top: 20px;"><?= ($purpose['cooperative_type']!==$purpose_orig['cooperative_type']?'<strong>'.$purpose['cooperative_type'].'</strong>': $purpose['cooperative_type'])?></li> 
+         <?php }else{ ?>
+          <li type="I" style="margin-top: 20px;"></strong><?=$purpose['cooperative_type']?></li> 
+
+         <?php } ?>                    
                  <div> <ol>
                 <?php               
                  $content = explode(';',$purpose['content']);
