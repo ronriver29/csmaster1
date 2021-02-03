@@ -185,7 +185,7 @@
                 <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="province">Province</label>
-                  <select class="custom-select validate[required]" name="province" id="province" readonly>
+                  <select class="custom-select" name="province" id="province" readonly>
                   </select>
                 </div>
               </div>
