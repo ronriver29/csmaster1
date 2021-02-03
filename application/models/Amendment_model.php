@@ -540,9 +540,12 @@ class amendment_model extends CI_Model{
         $new_name =$id.'_'.$row_file['filename'];
         $row_file['created_at']=date('Y-m-d h:i:s',now('Asia/Manila'));
         $row_file['author'] = $this->session->userdata('user_id');
+        if(file_exists(filename(APPPATH.'../uploads/amendment/'.$row_file['filename'])))
+        {
         if(copy(APPPATH.'../uploads/amendment/'.$row_file['filename'],APPPATH.'../uploads/amendment/'.$new_name))
         {
           $success++;
+        }
         }
         $row_file['filename'] = $new_name;
          $data_file[]=$row_file;
@@ -1924,7 +1927,7 @@ public function check_if_denied($coop_id){
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
-    $this->db->like('refregion.regCode', $regcode);
+    $this->db->where('refregion.regCode', $regcode);
     $qry_multi =$this->db->get();
     return $qry_multi->result_array();
     //end multipurpose
