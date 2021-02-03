@@ -263,7 +263,7 @@ class amendment extends CI_Controller{
                 if($this->amendment_model->if_had_amendment($coop_id))
                 {
                 	// $this->debug($this->amendment_model->add_amendment($field_data,$major_industry,$subclass_array,$members_composition,$typeOfCooperative));
-                  if($this->amendment_model->add_amendment($field_data,$major_industry,$subclass_array,$occu_comp_of_membships,$typeOfCooperative))
+                  if($this->amendment_model->add_amendment($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative))
                   {
                     $this->session->set_flashdata('list_success_message', 'Your reservation is confirmed.');
                     redirect('amendment');
