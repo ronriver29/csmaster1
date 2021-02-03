@@ -1019,7 +1019,7 @@
                                     $this->session->set_flashdata('redirect_applications_message', 'Branch already evaluated by the Regional Director.');
                                     redirect('branches');
                                   }else{
-                                    if(!$this->admin_model->check_if_director_active($user_id)){
+                                    if(!$this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                       $success = $this->branches_model->deny_by_admin($admin_info,$decoded_id,$reason_commment,5);
                                       if($success){
                                         $this->session->set_flashdata('list_success_message', 'Branch has been denied.');
@@ -1204,7 +1204,7 @@
                                     $this->session->set_flashdata('redirect_applications_message', 'Branch already evaluated by the Regional Director.');
                                     redirect('branches');
                                   }else{
-                                    if(!$this->admin_model->check_if_director_active($user_id)){
+                                    if(!$this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                         $data_field = array(
                                         'branches_id' => $decoded_id,
                                         'comment' => $reason_commment,
