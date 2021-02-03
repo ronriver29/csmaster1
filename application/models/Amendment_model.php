@@ -540,7 +540,7 @@ class amendment_model extends CI_Model{
         $new_name =$id.'_'.$row_file['filename'];
         $row_file['created_at']=date('Y-m-d h:i:s',now('Asia/Manila'));
         $row_file['author'] = $this->session->userdata('user_id');
-        if(file_exists(filename(APPPATH.'../uploads/amendment/'.$row_file['filename'])))
+        if(file_exists(APPPATH.'../uploads/amendment/'.$row_file['filename']))
         {
         if(copy(APPPATH.'../uploads/amendment/'.$row_file['filename'],APPPATH.'../uploads/amendment/'.$new_name))
         {
