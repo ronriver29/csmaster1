@@ -1,4 +1,3 @@
-<?php  echo phpversion(); ?>
 <div class="row" style="margin-top: 40px;">
   <div class="col-sm-12 offset-md-4 col-md-4">
     <div class="card login-card shadow border-top-blue">
