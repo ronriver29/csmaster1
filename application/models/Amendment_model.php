@@ -552,9 +552,9 @@ class amendment_model extends CI_Model{
       }
     }
     // return  $data_file;
-        if($process>0 && $success ==$process)
-        {
-           $this->db->insert_batch('amendment_uploaded_documents',$data_file);
+        // if($process>0 && $success ==$process)
+        // {
+           if($this->db->insert_batch('amendment_uploaded_documents',$data_file)){
         }
         else
         {
