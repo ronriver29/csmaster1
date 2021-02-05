@@ -670,16 +670,7 @@ $(function(){
   
   
 
-  //start
- $('#amendmentAddForm #addMoreInsBtn_insti').on('click', function(){
-     var htmlField = '<div class="list_product"><input type="text" name="name_ins_assoc[]" id="name_ins_assoc" class="form-control" style="margin-bottom:3px;" value=""> <a class="customDeleleBtn compositionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a></div> ';
-                $(".con-wrapper").append(htmlField);   
-            $('.compositionRemoveBtn').on('click',function(){
-              $(this).closest('.list_product').remove();//$("#con-wrapper").children().last().remove(); // $(this).parent().remove();// $(this).closest(".tbl").remove();
-            });
-    
-  });
-  //end 
+
 
   //start function modified
   function less_count_updateName($num_value)
@@ -933,7 +924,7 @@ $(function(){
                    // $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
                   if($selected_id == coop_type['id'] )
                   {
-                    // alert(coop_type['id']);
+                    alert(coop_type['id']);
                     var val = coop_type['id'];
                     var c_name = coop_type['name'];
                     $selected ="selected";
