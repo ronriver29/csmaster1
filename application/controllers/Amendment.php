@@ -2474,7 +2474,7 @@ class amendment extends CI_Controller{
           $data[] = $row;
         }
       }
-      echo json_encode($data);
+      echo json_encode($this->db->last_query());
     }
     //END AJAX REQUEST
 

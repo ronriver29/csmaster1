@@ -916,7 +916,7 @@ $(function(){
                url  : "cooperative_type_ajax",
                dataType: "json",
                success: function(responsetxt){
-                // console.log(responsetxt);
+                console.log(responsetxt);
                 $.each(responsetxt,function(a,coop_type){
                   var selected="";
                  
@@ -924,7 +924,7 @@ $(function(){
                    // $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
                   if($selected_id == coop_type['id'] )
                   {
-                    alert(coop_type['id']);
+                    // alert(coop_type['id']);
                     var val = coop_type['id'];
                     var c_name = coop_type['name'];
                     $selected ="selected";
