@@ -916,10 +916,10 @@ $(function(){
                url  : "cooperative_type_ajax",
                dataType: "json",
                success: function(responsetxt){
-                console.log(responsetxt);
+                console.log($selected_id+ ':' +responsetxt);
                 $.each(responsetxt,function(a,coop_type){
                   var selected="";
-                 
+                
                     $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
                    // $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
                   if($selected_id == coop_type['id'] )

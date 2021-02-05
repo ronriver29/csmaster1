@@ -594,19 +594,45 @@
               <?=$count++;?>
 
               <?php 
-              if(empty($associate_cooperator_list_orig[$key]))
-                {
-                  $associate_cooperator_list_orig[$key]=0;
-                }
-              $associate_orig = $associate_cooperator_list_orig [$key];?>
+              // if(empty($associate_cooperator_list_orig[$key]))
+              //   {
+              //     $associate_cooperator_list_orig[$key]=0;
+              //   }
+             // $associate_orig = $associate_cooperator_list_orig [$key];?> 
             <tr>
-              <td><?=($associate['full_name']!=$associate_orig['full_name'] ? '<b>'.$count.'. '. $associate['full_name'].'</b>' : $count.'. '. $associate['full_name'])?></td>
-              <td style="text-align: center;"><?= ($associate['number_of_subscribed_shares']!=$associate_orig['number_of_subscribed_shares'] ? '<strong>'.$associate['number_of_subscribed_shares'].'</strong>' : $associate['number_of_subscribed_shares'])?></td>
-              <td style="text-align: right;"><?= number_format(($associate['number_of_subscribed_shares'] * $article_info->par_value_preferred),2)?></td>
+              <?php
+                if(isset($associate_cooperator_list_orig[$key]))
+                {
+                  $associate_orig = $associate_cooperator_list_orig [$key];?>
+                  ?>
+                    <td><?=($associate['full_name']!=$associate_orig['full_name'] ? '<b>'.$count.'. '. $associate['full_name'].'</b>' : $count.'. '. $associate['full_name'])?></td>
 
-              <td style="text-align: center;"><?= ($associate['number_of_paid_up_shares']!=$associate_orig['number_of_paid_up_shares'] ? '<strong>'.$associate['number_of_paid_up_shares'].'</strong>' : $associate['number_of_paid_up_shares'])?></td>
+                     <td><?=($associate['full_name']!=$associate_orig['full_name'] ? '<b>'.$count.'. '. $associate['full_name'].'</b>' : $count.'. '. $associate['full_name'])?></td>
+                    <td style="text-align: center;"><?= ($associate['number_of_subscribed_shares']!=$associate_orig['number_of_subscribed_shares'] ? '<strong>'.$associate['number_of_subscribed_shares'].'</strong>' : $associate['number_of_subscribed_shares'])?></td>
+                    <td style="text-align: right;"><?= number_format(($associate['number_of_subscribed_shares'] * $article_info->par_value_preferred),2)?></td>
 
-              <td style="text-align: right;"><?= number_format(($associate['number_of_paid_up_shares'] * $capitalization_info->par_value),2)?></td>
+                    <td style="text-align: center;"><?= ($associate['number_of_paid_up_shares']!=$associate_orig['number_of_paid_up_shares'] ? '<strong>'.$associate['number_of_paid_up_shares'].'</strong>' : $associate['number_of_paid_up_shares'])?></td>
+
+                    <td style="text-align: right;"><?= number_format(($associate['number_of_paid_up_shares'] * $capitalization_info->par_value),2)?></td>
+
+                  <?php
+                }
+                else
+                {
+                ?>
+                     <td><?='<b>'.$count.'. '. $associate['full_name'].'</b>'?></td>
+                      <td><?='<b>'.$count.'. '. $associate['full_name'].'</b>' ?></td>
+                      <td style="text-align: center;"><?= '<strong>'.$associate['number_of_subscribed_shares'].'</strong>'?></td>
+                      <td style="text-align: right;"><?= number_format(($associate['number_of_subscribed_shares'] * $article_info->par_value_preferred),2)?></td>
+
+                      <td style="text-align: center;"><?= '<strong>'.$associate['number_of_paid_up_shares'].'</strong>'?></td>
+
+                      <td style="text-align: right;"><?= number_format(($associate['number_of_paid_up_shares'] * $capitalization_info->par_value),2)?></td>
+
+                <?php
+                }
+              ?>
+             
             </tr>
           <?php endforeach; ?>
           </tbody>
