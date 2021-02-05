@@ -317,7 +317,7 @@
                     "extraDataDynamic": ['#cooperativesID'],
                     "alertText": "* Must be greater than or equal to the minimum regular subscription indicated in the bylaws and Must not be greater than 10% of your Total no of subscribed capital",
                     "alertTextOk": "* This is greater than or equal to the minimum regular subscription indicated in the bylaws",
-                    "alertTextLoad": "* Validating, please waitdd"
+                    "alertTextLoad": "* Validating, please wait"
                 },
                  "ajaxMinimumRegularSubscriptionAmendmentCallPhp": {
                     "url": "../amendmentbylaws/check_minimum_regular_subscription_amendment",
@@ -358,7 +358,7 @@
                     "extraDataDynamic": ['#amd_id'],
                     "alertText": "* Must be greater than or equal to the minimum associate subscription indicated in the bylaws and Must not be greater than 10% of your Total no of paid-up capital",
                     "alertTextOk": "* This is greater than or equal to the minimum associate subscription indicated in the bylaws",
-                    "alertTextLoad": "* Validating, please waitdd"
+                    "alertTextLoad": "* Validating, please wait"
                 },
 
                 "ajaxMinimumAssociatePayCallPhp": {
