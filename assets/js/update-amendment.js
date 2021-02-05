@@ -1,7 +1,6 @@
 $(function(){
     
 
-
  $("#reserveUpdateForm #reserveUpdateAgree").click(function(event){
   // event.preventDefault();
     if($(this).is(':checked')){
@@ -25,7 +24,7 @@ $(function(){
            $('#reserveUpdateForm #typeOfCooperative_value').val(val1);
           });
   }
-  //end load modified
+  //end load modified 
 
 
   var id = $("#reserveUpdateForm #Amendment_ID").val();
@@ -328,8 +327,7 @@ $(function(){
     } //end success
   }); //end ajax get_cooperative info
 
-    
-    
+   
 
 
 }); //end of $ Function
@@ -694,6 +692,8 @@ $(".coop-type").on('change',function(){
   });
   //end modified add major industry dynamically
 
+
+
   //major
   function get_major_()
   {
@@ -775,6 +775,21 @@ var htmlFielda = '<div class="com-div"> <select class="custom-select composition
             });
   });
 //end modify
+
+
+  //start
+ $('#reserveUpdateForm #addMoreInsBtn_insti').on('click', function(){
+     var htmlField = '<div class="list_product"><input type="text" name="name_ins_assoc[]" id="name_ins_assoc" class="form-control" style="margin-bottom:3px;" value=""> <a class="customDeleleBtn compositionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a></div> ';
+                $(".con-wrapper").append(htmlField);   
+            $('.compositionRemoveBtn').on('click',function(){
+              $(this).closest('.list_product').remove();//$("#con-wrapper").children().last().remove(); // $(this).parent().remove();// $(this).closest(".tbl").remove();
+            });
+    
+  });
+  //end 
+  
+
+
   
 
    
