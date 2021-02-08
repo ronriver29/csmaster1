@@ -360,7 +360,6 @@
                     "alertTextOk": "* This is greater than or equal to the minimum associate subscription indicated in the bylaws",
                     "alertTextLoad": "* Validating, please wait"
                 },
-
                 "ajaxMinimumAssociatePayCallPhp": {
                     "url": "../../bylaws/check_minimum_associate_pay",
                     // you may want to pass extra data on the ajax call
