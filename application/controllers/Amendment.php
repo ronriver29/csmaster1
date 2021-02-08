@@ -53,7 +53,7 @@ class amendment extends CI_Controller{
               $list_coop_type_arr  = $this->amendment_model->check_ho_multipurpose_type($data['admin_info']->region_code);
               // echo $this->db->last_query();
                // $amendment_id_ho = array();
-               $amendment_id  = array();
+               $amendment_id  = '';
                 // $this->debug($list_coop_type_arr);
               foreach($list_coop_type_arr as $row)
               {
@@ -87,8 +87,17 @@ class amendment extends CI_Controller{
                   $data['list_cooperatives_registered_by_ho'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
                 // End Registered Coop Process by Head Office
                 // $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code);
-                $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_ho_senior($data['admin_info']->region_code,$amendment_id);
-                     echo "dididid";
+              
+                  
+                if(is_array($amendment_id)) 
+                {
+                  // echo "dito";
+                    $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_ho_senior($data['admin_info']->region_code,$amendment_id);
+                } 
+                else
+                {
+                      $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_ho_senior2("00");
+                }  
                 // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
               }
               else 
@@ -613,7 +622,7 @@ class amendment extends CI_Controller{
                     );
                     // $this->debug($field_data);
                   // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition));
-                    // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition));
+                    // $  this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition));
                     if($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition)){
                       $this->session->set_flashdata('cooperative_success', 'Successfully updated basic information.');
                       redirect('amendment/'.$this->input->post('Amendment_ID'));
