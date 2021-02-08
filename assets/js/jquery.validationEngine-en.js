@@ -353,7 +353,7 @@
                     "alertTextLoad": "* Validating, please wait"
                 },
                  "ajaxMinimumAssociateSubscriptionCallPhpAmendment": {
-                    "url": "ecoopris/../../../amendmentbylaws/check_minimum_associate_subscription",
+                    "url": "../../../amendmentbylaws/check_minimum_associate_subscription",
                     // you may want to pass extra data on the ajax call
                     "extraDataDynamic": ['#amd_id'],
                     "alertText": "* Must be greater than or equal to the minimum associate subscription indicated in the bylaws and Must not be greater than 10% of your Total no of paid-up capital",
