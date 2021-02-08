@@ -916,7 +916,7 @@ $(function(){
                url  : "cooperative_type_ajax",
                dataType: "json",
                success: function(responsetxt){
-                console.log($selected_id+ ':' +responsetxt);
+                console.log('id_selectd '+$selected_id+ ':' +responsetxt);
                 $.each(responsetxt,function(a,coop_type){
                   var selected="";
                 
