@@ -1,5 +1,4 @@
 <?php
-ini_set('max_execution_time', -1);
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Affiliators extends CI_Controller{
@@ -67,7 +66,7 @@ class Affiliators extends CI_Controller{
                     $this->load->view('./template/header', $data);
                     $this->load->view('federation/affiliators_list', $data);
                     $this->load->view('federation/full_info_modal_registeredcoop');
-                    // $this->load->view('federation/add_form_cooperator');
+                    $this->load->view('federation/add_form_cooperator');
                     $this->load->view('federation/delete_form_cooperator');
                     $this->load->view('./template/footer');
                 }else{

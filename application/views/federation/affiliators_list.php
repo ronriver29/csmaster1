@@ -1,5 +1,4 @@
-<?php // echo substr($coop_info->refbrgy_brgyCode, 0, 4); 
-ini_set('max_execution_time', -1); ?>
+<?php // echo substr($coop_info->refbrgy_brgyCode, 0, 4); ?>
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
