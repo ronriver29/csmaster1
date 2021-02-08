@@ -103,7 +103,9 @@
             </tr>
             </thead>
             <tbody>
-              <?php foreach ($applied_coop as $applied_coops) : ?>
+              <?php
+              // echo '<pre>'.var_dump($applied_coop).'</pre>';
+               foreach ($applied_coop as $applied_coops) : ?>
                 <tr>
                   <td><?= $applied_coops['coopName']?></td>
                   <td><?= $applied_coops['regNo']?></td>
