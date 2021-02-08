@@ -1,4 +1,6 @@
 <?php
+ini_set('max_execution_time', -1);
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Affiliators_model extends CI_Model{
@@ -68,9 +70,9 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
         $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->where('cooperatives.status = 15 AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
+        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','right');
+        $this->db->where('registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND cooperatives.status IS NULL OR cooperatives.status = 15');
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -93,10 +95,10 @@ class Affiliators_model extends CI_Model{
         $this->db->select('affiliators.*, affiliators.id AS aff_id, registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
         $this->db->from('affiliators');
         $this->db->join('cooperatives', 'affiliators.application_id = cooperatives.id','inner');
+        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
         $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
         $this->db->where('user_id ='.$user_id);
         $query = $this->db->get();

@@ -1,4 +1,5 @@
-<?php // echo substr($coop_info->refbrgy_brgyCode, 0, 4); ?>
+<?php // echo substr($coop_info->refbrgy_brgyCode, 0, 4); 
+ini_set('max_execution_time', -1); ?>
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
@@ -103,7 +104,9 @@
             </tr>
             </thead>
             <tbody>
-              <?php foreach ($applied_coop as $applied_coops) : ?>
+              <?php
+              // echo '<pre>'.var_dump($applied_coop).'</pre>';
+               foreach ($applied_coop as $applied_coops) : ?>
                 <tr>
                   <td><?= $applied_coops['coopName']?></td>
                   <td><?= $applied_coops['regNo']?></td>
