@@ -738,21 +738,22 @@ class Amendmentbylaws extends CI_Controller{
     }
   }
   public function check_minimum_associate_subscription(){
-    if(!$this->session->userdata('logged_in')){
-      redirect('users/login');
-    }else{
+    // if(!$this->session->userdata('logged_in')){
+    //   redirect('users/login');
+    // }else{
       if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('amd_id')){
         $data = array(
           'fieldId'=>$this->input->get('fieldId'),
           'fieldValue'=>$this->input->get('fieldValue'),
-          'coop_id'=>$this->input->get('amd_id')
+          'amendment_id'=>$this->encryption->decrypt(decrypt_custom($this->input->get('amd_id'))),
         );
         $result = $this->amendment_capitalization_model->check_minimum_associate_subscription($data);
         echo json_encode($result);
       }else{
-        echo'show_404()';
+        // echo'show_404()';
+        echo"Ajax error";
       }
-    }
+    // }
   }
   //paid up share associate
   public function check_minimum_associate_pay_amendment(){
