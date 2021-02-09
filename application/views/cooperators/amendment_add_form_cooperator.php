@@ -76,7 +76,7 @@
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="subscribedShares">No of subscribed shares:</label>
-              <input type="number" min="1" max="<?=isset($capitalization_info->total_no_of_subscribed_capital) ? $capitalization_info->total_no_of_subscribed_capital - $total_subscribed: ''?>" class="form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionAmendmentCallPhp]]" id="amd_subscribedShares" name="subscribedShares" readonly>
+              <input type="number" min="1" max="<?=isset($capitalization_info->total_no_of_subscribed_capital) ? $capitalization_info->total_no_of_subscribed_capital - $total_subscribed: ''?>" class="form-control validate[required,min[1],custom[integer]]" id="amd_subscribedShares" name="subscribedShares" readonly>
               <div id="subscribed-note" style="color: red; font-size: 12px;"></div>
             </div>
           </div>
@@ -254,7 +254,7 @@
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="dateIssued"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>In Accordance with Notarial Law.</li>"></i> Date Issued:</label>
-              <input type="date" class="form-control validate[required,custom[date],past[now]]" id="dateIssued" name="dateIssued" >
+              <input type="date" class="form-control validate[required,custom[date],past[now]]" id="dateIssued" name="dateIssued"   >
               <input type="checkbox" name="dateIssued_chks" id="chkID" value="N/A"> <small>ID Date Issued not available</small>
             </div>
           </div>
