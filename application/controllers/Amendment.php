@@ -89,7 +89,7 @@ class amendment extends CI_Controller{
                 // $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code);
               
                   
-                if(is_array($amendment_id)) 
+                if(!empty($amendment_id)) 
                 {
                   // echo "dito";
                     $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_ho_senior($data['admin_info']->region_code,$amendment_id);
