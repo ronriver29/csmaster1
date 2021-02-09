@@ -51,8 +51,7 @@ class amendment extends CI_Controller{
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
             
               $list_coop_type_arr  = $this->amendment_model->check_ho_multipurpose_type($data['admin_info']->region_code);
-              // echo $this->db->last_query();
-               // $amendment_id_ho = array();
+             
                $amendment_id  = array();
                 // $this->debug($list_coop_type_arr);
               foreach($list_coop_type_arr as $row)
@@ -70,9 +69,11 @@ class amendment extends CI_Controller{
                   array_push($amendment_id,$row['id']);
                  }
               }
+
             if($this->session->userdata('access_level')==1){
-              if($data['admin_info']->region_code=="0"){
+              if($data['admin_info']->region_code=="00"){
                 $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_specialist_central_office($data['admin_info']->region_code);
+
               }else{
                 $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_specialist($data['admin_info']->region_code,$user_id);
                 // echo $this->db->last_query();
@@ -80,24 +81,29 @@ class amendment extends CI_Controller{
             }else if($this->session->userdata('access_level')==2){
               // $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_senior($data['admin_info']->region_code);
               // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
-            
+              
              
               if($data['admin_info']->region_code=="00"){
                 // Registered Coop Process by Head Office
                   $data['list_cooperatives_registered_by_ho'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+
                 // End Registered Coop Process by Head Office
                 // $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code);
-              
-                  
-                if(!empty($amendment_id)) 
+             
+               // var_dump($amendment_id);
+                if(count($amendment_id)>0) 
                 {
                   // echo "dito";
                     $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_ho_senior($data['admin_info']->region_code,$amendment_id);
+                    // echo $this->db->last_query();
+                    
                 } 
                 else
                 {
                       $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_ho_senior2("00");
+
                 }  
+                // echo $this->db->last_query();
                 // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
               }
               else 
@@ -900,6 +906,7 @@ class amendment extends CI_Controller{
                   $data['header'] = 'Cooperative Information';
                   $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
+                 // echo $this->db->last_query();
                   $data['business_activities'] =  $this->amendment_model->get_all_business_activities($decoded_id);
                   $data['members_composition'] =  $this->amendment_model->get_coop_composition($decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($coop_id,$decoded_id) : true;

@@ -288,7 +288,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
   
 
     <!-- HO PROCESS -->
-    <?php if(!$is_client) :?>
+    <?php if(!$is_client  && $admin_info->region_code == '00') :?>
     <div class="col-sm-12 col-md-12">
         <h4 style="
         padding: 15px 10px;
