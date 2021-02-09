@@ -53,7 +53,7 @@ class amendment extends CI_Controller{
               $list_coop_type_arr  = $this->amendment_model->check_ho_multipurpose_type($data['admin_info']->region_code);
               // echo $this->db->last_query();
                // $amendment_id_ho = array();
-               $amendment_id  = '';
+               $amendment_id  = array();
                 // $this->debug($list_coop_type_arr);
               foreach($list_coop_type_arr as $row)
               {
