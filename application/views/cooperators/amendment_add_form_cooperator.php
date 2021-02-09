@@ -254,8 +254,8 @@
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="dateIssued"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>In Accordance with Notarial Law.</li>"></i> Date Issued:</label>
-              <input type="date" class="form-control validate[required,custom[date],past[now]]" id="dateIssued" name="dateIssued">
-              <input type="checkbox" name="dateIssued_chk" id="chkID" value="N/A"> <small>ID Date Issued not available</small>
+              <input type="date" class="form-control validate[required,custom[date],past[now]]" id="dateIssued" name="dateIssued" >
+              <input type="checkbox" name="dateIssued_chks" id="chkID" value="N/A"> <small>ID Date Issued not available</small>
             </div>
           </div>
           <div class="col-sm-12 col-md-12">
@@ -289,9 +289,9 @@
   });
 
   $(document).ready(function(){
-    $("#chkID").on('click',function(){
-
-      if($(this).is(":checked"))
+    $(document).on('click', '#chkID', function() {
+    // $("#dateIssued").removeAttr('disabled');
+     if($(this).is(":checked"))
       {
           $( "#dateIssued" ).prop( "disabled", true );
       }
@@ -299,7 +299,19 @@
       {
            $( "#dateIssued" ).prop( "disabled", false );
       }
-
     });
+
+    // $("#chkID").on('click',function(){
+    //   // alert('d')
+    //   if($(this).is(":checked"))
+    //   {
+    //       $( "#dateIssued" ).prop( "disabled", true );
+    //   }
+    //   else
+    //   {
+    //        $( "#dateIssued" ).prop( "disabled", false );
+    //   }
+
+    // });
  });
 </script>
