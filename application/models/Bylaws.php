@@ -26,7 +26,7 @@ class Bylaws extends CI_Controller{
                 redirect('cooperatives/'.$id.'/bylaws_federation');
               }else 
                   if($data['coop_info']->grouping =="Union"){
-                redirect('cooperatives/'.$id.'/bylaws_union');
+                  redirect('cooperatives/'.$id.'/bylaws_union');
               }else{
                 redirect('cooperatives/'.$id.'/bylaws_primary');
               }

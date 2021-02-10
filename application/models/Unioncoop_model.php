@@ -68,9 +68,9 @@ class Unioncoop_model extends CI_Model{
         $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
         $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->where('cooperatives.status = 15 AND registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND grouping = "Federation"');
+        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','right');
+        $this->db->where('(registeredcoop.type = "Federation") AND cooperatives.status IS NULL OR cooperatives.status = 15 AND cooperatives.grouping = "Federation"');
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
