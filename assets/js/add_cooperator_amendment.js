@@ -50,7 +50,7 @@ $(function(){
           $("#paid-note").show().html('Should not exceed the remaining no of paid up share: '+available_paid_up_capital);
       }
       
-    }else if(tempType.length > 0 && tempType=="Associate"){
+    }else if(tempType.length > 0 && tempType=="Associate"){ 
         var minimum_subscribed_share_associate = $("#minimum_subscribed_share_associate").val().length>0 ? $("#minimum_subscribed_share_associate").val() : '';
         var minimum_paid_up_share_associate = $("#minimum_paid_up_share_associate").val().length>0 ? $("#minimum_paid_up_share_associate").val() : '';
       $('#addCooperatorFormAmendment #amd_subscribedShares').prop('readonly',false);
@@ -59,7 +59,7 @@ $(function(){
 //      $('#addCooperatorFormAmendment #paidShares').val(minimum_paid_up_share_associate);
       $('#addCooperatorFormAmendment #amd_subscribedShares').attr('min',minimum_subscribed_share_associate);
       $('#addCooperatorFormAmendment #amd_paidShares').attr('min',minimum_paid_up_share_associate);
-      $('#addCooperatorFormAmendment #amd_subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumAssociateSubscriptionCallPhpAmendment]]'});
+      $('#addCooperatorFormAmendment #amd_subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionAmendmentCallPhp]]'});
       $('#addCooperatorFormAmendment #amd_paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustomAmendment],ajax[ajaxMinimumAssociatePayEditAmendmentCallPhp]]'});
       if(minimum_subscribed_share_associate > available_subscribed_capital) {
           $(".subscribedSharesformError").hide().html('');
