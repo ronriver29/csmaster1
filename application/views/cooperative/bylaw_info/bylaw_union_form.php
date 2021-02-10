@@ -63,7 +63,7 @@
         		<div class="col-sm-12 col-md-12">
         		  <div class="form-group">
         			<label for="actUponMembershipDays"><strong>How many days will the Board of Directors have to act upon an application for membership once it has been submitted?</strong></label>
-        			<input type="number" class="form-control" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days">
+        			<input type="number" class="form-control" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" value="<?= $bylaw_info->act_upon_membership_days ?>">
         			<small id="emailHelp" class="form-text ">Days from the date filing.</small>
         		 </div>
            </div>
@@ -112,20 +112,20 @@
         		<div class="col-sm-12 col-md-12">
         		  <div class="form-group">
         			<label for="quorumPercentage"><strong>How many percent of the members are entitled to vote to constitute the quorum?</strong></label>
-        			<input type="number" class="form-control" id="quorumPercentage" name="quorumPercentage" min="25" placeholder="Enter Percent %">
+        			<input type="number" class="form-control" id="quorumPercentage" name="quorumPercentage" min="25" placeholder="Enter Percent %" value="<?=$bylaw_info->members_percent_quorom?>">
         			<small id="emailHelp" class="form-text">Atleast twenty five percent.</small>
         		 </div>
            </div>
         		<div class="col-sm-12 col-md-12">
         		  <div class="form-group">
         			<label for="termHoldDirector"><strong>How many years should the office shall be hold before the new election of directors?</strong></label>
-        			<input type="number" class="form-control" id="termHoldDirector" name="termHoldDirector" placeholder="Enter years">
+        			<input type="number" class="form-control" id="termHoldDirector" name="termHoldDirector" placeholder="Enter years" value="<?=$bylaw_info->director_hold_term?>">
         		 </div>
         		</div>
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
           			<label for="directorsTerm"><strong>All Directors should serve for a term of how many years?</strong></label>
-          			<input type="number" class="form-control" id="directorsTerm" name="directorsTerm" placeholder="Enter years">
+          			<input type="number" class="form-control" id="directorsTerm" name="directorsTerm" placeholder="Enter years" value="<?=$bylaw_info->directors_term?>">
           		</div>
             </div>
 

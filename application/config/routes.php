@@ -201,6 +201,7 @@ $route['cooperatives/(:any)/cooperators/(:any)/get_cooperative_info'] = 'coopera
 $route['cooperatives/(:any)/cooperators/get_post_cooperator_info'] = 'cooperators/get_post_cooperator_info/$1';
 $route['cooperatives/(:any)/cooperators/add'] = 'cooperators/add/$1';
 $route['cooperatives/(:any)/cooperators'] = 'cooperators/index/$1';
+$route['cooperatives/(:any)/unioncoop'] = 'unioncoop/index/$1';
 $route['cooperatives/(:any)/affiliators'] = 'affiliators/index/$1';
 $route['cooperatives/(:any)/affiliators/add_affiliators'] = 'affiliators/add_affiliators/$1';
 $route['cooperatives/(:any)/cooperators/get_cooperative_info'] ='cooperatives/get_cooperative_info';

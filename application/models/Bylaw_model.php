@@ -59,13 +59,13 @@ class Bylaw_model extends CI_Model{
       if(empty($value)) $counter++;
     }
     if($data->kinds_of_members==1){
-      if($counter>=1){
+      if($counter<=22){
         return true;
       }else{
         return false;
       }
     }else{
-      if($counter<=12){
+      if($counter<=22){
         return true;
       }else{
         return false;
