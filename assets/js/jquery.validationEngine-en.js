@@ -352,10 +352,9 @@
                     "alertTextOk": "* This is greater than or equal to the minimum associate subscription indicated in the bylaws",
                     "alertTextLoad": "* Validating, please wait"
                 },
-                 "ajaxMinimumAssociateSubscriptionCallPhpAmendment": {
-                    "url": "../../amendmentbylaws/check_minimum_associate_subscription",
-                     "url": "../../../amendmentbylaws/check_minimum_associate_subscription",
-                     "url": "../../../../amendmentbylaws/check_minimum_associate_subscription",
+                 "ajaxMinimumAssociateSubscriptionAmendmentCallPhp": {
+                    "url": "../amendmentbylaws/check_minimum_associate_subscription",
+                     // "url": "../../bylaws/check_minimum_associate_subscription_amendment",
                     // you may want to pass extra data on the ajax call
                     "extraDataDynamic": ['#cooperatorID,#cooperative_id,#amd_id'],
                     "alertText": "* Must be greater than or equal to the minimum associate subscription indicated in the bylaws and Must not be greater than 10% of your Total no of paid-up capital",
