@@ -142,10 +142,10 @@ class Amendment_capitalization_model extends CI_Model{
   }
   public function check_minimum_associate_subscription($ajax){
     // $decoded_id = $this->encryption->decrypt(decrypt_custom($ajax['coop_id']));
-    $this->db->select('amendment_capitalization.minimum_subscribed_share_associate');
+    $this->db->select('minimum_subscribed_share_associate');
     $this->db->from('amendment_capitalization');
     // $this->db->join('cooperatives','cooperatives.id = capitalization.cooperatives_id','inner');
-    $this->db->where(array('amendment_id'=>$ajax['amendment_id']));
+    $this->db->where(array('cooperatives_id'=>$ajax['cooperative_id'],'amendment_id'=>$ajax['amendment_id']));
     $query = $this->db->get();
     $data = $query->row();
     if($data->minimum_subscribed_share_associate <= $ajax['fieldValue']){
