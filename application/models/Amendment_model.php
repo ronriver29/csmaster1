@@ -1140,18 +1140,31 @@ public function submit_for_evaluation($user_id,$amendment_id,$region_code){
   $this->db->update('amend_coop',array('status'=>2,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(30*24*60*60)))));
  
   // return $amendment_info;
-  if($this->db->trans_status() === FALSE){
-    $this->db->trans_rollback();
-    return false;
-  }else{
-    if($this->email_model->sendEmailfirstSubmissionAmendment($client_info,$admin_info,$amendment_info)){
-     $this->db->trans_commit();
-     return true;
+    //HO checking
+    // $type_coop_array = explode(',',$amendment_info->type_of_cooperative);
+    // $ho_arr = $this->amendment_model->get_ho_list();
+    // $result = count(array_intersect($type_coop_array, $ho_arr)) ? true : false;
+    // if($result)
+    // {
+    //    return "HO";
+    // }
+    // else
+    // {
+    //   return "Not HO";
+    // }
+
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
     }else{
-     $this->db->trans_rollback();
-     return false;
+      if($this->email_model->sendEmailfirstSubmissionAmendment($client_info,$admin_info,$amendment_info)){
+       $this->db->trans_commit();
+       return true;
+      }else{
+       $this->db->trans_rollback();
+       return false;
+      }
     }
-  }
 }
 public function submit_for_reevaluation($user_id,$coop_id){
   $user_id = $this->security->xss_clean($user_id);
@@ -1167,14 +1180,21 @@ public function submit_for_reevaluation($user_id,$coop_id){
     return true;
   }
 }
-public function assign_to_specialist($coop_id,$specialist_id,$coop_full_name){
+public function assign_to_specialist($amendment_id,$specialist_id){
   $specialist_id = $this->security->xss_clean($specialist_id);
-  $coop_id = $this->security->xss_clean($coop_id);
+  $amendment_id = $this->security->xss_clean($amendment_id);
+
+  $cooperative_id = $this->coop_dtl($amendment_id);
+  $amendment_info =$this->get_cooperative_info23($cooperative_id,$amendment_id);
+  // return $amendment_info;
+  $client_qry = $this->db->get_where('users',array('id'=>$amendment_info->users_id));
+  $client_info = $client_qry->row();
+  // return $client_info;
   $this->db->trans_begin();
   $query = $this->db->get_where('admin',array('id'=>$specialist_id));
   $admin_info = $query->row();
 // return $admin_info;
-  $this->db->where(array('id'=>$coop_id));
+  $this->db->where(array('id'=>$amendment_id));
   $this->db->update('amend_coop',array('status'=>3,'evaluated_by'=>$specialist_id));
  
   if($this->db->trans_status() === FALSE){
@@ -1182,8 +1202,8 @@ public function assign_to_specialist($coop_id,$specialist_id,$coop_full_name){
        return false; 
   }else{
 
-    // return $this->email_model->sendEmailToSpecialistAmendment($admin_info,$coop_full_name);
-     if($this->email_model->sendEmailToSpecialistAmendment($admin_info,$coop_full_name)){
+    // return $this->email_model->sendEmailToSpecialistAmendment($admin_info,$client_info,$amendment_info);
+     if($this->email_model->sendEmailToSpecialistAmendment($admin_info,$client_info,$amendment_info)){
        $this->db->trans_commit();
        return true;
      }else{

@@ -48,16 +48,34 @@ class Email_model extends CI_Model{
         return false;
     }
   }
-  public function sendEmailToSpecialistAmendment($admin_info,$coop_full_name){
+  public function sendEmailToSpecialistAmendment($admin_info,$client_info,$amendment_info){
+     if(count(explode(',',$amendment_info->type_of_cooperative))>1)
+      {
+       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$amendment_info->grouping;
+      }
+      else
+      {
+        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$amendment_info->grouping;
+      }
+    $address_coop = $amendment_info->house_blk_no.' '.$amendment_info->brgy.' ,'.$amendment_info->city.' ,'.$amendment_info->province.' ,'.$amendment_info->region;
+    $client_full_name = $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;
+
     $from = "ecoopris@cda.gov.ph";    //senders email address
-    $subject = $coop_full_name.'\'s Application';  //email subject
+    $subject =  $coop_full_name.'\'s Amendment Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = $coop_full_name." has been assigned to you. You can now evaluate this application.";
+      $admin_message = "<pre>You are assigned to validate the application for amendment registration with the following details:
+                     a. Proposed Name of Cooperative: ".$coop_full_name."                
+                     b. Address of proposed cooperative: ". $address_coop."                             
+                     c. Contact Person: ".$client_full_name."                                         
+                     d. Contact Number: ". $client_info->contact_number."
+                     e. Email address: ". $client_info->email."
+                </pre>";   
+
    $this->email->from($from,'CoopRIS Administrator');
    $this->email->to($admin_info->email);
    $this->email->subject($subject);
-   $this->email->message($message);
+   $this->email->message($admin_message);
    if($this->email->send())
    {
       return true;
@@ -83,40 +101,56 @@ class Email_model extends CI_Model{
     $address_coop = $amendment_info->house_blk_no.' '.$amendment_info->brgy.' ,'.$amendment_info->city.' ,'.$amendment_info->province.' ,'.$amendment_info->region;
     $client_full_name = $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;
     $from = "ecoopris@cda.gov.ph";   
-    $subject =$coop_full_name.'\'s Application'; 
-
+    $admin_subject =$coop_full_name.'\'s Amendment Application'; 
+    $client_subject = 'Amendment Application';
     if($amendment_info->status == 11)
     {
-       $message = "<pre>Good day! An application for registration with the following details has been submitted:
-                     a.". $coop_full_name."                
-                     b.". $address_coop."                             
-                     c.". $client_full_name."                                         
-                     d.". $client_info->contact_number."
-                     e.". $client_info->email."
-                </pre>";  
+        
+       $admin_message = "<pre>Good day! A deferred application for Amendment registration with the following details has been re-submitted for re-evaluation: 
+                     a. Proposed Name of Cooperative: ". $coop_full_name."                
+                     b. Address of proposed cooperative: ". $address_coop."                             
+                     c. Contact Person: ". $client_full_name."                                         
+                     d. Contact Number: ". $client_info->contact_number."
+                     e. Email address: ". $client_info->email."
+                </pre>";          
     }
     else
     {
-      $message = "<pre>Good day! A deferred application for registration with the following details has been re-submitted for re-evaluation: 
-                     a.". $coop_full_name."                
-                     b.". $address_coop."                             
-                     c.". $client_full_name."                                         
-                     d.". $client_info->contact_number."
-                     e.". $client_info->email."
-                </pre>";  
+        $admin_message = "<pre>Good day! An application for Amendment registration with the following details has been submitted:
+                     a. Proposed Name of Cooperative: ". $coop_full_name."                
+                     b. Address of proposed cooperative: ". $address_coop."                             
+                     c. Contact Person: ". $client_full_name."                                         
+                     d. Contact Number: ". $client_info->contact_number."
+                     e. Email address: ". $client_info->email."
+                </pre>"; 
+             
     }
-    
-                                                                  ;
-   $this->email->from($from,'CoopRIS Administrator');
-   $this->email->to($admin_info->email);
-   $this->email->subject($subject);
-   $this->email->message($message);
-    if($this->email->send()){
-          return true;
-      }else{
-          return false;
-      }
+      $client_message = "<pre>Successfully submitted your amendment application. Please wait for an email of either payment procedure or the list of documents for compliance.</pre>";  
+     //Admin send mail                                                               ;
+     $this->email->from($from,'CoopRIS Administrator');
+     $this->email->to($admin_info->email);
+     $this->email->subject($admin_subject);
+     $this->email->message($admin_message);
+      if($this->email->send()){
+            // return true;
+            // Client send email
+               $this->email->from($from,'CoopRIS Administrator');
+               $this->email->to($client_info->email);
+               $this->email->subject($client_subject);
+               $this->email->message($client_message);
+               if($this->email->send())
+               {
+                  return true;
+               }
+               else
+               {
+                  return false;
+               }
+        }else{
+            return false;
+        }
   }
+
   public function sendEmailToSeniorAmendment($admin_info,$emails,$coop_full_name){
     // if(sizeof($emails)>0){
     //   $receiver = "";

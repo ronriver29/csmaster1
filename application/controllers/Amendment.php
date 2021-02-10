@@ -1202,6 +1202,8 @@ class amendment extends CI_Controller{
               }else{
                 $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('amd_id',TRUE)));
                 $cooperative_id = $this->amendment_model->coop_dtl($decoded_id);
+                $user_id = $this->session->userdata('user_id');
+                // $admin_info = $this->admin_model->get_admin_info($user_id);
                 if(!$this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){
                   if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                     $decoded_specialist_id = $this->encryption->decrypt(decrypt_custom($this->input->post('specialistID',TRUE)));
@@ -1209,8 +1211,8 @@ class amendment extends CI_Controller{
                     if((is_numeric($decoded_id) && $decoded_id!=0) && (is_numeric($decoded_specialist_id) && $decoded_specialist_id!=0)){
                       if($this->amendment_model->check_not_yet_assigned($decoded_id)){
                         
-                    
-                        if($this->amendment_model->assign_to_specialist($decoded_id,$decoded_specialist_id,$coop_full_name)){
+                      // var_dump($this->amendment_model->assign_to_specialist($decoded_id,$decoded_specialist_id));
+                        if($this->amendment_model->assign_to_specialist($decoded_id,$decoded_specialist_id)){
                           $this->session->set_flashdata('list_success_message', 'Successfully assigned the application to an validator.');
                           redirect('amendment');
                         }else{
