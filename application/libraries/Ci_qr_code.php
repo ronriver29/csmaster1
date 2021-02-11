@@ -18,7 +18,7 @@ class Ci_qr_code
 {
 	private $_cacheable 		= TRUE;
 	private $_cachedir 			= 'assets/qr_code/tmp/cache/';
-	private $_error_log_dir 	= QRCODE_DIR;
+	private $_error_log_dir 	= 'assets/qr_code/tmp/qr_codes_images/';
 	private $_ci_qr_code_lib 	= 'application/third_party/qrcode/';
 	private $_quality 			= TRUE;
 	private $_size 				= 1024;
