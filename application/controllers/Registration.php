@@ -49,7 +49,7 @@ class registration extends CI_Controller{
         $qr_code_config['cacheable'] = $this->config->item('cacheable');
         $qr_code_config['cachedir'] = $this->config->item('cachedir');
         $qr_code_config['imagedir'] = $this->config->item('imagedir');
-        // $qr_code_config['errorlog'] = $this->config->item('errorlog');
+        $qr_code_config['errorlog'] = $this->config->item('errorlog');
         $qr_code_config['ciqrcodelib'] = $this->config->item('ciqrcodelib');
         $qr_code_config['quality'] = $this->config->item('quality');
         $qr_code_config['size'] = $this->config->item('size');
