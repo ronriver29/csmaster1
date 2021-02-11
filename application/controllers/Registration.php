@@ -42,7 +42,7 @@ class registration extends CI_Controller{
             exit;
         }
       }
-      $cName=$coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.''.$coop_info->grouping;
+      $cName=$coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' '.$coop_info->grouping;
       $coop_details = $this->registration_model->get_coop_info($cName);
 //      if ($coop_details->qr_code==null || ($coop_details->qr_code=='')){
         $qr_code_config = array();

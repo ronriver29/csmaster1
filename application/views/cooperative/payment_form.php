@@ -73,7 +73,7 @@
                 if($coop_info->grouping == 'Union'){
                     $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->grouping.' Of '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name);
                 } else {
-                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
+                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.$coop_info->grouping);
                 }
                 $amount_in_words=0;
                   $amount_in_words = ($rf+$lrf+$name_reservation_fee);
