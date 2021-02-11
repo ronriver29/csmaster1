@@ -49,7 +49,7 @@ class registration extends CI_Controller{
         $qr_code_config['cacheable'] = $this->config->item('cacheable');
         $qr_code_config['cachedir'] = $this->config->item('cachedir');
         $qr_code_config['imagedir'] = $this->config->item('imagedir');
-        $qr_code_config['errorlog'] = $this->config->item('errorlog');
+        // $qr_code_config['errorlog'] = $this->config->item('errorlog');
         $qr_code_config['ciqrcodelib'] = $this->config->item('ciqrcodelib');
         $qr_code_config['quality'] = $this->config->item('quality');
         $qr_code_config['size'] = $this->config->item('size');
@@ -116,14 +116,14 @@ class registration extends CI_Controller{
           $data1['chartered_cities'] =$this->charter_model->get_charter_city($data1['coop_info']->cCode);
         }
        
-         $html2 = $this->load->view('cooperative/cor_view', $data1);
-         // $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);
-         //   $J = new pdf();       
-         //   $J->set_option('isRemoteEnabled',TRUE);
-         //   $J->setPaper('folio', 'portrait');
-         //   $J->load_html($html2);
-         //   $J->render();
-         //   $J->stream("certificate.pdf", array("Attachment"=>0));
+         // $html2 = $this->load->view('cooperative/cor_view', $data1);
+         $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);
+           $J = new pdf();       
+           $J->set_option('isRemoteEnabled',TRUE);
+           $J->setPaper('folio', 'portrait');
+           $J->load_html($html2);
+           $J->render();
+           $J->stream("certificate.pdf", array("Attachment"=>0));
     }
   }
   public function OrdinalIndicator($dateRegistered)
