@@ -71,9 +71,9 @@ class registration extends CI_Controller{
         if($coop_details->coopName == 'Kalipunan ng mga Katutubong Mangyan na Pinagpala and Drops of Faith Christian Mission Agriculture Cooperative (KAKAMPIDFCMAC)')
         {
           // echo'<br>'. substr($coop_details->coopName,0,-6);
-            $coop_details->coopName=substr($coop_details->coopName,0,-16);
+            $coopName_=substr($coop_details->coopName,0,-16);
              $codeContents = "Cooperative Name:";
-            $codeContents .= $coop_details->coopName;
+            $codeContents .= $coopName_;
             $codeContents .= "\n";
             $codeContents .= "Registration No:";
             $codeContents .= $coop_details->regNo;
