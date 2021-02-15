@@ -45,6 +45,14 @@ class registration extends CI_Controller{
       $cName=$coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' '.$coop_info->grouping;
       $coop_details = $this->registration_model->get_coop_info($cName);
 //      if ($coop_details->qr_code==null || ($coop_details->qr_code=='')){
+      $pathss = APPPATH.'../assets/qr_code/tmp/logs';
+      chmod($pathss, 0777);
+       $paths = APPPATH.'../assets/qr_code/tmp/logs/';
+      chmod($paths, 0777);
+          // more code
+      //     chmod($path, 0755);
+      // }
+
         $qr_code_config = array();
         $qr_code_config['cacheable'] = $this->config->item('cacheable');
         $qr_code_config['cachedir'] = $this->config->item('cachedir');
