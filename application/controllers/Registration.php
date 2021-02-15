@@ -72,6 +72,33 @@ class registration extends CI_Controller{
         {
           // echo'<br>'. substr($coop_details->coopName,0,-6);
             $coop_details->coopName=substr($coop_details->coopName,0,-16);
+             $codeContents = "Cooperative Name:";
+            $codeContents .= $coop_details->coopName;
+            $codeContents .= "\n";
+            $codeContents .= "Registration No:";
+            $codeContents .= $coop_details->regNo;
+            $codeContents .= "\n";
+            $codeContents .= "Date Registered:";
+            $codeContents .= $coop_details->dateRegistered;
+
+            $params['data'] = $codeContents;
+            $params['level'] = 'H';
+            $params['size'] = 2;
+        }
+        else
+        {
+           $codeContents = "Cooperative Name:";
+        $codeContents .= $coop_details->coopName;
+        $codeContents .= "\n";
+        $codeContents .= "Registration No:";
+        $codeContents .= $coop_details->regNo;
+        $codeContents .= "\n";
+        $codeContents .= "Date Registered:";
+        $codeContents .= $coop_details->dateRegistered;
+
+        $params['data'] = $codeContents;
+        $params['level'] = 'H';
+        $params['size'] = 2;
         }
         // echo $coop_details->coopName;
         // create user content
