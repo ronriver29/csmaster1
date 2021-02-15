@@ -1802,8 +1802,8 @@ public function count_documents_coop($coop_id,$num)
                                   // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
                                   'pagecount_bylaws' => $getTotalPagess
                                 );
-                                var_dump($this->session->userdata('pagecount_bylaws'));
-                                // $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
+                                // $this->session->userdata('pagecount_bylaws'));
+                                $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                 redirect('amendment/'.$id);
