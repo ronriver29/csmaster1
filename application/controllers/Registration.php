@@ -45,10 +45,10 @@ class registration extends CI_Controller{
       $cName=$coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' '.$coop_info->grouping;
       $coop_details = $this->registration_model->get_coop_info($cName);
 //      if ($coop_details->qr_code==null || ($coop_details->qr_code=='')){
-      $pathss = APPPATH.'../assets/qr_code/tmp/logs';
-      chmod($pathss, 0777);
-       $paths = APPPATH.'../assets/qr_code/tmp/logs/';
-      chmod($paths, 0777);
+      // $pathss = APPPATH.'../assets/qr_code/tmp/logs';
+      // chmod($pathss, 0777);
+      //  $paths = APPPATH.'../assets/qr_code/tmp/logs/';
+      // chmod($paths, 0777);
           // more code
       //     chmod($path, 0755);
       // }
@@ -67,7 +67,12 @@ class registration extends CI_Controller{
 
         // get full name and user details
         $image_name = $coop_details->regNo.".png";
-
+        // echo $coop_details->coopName;
+        if($coop_details->coopName == 'Kalipunan ng mga Katutubong Mangyan na Pinagpala and Drops of Faith Christian Mission Agriculture Cooperative (KAKAMPIDFCMAC)')
+        {
+          // echo'<br>'. substr($coop_details->coopName,0,-6);
+            $coop_details->coopName=substr($coop_details->coopName,0,-6);
+        }
         // create user content
         $codeContents = "Cooperative Name:";
         $codeContents .= $coop_details->coopName;
