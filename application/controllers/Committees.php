@@ -282,7 +282,7 @@ class Committees extends CI_Controller{
                             $committeeName = $this->input->post('committeeName');
                             //CHECK MUNA
                             if($data['coop_info']->grouping == 'Federation'){
-                                if ($this->committee_model->isExistingFederation($decoded_id)){
+                                if ($this->committee_model->isExistingFederation($decoded_id,$user_id)){
                                   $this->session->set_flashdata('committee_error', 'Cooperator already has committee');
                                   redirect('cooperatives/'.$this->input->post('cooperativesID').'/committees');
                                 }else if ($this->committee_model->isExisting2federation($committeeName,$user_id)){

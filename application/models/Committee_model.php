@@ -258,8 +258,8 @@ class Committee_model extends CI_Model{
       return false;
   }  
   
-  public function isExistingFederation($co_id){
-    $query = $this->db->get_where('committees_federation', array('cooperators_id'=>$co_id));
+  public function isExistingFederation($co_id,$user_id){
+    $query = $this->db->get_where('committees_federation', array('cooperators_id'=>$co_id,'user_id'=>$user_id));
     if ($query->num_rows()>0)
       return true;
     else
