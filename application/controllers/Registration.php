@@ -67,40 +67,7 @@ class registration extends CI_Controller{
 
         // get full name and user details
         $image_name = $coop_details->regNo.".png";
-        // echo $coop_details->coopName;
-        if($coop_details->coopName == 'Kalipunan ng mga Katutubong Mangyan na Pinagpala and Drops of Faith Christian Mission Agriculture Cooperative (KAKAMPIDFCMAC)')
-        {
-          // echo'<br>'. substr($coop_details->coopName,0,-6);
-            $coopName_=substr($coop_details->coopName,0,-16);
-             $codeContents = "Cooperative Name:";
-            $codeContents .= $coopName_;
-            $codeContents .= "\n";
-            $codeContents .= "Registration No:";
-            $codeContents .= $coop_details->regNo;
-            $codeContents .= "\n";
-            $codeContents .= "Date Registered:";
-            $codeContents .= $coop_details->dateRegistered;
-
-            $params['data'] = $codeContents;
-            $params['level'] = 'H';
-            $params['size'] = 2;
-        }
-        else
-        {
-           $codeContents = "Cooperative Name:";
-        $codeContents .= $coop_details->coopName;
-        $codeContents .= "\n";
-        $codeContents .= "Registration No:";
-        $codeContents .= $coop_details->regNo;
-        $codeContents .= "\n";
-        $codeContents .= "Date Registered:";
-        $codeContents .= $coop_details->dateRegistered;
-
-        $params['data'] = $codeContents;
-        $params['level'] = 'H';
-        $params['size'] = 2;
-        }
-        // echo $coop_details->coopName;
+      
         // create user content
         $codeContents = "Cooperative Name:";
         $codeContents .= $coop_details->coopName;
