@@ -2812,7 +2812,7 @@ EOT;
                         $stemV = $font['StdVW'];
                     } else {
                         if (isset($font['Weight']) && preg_match('!(bold|black)!i', $font['Weight'])) {
-                            $stemV = 120;
+                            $stemV = 255;
                         }
                     }
 

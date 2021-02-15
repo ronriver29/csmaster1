@@ -1,3 +1,6 @@
+<?php
+ini_set('output_buffering', true); // no limit
+?>
 <!DOCTYPE html>
 <html lang="en"> 
   <head>
