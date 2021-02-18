@@ -694,7 +694,92 @@ class amendment extends CI_Controller{
                       $data['major_industry_list'] = $this->amendment_model->get_all_major_industry($decoded_id);
                       $data['subclasses_list'] = $this->amendment_model->get_all_subclasses($decoded_id);
                       $data['business_activities'] =  $this->amendment_model->get_all_business_activities($decoded_id);
+                      //new
+
+                      $coopTypeName= $data['coop_info']->type_of_cooperative;
+                      $typeName_arr = explode(',',$coopTypeName);
+                      $list_of_major_industry_cooptype =$this->major_industry_model->get_major_industries_by_type_name($coopTypeName);
+                      $list_type[] = $this->coop_type($coopTypeName);
+                      $list_coop_type_id[] =$this->get_coopTypeID( $typeName_arr); 
+                      // echo $this->db->last_query();
+                     //get major industry id
+                      foreach($list_coop_type_id as $row_coop_type_id)
+                      {   
+                        //get major class industry id
+                          $mjor_ins_id[]=$this->industry_subclass_per_coop_type( $row_coop_type_id);
+
+                      }
+                    
+                        //extract all major industrial id
+                      foreach($mjor_ins_id as $id_major_industry)
+                      { 
+                        foreach($id_major_industry as $mjorID)
+                        { 
+                        $extracted_majorins_id =  $mjorID['major_industry_id'];
+                        $list_major_ins[] = $this->major_industry_description($extracted_majorins_id); 
+                        $list_subclassID=$this->major_industry_subclass_id($extracted_majorins_id);
+                        }
                       
+                      } 
+                  
+                      $list_majors = $this->load_major($data['coop_info']->cooperative_type_id);
+                        $list_subclass = $this->load_subclass($data['coop_info']->cooperative_type_id);
+                        $data['load_major'] = $list_majors;
+                        $data['load_subclass'] = $list_subclass;
+
+                        $qry_business_act = $this->db->get_where('business_activities_cooperative_amendment',array('amendment_id'=>$decoded_id));
+                       // $this->debug($this->db->last_query());
+                        if($qry_business_act->num_rows()>0)
+                        {
+                          foreach($qry_business_act->result_array() as $brow)
+                          {
+                            // $this->debug($brow);
+                            $major_id = $brow['major_industry_id'];
+                            $brow['major_description_']=$this->major_industry_description2($major_id);
+                         
+                            $brow['subclass_description_']=$this->major_industry_description_subclass2($brow['subclass_id']);
+                           
+                            $cooptype_id_array[] = $brow['cooperative_type_id'];
+                            $brow['load_major'] =  $list_majors;
+                            $brow['load_subclass'] = $list_subclass;
+                            $business_data[] =$brow;
+
+                             // $this->debug( $business_data);
+                              $data['list_of_major_industry_']= $business_data;
+
+                              // $this->debug( $data['list_of_major_industry_']);
+                              
+                              foreach($cooptype_id_array as $ctype_id)
+                              {
+                                $mdata[] = $this->list_of_majorindustry($ctype_id);
+                              }
+
+                              $data['mjor_list']=$mdata;
+                             
+                              foreach($mdata as $m)
+                              {
+                                //$this->$this->major_industry_description_subclass($['sublcass+i']);
+                                $subclass_data[]=$this->list_of_subclasss($m['major_industry_id']);
+                              }
+                              // $this->debug($subclass_data);
+                             foreach($subclass_data as $sdata){
+                              foreach($sdata as $srow)
+                              {
+                                $list_subclass[]= $this->major_industry_description_subclass($srow['subclass_id']);
+                              }
+                             }
+
+                             $data['list_subclass'] = $list_subclass;
+
+                          }
+                        }
+
+                        $data['list_type_coop'] = $this->coop_type($coopTypeName);
+                        // $this->debug($data['list_type_coop']);
+                        //cooperative type value
+                        $data['amd_type_of_coop'] = $typeName_arr;
+
+                      //end new 
 
                       $coopType= explode(',',$data['coop_info']->type_of_cooperative);
                        foreach($coopType as $trow)
@@ -1355,6 +1440,22 @@ class amendment extends CI_Controller{
                                         'created_at' => date('Y-m-d h:i:s'),
                                         'author' => $this->session->userdata('user_id')
                                         );
+                              $coop_types = $data['coop_info']->type_of_cooperative;
+                              $coop_types_arr= explode(',', $coop_types);
+                              foreach($coop_types_arr as $rowtype)
+                              {
+                                $ho[] =$this->amendment_model->checking_ho($rowtype);
+                              }
+                              //confirm in ho
+                              if(in_array('true',$ho))
+                              {
+                                //true
+                                 $regioncode = '00';
+                                 //get senior admin info
+                                 $data['admin_info_senior'] =$this->admin_model->get_senior_info($regioncode);
+                                
+                              }
+                                  
 
                             $success = $this->amendment_model->approve_by_senior($data['admin_info'],$decoded_id,$coop_full_name,$data_comment);
                             // $this->debug($success);
@@ -1403,10 +1504,11 @@ class amendment extends CI_Controller{
                                $data['admin_info_senior'] =$this->admin_model->get_senior_info($regioncode);
                               
                             }
-                            
-                            
-                            // $this->debug($this->amendment_model->checking_ho($coop_types));
-                            $success = $this->amendment_model->approve_by_specialist($data['admin_info'],$decoded_id,$coop_full_name,$data['coop_info']->type_of_cooperative);
+
+                            $specialist_info = $this->admin_model->get_admin_info($data['coop_info']->evaluated_by);
+                            // $this->debug( $specialist_info);
+                            // $this->debug($this->amendment_model->approve_by_specialist($data['admin_info'],$decoded_id,$coop_full_name,$data['coop_info']->type_of_cooperative));
+                            $success = $this->amendment_model->approve_by_specialist($data['admin_info'],$decoded_id,$coop_full_name,$data['coop_info']->type_of_cooperative,$specialist_info);
                             // $this->debug($success);
                             if($success){
                               $this->session->set_flashdata('list_success_message', 'Amendment Cooperative has been submitted.');

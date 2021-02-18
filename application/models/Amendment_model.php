@@ -1212,8 +1212,8 @@ public function assign_to_specialist($amendment_id,$specialist_id){
      }
   }
 }
-public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$coop_type){
-  $coop_id = $this->security->xss_clean($coop_id);
+public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$coop_type,$specialist_info){
+  $amentmentID =  $this->security->xss_clean($coop_id);
   $temp = $this->get_cooperative_info_by_admin($coop_id);
                 $ho =0;
                $amendment_id_ho = array();
@@ -1232,31 +1232,25 @@ public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$coop
                  // { //no ho coop
                     
                  // }
-            
+  $cooperative_id = $this->coop_dtl($amentmentID);
+           
+  $amendment_info =$this->get_cooperative_info23($cooperative_id,$amentmentID);
+  $client_qry = $this->db->get_where('users',array('id'=>$amendment_info->users_id));
+  $client_info = $client_qry->row();
 
   $this->db->trans_begin();
   $this->db->where('id',$coop_id);
   $this->db->update('amend_coop',array('status'=>6,'evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL,'ho'=>$ho));
-  $senior_emails = $this->admin_model->get_emails_of_senior_by_region($temp->rCode);
-  if($this->db->trans_status() === FALSE){
-    $this->db->trans_rollback();
-    return false;
-  }else{
-    foreach($senior_emails as $senio_m)
-    {
-      $seniorEmail  = $senio_m['email'];
-    }
-     
-   if($this->email_model->sendEmailToSeniorAmendment($admin_info,$seniorEmail,$coop_full_name)){
+
+   if($this->email_model->sendEmailToSeniorAmendment($admin_info,$client_info,$amendment_info,$specialist_info)){
      $this->db->trans_commit();
      return true;
    }else{
      $this->db->trans_rollback();
      return false;
    }
-      $this->db->trans_commit();
-      return true;
-  }
+      
+  
 }
 public function approve_by_senior($admin_info,$coop_id,$coop_full_name,$data_comment){
   $coop_id = $this->security->xss_clean($coop_id);
@@ -1286,6 +1280,35 @@ public function approve_by_senior($admin_info,$coop_id,$coop_full_name,$data_com
       return true;
   }
 }
+
+// public function approve_by_senior_ho($admin_info,$coop_id,$coop_full_name,$data_comment){
+//   $coop_id = $this->security->xss_clean($coop_id);
+//   $this->db->trans_begin();
+//   $this->db->where('id',$coop_id);
+//   $this->db->update('amend_coop',array('status'=>9,'second_evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL));
+//   $director_emails = $this->admin_model->get_emails_of_director_by_region($admin_info->region_code);
+//   $this->db->insert('amendment_comment',$data_comment); //insert comment
+//   if($this->db->trans_status() === FALSE){
+//     $this->db->trans_rollback();
+//     return false;
+//   }else{
+//     // return $director_emails;
+//     foreach($director_emails as $demail)
+//     {
+//       $director_email = $demail['email'];
+//     }
+
+//    if($this->email_model->sendEmailToDirectorAmendment($admin_info,$director_email,$coop_full_name)){
+//      $this->db->trans_commit();
+//      return true;
+//    }else{
+//      $this->db->trans_rollback();
+//      return false;
+//    }
+//       $this->db->trans_commit();
+//       return true;
+//   }
+// }
 public function approve_by_supervisor($admin_info,$coop_id,$coop_full_name){
   $coop_id = $this->security->xss_clean($coop_id);
   $this->db->select('amend_coop.proposed_name, amend_coop.type_of_cooperative, users.*');
