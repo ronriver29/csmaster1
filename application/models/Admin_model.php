@@ -321,7 +321,6 @@ public function add_admin_director($data,$raw_pass){
         return false;
     }
   }
-
   public function sendEmailToSeniorBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
 
     $from = "ecoopris@cda.gov.ph";    //senders email address
@@ -350,7 +349,6 @@ public function add_admin_director($data,$raw_pass){
   }
 
   public function sendEmailToSeniorDeferBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
-
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();

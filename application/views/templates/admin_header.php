@@ -89,6 +89,12 @@
           <li>   
             <a href="<?php echo base_url();?>admins/branches_list"><i class="fas fa-handshake"></i> All Branches List</a>
           </li>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+          <li>   
+            <a href="<?php echo base_url();?>admins/branches_list"><i class="fas fa-handshake"></i> All Branches List</a>
+          </li>
 >>>>>>> Stashed changes
         <?php endif; ?>
       

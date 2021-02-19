@@ -48,7 +48,7 @@ class Email_model extends CI_Model{
         return false;
     }
   }
-<<<<<<< Updated upstream
+
   public function sendEmailToSpecialistAmendment($admin_info,$client_info,$amendment_info){
      if(count(explode(',',$amendment_info->type_of_cooperative))>1)
       {
@@ -63,11 +63,7 @@ class Email_model extends CI_Model{
 
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject =  $coop_full_name.'\'s Amendment Application';  //email subject
-=======
-  public function sendEmailToSpecialistAmendment($admin_info,$coop_full_name){
-    $from = "ecoopris@cda.gov.ph";    //senders email address
-    $subject = $coop_full_name.'\'s Application';  //email subject
->>>>>>> Stashed changes
+
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
       $admin_message = "You are assigned to validate the application for amendment registration with the following details:<p>
@@ -94,27 +90,8 @@ class Email_model extends CI_Model{
 
   }
 
-<<<<<<< Updated upstream
   public function sendEmailfirstSubmissionAmendment($client_info,$admin_info,$amendment_info)
   {
-=======
-  public function sendEmailToSeniorAmendment($admin_info,$emails,$coop_full_name){
-    // if(sizeof($emails)>0){
-    //   $receiver = "";
-    //   if(sizeof($emails)>1){
-    //     $tempEmail = array();
-    //     foreach($emails as $email){
-    //       array_push($tempEmail, $email['email']);
-    //     }
-    //     $receiver = implode(", ",$tempEmail);
-    //   }else{
-    //     $receiver = $emails[0]['email'];
-    //   }
-      $from = "ecoopris@cda.gov.ph";    //senders email address
-      // $subject = $coop_full_name.' Evaluation Result';  //email subject
-       $subject =' Evaluation Result';  //email subject
->>>>>>> Stashed changes
-
     if(count(explode(',',$amendment_info->type_of_cooperative))>1)
       {
        $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$amendment_info->grouping;
@@ -502,33 +479,6 @@ The client shall submit the above required documents within 30 working days from
   
   public function sendMail($recipient,$subject,$content){
         
-<<<<<<< Updated upstream
-            // $this->load->library('mailer');
-            // $mail = new PHPMailer;
-
-            // $mail->isSMTP();                            // Set mailer to use SMTP
-            // $mail->Host = 'smtp.gmail.com';             // Specify main and backup SMTP servers
-            // $mail->SMTPAuth = true;                     // Enable SMTP authentication
-            // $mail->Username = 'cooperative.testing20@gmail.com';          // SMTP username
-            // $mail->Password = 'kamote]]'; // SMTP password
-            // $mail->SMTPSecure = 'tls';                  // Enable TLS encryption, `ssl` also accepted
-            // $mail->Port = 587;                          // TCP port to connect to
-
-            // $mail->SetFrom('coopris4.test@gmail.com', 'CoopRIS Administrator');
-            // $mail->addAddress($recipient);   // Add a recipient
-
-            // $mail->isHTML(true);  // Set email format to HTML
-
-            // $bodyContent = utf8_decode($content);
-
-            // $mail->Subject = $subject;
-            // $mail->Body    = $bodyContent;
-            // if($mail->send()) {
-            //     return TRUE;
-            // }else{
-            //     return FALSE;
-            // }
-=======
             $this->load->library('mailer');
             $mail = new PHPMailer;
 
@@ -554,7 +504,6 @@ The client shall submit the above required documents within 30 working days from
             }else{
                 return FALSE;
             }
->>>>>>> Stashed changes
     }
 }
 

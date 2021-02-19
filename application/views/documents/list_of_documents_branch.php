@@ -69,7 +69,11 @@
             <?php endif; //endo fo coop info status ?>  
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             <?php if($admin_info->access_level == 3 && $is_active_director || $supervising_) {?>
+=======
+            <?php if($admin_info->access_level == 3 && $is_active_director || $supervising_) { ?>
+>>>>>>> Stashed changes
 =======
             <?php if($admin_info->access_level == 3 && $is_active_director || $supervising_) { ?>
 >>>>>>> Stashed changes

@@ -1161,7 +1161,11 @@ public function delete_pdf()
                 $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 
+=======
+                                  
+>>>>>>> Stashed changes
 =======
                                   
 >>>>>>> Stashed changes
