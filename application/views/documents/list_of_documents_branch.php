@@ -68,7 +68,11 @@
             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if(($branch_info->tool_yn_answer==null && $branch_info->status>=9 || $branch_info->status>=23)) echo 'disabled';?> ><?=$submit?></button>
             <?php endif; //endo fo coop info status ?>  
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             <?php if($admin_info->access_level == 3 && $is_active_director || $supervising_) {?>
+=======
+            <?php if($admin_info->access_level == 3 && $is_active_director || $supervising_) { ?>
+>>>>>>> Stashed changes
 =======
             <?php if($admin_info->access_level == 3 && $is_active_director || $supervising_) { ?>
 >>>>>>> Stashed changes

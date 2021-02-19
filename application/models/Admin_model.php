@@ -321,11 +321,9 @@ public function add_admin_director($data,$raw_pass){
         return false;
     }
   }
-<<<<<<< Updated upstream
-  public function sendEmailToSeniorBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail){
-=======
+
   public function sendEmailToSeniorBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
->>>>>>> Stashed changes
+
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
@@ -350,11 +348,9 @@ public function add_admin_director($data,$raw_pass){
         return false;
     }
   }
-<<<<<<< Updated upstream
-  public function sendEmailToDirector($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail){
-=======
+
   public function sendEmailToSeniorDeferBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
->>>>>>> Stashed changes
+
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();

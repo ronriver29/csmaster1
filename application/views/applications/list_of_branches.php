@@ -222,7 +222,11 @@ if($tomorrow>=$now){
                         <?php endif; ?>
                           
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                         <?php if(($branch['status']>=2 && $branch['status']<17 && $admin_info->access_level == 1) || ($branch['status']>9 && $branch['status']<17 && $admin_info->access_level == 2 || ($admin_info->access_level == 3 && $is_acting_director)) || ($supervising_)  && $branch['status']!=8 || ($branch['status']==2 && $admin_info->access_level == 2)) : ?>
+=======
+                        <?php  if(($branch['status']>=2 && $branch['status']<17 && $admin_info->access_level == 1) || ($branch['status']>9 && $branch['status']<17 && $admin_info->access_level == 2 || $admin_info->access_level == 3)  && $branch['status']!=8 || ($branch['status']==2 && $admin_info->access_level == 2)) : ?>
+>>>>>>> Stashed changes
 =======
                         <?php  if(($branch['status']>=2 && $branch['status']<17 && $admin_info->access_level == 1) || ($branch['status']>9 && $branch['status']<17 && $admin_info->access_level == 2 || $admin_info->access_level == 3)  && $branch['status']!=8 || ($branch['status']==2 && $admin_info->access_level == 2)) : ?>
 >>>>>>> Stashed changes
@@ -505,6 +509,10 @@ if($tomorrow>=$now){
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty();
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    // alert(coop_name);
+>>>>>>> Stashed changes
 =======
     // alert(coop_name);
 >>>>>>> Stashed changes
@@ -521,9 +529,12 @@ if($tomorrow>=$now){
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
             $('#branch_ID').val(coop_id);   
             $('#word').text(s);
 =======
+=======
+>>>>>>> Stashed changes
             // $('#branch_ID').val(coop_id);   
             $('#word').text(s+' Pesos');
 >>>>>>> Stashed changes
