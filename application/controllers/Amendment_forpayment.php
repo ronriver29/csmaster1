@@ -24,23 +24,17 @@ class Amendment_forpayment extends CI_Controller{
     $email = $ret->email;
     $name = $ret->proposed_name;
     
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
     $from = "Amendment_forpayment.php";    //senders email address
-=======
+
     $from = "ecoopris@cda.gov.ph";    //senders email address
->>>>>>> Stashed changes
-=======
+
     $from = "ecoopris@cda.gov.ph";    //senders email address
->>>>>>> Stashed changes
-=======
+
     $from = "ecoopris@cda.gov.ph";    //senders email address
->>>>>>> Stashed changes
-=======
+
     $from = "ecoopris@cda.gov.ph";    //senders email address
->>>>>>> Stashed changes
+
     $subject =' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
