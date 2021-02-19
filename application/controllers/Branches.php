@@ -403,19 +403,7 @@
 
             $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
             $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
-=======
-            
->>>>>>> Stashed changes
-=======
-            
->>>>>>> Stashed changes
-=======
-            
->>>>>>> Stashed changes
             $date_ = ('Y-m-d -3 year');
             $data['date2']  = $date_;
             $this->load->view('applications/list_of_branches', $data);
@@ -707,7 +695,6 @@
                               $sendemailtosenior = 'sendEmailToSeniorDeferBranch';
                             } else {
                               $sendemailtosenior = 'sendEmailToSeniorBranch';
-<<<<<<< Updated upstream
                             }
                             if($this->admin_model->$sendemailtosenior($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type)){
                               if($this->admin_model->sendEmailToClientBranch($data['client_info']->email)){
@@ -715,15 +702,6 @@
                                 redirect('branches/'.$id);
                               }
                             }
-=======
-                            }
-                            if($this->admin_model->$sendemailtosenior($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type)){
-                              if($this->admin_model->sendEmailToClientBranch($data['client_info']->email)){
-                                $this->session->set_flashdata('branch_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
-                                redirect('branches/'.$id);
-                              }
-                            }
->>>>>>> Stashed changes
                           }else{
                             $this->session->set_flashdata('branch_error','Unable to submit your application');
                             redirect('branches/'.$id);
@@ -900,19 +878,6 @@
                                     $regioncode = "0".mb_substr($branch_info->addrCode, 0, 2);
                                   // echo $regioncode;
                                   // echo '<script>alert('.printf("%02d", 0).');</script>';
-<<<<<<< Updated upstream
-                                  $data['director_info'] = $this->admin_model->get_supervising_info($regioncode);
-=======
-                                  $data['director_info'] = $this->admin_model->get_director_info($regioncode);
-
-                                  echo $data['director_info'] ;
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
                                   if($this->admin_model->is_active_director($data['director_info']->id)){
                                     $data['director_info'] = $this->admin_model->get_emails_of_director_by_region($regioncode);
                                   } else {
@@ -1050,21 +1015,10 @@
                                   }
                                   $this->db->where(array('name'=>$branch_info->registeredtype,'active'=>1));
                                   $this->db->from('head_office_coop_type_branch');
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                                  // if($this->db->count_all_results()>0){
-                                  //   $step = 7;
-                                  // }
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
                                   if($this->db->count_all_results()>0 && $branch_info->status != 12){
                                     $step = 7;
                                   }
->>>>>>> Stashed changes
                                   $data_field = array(
                                         'branches_id' => $decoded_id,
                                         'comment' => $comment_by_specialist_senior,
@@ -1078,16 +1032,6 @@
                                     $this->db->where(array('name'=>$branch_info->registeredtype,'active'=>1));
                                     $this->db->from('head_office_coop_type_branch');
                                   // End Get Count Coop Type
-<<<<<<< Updated upstream
-                                  // if($this->db->count_all_results()>0)
-                                  // {
-                                  //   $regioncode = "00";
-                                  // } else {
-                                    $regioncode = "0".mb_substr($branch_info->addrCode, 0, 2);
-                                  // }
-                                  // echo $regioncode;
-                                  // echo '<script>alert('.printf("%02d", 0).');</script>';
-=======
                                   if($this->db->count_all_results()>0)
                                   {
                                     if($branch_info->evaluator4 != 0){
@@ -1103,14 +1047,6 @@
                                   // echo '<script>alert('.printf("%02d", 0).');</script>';
                                   // $data['director_info'] = $this->admin_model->get_director_info($regioncode);
                                   // $tempcount = count($data['director_info']);
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
                                   $this->db->where(array('region_code'=>$regioncode,'is_director_active'=>1,'access_level'=>3));
                                   $this->db->from('admin');
                                   if($this->db->count_all_results()>0)
@@ -1143,27 +1079,12 @@
                                   if($branch_info->status == 24)
                                   {
                                     if($this->admin_model->sendEmailToDirectorHO_OR($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$emaildirect,$branch_info->type)){
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
                                       $success = $this->branches_model->approve_by_admin2($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior,$coop_full_name);
                                     }
                                   } else {
                                     if($this->admin_model->sendEmailToDirector($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$emaildirect,$branch_info->type,$fullnamecds)){
                                       $success = $this->branches_model->approve_by_admin2($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior,$coop_full_name);
                                     }
-=======
-=======
->>>>>>> Stashed changes
-                                      $success = $this->branches_model->approve_by_admin2($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior,$coop_full_name);
-                                    }
-                                  } else {
-                                    if($this->admin_model->sendEmailToDirector($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$emaildirect,$branch_info->type,$fullnamecds)){
-                                      $success = $this->branches_model->approve_by_admin2($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior,$coop_full_name);
-                                    }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
                                   }
                                   if($success){
                                     $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been submitted.');
