@@ -220,20 +220,7 @@ if($tomorrow>=$now){
                         <?php if($branch['status']==9 && $branch['evaluator3']!=0 && $admin_info->access_level==2): ?>
                           <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-cname="<?=$brancharea.' '?><?= $branch['branchName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Re-Assign Validator</a>
                         <?php endif; ?>
-                          
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                        <?php if(($branch['status']>=2 && $branch['status']<17 && $admin_info->access_level == 1) || ($branch['status']>9 && $branch['status']<17 && $admin_info->access_level == 2 || ($admin_info->access_level == 3 && $is_acting_director)) || ($supervising_)  && $branch['status']!=8 || ($branch['status']==2 && $admin_info->access_level == 2)) : ?>
-=======
                         <?php  if(($branch['status']>=2 && $branch['status']<17 && $admin_info->access_level == 1) || ($branch['status']>9 && $branch['status']<17 && $admin_info->access_level == 2 || $admin_info->access_level == 3)  && $branch['status']!=8 || ($branch['status']==2 && $admin_info->access_level == 2)) : ?>
->>>>>>> Stashed changes
-=======
-                        <?php  if(($branch['status']>=2 && $branch['status']<17 && $admin_info->access_level == 1) || ($branch['status']>9 && $branch['status']<17 && $admin_info->access_level == 2 || $admin_info->access_level == 3)  && $branch['status']!=8 || ($branch['status']==2 && $admin_info->access_level == 2)) : ?>
->>>>>>> Stashed changes
-=======
-                        <?php  if(($branch['status']>=2 && $branch['status']<17 && $admin_info->access_level == 1) || ($branch['status']>9 && $branch['status']<17 && $admin_info->access_level == 2 || $admin_info->access_level == 3)  && $branch['status']!=8 || ($branch['status']==2 && $admin_info->access_level == 2)) : ?>
->>>>>>> Stashed changes
                           <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
                           
                         <?php elseif($branch['status']==8 && $branch['evaluator3']==0): ?>
@@ -512,18 +499,6 @@ if($tomorrow>=$now){
     $('#paymentForm')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty();
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-    // alert(coop_name);
->>>>>>> Stashed changes
-=======
-    // alert(coop_name);
->>>>>>> Stashed changes
-=======
-    // alert(coop_name);
->>>>>>> Stashed changes
     $.ajax({
         url : "<?php echo base_url('branches/payment')?>/" + coop_name,
         type: "GET",
@@ -536,19 +511,10 @@ if($tomorrow>=$now){
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
             $('#branch_ID').val(coop_id);   
             $('#word').text(s);
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
             // $('#branch_ID').val(coop_id);   
             $('#word').text(s+' Pesos');
->>>>>>> Stashed changes
             $('#nature').text(data.nature);
             $('#particulars').html(data.particulars);
             $('#amount').html(data.amount);

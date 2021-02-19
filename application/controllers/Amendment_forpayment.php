@@ -27,7 +27,11 @@ class Amendment_forpayment extends CI_Controller{
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     $from = "Amendment_forpayment.php";    //senders email address
+=======
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+>>>>>>> Stashed changes
 =======
     $from = "ecoopris@cda.gov.ph";    //senders email address
 >>>>>>> Stashed changes

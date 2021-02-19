@@ -689,6 +689,7 @@
                                 } else {
                                   $proposedbranch = $data['branch_info']->city.', '.$data['branch_info']->province.' '.$data['branch_info']->type;
                                 }
+
                             }
                             // $proposedbranch = $data['branch_info']->coopName.' '.$data['branch_info']->type;
                             if($data['branch_info']->status == 17){
@@ -696,6 +697,7 @@
                             } else {
                               $sendemailtosenior = 'sendEmailToSeniorBranch';
                             }
+
                             if($this->admin_model->$sendemailtosenior($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type)){
                               if($this->admin_model->sendEmailToClientBranch($data['client_info']->email)){
                                 $this->session->set_flashdata('branch_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
@@ -878,6 +880,10 @@
                                     $regioncode = "0".mb_substr($branch_info->addrCode, 0, 2);
                                   // echo $regioncode;
                                   // echo '<script>alert('.printf("%02d", 0).');</script>';
+                                  $data['director_info'] = $this->admin_model->get_director_info($regioncode);
+
+                                  echo $data['director_info'] ;
+
                                   if($this->admin_model->is_active_director($data['director_info']->id)){
                                     $data['director_info'] = $this->admin_model->get_emails_of_director_by_region($regioncode);
                                   } else {
@@ -1015,7 +1021,6 @@
                                   }
                                   $this->db->where(array('name'=>$branch_info->registeredtype,'active'=>1));
                                   $this->db->from('head_office_coop_type_branch');
-
                                   if($this->db->count_all_results()>0 && $branch_info->status != 12){
                                     $step = 7;
                                   }
@@ -1047,6 +1052,7 @@
                                   // echo '<script>alert('.printf("%02d", 0).');</script>';
                                   // $data['director_info'] = $this->admin_model->get_director_info($regioncode);
                                   // $tempcount = count($data['director_info']);
+
                                   $this->db->where(array('region_code'=>$regioncode,'is_director_active'=>1,'access_level'=>3));
                                   $this->db->from('admin');
                                   if($this->db->count_all_results()>0)

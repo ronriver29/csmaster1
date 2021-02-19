@@ -1159,19 +1159,7 @@ public function delete_pdf()
                 
                 $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
                 $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                
-=======
-                                  
->>>>>>> Stashed changes
-=======
-                                  
->>>>>>> Stashed changes
-=======
-                                  
->>>>>>> Stashed changes
+
                   $this->load->view('templates/admin_header', $data);
                   $this->load->view('documents/list_of_documents_branch', $data);
                   $this->load->view('cooperative/evaluation/approve_modal_branch');
