@@ -123,8 +123,14 @@ class amendment extends CI_Controller{
                 // Registered Coop Process by Head Office
                   $data['list_cooperatives_registered_by_ho'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
                 // End Registered Coop Process by Head Office
+                  //Not HO
                 $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code);
-                $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_ho_director($data['admin_info']->region_code,$amendment_id);
+                //end Not HO process registered coop
+                //Pending for HO process
+                // $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_ho_director($data['admin_info']->region_code,$amendment_id);
+                $data['list_cooperatives'] = $this->amendment_model->get_not_ho_list_of_coop($amendment_id);
+                //Pending HO process
+                // $this->debug($data['list_of_cooperatives']);
               } else {
                 // Registered Coop Process by Head Office
                   $data['list_cooperatives_registered_by_ho'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
@@ -1452,11 +1458,11 @@ class amendment extends CI_Controller{
                                 //true
                                  $regioncode = '00';
                                  //get senior admin info
-                                 $data['admin_info_senior'] =$this->admin_model->get_senior_info($regioncode);
+                                 $data['admin_info'] =$this->admin_model->get_senior_info($regioncode);
                                 
                               }
-                                  
-
+                               
+                           
                             $success = $this->amendment_model->approve_by_senior($data['admin_info'],$decoded_id,$coop_full_name,$data_comment);
                             // $this->debug($success);
                             if($success){

@@ -202,7 +202,22 @@ class amendment_model extends CI_Model{
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->like('refregion.regCode', $regcode);  
+    // $this->db->like('refregion.regCode', $regcode);  
+    $this->db->where('status IN ("9") AND amend_coop.id IN('.$amendment_id_arr.') AND ho=1');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+
+  public function get_not_ho_list_of_coop($amendment_id)
+  {
+    $amendment_id_arr = implode(',',$amendment_id);
+     $this->db->select('amend_coop.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->from('amend_coop');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->where('status IN ("9") AND amend_coop.id IN('.$amendment_id_arr.') AND ho=1');
     $query = $this->db->get();
     $data = $query->result_array();
@@ -1253,23 +1268,31 @@ public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$coop
   
 }
 public function approve_by_senior($admin_info,$coop_id,$coop_full_name,$data_comment){
-  $coop_id = $this->security->xss_clean($coop_id);
+  $amentmentID = $this->security->xss_clean($coop_id);
   $this->db->trans_begin();
   $this->db->where('id',$coop_id);
   $this->db->update('amend_coop',array('status'=>9,'second_evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL));
-  $director_emails = $this->admin_model->get_emails_of_director_by_region($admin_info->region_code);
+
+  $cooperative_id = $this->coop_dtl($amentmentID);    
+  $amendment_info =$this->get_cooperative_info23($cooperative_id,$amentmentID);
+  $client_qry = $this->db->get_where('users',array('id'=>$amendment_info->users_id));
+  $client_info = $client_qry->row();
+
+  $director_info = $this->admin_model->get_emails_of_director_by_region($admin_info->region_code);
+  // return $director_info;
+  foreach($director_info as $director)
+  {
+    $director_email = $director['email'];
+  }
+ 
   $this->db->insert('amendment_comment',$data_comment); //insert comment
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
   }else{
-    // return $director_emails;
-    foreach($director_emails as $demail)
-    {
-      $director_email = $demail['email'];
-    }
+    
 
-   if($this->email_model->sendEmailToDirectorAmendment($admin_info,$director_email,$coop_full_name)){
+   if($this->email_model->sendEmailToDirectorAmendment($admin_info,$client_info,$amendment_info,$director_email)){
      $this->db->trans_commit();
      return true;
    }else{
