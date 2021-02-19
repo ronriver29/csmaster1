@@ -835,8 +835,8 @@
       $coop = $this->encryption->decrypt(decrypt_custom($coop));
       $branch=str_replace('%20',' ',$coop);
       $data = $this->branches_model->get_payment_info($branch);
-      // echo json_encode($data);
-      print_r($data);
+      echo json_encode($data);
+      // print_r($data);
     }
 
     public function approve_branch(){
