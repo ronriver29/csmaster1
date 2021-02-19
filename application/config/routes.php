@@ -364,6 +364,7 @@ $route['admins/check_username_not_exists'] = 'admins/check_username_not_exists';
 $route['admins/add_admin'] = 'admins/add_admin';
 $route['admins/all_admin'] = 'admins/all_admin';
 $route['admins/cooperatives_list'] = 'admins/cooperatives_list';
+$route['admins/branches_list'] = 'admins/branches_list';
 $route['admins/all_user'] = 'admins/all_user';
 $route['admins/change_passwd'] = 'admins/change_passwd';
 $route['admins/login'] = 'admins/login';

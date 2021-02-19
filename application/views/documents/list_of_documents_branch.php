@@ -14,9 +14,17 @@
                 } else if($branch_info->area_of_operation == 'Provincial') {
                     $branch_name = $branch_info->city;
                 } else if ($branch_info->area_of_operation == 'Regional') {
-                    $branch_name = $branch_info->city.', '.$branch_info->province;
+                    if($this->charter_model->in_charter_city($branch_info->cCode)){
+                      $branch_name = $branch_info->city;
+                    } else {
+                      $branch_name = $branch_info->city.', '.$branch_info->province;
+                    }
                 } else if ($branch_info->area_of_operation == 'National') {
-                    $branch_name = $branch_info->city.', '.$branch_info->province;
+                    if($this->charter_model->in_charter_city($branch_info->cCode)){
+                      $branch_name = $branch_info->city;
+                    } else {
+                      $branch_name = $branch_info->city.', '.$branch_info->province;
+                    }
                 }
             ?>
           <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branch_name?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" >Submit</button>
@@ -43,15 +51,23 @@
             } else if($branch_info->area_of_operation == 'Provincial') {
                 $branch_name = $branch_info->city;
             } else if ($branch_info->area_of_operation == 'Regional') {
+              if($this->charter_model->in_charter_city($branch_info->cCode)){
+                $branch_name = $branch_info->city;
+              } else {
                 $branch_name = $branch_info->city.', '.$branch_info->province;
+              }
             } else if ($branch_info->area_of_operation == 'National') {
-                $branch_name = $branch_info->city.', '.$branch_info->province;
+                if($this->charter_model->in_charter_city($branch_info->cCode)){
+                  $branch_name = $branch_info->city;
+                } else {
+                  $branch_name = $branch_info->city.', '.$branch_info->province;
+                }
             }
             ?>
             <?php if($admin_info->access_level ==2 || $admin_info->access_level ==1 || $is_active_director || $supervising_): ?>
             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if(($branch_info->tool_yn_answer==null && $branch_info->status>=9 || $branch_info->status>=23)) echo 'disabled';?> ><?=$submit?></button>
             <?php endif; //endo fo coop info status ?>  
-            <?php if($admin_info->access_level == 3 && $is_active_director || $supervising_) {?>
+            <?php if($admin_info->access_level == 3 && $is_active_director || $supervising_) { ?>
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyBranchModal" data-cname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer==null && $branch_info->status>=9) echo 'disabled';?> >Deny</button>
                 <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferBranchModal" data-comment="<?php foreach($branches_comments_cds as $cc) : echo $cc['comment']; endforeach;?>
                         
@@ -61,7 +77,8 @@
 
 <?= $branch_info->tool_findings?>" data-cname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer==null && $branch_info->status>=9) echo 'disabled';?> >Defer</button>
             <?php } ?>
-        <?  } ?>
+        <?php  } ?>
+
         </div>
       <?php endif; ?>
   </div>

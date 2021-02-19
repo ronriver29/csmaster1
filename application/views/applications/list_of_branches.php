@@ -77,7 +77,7 @@ if($tomorrow>=$now){
     </div>
     <?php else : ?>
       <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
-        <button type="button" class="btn btn-warning text-white btn-block" data-toggle="modal" data-target="#revokeSupervisorModal"><i class='fas fa-user-times'></i> Revoke All Privileges of Supervisor</button>
+        <button type="button" class="btn btn-warning text-white btn-block" data-toggle="modal" data-target="#revokeSupervisorModal"><i class='fas fa-user-times'></i> Revoke all Authority of Supervising CDS</button>
       </div>
     <?php endif; ?>
   <?php endif;?>
@@ -111,9 +111,17 @@ if($tomorrow>=$now){
                   } else if($branch['area_of_operation'] == 'Provincial') {
                       $brancharea = $branch['city'];
                   } else if ($branch['area_of_operation'] == 'Regional') {
-                      $brancharea = $branch['city'].', '.$branch['province'];
+                      if($this->charter_model->in_charter_city($branch['cCode'])){
+                        $brancharea = $branch['city'];
+                      } else {
+                        $brancharea = $branch['city'].', '.$branch['province'];
+                      }
                   } else if ($branch['area_of_operation'] == 'National') {
-                      $brancharea = $branch['city'].', '.$branch['province'];
+                      if($this->charter_model->in_charter_city($branch['cCode'])){
+                        $brancharea = $branch['city'];
+                      } else {
+                        $brancharea = $branch['city'].', '.$branch['province'];
+                      }
                   }
 
                     // if($branch['area_of_operation'] == 'Provincial'){
@@ -154,7 +162,7 @@ if($tomorrow>=$now){
                         else if($branch['status']==8 || $branch['status']==9)echo "FOR VALIDATION";                        
                         else if($branch['status']==10) echo "DENIED BY CDS II";
                         else if($branch['status']==11) echo "DEFERRED BY CDS II";
-                        else if($branch['status']==12 && $branch['evaluator5']>0) echo "FOR VALIDATION";
+                        else if($branch['status']==12 && $branch['evaluator5']>0) echo "FOR RE-EVALUATION";
                         else if($branch['status']==12) echo "SUBMITTED BY CDS II";
                         else if($branch['status']==13) echo "DENIED BY SENIOR CDS";
                         else if($branch['status']==14) echo "DEFERRED BY SENIOR CDS";
@@ -194,9 +202,17 @@ if($tomorrow>=$now){
                     } else if($branch['area_of_operation'] == 'Provincial') {
                         $brancharea = $branch['city'];
                     } else if ($branch['area_of_operation'] == 'Regional') {
-                        $brancharea = $branch['city'].', '.$branch['province'];
+                        if($this->charter_model->in_charter_city($branch['cCode'])){
+                          $brancharea = $branch['city'];
+                        } else {
+                          $brancharea = $branch['city'].', '.$branch['province'];
+                        }
                     } else if ($branch['area_of_operation'] == 'National') {
-                        $brancharea = $branch['city'].', '.$branch['province'];
+                        if($this->charter_model->in_charter_city($branch['cCode'])){
+                          $brancharea = $branch['city'];
+                        } else {
+                          $brancharea = $branch['city'].', '.$branch['province'];
+                        }
                     }
                     ?>
                     <td>
@@ -204,8 +220,7 @@ if($tomorrow>=$now){
                         <?php if($branch['status']==9 && $branch['evaluator3']!=0 && $admin_info->access_level==2): ?>
                           <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-cname="<?=$brancharea.' '?><?= $branch['branchName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Re-Assign Validator</a>
                         <?php endif; ?>
-                          
-                        <?php if(($branch['status']>=2 && $branch['status']<17 && $admin_info->access_level == 1) || ($branch['status']>9 && $branch['status']<17 && $admin_info->access_level == 2 || ($admin_info->access_level == 3 && $is_acting_director)) || ($supervising_)  && $branch['status']!=8 || ($branch['status']==2 && $admin_info->access_level == 2)) : ?>
+                        <?php  if(($branch['status']>=2 && $branch['status']<17 && $admin_info->access_level == 1) || ($branch['status']>9 && $branch['status']<17 && $admin_info->access_level == 2 || $admin_info->access_level == 3)  && $branch['status']!=8 || ($branch['status']==2 && $admin_info->access_level == 2 || ($branch['status']>9 && $branch['status']<17 && $supervising_ && $admin_info->access_level==4))) : ?>
                           <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
                           
                         <?php elseif($branch['status']==8 && $branch['evaluator3']==0): ?>
@@ -221,9 +236,17 @@ if($tomorrow>=$now){
                             } else if($branch['area_of_operation'] == 'Provincial') {
                                 $branch_name = $branch['city'];
                             } else if ($branch['area_of_operation'] == 'Regional') {
-                                $branch_name = $branch['city'].', '.$branch['province'];
+                                if($this->charter_model->in_charter_city($branch['cCode'])){
+                                  $branch_name = $branch['city'];
+                                } else {
+                                  $branch_name = $branch['city'].', '.$branch['province'];
+                                }
                             } else if ($branch['area_of_operation'] == 'National') {
-                                $branch_name = $branch['city'].', '.$branch['province'];
+                                if($this->charter_model->in_charter_city($branch['cCode'])){
+                                  $branch_name = $branch['city'];
+                                } else {
+                                  $branch_name = $branch['city'].', '.$branch['province'];
+                                }
                             }
                         ?>
                           <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment(<?=$branch['id']?>,'<?= encrypt_custom($this->encryption->encrypt($branch['coopName'].' - '.$branch_name.' '.$branch['branchName']))?>')" value="Save O.R. No.">
@@ -276,7 +299,12 @@ if($tomorrow>=$now){
                             } else if($outside_the_region['area_of_operation'] == 'Provincial') {
                                 $brancharea = $outside_the_region['city'];
                             } else if ($outside_the_region['area_of_operation'] == 'Regional') {
-                                $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
+                                if($this->charter_model->in_charter_city($outside_the_region['cCode'])){
+                                  $brancharea = $outside_the_region['city'];
+                                } else {
+                                  $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
+                                }
+                                
                             } else if ($outside_the_region['area_of_operation'] == 'National') {
                                 $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
                             }
@@ -335,7 +363,7 @@ if($tomorrow>=$now){
     <div class="card border-top-blue shadow-sm mb-4">
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-bordered" id="cooperativesTable2">
+          <table class="table table-bordered" id="cooperativesTable3">
             <thead>
               <tr>
                 <th>Name of Cooperative</th>
@@ -463,8 +491,6 @@ if($tomorrow>=$now){
 <script src="<?=base_url();?>assets/js/toword.js"></script>
 
 <script type="text/javascript">
-  
-
 
   function showPayment(coop_id,coop_name) {
     //save_method = 'add';
@@ -485,6 +511,8 @@ if($tomorrow>=$now){
             $('#tNo').text(data.transactionNo);
             $('#branch_ID').val(coop_id);   
             $('#word').text(s);
+            // $('#branch_ID').val(coop_id);   
+            $('#word').text(s+' Pesos');
             $('#nature').text(data.nature);
             $('#particulars').html(data.particulars);
             $('#amount').html(data.amount);
@@ -493,13 +521,23 @@ if($tomorrow>=$now){
             
             $('#paymentModal').modal('show'); // show bootstrap modal
             $('.modal-title').text('Order of Payment');
-            console.log(data)
+            // console.log(data);
  
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
+            // alert('Error get data from ajax!');
             alert('Error get data from ajax!');
         }
+        // error: function (ts)
+        // {
+        //     // alert('Error get data from ajax!');
+        //     alert(ts.responseText);
+        // }
+        // error: function(xhr, status, error) {
+        //   var err = eval("(" + xhr.responseText + ")");
+        //   alert(err.Message);
+        // }
     });
   }
 

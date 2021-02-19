@@ -177,9 +177,15 @@ public function add_admin_director($data,$raw_pass){
     $this->db->where('access_level',3);
     $this->db->where('region_code',$data->region_code);
     $this->db->update('admin',array('is_director_active'=>0));
+
     $this->db->where('access_level',4);
     $this->db->where('region_code',$data->region_code);
     $this->db->update('admin',array('is_director_active'=>1));
+    if($data->region_code == '00'){
+      $code_name = 'Head Office Director';
+    } else {
+      $code_name = 'Regional Director';
+    }
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -189,7 +195,7 @@ public function add_admin_director($data,$raw_pass){
       $subject = 'Cooperative Application for Registration';  //email subject
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
-      $message = "Good day! The Regional Director granted you all the authority to process the application for registration.<p>
+      $message = "Good day! The ".$code_name." granted you all the authority to process the application for registration.<p>
 
 <label>Date stamp:".date("m/d/Y")."
 <label>Time stamp:".date("h:i:s a")."";
@@ -202,7 +208,8 @@ public function add_admin_director($data,$raw_pass){
           $this->db->trans_commit();
         return true;
       }else{
-          return false;
+        return false;
+
       }
       
     }
@@ -220,6 +227,7 @@ public function add_admin_director($data,$raw_pass){
      $this->db->where('access_level',4);
     $this->db->where('region_code',$data->region_code);
     $this->db->update('admin',array('is_director_active'=>0));
+
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -229,7 +237,7 @@ public function add_admin_director($data,$raw_pass){
       $subject = 'Cooperative Application for Registration';  //email subject
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
-      $message = "Good day! The Authority to process all application for registration has been revoked by the Regional Director.<p>
+      $message = "Good day! The Authority to process all application for registration has been revoked by the Chief CDS Registration Division granted.<p>
 
 <label>Date stamp:".date("m/d/Y")."
 <label>Time stamp:".date("h:i:s a")."";
@@ -274,7 +282,7 @@ public function add_admin_director($data,$raw_pass){
 
     <ol type='a'> 
       <b><li> Proposed Name of Cooperative:</b>".$proposedname."</li>
-      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
+      <b><li> Address of Proposed Cooperative:</b>".$brgy."</li>
       <b><li> Contact Person:</b> ".$fullname."</li>
       <b><li> Contact Number: </b>".$contactnumber."</li>
       <b><li> Email Address: </b>".$email."</li>
@@ -313,12 +321,12 @@ public function add_admin_director($data,$raw_pass){
         return false;
     }
   }
-  public function sendEmailToSeniorBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail){
+  public function sendEmailToSeniorBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Good day! An application for registration with the following details has been submitted:<p>
+    $message = "Good day! An application for establishment of ".$type." with the following details has been submitted:<p>
 
     <ol type='a'> 
       <b><li> Name of Cooperative:</b>".$proposedname."</li>
@@ -338,12 +346,91 @@ public function add_admin_director($data,$raw_pass){
         return false;
     }
   }
-  public function sendEmailToDirector($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail){
+  public function sendEmailToSeniorDeferBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Good day! An application for registration with the following details has been submitted:<p>
+    $message = "Good day! A deferred application for establishment of ".$type." with the following details has been submitted:<p>
+
+    <ol type='a'> 
+      <b><li> Name of Cooperative:</b>".$proposedname."</li>
+      <b><li> Name of Proposed Branch:</b>".$proposedbranch."</li>
+      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
+      <b><li> Contact Person:</b> ".$fullname."</li>
+      <b><li> Contact Number: </b>".$contactnumber."</li>
+      <b><li> Email Address: </b>".$email."</li>
+    </ol>";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($senioremail);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+
+  public function sendEmailToSpecialistBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = "Good day! An application for establishment of ".$type." with the following details has been submitted:<p>
+
+    <ol type='a'> 
+      <b><li> Name of Cooperative:</b>".$proposedname."</li>
+      <b><li> Name of Proposed Branch:</b>".$proposedbranch."</li>
+      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
+      <b><li> Contact Person:</b> ".$fullname."</li>
+      <b><li> Contact Number: </b>".$contactnumber."</li>
+      <b><li> Email Address: </b>".$email."</li>
+    </ol>";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($senioremail);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+  public function sendEmailToDirector($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type,$fullnamecds){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = "Senior CDS evaluated application for establishment of ".$type." with the following details has been submitted for your evaluation and approval/denial/deferment: <p>
+
+    <ol type='a'> 
+      <b><li> Name of CDS II/Validator:</b>".$fullnamecds."</li>
+      <b><li> Name of Cooperative:</b>".$proposedname."</li>
+      <b><li> Name of Proposed Branch:</b>".$proposedbranch."</li>
+      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
+      <b><li> Contact Person:</b> ".$fullname."</li>
+      <b><li> Contact Number: </b>".$contactnumber."</li>
+      <b><li> Email Address: </b>".$email."</li>
+    </ol>";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($senioremail);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+      // echo $this->email->print_debugger();
+    }else{
+        return false;
+    }
+  }
+  public function sendEmailToDirectorHO_OR($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+    $message = "Good day! An application for establishment of ".$type." with the following details has been submitted: <p>
 
     <ol type='a'> 
       <b><li> Name of Cooperative:</b>".$proposedname."</li>
@@ -506,19 +593,16 @@ The client shall submit the above required documents within 30 days from the dat
 
 //    $message = "Congratulations ".$client_info->full_name.". Your application <b>".$client_info->proposed_name." ".$client_info->type_of_cooperative." Cooperative</b> has been approved. You can now proceed to payment. You have 10 working days to complete the payment";
 
-    $message="<pre><b>Congratulations!</b> Your application status is <b>FOR PRINTING AND SUBMISSION</b>.
+    $message="<pre>Congratulations! Your application status is APPROVED and for SUBMISSION of documents.
 
 You may now submit the following requirements/ documents:
 
      1.  Business Plan
      2.  General Assembly Resolution
      3.  Certification for the presence of Manual of Operation and Addresses of the branch office
-     4.  Audited Financial Statement for the last three years
 
-The above documents shall be printed in Legal size or ”8.5 x 13” or ”8.5 x 14” bond paper.
-
-
-The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
+The client shall submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Electronic-Cooperative Registration Information
+System (E-CoopRIS).</pre>";
 
 
     $this->email->from($from,'CoopRIS Administrator');
@@ -617,6 +701,15 @@ The client shall submit the above required documents within 30 working days from
   }
   public function get_emails_of_director_by_region($regcode){
     $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>3));
+    $data = $query->result_array();
+    if($this->db->count_all_results()==0){
+      return array();
+    }else{
+      return $data;
+    }
+  }
+  public function get_emails_of_specialist_by_region($id){
+    $query = $this->db->get_where('admin',array('id'=>$id));
     $data = $query->result_array();
     if($this->db->count_all_results()==0){
       return array();

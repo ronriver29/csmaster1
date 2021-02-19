@@ -169,9 +169,18 @@
             } else if($branch_info->area_of_operation == 'Provincial') {
                 $branch_name = $branch_info->city;
             } else if ($branch_info->area_of_operation == 'Regional') {
+                if($this->charter_model->in_charter_city($branch_info->cCode)){
+                $branch_name = $branch_info->city;
+              } else {
                 $branch_name = $branch_info->city.', '.$branch_info->province;
+              }
             } else if ($branch_info->area_of_operation == 'National') {
+              if($this->charter_model->in_charter_city($branch_info->cCode)){
+                $branch_name = $branch_info->city;
+              } else {
                 $branch_name = $branch_info->city.', '.$branch_info->province;
+              }
+                // $branch_name = $branch_info->city.', '.$in_chartered_cities ? $chartered_cities : $branch_info->province;
             }
           ?>
           <?=$branch_name.' '?><?= $branch_info->branchName?>

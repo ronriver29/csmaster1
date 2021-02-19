@@ -151,6 +151,8 @@ $(function(){
   //     }
   //   }
   // });
+  $('#reserveAddForm #acronymnameerr').hide();
+  
   $('#reserveAddForm #categoryOfCooperative').on('change', function(){
         var categorycoop = $(this).val();
 //      alert(categorycoop);
@@ -171,8 +173,29 @@ $(function(){
       $(this).empty();
       $(this).prop("disabled",true);
     });
+
+    
     if($(this).val() && ($(this).val()).length > 0){
       $("#reserveAddForm #addMoreSubclassBtn").prop("disabled",false);
+      document.getElementById("proposedName").maxLength = "61";
+
+      $('#reserveAddForm #proposedName').on('change',function(){
+        document.getElementById('acronymname').value = '';
+        var value = document.getElementById("proposedName").value;
+        var totalval = 61 - value.length; 
+        if(totalval == 0){
+          $("#reserveAddForm #acronymname").prop("disabled",true);
+          $('#reserveAddForm #acronymnameerr').show();
+        } else {
+          $('#reserveAddForm #acronymnameerr').hide();
+          $("#reserveAddForm #acronymname").prop("disabled",false);
+        }
+        document.getElementById("acronymname").maxLength = totalval;
+      });
+      // if (value.length < totalval) {
+        // document.getElementById("acronymname").maxLength = totalval;
+      // }
+
       $("#reserveAddForm #proposedName").prop("disabled",false);
       var coop_type = $(this).val();
         $.ajax({

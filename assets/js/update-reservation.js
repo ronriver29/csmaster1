@@ -1,5 +1,22 @@
   $(function(){
     
+  $('#reserveUpdateForm #acronymnameerr').hide();
+   document.getElementById("proposedName").maxLength = "61";
+   
+  $('#reserveUpdateForm #proposedName').on('change',function(){
+    document.getElementById('acronymname').value = '';
+    var value = document.getElementById("proposedName").value;
+    var totalval = 61 - value.length; 
+    if(totalval == 0){
+      $("#reserveUpdateForm #acronymname").prop("disabled",true);
+      $('#reserveUpdateForm #acronymnameerr').show();
+    } else {
+      $('#reserveUpdateForm #acronymnameerr').hide();
+      $("#reserveUpdateForm #acronymname").prop("disabled",false);
+    }
+    document.getElementById("acronymname").maxLength = totalval;
+  });
+
   $('#reserveUpdateForm #categoryOfCooperative').on('change', function(){
       var categorycoop = $(this).val();
   //      alert(categorycoop);

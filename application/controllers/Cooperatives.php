@@ -156,7 +156,7 @@
               if ($this->form_validation->run() == FALSE){
                 $this->load->view('./template/header', $data);
                 $this->load->view('cooperative/reservation_detail', $data);
-               $this->load->view('cooperative/terms_and_condition');
+               // $this->load->view('cooperative/terms_and_condition');
                 $this->load->view('./template/footer');
               }else{
                 $subclass_array = $this->input->post('subClass');
