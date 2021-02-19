@@ -14,6 +14,7 @@
               <div class="row">
                 <input type="hidden" name="statusid" id="status_id" value="">
                 <input type="hidden" name="cooperativesID" id="cooperativesID" value="">
+                <input type="hidden" name="module_type" id="" value="Cooperative">
                 <div class="col-sm-12 col-md-12">
                   <div class="form-group">
                     <label for="cooperativeName" class="font-weight-bold">Name of Cooperative: </label>
@@ -27,12 +28,8 @@
                       <option value="">--</option>
                         <option value="1">Back to Client</option>
                         <option value="2">For Validation</option>
-                        <!-- <option value="4">Denied by CDS II</option> -->
-                        <!-- <option value="5">Deferred by CDS II</option> -->
+                        <option value="3">For Validation of CDS II / Re-assign Validator</option>
                         <option value="6">For Re-Evaluation</option>
-                        <!-- <option value="6.1">Submitted by CDS II</option> -->
-                        <!-- <option value="7">Denied by Senior CDS</option> -->
-                        <!-- <option value="8">Deferred by CDS II</option> -->
                         <option value="9">Submitted By Senior CDS</option>
                         <option value="10">Denied by Director</option>
                         <option value="11">Deferred by Director</option>

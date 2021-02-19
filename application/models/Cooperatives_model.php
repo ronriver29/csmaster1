@@ -689,7 +689,17 @@ public function change_status_cooperatives($decoded_id,$status){
 
   $this->db->trans_begin();
   $this->db->where(array('id'=>$decoded_id));
-  $this->db->update('cooperatives',array('status'=>$status));
+
+  if($status == 1 || $status == 2){
+    $this->db->update('cooperatives',array('status'=>$status, 'third_evaluated_by'=>0, 'second_evaluated_by'=>0, 'evaluated_by'=>0));
+  } else if ($status == 3){
+    $this->db->update('cooperatives',array('status'=>$status, 'third_evaluated_by'=>0, 'second_evaluated_by'=>0));
+  } else if ($status == 9){
+    $this->db->update('cooperatives',array('status'=>$status, 'third_evaluated_by'=>0));
+  } else {
+    $this->db->update('cooperatives',array('status'=>$status));
+  }
+  
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;

@@ -1103,6 +1103,14 @@ public function delete_pdf()
                 $data['document_9'] = $this->uploaded_document_model->get_document_9_info($branch_info->id,$branch_info->application_id);
                 $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['branch_info']->type);
                 
+                $data['in_chartered_cities'] =false;
+                // $this->debug();
+                if($this->charter_model->in_charter_city($data['branch_info']->cCode))
+                {
+                  $data['in_chartered_cities']=true;
+                  $data['chartered_cities'] = $this->charter_model->get_charter_city($data['branch_info']->cCode);
+                }
+
                 $this->load->view('template/header', $data);
                 $this->load->view('documents/list_of_documents_branch', $data);
                 $this->load->view('template/footer');
@@ -1151,7 +1159,11 @@ public function delete_pdf()
                 
                 $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
                 $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
+<<<<<<< Updated upstream
                 
+=======
+                                  
+>>>>>>> Stashed changes
                   $this->load->view('templates/admin_header', $data);
                   $this->load->view('documents/list_of_documents_branch', $data);
                   $this->load->view('cooperative/evaluation/approve_modal_branch');

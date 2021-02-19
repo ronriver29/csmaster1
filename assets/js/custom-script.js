@@ -7,6 +7,7 @@ $(function(){
   $('#committeesTable2').dataTable();
   $('#cooperativesTable').DataTable();
   $('#cooperativesTable2').DataTable();
+  $('#cooperativesTable3').DataTable();
   $('#cooperatorsTable').DataTable();
   $('#cooperatorsTable2').DataTable();
   $('#staffTable').DataTable();
@@ -2224,6 +2225,37 @@ $('#editStaffForm #position').on('change', function(){
             if($("#changestatusLoadingBtn").length <= 0){
               $("#changestatusForm #statuschangeBtn").hide();
               $("#changestatusForm .changestatusFooter").append($('<button></button>').attr({'id':'changestatusLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
+              return true;
+            }else{
+              return false;
+            }
+          }else{
+            return false;
+          }
+        }
+  });
+
+  $('#changebranchstatusModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var coop_name = button.data('cname');
+    var coop_id = button.data('coopid');
+    var statusid = button.data('statusid');
+    var regcode = button.data('regcode');
+    var modal = $(this)
+    modal.find('.modal-body #status_id').val(statusid);
+    modal.find('.modal-body #cooperativesID').val(coop_id);
+    modal.find('.modal-body #cooperativeName').val(coop_name);
+    modal.find('.modal-body #reg_code').val(regcode);
+  });
+  $("#changebranchstatusForm").validationEngine('attach',
+      {promptPosition: 'inline',
+      scroll: false,
+      focusFirstField : false,
+      onValidationComplete: function(form,status){
+          if(status==true){
+            if($("#changestatusLoadingBtn").length <= 0){
+              $("#changebranchstatusForm #branchstatuschangeBtn").hide();
+              $("#changebranchstatusForm .changebranchstatusFooter").append($('<button></button>').attr({'id':'changebranchstatusLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
               return true;
             }else{
               return false;

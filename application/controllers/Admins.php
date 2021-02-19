@@ -363,6 +363,37 @@ class Admins extends CI_Controller{
       }
     }
   }
+  public function grant_supervisor_branch(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        if($this->session->userdata('access_level')==5){
+          redirect('all_admin');
+        }else if($this->session->userdata('access_level')!=3){
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('branches');
+        }else{
+          if($this->input->post('grantSupervisorBtn')){
+            $admin_user_id = $this->session->userdata('user_id');
+            if($this->admin_model->grant_privilege_supervisor($admin_user_id)){
+              $this->session->set_flashdata('list_success_message', 'Successfully granted all authorities to Supervising CDS.');
+              redirect('branches');
+            }else{
+              $this->session->set_flashdata('list_error_message', 'Unable to grant all privileges to Supervising CDS.');
+              redirect('branches');
+            }
+          }else{
+            $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+            redirect('branches');
+          }
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('branches');
+      }
+    }
+  }
   public function revoke_supervisor(){
     if(!$this->session->userdata('logged_in')){
       redirect('admins/login');
@@ -391,6 +422,37 @@ class Admins extends CI_Controller{
       }else{
         $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
         redirect('cooperatives');
+      }
+    }
+  }
+  public function revoke_supervisor_branch(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        if($this->session->userdata('access_level')==5){
+          redirect('all_admin');
+        }else if($this->session->userdata('access_level')!=3){
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('branches');
+        }else{
+          if($this->input->post('revokeSupervisorBtn')){
+            $admin_user_id = $this->session->userdata('user_id');
+            if($this->admin_model->revoke_privilege_supervisor($admin_user_id)){
+              $this->session->set_flashdata('list_success_message', 'Successfully revoked all authories to Supervising CDS.');
+              redirect('branches');
+            }else{
+              $this->session->set_flashdata('list_error_message', 'Unable to revoke all privileges to Supervising CDS.');
+              redirect('branches');
+            }
+          }else{
+            $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+            redirect('branches');
+          }
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('branches');
       }
     }
   }
@@ -640,12 +702,15 @@ class Admins extends CI_Controller{
         if(!$this->session->userdata('client')){
           $admin_user_id = $this->session->userdata('user_id');
           if($this->admin_model->check_super_admin($admin_user_id)){
-            $data['title'] = 'List of Users';
-            $data['header'] = 'List of Users';
+            $data['title'] = 'List of Cooperatives';
+            $data['header'] = 'List of Cooperatives';
             $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
             $data['users_list'] = $this->admin_model->get_all_user();
 
             $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_ho();
+            $data['is_acting_director'] = $this->admin_model->is_active_director($admin_user_id);
+            $data['supervising_'] = $this->admin_model->is_acting_director($admin_user_id);
+            
             $this->load->view('templates/admin_header', $data);
             $this->load->view('applications/list_of_all_cooperatives', $data);
             $this->load->view('applications/change_cooperative_status');
@@ -654,34 +719,120 @@ class Admins extends CI_Controller{
             $this->load->view('templates/admin_footer');
           }else{
             $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-            redirect('cooperatives');
+            redirect('cooperatives_list');
           }
         }else{
           $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-          redirect('cooperatives');
+          redirect('cooperatives_list');
         }
       }
     }
+
+  public function branches_list(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      $data['is_client'] = $this->session->userdata('client');
+      if(!$this->session->userdata('client')){
+        $admin_user_id = $this->session->userdata('user_id');
+        if($this->admin_model->check_super_admin($admin_user_id)){
+          $data['title'] = 'List of Branches';
+          $data['header'] = 'List of Branches';
+          $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
+          $data['users_list'] = $this->admin_model->get_all_user();
+
+          $data['list_branches'] = $this->branches_model->get_all_branches_ho();
+          $this->load->view('templates/admin_header', $data);
+          $this->load->view('applications/list_of_all_branches', $data);
+          $this->load->view('applications/change_branches_status');
+          $this->load->view('admin/grant_privilege_supervisor');
+          $this->load->view('admin/revoke_privilege_supervisor');
+          $this->load->view('templates/admin_footer');
+        }else{
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('branches_list');
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('branches_list');
+      }
+    }
+  }
 
   public function change_status(){
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID',TRUE)));
       $decoded_specialist_id = $this->input->post('statuschange');
       $status_id = $this->input->post('statusid');
+      $module_type = $this->input->post('module_type');
       $admin_user_id = $this->session->userdata('user_id');
       $now = date('Y-m-d h:i:s');
       // echo $admin_user_id.'-';
       // echo $status_id;
       // echo $now;
-      $data_field = array(
-          'from' => $status_id,
-          'to' => $decoded_specialist_id,
-          'edited_by' => $admin_user_id,
-          'cooperative_id' => $decoded_id,
-          'date_modified' => $now
-      );
+      if($module_type == "Cooperative"){
+        if($decoded_specialist_id == 1 || $decoded_specialist_id == 2){
+          $data_field = array(
+              'from' => $status_id,
+              'to' => $decoded_specialist_id,
+              'edited_by' => $admin_user_id,
+              'cooperative_id' => $decoded_id,
+              'date_modified' => $now,
+              'module_type' => $module_type,
+              'evaluated_by' => 0,
+              'second_evaluated_by' => 0,
+              'third_evaluated_by' => 0
+          );
+        } else if ($decoded_specialist_id == 3){
+          $data_field = array(
+              'from' => $status_id,
+              'to' => $decoded_specialist_id,
+              'edited_by' => $admin_user_id,
+              'cooperative_id' => $decoded_id,
+              'date_modified' => $now,
+              'module_type' => $module_type,
+              'second_evaluated_by' => 0,
+              'third_evaluated_by' => 0
+          );
+        } else if ($decoded_specialist_id == 9){
+          $data_field = array(
+              'from' => $status_id,
+              'to' => $decoded_specialist_id,
+              'edited_by' => $admin_user_id,
+              'cooperative_id' => $decoded_id,
+              'date_modified' => $now,
+              'module_type' => $module_type,
+              'third_evaluated_by' => 0
+          );
+        }
+        $data_field = array(
+              'from' => $status_id,
+              'to' => $decoded_specialist_id,
+              'edited_by' => $admin_user_id,
+              'cooperative_id' => $decoded_id,
+              'date_modified' => $now,
+              'module_type' => $module_type,
+          );
+      } else if ($module_type == "Branches"){
+        $data_field = array(
+            'from' => $status_id,
+            'to' => $decoded_specialist_id,
+            'edited_by' => $admin_user_id,
+            'cooperative_id' => $decoded_id,
+            'date_modified' => $now,
+            'module_type' => $module_type
+        );
+      }
+
+      if($module_type == "Cooperative"){
+        $model = 'cooperatives_model';
+        $change_status = "change_status_cooperatives";
+      } else if ($module_type == "Branches"){
+        $model = 'branches_model';
+        $change_status = "change_status_branches";
+      }
       $success =  $this->cooperatives_model->insert_audit_log_cooperatives_change_status($data_field);
         if($success){
-        $success =  $this->cooperatives_model->change_status_cooperatives($decoded_id,$decoded_specialist_id);
+        $success =  $this->$model->$change_status($decoded_id,$decoded_specialist_id);
           if($success){
             $this->session->set_flashdata('list_success_message', 'Cooperative Status has been Changed.');
             redirect('admins/cooperatives_list');

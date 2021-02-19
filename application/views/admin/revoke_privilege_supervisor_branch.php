@@ -3,9 +3,9 @@
     <div class="modal fade" id="revokeSupervisorModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="revokeSupervisorModallLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <?php echo form_open('admins/revoke_supervisor',array('id'=>'revokeSupervisorForm','name'=>'revokeSupervisorForm')); ?>
+          <?php echo form_open('admins/revoke_supervisor_branch',array('id'=>'revokeSupervisorForm','name'=>'revokeSupervisorForm')); ?>
             <div class="modal-header">
-              <h4 class="modal-title" id="revokeSupervisorModallLabel">Are you sure you want to revoke all authority to Supervising CDS?</h4>
+              <h4 class="modal-title" id="revokeSupervisorModallLabel">Are you sure you want to revoke all privilege to Supervising CDS?</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
