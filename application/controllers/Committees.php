@@ -177,7 +177,7 @@ class Committees extends CI_Controller{
                           $data['header'] = 'Committees';
                           $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                           $data['encrypted_id'] = $id;
-                          $data['committees'] = $this->committee_model->get_all_committees_of_coop($decoded_id);
+                          $data['committees'] = $this->committee_model->get_all_committees_of_coop($data['coop_info']->users_id);
                           $data['committees_federation'] = $this->committee_model->get_all_committees_of_coop_federation($data['coop_info']->users_id); 
                           $data['committees_union'] = $this->committee_model->get_all_committees_of_coop_union($data['coop_info']->users_id);
                             $data['committees_count'] = $this->committee_model->get_all_committees_of_coop_gad($decoded_id); //modify
