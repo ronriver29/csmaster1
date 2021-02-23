@@ -899,6 +899,7 @@ Regional Office Director (for RO)/ LRRD Director (for HO)
     // $query= $this->db->get_where('admin',array('id'=>$admin_id,'access_level'=>3));
     $query = $this->db->query("select * from admin where id='$admin_id' and region_code='$region_code' and access_level IN (3,4)");
     $row = $query->row();
+    // return $this->db->last_query();
     if($row->is_director_active ==1){
       return true;
     }else{

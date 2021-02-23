@@ -23,6 +23,8 @@ class Amendment_registration extends CI_Controller{
 
       //add to registered cooop
       $coop_info = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
+      // $this->debug($coop_info);
+
       if ($coop_info->category_of_cooperative =='Primary')
           $pst="1";
       else if ($coop_info->category_of_cooperative =='Secondary')  
@@ -33,10 +35,10 @@ class Amendment_registration extends CI_Controller{
       // $cooperative_id = $this->registration_model->coop_dtl($decoded_id);
       $rCode = $coop_info->rCode;
       $x=$this->registration_model->registered_coop_count()+1;
-    $j='9520-'.$pst.$rCode;
-    for($a=strlen($x);$a<8;$a++) //modify by json from 12 to 8
+      $j='9520-'.$pst.$rCode;
+      for($a=strlen($x);$a<8;$a++) //modify by json from 12 to 8
       $j=$j.'0';
-    $j=$j.$x;
+      $j=$j.$x;
 
       $amendment_no ='';
       $qry_amd_no = $this->db->query("select amendmentNo from amend_coop where cooperative_id=813 and status=15 order by id desc limit 1");
@@ -72,10 +74,10 @@ class Amendment_registration extends CI_Controller{
               'areaOfOperation'=>$coop_info->area_of_operation,
               'noStreet'=> $coop_info->house_blk_no,
               'Street' => $coop_info->street,
-              'addrCode'=> $coop_info->addrCode,
+              'addrCode'=> $coop_info->refbrgy_brgyCode,
               'compliant'=>'Compliant',
               // 'qr_code'=>$j,
-              'application_id'=>$coop_info->application_id,
+              // 'application_id'=>$coop_info->application_id,
               'amendment_id'=>$decoded_id
             );
 
@@ -166,7 +168,7 @@ class Amendment_registration extends CI_Controller{
         }//end update amendmentno
         
        
-
+         $data1['coop_info']=$coop_details;
 
         $query_or = $this->db->get_where('payment',array('amendment_id'=>$decoded_id));
         if($query_or->num_rows()>0)
@@ -202,7 +204,7 @@ class Amendment_registration extends CI_Controller{
               
       
           $data1['chair'] = $this->registration_model->get_chairman()->chairman;
-          $data1['coop_info']=$coop_details;
+         
           // $this->debug($data1['coop_info']);
           $data1['amend_coop_info']=$coop_details;
       

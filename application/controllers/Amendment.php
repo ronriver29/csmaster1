@@ -1364,7 +1364,9 @@ class amendment extends CI_Controller{
                               redirect('amendment');
                             }else{
                             // $this->debug($this->admin_model->check_if_director_active($user_id,$data['coop_info']->rCode));
-                              if($this->admin_model->check_if_director_active($user_id,$data['coop_info']->rCode)){
+
+                              // $this->debug($this->admin_model->check_if_director_active($user_id,$data['coop_info']->rCode));
+                              if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                 $success = $this->amendment_model->approve_by_supervisor($data['admin_info'],$decoded_id,$coop_full_name);
 
                                 if($success){
