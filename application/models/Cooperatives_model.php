@@ -818,13 +818,13 @@ public function assign_to_specialist($coop_id,$specialist_id,$coop_full_name){
     $this->db->trans_rollback();
     return false;
   }else{
-    if($this->admin_model->sendEmailToSpecialist($admin_info,$coop_full_name)){
+    // if($this->admin_model->sendEmailToSpecialist($admin_info,$coop_full_name)){
       $this->db->trans_commit();
       return true;
-    }else{
-      $this->db->trans_rollback();
-      return false;
-    }
+    // }else{
+    //   $this->db->trans_rollback();
+    //   return false;
+    // }
   }
 }
 public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$comment_by_specialist_senior){
@@ -848,13 +848,13 @@ public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$comm
     $this->db->trans_rollback();
     return false;
   }else{
-    if($this->admin_model->sendEmailToAdmins($admin_info,$senior_emails,$coop_full_name)){
+    // if($this->admin_model->sendEmailToAdmins($admin_info,$senior_emails,$coop_full_name)){
       $this->db->trans_commit();
       return true;
-    }else{
-      $this->db->trans_rollback();
-      return false;
-    }
+    // }else{
+    //   $this->db->trans_rollback();
+    //   return false;
+    // }
   }
 }
 public function approve_by_senior($admin_info,$coop_id,$coop_full_name,$comment_by_specialist_senior){
@@ -875,13 +875,13 @@ public function approve_by_senior($admin_info,$coop_id,$coop_full_name,$comment_
     $this->db->trans_rollback();
     return false;
   }else{
-    if($this->admin_model->sendEmailToAdmins($admin_info,$director_emails,$coop_full_name)){
+    // if($this->admin_model->sendEmailToAdmins($admin_info,$director_emails,$coop_full_name)){
       $this->db->trans_commit();
       return true;
-    }else{
-      $this->db->trans_rollback();
-      return false;
-    }
+    // }else{
+    //   $this->db->trans_rollback();
+    //   return false;
+    // }
   }
 }
 public function approve_by_supervisor($admin_info,$coop_id,$coop_full_name){
@@ -965,13 +965,13 @@ public function deny_by_admin($admin_id,$coop_id,$reason_commment,$step){
       $client_info = $query->row();
       // return $client_info;
       $fullname= $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;
-      if($this->admin_model->sendEmailToClientDeny($fullname, $client_info->proposed_name.' '.$client_info->type_of_cooperative.' Cooperative '.$client_info->grouping ,$client_info->email, $reason_commment)){
+      // if($this->admin_model->sendEmailToClientDeny($fullname, $client_info->proposed_name.' '.$client_info->type_of_cooperative.' Cooperative '.$client_info->grouping ,$client_info->email, $reason_commment)){
         $this->db->trans_commit();
         return true;
-      }else{
-        $this->db->trans_rollback();
-        return false;
-      }
+      // }else{
+      //   $this->db->trans_rollback();
+      //   return false;
+      // }
     }else{
       $this->db->trans_commit();
       return true;
@@ -1000,13 +1000,13 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step){
       $query = $this->db->get();
       $client_info = $query->row();
       $full_name= $client_info->first_name.' '.$client_info->last_name; // modified by json
-      if($this->admin_model->sendEmailToClientDefer($full_name, $client_info->proposed_name.' '.$client_info->type_of_cooperative.' Cooperative '.$client_info->grouping ,$client_info->email, $reason_commment)){
+      // if($this->admin_model->sendEmailToClientDefer($full_name, $client_info->proposed_name.' '.$client_info->type_of_cooperative.' Cooperative '.$client_info->grouping ,$client_info->email, $reason_commment)){
         $this->db->trans_commit();
         return true;
-      }else{
-        $this->db->trans_rollback();
-        return false;
-      }
+      // }else{
+      //   $this->db->trans_rollback();
+      //   return false;
+      // }
     }else{
       $this->db->trans_commit();
       return true;

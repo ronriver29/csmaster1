@@ -958,9 +958,25 @@
                     $coop_full_name = $this->input->post('cooperativeName',TRUE);
                     if((is_numeric($decoded_id) && $decoded_id!=0) && (is_numeric($decoded_specialist_id) && $decoded_specialist_id!=0)){
                       if($this->cooperatives_model->check_not_yet_assigned($decoded_id)){
-                        if($this->cooperatives_model->assign_to_specialist($decoded_id,$decoded_specialist_id,$coop_full_name)){
-                          $this->session->set_flashdata('list_success_message', 'Successfully assigned the application to an validator.');
+
+                        $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+
+                        if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
+
+                        $brgyforemail = ucwords($coop_info->house_blk_no).' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
+
+                        $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
+
+                        $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
+
+                        $query = $this->db->get_where('admin',array('id'=>$decoded_specialist_id));
+                        $admin_info = $query->row();
+                        
+                        if($this->admin_model->sendEmailToSpecialist($coop_full_name,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$admin_info->email)){
+                          if($this->cooperatives_model->assign_to_specialist($decoded_id,$decoded_specialist_id,$coop_full_name)){
+                            $this->session->set_flashdata('list_success_message', 'Successfully assigned the application to an validator.');
                           redirect('cooperatives');
+                          }
                         }else{
                           $this->session->set_flashdata('list_error_message', 'Unable to assign the application to an evaluator.');
                           redirect('cooperatives');
@@ -1089,6 +1105,33 @@
                                   'user_id' => $user_id,
                                   'user_level' => $data['admin_info']->access_level
                               );
+
+                            $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+
+                            if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
+
+                            $brgyforemail = ucwords($coop_info->house_blk_no).' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
+
+                            $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
+
+                            $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
+
+                            // $query = $this->db->get_where('admin',array('id'=>$decoded_specialist_id));
+                            // $admin_info = $query->row();
+
+                            $temp = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+                            // Get Count Coop Type for HO
+                              $this->db->where(array('name'=>$temp->type_of_cooperative,'active'=>1));
+                              $this->db->from('head_office_coop_type');
+                            // End Get Count Coop
+                            if($this->db->count_all_results()>0){
+                              $senior_emails = $this->admin_model->get_emails_of_director_by_region("00");
+                            } else {
+                              $senior_emails = $this->admin_model->get_emails_of_director_by_region($temp->rCode);
+                            }
+
+                            $this->admin_model->sendEmailToDirectorFromSenior($senior_emails,$coop_full_name,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['admin_info'],$coop_info->specialist_submit_at,$coop_info->third_evaluated_by);
+
                             $success = $this->cooperatives_model->insert_comment_history($data_field);
                             $success = $this->cooperatives_model->approve_by_senior($data['admin_info'],$decoded_id,$coop_full_name,$comment_by_specialist_senior);
                             if($success){
@@ -1114,8 +1157,36 @@
                                   'user_id' => $user_id,
                                   'user_level' => $data['admin_info']->access_level
                               );
+
+                            $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+
+                            if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
+
+                            $brgyforemail = ucwords($coop_info->house_blk_no).' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
+
+                            $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
+
+                            $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
+
+                            // $query = $this->db->get_where('admin',array('id'=>$decoded_specialist_id));
+                            // $admin_info = $query->row();
+
+                            $temp = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+                            // Get Count Coop Type for HO
+                              $this->db->where(array('name'=>$temp->type_of_cooperative,'active'=>1));
+                              $this->db->from('head_office_coop_type');
+                            // End Get Count Coop
+                            if($this->db->count_all_results()>0){
+                              $senior_emails = $this->admin_model->get_emails_of_senior_by_region("00");
+                            } else {
+                              $senior_emails = $this->admin_model->get_emails_of_senior_by_region($temp->rCode);
+                            }
+
+                            $this->admin_model->sendEmailToAdmins($senior_emails,$coop_full_name,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['admin_info']);
+
                             $success = $this->cooperatives_model->insert_comment_history($data_field);
                             $success = $this->cooperatives_model->approve_by_specialist($data['admin_info'],$decoded_id,$coop_full_name,$comment_by_specialist_senior);
+
                           if($success){
                             $this->session->set_flashdata('list_success_message', 'Cooperative has been submitted.');
                             redirect('cooperatives');
@@ -1185,7 +1256,20 @@
                                   'user_level' => $data['admin_info']->access_level,
                                   'status' => 10
                                    );
+
+                                   $coop_full_name = $this->input->post('cName',TRUE);
+
+                                    $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+
+                                    if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
+
+                                    $brgyforemail = ucwords($coop_info->house_blk_no).' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
+
+                                    $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
+
                                    $this->cooperatives_model->insert_comment_history($data_comment);
+                                   $this->admin_model->sendEmailToClientDeny($coop_full_name,$brgyforemail,$reason_commment,$data['client_info']->email);
+
                                   $success = $this->cooperatives_model->deny_by_admin($user_id,$decoded_id,$reason_commment,3);
                                   if($success){
                                     $this->session->set_flashdata('list_success_message', 'Cooperative has been denied.');
@@ -1215,10 +1299,23 @@
                                 redirect('cooperatives');
                               }else{
                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+
+                                 $coop_full_name = $this->input->post('cName',TRUE);
+
+                                    $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+
+                                    if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
+
+                                    $brgyforemail = ucwords($coop_info->house_blk_no).' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
+
+                                    $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
+
+                                   $this->admin_model->sendEmailToClientDeny($coop_full_name,$brgyforemail,$reason_commment,$data['client_info']->email);
+
                                 if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                   $success = $this->cooperatives_model->deny_by_admin($user_id,$decoded_id,$reason_commment,3);
                                   if($success){
-                                    $this->session->set_flashdata('list_success_message', 'Cooperative has been denied.');
+                                    $this->session->set_flashdata('list_success_message', 'Cooperative has been deniedd.');
                                     redirect('cooperatives');
                                   }else{
                                     $this->session->set_flashdata('list_error_message', 'Unable to deny cooperative.');
@@ -1369,6 +1466,23 @@
                                         'status' =>11
                                     );
                                   $success_comment = $this->cooperatives_model->insert_comment_history($data_field);
+
+                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+
+                                  // $coop_full_name = $this->input->post('cName',TRUE);
+
+                                  $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+
+                                  $coop_full_name = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping;
+
+                                  if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
+
+                                  $brgyforemail = ucwords($coop_info->house_blk_no).' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
+
+                                  $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
+
+                                  $this->admin_model->sendEmailToClientDefer($coop_full_name,$brgyforemail,$data['client_info']->email,$reason_commment);
+
                                   $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
                                   if($success_comment && $success){
                                     $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');

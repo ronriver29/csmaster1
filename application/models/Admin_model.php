@@ -466,14 +466,23 @@ public function add_admin_director($data,$raw_pass){
         return false;
     }
   }
-  public function sendEmailToSpecialist($admin_info,$coop_full_name){
+  public function sendEmailToSpecialist($coop_full_name,$brgyforemail,$fullnameforemail,$contact_number,$email,$adminemail){
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $coop_full_name.'`s Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = $coop_full_name." has been assigned to you. You can now validate this application.";
+
+    $message = "You are assigned to validate the application for registration with the following details:
+    <ol type='a'>
+      <li> Name of proposed Cooperative: ".$coop_full_name."</li>
+      <li> Address of proposed Cooperative: ".$brgyforemail."</li>
+      <li> Contact Person: ".$fullnameforemail."</li>
+      <li> Contact Number: ".$contact_number."</li>
+      <li> Email Address: ".$email."</li>
+    </ol>
+    ";
     $this->email->from($from,'CoopRIS Administrator');
-    $this->email->to($admin_info->email);
+    $this->email->to($adminemail);
     $this->email->subject($subject);
     $this->email->message($message);
     if($this->email->send()){
@@ -482,7 +491,8 @@ public function add_admin_director($data,$raw_pass){
         return false;
     }
   }
-  public function sendEmailToAdmins($admin_info,$emails,$coop_full_name){
+
+  public function sendEmailToDirectorFromSenior($emails,$coop_full_name,$brgyforemail,$fullnameforemail,$contact_number,$email,$admin_info,$specialistsubmitat,$status){
     if(sizeof($emails)>0){
       $receiver = "";
       if(sizeof($emails)>1){
@@ -497,8 +507,74 @@ public function add_admin_director($data,$raw_pass){
       $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = $coop_full_name.' Evaluation Result';  //email subject
       $burl = base_url();
+      $now = date('F d, Y');
+
+      if($status == NULL || $status == 0){
+        $evaluated = 'evaluated';
+      } else {
+        $evaluated = 're-evaluated';
+      }
       //sending confirmEmail($receiver) function calling link to the user, inside message body
-      $message = $coop_full_name." has been submitted by ".$admin_info->full_name.". You can now evaluate this application.";
+
+      // $message = $coop_full_name." has been submitted by "". You can now evaluate this application.";
+      $message = "Senior CDS ".$evaluated." application for registration with the following details has been submitted for your evaluation and approval/denial/deferment:
+
+      <ol type='a'>
+        <li>Name of CDS II/Validator: ".$admin_info->full_name."</li>
+        <li>Date of validation: ".$now."</li>
+        <li>Sr. CDS evaluation date: ".date('F d, Y H:i:s',strtotime($specialistsubmitat))."</li>
+        <li>Name of proposed Cooperative: ".$coop_full_name."</li>
+        <li>Address of proposed Cooperative: ".$brgyforemail."</li>
+        <li>Contact Person: ".$fullnameforemail."</li>
+        <li>Contact Number: ".$contact_number."</li>
+        <li>Email address: ".$email."</li>
+      </ol>";
+
+      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->to($receiver);
+      $this->email->subject($subject);
+      $this->email->message($message);
+      if($this->email->send()){
+          return true;
+      }else{
+          return true;
+      }
+    }else{
+      return true;
+    }
+  }
+
+  public function sendEmailToAdmins($emails,$coop_full_name,$brgyforemail,$fullnameforemail,$contact_number,$email,$admin_info){
+    if(sizeof($emails)>0){
+      $receiver = "";
+      if(sizeof($emails)>1){
+        $tempEmail = array();
+        foreach($emails as $email){
+          array_push($tempEmail, $email['email']);
+        }
+        $receiver = implode(", ",$tempEmail);
+      }else{
+        $receiver = $emails[0]['email'];
+      }
+      $from = "ecoopris@cda.gov.ph";    //senders email address
+      $subject = $coop_full_name.' Evaluation Result';  //email subject
+      $burl = base_url();
+      $now = date('F d, Y');
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+      // $message = $coop_full_name." has been submitted by "". You can now evaluate this application.";
+      $message = "A validated application forregistration with the following details has been submitted for your evaluation                                 
+      
+      <ol type='a'>
+        <li>Name of CDS II/Validator: ".$admin_info->full_name."</li>
+        <li>Date of validation: ".$now."</li>
+        <li>Name of proposed Cooperative: ".$coop_full_name."</li>
+        <li>Address of proposed Cooperative: ".$brgyforemail."</li>
+        <li>Contact Person: ".$fullnameforemail."</li>
+        <li>Contact Number: ".$contact_number."</li>
+        <li>Email address: ".$email."</li>
+      </ol>";
+
       $this->email->from($from,'CoopRIS Administrator');
       $this->email->to($receiver);
       $this->email->subject($subject);
@@ -570,7 +646,7 @@ In addition to the above, please attach the following in 1 original and 3 photoc
      2.  Certification of Pre-Registration Seminar (PRS); 
      3.  Other requirements for specific type of cooperatives
 
-The client shall submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
+You shall submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
 
 
     $this->email->from($from,'CoopRIS Administrator');
@@ -648,13 +724,27 @@ The client shall submit the above required documents within 30 working days from
         return false;
     }
   }
-  public function sendEmailToClientDeny($full_name,$name,$email,$comment){
+  public function sendEmailToClientDeny($coop_full_name,$brgyforemail,$reason_commment,$email){
     //$step_str = (($step==1) ? "First" : (($step==2) ? "Second" : "Third"));
     $from = "ecoopris@cda.gov.ph";    //senders email address
-    $subject = $name.' Evaluation Result';  //email subject
+    $subject = $coop_full_name.' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> failed the evaluation. This cooperative has been denied because of the following reason/s:<br><pre>".$comment."</pre>";
+    // $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> failed the evaluation. This cooperative has been denied because of the following reason/s:<br><pre>".$comment."</pre>";
+
+    $message = "".date('F d, Y')."<br><br>
+
+    Proposed Name of Cooperative: ".$coop_full_name."<br>
+    Proposed Address of Cooperative: ".$brgyforemail."<br><br>
+
+    Good Day! <br><br>
+
+    This refers to the application for registration of the proposed ".$coop_full_name.".<br><br>
+
+    Based on the evaluation of the submitted application documents for registration, we regret to inform you that the application is denied due to: <br><br>
+    
+    ".$reason_commment."";
+
     $this->email->from($from,'CoopRIS Administrator');
     $this->email->to($email);
     $this->email->subject($subject);
@@ -665,12 +755,37 @@ The client shall submit the above required documents within 30 working days from
         return false;
     }
   }
-  public function sendEmailToClientDefer($full_name,$name,$email,$comment){
+  public function sendEmailToClientDefer($coop_full_name,$brgyforemail,$email,$reason_commment){
     $from = "ecoopris@cda.gov.ph";    //senders email address
-    $subject =$name.' Evaluation Result';  //email subject
+    $subject =$coop_full_name.' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> has been deferred because of the following reason/s:<br><pre>".$comment."</pre><br> You have 15 days to complete the following.";
+    // $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> has been deferred because of the following reason/s:<br><pre>".$comment."</pre><br> You have 15 days to complete the following.";
+
+    $message = "".date('F d, Y')." <br><br>
+
+Proposed Name of Cooperative: ".$coop_full_name." <br>
+Proposed Address of Cooperative : ".$brgyforemail."<br><br>
+
+Good Day! <br><br>
+
+This refers to the application for registration of the proposed ".$coop_full_name.". <br><br>
+
+Based on the evaluation of the submitted application documents for registration, the following are our findings and comments: <br><br>
+
+
+".$reason_commment."
+
+
+Please comply the findings within 15 days so that we can facilitate with the issuance of your Certificate of Registration. However, your submission shall still be subject to further evaluation. <br><br>
+
+For further information and clarification, please feel free to contact our Registration Division/Section at telephone numbers ___________________(contact no. per region) or email us at _______________________(email per region). <br><br>
+
+
+Very truly yours, <br>
+Regional Office Director (for RO)/ LRRD Director (for HO)
+";
+
     $this->email->from($from,'CoopRIS Administrator');
     $this->email->to($email);
     $this->email->subject($subject);
