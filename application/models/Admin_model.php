@@ -297,6 +297,22 @@ public function add_admin_director($data,$raw_pass){
         return false;
     }
   }
+  public function sendEmailToClient($proposedname,$email){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = "Sucessfully submitted your application. Please wait for an email of either payment procedure or the list of documents for compliance.";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
   public function sendEmailToSenior($proposedname,$brgy,$fullname,$contactnumber,$email,$senioremail){
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject

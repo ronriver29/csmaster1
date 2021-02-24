@@ -844,7 +844,9 @@
                                       }else{ $acronymname = '';}
 
                                       $proposednameemail = $data['coop_info']->proposed_name.' '.$data['coop_info']->grouping.' '.$data['coop_info']->type_of_cooperative.' Cooperative ';
-                                     
+
+                                      $this->admin_model->sendEmailToClient($proposednameemail,$data['client_info']->email);
+
                                       if($this->admin_model->sendEmailToSenior($proposednameemail,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email)){
                                         $this->session->set_flashdata('cooperative_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
                                         redirect('cooperatives/'.$id);
