@@ -232,12 +232,17 @@ public function add_admin_director($data,$raw_pass){
       $this->db->trans_rollback();
       return false;
     }else{
+      if($supervisor->region_code == '00'){
+        $title = 'Chief CDS Registration Division';
+      } else {
+        $title = 'Regional Director';
+      }
       // Send email for granting proviliges
       $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = 'Cooperative Application for Registration';  //email subject
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
-      $message = "Good day! The Authority to process all application for registration has been revoked by the Chief CDS Registration Division granted.<p>
+      $message = "Good day! The Authority to process all application for registration has been revoked by the ".$title.".<p>
 
 <label>Date stamp:".date("m/d/Y")."
 <label>Time stamp:".date("h:i:s a")."";
@@ -790,10 +795,10 @@ This refers to the application for registration of the proposed ".$coop_full_nam
 Based on the evaluation of the submitted application documents for registration, the following are our findings and comments: <br><br>
 
 
-".$reason_commment."
+".$reason_commment."<br><br>
 
 
-Please comply the findings within 15 days so that we can facilitate with the issuance of your Certificate of Registration. However, your submission shall still be subject to further evaluation. <br><br>
+Please comply the findings so that we can facilitate with the issuance of your Certificate of Registration. However, your submission shall still be subject to further evaluation. <br><br>
 
 For further information and clarification, please feel free to contact our Registration Division/Section at telephone numbers ___________________(contact no. per region) or email us at _______________________(email per region). <br><br>
 

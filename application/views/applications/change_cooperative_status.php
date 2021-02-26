@@ -29,7 +29,7 @@
                         <option value="1">Back to Client</option>
                         <option value="2">For Validation</option>
                         <option value="3">For Validation of CDS II / Re-assign Validator</option>
-                        <option value="6">For Re-Evaluation</option>
+                        <option value="6">For Re-Evaluation / Submitted by CDS II</option>
                         <option value="9">Submitted By Senior CDS</option>
                         <option value="10">Denied by Director</option>
                         <option value="11">Deferred by Director</option>

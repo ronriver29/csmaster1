@@ -1128,11 +1128,13 @@
                             // End Get Count Coop
                             if($this->db->count_all_results()>0){
                               $senior_emails = $this->admin_model->get_emails_of_director_by_region("00");
+                              $data['admin_info_ho'] = $this->admin_model->get_admin_info($coop_info->evaluated_by);
                             } else {
                               $senior_emails = $this->admin_model->get_emails_of_director_by_region($temp->rCode);
+                              $data['admin_info_ho'] = $this->admin_model->get_admin_info($coop_info->evaluated_by);
                             }
 
-                            $this->admin_model->sendEmailToDirectorFromSenior($senior_emails,$coop_full_name,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['admin_info'],$coop_info->specialist_submit_at,$coop_info->third_evaluated_by);
+                            $this->admin_model->sendEmailToDirectorFromSenior($senior_emails,$coop_full_name,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['admin_info_ho'],$coop_info->specialist_submit_at,$coop_info->third_evaluated_by);
 
                             $success = $this->cooperatives_model->insert_comment_history($data_field);
                             $success = $this->cooperatives_model->approve_by_senior($data['admin_info'],$decoded_id,$coop_full_name,$comment_by_specialist_senior);
@@ -1300,6 +1302,15 @@
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                                 redirect('cooperatives');
                               }else{
+                                 $comment_by_specialist_senior = $this->input->post('comment',TRUE);
+                                   $data_comment = array(
+                                    'cooperatives_id' => $decoded_id,
+                                    'comment' => $comment_by_specialist_senior,
+                                    'user_id' => $user_id,
+                                    'user_level' => $data['admin_info']->access_level,
+                                    'status' => 10
+                                 );
+
                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
 
                                  $coop_full_name = $this->input->post('cName',TRUE);
@@ -1312,12 +1323,13 @@
 
                                     $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
 
-                                   $this->admin_model->sendEmailToClientDeny($coop_full_name,$brgyforemail,$reason_commment,$data['client_info']->email);
+                                  $this->cooperatives_model->insert_comment_history($data_comment);
+                                  $this->admin_model->sendEmailToClientDeny($coop_full_name,$brgyforemail,$reason_commment,$data['client_info']->email);
 
                                 if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                   $success = $this->cooperatives_model->deny_by_admin($user_id,$decoded_id,$reason_commment,3);
                                   if($success){
-                                    $this->session->set_flashdata('list_success_message', 'Cooperative has been deniedd.');
+                                    $this->session->set_flashdata('list_success_message', 'Cooperative has been denied.');
                                     redirect('cooperatives');
                                   }else{
                                     $this->session->set_flashdata('list_error_message', 'Unable to deny cooperative.');
