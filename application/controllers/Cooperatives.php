@@ -1127,7 +1127,16 @@
                               $this->db->from('head_office_coop_type');
                             // End Get Count Coop
                             if($this->db->count_all_results()>0){
-                              $senior_emails = $this->admin_model->get_emails_of_director_by_region("00");
+
+                              $this->db->where(array('region_code'=>00,'is_director_active'=>1,'access_level'=>3));
+                              $this->db->from('admin');
+
+                              if($this->db->count_all_results()>0){
+                                $senior_emails = $this->admin_model->get_emails_of_director_by_region("00");
+                              } else {
+                                $senior_emails = $this->admin_model->get_emails_of_supervisor_by_region("00");
+                              }
+
                               $data['admin_info_ho'] = $this->admin_model->get_admin_info($coop_info->evaluated_by);
                             } else {
                               $senior_emails = $this->admin_model->get_emails_of_director_by_region($temp->rCode);
@@ -1261,6 +1270,7 @@
                                   'status' => 10
                                    );
 
+                                   $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
                                    // $coop_full_name = $this->input->post('cName',TRUE);
                                    $coop_full_name = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping;
 
@@ -1434,6 +1444,21 @@
                                 redirect('cooperatives');
                               }else{
                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+
+                                  // $coop_full_name = $this->input->post('cName',TRUE);
+
+                                  $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+
+                                  $coop_full_name = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping;
+
+                                  if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
+
+                                  $brgyforemail = ucwords($coop_info->house_blk_no).' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
+
+                                  $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
+
+                                  $this->admin_model->sendEmailToClientDefer($coop_full_name,$brgyforemail,$data['client_info']->email,$reason_commment,$data['admin_info']->region_code);
+
                                 if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                   $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
                                    $comment = array(
