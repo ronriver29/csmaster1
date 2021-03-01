@@ -764,7 +764,7 @@ The client shall submit the above required documents within 30 working days from
 
     Based on the evaluation of the submitted application documents for registration, we regret to inform you that the application is denied due to: <br><br>
     
-    "trim(preg_replace('/\s\s+/', '<br>', $reason_commment))"";
+    ".trim(preg_replace('/\s\s+/', '<br>', $reason_commment))."";
 
     $this->email->from($from,'CoopRIS Administrator');
     $this->email->to($email);
