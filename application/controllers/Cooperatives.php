@@ -680,7 +680,11 @@
                     }
                   }
                 }
+              } else {
+                redirect('cooperatives');
               }
+            } else {
+              redirect('cooperatives');
             }
           }else{
             if($this->session->userdata('access_level')==5){
