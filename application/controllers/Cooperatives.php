@@ -1261,7 +1261,8 @@
                                   'status' => 10
                                    );
 
-                                   $coop_full_name = $this->input->post('cName',TRUE);
+                                   // $coop_full_name = $this->input->post('cName',TRUE);
+                                   $coop_full_name = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping;
 
                                     $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
 
@@ -1495,7 +1496,7 @@
 
                                   $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
 
-                                  $this->admin_model->sendEmailToClientDefer($coop_full_name,$brgyforemail,$data['client_info']->email,$reason_commment);
+                                  $this->admin_model->sendEmailToClientDefer($coop_full_name,$brgyforemail,$data['client_info']->email,$reason_commment,$data['admin_info']->region_code);
 
                                   $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
                                   if($success_comment && $success){

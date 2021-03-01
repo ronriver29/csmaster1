@@ -182,7 +182,7 @@ public function add_admin_director($data,$raw_pass){
     $this->db->where('region_code',$data->region_code);
     $this->db->update('admin',array('is_director_active'=>1));
     if($data->region_code == '00'){
-      $code_name = 'Head Office Director';
+      $code_name = 'Chief CDS Registration Divisiion';
     } else {
       $code_name = 'Regional Director';
     }
@@ -776,7 +776,23 @@ The client shall submit the above required documents within 30 working days from
         return false;
     }
   }
-  public function sendEmailToClientDefer($coop_full_name,$brgyforemail,$email,$reason_commment){
+  public function sendEmailToClientDefer($coop_full_name,$brgyforemail,$email,$reason_commment,$directorregioncode){
+
+    if($directorregioncode == '00'){
+      $trulyyours = 'LRRD Director';
+    } else {
+      $trulyyours = 'Regional Office Director';
+    }
+
+    // if(strpos($reason_commment, "\n") !== FALSE) {
+    //   $wk = 'New line break found';
+    // }
+    // else {
+    //   $wk = 'not found';
+    // }
+    $wk = trim(preg_replace('/\s\s+/', '<br>', $reason_commment));
+    // $wk = str_replace(strpos($reason_commment, "\n"),"<br><br>",$reason_commment);
+
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject =$coop_full_name.' Evaluation Result';  //email subject
     $burl = base_url();
@@ -795,7 +811,7 @@ This refers to the application for registration of the proposed ".$coop_full_nam
 Based on the evaluation of the submitted application documents for registration, the following are our findings and comments: <br><br>
 
 
-".$reason_commment."<br><br>
+".$wk."<br><br>
 
 
 Please comply the findings so that we can facilitate with the issuance of your Certificate of Registration. However, your submission shall still be subject to further evaluation. <br><br>
@@ -804,7 +820,7 @@ For further information and clarification, please feel free to contact our Regis
 
 
 Very truly yours, <br>
-Regional Office Director (for RO)/ LRRD Director (for HO)
+".$trulyyours."
 ";
 
     $this->email->from($from,'CoopRIS Administrator');
