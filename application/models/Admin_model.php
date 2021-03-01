@@ -814,7 +814,7 @@ Based on the evaluation of the submitted application documents for registration,
 ".$wk."<br><br>
 
 
-Please comply the findings so that we can facilitate with the issuance of your Certificate of Registration. However, your submission shall still be subject to further evaluation. <br><br>
+Please comply the findings within 15 days so that we can facilitate with the issuance of your Certificate of Registration. However, your submission shall still be subject to further evaluation. <br><br>
 
 For further information and clarification, please feel free to contact our Registration Division/Section at telephone numbers ___________________(contact no. per region) or email us at _______________________(email per region). <br><br>
 
