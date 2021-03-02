@@ -1,0 +1,1120 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Admin_model extends CI_Model{
+
+  public function __construct()
+  {
+    parent::__construct();
+    //Codeigniter : Write Less Do More
+    $this->load->database();
+    $this->load->library('email');
+  }
+  public function login_admin($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('admin', array('username' => $data['username']));
+    $row = $query->row();
+    if(isset($row)){
+      if(password_verify($data['password'], $row->password)){
+        $user_data = array(
+          'user_id' => $row->id,
+          'username' => $row->username,
+          'client' => false,
+          'access_level' => $row->access_level,
+          'logged_in' => true
+        );
+        return $user_data;
+      }else{
+        return false;
+      }
+    }else{
+      return false;
+    }
+  }
+  public function get_all_admin(){
+    $this->db->select('admin.*');
+    $this->db->from('admin');
+    $this->db->where(array('admin.access_level!=' => 5));
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+    public function get_all_user(){
+    $this->db->select('*');
+    $this->db->from('users');
+    $this->db->where(array('is_verified =' => 1));
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function add_admin($data,$raw_pass){
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+    $this->db->insert('admin',$data);
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      if($this->sendEmailAccountDetails($data['email'],$data['username'],$raw_pass)){
+        $this->db->trans_commit();
+        return true;
+      }else{
+        $this->db->trans_rollback();
+        return false;
+      }
+    }
+  }
+
+public function add_admin_director($data,$raw_pass){
+    $data = $this->security->xss_clean($data);
+   
+    // if($data['access_name']=="Director")
+    // {
+    //     $chk_qry = $this->db->get_where('admin',array('region_code'=>$data['region_code'],'access_level'=>3));
+    //     if($chk_qry->num_rows()>0)
+    //     {
+    //       return array('status'=>1,'msg'=>"Regional Director already exist");//already have an director
+    //     }
+        
+    // }
+    if($data['access_name']=="Acting Regional Director")
+    {
+      $chk_qry = $this->db->get_where('admin',array('region_code'=>$data['region_code'],'access_level'=>3,'access_name'=>'Director'));
+      if($chk_qry->num_rows()>0)
+      {
+          return array('status'=>0,'msg'=>"Regional Director already exist");//already have an director
+      }
+      else
+      {  
+          $chk_qry2 = $this->db->get_where('admin',array('region_code'=>$data['region_code'],'access_name'=>"Acting Regional Director"));
+          if($chk_qry2->num_rows()>0)
+          {
+             return array('status'=>0,'msg'=>"Acting Regional Director already exist");
+          }
+          else
+          {
+            $this->db->trans_begin();
+            $this->db->insert('admin',$data);
+            if($this->db->trans_status() === FALSE){
+              $this->db->trans_rollback();
+              return false;
+            }else{
+              if($this->sendEmailAccountDetails($data['email'],$data['username'],$raw_pass)){
+                $this->db->trans_commit();
+                return array('status'=>1,'msg'=>"Successfully added an Administrator.");
+              }else{
+                $this->db->trans_rollback();
+                return false;
+              }
+            }
+          }
+      }//end if director exist
+
+      
+    } //end access anme
+    
+    
+    
+  }
+  public function update_admin($aid,$data){
+    $aid = $this->security->xss_clean($aid);
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+    $this->db->where('id',$aid);
+    $this->db->update('admin',$data);
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
+  public function reset_password($aid,$data){
+    $aid = $this->security->xss_clean($aid);
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+    $this->db->where('id',$aid);
+    $this->db->update('users',$data);
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
+  public function delete_admin($aid){
+    $aid = $this->security->xss_clean($aid);
+    $this->db->trans_begin();
+    $this->db->delete('admin',array('id' => $aid));
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
+  public function delete_user($aid){
+    $aid = $this->security->xss_clean($aid);
+    $this->db->trans_begin();
+    $this->db->delete('users',array('id' => $aid));
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
+  public function grant_privilege_supervisor($director_id){
+    $query = $this->db->get_where('admin',array('id'=>$director_id,'access_level'=>3));
+    $data = $query->row();
+    $query2 = $this->db->get_where('admin',array('access_level'=>4,'region_code'=>$data->region_code));
+    $supervisor = $query2->row();
+    $this->db->trans_begin();
+    
+    // $this->db->where('id',$director_id);
+    $this->db->where('access_level',3);
+    $this->db->where('region_code',$data->region_code);
+    $this->db->update('admin',array('is_director_active'=>0));
+
+    $this->db->where('access_level',4);
+    $this->db->where('region_code',$data->region_code);
+    $this->db->update('admin',array('is_director_active'=>1));
+    if($data->region_code == '00'){
+      $code_name = 'Chief CDS Registration Divisiion';
+    } else {
+      $code_name = 'Regional Director';
+    }
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      // Send email for granting proviliges
+      $from = "ecoopris@cda.gov.ph";    //senders email address
+      $subject = 'Cooperative Application for Registration';  //email subject
+      $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+      $message = "Good day! The ".$code_name." granted you all the authority to process the application for registration.<p>
+
+<label>Date stamp:".date("m/d/Y")."
+<label>Time stamp:".date("h:i:s a")."";
+      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->to($supervisor->email);
+      $this->email->subject($subject);
+      $this->email->message($message);
+    // End Seding email for granding priviliges
+      if($this->email->send()){
+          $this->db->trans_commit();
+        return true;
+      }else{
+        return false;
+
+      }
+      
+    }
+  }
+  public function revoke_privilege_supervisor($director_id){
+    $query = $this->db->get_where('admin',array('id'=>$director_id,'access_level'=>3));
+    $data = $query->row();
+    $query2 = $this->db->get_where('admin',array('access_level'=>4,'region_code'=>$data->region_code,'is_director_active'=>1));
+    $supervisor = $query2->row();
+    $this->db->trans_begin();
+    // $this->db->where('id',$director_id);
+    $this->db->where('access_level',3);
+    $this->db->where('region_code',$data->region_code);
+    $this->db->update('admin',array('is_director_active'=>1));
+     $this->db->where('access_level',4);
+    $this->db->where('region_code',$data->region_code);
+    $this->db->update('admin',array('is_director_active'=>0));
+
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      if($supervisor->region_code == '00'){
+        $title = 'Chief CDS Registration Division';
+      } else {
+        $title = 'Regional Director';
+      }
+      // Send email for granting proviliges
+      $from = "ecoopris@cda.gov.ph";    //senders email address
+      $subject = 'Cooperative Application for Registration';  //email subject
+      $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+      $message = "Good day! The Authority to process all application for registration has been revoked by the ".$title.".<p>
+
+<label>Date stamp:".date("m/d/Y")."
+<label>Time stamp:".date("h:i:s a")."";
+      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->to($supervisor->email);
+      $this->email->subject($subject);
+      $this->email->message($message);
+    // End Seding email for granding priviliges
+      if($this->email->send()){
+          $this->db->trans_commit();
+        return true;
+      }else{
+        return false;
+      }
+    }
+  }
+
+  public function sendEmailAccountDetails($email,$username,$password){
+      $from = "ecoopris@cda.gov.ph";    //senders email address
+      $subject = 'Admin Account Details';  //email subject
+      $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+      $keywords = preg_split("/@/", $email);
+      $message = "Your account has been created. See the details below: <br>".
+      "<ul><li>Username: ".$username."</li><li>Password: ".$password."</li></ul>";
+      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->to($email);
+      $this->email->subject($subject);
+      $this->email->message($message);
+      if($this->email->send()){
+          return true;
+      }else{
+          return false;
+      }
+  }
+  public function sendEmailToSeniorHO($proposedname,$brgy,$fullname,$contactnumber,$email,$senioremail){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = "Good day! A deferred application for registration with the following details has been re-submitted for re-evaluation:<p>
+
+    <ol type='a'> 
+      <b><li> Proposed Name of Cooperative:</b>".$proposedname."</li>
+      <b><li> Address of Proposed Cooperative:</b>".$brgy."</li>
+      <b><li> Contact Person:</b> ".$fullname."</li>
+      <b><li> Contact Number: </b>".$contactnumber."</li>
+      <b><li> Email Address: </b>".$email."</li>
+    </ol>";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($senioremail);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+  public function sendEmailToClient($proposedname,$email){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = "Sucessfully submitted your application. Please wait for an email of either payment procedure or the list of documents for compliance.";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+  public function sendEmailToSenior($proposedname,$brgy,$fullname,$contactnumber,$email,$senioremail){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = "Good day! An application for registration with the following details has been submitted:<p>
+
+    <ol type='a'> 
+      <b><li> Proposed Name of Cooperative:</b>".$proposedname."</li>
+      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
+      <b><li> Contact Person:</b> ".$fullname."</li>
+      <b><li> Contact Number: </b>".$contactnumber."</li>
+      <b><li> Email Address: </b>".$email."</li>
+    </ol>";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($senioremail);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+  public function sendEmailToSeniorBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = "Good day! An application for establishment of ".$type." with the following details has been submitted:<p>
+
+    <ol type='a'> 
+      <b><li> Name of Cooperative:</b>".$proposedname."</li>
+      <b><li> Name of Proposed Branch:</b>".$proposedbranch."</li>
+      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
+      <b><li> Contact Person:</b> ".$fullname."</li>
+      <b><li> Contact Number: </b>".$contactnumber."</li>
+      <b><li> Email Address: </b>".$email."</li>
+    </ol>";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($senioremail);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+  public function sendEmailToSeniorDeferBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = "Good day! A deferred application for establishment of ".$type." with the following details has been submitted:<p>
+
+    <ol type='a'> 
+      <b><li> Name of Cooperative:</b>".$proposedname."</li>
+      <b><li> Name of Proposed Branch:</b>".$proposedbranch."</li>
+      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
+      <b><li> Contact Person:</b> ".$fullname."</li>
+      <b><li> Contact Number: </b>".$contactnumber."</li>
+      <b><li> Email Address: </b>".$email."</li>
+    </ol>";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($senioremail);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+
+  public function sendEmailToSpecialistBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = "Good day! An application for establishment of ".$type." with the following details has been submitted:<p>
+
+    <ol type='a'> 
+      <b><li> Name of Cooperative:</b>".$proposedname."</li>
+      <b><li> Name of Proposed Branch:</b>".$proposedbranch."</li>
+      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
+      <b><li> Contact Person:</b> ".$fullname."</li>
+      <b><li> Contact Number: </b>".$contactnumber."</li>
+      <b><li> Email Address: </b>".$email."</li>
+    </ol>";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($senioremail);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+  public function sendEmailToDirector($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type,$fullnamecds){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = "Senior CDS evaluated application for establishment of ".$type." with the following details has been submitted for your evaluation and approval/denial/deferment: <p>
+
+    <ol type='a'> 
+      <b><li> Name of CDS II/Validator:</b>".$fullnamecds."</li>
+      <b><li> Name of Cooperative:</b>".$proposedname."</li>
+      <b><li> Name of Proposed Branch:</b>".$proposedbranch."</li>
+      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
+      <b><li> Contact Person:</b> ".$fullname."</li>
+      <b><li> Contact Number: </b>".$contactnumber."</li>
+      <b><li> Email Address: </b>".$email."</li>
+    </ol>";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($senioremail);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+      // echo $this->email->print_debugger();
+    }else{
+        return false;
+    }
+  }
+  public function sendEmailToDirectorHO_OR($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+    $message = "Good day! An application for establishment of ".$type." with the following details has been submitted: <p>
+
+    <ol type='a'> 
+      <b><li> Name of Cooperative:</b>".$proposedname."</li>
+      <b><li> Name of Proposed Branch:</b>".$proposedbranch."</li>
+      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
+      <b><li> Contact Person:</b> ".$fullname."</li>
+      <b><li> Contact Number: </b>".$contactnumber."</li>
+      <b><li> Email Address: </b>".$email."</li>
+    </ol>";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($senioremail);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+  public function sendEmailToClientBranch($email){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = 'Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = "Your application has been submitted and subject for validation and evaluation.";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+  public function sendEmailToSpecialist($coop_full_name,$brgyforemail,$fullnameforemail,$contact_number,$email,$adminemail){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $coop_full_name.'`s Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+    $message = "You are assigned to validate the application for registration with the following details:
+    <ol type='a'>
+      <li> Name of proposed Cooperative: ".$coop_full_name."</li>
+      <li> Address of proposed Cooperative: ".$brgyforemail."</li>
+      <li> Contact Person: ".$fullnameforemail."</li>
+      <li> Contact Number: ".$contact_number."</li>
+      <li> Email Address: ".$email."</li>
+    </ol>
+    ";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($adminemail);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+
+  public function sendEmailToDirectorFromSenior($emails,$coop_full_name,$brgyforemail,$fullnameforemail,$contact_number,$email,$admin_info,$specialistsubmitat,$status){
+    if(sizeof($emails)>0){
+      $receiver = "";
+      if(sizeof($emails)>1){
+        $tempEmail = array();
+        foreach($emails as $email){
+          array_push($tempEmail, $email['email']);
+        }
+        $receiver = implode(", ",$tempEmail);
+      }else{
+        $receiver = $emails[0]['email'];
+      }
+      $from = "ecoopris@cda.gov.ph";    //senders email address
+      $subject = $coop_full_name.' Evaluation Result';  //email subject
+      $burl = base_url();
+      $now = date('F d, Y');
+
+      if($status == NULL || $status == 0){
+        $evaluated = 'evaluated';
+      } else {
+        $evaluated = 're-evaluated';
+      }
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+      // $message = $coop_full_name." has been submitted by "". You can now evaluate this application.";
+      $message = "Senior CDS ".$evaluated." application for registration with the following details has been submitted for your evaluation and approval/denial/deferment:
+
+      <ol type='a'>
+        <li>Name of CDS II/Validator: ".$admin_info->full_name."</li>
+        <li>Date of validation: ".$now."</li>
+        <li>Sr. CDS evaluation date: ".date('F d, Y H:i:s',strtotime($specialistsubmitat))."</li>
+        <li>Name of proposed Cooperative: ".$coop_full_name."</li>
+        <li>Address of proposed Cooperative: ".$brgyforemail."</li>
+        <li>Contact Person: ".$fullnameforemail."</li>
+        <li>Contact Number: ".$contact_number."</li>
+        <li>Email address: ".$email."</li>
+      </ol>";
+
+      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->to($receiver);
+      $this->email->subject($subject);
+      $this->email->message($message);
+      if($this->email->send()){
+          return true;
+      }else{
+          return true;
+      }
+    }else{
+      return true;
+    }
+  }
+
+  public function sendEmailToAdmins($emails,$coop_full_name,$brgyforemail,$fullnameforemail,$contact_number,$email,$admin_info){
+    if(sizeof($emails)>0){
+      $receiver = "";
+      if(sizeof($emails)>1){
+        $tempEmail = array();
+        foreach($emails as $email){
+          array_push($tempEmail, $email['email']);
+        }
+        $receiver = implode(", ",$tempEmail);
+      }else{
+        $receiver = $emails[0]['email'];
+      }
+      $from = "ecoopris@cda.gov.ph";    //senders email address
+      $subject = $coop_full_name.' Evaluation Result';  //email subject
+      $burl = base_url();
+      $now = date('F d, Y');
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+      // $message = $coop_full_name." has been submitted by "". You can now evaluate this application.";
+      $message = "A validated application forregistration with the following details has been submitted for your evaluation                                 
+      
+      <ol type='a'>
+        <li>Name of CDS II/Validator: ".$admin_info->full_name."</li>
+        <li>Date of validation: ".$now."</li>
+        <li>Name of proposed Cooperative: ".$coop_full_name."</li>
+        <li>Address of proposed Cooperative: ".$brgyforemail."</li>
+        <li>Contact Person: ".$fullnameforemail."</li>
+        <li>Contact Number: ".$contact_number."</li>
+        <li>Email address: ".$email."</li>
+      </ol>";
+
+      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->to($receiver);
+      $this->email->subject($subject);
+      $this->email->message($message);
+      if($this->email->send()){
+          return true;
+      }else{
+          return true;
+      }
+    }else{
+      return true;
+    }
+  }
+  public function sendEmailToDirectorApprovedBySupervisor($admin_info,$emails,$coop_full_name){
+    if(sizeof($emails)>0){
+      $receiver = "";
+      if(sizeof($emails)>1){
+        $tempEmail = array();
+        foreach($emails as $email){
+          array_push($tempEmail, $email['email']);
+        }
+        $receiver = implode(", ",$tempEmail);
+      }else{
+        $receiver = $emails[0]['email'];
+      }
+      $from = "ecoopris@cda.gov.ph";    //senders email address
+      $subject = $coop_full_name.' Evaluation Result';  //email subject
+      $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+      $message = $coop_full_name." has been approved by ".$admin_info->full_name.". You can now evaluate this application.";
+      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->to($receiver);
+      $this->email->subject($subject);
+      $this->email->message($message);
+      if($this->email->send()){
+          return true;
+      }else{
+          return false;
+      }
+    }else{
+      return true;
+    }
+  }
+  public function sendEmailToClientApprove($name,$email){
+//	  echo $name;
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $name.' Evaluation Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+//    $message = "Congratulations ".$client_info->full_name.". Your application <b>".$client_info->proposed_name." ".$client_info->type_of_cooperative." Cooperative</b> has been approved. You can now proceed to payment. You have 10 working days to complete the payment";
+
+    $message="<pre><b>Congratulations!</b> Your application status is <b>FOR PRINTING AND SUBMISSION</b>.
+
+You may now print the following documents in Four (4) copies:
+
+     1.  Economic Survey;
+     2.  Articles of Cooperation and the approved By-laws;
+           2.1.  All original;
+           2.2.  The Articles of Cooperation shall be signed by all the cooperators on each and every page and duly notarized by a Notary Public; and
+           2.3.  The By-Laws shall be signed by all the members on the adoption page.
+     3.  Treasurer's Affidavit duly notarized by a Notary Public;
+
+The above documents shall be printed in legal size bond paper or 8.5\" x 13\" or 8.5\" x 14\" size paper.
+
+In addition to the above, please attach the following in 1 original and 3 photocopies:
+
+     1.  Surety Bond of Accountable Officers;
+     2.  Certification of Pre-Registration Seminar (PRS); 
+     3.  Other requirements for specific type of cooperatives
+
+You shall submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
+
+
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return true;
+        // echo $this->email->print_debugger();
+    }
+  }
+  public function sendEmailToClientApproveBranch($name,$email){
+//	  echo $name;
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject =$name.' Evaluation Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+//    $message = "Congratulations ".$client_info->full_name.". Your application <b>".$client_info->proposed_name." ".$client_info->type_of_cooperative." Cooperative</b> has been approved. You can now proceed to payment. You have 10 working days to complete the payment";
+
+    $message="<pre>Congratulations! Your application status is APPROVED and for SUBMISSION of documents.
+
+You may now submit the following requirements/ documents:
+
+     1.  Business Plan
+     2.  General Assembly Resolution
+     3.  Certification for the presence of Manual of Operation and Addresses of the branch office
+
+The client shall submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Electronic-Cooperative Registration Information
+System (E-CoopRIS).</pre>";
+
+
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return true;
+    }
+  }
+  public function sendEmailToClientApproveSatellite($name,$email){
+//	  echo $name;
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject =$name.' Evaluation Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+//    $message = "Congratulations ".$client_info->full_name.". Your application <b>".$client_info->proposed_name." ".$client_info->type_of_cooperative." Cooperative</b> has been approved. You can now proceed to payment. You have 10 working days to complete the payment";
+
+    $message="<pre><b>Congratulations!</b> Your application status is <b>FOR PRINTING AND SUBMISSION</b>.
+
+You may now submit the following requirements/documents:
+
+    1.  Certificate of Compliance for (year)
+    2.  Oath of Undertaking signed by the Chairperson
+    3.  Certificate of Available Space and Manpower
+    4.  Official Receipt
+
+The above documents shall be printed in Legal size or ”8.5 x 13” or ”8.5 x 14” bond paper.
+
+The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
+
+
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+  public function sendEmailToClientDeny($coop_full_name,$brgyforemail,$reason_commment,$email){
+    //$step_str = (($step==1) ? "First" : (($step==2) ? "Second" : "Third"));
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $coop_full_name.' Evaluation Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+    // $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> failed the evaluation. This cooperative has been denied because of the following reason/s:<br><pre>".$comment."</pre>";
+
+    $message = "".date('F d, Y')."<br><br>
+
+    Proposed Name of Cooperative: ".$coop_full_name."<br>
+    Proposed Address of Cooperative: ".$brgyforemail."<br><br>
+
+    Good Day! <br><br>
+
+    This refers to the application for registration of the proposed ".$coop_full_name.".<br><br>
+
+    Based on the evaluation of the submitted application documents for registration, we regret to inform you that the application is denied due to: <br><br>
+    
+    ".trim(preg_replace('/\s\s+/', '<br>', $reason_commment))."";
+
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+  public function sendEmailToClientDefer($coop_full_name,$brgyforemail,$email,$reason_commment,$directorregioncode){
+
+    if($directorregioncode == '00'){
+      $trulyyours = 'LRRD Director';
+    } else {
+      $trulyyours = 'Regional Office Director';
+    }
+
+    // if(strpos($reason_commment, "\n") !== FALSE) {
+    //   $wk = 'New line break found';
+    // }
+    // else {
+    //   $wk = 'not found';
+    // }
+    $wk = trim(preg_replace('/\s\s+/', '<br>', $reason_commment));
+    // $wk = str_replace(strpos($reason_commment, "\n"),"<br><br>",$reason_commment);
+
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject =$coop_full_name.' Evaluation Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+    // $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> has been deferred because of the following reason/s:<br><pre>".$comment."</pre><br> You have 15 days to complete the following.";
+
+    $message = "".date('F d, Y')." <br><br>
+
+Proposed Name of Cooperative: ".$coop_full_name." <br>
+Proposed Address of Cooperative : ".$brgyforemail."<br><br>
+
+Good Day! <br><br>
+
+This refers to the application for registration of the proposed ".$coop_full_name.". <br><br>
+
+Based on the evaluation of the submitted application documents for registration, the following are our findings and comments: <br><br>
+
+
+".$wk."<br><br>
+
+
+Please comply the findings within 15 days so that we can facilitate with the issuance of your Certificate of Registration. However, your submission shall still be subject to further evaluation. <br><br>
+
+For further information and clarification, please feel free to contact our Registration Division/Section at telephone numbers ___________________(contact no. per region) or email us at _______________________(email per region). <br><br>
+
+
+Very truly yours, <br>
+".$trulyyours."
+";
+
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return true;
+    }
+  }
+  public function get_emails_of_senior_by_region($regcode){
+    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>2));
+    $data = $query->result_array();
+    if($this->db->count_all_results()==0){
+      return array();
+    }else{
+      return $data;
+    }
+  }
+  public function get_emails_of_supervisor_by_region($regcode){
+    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>4));
+    $data = $query->result_array();
+    if($this->db->count_all_results()==0){
+      return array();
+    }else{
+      return $data;
+    }
+  }
+  public function get_emails_of_director_by_region($regcode){
+    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>3));
+    $data = $query->result_array();
+    if($this->db->count_all_results()==0){
+      return array();
+    }else{
+      return $data;
+    }
+  }
+  public function get_emails_of_specialist_by_region($id){
+    $query = $this->db->get_where('admin',array('id'=>$id));
+    $data = $query->result_array();
+    if($this->db->count_all_results()==0){
+      return array();
+    }else{
+      return $data;
+    }
+  }
+  public function get_emails_of_revoke_director_by_region($regcode){
+    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>4));
+    $data = $query->result_array();
+    if($this->db->count_all_results()==0){
+      return array();
+    }else{
+      return $data;
+    }
+  }
+  public function get_all_specialist_by_region($regcode){
+    $this->db->like('region_code',$regcode);
+    $query = $this->db->get_where('admin',array('access_level'=>1));
+    $data = $query->result_array();
+    if($this->db->count_all_results()==0){
+      return array();
+    }else{
+      return $data;
+    }
+  }
+  public function get_senior_info($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>2));
+    $row = $query->row();
+    return $row;
+  }
+  public function get_director_info($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>3));
+    $row = $query->row();
+    return $row;
+  }
+  public function get_supervising_info($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>4));
+    $row = $query->row();
+    return $row;
+  }
+  public function get_admin_info($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('admin',array('id'=>$data));
+    $row = $query->row();
+    return $row;
+  }
+  public function is_username_unique($ajax){
+    $ajax = $this->security->xss_clean($ajax);
+    $this->db->where('username',$ajax['fieldValue']);
+    $this->db->from('admin');
+    if($this->db->count_all_results()==0){
+      return array($ajax['fieldId'],true);
+    }else{
+      return array($ajax['fieldId'],false);
+    }
+  }
+  public function check_super_admin($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('admin',array('id'=>$data));
+    $row = $query->row();
+    if($row->access_level ==5){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  public function check_if_director_active($admin_id,$region_code){
+    // $query= $this->db->get_where('admin',array('id'=>$admin_id,'access_level'=>3));
+    $query = $this->db->query("select * from admin where id='$admin_id' and region_code='$region_code' and access_level IN (3,4)");
+    $row = $query->row();
+    // return $this->db->last_query();
+    if($row->is_director_active ==1){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  public function check_position_not_exists_in_region($access_level,$regcode){
+    return array('success'=>true,'message'=>'allow all');
+    // if($access_level > 1){
+    //   $this->db->where(array('access_level'=>$access_level,'region_code'=>$regcode));
+    //   $this->db->from('admin');
+    //   if($this->db->count_all_results()<2){
+    //     return array('success'=>true,'message'=>'Not exists');
+    //   }else{
+    //     $recDesc = ($regcode != "0" ) ? $this->region_model->get_region_by_code($regcode)->regDesc : "Central Office";
+    //     $position = (($access_level == 1) ? "Cooperative Development Specialist II" : (($access_level == 2) ? "Senior Cooperative Development Specialist" : (($access_level == 3) ? "Director": "Supervising CDS")));
+    //     return array('success'=>false,'message'=> $position.' already exists in '.$recDesc);
+    //   }
+    // }else{
+    //   return array('success'=>true,'message'=>'Not exists');
+    // }
+  }
+  public function check_position_not_exists_in_region_update($data,$aid){
+    $recDesc = ($data['region_code'] != "0" ) ? $this->region_model->get_region_by_code($data['region_code'])->regDesc : "Central Office";
+    if($data['access_name'] == "Acting Regional Director")
+    {
+      $qry_check = $this->db->get_where('admin',array('region_code'=>$data['region_code'],'access_name'=>"Acting Regional Director"));
+      if($qry_check->num_rows()>0)
+      {
+        foreach($qry_check->result() as $act_row)
+        {
+          if($act_row->id == $aid)
+          {
+            return array('success'=>true,'message'=>'Not exists'); 
+          }
+          else
+          {
+             return array('success'=>false,'message'=> $data['access_name'].' already exists in '.$recDesc);
+          }
+        }
+       
+      }
+      else
+      {
+         return array('success'=>true,'message'=>'Not exists'); 
+      }
+    }
+    else
+    {
+      if($data['access_level'] > 1 && $data['access_name'] != "Acting Regional Director"){
+        return array('success'=>true,'message'=>'Not exists');
+        // $this->db->where(array('access_level'=>$data['access_level'],'region_code'=>$data['region_code'],'id!='=>$aid));
+        // $this->db->from('admin');
+        // if($this->db->count_all_results()==0){
+        //   return array('success'=>true,'message'=>'Not exists');
+        // }else{
+        //   return array('success'=>false,'message'=> $data['access_name'].' already exists in '.$recDesc);
+        // }
+      }else{
+       return array('success'=>true,'message'=>'Not exists');
+      }
+    }
+  }
+  
+   public function sendEmailToClientApproveLaboratories($name,$email){
+    // echo $name;
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject =$name.' Laboratory Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+//    $message = "Congratulations ".$client_info->full_name.". Your application <b>".$client_info->proposed_name." ".$client_info->type_of_cooperative." Cooperative</b> has been approved. You can now proceed to payment. You have 10 working days to complete the payment";
+$chars ='â€?'; 
+    $message="<pre><b>Congratulations!</b> Your application status is <b>FOR PRINTING AND SUBMISSION</b>.
+
+
+You may now submit the following requirements/ documents:
+
+
+  1. Articles of Cooperation and By Laws of the Guardian Cooperative stating the
+      acceptance of its responsibilities as Guardian Cooperative; and
+  2. Resolution of the Board of Directors of the Guardian Cooperative accepting its
+    responsibility and liability as Guardian of the Laboratory Cooperative.
+
+The above documents shall be printed in Legal size or ”8.5 x 13” or ”8.5 x 14” bond paper.
+The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Cooperative Registration Information
+System (CoopRIS).</pre>";
+
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+//    public function sendEmailToClientApproveLaboratories($name,$email){
+//     echo $name;
+//     $from = "ecoopris@cda.gov.ph";    //senders email address
+//     $subject =$name.' Laboratory Result';  //email subject
+//     $burl = base_url();
+//       //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+// //    $message = "Congratulations ".$client_info->full_name.". Your application <b>".$client_info->proposed_name." ".$client_info->type_of_cooperative." Cooperative</b> has been approved. You can now proceed to payment. You have 10 working days to complete the payment";
+
+//     $message="<pre><b>Congratulations!</b> Your application status is <b>FOR PRINTING AND SUBMISSION</b>.
+
+
+// You may now submit the following documents:
+
+// 1. Resolution of the Board of Directors of the Guardian Cooperative accepting
+// its responsibility and liability as Guardian of the Laboratory Cooperative;
+// and
+
+// 2. Manual of operation for the Laboratory Cooperative, which shall include
+// but not limited to the following:
+// a. The name of the Laboratory Cooperative
+// b. The purpose/s and business activities for which it is organized;
+// c. The qualifications, rights, duties and responsibilities of members and the
+// procedure to be followed in the termination of membership;
+// d. The area of operation and the postal addresses of Laboratory Cooperative;
+// e. The common bond of membership;
+// f. The organizational structure of the Laboratory Cooperative which shall
+// likewise indicate the officer/s of Guardian cooperative tasked to
+// supervise/oversee/monitor the laboratory cooperative;
+// g. Duties and responsibilities of officers of the Laboratory Cooperative;
+// h. The rules and procedures on the agenda, time, place and manner of calling,
+// convening, conducting meetings, quorum requirements, voting systems, and
+// other matters relative to the business affairs of the officers and general
+// assembly;
+// i. The rate of interest on savings and deposit, if applicable;
+// j. Duties and Responsibilities of the Guardian Cooperative
+// k. Other matters incident to the purposes and activities of the cooperative.
+
+
+// The client shall submit the above required documents within 30 working days from the date of e-mail notification.
+// Failure to submit the same shall be considered as an abandonment of your
+// interest to pursue your application and thus, will be removed from the
+// Cooperative Registration Information
+// System (CoopRIS).
+// Once the said documents had been found complete and in order, the client may
+// now claim the Certificate of Recognition within the day.</pre>";
+
+
+//     $this->email->from($from,'CoopRIS Administrator');
+//     $this->email->to($email);
+//     $this->email->subject($subject);
+//     $this->email->message($message);
+//     if($this->email->send()){
+//         return true;
+//     }else{
+//         return false;
+//     }
+//   }
+    public function is_acting_director($supervising_id)
+    {
+      $query = $this->db->get_where('admin',array('id'=>$supervising_id,'is_director_active'=>1,'access_level'=>4));
+      if($query->num_rows()>0)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+    public function is_active_director($director_id)
+    {
+      $query = $this->db->get_where('admin',array('id'=>$director_id,'is_director_active'=>1,'access_level'=>3));
+      if($query->num_rows()>0)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+}
