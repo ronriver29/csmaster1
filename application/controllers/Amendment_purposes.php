@@ -23,7 +23,7 @@ class Amendment_purposes extends CI_Controller{
             if($this->amendment_model->check_own_cooperative($cooperative_id ,$decoded_id,$user_id)){
               if(!$this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
                 $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id ,$user_id,$decoded_id);
-                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
+                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                 if($data['bylaw_complete']){
                   $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$decoded_id);
                   if($data['cooperator_complete']){
@@ -57,8 +57,9 @@ class Amendment_purposes extends CI_Controller{
                     redirect('amendment/'.$id);
                   }
                 }else{
-                  $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
-                  redirect('amendment/'.$id);
+                  var_dump($data['bylaw_complete']);
+                  // $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
+                  // redirect('amendment/'.$id);
                 }
               }else{
                 redirect('amendment/'.$id);
