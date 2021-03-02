@@ -963,14 +963,14 @@ $(function(){
           
       $('select[name="typeOfCooperative[]"] option:selected').each(function() {
        typeCoop_arrays.push($(this).val());
-<<<<<<< Updated upstream
+
         // alert(typeCoop_arrays);
         $('#typeOfCooperative_value').val(typeCoop_arrays);
-=======
+
       });
 
          $('#typeOfCooperative_value').val(typeCoop_arrays);
->>>>>>> Stashed changes
+
           $.each(typeCoop_arrays , function(n,type_coop_id){
             // console.log(type_coop_id);
 
@@ -994,7 +994,7 @@ $(function(){
 
           });
       });
-     }); 
+     // }); 
     // //end onchange coop type
 
      $(document).on('change','.major-ins',function(){
