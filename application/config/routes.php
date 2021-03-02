@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 /*
 | -------------------------------------------------------------------------
 | URI ROUTING
@@ -240,7 +239,7 @@ $route['cooperatives/phpinfo']= 'cooperatives/phpinfos';
 $route['amendment/get_specific_CompositionOfmembers'] ='amendment/get_specific_CompositionOfmembers';
 $route['amendment/check_amendment_name_exists'] = 'amendment/check_amendment_name_exists'; //modified by json
 $route['amendment/(:any)/check_amendment_name_exists'] = 'amendment/check_amendment_name_exists'; //modified by json
-
+$route['amendment/(:any)/amendmentbylaws/check_minimum_associate_subscription'] = 'amendmentbylaws/check_minimum_associate_subscription/$1';
 
 $route['amendment/check_coop_name_update_exists'] = 'amendment/check_coop_name_update_exists';
 $route['amendment/(:any)/major_industry_description_subclass_ajax'] = 'amendment/major_industry_description_subclass_ajax'; //modified
@@ -249,6 +248,7 @@ $route['amendment/(:any)/get_specific_subclassAjax'] = 'amendment/get_specific_s
 $route['amendment/(:any)/amendment_cooperators/check_edit_cooperator_not_exist'] = 'amendment_cooperators/check_edit_cooperator_not_exist'; //modified
 $route['amendment/(:any)/cooperators/check_edit_position_not_exist'] = 'cooperators/check_edit_position_not_exist';
 $route['amendment/approve_cooperative'] = 'amendment/approve_cooperative';
+$route['amendment/defer_cooperative'] = 'amendment/defer_cooperative';
 
 $route['cooperatives/reservation'] = 'cooperatives/reservation';
 $route['cooperatives/(:any)/purposes/edit'] = 'purposes/edit/$1';
@@ -269,6 +269,7 @@ $route['amendment/(:any)/amendment_documents/view_document_one/(:any)/(:any)'] =
 $route['amendment/(:any)/amendment_documents/view_document_two/(:any)'] = 'amendment_documents/view_document_two/$1/$2';
 $route['amendment_documents/list_upload_pdf'] = 'amendment_documents/list_upload_pdf/$1/$2'; //modify by jason
 $route['amendment/(:any)/amendment_documents/doc_link_view/(:any)'] = 'amendment_documents/doc_link_view/$1/$2';
+
 
 $route['amendment/delete_amendment'] = 'amendment/delete_amendment';
 $route['amendment/(:any)/amendment_documents/upload_document_others/(:any)'] = 'amendment_documents/upload_document_others/$1/$2';

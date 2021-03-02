@@ -87,12 +87,12 @@
           <?php 
           $paid_up = ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? ucwords(num_format_custom($total_regular['total_paid'] * $capitalization_info->par_value)) : ucwords(num_format_custom($total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] * $capitalization_info->par_value));
 
-           $paid_up_orig = ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? ucwords(num_format_custom($total_regular_orig['total_paid'] * $article_info_orig->par_value_common)) : ucwords(num_format_custom($total_regular_orig['total_paid'] * $article_info_orig->par_value_common + $total_associate_orig['total_paid'] * $article_info_orig->par_value_preferred));
+           $paid_up_orig = ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? ucwords(num_format_custom($total_regular_orig['total_paid'] *  $capitalization_info->par_value)) : ucwords(num_format_custom($total_regular_orig['total_paid'] * $capitalization_info->par_value + $total_associate_orig['total_paid'] *  $capitalization_info->par_value));
            echo ($paid_up!=$paid_up_orig ? "<b>".$paid_up."</b>" : $paid_up).' Pesos';
           ?>
            (Php 
            <?php 
-           $paid_up_num =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular['total_paid']) * str_replace(',','',$article_info->par_value_common)),2) : number_format(((str_replace(',','',$total_regular['total_paid']) * str_replace(',','',$article_info->par_value_common)) + (str_replace(',','',$total_associate['total_paid']) * str_replace(',','',$article_info->par_value_preferred))),2);
+           $paid_up_num =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular['total_paid']) * str_replace(',','', $capitalization_info->par_value)),2) : number_format(((str_replace(',','',$total_regular['total_paid']) * str_replace(',','', $capitalization_info->par_value)) + (str_replace(',','',$total_associate['total_paid']) * str_replace(',','', $capitalization_info->par_value))),2);
 
              $paid_up_num_orig =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular_orig['total_paid']) * str_replace(',','',$article_info_orig->par_value_common)),2) : number_format(((str_replace(',','',$total_regular_orig['total_paid']) * str_replace(',','',$article_info_orig->par_value_common)) + (str_replace(',','',$total_associate_orig['total_paid']) * str_replace(',','',$article_info_orig->par_value_preferred))),2);
             echo ($paid_up_num!= $paid_up_num_orig ? "<b>".$paid_up_num."</b>" : $paid_up_num); 

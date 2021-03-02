@@ -26,7 +26,7 @@
   }
   </style>
 </head>
-<body style="font-size:12">
+<body style="font-size:12"> 
 <script type="text/php">
         if (isset($pdf) ) {
             $x = 570; 

@@ -22,7 +22,7 @@ class Amendment_registration extends CI_Controller{
       $user_id = $this->session->userdata('user_id');
 
       //add to registered cooop
-      $coop_info = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
+      $coop_info = $this->amendment_model->get_cooperative_info_by_admin_payment($decoded_id);
       // $this->debug($coop_info);
 
       if ($coop_info->category_of_cooperative =='Primary')

@@ -898,7 +898,25 @@ class Bylaws extends CI_Controller{
       }else{
         show_404();
       }
-    }
+    } 
+  }  
+  public function check_minimum_associate_subscription_amendment(){
+    // if(!$this->session->userdata('logged_in')){
+    //   redirect('users/login');
+    // }else{
+      if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('amd_id')){
+        $data = array(
+          'fieldId'=>$this->input->get('fieldId'),
+          'fieldValue'=>$this->input->get('fieldValue'),
+          'amendment_id'=>$this->encryption->decrypt(decrypt_custom($this->input->get('amd_id'))),
+        );
+        $result = $this->amendment_capitalization_model->check_minimum_associate_subscription($data);
+        echo json_encode($result);
+      }else{
+        // echo'show_404()';
+        echo"Ajax error";
+      }
+    // }
   }
   public function check_minimum_associate_pay(){
     if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('cooperativesID')){

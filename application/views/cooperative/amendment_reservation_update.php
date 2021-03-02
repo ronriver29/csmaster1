@@ -221,7 +221,7 @@
                 </div>
               </div>
             </div>
-            
+              
           </div>
     
             <!-- ASSOCIATIONAL -->
@@ -341,6 +341,7 @@
               </div>
             </div>
           </div>
+           <?php if($is_client): ?>
           <div class="col-sm-12 offset-md-1 col-md-10 align-self-end">
             <div class="form-group">
               <div class="custom-control custom-checkbox text-center mt-2">
@@ -356,6 +357,7 @@
         <div class="row">
           <div class="col-sm-12 offset-md-10 col-md-2 align-self-center order-sm-2 order-1 col-reserveupdate-btn">
               <input class="btn btn-block btn-color-blue" type="submit" id="reserveUpdateBtn" name="reserveUpdateBtn" value="Submit" disabled>
+            <?php endif; ?>
           </div>
         </div>
       </div>

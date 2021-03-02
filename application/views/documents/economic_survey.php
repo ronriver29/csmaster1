@@ -25,7 +25,7 @@
     border-collapse: collapse;
   } */
   li {
-    margin: 3px 0;
+    margin: 3px 0; 
   }
   </style>
 </head>

@@ -24,9 +24,6 @@ class Migration_modify_amend_coop_table extends CI_Migration
         {
            $qry = $this->db->query("ALTER TABLE amend_coop DROP COLUMN ho"); 
         }
-
-     
-      
     }
 }
 ?>

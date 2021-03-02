@@ -12,7 +12,7 @@ class Migrate extends CI_Controller {
         else
         {
             // echo 'Migrations ran successfully!';
-          $check = $this->db->get('amendment_coop_type_upload');
+          $check = $this->db->query('select id from amendment_coop_type_upload');
           if($check->num_rows()>0)
           {
             // echo "success seeding";

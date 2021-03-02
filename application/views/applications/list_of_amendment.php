@@ -180,7 +180,7 @@
                       <?php if($admin_info->access_level == 1) : ?>
                         <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View Cooperative</a>
                       <?php else: ?>
-
+                         
                         <?php if($cooperative['status']>2 && $cooperative['status']<11 && $cooperative['status']!=3 && $cooperative['evaluated_by']!=0) : ?>
                           <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/amendment_documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
                         <?php elseif($cooperative['status']==2 && $cooperative['evaluated_by']==0): ?>

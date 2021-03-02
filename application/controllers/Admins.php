@@ -162,7 +162,7 @@ class Admins extends CI_Controller{
                     if($success['success']){
                       if($this->admin_model->add_admin($data,$this->input->post('pword',true))){
                         $this->session->set_flashdata('add_admin_success', 'Successfully added an administrator.');
-                        redirect('admins/all_admin');
+                      redirect('admins/all_admin');
                       }else{
                         $this->session->set_flashdata('add_admin_error', 'Unable to add administrator.');
                         redirect('admins/all_admin');
@@ -363,6 +363,40 @@ class Admins extends CI_Controller{
       }
     }
   }
+
+  public function grant_supervisor_amendment(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        if($this->session->userdata('access_level')==5){
+          redirect('all_admin');
+        }else if($this->session->userdata('access_level')!=3){
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }else{
+          if($this->input->post('grantSupervisorBtn')){
+            $admin_user_id = $this->session->userdata('user_id');
+            // $this->debug($this->admin_model->grant_privilege_supervisor($admin_user_id));
+            if($this->admin_model->grant_privilege_supervisor_amendment($admin_user_id)){
+              $this->session->set_flashdata('list_success_message', 'Successfully granted all authorities to Supervising CDS.');
+              redirect('amendment');
+            }else{
+              $this->session->set_flashdata('list_error_message', 'Unable to grant all privileges to Supervising CDS.');
+              redirect('grant_privilege_supervisor_amendment');
+            }
+          }else{
+            $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+            redirect('amendment');
+          }
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('amendment');
+      }
+    }
+  }
+
   public function grant_supervisor_branch(){
     if(!$this->session->userdata('logged_in')){
       redirect('admins/login');
@@ -425,6 +459,40 @@ class Admins extends CI_Controller{
       }
     }
   }
+
+  public function revoke_supervisor_amendment(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        if($this->session->userdata('access_level')==5){
+          redirect('all_admin');
+        }else if($this->session->userdata('access_level')!=3){
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }else{
+          if($this->input->post('revokeSupervisorBtn')){
+            $admin_user_id = $this->session->userdata('user_id');
+            // $this->debug($this->admin_model->revoke_privilege_supervisor_amendment($admin_user_id));
+            if($this->admin_model->revoke_privilege_supervisor_amendment($admin_user_id)){
+              $this->session->set_flashdata('list_success_message', 'Successfully revoked all authories to Supervising CDS.');
+              redirect('amendment');
+            }else{
+              $this->session->set_flashdata('list_error_message', 'Unable to revoke all privileges to Supervising CDS.');
+              redirect('amendment');
+            }
+          }else{
+            $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+            redirect('amendment');
+          }
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('amendment');
+      }
+    }
+  }
+  
   public function revoke_supervisor_branch(){
     if(!$this->session->userdata('logged_in')){
       redirect('admins/login');
@@ -844,5 +912,11 @@ class Admins extends CI_Controller{
             $this->session->set_flashdata('list_error_message', 'Unable to Change Status Cooperative.');
             redirect('admins/cooperatives_list');
           }
-    } 
+    }
+  // public function debug($array)
+  // {
+  //       echo"<pre>";
+  //       print_r($array);
+  //       echo"</pre>";
+  // }   
 }

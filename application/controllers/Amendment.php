@@ -148,8 +148,8 @@ class amendment extends CI_Controller{
               $this->load->view('templates/admin_header', $data);
               $this->load->view('applications/list_of_amendment', $data);
               $this->load->view('applications/assign_admin_modal_amendment');
-              $this->load->view('admin/grant_privilege_supervisor');
-              $this->load->view('admin/revoke_privilege_supervisor');
+              $this->load->view('admin/grant_privilege_supervisor_amendment');
+              $this->load->view('admin/revoke_privilege_supervisor_amendment');
               $this->load->view('templates/admin_footer');
           }
         }
@@ -1700,10 +1700,11 @@ class amendment extends CI_Controller{
       }else{
         // if($this->form_validation->run() == TRUE){
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID',TRUE)));
-
           $cooperative_id =   $cooperative_id =$this->amendment_model->coop_dtl($decoded_id);
           $user_id = $this->session->userdata('user_id');
+          $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
           $data['is_client'] = $this->session->userdata('client');
+
           if(is_numeric($decoded_id) && $decoded_id!=0){
             if($this->session->userdata('client')){
               $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
@@ -1723,6 +1724,7 @@ class amendment extends CI_Controller{
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                                 redirect('amendmet');
                               }else{
+                                echo "ditoo";
                                 if(!$this->admin_model->check_if_director_active($user_id)){
                                   echo "No data found";
                                   // $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
@@ -1753,7 +1755,7 @@ class amendment extends CI_Controller{
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                                 redirect('cooperatives');
                               }else{
-                                if($this->admin_model->check_if_director_active($user_id)){
+                                if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                 $comment = $this->input->post('comment');
                                  $data_comment = array(
                                         'user_id' => $this->session->userdata('user_id'),
@@ -1764,14 +1766,16 @@ class amendment extends CI_Controller{
                                         'created_at' => date('Y-m-d h:i:s'),
                                         'author' => $this->session->userdata('user_id')
                                         );
-                                  $success = $this->amendment_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3,$data_comment);
-                                  if($success){
-                                    $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
-                                    redirect('cooperatives');
-                                  }else{
-                                    $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
-                                    redirect('cooperatives');
-                                  }
+                                
+                                 $this->debug($this->amendment_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3,$data_comment));
+                                  // $success = $this->amendment_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3,$data_comment);
+                                  // if($success){
+                                  //   $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
+                                  //   redirect('cooperatives');
+                                  // }else{
+                                  //   $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
+                                  //   redirect('cooperatives');
+                                  // }
                                 }else{
                                   $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated by the Supervising CDS.');
                                   redirect('amendment');
@@ -1844,6 +1848,7 @@ class amendment extends CI_Controller{
         // }
       }
     }
+
 
     public function type_of_cooperative_check($proposedName){
       $typeOfCooperative = $this->input->post('typeOfCooperative');

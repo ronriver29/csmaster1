@@ -93,7 +93,7 @@ ini_set('output_buffering', true); // no limit
 	</tr>
 	<tr>
 		<td  colspan="2" style="text-align: justify; ; text-indent: 40px;">By virtue of the powers and duties vested upon me by law, the above named cooperative is hereby registered with the Cooperative Development Authority and shall continue to enjoy the rights and privileges in accordance with Republic Act 9520 and all other laws appurtenant thereto unless this Certificate is suspended or cancelled for cause.</td>
-	</tr>
+	</tr> 
 	<tr>
 		<td><i style="color:white;">....</i></td>
 	</tr>

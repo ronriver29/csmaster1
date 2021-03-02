@@ -40,7 +40,7 @@
           <input type='hidden' id='minimum_subscribed_share_associate' value="<?=isset($capitalization_info->minimum_subscribed_share_associate) ? $capitalization_info->minimum_subscribed_share_associate: ''?>" />
           <input type='hidden' id='minimum_paid_up_share_associate' value="<?=isset($capitalization_info->minimum_paid_up_share_associate) ? $capitalization_info->minimum_paid_up_share_associate: ''?>" />
           <div class="col-sm-12 col-md-4">
-            <div class="form-group">
+            <div class="form-group"> 
               <label for="position">Position:</label>
               <select class="custom-select validate[required,ajax[ajaxCooperatorPositionCallPhp]]" id="position" name="position" >
                 <option value="" selected>--</option>

@@ -1,7 +1,7 @@
 $(function(){
     $("#subscribed-note").hide().html('');
     $("#paid-note").hide().html('');
-  $('#addCooperatorForm #subscribedShares').on('change', function(){
+  $('#  #subscribedShares').on('change', function(){
       var val = parseInt($(this).val());
       var available_subscribed_capital = $("#available_subscribed_capital").val().length>0 ? parseInt($("#available_subscribed_capital").val()) : '';
       $("#subscribed-note").hide().html('');
@@ -26,14 +26,14 @@ $(function(){
     var tempType  = $.trim($(this).val());
     var available_subscribed_capital = $("#available_subscribed_capital").val().length>0 ? parseInt($("#available_subscribed_capital").val()) : '';
     var available_paid_up_capital = $("#available_paid_up_capital").val().length>0 ? $("#available_paid_up_capital").val() : ''; 
-    if(tempType.length > 0 && tempType=="Regular"){
+    if(tempType.length > 0 && tempType=="Regular"){ 
         var minimum_subscribed_share_regular = $("#minimum_subscribed_share_regular").val().length>0 ? $("#minimum_subscribed_share_regular").val() : '';
         var minimum_paid_up_share_regular = $("#minimum_paid_up_share_regular").val().length>0 ? $("#minimum_paid_up_share_regular").val() : '';
       $('#addCooperatorForm #subscribedShares').prop('readonly',false);
       $('#addCooperatorForm #paidShares').prop('readonly',false);
 //      $('#addCooperatorForm #subscribedShares').val(minimum_subscribed_share_regular);
 //      $('#addCooperatorForm #paidShares').val(minimum_paid_up_share_regular);
-      $('#addCooperatorForm #subscribedShares').attr('min',minimum_subscribed_share_regular);
+      $('#addCooperatorForm #subscri bedShares').attr('min',minimum_subscribed_share_regular);
       $('#addCooperatorForm #paidShares').attr('min',minimum_paid_up_share_regular);
       $('#addCooperatorForm #subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionCallPhp]]'});
       $('#addCooperatorForm #paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumRegularPayCallPhp]]'});
