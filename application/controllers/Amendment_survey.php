@@ -148,7 +148,7 @@ class Amendment_survey extends CI_Controller{
                               'education_programs_officers'=> $this->input->post('educationProgramOfficers'),
                               'education_programs_staff'=> $this->input->post('educationProgramStaff'),
                             );
-                            $this->debug($data);
+                            // $this->debug($data);
                             $survey_amend_count = $this->amendment_economic_survey_model->get_economic_survey_by_coop_id_amend($decoded_id);
 	                          if($survey_amend_count==0){
 	                          	

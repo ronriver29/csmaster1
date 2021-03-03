@@ -1284,10 +1284,17 @@ public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$coop
 }
 public function approve_by_senior($admin_info,$coop_id,$coop_full_name,$data_comment){
   $amentmentID = $this->security->xss_clean($coop_id);
+  $already_deffered = false;
+  if($this->check_if_has_deffered($amentmentID))
+  {
+    $already_deffered = true;
+  }
+  // return $this->db->last_query();
+
   $this->db->trans_begin();
   $this->db->where('id',$coop_id);
   $this->db->update('amend_coop',array('status'=>9,'second_evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL));
-
+  
   $cooperative_id = $this->coop_dtl($amentmentID);    
   $amendment_info =$this->get_cooperative_info23($cooperative_id,$amentmentID);
   $client_qry = $this->db->get_where('users',array('id'=>$amendment_info->users_id));
@@ -1307,7 +1314,7 @@ public function approve_by_senior($admin_info,$coop_id,$coop_full_name,$data_com
   }else{
     
 
-   if($this->email_model->sendEmailToDirectorAmendment($admin_info,$client_info,$amendment_info,$director_email)){
+   if($this->email_model->sendEmailToDirectorAmendment($admin_info,$client_info,$amendment_info,$director_email, $already_deffered)){
      $this->db->trans_commit();
      return true;
    }else{
@@ -2046,6 +2053,18 @@ public function check_if_denied($coop_id){
     return $qry_multi->result_array();
     //end multipurpose
   }
+  public function check_if_has_deffered($amendment_id)
+  {
+    $query = $this->db->get_where('amendment_comment',array('id'=>$amendment_id,'status'=>11));
+    if($query->num_rows()>0)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
   public function get_ho_list()
   {
     $query = $this->db->query("select name from head_office_coop_type ");
@@ -2062,4 +2081,5 @@ public function check_if_denied($coop_id){
     }
     return $data;
   }
+  
 }

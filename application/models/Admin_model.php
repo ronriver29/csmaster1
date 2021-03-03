@@ -214,6 +214,73 @@ public function add_admin_director($data,$raw_pass){
       
     }
   }
+
+  public function grant_privilege_supervisor_amendment($director_id){
+    $query = $this->db->get_where('admin',array('id'=>$director_id,'access_level'=>3));
+    $data = $query->row();
+    $query2 = $this->db->get_where('admin',array('access_level'=>4,'region_code'=>$data->region_code));
+    $supervisor = $query2->row();
+    $this->db->trans_begin();
+    // return $data; //director data
+    // return $supervisor;
+    // $this->db->where('id',$director_id);
+    $this->db->where('access_level',3);
+    $this->db->where('region_code',$data->region_code);
+    $this->db->update('admin',array('is_director_active'=>0));
+
+    $this->db->where('access_level',4);
+    $this->db->where('region_code',$data->region_code);
+    $this->db->update('admin',array('is_director_active'=>1));
+    if($data->region_code == '00'){
+      $code_name = 'Head Office Director';
+    } else {
+      $code_name = 'Regional Director';
+    }
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+       $from = "ecoopris@cda.gov.ph";    //senders email address
+      $subject = 'Cooperative Amendment Application for Registration';  //email subject
+      $burl = base_url();
+      if($data->region_code =='00')
+      {
+        //HO
+         $message = "<pre>Good Day!<br> 
+      The Chief CDS Registration Division granted you all the authority to process the application for Amendment Registration.
+        <br>
+      <label>Date stamp:".date("m/d/Y")."
+      <label>Time stamp:".date("h:i:s a")."</pre>";
+      }
+      else
+      {
+         $message = "<pre>Good Day!<br> 
+        The Regional Director granted you all the authority to process the application for registration.
+          <br>
+        <label>Date stamp:".date("m/d/Y")."
+        <label>Time stamp:".date("h:i:s a")."</pre>";
+      }
+      // Send email for granting proviliges
+     
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+     
+      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->to($supervisor->email);
+      $this->email->subject($subject);
+      $this->email->message($message);
+    // End Seding email for granding priviliges
+      if($this->email->send()){
+          $this->db->trans_commit();
+        return true;
+      }else{
+        return false;
+
+      }
+      
+    }
+  }
+
+
   public function revoke_privilege_supervisor($director_id){
     $query = $this->db->get_where('admin',array('id'=>$director_id,'access_level'=>3));
     $data = $query->row();
@@ -260,6 +327,61 @@ public function add_admin_director($data,$raw_pass){
     }
   }
 
+  public function revoke_privilege_supervisor_amendment($director_id){
+    $query = $this->db->get_where('admin',array('id'=>$director_id,'access_level'=>3));
+    $data = $query->row();
+    $query2 = $this->db->get_where('admin',array('access_level'=>4,'region_code'=>$data->region_code,'is_director_active'=>1));
+    $supervisor = $query2->row();
+    $this->db->trans_begin();
+    // $this->db->where('id',$director_id);
+    $this->db->where('access_level',3);
+    $this->db->where('region_code',$data->region_code);
+    $this->db->update('admin',array('is_director_active'=>1));
+     $this->db->where('access_level',4);
+    $this->db->where('region_code',$data->region_code);
+    $this->db->update('admin',array('is_director_active'=>0));
+
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+          $from = "ecoopris@cda.gov.ph";    //senders email address
+          $subject = 'Cooperative Amendment Application for Registration';  //email subject
+          $burl = base_url();
+        if($data->region_code =='00')
+         {
+            //for HO
+          $message = "<pre>The Authority to process all application for Amendment Registration has been revoked by the Chief CDS Registration Division.<p>
+      
+          <label>Date stamp:".date("m/d/Y")."
+          <label>Time stamp:".date("h:i:s a")."</pre>";
+
+         }
+         else 
+         {
+            $message = "<pre>Good day! The Authority to process all application for registration has been revoked by the Regional Director.<p>
+      
+            <label>Date stamp:".date("m/d/Y")."
+            <label>Time stamp:".date("h:i:s a")."</pre>";
+         }
+      // Send email for granting proviliges
+    
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+      
+      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->to($supervisor->email);
+      $this->email->subject($subject);
+      $this->email->message($message);
+    // End Seding email for granding priviliges
+      if($this->email->send()){
+          $this->db->trans_commit();
+        return true;
+      }else{
+        return false;
+      }
+    }
+  }
+  
   public function sendEmailAccountDetails($email,$username,$password){
       $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = 'Admin Account Details';  //email subject

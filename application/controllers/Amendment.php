@@ -1466,7 +1466,7 @@ class amendment extends CI_Controller{
                                
                            
                             $success = $this->amendment_model->approve_by_senior($data['admin_info'],$decoded_id,$coop_full_name,$data_comment);
-                            // $this->debug($success);
+                          // var_dump($success);
                             if($success){
                               $this->session->set_flashdata('list_success_message', 'Amendment Cooperative has been submitted.');
                               redirect('amendment');
@@ -1512,11 +1512,15 @@ class amendment extends CI_Controller{
                                $data['admin_info_senior'] =$this->admin_model->get_senior_info($regioncode);
                               
                             }
+                            else
+                            {
+                                $data['admin_info_senior'] =$this->admin_model->get_senior_info($data['admin_info']->region_code);
+                            }
 
                             $specialist_info = $this->admin_model->get_admin_info($data['coop_info']->evaluated_by);
                             // $this->debug( $specialist_info);
                             // $this->debug($this->amendment_model->approve_by_specialist($data['admin_info'],$decoded_id,$coop_full_name,$data['coop_info']->type_of_cooperative));
-                            $success = $this->amendment_model->approve_by_specialist($data['admin_info'],$decoded_id,$coop_full_name,$data['coop_info']->type_of_cooperative,$specialist_info);
+                            $success = $this->amendment_model->approve_by_specialist( $data['admin_info_senior'],$decoded_id,$coop_full_name,$data['coop_info']->type_of_cooperative,$specialist_info);
                             // $this->debug($success);
                             if($success){
                               $this->session->set_flashdata('list_success_message', 'Amendment Cooperative has been submitted.');
