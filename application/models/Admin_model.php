@@ -381,7 +381,7 @@ public function add_admin_director($data,$raw_pass){
       }
     }
   }
-  
+
   public function sendEmailAccountDetails($email,$username,$password){
       $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = 'Admin Account Details';  //email subject
@@ -801,6 +801,53 @@ You shall submit the above required documents within 30 days from the date of e-
     }else{
         return true;
         // echo $this->email->print_debugger();
+    }
+  }
+  public function sendEmailToClientDeferAmendment($client_info,$reason_comment,$amendment_info){
+    if(count(explode(',',$amendment_info->type_of_cooperative))>1)
+      {
+       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$amendment_info->grouping;
+      }
+      else
+      {
+        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$amendment_info->grouping;
+      }
+    $address_coop = $amendment_info->house_blk_no.' '.$amendment_info->brgy.' '.$amendment_info->street.' ,'.$amendment_info->city.' ,'.$amendment_info->province.' ,'.$amendment_info->region;
+    $client_full_name = $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;
+
+    //$step_str = (($step==1) ? "First" : (($step==2) ? "Second" : "Third"));
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $client_full_name.' Amendment Evaluation Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = "<pre>
+    <b>Date:</b> ".date('Y-m-d h:i:s',now('Asia/Manila'))." 
+    <b>Proposed Name of Cooperative:</b> ".$coop_full_name."
+    <b>Proposed Address of Cooperative:</b> ".$address_coop." 
+
+    Good Day! This refers to the application for registration of the proposed (Name of Cooperative). 
+    Based on the evaluation of the submitted application documents for registration, the following are our findings and comments:
+
+    ".$reason_comment." 
+
+
+    Please comply the findings within 15 days so that we can facilitate with the issuance of your Certificate of Registration. However, your submission shall still be subject to further evaluation. 
+
+    For further information and clarification, please feel free to contact our Registration Division/Section at telephone numbers ___________________(contact no. per region) or email us at _______________________(email per region). 
+
+    Very truly yours, 
+    Regional Office Director (for RO)/ LRRD Director (for HO)
+
+
+    </pre>";
+    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->to($client_info->email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
     }
   }
   public function sendEmailToClientApproveBranch($name,$email){
