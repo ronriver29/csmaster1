@@ -940,7 +940,7 @@ $minimum_paid_up_share_associate_3 ='';
       $count_row = $section_;
       foreach($committees_others as $rowCom) 
       {
-       $couting = $count_row++;
+       $couting = $count_row+1;
   ?>
       <div class="row">
         <div class="col-sm-12 col-md-12 text-left">

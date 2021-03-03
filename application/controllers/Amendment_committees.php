@@ -255,7 +255,8 @@ class Amendment_committees extends CI_Controller{
                             }else{
                               $data = array(
                                 'user_id' => $user_id,
-                                'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName'),
+                                // 'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName'),
+                                'name'=> ($this->input->post('committeeName')=="Others") ? $this->input->post('committeeNameSpecify') : $this->input->post('committeeName'),
                                 'amendment_cooperators_id'=> $decoded_id,
                                 'amendment_id'=>$amendment_id_,
                                 'cooperative_id' => $cooperative_id,
