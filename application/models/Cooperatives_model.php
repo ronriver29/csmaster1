@@ -531,6 +531,12 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->from('cooperative_type');
     $query2 = $this->db->get();
     $coop_type = $query2->row();
+
+    $this->db->select('type_of_cooperative');
+    $this->db->where('id',$coop_id);
+    $this->db->from('cooperatives');
+    $query3 = $this->db->get();
+    $coop_type_of_coop = $query3->row();
     
     $data['type_of_cooperative'] = $coop_type->name;
     $this->db->where(array('users_id'=>$user_id,'id'=>$coop_id));
@@ -569,14 +575,21 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
         }
         $this->db->insert_batch('members_composition_of_cooperative', $batch_composition);
     }
-    $this->db->where('cooperatives_id',$coop_id);
-    $this->db->update('purposes',$temp_purpose);
-    if($this->db->trans_status() === FALSE){
-      $this->db->trans_rollback();
-      return false;
-    }else{
-      $this->db->trans_commit();
-      return true;
+
+    if($coop_type_of_coop->type_of_cooperative != $coop_type->name){
+      $temp_purpose = array(
+          'cooperatives_id' => $coop_id,
+          'content'  => $this->get_purpose_content($coop_type->name)
+        );
+      $this->db->where('cooperatives_id',$coop_id);
+      $this->db->update('purposes',$temp_purpose);
+      if($this->db->trans_status() === FALSE){
+        $this->db->trans_rollback();
+        return false;
+      }else{
+        $this->db->trans_commit();
+        return true;
+      }
     }
   }
   public function update_not_expired_cooperative_by_admin($coop_id,$field_data,$subclass_array,$major_industry){
@@ -591,6 +604,13 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->from('industry_subclass_by_coop_type');
     $query = $this->db->get();
     $industry_subclasses_id_array = $query->result_array();
+
+    $this->db->select('type_of_cooperative');
+    $this->db->where('id',$coop_id);
+    $this->db->from('cooperatives');
+    $query3 = $this->db->get();
+    $coop_type_of_coop = $query3->row();
+
     $this->db->select('name');
     $this->db->where('id',$data['type_of_cooperative']);
     $this->db->from('cooperative_type');
@@ -607,18 +627,21 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
       );
     }
     $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
-    $temp_purpose = array(
-        'cooperatives_id' => $coop_id,
-        'content'  => $this->get_purpose_content($coop_type->name)
-      );
-    $this->db->where('cooperatives_id',$coop_id);
-    $this->db->update('purposes',$temp_purpose);
-    if($this->db->trans_status() === FALSE){
-      $this->db->trans_rollback();
-      return false;
-    }else{
-      $this->db->trans_commit();
-      return true;
+
+    if($coop_type_of_coop->type_of_cooperative != $coop_type->name){
+      $temp_purpose = array(
+          'cooperatives_id' => $coop_id,
+          'content'  => $this->get_purpose_content($coop_type->name)
+        );
+      $this->db->where('cooperatives_id',$coop_id);
+      $this->db->update('purposes',$temp_purpose);
+      if($this->db->trans_status() === FALSE){
+        $this->db->trans_rollback();
+        return false;
+      }else{
+        $this->db->trans_commit();
+        return true;
+      }
     }
   }
 

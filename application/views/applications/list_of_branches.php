@@ -19,7 +19,31 @@ if($tomorrow>=$now){
            <center>"Not yet allowed to register Branch or Satellite. Unless registered 3 years from the day of Coop Registration"</center>
         </div>
     </div>
-<?php } else {
+<?php } else { ?>
+  <div class="col-sm-12 col-md-12">
+        <div class="alert alert-info text-justify" role="alert">
+           The cooperative is qualified to establish a branch office based on the following requirement;
+                    a.  The cooperative did not incur net loss for the last three consecutive years and its net worth is progressive for the last three years from the date of application.<br>
+
+                    b. The principal office must have a minimum paid-up capital, as provided for in the Articles of Cooperation, to wit: <br>
+                    Paid-up Capital&emsp;&emsp;&emsp;Category of Coop<br>
+                    Php 10 Million&emsp;&emsp;&emsp;- Primary<br>
+                    Php 15 Million&emsp;&emsp;&emsp;- Secondary<br>
+                    Php 20 Million&emsp;&emsp;&emsp;- Tertiary
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-12">
+        <div class="alert alert-info text-justify" role="alert">
+           a.  The cooperative incur net loss for the last three consecutive years and its net worth is not progressive for the last three years from the date of application.<br>                                                                       
+
+           b. The principal office do not have the required minimum paid-up capital, as provided for in the Articles of Cooperation, to wit: <br>
+            Paid-up Capital&emsp;&emsp;&emsp;Category of Coop<br>
+            Php 10 Million&emsp;&emsp;&emsp;- Primary<br>
+            Php 15 Million&emsp;&emsp;&emsp;- Secondary<br>
+            Php 20 Million&emsp;&emsp;&emsp;- Tertiary
+        </div>
+    </div>
+<?php
 //$thirtyDaysUnix = strtotime('+30 days', strtotime($plus));
 //echo $dateregistered;
 //$end = date('Y-m-d', strtotime('+1 year',$dateregistered));
