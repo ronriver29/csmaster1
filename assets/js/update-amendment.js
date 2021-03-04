@@ -1,6 +1,6 @@
 $(function(){
     
-
+ 
  $("#reserveUpdateForm #reserveUpdateAgree").click(function(event){
   // event.preventDefault();
     if($(this).is(':checked')){
@@ -40,122 +40,144 @@ $(function(){
     success: function(data){ 
     var business_activities = data.business_activities;
      var cbom = data.common_bond_of_membership;
-      $("#cooperative_idss").val(data.cooperative_id);
-         if(data.common_bond_of_membership == 'Occupational')
-        {
-      
-            $("#occupational-div").show();
-            $("#institutional-wrapper").remove();
-            $("#associational-wrapper").remove();
+        
+          if(cbom=='Institutional'){
+              $('#reserveUpdateForm #fieldmembershipname').show();
+              $('#reserveUpdateForm #field_membership').show();
+              $('#reserveUpdateForm #name_institution_label').show();
+              $('#reserveUpdateForm #name_institution').show();
+              $('#reserveUpdateForm #addMoreInsBtn').show();
+              $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
+              $('#reserveUpdateForm #composition_of_members_label').hide();
+              $('#reserveUpdateForm #addMoreAssocBtn').hide();
+              $('#reserveUpdateForm #addMoreComBtn').hide();
+              $('#reserveUpdateForm #name_associational_label').hide();
+              $('#reserveUpdateForm #compositionOfMembers').hide();
+              $('#reserveUpdateForm #compositionOfMembers1').hide();
+              $('#reserveUpdateForm .compositionRemoveBtn').hide();
+          } else if(cbom=="Associational"){
+              $('#reserveUpdateForm #fieldmembershipname').hide();
+              $('#reserveUpdateForm #fieldmembershipmemofficname').show();
+              $('#reserveUpdateForm #field_membership').show();
+              $('#reserveUpdateForm #name_institution_label').hide();
+              $('#reserveUpdateForm #name_institution').show();
+  //            $('#reserveUpdateForm #addMoreAssocBtn').show();
+              $('#reserveUpdateForm #name_associational_label').show();
+              $('#reserveUpdateForm #composition_of_members_label').hide();
+              $('#reserveUpdateForm #addMoreInsBtn').show();
+              $('#reserveUpdateForm #addMoreComBtn').hide();
+              $('#reserveUpdateForm #compositionOfMembers').hide();
+              $('#reserveUpdateForm #compositionOfMembers1').hide();
+              $('#reserveUpdateForm .compositionRemoveBtn').hide();
+          } else if (cbom=="Occupational"){
+              $('#reserveUpdateForm #fieldmembershipname').hide();
+              $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
+              $('#reserveUpdateForm #field_membership').hide();
+              $('#reserveUpdateForm #name_institution_label').hide();
+              $('#reserveUpdateForm #name_institution').hide();
+              $('#reserveUpdateForm #addMoreAssocBtn').hide();
+              $('#reserveUpdateForm #composition_of_members_label').show();
+              $('#reserveUpdateForm #addMoreInsBtn').hide();
+              $('#reserveUpdateForm #name_associational_label').hide();
+              $('#reserveUpdateForm #compositionOfMembers1').show();
+              $('#reserveUpdateForm .compositionRemoveBtn').hide();
+              $('#reserveUpdateForm #addMoreComBtn').show();
+              $('#reserveUpdateForm select[name="compositionOfMembers[]"').show();
+               $('#reserveUpdateForm .compositionRemoveBtn').show();
+          } else {
+              $('#reserveUpdateForm #fieldmembershipname').hide();
+              $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
+              $('#reserveUpdateForm #field_membership').hide();
+              $('#reserveUpdateForm #name_institution_label').hide();
+              $('#reserveUpdateForm #name_institution').hide();
+              $('#reserveUpdateForm #addMoreAssocBtn').hide();
+              $('#reserveUpdateForm #composition_of_members_label').hide();
+              $('#reserveUpdateForm #addMoreInsBtn').hide();
+              $('#reserveUpdateForm #addMoreComBtn').hide();
+              $('#reserveUpdateForm #name_associational_label').hide();
+              $('#reserveUpdateForm #compositionOfMembers1').hide();
+              $('#reserveUpdateForm #compositionOfMembers').hide();
+          }
 
-              cid =data.comp_of_membership;
-              var composition_arr = data.comp_of_membership.split(',');;
-              // console.log(composition_arr);
-              var countedID = 1;
-              $.each(composition_arr ,function(ac,compo){
+        //commond bond
+          $('#reserveUpdateForm #commonBondOfMembership').on('change',function(){
+            if($(this).val()=="Institutional"){
+                $('#reserveUpdateForm select[name="compositionOfMembers[]"').hide();
+                $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
+                $('#reserveUpdateForm #commonbondname').hide();
+                $('#reserveUpdateForm #addMoreComBtn').hide();
+                $('#reserveUpdateForm #name_associational_label').hide();
+                $('#reserveUpdateForm #name_associational').hide();
+                $('#reserveUpdateForm #addMoreAssocBtn').hide();
+                $('#reserveUpdateForm #field_membership').show();
+                $('#reserveUpdateForm #name_institution_label').show();
+                $('#reserveUpdateForm #name_institution').show();
+                $('#reserveUpdateForm #addMoreInsBtn').show();
+                $('#reserveUpdateForm #fieldmembershipname').show();
+                $('#reserveUpdateForm #name_associational').prop("required",false);
+                $('#reserveUpdateForm #field_membership').prop("required",true);
+                $('#reserveUpdateForm #name_institution').prop("required",true);
+                $('#reserveUpdateForm #composition_of_members_label').hide();
+                $('#reserveUpdateForm #compositionOfMembers1').hide();
+            } else if($(this).val()=="Associational"){
+                $('#reserveUpdateForm select[name="compositionOfMembers[]"').hide();
+                $('#reserveUpdateForm #addMoreComBtn').hide();
+                $('#reserveUpdateForm #commonbondname').hide();
+                $('#reserveUpdateForm #name_institution_label').hide();
+                $('#reserveUpdateForm #name_institution').show();
+                $('#reserveUpdateForm #addMoreInsBtn').show();
+                $('#reserveUpdateForm #fieldmembershipname').hide();
+                $('#reserveUpdateForm #name_associational_label').show();
+                $('#reserveUpdateForm #name_associational').show();
+                $('#reserveUpdateForm #addMoreAssocBtn').show();
+                $('#reserveUpdateForm #field_membership').show();
+                $('#reserveUpdateForm #fieldmembershipmemofficname').show();
+                $('#reserveUpdateForm #name_institution').prop("required",false);
+                $('#reserveUpdateForm #field_membership').prop("required",true);
+                $('#reserveUpdateForm #name_associational').prop("required",true);
+                $('#reserveUpdateForm #composition_of_members_label').hide();
+                $('#reserveUpdateForm #compositionOfMembers1').hide();
+            } else if($(this).val()=="Residential"){
+                $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
+                $('#reserveUpdateForm #field_membership').hide();
+                $('#reserveUpdateForm #name_institution_label').hide();
+                $('#reserveUpdateForm #name_associational_label').hide();
+                $('#reserveUpdateForm #name_institution').hide();
+                $('#reserveUpdateForm #name_associational').hide();
+                $('#reserveUpdateForm #addMoreInsBtn').hide();
+                $('#reserveUpdateForm #fieldmembershipname').hide();
+                $('#reserveUpdateForm #addMoreAssocBtn').hide();
+                $('#reserveUpdateForm select[name="compositionOfMembers[]"').hide();
+                $('#reserveUpdateForm #commonbondname').hide();
+                $('#reserveUpdateForm #addMoreComBtn').hide();
+                $('#reserveUpdateForm #compositionOfMembers1').hide();
+                $('#reserveUpdateForm #composition_of_members_label').hide();
+                $('#reserveUpdateForm #name_institution').prop("required",false);
+                $('#reserveUpdateForm #field_membership').prop("required",false);
+                $('#reserveUpdateForm #name_associational').prop("required",false);
+            } else {
+                $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
+                $('#reserveUpdateForm #field_membership').hide();
+                $('#reserveUpdateForm #name_institution_label').hide();
+                $('#reserveUpdateForm #name_associational_label').hide();
+                $('#reserveUpdateForm #name_institution').hide();
+                $('#reserveUpdateForm #name_associational').hide();
+                $('#reserveUpdateForm #addMoreInsBtn').hide();
+                $('#reserveUpdateForm #fieldmembershipname').hide();
+                $('#reserveUpdateForm #addMoreAssocBtn').hide();
+                $('#reserveUpdateForm #commonbondname').show();
+                $('#reserveUpdateForm #compositionOfMembers1').show();
+                $('#reserveUpdateForm #composition_of_members_label').show();
+                $('#reserveUpdateForm select[name="compositionOfMembers[]"').show();
+                $('#reserveUpdateForm #addMoreComBtn').show();
+                $('#reserveUpdateForm #name_institution').prop("required",false);
+                $('#reserveUpdateForm #field_membership').prop("required",false);
+                $('#reserveUpdateForm #name_associational').prop("required",false);
+          
+            }
+        });
 
-                var cin_id = countedID++;
-                 var htmlFielda = '<div class="com-div"> <select class="custom-select composition-of-members" name="compositionOfMembersa[]" id="compositionOfMembersa'+cin_id+'" required="required" ></select><a class="customDeleleBtn compositionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a></div> ';
-                 $(".composition_").append(htmlFielda);
-            $('#reserveUpdateForm .compositionRemoveBtn').on('click',function(){
-              $(this).closest('.com-div').remove();//$("#con-wrapper").children().last().remove(); // $(this).parent().remove();// $(this).closest(".tbl").remove();
-            }); //end remove
-
-                  // load_composition($('.composition-of-members')); //load composition
-
-                  $.ajax({
-                    type : "POST",
-                    url  : "composition",
-                    dataType: "json",
-                    success: function(data){
-                    // $('#compositionOfMembersa').append($('<option></option>').attr('value',"").text(""));
-                    $.each(data, function(key,value){
-
-                    $('.composition-of-members').append($('<option></option>').attr('value',value.id).text(value.composition));
-                    // $("#compositionOfMembersa option[value='"+data.comp_of_membership+"']").attr("selected", "selected");
-                    });
-                    // $(".omposition-cof-members option[value='"+data.comp_of_membership+"']").attr("selected", "selected")
-                    }
-                  }); //end ajax
-
-                 //get specifi compostion
-                  $.ajax({
-                    type : "POST",
-                    url  : "../get_specific_CompositionOfmembers",
-                    dataType: "json",
-                    data: {comp_id : compo},
-                    success: function(datab){
-                     // console.log(datab.composition);
-                    // $("#compositionOfMembersa"+cin_id).val(datab.id);
-                    $("#compositionOfMembersa"+cin_id+" > [value='"+datab.id+"']").attr("selected", "true"); 
-                      // if(compo===datab.id)
-                      // {
-                      //  // alert('compositionOfMembersa'+cin_id);
-                      //     // $('#compositionOfMembersa'+cin_id).val(datab.id).prop('selected', true);
-                            
-                      //      $("#compositionOfMembersa"+cin_id+" > [value='"+datab.id+"']").attr("selected", "true"); 
-                           
-                      //       // $('#compositionOfMembersa1 option[value='+datab.id+']').attr('selected', 'selected');
-                      //       // document.querySelector("#compositionOfMembersa"+cin_id+ " option[value='"+datab.id+"']").setAttribute('selected',true);
-                      // }//end if     
-                   
-                    }//end success
-
-                  }); //end ajax
-                  
-                 
-              }); //end each composition array
-              
-            
-             
-        } //occupational
-        else if(data.common_bond_of_membership == 'Institutional')
-        {
-          $("#institutional-wrapper").show();
-          $("#occupational-div").remove();
-          $("#associational-wrapper").remove();
-          $("#ins_field_membership").val(data.field_of_membership);
-          var ustr = data.name_of_ins_assoc;
-          var astr = ustr.split(',');  
-          $.each(astr, function(i,row) {
-            var x =1;
-            var htmlField = '<div class="list_product"><input type="text" name="name_ins_assoc[]" id="name_ins_assoc" class="form-control" style="margin-bottom:3px;" value="'+row+'"> <a class="customDeleleBtn compositionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a></div> ';
-                $(".con-wrapper").append(htmlField);   
-            $('#reserveUpdateForm .compositionRemoveBtn').on('click',function(){
-              $(this).closest('.list_product').remove();//$("#con-wrapper").children().last().remove(); // $(this).parent().remove();// $(this).closest(".tbl").remove();
-            });
-       
-          });
-             $("#reserveUpdateForm #name_institutional").val(data.name_of_ins_assoc); 
-        }
-        else if(data.common_bond_of_membership == 'Associational')
-        {
-          $("#reserveUpdateForm #associational-wrapper").show()
-          $("#reserveUpdateForm #occupational-div").remove();
-          $("#reserveUpdateForm #institutional-wrapper").remove();
-
-          $("#assoc_field_membership").val(data.field_of_membership);
-          var ustr = data.name_of_ins_assoc;
-          var astr = ustr.split(',');  
-          $.each(astr, function(i,row) {
-            var x =1;
-            var htmlField = '<div class="list_assoc"><input type="text" name="name_associational[]" id="name_associational" class="form-control" style="margin-bottom:3px;" value="'+row+'"> <a class="customDeleleBtn compositionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a></div> ';
-                $("#reserveUpdateForm .assoc-wrapper").append(htmlField);   
-            $('#reserveUpdateForm .compositionRemoveBtn').on('click',function(){
-              $(this).closest('.list_assoc').remove();//$("#con-wrapper").children().last().remove(); // $(this).parent().remove();// $(this).closest(".tbl").remove();
-            });
-       
-          });
-             $("#reserveUpdateForm #name_institutional").val(data.name_of_ins_assoc); 
-        }
-        else
-        {
-          $("#reserveUpdateForm #associational-wrapper").remove();
-          $("#occupational-div").remove();
-          $("#institutional-wrapper").remove();
-        }
-
-
+        //common bond
 
       if(data!=null){
         var tempCount = 0;
@@ -327,10 +349,60 @@ $(function(){
     } //end success
   }); //end ajax get_cooperative info
 
-   
+  //START Common Bond of Membership
+  //start
+  $("#reserveUpdateForm #remove_ins").on('click',function(){ 
+     $(this).closest('.ins-div').remove();
+  });
+  //end
 
+    $('#reserveUpdateForm #addMoreInsBtn').on('click', function(){
+      var lastCountOfcom = $('#name_institution').last().attr('id');
+      intLastCount = parseInt(lastCountOfcom.substr(-1)); 
+      var divFormGroup= $('<div></div>').attr({'class':'form-group'});
+      var selectComposition = $('<input>').attr({'class': 'custom-select form-control validate[required]','name': 'name_institution[]', 'id': 'name_institution' + (intLastCount + 1)}).prop("disabled",false);
+  
+      var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn institutionRemoveBtn float-right text-danger'}).click(function(){
+          $(this).parent().remove();
+        });
+
+      $(divFormGroup).append("<table><tr><td>",selectComposition,"</td><td>",deleteSpan,"</td></tr></table>");
+      $("#reserveUpdateForm .col-com").append(divFormGroup);
+    });
+  //END Common Bond of Membership
+  
+
+    //composition of membership btn
+    $('#reserveUpdateForm #addMoreComBtn').on('click', function(){
+      var lastCountOfcom = $('select[name="compositionOfMembers[]"').last().attr('id');
+      intLastCount = parseInt(lastCountOfcom.substr(-1));
+      var divFormGroup= $('<div></div>').attr({'class':'form-group'});
+      var selectComposition = $('<select></select>').attr({'class': 'custom-select form-control validate[required]','name': 'compositionOfMembers[]', 'id': 'compositionOfMembers' + (intLastCount + 1)}).prop("disabled",false);
+      var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn compositionRemoveBtn float-right text-danger'}).click(function(){
+          $(this).parent().remove();
+        });
+
+      $.ajax({
+        type : "POST",
+        url  : "composition",
+        dataType: "json",
+      
+        success: function(data){
+            $(selectComposition).append($('<option></option>').attr('value',"").text(""));
+            $.each(data, function(key,value){
+              $(selectComposition).append($('<option></option>').attr('value',value.composition).text(value.composition));
+            });
+        }
+      });
+    
+
+      $(divFormGroup).append("<table width='100%'><tr><td width='90%'>",selectComposition,"</td><td width='10%'>",deleteSpan,"</td></tr></table>");
+      $("#reserveUpdateForm .col-com").append(divFormGroup);
+    });
+    //end  composition of membersip btn
 
 }); //end of $ Function
+
 
 
 
@@ -545,19 +617,19 @@ $(".coop-type").on('change',function(){
      });
   //end major
      // $('#reserveUpdateForm select[name="typeOfCooperative[]"').each(function(index){ alert("success");
-     //    $('#reserveAddForm #addMoreSubclassBtn').prop("disabled",true);
-     //    $("#reserveAddForm #proposedName").prop("disabled",true);
-     //    $('#reserveAddForm select[name="majorIndustry[]"').each(function(index){
+     //    $('#reserveUpdateForm #addMoreSubclassBtn').prop("disabled",true);
+     //    $("#reserveUpdateForm #proposedName").prop("disabled",true);
+     //    $('#reserveUpdateForm select[name="majorIndustry[]"').each(function(index){
      //      $(this).empty();
      //      $(this).prop("disabled",true);
      //    });
-     //    $('#reserveAddForm select[name="subClass[]"').each(function(index){
+     //    $('#reserveUpdateForm select[name="subClass[]"').each(function(index){
      //      $(this).empty();
      //      $(this).prop("disabled",true);
      //    });
      //    if($(this).val() && ($(this).val()).length > 0){
-     //      $("#reserveAddForm #addMoreSubclassBtn").prop("disabled",false);
-     //      $("#reserveAddForm #proposedName").prop("disabled",false);
+     //      $("#reserveUpdateForm #addMoreSubclassBtn").prop("disabled",false);
+     //      $("#reserveUpdateForm #proposedName").prop("disabled",false);
      //      var coop_type = $(this).val();
      //        $.ajax({
      //        type : "POST",
@@ -567,7 +639,7 @@ $(".coop-type").on('change',function(){
      //          coop_type: coop_type
      //        },
      //        success: function(data){
-     //          $('#reserveAddForm select[name="majorIndustry[]"').each(function(index){
+     //          $('#reserveUpdateForm select[name="majorIndustry[]"').each(function(index){
      //            var majorIndustry = $(this);
      //            $(majorIndustry).prop("disabled",false);
      //            $(majorIndustry).append($('<option></option>').attr('value',"").text(""));
@@ -787,6 +859,9 @@ var htmlFielda = '<div class="com-div"> <select class="custom-select composition
     
   });
   //end 
+
+
+
   
 
 

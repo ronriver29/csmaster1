@@ -168,11 +168,11 @@
                 <div class="form-group" style="margin-bottom: 0">
                    <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
-                  <input type="text" class="form-control validate[required,funcCall[validateAmendment_proposed_name],ajax[ajaxAmendmentNameCallPhp]]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>">
+                <!--   <input type="text" class="form-control validate[required,funcCall[validateAmendment_proposed_name],ajax[ajaxAmendmentNameCallPhp]]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> -->
+
+                   <input type="text" class="form-control validate[required]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>">
                   <input type="hidden" class="form-control" id="cooperative_idss" />
-                 <!--  <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
-                  data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
-                  <input type="text" class="form-control validate[required,funcCall[validateActivityNotNullUpdateCustom], funcCall[validateActivityInNameUpdateCustom], funcCall[validateCooperativeWordInNameCustom], <?php echo ($coop_info->status >0) ? "ajax[ajaxCoopNameUpdateCallPhp]" : "ajax[ajaxCoopNameExpiredCallPhp]";?>]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> -->
+                
                 </div>
                  <div style="margin-bottom:20px;"> <small><span id="type_of_coop" style="margin-top:-20px;"></span></small> </div>
                    <div style="margin-bottom:20px;"><small>
@@ -222,72 +222,96 @@
               </div>
             </div>
               
-          </div>
-    
-            <!-- ASSOCIATIONAL -->
-           <div class="col-sm-12 col-md-12" id="associational-wrapper" style="padding:5px;">
-            <div class="form-group">
-             <label for="fieldmembershipname" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
-              <input type="text" class="form-control" name="assoc_field_membership" id="assoc_field_membership" >
-            </div>
-            <div class="form-group">
-              <label for="compositionOfMembers1" id="name_institution_label">Name of Association</label>
-               <div class="assoc-wrapper"></div><!-- end of wrapper -->
-               <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn_Associational"  style="margin-top:35px;">
-                <i class="fas fa-plus"></i> Add Additional Name of Associational</button>
-              </div>
-           </div>
         
-        <!-- INSTITUTIONAL -->
-        <div class="col-sm-12 col-md-12" id="institutional-wrapper" style="padding:5px;">
-          <div class="form-group">
-            <label for="compositionOfMembers1" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
-            <input type="text" class="form-control" name="ins_field_membership" id="ins_field_membership" >
-          </div>
-          <div class="form-group">
-            <label for="compositionOfMembers1" id="name_institution_label">Name of Institution</label>
-         
-            <div id="wrapper" class="con-wrapper"></div><!-- end of wrapper -->
-            
-            <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn_insti"  style="margin-top:35px;">
-            <i class="fas fa-plus"></i> Add Additional Name of Institution</button>
-          </div>
-        </div>
-         <!--END INSTITUTIONAL -->
+    
+          <!--  COMPOSITION -->
+          <div class="row rd-row">
+              <div class="col-sm-12 col-md-10 col-com">
+                    
+                            <label for="compositionOfMembers1" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
+                            <label for="compositionOfMembers1" id="fieldmembershipmemofficname">Field of Membership <i>(Note: Members, Officers)</i></label>
+                            <input type="text" class="form-control" name="field_membership" id="field_membership" value="<?=$coop_info->field_of_membership?>">
+                            <label for="compositionOfMembers1" id="name_institution_label">Name of Institution</label>
+                            <label for="compositionOfMembers1" id="name_associational_label">Name of Association</label>
+                        <?php
 
-           <!--OCCUPATIONAL-->
-          
-              <div class="row col-md-12" id="occupational-div">
-                <div class="col-sm-12 col-md-12 occupational-div">
-                  <div class="form-group composition_ ">
-                    <label for="compositionOfMembers1">Composition of Members </label>
-                    <!-- <?php
-                    foreach($list_of_comp as $crows)
-                    {
-                    ?>
-                    <div class="com-div">
-                      <select class="custom-select composition-of-members" name="compositionOfMembersa[]" id="compositionOfMembersa>"  style="margin-bottom:10px;">
-                        <?php foreach($crows as $comrow){?>
-                        <option value="<?=$comrow['composition']?>" <?=($comrow['composition']==$comrow['amended_composition']?"selected":"")?>> <?=$comrow['composition'].' '.$comrow['amended_composition']?></option>
-                        <?php }?>
-                        }
-                      </select>
-                      <a  class="customDeleleBtn compositionRemoveBtne float-right text-danger"><i class="fas fa-minus-circle"></i></a>
-                    </div>
-                    <?php
-                    }
-                    ?> -->
-                    <!--  <div id="wrappera" class="col-sm-12 col-md-12 occupational-wrappera"></div> -->
-                  </div> <!-- end of form=group -->
+                            foreach($inssoc as $key=> $insoc){
+                              // if($insoc!=" " && $insoc!="")
+                              // {
+                                echo '<div class="ins-div"><input type="text" class="form-control" name="name_institution[]" id="name_institution" value="'.$insoc.'"><br>';
+                                 if($key>0)
+                                  {
+                                    echo'<a id="remove_ins" class="customDeleleBtn institutionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a></div>';
+                                  }
+                                  else
+                                  {
+                                    echo"</div>";
+                                  }
+                              // }
+
+                            }
+                        ?>
+                            <label for="compositionOfMembers" id="composition_of_members_label">Composition of Members </label> 
+                            
+                            <?php if(empty($members_composition)) {?>
+                            <select class="custom-select" name="compositionOfMembers[]" id="compositionOfMembers1">
+                                <option value="" selected></option>
+                                <?php
+                                  foreach ($composition as $key) {
+                                    echo '<option value="'.$key->composition.'">'.$key->composition.'</option>';
+                                  }
+                                ?>
+                              </select>
+                            <?php } ?>
+                            <?php 
+                            if($members_composition)
+                            {
+                              $no=0;
+                              foreach($members_composition as $key){
+
+
+                                echo '<div class="form-group">
+
+                                <table id="comp_tbl">
+                                  <tr>
+                                    <td><select class="custom-select form-control  validate[required]" name="compositionOfMembers[]" id="compositionOfMembers'.++$no.'">
+                                        <option value=""></option>';
+                                        foreach($composition as $key2){
+                                          echo '<option value="'.$key2->composition;
+                                          if ($key['composition']==$key2->composition)
+                                            echo '" selected>';
+                                          else
+                                            echo '">';
+                                          echo $key2->composition.'</option>';}
+
+                                        echo '</select>
+                                    </td>
+                                    <td><a class="customDeleleBtn compositionRemoveBtn float-right text-danger"  onclick="$(this).parent().parent().remove()"><i class="fas fa-minus-circle"></i></a>
+                                    </td>
+                                  </tr>
+                                </table>                     
+
+                            </div>';
+                            }//end if is array
+                          } 
+              ?>
                 
-                   
-               
+             
+            </div>
+          </div>
+          <br>
+           <div class="col-sm-12 col-md-12">
+            <div class="row">
+              <div class="col-sm-12 col-md-10">
+                <div class="form-group">
+                    <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn"><i class="fas fa-plus"></i> Add Additional Name</button>
+                    <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
                 </div>
-                 <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtne" style="margin-left:800px;">
-                  <i class="fas fa-plus"></i> Add Composition of Members</button>
-                </div>   
-              <!--END OCCUPATIONAL-->
-
+              </div>
+            </div>
+          </div>
+         
+          <!--  END COMPOSITION -->
           <div class="col-sm-12 col-md-12">
             <div class="row">
               <div class="col-sm-12 col-md-12">

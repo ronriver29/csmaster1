@@ -420,7 +420,7 @@ class amendment extends CI_Controller{
     }
     //end modify
     
-    public function amendment_update($id = null){
+    public function amendment_update($id = null){ 
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
@@ -436,7 +436,8 @@ class amendment extends CI_Controller{
                 if(!$this->input->post('Amendment_ID')){
                   $data['client_info'] = $this->user_model->get_user_info($user_id); 
                   $data['members_composition'] = $this->amendment_model->get_coop_composition($decoded_id);
-                  
+                  // echo $this->db->last_query();
+                  // $this->debug($data['members_composition']);
                   $data['title'] = 'Update Amendment Details';
                   $data['header'] = 'Update Amendment Information';
                   
@@ -558,6 +559,8 @@ class amendment extends CI_Controller{
                   // $this->debug($data['list_type_coop']);
                   //cooperative type value
                   $data['amd_type_of_coop'] = $typeName_arr;
+
+                  $data['inssoc'] = explode(",",$data['coop_info']->name_of_ins_assoc);
                   $this->load->view('./template/header', $data);
                   $this->load->view('cooperative/amendment_reservation_update', $data);
                   if($this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
@@ -606,10 +609,11 @@ class amendment extends CI_Controller{
 	                // }
 
 	                $occu_comp_of_membship='';
-	                if(is_array($this->input->post('compositionOfMembersa'))>0)
+	                if(is_array($this->input->post('compositionOfMembers'))>0)
 	                {
-	                  $occu_comp_of_membship = implode(',',$this->input->post('compositionOfMembersa'));
+	                  $occu_comp_of_membship = implode(',',$this->input->post('compositionOfMembers'));
 	                }    
+                  // $this->debug( $occu_comp_of_membship);
                   $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('Amendment_ID')));             
 	                 $group='';
                    $cooperativeType_id =  implode(',',$this->input->post('typeOfCooperative'));
@@ -633,8 +637,8 @@ class amendment extends CI_Controller{
                       'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
                     );
                     // $this->debug($field_data);
-                  // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition));
-                    // $  this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition));
+                 
+                    // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition));
                     if($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition)){
                       $this->session->set_flashdata('cooperative_success', 'Successfully updated basic information.');
                       redirect('amendment/'.$this->input->post('Amendment_ID'));

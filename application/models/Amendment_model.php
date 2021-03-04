@@ -104,7 +104,7 @@ class amendment_model extends CI_Model{
   public function get_coop_composition($amendment_id){
     $this->db->select('composition_of_members.composition');
     $this->db->from('amendment_members_composition_of_cooperative');
-    $this->db->join('composition_of_members','amendment_members_composition_of_cooperative.composition=composition_of_members.id','inner');
+    $this->db->join('composition_of_members','amendment_members_composition_of_cooperative.composition=composition_of_members.composition','inner');
     $this->db->where('amendment_members_composition_of_cooperative.amendment_id',$amendment_id);
     $query = $this->db->get();
 
@@ -1051,21 +1051,30 @@ class amendment_model extends CI_Model{
       $this->db->update('amendment_purposes',$temp_purpose);
 
     } 
-   
-   
-    $composition_input = explode(',',$data['comp_of_membership']);
-    
-    foreach($composition_input as $composition_id){
-        $data_composition[] =array(
-                    'amendment_id'=> $amendment_id,
-                    'composition'=>$composition_id, 
-                    'coop_id'=>$coop_id
-                );
-    
+
+   //if Common bond of memebship is occupation
+    if($data['common_bond_of_membership'] == 'Occupational')
+    {
+      $composition_input = explode(',',$data['comp_of_membership']);
+      foreach($composition_input as $composition_id){
+          $data_composition[] =array(
+                      'amendment_id'=> $amendment_id,
+                      'composition'=>$composition_id, 
+                      'coop_id'=>$coop_id
+                  );
+      
+      }
+       $this->db->delete('amendment_members_composition_of_cooperative',array('amendment_id'=>$amendment_id));
+       $this->db->insert_batch('amendment_members_composition_of_cooperative', $data_composition);
     }
-    // return $data_composition;
-    $this->db->delete('amendment_members_composition_of_cooperative',array('amendment_id'=>$amendment_id));
-    $this->db->insert_batch('amendment_members_composition_of_cooperative', $data_composition);
+    else
+    {
+      //delete if not occupational
+      $this->db->delete('amendment_members_composition_of_cooperative',array('amendment_id'=>$amendment_id));
+    }
+ 
+
+   
     
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
