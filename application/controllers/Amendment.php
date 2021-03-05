@@ -584,13 +584,13 @@ class amendment extends CI_Controller{
                   $name_of_ins_assoc ='';
 	                if($this->input->post('commonBondOfMembership')=='Institutional')
 	                {
-	                       $name_of_ins_assoc = implode(',',$this->input->post('name_ins_assoc'));
-	                        $field_memship =$this->input->post('ins_field_membership');
+	                       $name_of_ins_assoc = implode(',',$this->input->post('name_institution'));
+	                        $field_memship =$this->input->post('field_membership');
 	                }
 	                else if($this->input->post('commonBondOfMembership')=='Associational')
 	                {
-	                      $name_of_ins_assoc = implode(',',$this->input->post('name_associational'));
-	                      $field_memship =$this->input->post('assoc_field_membership');
+	                      $name_of_ins_assoc = implode(',',$this->input->post('name_institution'));
+	                      $field_memship =$this->input->post('field_membership');
 	                }
 	                 else if($this->input->post('commonBondOfMembership')=='Occupational')
 	                {

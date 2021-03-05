@@ -155,6 +155,8 @@ $(function(){
                 $('#reserveUpdateForm #name_institution').prop("required",false);
                 $('#reserveUpdateForm #field_membership').prop("required",false);
                 $('#reserveUpdateForm #name_associational').prop("required",false);
+                $("#reserveUpdateForm .compositionRemoveBtn").hide();
+
             } else {
                 $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
                 $('#reserveUpdateForm #field_membership').hide();
