@@ -221,7 +221,7 @@
               </tr>
             </tbody>
           </table>
-        <li>Total No. of Regular Members only. <u><?=($total_regular_cooperator!=$total_regular_orig ? '<b>'.$total_regular_cooperator.'</b>' : $total_regular_cooperator)?></u> 
+        <li>Total No. of Regular Members only. <u><?=($total_regular!=$total_regular_orig ? '<b>'.$total_regular2.'</b>' : $total_regular2)?></u> 
         </li>
         <li>Projected Increase of Membership for:</li>
         <table class="table table-borderless table-sm">
@@ -296,7 +296,7 @@
                    $tot_reg_paid2 = '<b>'.number_format($tot_reg_paid2,2).'</b>';
                 }
               ?>
-              <td><u><?php echo number_format(($bylaw_info->kinds_of_members == 1) ?  $tot_reg_paid : $tot_reg_paid2,2);?></u></td>
+              <td><u><?php echo (($bylaw_info->kinds_of_members == 1) ?  $tot_reg_paid : $tot_reg_paid2);?></u></td>
               
 
             </tr>
