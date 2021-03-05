@@ -156,7 +156,7 @@ $(function(){
                 $('#reserveUpdateForm #field_membership').prop("required",false);
                 $('#reserveUpdateForm #name_associational').prop("required",false);
                 $("#reserveUpdateForm .compositionRemoveBtn").hide();
-
+                $("#reserveUpdateForm .div-ins-assoc-occu").hide();
             } else {
                 $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
                 $('#reserveUpdateForm #field_membership').hide();
@@ -175,6 +175,9 @@ $(function(){
                 $('#reserveUpdateForm #name_institution').prop("required",false);
                 $('#reserveUpdateForm #field_membership').prop("required",false);
                 $('#reserveUpdateForm #name_associational').prop("required",false);
+                $("#reserveUpdateForm .institutionRemoveBtn").hide();
+                $("#reserveUpdateForm .ins-div").hide();
+
           
             }
         });

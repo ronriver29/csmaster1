@@ -226,8 +226,8 @@
     
           <!--  COMPOSITION -->
           <div class="row rd-row">
-              <div class="col-sm-12 col-md-10 col-com">
-                    
+              <div class="col-sm-12 col-md-10 col-com div-ins-assoc-occu">
+                       
                             <label for="compositionOfMembers1" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
                             <label for="compositionOfMembers1" id="fieldmembershipmemofficname">Field of Membership <i>(Note: Members, Officers)</i></label>
                             <input type="text" class="form-control" name="field_membership" id="field_membership" value="<?=$coop_info->field_of_membership?>">
@@ -251,6 +251,7 @@
 
                             }
                         ?>
+                    
                             <label for="compositionOfMembers" id="composition_of_members_label">Composition of Members </label> 
                             
                             <?php if(empty($members_composition)) {?>
@@ -284,7 +285,7 @@
                                             echo '">';
                                           echo $key2->composition.'</option>';}
 
-                                        echo '</select>
+                                        echo '</select><br>
                                     </td>
                                     <td><a class="customDeleleBtn compositionRemoveBtn float-right text-danger"  onclick="$(this).parent().parent().remove()"><i class="fas fa-minus-circle"></i></a>
                                     </td>
