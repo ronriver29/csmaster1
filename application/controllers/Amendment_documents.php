@@ -1195,7 +1195,7 @@ public function count_documents_coop($coop_id,$num)
                                 $data['capitalization_info_orig'] = $this->capitalization_model->get_capitalization_by_coop_id($cooperative_id);
                               } //end if had amendment
                             
-
+                              // $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data);
                                $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data,TRUE);
                               $f = new pdf();
                               $f->set_option("isPhpEnabled", true);
@@ -2078,6 +2078,7 @@ public function count_documents_coop($coop_id,$num)
                                 $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
                                 $data['no_of_cooperator'] = $this->amendment_cooperator_model->get_total_number_of_cooperators($decoded_id);
                                 $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
+
                                 $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$decoded_id);
                                 $data['treasurer_of_coop'] = $this->amendment_cooperator_model->get_treasurer_of_coop($decoded_id);
 
@@ -2200,7 +2201,7 @@ public function count_documents_coop($coop_id,$num)
   function affidavit_federation(){
     $data['title'] = "Treasurer's Affidavit for Federation";
     $options = new Options();
-    $options->setDpi(150);
+    $options->setDpi(150); 
     $f = new pdf($options);
     $f->setPaper('folio', 'portrait');
     $html2 = $this->load->view('documents/federation/treasurer_affidavit_federation', $data, TRUE);
@@ -2250,8 +2251,9 @@ public function count_documents_coop($coop_id,$num)
                               $data['cooperator_chairperson'] = $this->amendment_cooperator_model->get_chairperson_of_coop($decoded_id);
                               $data['cooperator_vicechairperson'] = $this->amendment_cooperator_model->get_vicechairperson_of_coop($decoded_id);
                               $data['cooperator_directors'] = $this->amendment_cooperator_model->get_all_board_of_director_only($decoded_id);
-                              $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
-                              
+                              // $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
+                              $data['total_regular'] = $this->amendment_cooperator_model->  get_total_regular($cooperative_id,$decoded_id);
+                            
                               $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$decoded_id);
                              
                               $data['staff_list'] = $this->amendment_staff_model->get_all_staff_of_coop_by_position($decoded_id);
@@ -2343,7 +2345,8 @@ public function count_documents_coop($coop_id,$num)
                                  $data['no_of_cooperator_orig'] = $this->cooperator_model->get_total_number_of_cooperators($cooperative_id);
                               
                                  $data['committees_list_orig'] = $this->committee_model->get_all_committee_names_of_coop_multi($cooperative_id);
-                               
+                                $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
+                                 $data['total_regular2'] = $this->amendment_cooperator_model->get_total_regular_amendment($cooperative_id,$decoded_id);
                               }//end of had amendment
                              
                               // $this->load->view('documents/amendment_economic_survey', $data);
@@ -2423,7 +2426,7 @@ public function count_documents_coop($coop_id,$num)
                                 $data['cooperator_chairperson'] = $this->amendment_cooperator_model->get_chairperson_of_coop($decoded_id);
                                 $data['cooperator_vicechairperson'] = $this->amendment_cooperator_model->get_vicechairperson_of_coop($decoded_id);
                                 $data['cooperator_directors'] = $this->amendment_cooperator_model->get_all_board_of_director_only($decoded_id);
-                                $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
+                                $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular_amendment($cooperative_id,$decoded_id);
                                 $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$decoded_id);
                                 $data['staff_list'] = $this->amendment_staff_model->get_all_staff_of_coop_by_position($decoded_id);
                                 $data['others_staff_list'] = $this->staff_model->get_all_staff_of_coop_by_other_position($decoded_id);
@@ -2475,6 +2478,7 @@ public function count_documents_coop($coop_id,$num)
                                      $data['no_of_cooperator_orig'] = $this->cooperator_model->get_total_number_of_cooperators($cooperative_id);
                                    
                                      $data['committees_list_orig'] = $this->committee_model->get_all_committee_names_of_coop_multi($cooperative_id);
+                                      $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular_amendment($cooperative_id,$decoded_id);
                                   }
                                 }
                                 else
@@ -2496,6 +2500,7 @@ public function count_documents_coop($coop_id,$num)
                                 $data['staff_list_orig'] = $this->staff_model->get_all_staff_of_coop_by_position($cooperative_id);
                                $data['no_of_cooperator_orig'] = $this->cooperator_model->get_total_number_of_cooperators($cooperative_id);
                                $data['committees_list_orig'] = $this->committee_model->get_all_committee_names_of_coop_multi($cooperative_id);
+                                $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular_amendment($cooperative_id,$decoded_id);
                               }//end of had amendment
                                   
                                //admin economic_survey
