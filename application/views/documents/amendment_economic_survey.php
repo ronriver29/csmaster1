@@ -221,7 +221,7 @@
               </tr>
             </tbody>
           </table>
-        <li>Total No. of Regular Members only. <u><?=($total_regular!=$total_regular_orig ? '<b>'.$no_of_cooperator.'</b>' : $no_of_cooperator)?></u>
+        <li>Total No. of Regular Members only. <u><?=($total_regular_cooperator!=$total_regular_orig ? '<b>'.$total_regular_cooperator.'</b>' : $total_regular_cooperator)?></u> 
         </li>
         <li>Projected Increase of Membership for:</li>
         <table class="table table-borderless table-sm">

@@ -1077,6 +1077,11 @@ left join amendment_cooperators on cap.amendment_id = amendment_cooperators.amen
     $data = $query->result_array();
     return $data;
   }
+  public function get_total_regular_amendment($cooperative_id,$amendment_id)
+  {
+     $query = $this->db->get_where('amendment_cooperators',array('cooperatives_id'=>$cooperative_id,'amendment_id' => $amendment_id,'type_of_member'=>'Regular'));
+     return $query->num_rows();
+  }
   public function get_total_regular($cooperative_id,$amendment_id){
     $cooperative_id = $this->security->xss_clean($cooperative_id);
     $this->db->select('SUM(number_of_subscribed_shares) as total_subscribed, SUM(number_of_paid_up_shares) as total_paid');
