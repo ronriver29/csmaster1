@@ -546,6 +546,9 @@ $(function(){
         // var lastCountOfSubclass = $('select[name="subClass[]"').last().attr('id'); 
         // var totalCountOFSubclass = $('select[name="subClass[]"').length;
         // var intLastCount = parseInt(lastCountOfSubclass.substr(-1));
+
+
+      
         
         var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn businessActivityRemoveBtn float-right text-danger'}).click(function(){
             $(this).parent().parent().parent().remove(); 
@@ -598,6 +601,7 @@ $(function(){
 
 
     $("#amendmentAddForm #newNamess").bind("keyup change",function(){
+    
 
       var val = $(this).val();
       var count_coop_type =$('#amendmentAddForm select[name="typeOfCooperative[]"').length;
@@ -612,8 +616,31 @@ $(function(){
          $("#type_of_coop").html(val);
            $("#proposed_name_msg").html('* Do not include the word Cooperative in proposed name');
       }
-     
+      
+        if($(this).val() && ($(this).val()).length > 0)
+        {
+        $("#amendmentAddForm #addMoreSubclassBtn").prop("disabled",false);
+          document.getElementById("newNamess").maxLength = "61";
+
+          $('#amendmentAddForm #newNamess').on('change',function(){
+            document.getElementById('acronym_names').value = '';
+            var value = document.getElementById("newNamess").value;
+            var totalval = 61 - value.length; 
+            // alert(totalval+ value.length);
+            if(totalval == 0){ 
+              $("#amendmentAddForm #acronym_names").prop("disabled",true);
+              $('#amendmentAddForm #acronymnameerr').show();
+            } else {
+              $('#amendmentAddForm #acronymnameerr').hide();
+              $("#amendmentAddForm #acronym_names").prop("disabled",false);
+            }
+            document.getElementById("acronym_names").maxLength = totalval;
+          });
+        }  
+
     });
+
+
 
   
   $('#amendmentAddForm #typeOfCooperative1').on('change', function(){

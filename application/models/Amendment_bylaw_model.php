@@ -18,6 +18,7 @@ class Amendment_bylaw_model extends CI_Model{
   public function update_bylaw_primary($bylaw_coop_id,$bylaw_info){
     $bylaw_coop_id = $this->security->xss_clean($bylaw_coop_id);
     $bylaw_info = $this->security->xss_clean($bylaw_info);
+   
     /*check record first if existing if not then create*/
     $get_record = $this->db->where("amendment_id",$bylaw_coop_id)->get("amendment_bylaws");
     if($get_record->num_rows()==0) {
@@ -25,8 +26,15 @@ class Amendment_bylaw_model extends CI_Model{
         $this->db->trans_commit();
     }
     $this->db->trans_begin();
+
     $this->db->where('amendment_id', $bylaw_coop_id);
     $this->db->update('amendment_bylaws',$bylaw_info);
+    if( $bylaw_info['kinds_of_members'] ==1)
+    {
+      $this->db->delete('amendment_cooperators',array('amendment_id'=>$bylaw_coop_id,'type_of_member'=>'Associate'));
+      $this->db->where('amendment_id',$bylaw_coop_id);
+      $this->db->update('amendment_capitalization',array('associate_members'=>''));
+    }
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;

@@ -1,4 +1,4 @@
-<div class="row mb-2">
+ <div class="row mb-2">
   <div class="col-sm-12 col-md-2">
     <a class="btn btn-secondary btn-sm btn-block"  href="<?php echo base_url();?>amendment" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
   </div>
@@ -111,7 +111,7 @@
               <div class="col-sm-12 offset-md-9 col-md-3">
                 <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreSubclassBtn"><i class="fas fa-plus"></i> Add More Business Activity</button>
               </div>
-            </div>
+            </div> 
             
             <div class="row">
               <div class="col-sm-12 col-md-12">
@@ -119,8 +119,8 @@
                   <label for="newName"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your new name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
 
-                 <!--    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendment_proposed_name],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess"> -->
-                    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendment_proposed_name]]" name="newNamess" id="newNamess">
+                    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendment_proposed_name],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess">
+                   <!--  <input type="text" class="form-control p_name validate[required,funcCall[validateAmendment_proposed_name]]" name="newNamess" id="newNamess"> -->
                   <input type="hidden" class="form-control" name="newName2" id="newName2">
                   <input type="hidden" id="cooperative_idss" />
                 </div>
@@ -138,6 +138,7 @@
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Acronym of Cooperative Name:</label>
                   <input type="text" class="form-control" name="acronym_names" id="acronym_names" />
                 </div>
+                 <label id="acronymnameerr" style="color:red;font-size:80%;display:none"><i>* Acronym Name has been disabled. Maximum Character reach on "Proposed Name".</i></label>
               </div>
             </div>
             
