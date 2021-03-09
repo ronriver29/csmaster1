@@ -48,10 +48,10 @@
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
                     <option value="">--</option>
                     <option value="Primary">Primary</option>
-                    <option value="Secondary - Union">Secondary - Union</option>
+                   <!--  <option value="Secondary - Union">Secondary - Union</option>
                     <option value="Tertiary - Union">Tertiary - Union</option>
                     <option value="Secondary - Federation">Secondary - Federation</option>
-                    <option value="Tertiary - Federation">Tertiary - Federation</option>
+                    <option value="Tertiary - Federation">Tertiary - Federation</option> -->
                   </select>
                 </div>
               </div>
@@ -133,7 +133,7 @@
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Acronym of Cooperative Name:</label>
                   <input type="text" class="form-control validate[funcCall[validateCooperativeParenthesesInAcronymCustom]]" name="acronym_name" id="acronymname" placeholder="(Optional)">
                   <label id="acronymnameerr" style="color:red;font-size:80%;"><i>* Acronym Name has been disabled. Maximum Character reach on "Proposed Name".</i></label>
-                </div>
+                </div> 
               </div>
             </div>
             <div class="row rd-row">
