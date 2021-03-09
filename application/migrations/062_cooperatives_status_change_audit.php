@@ -45,7 +45,7 @@ class Migration_cooperatives_status_change_audit extends CI_Migration
 
     public function down()
     {
-        $this->dbforge->drop_table('cooperatives_status_change_audit');
+        // $this->dbforge->drop_table('cooperatives_status_change_audit');
     }
 }
 ?>
