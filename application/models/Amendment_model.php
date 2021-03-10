@@ -104,7 +104,7 @@ class amendment_model extends CI_Model{
   public function get_coop_composition($amendment_id){
     $this->db->select('composition_of_members.composition');
     $this->db->from('amendment_members_composition_of_cooperative');
-    $this->db->join('composition_of_members','amendment_members_composition_of_cooperative.composition=composition_of_members.composition','inner');
+    $this->db->join('composition_of_members','amendment_members_composition_of_cooperative.composition=composition_of_members.id','inner');
     $this->db->where('amendment_members_composition_of_cooperative.amendment_id',$amendment_id);
     $query = $this->db->get();
 

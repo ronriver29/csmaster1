@@ -222,13 +222,11 @@
               </div>
             </div>
               
-        
-    
-          <!--  COMPOSITION -->
-          <div class="row rd-row">
-              <div class="col-sm-12 col-md-10 col-com div-ins-assoc-occu">
-                       
-                            <label for="compositionOfMembers1" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
+          <!-- asldfk; -->
+          <div class="row">
+              <div class="col-sm-12 col-md-12 col-com insti_div" id="insti_div" > 
+                <div class="form-group">
+                   <label for="compositionOfMembers1" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
                             <label for="compositionOfMembers1" id="fieldmembershipmemofficname">Field of Membership <i>(Note: Members, Officers)</i></label>
                             <input type="text" class="form-control" name="field_membership" id="field_membership" value="<?=$coop_info->field_of_membership?>">
                             <label for="compositionOfMembers1" id="name_institution_label">Name of Institution</label>
@@ -251,8 +249,10 @@
 
                             }
                         ?>
-                    
-                            <label for="compositionOfMembers" id="composition_of_members_label">Composition of Members </label> 
+                </div>
+            
+                <div class="form-group">
+                   <label for="compositionOfMembers" id="composition_of_members_label">Composition of Members </label> 
                             
                             <?php if(empty($members_composition)) {?>
                             <select class="custom-select" name="compositionOfMembers[]" id="compositionOfMembers1">
@@ -296,23 +296,12 @@
                             }//end if is array
                           } 
               ?>
-                
-             
-            </div>
-          </div>
-          <br>
-           <div class="col-sm-12 col-md-12">
-            <div class="row">
-              <div class="col-sm-12 col-md-10">
-                <div class="form-group">
-                    <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn"><i class="fas fa-plus"></i> Add Additional Name</button>
-                    <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
                 </div>
               </div>
-            </div>
-          </div>
-         
-          <!--  END COMPOSITION -->
+          </div>      
+          <!-- alsjdfaksjd/ -->
+    
+        
           <div class="col-sm-12 col-md-12">
             <div class="row">
               <div class="col-sm-12 col-md-12">

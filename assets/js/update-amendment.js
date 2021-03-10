@@ -13,7 +13,7 @@ $(function(){
 
 
  
-
+ 
   // load type coop modified
   if($("#reserveUpdateForm #typeOfCooperatives1").val().length>0)
         {
@@ -119,6 +119,9 @@ $(function(){
                 $('#reserveUpdateForm #name_institution').prop("required",true);
                 $('#reserveUpdateForm #composition_of_members_label').hide();
                 $('#reserveUpdateForm #compositionOfMembers1').hide();
+                $("#reserveUpdateForm .compositionRemoveBtn").hide();
+                // $('#reserveUpdateForm .ins-div').show();
+                 $("#reserveUpdateForm .insti_div").show();
             } else if($(this).val()=="Associational"){
                 $('#reserveUpdateForm select[name="compositionOfMembers[]"').hide();
                 $('#reserveUpdateForm #addMoreComBtn').hide();
@@ -137,6 +140,9 @@ $(function(){
                 $('#reserveUpdateForm #name_associational').prop("required",true);
                 $('#reserveUpdateForm #composition_of_members_label').hide();
                 $('#reserveUpdateForm #compositionOfMembers1').hide();
+                $("#reserveUpdateForm .compositionRemoveBtn").hide();
+                // $('#reserveUpdateForm .ins-div').show();
+                 $("#reserveUpdateForm .insti_div").show();
             } else if($(this).val()=="Residential"){
                 $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
                 $('#reserveUpdateForm #field_membership').hide();
@@ -157,6 +163,7 @@ $(function(){
                 $('#reserveUpdateForm #name_associational').prop("required",false);
                 $("#reserveUpdateForm .compositionRemoveBtn").hide();
                 $("#reserveUpdateForm .div-ins-assoc-occu").hide();
+                 $("#reserveUpdateForm .insti_div").hide();
             } else {
                 $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
                 $('#reserveUpdateForm #field_membership').hide();
@@ -176,8 +183,10 @@ $(function(){
                 $('#reserveUpdateForm #field_membership').prop("required",false);
                 $('#reserveUpdateForm #name_associational').prop("required",false);
                 $("#reserveUpdateForm .institutionRemoveBtn").hide();
-                $("#reserveUpdateForm .ins-div").hide();
-
+                // $("#reserveUpdateForm .ins-div").hide();
+                $("#reserveUpdateForm .insti_div").show();
+                $("#reserveUpdateForm .compositionRemoveBtn").show();
+                $("reserveUpdateForm #occupation-div").show();
           
             }
         });
