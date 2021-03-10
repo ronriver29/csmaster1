@@ -281,7 +281,7 @@
              }
           } 
         }
-       if($coop_info->common_bond_of_membership="Occupational ") 
+       if($coop_info->common_bond_of_membership="Occupational") 
         { 
           echo' of ';
           $counts= count($members_composition) -1;
@@ -297,7 +297,7 @@
             }
           }   
         }
-        else
+        if($coop_info->common_bond_of_membership="Residential")
         {
            echo ' of members working and/or residing in the area of operation'; 
         }
