@@ -43,7 +43,7 @@
 <?php if($coop_info->status==10): ?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
-      <div class="alert alert-danger" role="alert">
+      <div class="alert alert-danger" role="alert"> 
         <p class="font-weight-bold">The cooperative has been denied because of the following reason/s:</p>
         <pre><?= $coop_info->evaluation_comment ?></pre>
       </div>
@@ -51,15 +51,8 @@
   </div>
 <?php endif; ?>
 <?php if($is_client && $coop_info->status==11 && strlen($coop_info->evaluation_comment) >= 1 && ($coop_info->evaluated_by > 0)) : ?>
-  <!--  <div class="row mt-3">
-    <div class="col-sm-12 col-md-12">
-      <div class="alert alert-danger" role="alert">
-        <p class="font-weight-bold">The cooperative has been deferred because of the following reason/s:</p> -->
-       <!--  <pre><?= $coop_info->evaluation_comment ?></pre> -->
-     <!--  </div>
-    </div>
-  </div>  -->
-  <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Director Findings</button>
+  
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Deferred Reason/s</button>
 
   <div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -72,7 +65,7 @@
           <div class="modal-body" style="table-layout: fixed;">
               <pre><?php 
   //            print_r($cooperatives_comments);
-              foreach($director_comment as $cc) :
+              foreach($deffred_comments as $cc) :
                   echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
                   echo '<ul type="square">';
                       echo '<li>'.$cc['comment'].'</li>';

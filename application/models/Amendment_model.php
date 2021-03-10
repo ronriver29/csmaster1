@@ -2004,6 +2004,11 @@ public function check_if_denied($coop_id){
       return $data;
     }
 
+    public function cooperatives_comments($coop_id){
+      $query = $this->db->query("select * from amendment_comment where amendment_id='$coop_id' and status=11 and access_level IN(3,4)");
+      return $query->result_array();
+    }
+
     public function get_total_count_regular($amendment_id)
     {
       $amendment_id = $this->security->xss_clean($amendment_id);

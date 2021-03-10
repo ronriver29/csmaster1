@@ -1,5 +1,5 @@
     
-<div class="row">
+<div class="row"> 
   <div class="col-md-12">
 <?php if($this->session->flashdata('amendment_msg')) :?>       
        <div class="alert alert-<?=$this->session->flashdata('msg_class')?> alert-dismissible">
@@ -54,11 +54,11 @@
   <?php if(!$is_client && $admin_info->access_level == 3) : ?>
     <?php if($admin_info->is_director_active == 1) : ?>
     <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
-      <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#grantSupervisorModal"><i class='fas fa-user-plus'></i> Grant All Privileges to Supervisor</button>
+      <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#grantSupervisorModal"><i class='fas fa-user-plus'></i> Grant all Authority to Supervising CDS</button>
     </div>
     <?php else : ?>
       <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
-        <button type="button" class="btn btn-warning text-white btn-block" data-toggle="modal" data-target="#revokeSupervisorModal"><i class='fas fa-user-times'></i> Revoke All Privileges of Supervisor</button>
+        <button type="button" class="btn btn-warning text-white btn-block" data-toggle="modal" data-target="#revokeSupervisorModal"><i class='fas fa-user-times'></i> Revoke all Authority of Supervising CDS</button>
       </div>
     <?php endif; ?>
   <?php endif;?>
@@ -127,7 +127,7 @@
                          else if($cooperative['status']==3) echo "FOR VALIDATION";
                         else if($cooperative['status']==4) echo "DENIED BY CDS II";
                         else if($cooperative['status']==5) echo "DEFERRED BY CDS II";
-                        else if($cooperative['status']==6 && $cooperative['third_evaluated_by']>0) echo "FOR EVALUATION";
+                        else if($cooperative['status']==6 && $cooperative['third_evaluated_by']>0) echo "FOR RE-EVALUATION";
                         else if($cooperative['status']==6) echo "SUBMITTED BY CDS II";
                         else if($cooperative['status']==7) echo "DENIED BY SENIOR CDS";
                         else if($cooperative['status']==8) echo "DEFERRED BY SENIOR CDS";
