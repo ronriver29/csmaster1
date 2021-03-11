@@ -495,11 +495,16 @@
   <div class="row ">
     <?php
       $totalRegular =  $total_regular['total_subscribed'] * $capitalization_info->par_value;
-
+        $total_regular_words='';
       $totalRegular_orig = $total_regular_orig['total_subscribed'] * $capitalization_info_orig->par_value;
       if($totalRegular_orig != $totalRegular)
       {
         $totalRegular='<strong>'.number_format($totalRegular,2).'</strong>';
+         $total_regular_words = '<b>'.num_format_custom($totalRegular).'</b>';
+      }
+      else
+      {
+          $total_regular_words = num_format_custom($totalRegular);
       }
 
       $regular_total_subscibed = $total_regular['total_subscribed'] * $capitalization_info->par_value + ($total_associate['total_subscribed'] * $capitalization_info->par_value);
@@ -508,7 +513,7 @@
           $regular_total_subscibed2= $regular_total_subscibed;
       if($regular_total_subscibed_orig!=$regular_total_subscibed)
       {   
-          $regular_total_subscibed2 = '<strong>'.$regular_total_subscibed2.'</strong>';
+          $regular_total_subscibed2 = '<strong>'.num_format_custom($regular_total_subscibed2).'</strong>';
         $regular_total_subscibed = '<strong>'.number_format($regular_total_subscibed,2).'</strong>';
       
       }
@@ -538,7 +543,7 @@
     ?>
     <div class="col-sm-12 col-md-12 text-left">
       <p class="text-justify" style="text-indent: 50px;">That of the authorized share capital, the amount of
-        <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular :   num_format_custom($regular_total_subscibed2) ;?>
+        <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular : $regular_total_subscibed2 ;?>
         (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular : ($regular_total_subscibed);?>) has been subscribed, and
         <!-- <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular2 :   $paidUp;?> -->
         <?=$paidUp?>
