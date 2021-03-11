@@ -237,8 +237,49 @@
        }
        
       ?>
+      <?php 
+      $val = $bylaw_info->act_upon_membership_days;
+      function stringToNumber($string) {
+    // return 0 if the string contains no number at all or is not a string:
+          if (!is_string($string) || !preg_match('/\d/', $string)) {
+              return 0;
+          } 
 
-        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Application for Membership.</i> An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within <?= ucwords(num_format_custom($bylaw_info->act_upon_membership_days));?> (<?= $bylaw_info->act_upon_membership_days?>)  days from the date of filing. The Board of Directors shall devise a form for the purpose which shall, aside from the personal data of applicant, include the duties of a member to participate in all programs including but not limited to capital build-up and savings mobilization of the cooperative and, such other information as may be deemed necessary. </p>
+          // Replace all ',' with '.':
+          $workingString = str_replace(',', '.', $string);
+
+          // Keep only number and '.':
+          $workingString = preg_replace("/[^0-9.]+/", "", $workingString);
+
+          // Split the integer part and the decimal part,
+          // (and eventually a third part if there are more 
+          //     than 1 decimal delimiter in the string):
+          $explodedString = explode('.', $workingString, 3);
+
+          if ($explodedString[0] === '') {
+              // No number was present before the first decimal delimiter, 
+              // so we assume it was meant to be a 0:
+              $explodedString[0] = '0';
+          } 
+
+          if (sizeof($explodedString) === 1) {
+              // No decimal delimiter was present in the string,
+              // create a string representing an integer:
+              $workingString = $explodedString[0];
+          } else {
+              // A decimal delimiter was present,
+              // create a string representing a float:
+              $workingString = $explodedString[0] . '.' .  $explodedString[1];
+          }
+
+          // Create a number from this now non-ambiguous string:
+          $number = $workingString * 1;
+
+          return $number;
+      }
+      // var_dump(stringToNumber($val));
+      ?>
+        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Application for Membership.</i> An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within <?= ucwords(num_format_custom(stringToNumber($val)));?> (<?= $bylaw_info->act_upon_membership_days?>)  days from the date of filing. The Board of Directors shall devise a form for the purpose which shall, aside from the personal data of applicant, include the duties of a member to participate in all programs including but not limited to capital build-up and savings mobilization of the cooperative and, such other information as may be deemed necessary. </p>
           <p class="text-justify" style="text-indent: 50px;">The application form for membership shall include an undertaking to uphold the By-laws, policies, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly. No application for membership shall be given due course if not accompanied with a membership fee of 
             <?=  $membership_fee2 ?> Pesos
              (Php <?= str_replace(',','', $membership_feeSS)?>
