@@ -296,24 +296,25 @@
                    $tot_reg_paid2 = '<b>'.number_format($tot_reg_paid2,2).'</b>';
                 }
               ?>
-              <td><u><?php echo (($bylaw_info->kinds_of_members == 1) ?  $tot_reg_paid : $tot_reg_paid2);?></u></td>
+              <td><u><?php echo (($bylaw_info->kinds_of_members == 1) ?  number_format($tot_reg_paid,2) : number_format($tot_reg_paid2,2));?></u></td>
               
 
             </tr>
             <tr>
+              
               <td>Par value :  </td>
               <!-- <td><u><?php echo(($bylaw_info->kinds_of_members == 1) ? number_format($article_info->par_value_common,2) : number_format(($article_info->par_value_common + $article_info->par_value_preferred),2));?></u></td> -->
               <?php
                 $par_val = ($capitalization_info->par_value!=$capitalization_info_orig->par_value ? '<b>'.number_format($capitalization_info->par_value,2).'</b>' : number_format($capitalization_info->par_value,2));
 
-                $par_value = ($capitalization_info->par_value + $capitalization_info->par_value);
-                $par_value_orig = ($capitalization_info_orig->par_value + $capitalization_info_orig->par_value);
+                $par_value = ($capitalization_info->par_value);
+                $par_value_orig = ($capitalization_info_orig->par_value);
                 if($par_value!=$par_value_orig)
                 {
-                  $par_value = '<b>'.$par_value.'</b>';
+                  $par_value = '<b>'.number_format($par_value,2).'</b>';
                 }
               ?>
-              <td><u><?php echo(($bylaw_info->kinds_of_members == 1) ? $par_val : $par_value);?></u></td>
+              <td><u><?php echo(($bylaw_info->kinds_of_members == 1) ? number_foramt($par_val,2) : number_format($par_value,2));?></u></td>
 
             </tr>
           </tbody>
