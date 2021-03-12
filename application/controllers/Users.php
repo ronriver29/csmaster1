@@ -70,6 +70,7 @@ class Users extends CI_Controller{
           $data['list_id'] = NULL;
         }
         $this->load->view('./template/header', $data);
+        $this->load->view('client/options');
         $this->load->view('client/signup', $data);
         $this->load->view('./template/footer');
       // }else{
@@ -102,6 +103,209 @@ class Users extends CI_Controller{
           }
         }//end isset
         
+      // }
+    }
+  }
+  public function use_registered_email()
+  {
+    if($this->session->userdata('logged_in')){
+      redirect('cooperatives');
+    }else{
+      $data['title'] = 'Sign Up';
+      $data['header'] = '';
+      // if ($this->form_validation->run() == FALSE){
+        //get id list
+        $id_query = $this->db->get('id_list');
+        if($id_query->num_rows()>0)
+        {
+          $data['list_id'] = $id_query->result_array();
+        }
+        else
+        {
+          $data['list_id'] = NULL;
+        }
+        $this->load->view('./template/header', $data);
+        // $this->load->view('client/options');
+        $this->load->view('client/use_registered_email', $data);
+        $this->load->view('./template/footer');
+      // }else{
+        if(isset($_POST['signUpBtn']))
+        {
+        // $coop_exist = $this->db->get_where('registeredcoop',array('regNo'=>$this->input->post('regno')));
+        $coop_exist = $this->db->get_where('users',array('email'=>$this->input->post('eAddress'),'regNo'=>$this->input->post('regno')));
+        $email_taken = $this->db->where(array('email'=>$this->input->post('eAddress')))->get('users');
+
+        // $coop_exist = $this->db->where(array('regNo'=>$this->input->post('regno')))->get('registeredcoop');
+        // $coop_exist2 = $this->db->where(array('email'=>$this->input->post('eAddress')))->get('users');
+        foreach($coop_exist->result_array() as $row)
+          {
+            $is_taken = $row['is_taken'];
+          }
+
+        if($is_taken == '1'){
+          $this->session->set_flashdata(array('email_sent_warning'=>'This Registration is already Taken'));
+                redirect('users/use_registered_email');
+        } elseif($email_taken->num_rows() > 0) {
+          $this->session->set_flashdata(array('email_sent_warning'=>'Email already Taken.'));
+                redirect('users/use_registered_email');
+        } else {
+          if ($coop_exist->num_rows()==0){
+              $this->session->set_flashdata(array('email_sent_warning'=>'Email or Registration Number does not match.'));
+                redirect('users/use_registered_email');
+            // echo '<script>alert("adsdaddadddddd");</script>';
+          } else {
+              $temp_passwd = random_string('alnum',8); //create temp password
+              $u_data = array('password'=>password_hash($temp_passwd, PASSWORD_BCRYPT),'updated_at'=> date('Y-m-d h:i:s',now('Asia/Manila')),'is_taken'=>1);
+              $update_passwd = $this->db->update('users',$u_data,array('email'=>$this->input->post('eAddress')));
+              {
+                if($update_passwd)
+                {   
+                    $reg_name = $this->db->get_where('registeredcoop',array('regNo'=>$this->input->post('regno')));
+
+                    foreach($reg_name->result_array() as $row)
+                    {
+                      $coopName = $row['coopName'];
+                    }
+
+                    $send_mail = $this->sendEmailpassword($this->input->post('eAddress'),$temp_passwd);
+                    if($send_mail)
+                    {
+                      $this->session->set_flashdata(array('email_sent_success'=>"".$coopName.". You're account credentials have been sent to your email."));
+                      redirect('users/login');
+                    } 
+                    else 
+                    {
+                       $data['alert_class'] ='danger';
+                    $this->session->set_flashdata(array('resetpsswd_msg'=>"Error while trying to send the data to your email. Plaese Contact System Administrator."));
+                    }
+                }
+                else
+                {
+                  $this->session->set_flashdata(array('resetpsswd_msg' => "Failed to recover your password."));
+                }
+              }
+            }
+          }
+        }//end isset
+        
+      // }
+    }
+  }
+
+  public function create_new_email_account()
+  {
+    if($this->session->userdata('logged_in')){
+      redirect('cooperatives');
+    }else{
+      $data['title'] = 'Sign Up';
+      $data['header'] = '';
+      // if ($this->form_validation->run() == FALSE){
+        //get id list
+        $id_query = $this->db->get('id_list');
+        if($id_query->num_rows()>0)
+        {
+          $data['list_id'] = $id_query->result_array();
+        }
+        else
+        {
+          $data['list_id'] = NULL;
+        }
+        $this->load->view('./template/header', $data);
+        // $this->load->view('client/options');
+        $this->load->view('client/create_new_email_account', $data);
+        $this->load->view('./template/footer');
+      // }else{
+        if(isset($_POST['signUpBtn']))
+        {
+
+        $coop_exist = $this->db->where(array('regNo'=>$this->input->post('regno')))->get('registeredcoop');
+        $coop_exist_taken = $this->db->where(array('regNo'=>$this->input->post('regno'),'is_taken'=>1))->get('users');
+        $email_taken = $this->db->where(array('email'=>$this->input->post('eAddress')))->get('users');
+        // $coop_exist = $this->db->get_where('registeredcoop',array('regNo'=>$this->input->post('regno')));
+        if($coop_exist->num_rows() == 0){
+          $this->session->set_flashdata(array('email_sent_warning'=>'Registration Number does not Exist.'));
+                // redirect('users/create_new_email_account');
+        } elseif($coop_exist_taken->num_rows() > 0) {
+          $this->session->set_flashdata(array('email_sent_warning'=>'Registration Number already Taken.'));
+                // redirect('users/create_new_email_account');
+        } elseif($email_taken->num_rows() > 0) {
+          $this->session->set_flashdata(array('email_sent_warning'=>'Email already Taken.'));
+                // redirect('users/create_new_email_account');
+        } else {
+
+          $getRegCoop = $this->db->get_where('registeredcoop',array('regNo'=>$this->input->post('regno')));
+          if($getRegCoop->num_rows() != 0){
+            foreach($getRegCoop->result_array() as $reg){
+              $regCode = $reg['addrCode'];
+            }
+          } else {
+            $this->session->set_flashdata(array('email_sent_warning'=>'Registered Cooperatives has no Region assign. Please contact the System Admin!'));
+                redirect('users/create_new_email_account');
+          }
+          $newregCode = substr($regCode, 0, 2);
+          $newregCode = '0'.$newregCode;
+
+          $getAdminEmail = $this->db->get_where('admin',array('access_level'=>2,'region_code'=>$newregCode));
+          if($getAdminEmail->num_rows() != 0){
+            foreach($getAdminEmail->result_array() as $email){
+              $AdminEmail = $email['email'];
+            }
+          } else {
+            $this->session->set_flashdata(array('email_sent_warning'=>'Registered Cooperatives has no Region assign. Please contact the System Admin'));
+
+            // print_r($getAdminEmail->num_rows());
+                redirect('users/create_new_email_account');
+          }
+
+          $img = $_FILES['img'];
+
+          if(!empty($img))
+          {
+              $img_desc = $this->reArrayFiles($img);
+              // print_r($img_desc);
+              $newnamearray = array();
+              foreach($img_desc as $val)
+              {
+                  $newname = $this->input->post('regno').'-'.date('YmdHis',time()).mt_rand().'.pdf';
+                  move_uploaded_file($val['tmp_name'],'./uploads/'.$newname);
+
+                  $newnamearray[] = $newname;
+              }
+
+              $filenameuser = implode('|',$newnamearray);
+          }
+
+          $full_name = $this->input->post('LastName').', '.$this->input->post('Name');
+          $data = array(
+            'regno' => $this->input->post('regno'),
+            'files' => $filenameuser,
+            'last_name' => $this->input->post('LastName'),
+            'first_name' => $this->input->post('Name'),
+            'middle_name'=> $this->input->post('middle_name'),
+            'birthdate' => $this->input->post('bDate'),
+            'contact_number' => $this->input->post('mNo'),
+            'email' => $this->input->post('eAddress'),
+            'address' => $this->input->post('hAddress'),
+            'password' => password_hash($this->input->post('pword'), PASSWORD_BCRYPT),
+            'hash' => md5(rand(0, 1000)),
+            'type_id' => $this->input->post('type_id'), 
+            'valid_id_number' => $this->input->post('validIdNo'),
+          );
+            // print_r($data);
+            $data = $this->security->xss_clean($data);
+            if($this->user_model->add_user($data)){
+              if($this->user_model->sendEmailCreateNewEmail($data['email'],$data['hash'],$full_name,$newnamearray,$AdminEmail)){
+                $this->session->set_flashdata(array('email_sent_success'=>'Your account has been created.</br> Please check your email to verify your account.'));
+                redirect('users/login');
+              }else{
+                redirect('users/login');
+              }
+            }else{
+              echo 'server error';
+            }
+          }//end isset
+        }
+          
       // }
     }
   }
@@ -204,7 +408,6 @@ class Users extends CI_Controller{
           return false;
       }
   }
-
 
   public function change_passwd()
   {
@@ -334,5 +537,21 @@ class Users extends CI_Controller{
           file_get_contents('user_guide/user_manual/'.$filename)
           );
     }  
+
+    function reArrayFiles($file)
+    {
+        $file_ary = array();
+        $file_count = count($file['name']);
+        $file_key = array_keys($file);
+       
+        for($i=0;$i<$file_count;$i++)
+        {
+            foreach($file_key as $val)
+            {
+                $file_ary[$i][$val] = $file[$val][$i];
+            }
+        }
+        return $file_ary;
+    }
 
 }

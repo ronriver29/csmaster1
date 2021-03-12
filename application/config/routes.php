@@ -405,7 +405,12 @@ $route['amendment_upload'] ='amendment_upload';
 //end upload 
 
 
-
+// Account Approval
+$route['account_approval/(:any)'] = 'account_approval/view/$1';
+$route['account_approval/(:any)/download'] = 'account_approval/download/$1';
+$route['account_approval/(:any)/approve/(:any)'] = 'account_approval/approve/$1/$2';
+$route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
+//
 
 $route['reset_migration'] = 'migrate/resetMigration';
 $route['undo_migration'] = 'migrate/undoMigration';

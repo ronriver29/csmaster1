@@ -7,6 +7,15 @@
     </div>
   </div>
 <?php endif; ?>
+<?php if($this->session->flashdata('email_sent_warning')): ?>
+  <div class="row mt-3">
+    <div class="col-sm-12 offset-md-4 col-md-4">
+      <div class="alert alert-warning text-center" role="alert">
+       <p><?php echo $this->session->flashdata('email_sent_warning'); ?></p>
+      </div>
+    </div>
+  </div>
+<?php endif; ?>
 <div class="row" <?php if(!$this->session->flashdata('email_sent_success')) echo 'style="margin-top: 40px;"'?>>
   <div class="col-sm-12 offset-md-4 col-md-4">
     <div class="card login-card shadow border-top-blue">

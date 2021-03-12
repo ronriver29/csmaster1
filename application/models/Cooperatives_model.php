@@ -130,6 +130,46 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $data = $query->result_array();
     return $data;
   }
+
+  public function get_account_info_by_senior($user_id){
+    $this->db->select('users.*,users.id as usersid,registeredcoop.*');
+    $this->db->from('users');
+    $this->db->join('registeredcoop' , 'users.regNo = registeredcoop.regNo','inner');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
+    $this->db->where(array('users.id'=>$user_id));
+    $query = $this->db->get();
+    return $query->row();
+  }
+
+  public function get_all_account_approval($regcode){
+    // Get Coop Type for HO
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
+
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+    // End Get Coop Type for HO
+    $this->db->select('users.*,users.id as usersid,registeredcoop.*');
+    $this->db->from('users');
+    $this->db->join('registeredcoop' , 'users.regNo = registeredcoop.regNo','inner');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
+    $this->db->like('refregion.regCode', $regcode);
+    $this->db->where('users.is_taken IS NULL OR users.is_taken = 0 AND registeredcoop.type NOT IN ('.$typeofcoopimp.')');
+    // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
   public function get_all_cooperatives_by_senior($regcode){
     // Get Coop Type for HO
     $this->db->select('name');

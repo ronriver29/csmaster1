@@ -240,7 +240,7 @@ public function add_admin_director($data,$raw_pass){
       $this->db->trans_rollback();
       return false;
     }else{
-       $from = "ecoopris@cda.gov.ph";    //senders email address
+      $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = 'Cooperative Amendment Application for Registration';  //email subject
       $burl = base_url();
       if($data->region_code =='00')

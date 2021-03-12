@@ -9,12 +9,26 @@
 <div class="row">
   <div class="col">
     <div class="card mb-4 border-top-blue">
-      <?php echo form_open('users/signup', 'name="signUpForm" id="signUpForm"');?>
+      <?php echo form_open('users/use_registered_email', 'name="signUpForm" id="signUpForm"');?>
         <div class="card-header">
-          <h4><strong> Account Creation </strong></h4>
+          <h4><strong> Use Registered Email Account </strong></h4>
         </div>
       <div class="card-body">
           <div class="row">
+            <?php if($this->session->flashdata('email_sent_success')): ?>
+              <div class="col-sm-12 col-md-12">
+                <div class="alert alert-success text-center" role="alert">
+                 <p><?php echo $this->session->flashdata('email_sent_success'); ?></p>
+                </div>
+              </div>
+          <?php endif; ?>
+          <?php if($this->session->flashdata('email_sent_warning')): ?>
+              <div class="col-sm-12 col-md-12">
+                <div class="alert alert-warning text-center" role="alert">
+                 <p><?php echo $this->session->flashdata('email_sent_warning'); ?></p>
+                </div>
+              </div>
+          <?php endif; ?>
             <?php if(!validation_errors()) : ?>
             <div class="col-sm-12 col-md-12">
               <div class="alert alert-info" role="alert">
@@ -30,6 +44,13 @@
               </div>
             </div>
           <?php endif;  ?>
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group form-group-fName">
+                <label for="LastName">Registered number:</label>
+                <input type="text" class="form-control" id="regno" name="regno">
+              </div>
+            </div>
+
             <div class="col-sm-12 col-md-4">
               <div class="form-group form-group-fName">
                 <label for="LastName">Last name:</label>
@@ -67,22 +88,22 @@
             <div class="col-sm-12 col-md-4">
               <div class="form-group form-group-eAddress">
                 <label for="eAddress">Email Address:</label>
-                <input type="email" class="form-control validate[required,custom[email],ajax[ajaxEmailCallPhp]]" id="eAddress" name="eAddress">
+                <input type="email" class="form-control validate[required,custom[email]]" id="eAddress" name="eAddress">
               </div>
             </div>
-            <div class="col-sm-12 col-md-4">
+            <!-- <div class="col-sm-12 col-md-4">
               <div class="form-group form-group-eAddress">
                 <label for="eAddress">Confirm Email Address:</label>
                 <input type="email" class="form-control validate[equals[eAddress]]" id="coneAddress" name="coneAddress">
               </div>
-            </div>
+            </div> -->
             <div class="col-sm-12 col-md-8">
               <div class="form-group form-group-hAddress">
                 <label for="hAddress">Home Address: </label>
                 <textarea class="form-control validate[required]" style="resize: none;" id="hAddress" name="hAddress" rows="1"></textarea>
               </div>
             </div>
-            <div class="col-sm-12 col-md-4">
+            <!-- <div class="col-sm-12 col-md-4">
               <div class="form-group form-group-pword">
                 <label for="pword">Password:</label>
                 <input type="password" class="form-control validate[required,minSize[4]]" id="pword" name="pword" >
@@ -93,7 +114,7 @@
                 <label for="cPword">Confirm Password:</label>
                 <input type="password" class="form-control validate[equals[pword]]" id="cPword" name="cPword">
               </div>
-            </div>
+            </div> -->
             
 
             <div class="col-sm-12 col-md-4">
@@ -147,7 +168,7 @@
                 <a class="btn btn-link" href="<?php echo base_url();?>users/login" role="button">Sign In Instead</a>
               </div>
               <div class="col-md-6">
-                <a class="btn btn-link" data-toggle="modal" data-target="#deleteCooperativeModal" href="" role="button">Are you an existing coop?</a>
+                <a class="btn btn-link" href="<?php echo base_url();?>users/create_new_email_account" role="button">Create New  Email Account</a>
               </div>
             </div>
           </div>

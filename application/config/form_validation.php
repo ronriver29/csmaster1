@@ -69,6 +69,57 @@ $config = array(
                 ),
 
         ),
+        'users/use_registered_email' => array (
+                array(
+                  'field' => 'fName',
+                  'label' => 'Full Name',
+                  'rules' => 'trim|required|callback_fullname_check'
+                ),
+                array(
+                  'field' => 'bDate',
+                  'label' => 'Birth Date',
+                  'rules' => 'trim|required|callback_birthdate_check'
+                ),
+                array(
+                  'field' => 'mNo',
+                  'label' => 'Mobile Number',
+                  'rules' => 'trim|required|callback_mobile_number_check'
+                ),
+                array(
+                  'field' => 'eAddress',
+                  'label' => 'Email Address',
+                  'rules' => 'trim|required|valid_email|is_unique[users.email]'
+                ),
+                array(
+                  'field' => 'hAddress',
+                  'label' => 'Home Address',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'pword',
+                  'label' => 'Password',
+                  'rules' => 'trim|required|min_length[4]'
+                ),
+                array(
+                  'field' => 'cPword',
+                  'label' => 'Confirm Password',
+                  'rules' => 'trim|required|matches[pword]'
+                ),
+                array(
+                  'field' => 'validIdNo',
+                  'label' => 'TIN Number',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'signUpAgree',
+                  'label' => 'Terms and Condition',
+                  'rules' => 'trim|required',
+                  'errors' => array(
+                    'required' => 'You must agree to terms and conditions.'
+                  ),
+                ),
+
+        ),
         'branches/bupdate' => array (
           array(
             'field' => 'typeOfbranchsatellite',

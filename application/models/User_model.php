@@ -62,8 +62,33 @@ class User_model extends CI_Model{
           return false;
       }
   }
-
   //activate account
+  public function sendEmailCreateNewEmail($receiver,$hash,$full_name,$newnamearray,$AdminEmail){
+
+      $from = "ecoopris@cda.gov.ph";    //senders email address
+      $subject = 'Verify email address';  //email subject
+      $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+      $keywords = preg_split("/@/", $receiver);
+      $message = "Dear Director,<br><br> Client ".$full_name." with the email of ".$receiver." submitted attachement kindly see attached file to verify";
+
+      $this->email->from($from);
+      $this->email->to($AdminEmail);
+      $this->email->subject($subject);
+      $this->email->message($message);
+      foreach($newnamearray as $newnamearrays){
+        // $files = $newnamearrays;  
+        $this->email->attach('uploads/'.$newnamearrays.'', $newnamearrays);
+      }
+      // $attachment = str_replace("./uploads/","",$emp_data2->img_name);
+      // $this->email->addAttachment('uploads/'.$attachment.'', $attachment);
+      if($this->email->send()){
+          return true;
+      }else{
+          return false;
+      }
+  }
+
   function verifyEmail($data){
     // return $data;
       $query = $this->db->get_where('users', $data);
