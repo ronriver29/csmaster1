@@ -25,6 +25,7 @@
     </h5>
   </div>
 </div>
+
 <?php if($this->session->flashdata('payment_success')): ?>
 <div class="row">
   <div class="col-sm-12 col-md-12">

@@ -35,7 +35,6 @@ class Cooperatives_model extends CI_Model{
 
     return $query->row();
   }
-
   // start modify
 public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_full_name){
   $coop_id = $this->security->xss_clean($coop_id);
