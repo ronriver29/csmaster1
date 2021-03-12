@@ -1,7 +1,7 @@
 $(function(){
     $("#subscribed-note").hide().html('');
     $("#paid-note").hide().html('');
-  $('#  #subscribedShares').on('change', function(){
+  $('#subscribedShares').on('change', function(){
       var val = parseInt($(this).val());
       var available_subscribed_capital = $("#available_subscribed_capital").val().length>0 ? parseInt($("#available_subscribed_capital").val()) : '';
       $("#subscribed-note").hide().html('');
