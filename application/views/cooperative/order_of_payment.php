@@ -45,7 +45,7 @@
         $acronym_name = '';
     }
       if ($nature=='Registration'){
-        $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $article_info->par_value_common : $total_regular['total_paid'] * $article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $article_info->par_value_common) : ($total_regular['total_paid'] *$article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred)) *0.001 : 500.00);
+        $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
         $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
         $amount_in_words=0;
         $amount_in_words = ($rf+$lrf+$name_reservation_fee);
