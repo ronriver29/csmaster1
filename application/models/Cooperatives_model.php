@@ -30,6 +30,7 @@ class Cooperatives_model extends CI_Model{
     $this->db->from('payment');
     $this->db->where('payor',$coop);
     $this->db->where('nature','Registration');
+    $this->db->order_by('id','DESC');
     $query = $this->db->get();
 
     return $query->row();
