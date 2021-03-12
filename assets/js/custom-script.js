@@ -2436,7 +2436,7 @@ function validateAgeCustom(field, rules, i, options){
     }
   }else{
     return options.allrules.validateAge.alertText;
-  }
+  } 
 }
 function validateActivityNotNullAddCustom(field, rules, i, options){
   let tempActivity = $.trim($("#reserveAddForm #typeOfCooperative").val());
@@ -2490,6 +2490,7 @@ function validateCooperativeWordInNameCustom(field, rules, i, options){
   if(tempName.length >0){
     var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa|cooperatiba|advocacy|Agrarian Reform|Agriculture|Bank|Consumers| Credit|Credit |Dairy|Education|Electric|Financial Service|Fishermen|Health Service|Housing|Insurance|Labor Service|Marketing|Producers|Professionals|Service|Small Scale Mining|Transport|Water Service|Workers|Union|federation', 'i');
     var result = checkName.test(tempName);
+    // alert( result);
     if(result == 'Accredited' || result =='accredited')
     {
       result = true;
@@ -2499,10 +2500,24 @@ function validateCooperativeWordInNameCustom(field, rules, i, options){
         if(result){
           return options.allrules.validateCooperativeWordInName.alertText;
         }
-    }
+    } 
     
   }
 }
+function validateAmendmentWordInNameCustom(field, rules, i, options){
+  let tempName = $.trim($(field).val());
+  if(tempName.length >0){
+    var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa| Credit|Credit |cooperatiba|multipurpose|multi-purpose', 'i');
+    var result = checkName.test(tempName);
+ 
+        if(result){
+          return options.allrules.validateAmendment_proposed_name.alertText;
+        }
+   
+  }
+}
+
+
 function validateCooperativeParenthesesInAcronymCustom(field, rules, i, options){
   let tempName = $.trim($(field).val());
   if(tempName.length >0){
@@ -2709,13 +2724,4 @@ function validateAddCooperatorAjax(){
   return (isValidSubscription && isValidPaid);
 }
 
-function validateAmendment_proposed_name(field, rules, i, options){
-  let tempName = $.trim($(field).val());
-  if(tempName.length >0){
-    var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa|cooperatiba|multipurpose|multi-purpose', 'i');
-    var result = checkName.test(tempName);
-    if(result){
-      return options.allrules.validateAmendment_proposed_name.alertText;
-    }
-  }
-}
+
