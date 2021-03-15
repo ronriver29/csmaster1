@@ -34,6 +34,7 @@ class Amendment_purposes extends CI_Controller{
                     $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$decoded_id);
                     $data['purpose_not_null'] = $this->amendment_purpose_model->check_not_null($cooperative_id,$decoded_id);
                     $data['purpose_blank_not_exists'] = $this->amendment_purpose_model->check_blank_not_exists($cooperative_id,$decoded_id);
+                    echo $this->db->last_query();
                     $row = $this->amendment_purpose_model->get_all_purposes($cooperative_id,$decoded_id);
                     // echo $this->db->last_query();
                   
@@ -46,7 +47,7 @@ class Amendment_purposes extends CI_Controller{
                       $data_contents[]=$purpose_content;
                     }
         
-                    // $this->debug($data_contents);
+                    $this->debug($data_contents);
                     $data['contents'] =$data_contents;
                     $this->load->view('template/header', $data);
                     $this->load->view('purposes/amendment_list_of_purposes', $data);
@@ -57,9 +58,9 @@ class Amendment_purposes extends CI_Controller{
                     redirect('amendment/'.$id);
                   }
                 }else{
-                  var_dump($data['bylaw_complete']);
-                  // $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
-                  // redirect('amendment/'.$id);
+                  // var_dump($data['bylaw_complete']);
+                  $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
+                  redirect('amendment/'.$id);
                 }
               }else{
                 redirect('amendment/'.$id);

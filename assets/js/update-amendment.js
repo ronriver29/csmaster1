@@ -404,7 +404,8 @@ $(function(){
         success: function(data){
             $(selectComposition).append($('<option></option>').attr('value',"").text(""));
             $.each(data, function(key,value){
-              $(selectComposition).append($('<option></option>').attr('value',value.composition).text(value.composition));
+              // $(selectComposition).append($('<option></option>').attr('value',value.composition).text(value.composition));
+               $(selectComposition).append($('<option></option>').attr('value',value.id).text(value.composition));
             });
         }
       });

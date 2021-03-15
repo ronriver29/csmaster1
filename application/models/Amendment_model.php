@@ -102,7 +102,7 @@ class amendment_model extends CI_Model{
   }
 
   public function get_coop_composition($amendment_id){
-    $this->db->select('composition_of_members.composition');
+    $this->db->select('composition_of_members.id,composition_of_members.composition');
     $this->db->from('amendment_members_composition_of_cooperative');
     $this->db->join('composition_of_members','amendment_members_composition_of_cooperative.composition=composition_of_members.id','inner');
     $this->db->where('amendment_members_composition_of_cooperative.amendment_id',$amendment_id);
@@ -988,7 +988,8 @@ class amendment_model extends CI_Model{
     $param1 = $data['cooperative_type_id'];
      $major_industry = implode(",",$major_industry);
     $coopertiveTypeID=explode(",",$data['cooperative_type_id']);
-      // return $data;
+    $amendment_info = $this->get_cooperative_info23($coop_id,$amendment_id);
+    // return $amendment_info;
      $query_type = $this->db->query("select * from industry_subclass_by_coop_type where cooperative_type_id IN({$param1}) AND major_industry_id IN($major_industry) AND subclass_id IN($subclass_array)");
       // return $this->db->last_query();
      if($query_type->num_rows()>0){
@@ -1037,20 +1038,23 @@ class amendment_model extends CI_Model{
     //     'cooperatives_id' => $coop_id,
     //     'content'  => $this->get_purpose_content($data['type_of_cooperative'])
     //   );
-
-   $cooptypess = explode(',',$data['type_of_cooperative']); 
-    foreach($cooptypess as $type_coop)
+    if($amendment_info->type_of_cooperative != $data['type_of_cooperative'])
     {
-       $temp_purpose = array(
-        'amendment_id' => $amendment_id,
-        'content'  => $this->get_purpose_content($type_coop),
-        'cooperative_type' => $type_coop
-      ); 
-       // return  $temp_purpose;
-       $this->db->where('amendment_id',$amendment_id);
-      $this->db->update('amendment_purposes',$temp_purpose);
+        $cooptypess = explode(',',$data['type_of_cooperative']); 
+        foreach($cooptypess as $type_coop)
+        {
+           $temp_purpose = array(
+            'amendment_id' => $amendment_id,
+            'content'  => $this->get_purpose_content($type_coop),
+            'cooperative_type' => $type_coop
+          ); 
+           // return  $temp_purpose;
+           $this->db->where('amendment_id',$amendment_id);
+          $this->db->update('amendment_purposes',$temp_purpose);
 
-    } 
+        } 
+    }
+   
 
    //if Common bond of memebship is occupation
     if($data['common_bond_of_membership'] == 'Occupational')
@@ -1064,6 +1068,7 @@ class amendment_model extends CI_Model{
                   );
       
       }
+      // return $data['comp_of_membership'];
        $this->db->delete('amendment_members_composition_of_cooperative',array('amendment_id'=>$amendment_id));
        $this->db->insert_batch('amendment_members_composition_of_cooperative', $data_composition);
     }
@@ -2096,4 +2101,66 @@ public function check_if_denied($coop_id){
     return $data;
   }
   
+  public function get_common_bond($amendment_info)
+  {
+    $data = '';
+    $members_composition = $this->amendment_model->get_coop_composition($amendment_info->id);
+    if($amendment_info->common_bond_of_membership == 'Associational')
+    {
+      $name_ins_assoc = explode(',',$amendment_info->name_of_ins_assoc);
+          $data .= $amendment_info->field_of_membership; 
+          $data .= ' of ';
+          $count= count($name_ins_assoc) -1;
+          foreach($name_ins_assoc as $key => $ins_assoc)
+          {
+           
+             $data .= $ins_assoc;
+             if($key<$count)
+             {
+              $data .= ', ';
+             }
+          } 
+    }
+    else if($amendment_info->common_bond_of_membership == 'Institutional')
+    {
+      $name_ins_assoc = explode(',',$amendment_info->name_of_ins_assoc);
+          $data .= $amendment_info->field_of_membership; 
+          $data .= ' of ';
+          $count= count($name_ins_assoc) -1;
+          foreach($name_ins_assoc as $key => $ins_assoc)
+          {
+           
+             $data .= $ins_assoc;
+             if($key<$count)
+             {
+              $data .= ', ';
+             }
+          } 
+    }
+    else if ($amendment_info->common_bond_of_membership == 'Occupational')
+    {
+        $counts= count($members_composition) -1;
+          if(is_array($members_composition)) 
+          {
+              foreach($members_composition as $keys => $compo)
+            { 
+              $data .= $compo['composition']; 
+              if($keys<$counts)
+               {
+                $data .= ', ';
+               }
+            }
+          }   
+    }
+   else
+   {
+         $data .= ' of members working and/or residing in the area of operation'; 
+   }
+   return $data;
+  }
+  public function get_composition_of_members($amendment_id)
+  {
+   $query = $this->db->get('composition_of_members');
+   return $query->row_array();
+  }
 }

@@ -266,6 +266,7 @@ $(function(){
                                $('#compositionOfMembersa').append($('<option></option>').attr('value',"").text(""));
                               $.each(data, function(key,value){
                                 $('.compositions').append($('<option></option>').attr('value',value.id).text(value.composition));   
+                                
                             }); 
                           }
                         });

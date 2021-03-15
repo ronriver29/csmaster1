@@ -1073,7 +1073,7 @@ public function count_documents_coop($coop_id,$num)
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$decoded_id);
                     if(!$data['purposes_complete']) {
-                        $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($decoded_id);
+                        $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$decoded_id);
                     }
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
@@ -1194,24 +1194,26 @@ public function count_documents_coop($coop_id,$num)
 
                                 $data['capitalization_info_orig'] = $this->capitalization_model->get_capitalization_by_coop_id($cooperative_id);
                               } //end if had amendment
-                            
+                              // $this->debug($this->amendment_model->get_common_bond($data['coop_info']));
+                              $data['commonBond_'] = $this->amendment_model->get_common_bond($data['coop_info']);
+                              //  $this->debug($this->amentment_model->get_common_bond($data['coop_info']->common_bond_of_membership));
                               // $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data);
-                               $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data,TRUE);
-                              $f = new pdf();
-                              $f->set_option("isPhpEnabled", true);
-                              $f->setPaper('folio', 'portrait');
-                              $f->load_html($html2);
-                              $f->render();
-                              
-                              $this->load->library('session');
-                              $path = 'articles_of_cooperation_primary.pdf';
-                              $getTotalPages = $f->get_canvas()->get_page_count();
-                              $user_data = array(
-                                // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
-                                'pagecount' => $getTotalPages
-                              );
-                              $this->session->set_userdata($user_data);
-                              $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
+                                $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data,TRUE);
+                                $f = new pdf();
+                                $f->set_option("isPhpEnabled", true);
+                                $f->setPaper('folio', 'portrait');
+                                $f->load_html($html2);
+                                $f->render();
+                                
+                                $this->load->library('session');
+                                $path = 'articles_of_cooperation_primary.pdf';
+                                $getTotalPages = $f->get_canvas()->get_page_count();
+                                $user_data = array(
+                                  // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
+                                  'pagecount' => $getTotalPages
+                                );
+                                $this->session->set_userdata($user_data);
+                                $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
                               
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
