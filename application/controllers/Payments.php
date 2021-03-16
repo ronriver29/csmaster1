@@ -181,12 +181,12 @@ class Payments extends CI_Controller{
       $data1['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
       $data1['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
       $data1['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
-      $data1['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
+      $data1['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id); 
       $data1['name_reservation_fee']=100.00;
-
+      $data1['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
       set_time_limit(0);
 
-         //$this->load->view('cooperative\order_of_payment', $data1);
+         // $this->load->view('cooperative\order_of_payment', $data1);
           $html2 = $this->load->view('cooperative/order_of_payment', $data1, TRUE);
           $J = new pdf();
           $J->setPaper('folio', 'portrait');
