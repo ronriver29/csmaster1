@@ -2103,6 +2103,16 @@ public function check_if_denied($coop_id){
   
   public function get_common_bond($amendment_info)
   {
+    $cooperative_id = $this->coop_dtl($amendment_info->id);
+    $coop_info_orig= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
+    // return $coop_info_orig;
+    $openTag ='';
+    $closeTag ='';
+    if($coop_info_orig->common_bond_of_membership != $amendment_info->common_bond_of_membership)
+    {
+      $openTag ='<b>';
+      $closeTag ='</b>';
+    }
     $data = '';
     $members_composition = $this->amendment_model->get_coop_composition($amendment_info->id);
     if($amendment_info->common_bond_of_membership == 'Associational')
@@ -2156,7 +2166,7 @@ public function check_if_denied($coop_id){
    {
          $data .= ' of members working and/or residing in the area of operation'; 
    }
-   return $data;
+   return $openTag.$data.$closeTag;
   }
   public function get_composition_of_members($amendment_id)
   {

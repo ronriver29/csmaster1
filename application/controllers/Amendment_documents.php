@@ -1379,7 +1379,8 @@ public function count_documents_coop($coop_id,$num)
                               
                                 $data['capitalization_info_orig'] = $this->capitalization_model->get_capitalization_by_coop_id($cooperative_id);                            
                               } //end if had amendment
-
+                               $data['commonBond_'] = $this->amendment_model->get_common_bond($data['coop_info']);
+                               // $this->debug($data['commonBond_'] = $this->amendment_model->get_common_bond($data['coop_info']));
                                // $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data);
 
                                 $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data, TRUE);
