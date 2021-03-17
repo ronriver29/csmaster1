@@ -118,7 +118,6 @@ class amendment extends CI_Controller{
                 $data['list_of_cooperative_by_ho_process'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
 
               }
-
             }else{ //DIRECTOR
               if($data['admin_info']->region_code=="00"){
                 // Registered Coop Process by Head Office
