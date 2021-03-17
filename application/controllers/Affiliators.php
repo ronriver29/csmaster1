@@ -65,6 +65,7 @@ class Affiliators extends CI_Controller{
                     $data['applied_coop'] = $this->affiliators_model->get_applied_coop($user_id);
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $data['list_affiliators'] = $this->affiliators_model->get_all_affiliators_of_coop($user_id);
+                    $data['affiliator_info'] = $this->affiliators_model->get_affiliator_info($user_id);
 
                     $this->load->view('./template/header', $data);
                     $this->load->view('federation/affiliators_list', $data);

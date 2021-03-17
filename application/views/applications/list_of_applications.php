@@ -162,7 +162,16 @@
                                 $acronym_name = '';
                             }
                           ?>
-                          <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment(<?=$cooperative['id']?>,'<?= encrypt_custom($this->encryption->encrypt($cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$acronym_name.$cooperative['grouping']))?>')" value="Save O.R. No.">
+                          
+                          <?php
+                            if($cooperative['grouping'] != ''){
+                              $grouping = ' '.$cooperative['grouping'];
+                            } else {
+                              $grouping = '';
+                            }
+                          ?>
+
+                          <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment(<?=$cooperative['id']?>,'<?= encrypt_custom($this->encryption->encrypt($cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$acronym_name.$grouping))?>')" value="Save O.R. No.">
                        
                         <?php elseif($cooperative['status']==12): ?>
                           <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/forpayment" class="btn btnOkForPayment btn-color-blue"> OK For Payment</a>

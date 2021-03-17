@@ -71,7 +71,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','right');
         $this->db->where('registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND cooperatives.status IS NULL OR cooperatives.status = 15');
-        // $this->db->limit('10');
+        $this->db->limit('10');
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -201,6 +201,16 @@ class Affiliators_model extends CI_Model{
 $this->last_query = $this->db->last_query();
     $data = $query->result_array();
     return $data;
+  }
+
+  public function get_affiliator_info($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->select('affiliators.*');
+    $this->db->from('affiliators');
+    $this->db->where('user_id', $cooperatives_id);
+    $query=$this->db->get();
+    return $query->row();
+  
   }
 
   public function get_total_regular($user_id,$cooperatives_id){
