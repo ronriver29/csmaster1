@@ -32,7 +32,7 @@ class Affiliators extends CI_Controller{
                     $data['encrypted_id'] = $id;
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
-                    $data['requirements_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
+                    $data['requirements_complete'] = $this->affiliators_model->is_requirements_complete($decoded_id,$user_id);
                     $data['directors_count'] = $this->cooperator_model->check_no_of_directors($decoded_id);
                     $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($decoded_id);
                     $data['total_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
@@ -49,7 +49,7 @@ class Affiliators extends CI_Controller{
                     $data['minimum_regular_pay'] = $capitalization_info->minimum_paid_up_share_regular;
                     $data['minimum_associate_subscription'] = $capitalization_info->minimum_subscribed_share_associate;
                     $data['minimum_associate_pay'] = $capitalization_info->minimum_paid_up_share_associate;
-                    $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+                    $data['total_regular'] = $this->affiliators_model->get_total_regular($user_id,$decoded_id);
                     $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                     $data['check_regular_paid'] = $this->cooperator_model->check_regular_total_shares_paid_is_correct($data['total_regular']);
                     $data['check_with_associate_paid'] = $this->cooperator_model->check_with_associate_total_shares_paid_is_correct($data['total_regular'],$data['total_associate']);
@@ -63,10 +63,14 @@ class Affiliators extends CI_Controller{
                     $data['ten_percent'] = $this->cooperator_model->ten_percent($decoded_id);
                     $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
                     $data['applied_coop'] = $this->affiliators_model->get_applied_coop($user_id);
+                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $data['list_affiliators'] = $this->affiliators_model->get_all_affiliators_of_coop($user_id);
+
                     $this->load->view('./template/header', $data);
                     $this->load->view('federation/affiliators_list', $data);
                     $this->load->view('federation/full_info_modal_registeredcoop');
                     $this->load->view('federation/add_form_cooperator');
+                    $this->load->view('federation/edit_form_cooperator');
                     $this->load->view('federation/delete_form_cooperator');
                     $this->load->view('./template/footer');
                 }else{
@@ -135,6 +139,7 @@ class Affiliators extends CI_Controller{
                         $this->load->view('federation/affiliators_list', $data);
                         $this->load->view('federation/full_info_modal_registeredcoop');
                         $this->load->view('federation/add_form_cooperator');
+                        $this->load->view('federation/edit_form_cooperator');
                         $this->load->view('federation/delete_form_cooperator');
                         $this->load->view('./template/footer');
                   }else{
@@ -169,6 +174,43 @@ class Affiliators extends CI_Controller{
               'regNo' => $this->input->post('regNo'),
               'coopName' => $this->input->post('coopName'),
               'application_id' => $this->input->post('applicationid'),
+              'number_of_subscribed_shares' => $this->input->post('subscribedShares'),
+              'number_of_paid_up_shares' => $this->input->post('paidShares'),
+              'user_id' => $user_id, 
+              );
+            $success = $this->affiliators_model->add_affiliators($data);
+            if($success){
+                echo $query;
+              $this->session->set_flashdata('cooperator_success', 'Cooperative Added.');
+                    redirect('cooperatives/'.$encrypted_post_coop_id.'/affiliators');
+            }else{
+              $this->session->set_flashdata('cooperator_success', 'Cooperative Added');
+              redirect('cooperatives/'.$encrypted_post_coop_id.'/affiliators');
+            }
+        } else {
+//            echo $query;
+            $this->session->set_flashdata('cooperator_error', 'Cooperative already exists.');
+                    redirect('cooperatives/'.$encrypted_post_coop_id.'/affiliators');
+        }
+    }
+
+    function edit_affiliators($id = null){
+        $user_id = $this->session->userdata('user_id');
+        $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+        $user_id = $this->session->userdata('user_id');
+        $data['encrypted_id'] = $id;
+        $data['is_client'] = $this->session->userdata('client');
+        $query = $this->affiliators_model->existing_affiliators($user_id,$this->input->post('regNo'));
+        $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
+        $encrypted_post_coop_id = $this->input->post('cooperativesID');
+        if($query==0){
+            $data = array(
+              'registeredcoop_id' => $this->input->post('registered_id'),
+              'regNo' => $this->input->post('regNo'),
+              'coopName' => $this->input->post('coopName'),
+              'application_id' => $this->input->post('applicationid'),
+              'number_of_subscribed_shares' => $this->input->post('subscribedShares'),
+              'number_of_paid_up_shares' => $this->input->post('paidShares'),
               'user_id' => $user_id, 
               );
             $success = $this->affiliators_model->add_affiliators($data);

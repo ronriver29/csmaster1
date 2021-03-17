@@ -71,6 +71,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','right');
         $this->db->where('registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND cooperatives.status IS NULL OR cooperatives.status = 15');
+        $this->db->limit('10');
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -126,24 +127,115 @@ class Affiliators_model extends CI_Model{
 
     }
     
-    public function is_requirements_complete($user_id){
-    $this->db->where('user_id =',$user_id);
-    $this->db->from('affiliators');
-    if($this->db->count_all_results()<=4){
-      return false;
-    }else{
-      return true;
+    public function is_requirements_complete($decoded_id,$user_id){
+        if($this->check_all_minimum_regular_subscription($decoded_id,$user_id) && $this->check_all_minimum_regular_pay($decoded_id,$user_id) && $this->check_regular_total_shares_paid_is_correct($this->get_total_regular($user_id,$decoded_id))){
+            return true;
+        }else{
+          return false;
+        }
     }
-  }
-  
+    
+    public function check_all_minimum_regular_subscription($decoded_id,$user_id){
+        $decoded_id = $this->security->xss_clean($decoded_id);
+        $user_id = $this->security->xss_clean($user_id);
+    //    $temp = $this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id)->regular_percentage_shares_subscription;
+        $temp = $this->get_capitalization_by_coop_id($decoded_id)->minimum_subscribed_share_regular;
+        $this->db->where(array('user_id'=>$user_id));
+        $this->db->where('number_of_subscribed_shares <', $temp);
+        $this->db->from('affiliators');
+        if($this->db->count_all_results()==0){
+          return true;
+        }else{
+          return false;
+        }
+    }
+
+    public function check_all_minimum_regular_pay($decoded_id,$user_id){
+        $decoded_id = $this->security->xss_clean($decoded_id);
+        $user_id = $this->security->xss_clean($user_id);
+    //    $temp = $this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id)->regular_percentage_shares_pay;
+        $temp = $this->get_capitalization_by_coop_id($decoded_id)->minimum_paid_up_share_regular;
+        $this->db->where(array('user_id'=>$user_id));
+        $this->db->where('number_of_paid_up_shares <', $temp);
+        $this->db->from('affiliators');
+        if($this->db->count_all_results()==0){
+          return true;
+        }else{
+          return false;
+        }
+    }
+
+    public function get_capitalization_by_coop_id($coop_id){
+        $data = $this->security->xss_clean($coop_id);
+        $query = $this->db->get_where('capitalization',array('cooperatives_id'=>$data));
+        return $query->row();
+    }
+
+    public function check_regular_total_shares_paid_is_correct($data){
+        $temp = $data;
+    //    if($temp['total_paid'] >= ceil($temp['total_subscribed']*0.25)){
+        if($temp['total_subscribed']== $temp['capitalization_no_of_subscribed'] && $temp['total_paid'] == $temp['capitalization_no_of_paid']){
+          return true;
+        }else{
+          return false;
+        }
+    }
+
     public function is_requirements_complete_admin($user_id){
-    $this->db->where('affiliators.user_id =',$user_id);
-    $this->db->from('affiliators');
-    $this->db->join('cooperatives','affiliators.users_id = cooperatives.users_id','inner');
-    if($this->db->count_all_results()<=4){
-      return false;
-    }else{
-      return true;
+        $this->db->where('affiliators.user_id =',$user_id);
+        $this->db->from('affiliators');
+        $this->db->join('cooperatives','affiliators.users_id = cooperatives.users_id','inner');
+        if($this->db->count_all_results()<=4){
+          return false;
+        }else{
+          return true;
+        }
     }
+
+  public function get_all_affiliators_of_coop($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->select('affiliators.*');
+    $this->db->from('affiliators');
+    $this->db->where('user_id', $cooperatives_id);
+    $query=$this->db->get();
+$this->last_query = $this->db->last_query();
+    $data = $query->result_array();
+    return $data;
+  }
+
+  public function get_total_regular($user_id,$cooperatives_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+
+    $this->db->select('SUM(number_of_subscribed_shares) as total_subscribed, SUM(number_of_paid_up_shares) as total_paid');
+    $query = $this->db->get_where('affiliators',array('user_id' => $user_id));
+    $data = $query->row();
+    //    $query2 = $this->db->get_where('articles_of_cooperation',array('cooperatives_id' => $cooperatives_id));
+//    $article = $query2->row();
+    $query2 = $this->db->get_where('capitalization',array('cooperatives_id' => $cooperatives_id));
+    $capitalization_info = $query2->row();
+    $capitalization_no_of_subscribed = 0;
+    $capitalization_no_of_paid = 0;
+    
+    // Jiee
+        $this->db->where(array('cooperatives_id' => $cooperatives_id));
+        $this->db->from('capitalization');
+        if($this->db->count_all_results()==0){
+          $capitalization_no_of_subscribed = 0;
+        $capitalization_no_of_paid = 0;
+        }else{
+          $capitalization_no_of_subscribed = $capitalization_info->total_no_of_subscribed_capital;
+        $capitalization_no_of_paid = $capitalization_info->total_no_of_paid_up_capital;
+        }
+    //
+    
+    $totalSubscribed = 0;
+    $totalPaid = 0;
+    
+    $totalPaid = ($data->total_paid==null) ? 0 : $data->total_paid;
+    $totalSubscribed = ($data->total_subscribed==null) ? 0 : $data->total_subscribed;
+//    $totalSubscribed = $data->total_subscribed;
+//    $totalPaid = $data->total_paid;
+    return array('total_subscribed' => $totalSubscribed,'total_paid'=> $totalPaid, 'capitalization_no_of_subscribed'=>$capitalization_no_of_subscribed, 'capitalization_no_of_paid'=>$capitalization_no_of_paid);
   }
 }

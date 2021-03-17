@@ -45,7 +45,10 @@
   </div>
 <?php if($is_client) : ?>
   <div class="col-sm-12 col-md-12">
-      
+    <div class="alert alert-info text-justify" role="alert">
+      <li>The total subscribed shares of all cooperator should be <strong><?= $capitalization_info->total_no_of_subscribed_capital?></strong>. (Current Total Subscribed Share: <strong><?= ($total_regular['total_subscribed']) ?></strong>)</li>
+      <li>The total paid shares must be: <strong><?= $capitalization_info->total_no_of_paid_up_capital ?></strong>. (Current Total Paid Shares: <strong><?= ($total_regular['total_paid']) ?></strong>)</li>
+    </div>
     <?php // echo form_open('cooperatives/'.$encrypted_id.'/affiliators/add_affiliators',array('id'=>'addCooperatorForm','name'=>'addCooperatorForm')); ?>
     <div class="card">
       <div class="card-body">
@@ -99,6 +102,8 @@
               <tr>
                 <th>Coop Name</th>
                 <th>Registered Number</th>
+                <th>Subscribed</th>
+                <th>Paid</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -109,9 +114,16 @@
                 <tr>
                   <td><?= $applied_coops['coopName']?></td>
                   <td><?= $applied_coops['regNo']?></td>
+                  <td><?= $applied_coops['number_of_subscribed_shares']?></td>
+                  <td><?= $applied_coops['number_of_paid_up_shares']?></td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-info" data-regno="<?=$applied_coops['regNo']?>" data-fname="<?=$applied_coops['coopName']?>" data-placeissuance="<?= $applied_coops['dateRegistered']?>" data-business_activity="<?=$business_activity?>" data-business_activity_sub="<?=$business_activity_sub?>" data-common_bond_membership="<?=$applied_coops['common_bond_of_membership']?>" data-region="<?=$applied_coops['region']?>" data-province="<?=$applied_coops['province']?>" data-city="<?=$applied_coops['city']?>" data-brgy="<?=$applied_coops['brgy']?>" data-street="<?=$applied_coops['street']?>" data-house_blk_no="<?=$applied_coops['house_blk_no']?>" data-type="<?=$applied_coops['type']?>" data-toggle="modal" data-target="#fullInfoRegisteredModal" ><i class='fas fa-eye'></i> View</button>
+                        <button type="button" class="btn btn-info" data-regno="<?=$applied_coops['regNo']?>" data-fname="<?=$applied_coops['coopName']?>" data-placeissuance="<?= $applied_coops['dateRegistered']?>" data-business_activity="<?=$business_activity?>" data-business_activity_sub="<?=$business_activity_sub?>" data-common_bond_membership="<?=$applied_coops['common_bond_of_membership']?>" data-region="<?=$applied_coops['region']?>" data-province="<?=$applied_coops['province']?>" data-city="<?=$applied_coops['city']?>" data-brgy="<?=$applied_coops['brgy']?>" data-street="<?=$applied_coops['street']?>" data-house_blk_no="<?=$applied_coops['house_blk_no']?>" data-type="<?=$applied_coops['type']?>" data-toggle="modal" data-target="#fullInfoRegisteredModal" > View</button>
+
+                    <!-- EDIT -->
+                        <button type="button" class="btn btn-success" data-reg_id="<?=$registeredcoop['registered_id'];?>" data-fname="<?=$registeredcoop['coopName'];?>" data-application_id="<?=$registeredcoop['application_id'];?>" data-regno="<?= $registeredcoop['regNo']?>" data-coopid="<?= $encrypted_id ?>" data-toggle="modal" data-target="#editAffiliatorModal"><i class='fas fa-eye'></i> Edit</button>
+                    <!-- END -->
+
                       <?php // if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
                         <!--<input class="btn btn-color-blue" type="submit" id="offlineBtn" name="offlineBtn" value="Add">-->
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCooperatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($applied_coops['aff_id']))?>"><i class='fas fa-minus'></i> Remove</button>

@@ -318,7 +318,7 @@
               }
 //              $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
               $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
-              $data['affiliator_complete'] = $this->affiliators_model->is_requirements_complete($user_id);
+              $data['affiliator_complete'] = $this->affiliators_model->is_requirements_complete($decoded_id,$user_id);
               $data['affiliates_complete'] = $this->unioncoop_model->is_requirements_complete($user_id);
               
               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
@@ -394,7 +394,7 @@
                   }
                   $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
                   $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
-                  $data['affiliator_complete'] = $this->affiliators_model->is_requirements_complete($data['coop_info']->users_id);
+                  $data['affiliator_complete'] = $this->affiliators_model->is_requirements_complete($decoded_id,$data['coop_info']->users_id);
                   $data['affiliates_complete'] = $this->unioncoop_model->is_requirements_complete($data['coop_info']->users_id);
                   $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                   
