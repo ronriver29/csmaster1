@@ -419,7 +419,6 @@ class amendment extends CI_Controller{
       }
     }
     //end modify
-    
     public function amendment_update($id = null){ 
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
