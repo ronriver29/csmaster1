@@ -121,13 +121,17 @@
                         <button type="button" class="btn btn-info" data-regno="<?=$applied_coops['regNo']?>" data-fname="<?=$applied_coops['coopName']?>" data-placeissuance="<?= $applied_coops['dateRegistered']?>" data-business_activity="<?=$business_activity?>" data-business_activity_sub="<?=$business_activity_sub?>" data-common_bond_membership="<?=$applied_coops['common_bond_of_membership']?>" data-region="<?=$applied_coops['region']?>" data-province="<?=$applied_coops['province']?>" data-city="<?=$applied_coops['city']?>" data-brgy="<?=$applied_coops['brgy']?>" data-street="<?=$applied_coops['street']?>" data-house_blk_no="<?=$applied_coops['house_blk_no']?>" data-type="<?=$applied_coops['type']?>" data-toggle="modal" data-target="#fullInfoRegisteredModal" > View</button>
 
                     <!-- EDIT -->
+                    <?php // if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
+                        <!--<input class="btn btn-color-blue" type="submit" id="offlineBtn" name="offlineBtn" value="Add">-->
+                        
+
                     <?php if($is_client){ ?>
-                        <button type="button" class="btn btn-success" data-reg_id="<?=$applied_coops['registered_id'];?>" data-fname="<?=$applied_coops['coopName'];?>" data-application_id="<?=$applied_coops['application_id'];?>" data-regno="<?= $applied_coops['regNo']?>" data-coopid="<?= $encrypted_id ?>" data-toggle="modal" data-target="#editAffiliatorModal"><i class='fas fa-eye'></i> Edit</button>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editAffiliatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= $applied_coops['aff_id']?>"><i class='fas fa-eye'></i> Edit</button>
                     <!-- END -->
 
                       <?php // if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
                         <!--<input class="btn btn-color-blue" type="submit" id="offlineBtn" name="offlineBtn" value="Add">-->
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCooperatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($applied_coops['aff_id']))?>"><i class='fas fa-minus'></i> Remove</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCooperatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= $applied_coops['aff_id']?>"><i class='fas fa-minus'></i> Remove</button>
                       <?php // endif;?>
                     <?php } ?>
                     </div>
