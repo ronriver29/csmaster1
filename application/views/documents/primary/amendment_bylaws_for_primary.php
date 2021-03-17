@@ -1518,15 +1518,33 @@ $minimum_paid_up_share_associate_3 ='';
             </tr>
           </thead>
           <tbody>
+            <?php
+            // echo"<pre>";print_r($cooperators_list_regular);echo"</pre>";
+            // echo"<br>";
+            //  echo"<pre>";print_r( $cooperators_list_regular_orig);echo"</pre>";
+            ?>
             <?php $count=0; foreach($cooperators_list_regular as $key=> $cooperator) :
-                $cooperator_orig = $cooperators_list_regular_orig[$key];
+                
+                echo"<tr>";
+                if(isset($cooperators_list_regular_orig[$key]))
+                {
+                  $cooperator_orig = $cooperators_list_regular_orig[$key];
+            ?>
+                   <td><?=$count.'. '.($cooperator['full_name']!=$cooperator_orig['full_name']?'<strong>'.$cooperator['full_name'].'<strong>' : $cooperator['full_name'])?></td>
+                     <td></td>
 
+            <?php      
+                }
+                else
+                {
+            ?>
+                    <td><?=$count.'. '.'<b>'.$cooperator['full_name'].'</b>'?></td>
+                     <td></td>
+            <?php      
+                } 
             ?>    
               <?=$count++;?>
-              <tr>
-                <td><?=$count.'. '.($cooperator['full_name']!=$cooperator_orig['full_name']?'<strong>'.$cooperator['full_name'].'<strong>' : $cooperator['full_name'])?></td>
-                <td></td>
-              </tr>
+                </tr>
             <?php endforeach; ?>
           </tbody>
         </table>
