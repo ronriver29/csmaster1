@@ -1154,7 +1154,7 @@ public function count_documents_coop($coop_id,$num)
                                     $data['associate_cooperator_list_orig'] = $this->cooperator_model->get_all_associate_cooperator_of_coop($cooperative_id);
                                     $data['total_associate_orig'] = $this->cooperator_model->get_total_associate($cooperative_id);
                                      $data['cooperators_list_board_orig']=$this->cooperator_model->get_all_cooperator_of_coop_regular($cooperative_id);
-                                      $data['capitalization_info_orig'] = $this->amendmnet_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$decoded_id);
+                                      $data['capitalization_info_orig'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$decoded_id);
                                   }
                                   else
                                   {
@@ -1789,7 +1789,8 @@ public function count_documents_coop($coop_id,$num)
                                   $data['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
                                   $data['cooperators_list_regular_orig'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($cooperative_id);
                              } //end of had amendment
-
+                              $data['committees_others'] = $this->amendment_committee_model->get_all_others_committees_of_coop($decoded_id); 
+                               $data['Agriculture_type'] = $this->amendment_committee_model->check_credit_committe_in_agriculture($decoded_id);
                              //admin bylaws
                                 // $this->load->view('documents/primary/amendment_bylaws_for_primary', $data);
                                 $html2 = $this->load->view('documents/primary/amendment_bylaws_for_primary', $data, TRUE);
