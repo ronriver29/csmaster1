@@ -115,6 +115,7 @@ class amendment extends CI_Controller{
                 $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_senior($data['admin_info']->region_code,$amendment_id);
                 // echo $this->db->last_query();
                 $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code); 
+                $data['list_of_cooperative_by_ho_process'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
 
               }
 
@@ -137,6 +138,7 @@ class amendment extends CI_Controller{
                 // End Registered Coop Process by Head Office
                 $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_director($data['admin_info']->region_code,$amendment_id);
+                $data['list_of_cooperative_by_ho_process'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
               }
             }
 
@@ -980,6 +982,7 @@ class amendment extends CI_Controller{
                         }
                         $data['director_comment'] = $this->amendment_model->admin_comment($decoded_id,3);
                         $data['have_director_comment'] = $this->amendment_model->admin_comment_value($decoded_id,3);
+                        $data['deffered_comment'] = $this->amendment_model->deffered_comments($decoded_id,3);
                   //download payment      
                   $data['coop_capitalization']=$this->coop_capitalization($coop_id);
                   $data['amendment_capitalization']= $this->amendment_capitalization($decoded_id);      
