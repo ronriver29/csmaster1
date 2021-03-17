@@ -7,7 +7,7 @@
 </div>
 </br>
 <?php
-  echo substr("175210012", 0, 2);
+  // echo substr("175210012", 0, 2);
 ?>
 <div class="row">
   <div class="col">

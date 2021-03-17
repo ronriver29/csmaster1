@@ -295,7 +295,7 @@ class Users extends CI_Controller{
             $data = $this->security->xss_clean($data);
             if($this->user_model->add_user($data)){
               if($this->user_model->sendEmailCreateNewEmail($data['email'],$data['hash'],$full_name,$newnamearray,$AdminEmail)){
-                $this->session->set_flashdata(array('email_sent_success'=>'Your account has been created.</br> Please check your email to verify your account.'));
+                $this->session->set_flashdata(array('email_sent_success'=>'Your account application is pending for approval. Make sure that your email is correct.'));
                 redirect('users/login');
               }else{
                 redirect('users/login');
