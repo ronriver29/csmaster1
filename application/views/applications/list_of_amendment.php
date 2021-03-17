@@ -557,7 +557,6 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
   }
 
   function save(){
-   
     var x = $('#orNo').val();
     
     if (x==''){
