@@ -71,7 +71,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','right');
         $this->db->where('registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND cooperatives.status IS NULL OR cooperatives.status = 15');
-        $this->db->limit('10');
+        // $this->db->limit('10');
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -94,7 +94,7 @@ class Affiliators_model extends CI_Model{
         $this->db->select('affiliators.*, affiliators.id AS aff_id, registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
         $this->db->from('affiliators');
         $this->db->join('cooperatives', 'affiliators.application_id = cooperatives.id','left');
-        $this->db->join('registeredcoop','registeredcoop.regNo = affiliators.regNo','right');
+        $this->db->join('registeredcoop','registeredcoop.id = affiliators.registeredcoop_id','right');
         $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','left');
         $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','left');
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','left');
