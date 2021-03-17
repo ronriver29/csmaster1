@@ -350,32 +350,62 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($cooperators_list_board as $key => $cooperator) :?>
+              <tr>
               <?=$count++;?>
               <?php
-              $cooperator_orig = $cooperators_list_board_orig[$key];
-              if($cooperator_orig['full_name']!=$cooperator['full_name'])
+              if(isset( $cooperators_list_board_orig[$key]))
               {
-                $cooperator_orig['full_name'] ='<strong>'.$cooperator_orig['full_name'].'</strong>';
-              }
-              if($cooperator['house_blk_no']==null && $cooperator['streetName']==null)
-              {
-                 $x='';
+                  $cooperator_orig = $cooperators_list_board_orig[$key];
+                  if($cooperator_orig['full_name']!=$cooperator['full_name'])
+                  {
+                    $cooperator_orig['full_name'] ='<strong>'.$cooperator_orig['full_name'].'</strong>';
+                  }
+                  if($cooperator['house_blk_no']==null && $cooperator['streetName']==null)
+                  {
+                     $x='';
+                  }
+                  else
+                  {
+                   $x=', '; 
+                  } 
+                  $address = $cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', '.$cooperator['city'].', '.$cooperator['province'];
+                  $address_orig = $cooperator_orig['house_blk_no'].' '.$cooperator_orig['streetName'].$x.$cooperator_orig['brgy'].', '.$cooperator_orig['city'].', '.$cooperator_orig['province'];
+                  if($address != $address_orig)
+                  {
+                    $address = '<strong>'.$address.'</strong>';
+                  }
+                  ?>
+                 
+                    <td><?=$count.'. '.$cooperator['full_name']?></td>
+                    <td><?= $address ?></td>
+                 
+          <?php        
               }
               else
               {
-               $x=', '; 
-              } 
-              $address = $cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', '.$cooperator['city'].', '.$cooperator['province'];
-              $address_orig = $cooperator_orig['house_blk_no'].' '.$cooperator_orig['streetName'].$x.$cooperator_orig['brgy'].', '.$cooperator_orig['city'].', '.$cooperator_orig['province'];
-              if($address != $address_orig)
-              {
-                $address = '<strong>'.$address.'</strong>';
+                  if($cooperator_orig['full_name']!=$cooperator['full_name'])
+                  {
+                    $cooperator_orig['full_name'] ='<strong>'.$cooperator_orig['full_name'].'</strong>';
+                  }
+                  if($cooperator['house_blk_no']==null && $cooperator['streetName']==null)
+                  {
+                     $x='';
+                  }
+                  else
+                  {
+                   $x=', '; 
+                  } 
+                  $address = $cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', '.$cooperator['city'].', '.$cooperator['province'];
+                  $address_orig = $cooperator_orig['house_blk_no'].' '.$cooperator_orig['streetName'].$x.$cooperator_orig['brgy'].', '.$cooperator_orig['city'].', '.$cooperator_orig['province'];
+                   $address = '<strong>'.$address.'</strong>';
+          ?>
+                  <td><?=$count.'. '.$cooperator['full_name']?></td>
+                  <td><?= $address ?></td>
+                </tr>
+          <?php      
               }
-              ?>
-              <tr>
-                <td><?=$count.'. '.$cooperator['full_name']?></td>
-                <td><?= $address ?></td>
-              </tr>
+          ?>      
+              
             <?php endforeach;?>
           </tbody>
         </table>
@@ -453,11 +483,11 @@
     {
       $preferred_share = '<strong>'. ucwords(num_format_custom($capitalization_info->preferred_share)).'</strong>';
         $preferred_share2 = '<strong>'.$capitalization_info->preferred_share.'</strong>';
-        $preferred_share3 = '<strong>'.number_format($capitalization_info->preferred_share).'</strong>';
+        $preferred_share3 = '<strong>'.number_format($capitalization_info->preferred_share,2).'</strong>';
     }
     else
     {
-      $preferred_share3 = number_format($capitalization_info->preferred_share);
+      $preferred_share3 = number_format($capitalization_info->preferred_share,2);
       $preferred_share = ucwords(num_format_custom($capitalization_info->preferred_share));
         $preferred_share2 = $capitalization_info->preferred_share;
     }
@@ -483,7 +513,7 @@
       <ol class="text-justify" type="a">
         <li> <?= ucwords(num_format_custom($capitalization_info->common_share))?> (<?= number_format($capitalization_info->common_share)?>) common shares with a par value of <?= ucwords(num_format_custom($capitalization_info->par_value))?> Pesos (Php <?=number_format($capitalization_info->par_value,2)?> ) per share;</li>
         <?php if($bylaw_info->kinds_of_members == 2) :?>
-        <li> <?= $preferred_share?> (<?= $preferred_share3?>) preferred shares with a par value of <?= $par_value_preferred?> Pesos (Php <?=number_format($article_info->par_value_preferred,2)?> ) per share.</li>
+        <li> <?= $preferred_share?> Pesos (<?= $preferred_share3?>) preferred shares with a par value of <?= $par_value_preferred?> Pesos (Php <?=number_format($capitalization_info->par_value,2)?> ) per share.</li>
         <?php endif;?>
       </ol>
     </div>
@@ -511,7 +541,7 @@
       $regular_total_subscibed = $total_regular['total_subscribed'] * $capitalization_info->par_value + ($total_associate['total_subscribed'] * $capitalization_info->par_value);
        $regular_total_subscibed_orig = $total_regular_orig['total_subscribed'] * $capitalization_info_orig->par_value + ($total_associate_orig['total_subscribed'] * $capitalization_info_orig->par_value);
          $regular_total_subscibed2='';
-          $regular_total_subscibed2= $regular_total_subscibed;
+          $regular_total_subscibed2= num_format_custom($regular_total_subscibed);
       if($regular_total_subscibed_orig!=$regular_total_subscibed)
       {   
           $regular_total_subscibed2 = '<strong>'.num_format_custom($regular_total_subscibed2).'</strong>';
@@ -544,11 +574,11 @@
     ?>
     <div class="col-sm-12 col-md-12 text-left">
       <p class="text-justify" style="text-indent: 50px;">That of the authorized share capital, the amount of
-        <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular : $regular_total_subscibed2 ;?>
-        (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular : ($regular_total_subscibed);?>) has been subscribed, and
+        <?php echo ($bylaw_info->kinds_of_members == 1) ? $total_regular_words : $regular_total_subscibed2 ;?> Pesos
+        (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular : (number_format($regular_total_subscibed,2));?>) has been subscribed, and
         <!-- <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular2 :   $paidUp;?> -->
-        <?=$paidUp?>
-        (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular : $paidUpsss ;?>) of the total subscription has been paid by the following members-subscribers:</p>
+        <?=$paidUp?> Pesos
+        (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? $paidUpsss : $paidUpsss ;?>) of the total subscription has been paid by the following members-subscribers:</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -571,14 +601,31 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($regular_cooperator_list as $key => $regular) : ?>
+              <tr>
               <?php $count++; ?>
-              <?php $regular_orig = $regular_cooperator_list_orig[$key];?>
-            <tr>
-              <td><?=$count.'. '. $regular['full_name']?></td>
-              <td style="text-align: center;"><?= ($regular['number_of_subscribed_shares']!=$regular_orig['number_of_subscribed_shares'] ? '<strong>'.$regular['number_of_subscribed_shares'].'</strong>' : $regular['number_of_subscribed_shares'])?></td>
-              <td style="text-align: right;"><?= number_format(($regular['number_of_subscribed_shares'] * $capitalization_info->par_value),2)?></td>
-              <td style="text-align: center;"><?= ($regular['number_of_paid_up_shares']!=$regular_orig['number_of_paid_up_shares'] ? '<strong>'.$regular['number_of_paid_up_shares'].'</strong>' : $regular['number_of_paid_up_shares'])?></td>
-              <td style="text-align: right;"><?= number_format(($regular['number_of_paid_up_shares'] * $capitalization_info->par_value),2)?></td>
+              <?php 
+              if(isset($regular_cooperator_list_orig[$key]))
+              {
+                  $regular_orig = $regular_cooperator_list_orig[$key];
+              ?>
+                  <td><?=$count.'. '. $regular['full_name']?></td>
+                  <td style="text-align: center;"><?= ($regular['number_of_subscribed_shares']!=$regular_orig['number_of_subscribed_shares'] ? '<strong>'.$regular['number_of_subscribed_shares'].'</strong>' : $regular['number_of_subscribed_shares'])?></td>
+                  <td style="text-align: right;"><?= number_format(($regular['number_of_subscribed_shares'] * $capitalization_info->par_value),2)?></td>
+                  <td style="text-align: center;"><?= ($regular['number_of_paid_up_shares']!=$regular_orig['number_of_paid_up_shares'] ? '<strong>'.$regular['number_of_paid_up_shares'].'</strong>' : $regular['number_of_paid_up_shares'])?></td>
+                  <td style="text-align: right;"><?= number_format(($regular['number_of_paid_up_shares'] * $capitalization_info->par_value),2)?></td>
+              <?php
+              }
+              else
+              {
+              ?>
+                    <td><?=$count.'. '. $regular['full_name']?></td>
+                  <td style="text-align: center;"><?= '<strong>'.$regular['number_of_subscribed_shares'].'</strong>'?></td>
+                  <td style="text-align: right;"><?= number_format(($regular['number_of_subscribed_shares'] * $capitalization_info->par_value),2)?></td>
+                  <td style="text-align: center;"><?= '<strong>'.$regular['number_of_paid_up_shares'].'</strong>'?></td>
+                  <td style="text-align: right;"><?= number_format(($regular['number_of_paid_up_shares'] * $capitalization_info->par_value),2)?></td>
+              <?php  
+              }
+              ?>    
             </tr>
           <?php endforeach; ?>
           </tbody>
@@ -654,7 +701,7 @@
 
                      <td><?=($associate['full_name']!=$associate_orig['full_name'] ? '<b>'.$count.'. '. $associate['full_name'].'</b>' : $count.'. '. $associate['full_name'])?></td>
                     <td style="text-align: center;"><?= ($associate['number_of_subscribed_shares']!=$associate_orig['number_of_subscribed_shares'] ? '<strong>'.$associate['number_of_subscribed_shares'].'</strong>' : $associate['number_of_subscribed_shares'])?></td>
-                    <td style="text-align: right;"><?= number_format(($associate['number_of_subscribed_shares'] * $article_info->par_value_preferred),2)?></td>
+                    <td style="text-align: right;"><?= number_format(($associate['number_of_subscribed_shares'] * $capitalization_info->par_value),2)?></td>
 
                     <td style="text-align: center;"><?= ($associate['number_of_paid_up_shares']!=$associate_orig['number_of_paid_up_shares'] ? '<strong>'.$associate['number_of_paid_up_shares'].'</strong>' : $associate['number_of_paid_up_shares'])?></td>
 
@@ -668,7 +715,7 @@
                      <td><?='<b>'.$count.'. '. $associate['full_name'].'</b>'?></td>
                       <td><?='<b>'.$count.'. '. $associate['full_name'].'</b>' ?></td>
                       <td style="text-align: center;"><?= '<strong>'.$associate['number_of_subscribed_shares'].'</strong>'?></td>
-                      <td style="text-align: right;"><?= number_format(($associate['number_of_subscribed_shares'] * $article_info->par_value_preferred),2)?></td>
+                      <td style="text-align: right;"><?= number_format(($associate['number_of_subscribed_shares'] * $capitalization_info->par_value),2)?></td>
 
                       <td style="text-align: center;"><?= '<strong>'.$associate['number_of_paid_up_shares'].'</strong>'?></td>
 
@@ -685,9 +732,9 @@
             <tr>
               <td>Sub Total</td>
               <td style="text-align: center;"><?= ($total_associate['total_subscribed']!=$total_associate_orig['total_subscribed'] ? "<b>".$total_associate['total_subscribed']."</b>" : $total_associate['total_subscribed'])?></td>
-              <td style="text-align: right;"><?= number_format(($total_associate['total_subscribed'] * $article_info->par_value_preferred),2)?></td>
+              <td style="text-align: right;"><?= number_format(($total_associate['total_subscribed'] * $capitalization_info->par_value),2)?></td>
               <td style="text-align: center;"><?= $total_associate['total_paid'] ?></td>
-              <td style="text-align: right;"><?= number_format(($total_associate['total_paid'] * $article_info->par_value_preferred),2)?></td>
+              <td style="text-align: right;"><?= number_format(($total_associate['total_paid'] * $capitalization_info->par_value),2)?></td>
             </tr>
             <tr>
               <td>Grand Total</td>
@@ -696,9 +743,9 @@
                $grand_total_orig = $total_regular_orig['total_subscribed'] + $total_associate_orig['total_subscribed'];
                echo ($grand_total!=$grand_total_orig ? "<b>".$grand_total."</b>" : $grand_total);
               ?></td>
-              <td style="text-align: right;"><?= number_format((($total_regular['total_subscribed'] * $capitalization_info->par_value) + ($total_associate['total_subscribed'] * $article_info->par_value_preferred)),2)?></td>
+              <td style="text-align: right;"><?= number_format((($total_regular['total_subscribed'] * $capitalization_info->par_value) + ($total_associate['total_subscribed'] * $capitalization_info->par_value)),2)?></td>
               <td style="text-align: center;"><?= $total_regular['total_paid'] + $total_associate['total_paid']?></td>
-              <td style="text-align: right;"><?= number_format((($total_regular['total_paid'] * $capitalization_info->par_value ) + ($total_associate['total_paid'] *  $article_info->par_value_preferred)),2)?></td>
+              <td style="text-align: right;"><?= number_format((($total_regular['total_paid'] * $capitalization_info->par_value ) + ($total_associate['total_paid'] *  $capitalization_info->par_value)),2)?></td>
             </tr>
           </tfoot>
         </table>
@@ -800,10 +847,14 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($regular_cooperator_list as $key => $cooperator) :?>
+            <tr>
               <?=$count++;?>
-              <?php $cooperator_orig =$regular_cooperator_list_orig[$key]; ?>
-              <tr>
-                <td><?=$count.'. '.($cooperator['full_name']!=$cooperator_orig['full_name'] ? '<strong>'.$cooperator['full_name'].'</strong>' : $cooperator['full_name'])?></td>
+              <?php 
+              if(isset($regular_cooperator_list_orig[$key]))
+              {
+                 $cooperator_orig =$regular_cooperator_list_orig[$key];
+              ?>
+                  <td><?=$count.'. '.($cooperator['full_name']!=$cooperator_orig['full_name'] ? '<strong>'.$cooperator['full_name'].'</strong>' : $cooperator['full_name'])?></td>
                 <td>
                   <?php 
                   $proof_identity = $cooperator['proof_of_identity'].'-'.$cooperator['proof_of_identity_number'];
@@ -818,6 +869,30 @@
                 </td>
                 <td><?=($cooperator['proof_date_issued']!=$cooperator_orig['proof_date_issued'] ? '<strong>'.$cooperator['proof_date_issued'].'</strong>' : $cooperator['proof_date_issued'])?></td>
                 <td><?=($cooperator['place_of_issuance']!=$cooperator_orig['place_of_issuance'] ? '<strong>'.$cooperator['place_of_issuance'].'</strong>': $cooperator['place_of_issuance'])?></td>
+
+              <?php   
+              }
+              else
+              {
+              ?>
+                 <td><?=$count.'. '.'<strong>'.$cooperator['full_name'].'</strong>'?></td>
+                <td>
+                  <?php 
+                  $proof_identity = $cooperator['proof_of_identity'].'-'.$cooperator['proof_of_identity_number'];
+                 
+                    $proof_identity ='<strong>'.$proof_identity.'</strong>';
+                 
+                  ?>
+                  <?= $proof_identity?>
+                    
+                </td>
+                <td><?='<strong>'.$cooperator['proof_date_issued'].'</strong>'?></td>
+                <td><?='<strong>'.$cooperator['place_of_issuance'].'</strong>'?></td>
+              <?php  
+              }             
+              ?>
+              
+                
               </tr>
             <?php endforeach;?>
           </tbody>
