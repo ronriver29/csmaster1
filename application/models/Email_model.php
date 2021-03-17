@@ -129,7 +129,7 @@ class Email_model extends CI_Model{
                 </ol>"; 
              
     }
-      $client_message = "<pre>Successfully submitted your amendment application. Please wait for an email of either payment procedure or the list of documents for compliance.</pre>";  
+      $client_message = "Successfully submitted your amendment application. Please wait for an email of either payment procedure or the list of documents for compliance.<p>";  
      //Admin send mail                                                               ;
      $this->email->from($from,'CoopRIS Administrator');
      $this->email->to($admin_info->email);
@@ -199,7 +199,7 @@ class Email_model extends CI_Model{
                 </ol>"; 
              
     }
-      $client_message = "<pre>Successfully submitted your amendment application. Please wait for an email of either payment procedure or the list of documents for compliance.</pre>";  
+      $client_message = "Successfully submitted your amendment application. Please wait for an email of either payment procedure or the list of documents for compliance.<p>";  
      //Admin send mail                                                               ;
      $this->email->from($from,'CoopRIS Administrator');
      $this->email->to($admin_info->email);
@@ -274,7 +274,7 @@ class Email_model extends CI_Model{
                 </ol>"; 
              
     }
-      $client_message = "<pre>Successfully submitted your amendment application. Please wait for an email of either payment procedure or the list of documents for compliance.</pre>";  
+      $client_message = "Successfully submitted your amendment application. Please wait for an email of either payment procedure or the list of documents for compliance.<p>";  
      //Admin send mail                                                               ;
      $this->email->from($from,'CoopRIS Administrator');
      $this->email->to($director_email);
@@ -473,7 +473,7 @@ The client shall submit the above required documents within 30 working days from
     $subject =$name.' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> has been deferred because of the following reason/s:<br><pre>".$comment."</pre><br> You have 10 days to complete the following.";
+    $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> has been deferred because of the following reason/s:<p><br><pre>".$comment."</pre><br> You have 10 days to complete the following.";
 //    $this->email->from($from,'CoopRIS Administrator');
 //    $this->email->to($email);
 //    $this->email->subject($subject);

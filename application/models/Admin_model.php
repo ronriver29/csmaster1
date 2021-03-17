@@ -247,7 +247,7 @@ public function add_admin_director($data,$raw_pass){
       {
         //HO
          $message = "<pre>Good Day!<br> 
-      The Chief CDS Registration Division granted you all the authority to process the application for Amendment Registration.
+      The Chief CDS Registration Division granted you all the authority to process the application for Amendment Registration.<p>
         <br>
       <label>Date stamp:".date("m/d/Y")."
       <label>Time stamp:".date("h:i:s a")."</pre>";
@@ -255,7 +255,7 @@ public function add_admin_director($data,$raw_pass){
       else
       {
          $message = "<pre>Good Day!<br> 
-        The Regional Director granted you all the authority to process the application for registration.
+        The Regional Director granted you all the authority to process the application for registration.<p>
           <br>
         <label>Date stamp:".date("m/d/Y")."
         <label>Time stamp:".date("h:i:s a")."</pre>";
@@ -429,7 +429,7 @@ public function add_admin_director($data,$raw_pass){
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Sucessfully submitted your application. Please wait for an email of either payment procedure or the list of documents for compliance.";
+    $message = "Sucessfully submitted your application. Please wait for an email of either payment procedure or the list of documents for compliance.<p>";
     $this->email->from($from,'CoopRIS Administrator');
     $this->email->to($email);
     $this->email->subject($subject);
@@ -598,7 +598,7 @@ public function add_admin_director($data,$raw_pass){
     $subject = 'Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Your application has been submitted and subject for validation and evaluation.";
+    $message = "Your application has been submitted and subject for validation and evaluation.<p>";
     $this->email->from($from,'CoopRIS Administrator');
     $this->email->to($email);
     $this->email->subject($subject);
@@ -615,7 +615,7 @@ public function add_admin_director($data,$raw_pass){
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
 
-    $message = "You are assigned to validate the application for registration with the following details:
+    $message = "You are assigned to validate the application for registration with the following details:<p>
     <ol type='a'>
       <li> Name of proposed Cooperative: ".$coop_full_name."</li>
       <li> Address of proposed Cooperative: ".$brgyforemail."</li>
@@ -660,7 +660,7 @@ public function add_admin_director($data,$raw_pass){
       //sending confirmEmail($receiver) function calling link to the user, inside message body
 
       // $message = $coop_full_name." has been submitted by "". You can now evaluate this application.";
-      $message = "Senior CDS ".$evaluated." application for registration with the following details has been submitted for your evaluation and approval/denial/deferment:
+      $message = "Senior CDS ".$evaluated." application for registration with the following details has been submitted for your evaluation and approval/denial/deferment:<p>
 
       <ol type='a'>
         <li>Name of CDS II/Validator: ".$admin_info->full_name."</li>
@@ -706,7 +706,7 @@ public function add_admin_director($data,$raw_pass){
       //sending confirmEmail($receiver) function calling link to the user, inside message body
 
       // $message = $coop_full_name." has been submitted by "". You can now evaluate this application.";
-      $message = "A validated application forregistration with the following details has been submitted for your evaluation                                 
+      $message = "A validated application forregistration with the following details has been submitted for your evaluation<p>                                 
       
       <ol type='a'>
         <li>Name of CDS II/Validator: ".$admin_info->full_name."</li>
@@ -931,7 +931,7 @@ The client shall submit the above required documents within 30 working days from
 
     This refers to the application for registration of the proposed ".$coop_full_name.".<br><br>
 
-    Based on the evaluation of the submitted application documents for registration, we regret to inform you that the application is denied due to: <br><br>
+    Based on the evaluation of the submitted application documents for registration, we regret to inform you that the application is denied due to:<p> <br><br>
     
     ".trim(preg_replace('/\s\s+/', '<br>', $reason_commment))."";
 

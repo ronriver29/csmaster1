@@ -265,42 +265,43 @@
       <p class="text-justify" style="text-indent: 50px;">That the common bond of membership of this Cooperative is <?= $coop_info->common_bond_of_membership?> 
       and the field of membership shall be open to all 
       <?php 
-      if($coop_info->common_bond_of_membership="Institutional" || $coop_info->common_bond_of_membership="Associational")
-        { 
-          $name_ins_assoc = explode(',',$coop_info->name_of_ins_assoc);
-          echo $coop_info->field_of_membership; 
-          echo ' of ';
-          $count= count($name_ins_assoc) -1;
-          foreach($name_ins_assoc as $key => $ins_assoc)
-          {
+      echo $commonBond_;
+      // if($coop_info->common_bond_of_membership="Institutional" || $coop_info->common_bond_of_membership="Associational")
+      //   { 
+      //     $name_ins_assoc = explode(',',$coop_info->name_of_ins_assoc);
+      //     echo $coop_info->field_of_membership; 
+      //     echo ' of ';
+      //     $count= count($name_ins_assoc) -1;
+      //     foreach($name_ins_assoc as $key => $ins_assoc)
+      //     {
            
-             echo $ins_assoc;
-             if($key<$count)
-             {
-              echo ', ';
-             }
-          } 
-        }
-       if($coop_info->common_bond_of_membership="Occupational") 
-        { 
-          echo' of ';
-          $counts= count($members_composition) -1;
-          if(is_array($members_composition)) 
-          {
-              foreach($members_composition as $keys => $compo)
-            { 
-              echo $compo['composition']; 
-              if($keys<$counts)
-               {
-                echo ', ';
-               }
-            }
-          }   
-        }
-        if($coop_info->common_bond_of_membership="Residential")
-        {
-           echo ' of members working and/or residing in the area of operation'; 
-        }
+      //        echo $ins_assoc;
+      //        if($key<$count)
+      //        {
+      //         echo ', ';
+      //        }
+      //     } 
+      //   }
+      //  if($coop_info->common_bond_of_membership="Occupational") 
+      //   { 
+      //     echo' of ';
+      //     $counts= count($members_composition) -1;
+      //     if(is_array($members_composition)) 
+      //     {
+      //         foreach($members_composition as $keys => $compo)
+      //       { 
+      //         echo $compo['composition']; 
+      //         if($keys<$counts)
+      //          {
+      //           echo ', ';
+      //          }
+      //       }
+      //     }   
+      //   }
+      //   if($coop_info->common_bond_of_membership="Residential")
+      //   {
+      //      echo ' of members working and/or residing in the area of operation'; 
+      //   }
         ?> 
         who are natural persons, Filipino citizens, of legal age, with the capacity to contract and possess all the qualifications and none of the disqualifications provided for in the By-laws and this Articles of Cooperation.</p>
     </div>

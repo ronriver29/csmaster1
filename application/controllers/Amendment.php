@@ -554,9 +554,10 @@ class amendment extends CI_Controller{
 
                     }
                   }
-
+                  // $data['members_compositions']=$this->amendment_model->get_composition_of_members($decoded_id);
+                  // echo $this->db->last_query();
                   $data['list_type_coop'] = $this->coop_type($coopTypeName);
-                  // $this->debug($data['list_type_coop']);
+                  // $this->debug( $data['members_composition']);
                   //cooperative type value
                   $data['amd_type_of_coop'] = $typeName_arr;
 
