@@ -847,10 +847,14 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($regular_cooperator_list as $key => $cooperator) :?>
+            <tr>
               <?=$count++;?>
-              <?php $cooperator_orig =$regular_cooperator_list_orig[$key]; ?>
-              <tr>
-                <td><?=$count.'. '.($cooperator['full_name']!=$cooperator_orig['full_name'] ? '<strong>'.$cooperator['full_name'].'</strong>' : $cooperator['full_name'])?></td>
+              <?php 
+              if(isset($regular_cooperator_list_orig[$key]))
+              {
+                 $cooperator_orig =$regular_cooperator_list_orig[$key];
+              ?>
+                  <td><?=$count.'. '.($cooperator['full_name']!=$cooperator_orig['full_name'] ? '<strong>'.$cooperator['full_name'].'</strong>' : $cooperator['full_name'])?></td>
                 <td>
                   <?php 
                   $proof_identity = $cooperator['proof_of_identity'].'-'.$cooperator['proof_of_identity_number'];
@@ -865,6 +869,30 @@
                 </td>
                 <td><?=($cooperator['proof_date_issued']!=$cooperator_orig['proof_date_issued'] ? '<strong>'.$cooperator['proof_date_issued'].'</strong>' : $cooperator['proof_date_issued'])?></td>
                 <td><?=($cooperator['place_of_issuance']!=$cooperator_orig['place_of_issuance'] ? '<strong>'.$cooperator['place_of_issuance'].'</strong>': $cooperator['place_of_issuance'])?></td>
+
+              <?php   
+              }
+              else
+              {
+              ?>
+                 <td><?=$count.'. '.'<strong>'.$cooperator['full_name'].'</strong>'?></td>
+                <td>
+                  <?php 
+                  $proof_identity = $cooperator['proof_of_identity'].'-'.$cooperator['proof_of_identity_number'];
+                 
+                    $proof_identity ='<strong>'.$proof_identity.'</strong>';
+                 
+                  ?>
+                  <?= $proof_identity?>
+                    
+                </td>
+                <td><?='<strong>'.$cooperator['proof_date_issued'].'</strong>'?></td>
+                <td><?='<strong>'.$cooperator['place_of_issuance'].'</strong>'?></td>
+              <?php  
+              }             
+              ?>
+              
+                
               </tr>
             <?php endforeach;?>
           </tbody>
