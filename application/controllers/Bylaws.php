@@ -465,6 +465,10 @@ class Bylaws extends CI_Controller{
                     $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
                     $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                     $data['reg_qualifications'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->regular_qualifications);
+                    $data['primary_consideration'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->primary_consideration);
+                    $data['add_members_vote'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->additional_conditions_to_vote);
+                    $data['delegate_powers'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->delegate_powers);
+                    $data['add_membership'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->additional_requirements_for_membership);
                     $data['asc_qualifications'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->associate_qualifications);
                     $this->load->view('templates/admin_header', $data);
                     $this->load->view('cooperative/bylaw_info/bylaw_federation_form.php', $data);

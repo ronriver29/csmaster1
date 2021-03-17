@@ -98,13 +98,14 @@ class Affiliators extends CI_Controller{
                   $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                   $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->capitalization_model->check_capitalization_primary_complete($decoded_id) : true;
+                  $data['is_client'] = $this->session->userdata('client');
                   if($data['bylaw_complete']){
                         $data['title'] = 'List of Affiliators';
                         $data['header'] = 'Affiliators';
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                         $data['encrypted_id'] = $id;
                         $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
-                        $data['requirements_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                        $data['requirements_complete'] = $this->affiliators_model->is_requirements_complete($decoded_id,$user_id);
 //                        $data['directors_count'] = $this->cooperator_model->check_no_of_directors($decoded_id);
 //                        $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($decoded_id);
                         $data['total_directors'] = $this->cooperator_model->no_of_directors($decoded_id);

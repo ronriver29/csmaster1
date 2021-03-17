@@ -28,14 +28,16 @@ class Documents extends CI_Controller{
                     if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
                     } 
                     else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
-                    $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
+                    
                     if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
@@ -168,16 +170,17 @@ class Documents extends CI_Controller{
                       if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $data['coop_info']->users_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$ids);
                       } 
                       else
                        {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                       }
                       $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                       $capitalization_info = $data['capitalization_info'];
-                       $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
-                      if($data['cooperator_complete']){
+                                             if($data['cooperator_complete']){
                         $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                         if($data['purposes_complete']){
                           $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
@@ -1423,12 +1426,14 @@ public function delete_pdf()
                   if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
                     } 
                     else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
                     }
-                  $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
+                  // $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -1517,23 +1522,25 @@ public function delete_pdf()
                 $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                 if($data['bylaw_complete']){
-                    $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                    // $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
                     if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$data['coop_info']->users_id);
                     } 
                     else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
                     }
-                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
+                      
                     if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                         if($data['article_complete']){
                           if($data['coop_info']->grouping == 'Federation'){
-                            $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
+                            $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($data['coop_info']->users_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                         }
@@ -1811,14 +1818,16 @@ public function delete_pdf()
                   if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
                     } 
                     else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
-                    $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
+                    
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -1925,14 +1934,16 @@ public function delete_pdf()
                     if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $data['coop_info']->users_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$ids);
                     } 
                     else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
-                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
+                      
                     if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
@@ -2868,14 +2879,16 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                   if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
                     } 
                     else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
-                    $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
+                    
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -2978,14 +2991,16 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                   if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
                     } 
                     else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
-                    $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
+                    
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){

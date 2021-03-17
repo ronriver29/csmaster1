@@ -89,14 +89,16 @@ class Purposes extends CI_Controller{
                     if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $data['coop_info']->users_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$ids);
                     } 
                     else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
                       $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                       $capitalization_info = $data['capitalization_info'];
-                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
+                      
                     if($data['cooperator_complete']){
                       $data['title'] = 'List of Purposes';
                       $data['header'] = 'Purposes';
