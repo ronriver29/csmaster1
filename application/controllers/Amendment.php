@@ -76,7 +76,7 @@ class amendment extends CI_Controller{
 
               }else{
                 $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_specialist($data['admin_info']->region_code,$user_id);
-                // echo $this->db->last_query();
+                $data['list_of_cooperative_by_ho_process'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
               }
             }else if($this->session->userdata('access_level')==2){
               // $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_senior($data['admin_info']->region_code);
@@ -403,7 +403,7 @@ class amendment extends CI_Controller{
       		}	
       	}
 	      			//check to amend coop without coop id
-		      	 $check_name_all = $this->db->query("select * from amend_coop where proposed_name='$proposed_name' and cooperative_id!={$cooperatieID_}");
+		      	 $check_name_all = $this->db->query('select * from amend_coop where proposed_name="'.$proposed_name.'" and cooperative_id!='.$cooperatieID_);
 		      	 if($check_name_all->num_rows()>0)
 		      	 {
 		      	 	return FALSE;
