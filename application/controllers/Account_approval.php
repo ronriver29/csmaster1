@@ -68,7 +68,7 @@
     public function download($id = null){
 
         $this->load->helper('download');
-        $data = file_get_contents('./uploads/'.$id);
+        $data = file_get_contents(UPLOAD_DIR.'/'.$id);
         force_download('file.pdf', $data);
       
     }

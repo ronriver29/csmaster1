@@ -267,7 +267,7 @@ class Users extends CI_Controller{
               foreach($img_desc as $val)
               {
                   $newname = $this->input->post('regno').'-'.date('YmdHis',time()).mt_rand().'.pdf';
-                  move_uploaded_file($val['tmp_name'],'./uploads/'.$newname);
+                  move_uploaded_file($val['tmp_name'],UPLOAD_DIR.$newname);
 
                   $newnamearray[] = $newname;
               }
