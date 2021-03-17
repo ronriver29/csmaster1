@@ -78,16 +78,18 @@
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $email = $this->encryption->decrypt(decrypt_custom($email));
 
+        $temp_passwd = random_string('alnum',8);
         $data = array(
           'is_verified' => 1,
-          'is_taken' => 1
+          'is_taken' => 1,
+          'password'=> password_hash($temp_passwd, PASSWORD_BCRYPT)
         );
 
         $from = "ecoopris@cda.gov.ph";    //senders email address
-        $subject = 'Cooperative Amendment Application for Registration';  //email subject
+        $subject = 'Cooperative Account Application';  //email subject
         $burl = base_url();
            
-        $message = "Good Day! Your Account has been Approved!";
+        $message = "Good Day! Your Account has been Approved!<br><br>Your Password is: ".$temp_passwd.".You may now Login.";
        
         $this->email->from($from,'CoopRIS Administrator');
         $this->email->to($email);
@@ -119,7 +121,7 @@
         );
 
         $from = "ecoopris@cda.gov.ph";    //senders email address
-        $subject = 'Cooperative Amendment Application for Registration';  //email subject
+        $subject = 'Cooperative Account Application';  //email subject
         $burl = base_url();
            
         $message = "Your Account has been Denied";
