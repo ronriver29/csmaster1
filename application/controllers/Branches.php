@@ -71,7 +71,9 @@
                     } else {
                         $regCodeBranch = $this->input->post('region2');
                     }
-                    
+
+                    // echo  $this->input->post('typeOfbranchsatellite'); 
+
                     $field_data = array(
                       'user_id' => $this->session->userdata('user_id'),
                       'regCode' => $regCodeBranch,
@@ -90,7 +92,7 @@
                       // echo '<script>alert("Successfully updated basic information");';
                       // echo "window.location.href = '" . $this->input->post('branchID') . "';</script>";
                       $this->session->set_flashdata('branches_success', 'Successfully updated Branch/Satellite basic information.');
-                     redirect('branches/'.$this->input->post('branchID'));
+                      redirect('branches/'.$this->input->post('branchID'));
                     }else{
                       $this->session->set_flashdata('branches_success', 'Unable to update Branch/Satellite basic information.');
                       redirect('branches/'.$this->input->post('branchID'));
