@@ -24,6 +24,8 @@ class Committees extends CI_Controller{
                 $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                 if($data['bylaw_complete']){
+                  $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
                   if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
@@ -37,8 +39,7 @@ class Committees extends CI_Controller{
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                    $capitalization_info = $data['capitalization_info'];
+                    
                     
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
@@ -134,6 +135,8 @@ class Committees extends CI_Controller{
                   $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                   if($data['bylaw_complete']){
+                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
                     if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $data['coop_info']->users_id;
@@ -147,8 +150,7 @@ class Committees extends CI_Controller{
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                    $capitalization_info = $data['capitalization_info'];
+                    
                     
                     if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
@@ -240,6 +242,8 @@ class Committees extends CI_Controller{
                 $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                 if($data['bylaw_complete']){
+                  $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
                   if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
@@ -253,8 +257,7 @@ class Committees extends CI_Controller{
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                    $capitalization_info = $data['capitalization_info'];
+                    
                     // $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
@@ -487,6 +490,8 @@ class Committees extends CI_Controller{
                 $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                 if($data['bylaw_complete']){
+                  $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
                     if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
@@ -500,8 +505,7 @@ class Committees extends CI_Controller{
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                    $capitalization_info = $data['capitalization_info'];
+                    
                     
                     if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);

@@ -29,6 +29,8 @@ class Payments extends CI_Controller{
               if($data['bylaw_complete']){
                 $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                 if($data['article_complete']){
+                  $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
                     if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
@@ -42,8 +44,7 @@ class Payments extends CI_Controller{
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                    $capitalization_info = $data['capitalization_info'];
+                    
                     
                   if($data['cooperator_complete']){
                         if($data['coop_info']->grouping == 'Federation'){
