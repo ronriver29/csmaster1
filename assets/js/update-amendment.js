@@ -538,11 +538,12 @@ function get_specific_subclass_desc(id)
       $(".coop-type").on('change',function(){
         var cooptype_value = this.value;
 
+
      var typeCoop_arrays=[]; 
      $('select[name="typeOfCooperative[]"] option:selected').each(function() {
      typeCoop_arrays.push($(this).val());
       console.log(typeCoop_arrays);
-      $('#typeOfCooperative_value').val(typeCoop_arrays); alert("dd");
+      $('#typeOfCooperative_value').val(typeCoop_arrays); 
      });
   
         // alert(cooptype_value);
