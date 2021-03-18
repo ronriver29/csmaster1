@@ -544,7 +544,7 @@
           $regular_total_subscibed2= num_format_custom($regular_total_subscibed);
       if($regular_total_subscibed_orig!=$regular_total_subscibed)
       {   
-          $regular_total_subscibed2 = '<strong>'.num_format_custom($regular_total_subscibed2).'</strong>';
+          $regular_total_subscibed2 = '<strong>'.num_format_custom($regular_total_subscibed).'</strong>';
         $regular_total_subscibed = '<strong>'.number_format($regular_total_subscibed,2).'</strong>';
       
       }
@@ -571,11 +571,12 @@
            $paidUpsss = number_format($paidUp,2);
         $paidUp = num_format_custom($paidUp);
       }
+
     ?>
     <div class="col-sm-12 col-md-12 text-left">
       <p class="text-justify" style="text-indent: 50px;">That of the authorized share capital, the amount of
         <?php echo ($bylaw_info->kinds_of_members == 1) ? $total_regular_words : $regular_total_subscibed2 ;?> Pesos
-        (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular : (number_format($regular_total_subscibed,2));?>) has been subscribed, and
+        (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular : ($regular_total_subscibed);?>) has been subscribed, and
         <!-- <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular2 :   $paidUp;?> -->
         <?=$paidUp?> Pesos
         (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? $paidUpsss : $paidUpsss ;?>) of the total subscription has been paid by the following members-subscribers:</p>
