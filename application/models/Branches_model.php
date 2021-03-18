@@ -942,7 +942,7 @@ public function defer_by_admin($admin_info,$branch_id,$reason_commment,$step){
     return false;
   }else{
     if ($step==5){
-      if($this->admin_model->sendEmailToClientDefer($client_info->fullname,$client_info->coopName.'-'.$client_info->branchName,$client_info->email,$reason_commment)){
+      // if($this->admin_model->sendEmailToClientDefer($client_info->fullname,$client_info->coopName.'-'.$client_info->branchName,$client_info->email,$reason_commment)){
         $this->db->trans_commit();
         return true;
       }else{

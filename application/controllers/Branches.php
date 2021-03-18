@@ -82,6 +82,7 @@
 //                      'type_of_cooperative' => $this->input->post('typeOfCooperative'),
 //                      'grouping' => $group,
 //                      'common_bond_of_membership' => $this->input->post('commonBondOfMembership'),
+                      'branchName' => $this->input->post('typeOfbranchsatellite'),
                       'type' => $this->input->post('typeOfbranchsatellite'),
                       'area_of_operation' => $this->input->post('areaOfOperation'),
                       'addrCode' => $this->input->post('barangay'),
