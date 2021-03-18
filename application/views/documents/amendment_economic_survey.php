@@ -282,6 +282,7 @@
               <!-- <td><u><?php echo($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_paid'] * $article_info->par_value_common),2) : number_format((($total_regular['total_paid'] * $article_info->par_value_common) + ($total_associate['total_paid'] * $article_info->par_value_preferred)),2);?></u></td> -->
 
               <?php
+
                 $tot_reg_paid =($total_regular['total_paid'] * $capitalization_info->par_value);
                 $tot_reg_paid_orig =($total_regular_orig['total_paid'] * $capitalization_info_orig->par_value);
                 if( $tot_reg_paid != $tot_reg_paid_orig)
@@ -296,7 +297,7 @@
                    $tot_reg_paid2 = '<b>'.number_format($tot_reg_paid2,2).'</b>';
                 }
               ?>
-              <td><u><?php echo (($bylaw_info->kinds_of_members == 1) ?  number_format($tot_reg_paid,2) : number_format($tot_reg_paid2,2));?></u></td>
+              <td>><u><?php echo (($bylaw_info->kinds_of_members == 1) ?  number_format($tot_reg_paid,2) : $tot_reg_paid2);?></u></td>
               
 
             </tr>
