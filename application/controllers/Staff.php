@@ -522,15 +522,7 @@ class Staff extends CI_Controller{
                 $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                 if($data['bylaw_complete']){
-                    if($data['coop_info']->grouping == 'Federation'){
-                        $model = 'affiliators_model';
-                        $ids = $user_id;
-                    } 
-                    else {
-                        $model = 'cooperator_model';
-                        $ids = $decoded_id;
-                    }
-                    $assoc_query = $this->db->query("select count(type_of_member) as assoc_mem_count from cooperators where type_of_member='Associate' and cooperatives_id='$decoded_id'");
+                  $assoc_query = $this->db->query("select count(type_of_member) as assoc_mem_count from cooperators where type_of_member='Associate' and cooperatives_id='$decoded_id'");
                     if($assoc_query->num_rows()>0)
                     {
                       foreach($assoc_query->result() as $res_count)
@@ -542,9 +534,21 @@ class Staff extends CI_Controller{
                     {
                       $assoc_ ='';
                     }
+                    
+                    if($data['coop_info']->grouping == 'Federation'){
+                        $model = 'affiliators_model';
+                        $ids = $user_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
+                    } 
+                    else {
+                        $model = 'cooperator_model';
+                        $ids = $decoded_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids, $assoc_);
+                    }
+                    
 
 
-                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids, $assoc_);
+                      
                     if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id,$assoc_);
                       if($data['purposes_complete']){

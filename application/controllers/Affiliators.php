@@ -249,7 +249,7 @@ class Affiliators extends CI_Controller{
                   }
                 }else{
                   $this->session->set_flashdata('redirect_message', 'You already submitted for evaluation.');
-                  redirect('cooperatives/'.$id);
+                  redirect('cooperatives/'.$this->input->post('cooperativeID'));
                 }
 //              }else{
 //                $this->session->set_flashdata('cooperator_redirect','Unauthorized!!');
