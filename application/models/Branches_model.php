@@ -945,10 +945,10 @@ public function defer_by_admin($admin_info,$branch_id,$reason_commment,$step){
       // if($this->admin_model->sendEmailToClientDefer($client_info->fullname,$client_info->coopName.'-'.$client_info->branchName,$client_info->email,$reason_commment)){
         $this->db->trans_commit();
         return true;
-      }else{
-        $this->db->trans_rollback();
-        return false;
-      }
+      // }else{
+      //   $this->db->trans_rollback();
+      //   return false;
+      // }
     }else{
       $this->db->trans_rollback();
       return false;
