@@ -26,7 +26,15 @@ class Capitalization extends CI_Controller{
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                 if($data['bylaw_complete']){
                     $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-                    $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+
+                    if($data['coop_info']->grouping == 'Federation'){
+                        $data['total_regular'] = $this->affiliators_model->get_total_regular($user_id,$decoded_id);
+                    } else if($data['coop_info']->grouping == 'Union'){
+                        $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+                    } else {
+                        $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+                    }
+                    
                     $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
                     $data['client_info'] = $this->user_model->get_user_info($user_id);
                     $data['title'] = 'Capitalization';
@@ -80,7 +88,14 @@ class Capitalization extends CI_Controller{
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                   if($data['bylaw_complete']){
                         $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-                        $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+                        if($data['coop_info']->grouping == 'Federation'){
+                            $data['total_regular'] = $this->affiliators_model->get_total_regular($data['coop_info']->users_id,$decoded_id);
+                        } else if($data['coop_info']->grouping == 'Union'){
+                            $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+                        } else {
+                            $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+                        }
+                        // $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                         $data['title'] = 'Capitalization';
                         $data['header'] = 'Capitalization';
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);

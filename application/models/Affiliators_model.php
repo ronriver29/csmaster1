@@ -230,6 +230,8 @@ $this->last_query = $this->db->last_query();
     $this->db->select('SUM(number_of_subscribed_shares) as total_subscribed, SUM(number_of_paid_up_shares) as total_paid');
     $query = $this->db->get_where('affiliators',array('user_id' => $user_id));
     $data = $query->row();
+
+    // print_r($data);
     //    $query2 = $this->db->get_where('articles_of_cooperation',array('cooperatives_id' => $cooperatives_id));
 //    $article = $query2->row();
     $query2 = $this->db->get_where('capitalization',array('cooperatives_id' => $cooperatives_id));
