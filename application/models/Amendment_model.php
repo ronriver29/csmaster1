@@ -1992,6 +1992,20 @@ public function check_if_denied($coop_id){
       return $data;
     }
 
+    public function deffered_comments($amendment_id,$access_level)
+    {
+       $query = $this->db->get_where('amendment_comment',array('amendment_id'=>$amendment_id,'access_level'=>$access_level,'status'=>11));
+      if($query->num_rows()>0)
+      {
+        $data=$query->result_array();
+      }
+      else
+      {
+        $data = NULL;
+      }
+      return $data;
+    }
+
     public function admin_comment_value($amendment_id,$access_level)
     {
       $query = $this->db->get_where('amendment_comment',array('amendment_id'=>$amendment_id,'access_level'=>$access_level));
