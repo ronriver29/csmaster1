@@ -1,4 +1,4 @@
-    
+
 <div class="row"> 
   <div class="col-md-12">
 <?php if($this->session->flashdata('amendment_msg')) :?>       
@@ -33,7 +33,7 @@
     <div class="alert alert-success text-center" role="alert">
       <?php echo $this->session->flashdata('list_success_message'); ?>
     </div>
-  </div>
+  </div> 
 </div>
 <?php endif; ?>
 <?php if($this->session->flashdata('list_error_message')): ?>
@@ -197,10 +197,10 @@
                           <?php if(count(explode(',',$cooperative['type_of_cooperative']))>1):?>
                              <?php $proposeName =$cooperative['proposed_name'].' Multipurpose Cooperative '.$cooperative['grouping']?>
 
-                            <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment('<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>','<?= $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$cooperative['grouping']?>')" value="Save O.R. No.">
+                            <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment('<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>')" value="Save O.R. No.">
 
                           <?php else: ?>
-                              <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment('<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>','<?= $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$cooperative['grouping']?>')" value="Save O.R. No.">
+                              <input class='btn btn-color-blue offset-md-10' type='button' id='addOff' onclick='showPayment("<?=encrypt_custom($this->encryption->encrypt($cooperative['id']))?>")' value="Save O.R. No.">
                           <?php endif; ?>
                           
                        
@@ -357,6 +357,76 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
     </div>
      <?php endif;?>
     <!-- END HO PROCESS -->
+
+    <!-- PROCESS BY HO -->
+    <?php if(!$is_client  && $admin_info->region_code != '00') :?>
+    <div class="col-sm-12 col-md-12">
+        <h4 style="
+        padding: 15px 10px;
+        background: #fff;
+        background-color: rgb(255, 255, 255);
+        border: none;
+        border-radius: 0;
+        margin-bottom: 20px;
+        box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by Head Office</h4>
+   
+    </div>
+
+    <div class="col-sm-12 col-md-12">
+      <div class="card border-top-blue shadow-sm mb-4">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="cooperativesTable2">
+              <thead>
+                <tr>
+                  <th>Name of Cooperative</th>
+                  <?php if(!$is_client) : ?>
+                  <th>Office Address</th>
+                  <?php endif;?>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($list_of_cooperative_by_ho_process as $cooperative_registered) : ?>
+                <tr>
+                  <td><?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>
+                  </td>
+                  <td>
+                    <?php if($cooperative_registered['house_blk_no']==null && $cooperative_registered['street']==null) $x=''; else $x=', ';?>
+                    <?=$cooperative_registered['house_blk_no']?> <?=$cooperative_registered['street'].$x?><?=$cooperative_registered['brgy']?>, <?=$cooperative_registered['city']?>, <?= $cooperative_registered['province']?> <?=$cooperative_registered['region']?>
+                  </td>
+                  <td>
+                    <span class="badge badge-secondary">
+                      <?php if($cooperative_registered['status']==15) { echo "Re-Print Certificate"; }?>
+                    </span>
+                  </td>
+                  <td width="31%">
+                    <?php $ar = array(2,5); $viewdoc_array = array(2,3,5) ?>
+                    <?php if(in_array($admin_info->access_level,$ar)):?>
+                    <ul id="ul-admin">
+                      <li>
+                        <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Re-print Registration</a>
+                      </li>
+                      <?php endif; ?>
+                      <?php if(in_array($admin_info->access_level,$viewdoc_array)): ?>
+                      <li style="list-style: none;">
+                        <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/documents" class="btn btn-sm btn-info"><i class='fas fa-eye'></i> View Document</a>
+                      </li>
+                      <?php endif; //end of viewdoc array?>
+                    </ul>
+                    
+                  </td>
+                </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <?php endif;?>
+    <!-- END PROCESS BY HO -->
 </div>
 <!-- Bootstrap modal -->
  <div class="modal fade" id="paymentModal" role="dialog">
@@ -446,9 +516,10 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
 <script type="text/javascript">
   
 
-
-  function showPayment(coop_id,coop_name) {
+  // function showPayment(coop_id,$coop_name) {
+  function showPayment(coop_id) {
     //save_method = 'add';
+   // coop_name = escape(coop_name);
     $('#paymentForm')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty();
@@ -486,9 +557,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
   }
 
   function save(){
-
-    var x = $('#orNo').val();
-    
+    var x = $('#orNo').val(); 
     if (x==''){
       alert('Missing O.R. No.');
     }

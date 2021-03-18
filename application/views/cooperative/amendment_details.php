@@ -65,7 +65,7 @@
           <div class="modal-body" style="table-layout: fixed;">
               <pre><?php 
   //            print_r($cooperatives_comments);
-              foreach($deffred_comments as $cc) :
+              foreach($director_comment as $cc) :
                   echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
                   echo '<ul type="square">';
                       echo '<li>'.$cc['comment'].'</li>';
