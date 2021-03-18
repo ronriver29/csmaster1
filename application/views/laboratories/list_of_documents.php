@@ -485,7 +485,7 @@
               <!-- modify by json -->
               <?php if(isset($document_one)) : ?>
              
-
+                
                  <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf_laboratory/<?=$encrypted_cid?>/1">
 
                   <?php if($is_client) : ?>

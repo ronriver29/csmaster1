@@ -137,8 +137,9 @@ class Laboratories_documents extends CI_Controller{
 
                                 $data['encrypted_cid']= encrypt_custom($this->encryption->encrypt($cooperativeID));
                                 $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-                                $data['document_one'] = $this->count_documents($cooperativeID,1);                        
-                                $data['document_two'] = $this->count_documents($cooperativeID,2);
+                                // echo '<script>alert('.$data['lab_info']->cooperative_id.');</script>';
+                                $data['document_one'] = $this->count_documents($data['lab_info']->cooperative_id,1);                        
+                                $data['document_two'] = $this->count_documents($data['lab_info']->cooperative_id,2);
                               
                                 $data['comment_list_director'] = $this->get_comment($decoded_id,3,25);
                                $data['comment_list_senior'] = $this->get_comment($decoded_id,2,12);
@@ -196,8 +197,8 @@ class Laboratories_documents extends CI_Controller{
          
 
          
-                                  $data['Manual_of_board'] = $this->docUpload($cooperativeID,$decoded_id,25);
-                                 $data['Board_of_resolution'] = $this->docUpload($cooperativeID ,$decoded_id,26);
+                                  $data['Manual_of_board'] = $this->docUpload($data['lab_info']->cooperative_id,$decoded_id,25);
+                                 $data['Board_of_resolution'] = $this->docUpload($data['lab_info']->cooperative_id,$decoded_id,26);
      
                                  //senior comment
                                 $data['senior_comment'] = $this->laboratories_model->admin_comment($decoded_id,2);
