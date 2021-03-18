@@ -64,7 +64,7 @@
                     $data['branch_info'] = $this->branches_model->get_branch_info($user_id,$decoded_id);
                     $data['registered_info'] = $this->branches_model->get_registered_coop($data['branch_info']->regNo);
                     
-                    if(empty($this->input->post('region2')) || $this->input->post('barangay')==$this->input->post('barangay2')){
+                    if(empty($this->input->post('region2')) || substr($this->input->post('barangay'), 0, 2)==substr($this->input->post('barangay2'), 0, 2)){
                         $regCodeBranch = 0;
                     } else if ($data['registered_info']->addrCode == $this->input->post('barangay')){ 
                         $regCodeBranch = 0;
@@ -448,15 +448,20 @@
                 $BAC = $this->input->post('BAC');
                 $provDesc = $this->branches_model->prov($this->input->post('province'));
                 $cityDesc = $this->branches_model->city($this->input->post('city'));
-                $branchCount =$this->branches_model->branch_count($this->input->post('regNo'),substr($this->input->post('city'),0,6),$this->input->post('typeOfBranch')); 
-                if(empty($this->input->post('region2')) || $this->input->post('barangay')==$this->input->post('barangay2')){
+                $branchCount =$this->branches_model->branch_count($this->input->post('regNo'),substr($this->input->post('city'),0,6),$this->input->post('typeOfBranch'));
+
+
+                if(empty($this->input->post('region2')) || substr($this->input->post('barangay'), 0, 2)==substr($this->input->post('barangay2'), 0, 2)){
                     $regCodeBranch = 0;
                 } else {
                     $regCodeBranch = $this->input->post('region2');
                 }
-                // echo $this->input->post('barangay2');
-                // echo $this->input->post('barangay');
+
+                // echo substr($this->input->post('barangay2'), 0, 2);
+                // echo ' - '.substr($this->input->post('barangay'), 0, 2);
+                // echo ' - '.$this->input->post('region2');
                 // echo $this->input->post('region2');
+
                 $field_data = array(
                   'user_id' => $this->session->userdata('user_id'),
                   'branchName' => $this->input->post('typeOfBranch'),
