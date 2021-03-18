@@ -1991,7 +1991,6 @@ public function check_if_denied($coop_id){
       }
       return $data;
     }
-
     public function deffered_comments($amendment_id,$access_level)
     {
        $query = $this->db->get_where('amendment_comment',array('amendment_id'=>$amendment_id,'access_level'=>$access_level,'status'=>11));

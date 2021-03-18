@@ -960,7 +960,6 @@ class amendment extends CI_Controller{
               if($data['committeescount']==0) {
                 $data['committeescount'] = $this->amendment_committee_model->get_all_committees_of_coop_gad($decoded_id);
               }
-
                  //position 
                        $data['election'] = $this->committee_model->check_position($decoded_id,"Election");
               
