@@ -202,32 +202,26 @@ class Affiliators extends CI_Controller{
         $user_id = $this->session->userdata('user_id');
         $data['encrypted_id'] = $id;
         $data['is_client'] = $this->session->userdata('client');
-        $query = $this->affiliators_model->existing_affiliators($user_id,$this->input->post('regNo'));
-        $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
-        $encrypted_post_coop_id = $this->input->post('cooperativesID');
-        if($query==0){
-            $data = array(
-              'registeredcoop_id' => $this->input->post('registered_id'),
-              'regNo' => $this->input->post('regNo'),
-              'coopName' => $this->input->post('coopName'),
-              'application_id' => $this->input->post('applicationid'),
-              'number_of_subscribed_shares' => $this->input->post('subscribedShares'),
-              'number_of_paid_up_shares' => $this->input->post('paidShares'),
-              'user_id' => $user_id, 
-              );
-            $success = $this->affiliators_model->add_affiliators($data);
-            if($success){
-                echo $query;
-              $this->session->set_flashdata('cooperator_success', 'Cooperative Added.');
-                    redirect('cooperatives/'.$encrypted_post_coop_id.'/affiliators');
-            }else{
-              $this->session->set_flashdata('cooperator_success', 'Cooperative Added');
-              redirect('cooperatives/'.$encrypted_post_coop_id.'/affiliators');
-            }
-        } else {
-//            echo $query;
-            $this->session->set_flashdata('cooperator_error', 'Cooperative already exists.');
-                    redirect('cooperatives/'.$encrypted_post_coop_id.'/affiliators');
+        // $query = $this->affiliators_model->existing_affiliators($user_id,$this->input->post('regNo'));
+        // $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
+
+        $encryptedcoopid = $this->input->post('cooperativesID');
+        $encrypted_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
+
+        $u_data = array(
+            'number_of_subscribed_shares'=> $this->input->post('subscribedShares2'),
+            'number_of_paid_up_shares'=> $this->input->post('paidShares2')
+          );
+
+        $update_passwd = $this->db->update('affiliators',$u_data,array('id'=>$encrypted_post_coop_id));
+
+        if($update_passwd)
+        {  
+          $this->session->set_flashdata('cooperator_success', 'Affiliator Successfully Updated.');
+            redirect('cooperatives/'.$encryptedcoopid.'/affiliators');
+        }else{
+          $this->session->set_flashdata('cooperator_success', 'Affiliator failed to Update');
+          redirect('cooperatives/'.$encryptedcoopid.'/affiliators');
         }
     }
     

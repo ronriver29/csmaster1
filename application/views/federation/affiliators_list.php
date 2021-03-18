@@ -126,12 +126,12 @@
                         
 
                     <?php if($is_client){ ?>
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editAffiliatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= $applied_coops['aff_id']?>"><i class='fas fa-eye'></i> Edit</button>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editAffiliatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($applied_coops['aff_id']))?>"><i class='fas fa-eye'></i> Edit</button>
                     <!-- END -->
 
                       <?php // if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
                         <!--<input class="btn btn-color-blue" type="submit" id="offlineBtn" name="offlineBtn" value="Add">-->
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCooperatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= $applied_coops['aff_id']?>"><i class='fas fa-minus'></i> Remove</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCooperatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($applied_coops['aff_id']))?>"><i class='fas fa-minus'></i> Remove</button>
                       <?php // endif;?>
                     <?php } ?>
                     </div>

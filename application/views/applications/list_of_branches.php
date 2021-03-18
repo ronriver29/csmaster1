@@ -20,7 +20,7 @@ if($tomorrow>=$now){
         </div>
     </div>
 <?php } else { ?>
-  <div class="col-sm-12 col-md-12">
+  <!-- <div class="col-sm-12 col-md-12">
         <div class="alert alert-info text-justify" role="alert">
            The cooperative is qualified to establish a branch office based on the following requirement;
                     a.  The cooperative did not incur net loss for the last three consecutive years and its net worth is progressive for the last three years from the date of application.<br>
@@ -42,7 +42,7 @@ if($tomorrow>=$now){
             Php 15 Million&emsp;&emsp;&emsp;- Secondary<br>
             Php 20 Million&emsp;&emsp;&emsp;- Tertiary
         </div>
-    </div>
+    </div> -->
 <?php
 //$thirtyDaysUnix = strtotime('+30 days', strtotime($plus));
 //echo $dateregistered;

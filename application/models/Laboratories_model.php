@@ -121,7 +121,7 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->join('registeredcoop','registeredcoop.regNo=laboratories.coop_id','inner');
+    $this->db->join('registeredcoop','registeredcoop.application_id=laboratories.cooperative_id','inner');
     $this->db->where('laboratories.user_id', $user_id);
     $query = $this->db->get();
     $data = $query->result_array();

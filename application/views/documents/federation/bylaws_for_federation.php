@@ -9,22 +9,20 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-  <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?=APPPATH?>../assets/css/bootstrap.min.css">
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
-  @page{margin: 96px 96px 144px 96px;}
+  @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   .table-cooperator, .table-cooperator th, .table-cooperator td {
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
-    @font-face {
-  font-family: 'BookmanOldStyleRegular';
-  font-style: normal;
-  font-weight: normal;
-  src: url('<?php base_url()?>assets/BookmanOldStyleRegular.ttf') format('truetype');
 }
   }
-  body{font-family: BookmanOldStyleRegular !important;}
+  body{
+      /*font-family: 'Bookman Old Style'; font-size: 12px; */
+       font-family: 'Bookman Old Style',arial !important;font-size:12px;
+    }
   </style>
 </head>
 <body style="font-family: 12 Bookman Old Style;">
@@ -1086,7 +1084,7 @@
         	<li>Cooperative Annual Performance Report (CAPR); </li>
     		<li>Social Audit Report;</li>
     		<li>Performance Report;</li>
-    		<li>Audited Financial Statement duly stamped “Received�? by BIR; </li>
+    		<li>Audited Financial Statement duly stamped “Received? by BIR; </li>
     			<li>List of officers and trainings undertaken/completed;</li>
     		<li>List of cooperatives which have remitted their respective Cooperative Education and Training Funds (CETF);</li>
     		<li>Business consultancy assistance to include the nature and cost and</li>
@@ -1142,8 +1140,8 @@
         <table class="table table-borderless table-sm table-director">
           <tbody>
             <tr>
-              <td><b><?=$cooperator_chairperson->full_name?></b><br>Chairperson</td>
-              <td><b><?=$cooperator_vicechairperson->full_name?></b><br>Vice-Chairperson</td>
+              <td><br>Chairperson</td>
+              <td><br>Vice-Chairperson</td>
             </tr>
           </tbody>
         </table>
