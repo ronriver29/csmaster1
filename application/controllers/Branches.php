@@ -451,7 +451,9 @@
                 } else {
                     $regCodeBranch = $this->input->post('region2');
                 }
-
+                // echo $this->input->post('barangay2');
+                // echo $this->input->post('barangay');
+                // echo $this->input->post('region2');
                 $field_data = array(
                   'user_id' => $this->session->userdata('user_id'),
                   'branchName' => $this->input->post('typeOfBranch'),

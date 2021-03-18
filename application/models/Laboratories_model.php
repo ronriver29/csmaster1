@@ -135,7 +135,7 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->join('registeredcoop','registeredcoop.regNo=laboratories.coop_id','inner');
+    $this->db->join('registeredcoop','registeredcoop.application_id=laboratories.cooperative_id','inner');
     $this->db->where('laboratories.user_id', $admin_id);
     $query = $this->db->get();
     $data = $query->result_array();
@@ -388,7 +388,7 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
-    inner join registeredcoop on laboratories.coop_id = registeredcoop.regNo
+    inner join registeredcoop on registeredcoop.application_id=laboratories.cooperative_id
     inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
     where x.regCode like "'.$regcode.'%"
     and laboratories.status in (2)
@@ -398,7 +398,7 @@ select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city,
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
-    inner join registeredcoop on laboratories.coop_id = registeredcoop.regNo
+    inner join registeredcoop on registeredcoop.application_id=laboratories.cooperative_id
     where refregion.regCode like "'.$regcode.'%"
     and laboratories.status in (8,10,11,12,18,19,20,24)');
     $data = $query->result_array();
@@ -411,7 +411,7 @@ select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city,
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
-    inner join registeredcoop on laboratories.coop_id = registeredcoop.regNo
+    inner join registeredcoop on registeredcoop.application_id=laboratories.cooperative_id
     inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
     where x.regCode like "'.$regcode.'%"
     and laboratories.status in (5)
@@ -421,7 +421,7 @@ select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city,
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
-    inner join registeredcoop on laboratories.coop_id = registeredcoop.regNo
+    inner join registeredcoop on registeredcoop.application_id=laboratories.cooperative_id
     where refregion.regCode like "'.$regcode.'%"
     and laboratories.status in (12,13,14,15,24)');
     $data = $query->result_array();

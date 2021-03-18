@@ -139,7 +139,12 @@ class Affiliators_model extends CI_Model{
         $decoded_id = $this->security->xss_clean($decoded_id);
         $user_id = $this->security->xss_clean($user_id);
     //    $temp = $this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id)->regular_percentage_shares_subscription;
-        $temp = $this->get_capitalization_by_coop_id($decoded_id)->minimum_subscribed_share_regular;
+        
+        if($user_id == 0){
+            $temp = 0;
+        } else {
+            $temp = $this->get_capitalization_by_coop_id($decoded_id)->minimum_subscribed_share_regular;
+        }
         $this->db->where(array('user_id'=>$user_id));
         $this->db->where('number_of_subscribed_shares <', $temp);
         $this->db->from('affiliators');
@@ -154,7 +159,12 @@ class Affiliators_model extends CI_Model{
         $decoded_id = $this->security->xss_clean($decoded_id);
         $user_id = $this->security->xss_clean($user_id);
     //    $temp = $this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id)->regular_percentage_shares_pay;
-        $temp = $this->get_capitalization_by_coop_id($decoded_id)->minimum_paid_up_share_regular;
+        
+        if($user_id == 0){
+            $temp = 0;
+        } else {
+            $temp = $this->get_capitalization_by_coop_id($decoded_id)->minimum_paid_up_share_regular;
+        }
         $this->db->where(array('user_id'=>$user_id));
         $this->db->where('number_of_paid_up_shares <', $temp);
         $this->db->from('affiliators');
