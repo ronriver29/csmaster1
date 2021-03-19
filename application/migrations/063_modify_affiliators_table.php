@@ -23,7 +23,19 @@ class Migration_modify_affiliators_table extends CI_Migration
 
     public function down()
     { 
-        $qry = $this->db->query("ALTER TABLE affiliators  MODIFY number_of_subscribed_shares INT(11) default null, MODIFY number_of_paid_up_shares INT(11) default null"); 
+        $result = $this->db->query("SHOW COLUMNS FROM `affiliators` LIKE 'number_of_subscribed_shares'");
+        // $exists = ($result)?TRUE:FALSE;
+        if($result->num_rows()>0)
+        {
+           $qry = $this->db->query("ALTER TABLE affiliators DROP COLUMN number_of_subscribed_shares"); 
+        }
+
+        $result2 = $this->db->query("SHOW COLUMNS FROM `affiliators` LIKE 'number_of_paid_up_shares'");
+        // $exists = ($result)?TRUE:FALSE;
+        if($result2->num_rows()>0)
+        {
+           $qry2 = $this->db->query("ALTER TABLE affiliators DROP COLUMN number_of_paid_up_shares"); 
+        }
     }
 }
 ?>

@@ -48,10 +48,10 @@
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
                     <option value="">--</option>
                     <option value="Primary">Primary</option>
-                     <option value="Secondary - Union">Secondary - Union</option>
+                    <!-- <option value="Secondary - Union">Secondary - Union</option>
                     <option value="Tertiary - Union">Tertiary - Union</option>
                     <option value="Secondary - Federation">Secondary - Federation</option>
-                    <option value="Tertiary - Federation">Tertiary - Federation</option> 
+                    <option value="Tertiary - Federation">Tertiary - Federation</option>  -->
                   </select>
                 </div>
               </div>

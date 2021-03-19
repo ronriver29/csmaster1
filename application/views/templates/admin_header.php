@@ -87,7 +87,7 @@
             <a href="<?php echo base_url();?>cooperatives"><i class="fas fa-handshake"></i> Cooperatives</a>
           </li>
          
-          <li>   
+          <!-- <li>   
 
             <a href="<?php echo base_url();?>branches"><i class="fas fa-handshake"></i> Branches and Satellites</a>
           </li>
@@ -100,7 +100,7 @@
           <?php if($admin_info->access_level == 2) : ?>
           <li>   
             <a href="<?php echo base_url();?>account_approval"><i class="fas fa-handshake"></i> Account Approval</a>
-          </li>
+          </li> -->
           <?php endif; ?>
         <?php endif; ?>
         <li>
