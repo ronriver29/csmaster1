@@ -159,7 +159,7 @@
                             if(!empty($cooperative['acronym_name'])){ 
                                 $acronym_name = '('.$cooperative['acronym_name'].')';
                             } else {
-                                $acronym_name = '';
+                                $acronym_name = ' ';
                             }
                           ?>
                           
@@ -469,11 +469,11 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
             $('#particulars').html(data.particulars);
             $('#amount').html(data.amount);
             $('#total').text(parseFloat(data.total).toFixed(2));
-            console.log(data);
+
             
             $('#paymentModal').modal('show'); // show bootstrap modal
             $('.modal-title').text('Order of Payment');
-            
+
  
         },
         error: function (jqXHR, textStatus, errorThrown)
