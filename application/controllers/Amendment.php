@@ -565,7 +565,7 @@ class amendment extends CI_Controller{
                   $this->load->view('./template/header', $data);
                   $this->load->view('cooperative/amendment_reservation_update', $data);
                   if($this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
-                    $this->load->view('cooperative/terms_and_condition');
+                    // $this->load->view('cooperative/terms_and_condition');
                   }
                   $this->load->view('./template/footer', $data);
                 }else{
