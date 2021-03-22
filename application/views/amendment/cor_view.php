@@ -25,7 +25,7 @@
 	<table width=100%>
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
-			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
+			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda_new.jpg" width="100" height="100" ></td>
 			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
@@ -92,7 +92,7 @@
 		</tr>
 		<tr>
 			<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
-			</td>
+			</td> 
 			<td  style="text-align: center;padding-left:150px;"> 	
 			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
@@ -121,7 +121,7 @@
 	<table width=100%>
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
-			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
+			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda_new.jpg" width="100" height="100" ></td>
 			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
@@ -222,7 +222,7 @@
 	<table width=100%>
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
-			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
+			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda_new.jpg" width="100" height="100" ></td>
 			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
