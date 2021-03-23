@@ -77,7 +77,7 @@ class Amendment_registration extends CI_Controller{
               'addrCode'=> $coop_info->refbrgy_brgyCode,
               'compliant'=>'Compliant',
               // 'qr_code'=>$j,
-              // 'application_id'=>$coop_info->application_id,
+              'application_id'=>$coop_info->cooperative_id,
               'amendment_id'=>$decoded_id
             );
 
