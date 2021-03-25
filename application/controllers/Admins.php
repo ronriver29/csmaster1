@@ -957,7 +957,7 @@ class Admins extends CI_Controller{
       $admin_user_id = $this->session->userdata('user_id');
       $now = date('Y-m-d h:i:s');
 
-      if($status == 1 || $decoded_specialist_id == 2){
+      if($status == 1 || $status == 2){
           $data_amd = array(
               'status'=> $status,
               'evaluated_by' => 0,
@@ -995,7 +995,6 @@ class Admins extends CI_Controller{
           $data_amd = array(
             
               'status' => $status,
-              'edited_by' => $admin_user_id,
               'third_evaluated_by' => 0
           );
 
@@ -1006,23 +1005,41 @@ class Admins extends CI_Controller{
               'cooperative_id' => $decoded_id,
               'date_modified' => $now,
               'module_type' => $module_type,
-              'third_evaluated_by' => 0
+             
           );
         }
+        else
+        {
+          $data_amd = array(
+              'status' => $status,
+          );
+
+          $data_field = array(
+              'from' => $status_id,
+              'to' => $status,
+              'edited_by' => $admin_user_id,
+              'cooperative_id' => $decoded_id,
+              'date_modified' => $now,
+              'module_type' => $module_type,
+             
+          );
+        }
+
+
           
            $success =  $this->cooperatives_model->insert_audit_log_cooperatives_change_status($data_field);
           if($success){
           $success =  $this->amendment_model->change_status_amendment($decoded_id,$data_amd);
             if($success){
               $this->session->set_flashdata('list_success_message', 'Cooperative Status has been Changed.');
-              redirect('admins/cooperatives_list');
+              redirect('admins/amendment_list');
             }else{
               $this->session->set_flashdata('list_error_message', 'Unable to Change Status Cooperative.');
-              redirect('admins/cooperatives_list');
+              redirect('admins/amendment_list');
             }
           }else{
               $this->session->set_flashdata('list_error_message', 'Unable to Change Status Cooperative.');
-              redirect('admins/cooperatives_list');
+              redirect('admins/amendment_list');
           }
             
    }  
