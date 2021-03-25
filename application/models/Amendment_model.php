@@ -2186,4 +2186,34 @@ public function check_if_denied($coop_id){
    $query = $this->db->get('composition_of_members');
    return $query->row_array();
   }
+
+  public function get_all_amendments(){
+    $this->db->select('amend_coop.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->from('amend_coop');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->where('amend_coop.status NOT IN (1,15)');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function change_status_amendment($decoded_id,$data){
+  $decoded_id = $this->security->xss_clean($decoded_id);
+  $data = $this->security->xss_clean($data);
+
+  $this->db->trans_begin();
+  $this->db->where('id',$decoded_id);
+  $this->db->update('amend_coop',$data);
+  
+  if($this->db->trans_status() === FALSE){
+    $this->db->trans_rollback();
+    return false;
+  }else{
+    $this->db->trans_commit();
+    return true;
+  }
+}
+
 }

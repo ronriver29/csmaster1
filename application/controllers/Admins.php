@@ -827,6 +827,41 @@ class Admins extends CI_Controller{
     }
   }
 
+  public function amendment_list()
+  {
+    if(!$this->session->userdata('logged_in')){
+        redirect('admins/login');
+      }else{
+        $data['is_client'] = $this->session->userdata('client');
+        if(!$this->session->userdata('client')){
+          $admin_user_id = $this->session->userdata('user_id');
+          if($this->admin_model->check_super_admin($admin_user_id)){
+            $data['title'] = 'List of Amendments';
+            $data['header'] = 'List of Amendments';
+            $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
+            $data['users_list'] = $this->admin_model->get_all_user();
+
+            $data['list_amendments'] = $this->amendment_model->get_all_amendments();
+            $data['is_acting_director'] = $this->admin_model->is_active_director($admin_user_id);
+            $data['supervising_'] = $this->admin_model->is_acting_director($admin_user_id);
+            
+            $this->load->view('templates/admin_header', $data);
+            $this->load->view('applications/list_of_all_amendments', $data);
+            $this->load->view('applications/change_amendment_modal');
+            $this->load->view('admin/grant_privilege_supervisor');
+            $this->load->view('admin/revoke_privilege_supervisor');
+            $this->load->view('templates/admin_footer');
+          }else{
+            $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+            redirect('amendment_list');
+          }
+        }else{
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('amendment_list');
+        }
+      }
+  }
+
   public function change_status(){
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID',TRUE)));
       $decoded_specialist_id = $this->input->post('statuschange');
@@ -913,10 +948,84 @@ class Admins extends CI_Controller{
             redirect('admins/cooperatives_list');
           }
     }
-  // public function debug($array)
-  // {
-  //       echo"<pre>";
-  //       print_r($array);
-  //       echo"</pre>";
-  // }   
+
+    public function change_status_amendment(){
+      $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID',TRUE)));
+      $status = $this->input->post('statuschange');
+      $status_id = $this->input->post('statusid');
+      $module_type = $this->input->post('module_type');
+      $admin_user_id = $this->session->userdata('user_id');
+      $now = date('Y-m-d h:i:s');
+
+      if($status == 1 || $decoded_specialist_id == 2){
+          $data_amd = array(
+              'status'=> $status,
+              'evaluated_by' => 0,
+              'second_evaluated_by' => 0,
+              'third_evaluated_by' => 0
+          );
+
+          $data_field = array(
+              'from' => $status_id,
+              'to' => $status,
+              'edited_by' => $admin_user_id,
+              'cooperative_id' => $decoded_id,
+              'date_modified' => $now,
+              'module_type' => $module_type,
+             
+          );
+
+        } else if ($status == 3){
+          $data_amd = array(
+              'status'=> $status,
+              'second_evaluated_by' => 0,
+              'third_evaluated_by' => 0
+          );
+
+          $data_field = array(
+              'from' => $status_id,
+              'to' => $status,
+              'edited_by' => $admin_user_id,
+              'cooperative_id' => $decoded_id,
+              'date_modified' => $now,
+              'module_type' => $module_type,
+             
+          );
+        } else if ($status == 9){
+          $data_amd = array(
+            
+              'status' => $status,
+              'edited_by' => $admin_user_id,
+              'third_evaluated_by' => 0
+          );
+
+          $data_field = array(
+              'from' => $status_id,
+              'to' => $status,
+              'edited_by' => $admin_user_id,
+              'cooperative_id' => $decoded_id,
+              'date_modified' => $now,
+              'module_type' => $module_type,
+              'third_evaluated_by' => 0
+          );
+        }
+          
+           $success =  $this->cooperatives_model->insert_audit_log_cooperatives_change_status($data_field);
+          if($success){
+          $success =  $this->amendment_model->change_status_amendment($decoded_id,$data_amd);
+            if($success){
+              $this->session->set_flashdata('list_success_message', 'Cooperative Status has been Changed.');
+              redirect('admins/cooperatives_list');
+            }else{
+              $this->session->set_flashdata('list_error_message', 'Unable to Change Status Cooperative.');
+              redirect('admins/cooperatives_list');
+            }
+          }else{
+              $this->session->set_flashdata('list_error_message', 'Unable to Change Status Cooperative.');
+              redirect('admins/cooperatives_list');
+          }
+            
+   }  
+    
+    
 }
