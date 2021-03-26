@@ -261,7 +261,9 @@
               {
                 $total_reg_subscribed = number_format($total_reg_subscribed,2);
               }  
-
+              // var_dump( $total_regular);
+              // echo 'subscribled'.$total_regular['total_subscribed'] .'<br> par value :'. $capitalization_info->par_value .'<br> total_associate :'.$total_associate['total_subscribed'].'<br> par value: '. $capitalization_info->par_value;
+                  
               $total_regSubscribed = ($total_regular['total_subscribed'] * $capitalization_info->par_value) + ($total_associate['total_subscribed'] * $capitalization_info->par_value);
 
               $total_regSubscribed_orig = ($total_regular_orig['total_subscribed'] * $capitalization_info->par_value) + ($total_associate_orig['total_subscribed'] * $capitalization_info->par_value);

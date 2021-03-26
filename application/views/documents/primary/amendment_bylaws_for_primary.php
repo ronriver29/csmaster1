@@ -150,19 +150,30 @@
         <li>Regular Members
           <ol class="text-justify" type="a">
             <?php
+          
              foreach($regular_ar_qualifications as $key => $reg_qualification) :
-              if(empty( $regular_ar_qualifications_orig[$key]))
+             
+             
+              if(isset($regular_ar_qualifications_orig[$key]))
               {
-                 $regular_ar_qualifications_orig[$key] = 0;
+                $reg_qualification_orig = $regular_ar_qualifications_orig[$key];
+                if($reg_qualification!=$reg_qualification_orig)
+                {
+                  echo"<li><b>".$reg_qualification."</b></li>";
+                }
+                else
+                {
+                  echo "<li>".$reg_qualification."</li>";
+                }
               }
-              $reg_qualification_orig = $regular_ar_qualifications_orig[$key];
-              if($reg_qualification !=  $reg_qualification_orig )
+              else
               {
-                $reg_qualification = '<strong>'.$reg_qualification.'</strong>';
+                 echo"<li><b>".$reg_qualification."</b></li>";
               }
+
               ?>
 
-              <li><?=$reg_qualification ?></li>
+            <!--   <li><?php $reg_qualification;?></li> -->
             <?php endforeach; ?>
           </ol>
         </li>
@@ -170,15 +181,23 @@
         <li>Associate Members
           <ol class="text-justify" type="a">
             <?php foreach($assoc_ar_qualifications as $key => $assoc_qualification) :
-              if(empty($assoc_ar_qualifications_orig[$key]))
+              if(isset($assoc_ar_qualifications_orig[$key]))
               {
-                $assoc_ar_qualifications_orig[$key] =0;
+                $assoc_qualification_orig=$assoc_ar_qualifications_orig[$key];
+                 if($assoc_qualification_orig!=$assoc_qualification)
+                 {
+                    echo'<li><b>'.$assoc_qualification.'</b></li>';
+                 }
+                 else
+                 {
+                    echo "<li>".$assoc_qualification."</li>";
+                 }
               }
-               $assoc_qualification_orig=$assoc_ar_qualifications_orig[$key];
-               if($assoc_qualification_orig!=$assoc_qualification)
-               {
-                $assoc_qualification='<strong>'.$assoc_qualification.'</strong>';
-               }
+              else
+              {
+                echo'<li><b>'.$assoc_qualification.'</b></li>';
+              }
+              
             ?>
               <li> <?= $assoc_qualification ?> </li>
             <?php endforeach; ?>
@@ -874,7 +893,7 @@ $minimum_paid_up_share_associate_3 ='';
     		<li>Conduct initial investigation or inquiry, upon receipt of a complaint involving violations of the Code of Governance and Ethical Standards; </li>
     		<li>Submit report on its recommendation together with the appropriate sanctions, to the Board of Directors for its proper action, or to the remaining members of the Board of Directors, if the violation is committed by any member of the Board of Directors. Provided, that if the remaining members of the Board of Directors fail to act on the report within a period of thirty (30) days, or the violation is committed by the majority of the Board of Directors, the Audit committee shall act on the same; and</li>
     		<li>Perform such other functions as may be prescribed in the By-laws or authorized by the Board of Directors.</li>
-    	</ol>
+    	</ol> 
     </div>
   </div>
   <?php $section_=10; ?>

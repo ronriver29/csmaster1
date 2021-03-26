@@ -575,6 +575,8 @@ class amendment_model extends CI_Model{
       //amendment_bylaws
     $bylaws_coop_info = $this->amendment_by_laws($last_amendment_dtl->id,$id);
     $bylaws_amendment = array_filter($bylaws_coop_info);
+    unset($bylaws_amendment['annual_regular_meeting_day_date']);
+    unset($bylaws_amendment['annual_regular_meeting_day_venue']);
     // return   $bylaws_amendment;
     $this->db->insert('amendment_bylaws',$bylaws_amendment);
     //amendmnet_bylaws

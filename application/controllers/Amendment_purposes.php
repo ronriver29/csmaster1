@@ -50,7 +50,7 @@ class Amendment_purposes extends CI_Controller{
                     // $this->debug($data_contents);
                     $data['contents'] =$data_contents;
                     $this->load->view('template/header', $data);
-                    $this->load->view('purposes/amendment_list_of_purposes', $data);
+                    $this->load->view('purposes/amendment_list_of_purposes', $data); 
                     // $this->load->view('purposes/add_form_purposes', $data);
                     $this->load->view('template/footer');
                   }else{
@@ -199,12 +199,12 @@ class Amendment_purposes extends CI_Controller{
                          }
                           $purposes1 = substr_replace($purposes1, "", -1);
                           // echo $purposes1;
-
+                          // $this->debug(rsort($this->input->post('purposes_add')));
                          if(is_array($this->input->post('purposes_add'))){ 
                           $additional_purposes = array_filter($this->input->post('purposes_add'));
                           foreach( $additional_purposes as $row_add)
                          {
-                            $purposes_add=';'.$row_add;  
+                            $purposes_add.=';'.$row_add;  
                             // $purposes1 = substr_replace($purposes1,'', -1);
                          }
                           $purposes_add = substr_replace($purposes_add,"", -1);
@@ -283,9 +283,8 @@ class Amendment_purposes extends CI_Controller{
                         {
                          $purposes_id= $this->encryption->decrypt(decrypt_custom($row_id['id']));
                         }
-                       //  echo $decoded_id.'<br>';
-                       // echo $purposes_id;
-                       //  echo $data_purposes;
+                       
+                    
                       if($this->amendment_purpose_model->edit_purposes($decoded_id,$purposes_id,$data_purposes))
                       {
                          $this->session->set_flashdata('edit_purposes_success', "Updated Purposes Successfully.");
