@@ -145,10 +145,12 @@ class Users extends CI_Controller{
         if($is_taken == '1'){
           $this->session->set_flashdata(array('email_sent_warning'=>'This Registration is already Taken'));
                 redirect('users/use_registered_email');
-        } elseif($email_taken->num_rows() > 0) {
-          $this->session->set_flashdata(array('email_sent_warning'=>'Email already Taken.'));
-                redirect('users/use_registered_email');
-        } else {
+        } 
+        // elseif($email_taken->num_rows() > 0) {
+        //   $this->session->set_flashdata(array('email_sent_warning'=>'Email already Taken.'));
+        //         redirect('users/use_registered_email');
+        // } 
+        else {
           if ($coop_exist->num_rows()==0){
               $this->session->set_flashdata(array('email_sent_warning'=>'Email or Registration Number does not match.'));
                 redirect('users/use_registered_email');
