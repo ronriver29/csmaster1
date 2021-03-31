@@ -765,6 +765,8 @@
               if(!$this->cooperatives_model->check_expired_reservation($decoded_id,$user_id)){
                 $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
                 if($data['bylaw_complete']){
                     if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
@@ -779,9 +781,6 @@
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                    $capitalization_info = $data['capitalization_info'];
-                  
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -865,7 +864,8 @@
                                       }
                                       else
                                       {
-                                        echo"invalid";
+                                        $this->session->set_flashdata('cooperative_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
+                                        redirect('cooperatives/'.$id);
                                       }
                                     }else{
                                       $this->session->set_flashdata('cooperative_error','Unable to submit your application');
