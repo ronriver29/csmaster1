@@ -20,7 +20,7 @@ class Email_model extends CI_Model{
       $keywords = preg_split("/@/", $email);
       $message = "Your account has been created. See the details below: <br>".
       "<ul><li>Username: ".$username."</li><li>Password: ".$password."</li></ul>";
-//      $this->email->from($from,'CoopRIS Administrator');
+//      $this->email->from($from,'ecoopris CDA (No Reply)');
 //      $this->email->to($email);
 //      $this->email->subject($subject);
 //      $this->email->message($message);
@@ -37,7 +37,7 @@ class Email_model extends CI_Model{
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = $coop_full_name." has been assigned to you by ".$admin_info->full_name.". You can now evaluate this application.";
-//    $this->email->from($from,'CoopRIS Administrator');
+//    $this->email->from($from,'ecoopris CDA (No Reply)');
 //    $this->email->to($admin_info->email);
 //    $this->email->subject($subject);
 //    $this->email->message($message);
@@ -75,7 +75,7 @@ class Email_model extends CI_Model{
                 <b><li> Email address:</b> ". $client_info->email."</li>
                 </ol>";   
 
-   $this->email->from($from,'CoopRIS Administrator');
+   $this->email->from($from,'ecoopris CDA (No Reply)');
    $this->email->to($admin_info->email);
    $this->email->subject($subject);
    $this->email->message($admin_message);
@@ -131,14 +131,14 @@ class Email_model extends CI_Model{
     }
       $client_message = "Successfully submitted your amendment application. Please wait for an email of either payment procedure or the list of documents for compliance.<p>";  
      //Admin send mail                                                               ;
-     $this->email->from($from,'CoopRIS Administrator');
+     $this->email->from($from,'ecoopris CDA (No Reply)');
      $this->email->to($admin_info->email);
      $this->email->subject($admin_subject);
      $this->email->message($admin_message);
       if($this->email->send()){
             // return true;
             // Client send email
-               $this->email->from($from,'CoopRIS Administrator');
+               $this->email->from($from,'ecoopris CDA (No Reply)');
                $this->email->to($client_info->email);
                $this->email->subject($client_subject);
                $this->email->message($client_message);
@@ -201,14 +201,14 @@ class Email_model extends CI_Model{
     }
       $client_message = "Successfully submitted your amendment application. Please wait for an email of either payment procedure or the list of documents for compliance.<p>";  
      //Admin send mail                                                               ;
-     $this->email->from($from,'CoopRIS Administrator');
+     $this->email->from($from,'ecoopris CDA (No Reply)');
      $this->email->to($admin_info->email);
      $this->email->subject($admin_subject);
      $this->email->message($admin_message);
       if($this->email->send()){
             // return true;
             // Client send email
-               $this->email->from($from,'CoopRIS Administrator');
+               $this->email->from($from,'ecoopris CDA (No Reply)');
                $this->email->to($client_info->email);
                $this->email->subject($client_subject);
                $this->email->message($client_message);
@@ -276,14 +276,14 @@ class Email_model extends CI_Model{
     }
       $client_message = "Successfully submitted your amendment application. Please wait for an email of either payment procedure or the list of documents for compliance.<p>";  
      //Admin send mail                                                               ;
-     $this->email->from($from,'CoopRIS Administrator');
+     $this->email->from($from,'ecoopris CDA (No Reply)');
      $this->email->to($director_email);
      $this->email->subject($admin_subject);
      $this->email->message($admin_message);
       if($this->email->send()){
             // return true;
             // Client send email
-               $this->email->from($from,'CoopRIS Administrator');
+               $this->email->from($from,'ecoopris CDA (No Reply)');
                $this->email->to($client_info->email);
                $this->email->subject($client_subject);
                $this->email->message($client_message);
@@ -318,7 +318,7 @@ class Email_model extends CI_Model{
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = $coop_full_name." has been approved by ".$admin_info->full_name.". You can now evaluate this application.";
-//      $this->email->from($from,'CoopRIS Administrator');
+//      $this->email->from($from,'ecoopris CDA (No Reply)');
 //      $this->email->to($receiver);
 //      $this->email->subject($subject);
 //      $this->email->message($message);
@@ -349,7 +349,7 @@ class Email_model extends CI_Model{
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = $coop_full_name." has been approved by ".$admin_info->full_name.". You can now evaluate this application.";
-//      $this->email->from($from,'CoopRIS Administrator');
+//      $this->email->from($from,'ecoopris CDA (No Reply)');
 //      $this->email->to($receiver);
 //      $this->email->subject($subject);
 //      $this->email->message($message);
@@ -395,7 +395,7 @@ In addition to the above, please attach the following in 1 original and 3 certif
 The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS)..</pre>";
 
 
-//    $this->email->from($from,'CoopRIS Administrator');
+//    $this->email->from($from,'ecoopris CDA (No Reply)');
 //    $this->email->to($email);
 //    $this->email->subject($subject);
 //    $this->email->message($message);
@@ -438,7 +438,7 @@ In addition to the above, please attach the following in 1 original and 3 certif
 The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS)..</pre>";
 
 
-   $this->email->from($from,'CoopRIS Administrator');
+   $this->email->from($from,'ecoopris CDA (No Reply)');
    $this->email->to($email);
    $this->email->subject($subject);
    $this->email->message($message);
@@ -457,7 +457,7 @@ The client shall submit the above required documents within 30 working days from
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> failed the evaluation. This cooperative has been denied because of the following reason/s:<br><pre>".$comment."</pre>";
-//    $this->email->from($from,'CoopRIS Administrator');
+//    $this->email->from($from,'ecoopris CDA (No Reply)');
 //    $this->email->to($email);
 //    $this->email->subject($subject);
 //    $this->email->message($message);
@@ -474,7 +474,7 @@ The client shall submit the above required documents within 30 working days from
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> has been deferred because of the following reason/s:<p><br><pre>".$comment."</pre><br> You have 10 days to complete the following.";
-//    $this->email->from($from,'CoopRIS Administrator');
+//    $this->email->from($from,'ecoopris CDA (No Reply)');
 //    $this->email->to($email);
 //    $this->email->subject($subject);
 //    $this->email->message($message);
@@ -518,7 +518,7 @@ In addition to the above, please attach the following in 1 original and 3 certif
 
 The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS)..</pre>";
 
-//    $this->email->from($from,'CoopRIS Administrator');
+//    $this->email->from($from,'ecoopris CDA (No Reply)');
 //    $this->email->to($email);
 //    $this->email->subject($subject);
 //    $this->email->message($message);
@@ -543,7 +543,7 @@ The client shall submit the above required documents within 30 working days from
             $mail->SMTPSecure = 'tls';                  // Enable TLS encryption, `ssl` also accepted
             $mail->Port = 587;                          // TCP port to connect to
 
-            $mail->SetFrom('coopris4.test@gmail.com', 'CoopRIS Administrator');
+            $mail->SetFrom('coopris4.test@gmail.com', 'ecoopris CDA (No Reply)');
             $mail->addAddress($recipient);   // Add a recipient
 
             $mail->isHTML(true);  // Set email format to HTML

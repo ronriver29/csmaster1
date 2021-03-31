@@ -52,7 +52,7 @@ class Forpaymentbranches extends CI_Controller{
 
 
 
-      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($email);
       $this->email->subject($subject);
       $this->email->message($message);

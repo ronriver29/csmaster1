@@ -1478,7 +1478,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = "Sorry Your application <b>".$coopname.'-'.$labname." Laboratory</b> failed the evaluation. This laboratory has been denied because of the following reason/s:<br><pre>".$comment."</pre>";
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($email);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -1497,7 +1497,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = "Sorry Your application <b>".$coopname.'-'.$labname." Laboratory</b> failed the evaluation. This laboratory has been deffered because of the following reason/s:<br><pre>".$comment."</pre>";
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($email);
     $this->email->subject($subject);
     $this->email->message($message);

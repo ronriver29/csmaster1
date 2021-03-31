@@ -91,7 +91,7 @@
            
         $message = "Good Day! Your Account has been Approved!<br><br>Your Password is: ".$temp_passwd.".You may now Login.";
        
-        $this->email->from($from,'CoopRIS Administrator');
+        $this->email->from($from,'ecoopris CDA (No Reply)');
         $this->email->to($email);
         $this->email->subject($subject);
         $this->email->message($message);
@@ -126,7 +126,7 @@
            
         $message = "Your Account has been Denied";
        
-        $this->email->from($from,'CoopRIS Administrator');
+        $this->email->from($from,'ecoopris CDA (No Reply)');
         $this->email->to($email);
         $this->email->subject($subject);
         $this->email->message($message);

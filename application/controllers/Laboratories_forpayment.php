@@ -37,7 +37,7 @@ Once the said documents had been found complete and in order, the client may now
 claim the Certificate of Recognition within the day.</pre>";
 
 
-            $this->email->from($from,'CoopRIS Administrator');
+            $this->email->from($from,'ecoopris CDA (No Reply)');
             $this->email->to($email);
             $this->email->subject($subject);
             $this->email->message($message);

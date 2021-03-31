@@ -199,7 +199,7 @@ public function add_admin_director($data,$raw_pass){
 
 <label>Date stamp:".date("m/d/Y")."
 <label>Time stamp:".date("h:i:s a")."";
-      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($supervisor->email);
       $this->email->subject($subject);
       $this->email->message($message);
@@ -264,7 +264,7 @@ public function add_admin_director($data,$raw_pass){
      
       //sending confirmEmail($receiver) function calling link to the user, inside message body
      
-      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($supervisor->email);
       $this->email->subject($subject);
       $this->email->message($message);
@@ -313,7 +313,7 @@ public function add_admin_director($data,$raw_pass){
 
 <label>Date stamp:".date("m/d/Y")."
 <label>Time stamp:".date("h:i:s a")."";
-      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($supervisor->email);
       $this->email->subject($subject);
       $this->email->message($message);
@@ -368,7 +368,7 @@ public function add_admin_director($data,$raw_pass){
     
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       
-      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($supervisor->email);
       $this->email->subject($subject);
       $this->email->message($message);
@@ -390,7 +390,7 @@ public function add_admin_director($data,$raw_pass){
       $keywords = preg_split("/@/", $email);
       $message = "Your account has been created. See the details below: <br>".
       "<ul><li>Username: ".$username."</li><li>Password: ".$password."</li></ul>";
-      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($email);
       $this->email->subject($subject);
       $this->email->message($message);
@@ -414,7 +414,7 @@ public function add_admin_director($data,$raw_pass){
       <b><li> Contact Number: </b>".$contactnumber."</li>
       <b><li> Email Address: </b>".$email."</li>
     </ol>";
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($senioremail);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -430,7 +430,7 @@ public function add_admin_director($data,$raw_pass){
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = "Sucessfully submitted your application. Please wait for an email of either payment procedure or the list of documents for compliance.<p>";
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($email);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -454,7 +454,7 @@ public function add_admin_director($data,$raw_pass){
       <b><li> Contact Number: </b>".$contactnumber."</li>
       <b><li> Email Address: </b>".$email."</li>
     </ol>";
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($senioremail);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -479,7 +479,7 @@ public function add_admin_director($data,$raw_pass){
       <b><li> Contact Number: </b>".$contactnumber."</li>
       <b><li> Email Address: </b>".$email."</li>
     </ol>";
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($senioremail);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -504,7 +504,7 @@ public function add_admin_director($data,$raw_pass){
       <b><li> Contact Number: </b>".$contactnumber."</li>
       <b><li> Email Address: </b>".$email."</li>
     </ol>";
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($senioremail);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -530,7 +530,7 @@ public function add_admin_director($data,$raw_pass){
       <b><li> Contact Number: </b>".$contactnumber."</li>
       <b><li> Email Address: </b>".$email."</li>
     </ol>";
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($senioremail);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -556,7 +556,7 @@ public function add_admin_director($data,$raw_pass){
       <b><li> Contact Number: </b>".$contactnumber."</li>
       <b><li> Email Address: </b>".$email."</li>
     </ol>";
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($senioremail);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -583,7 +583,7 @@ public function add_admin_director($data,$raw_pass){
       <b><li> Contact Number: </b>".$contactnumber."</li>
       <b><li> Email Address: </b>".$email."</li>
     </ol>";
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($senioremail);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -599,7 +599,7 @@ public function add_admin_director($data,$raw_pass){
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = "Your application has been submitted and subject for validation and evaluation.<p>";
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($email);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -624,7 +624,7 @@ public function add_admin_director($data,$raw_pass){
       <li> Email Address: ".$email."</li>
     </ol>
     ";
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($adminemail);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -673,7 +673,7 @@ public function add_admin_director($data,$raw_pass){
         <li>Email address: ".$email."</li>
       </ol>";
 
-      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($receiver);
       $this->email->subject($subject);
       $this->email->message($message);
@@ -718,7 +718,7 @@ public function add_admin_director($data,$raw_pass){
         <li>Email address: ".$email."</li>
       </ol>";
 
-      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($receiver);
       $this->email->subject($subject);
       $this->email->message($message);
@@ -748,7 +748,7 @@ public function add_admin_director($data,$raw_pass){
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = $coop_full_name." has been approved by ".$admin_info->full_name.". You can now evaluate this application.";
-      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($receiver);
       $this->email->subject($subject);
       $this->email->message($message);
@@ -792,7 +792,7 @@ In addition to the above, please attach the following in 1 original and 3 photoc
 You shall submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
 
 
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($email);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -840,7 +840,7 @@ You shall submit the above required documents within 30 days from the date of e-
 
 
     </pre>";
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($client_info->email);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -871,7 +871,7 @@ The client shall submit the above required documents within 30 days from the dat
 System (E-CoopRIS).</pre>";
 
 
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($email);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -904,7 +904,7 @@ The above documents shall be printed in Legal size or ”8.5 x 13” or ”8.5 x
 The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
 
 
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($email);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -935,7 +935,7 @@ The client shall submit the above required documents within 30 working days from
     
     ".trim(preg_replace('/\s\s+/', '<br>', $reason_commment))."";
 
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($email);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -992,7 +992,7 @@ Very truly yours, <br>
 ".$trulyyours."
 ";
 
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($email);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -1194,7 +1194,7 @@ The above documents shall be printed in Legal size or ”8.5 x 13” or ”8.5 x
 The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Cooperative Registration Information
 System (CoopRIS).</pre>";
 
-    $this->email->from($from,'CoopRIS Administrator');
+    $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($email);
     $this->email->subject($subject);
     $this->email->message($message);
@@ -1252,7 +1252,7 @@ System (CoopRIS).</pre>";
 // now claim the Certificate of Recognition within the day.</pre>";
 
 
-//     $this->email->from($from,'CoopRIS Administrator');
+//     $this->email->from($from,'ecoopris CDA (No Reply)');
 //     $this->email->to($email);
 //     $this->email->subject($subject);
 //     $this->email->message($message);

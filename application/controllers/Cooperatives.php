@@ -32,7 +32,14 @@
           $data['title'] = 'List of Cooperatives';
           $data['client_info'] = $this->user_model->get_user_info($user_id);
           $data['header'] = 'Cooperatives';
-          $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives($this->session->userdata('user_id'));
+          // print_r($data['client_info']);
+          // echo $data['client_info']->regno;
+          if($data['client_info']->regno == NULL){
+            $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives($this->session->userdata('user_id'));
+          } else {
+            $data['list_cooperatives'] = $this->cooperatives_model->get_registeredcoop($data['client_info']->regno);
+          }
+          
 //          $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives($this->session->userdata('user_id'));
           $data['count_cooperatives'] = $this->cooperatives_model->get_count_cooperatives($this->session->userdata('user_id'));
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
@@ -53,7 +60,11 @@
             $data['tos'] = $_POST['tos'];
           }
           $this->load->view('template/header', $data);
-          $this->load->view('applications/list_of_applications', $data);
+          if($data['client_info']->regno == NULL){
+            $this->load->view('applications/list_of_applications', $data);
+          } else {
+            $this->load->view('applications/list_of_registeredcoop', $data);
+          }
           $this->load->view('cooperative/delete_modal_cooperative');
           $this->load->view('template/footer');
         }else{

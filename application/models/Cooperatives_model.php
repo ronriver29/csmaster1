@@ -72,6 +72,14 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     }
 
   }
+  public function get_registeredcoop($user_id){
+    $this->db->select('*');
+    $this->db->from('registeredcoop');
+    $this->db->where('regNo', $user_id);
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
   public function get_all_cooperatives($user_id){
     $this->db->select('cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('cooperatives');

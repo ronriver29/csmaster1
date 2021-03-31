@@ -137,10 +137,15 @@ class Users extends CI_Controller{
 
         // $coop_exist = $this->db->where(array('regNo'=>$this->input->post('regno')))->get('registeredcoop');
         // $coop_exist2 = $this->db->where(array('email'=>$this->input->post('eAddress')))->get('users');
-        foreach($coop_exist->result_array() as $row)
+        if($coop_exist->num_rows()==0){
+          $is_taken = 0;
+        } else {
+          foreach($coop_exist->result_array() as $row)
           {
             $is_taken = $row['is_taken'];
           }
+          
+        }
 
         if($is_taken == '1'){
           $this->session->set_flashdata(array('email_sent_warning'=>'This Registration is already Taken'));
@@ -157,7 +162,22 @@ class Users extends CI_Controller{
             // echo '<script>alert("adsdaddadddddd");</script>';
           } else {
               $temp_passwd = random_string('alnum',8); //create temp password
-              $u_data = array('password'=>password_hash($temp_passwd, PASSWORD_BCRYPT),'updated_at'=> date('Y-m-d h:i:s',now('Asia/Manila')),'is_taken'=>1);
+              
+              $u_data = array(
+                'last_name' => $this->input->post('LastName'),
+                'first_name' => $this->input->post('Name'),
+                'middle_name' => $this->input->post('middle_name'),
+                'birthdate' => $this->input->post('bDate'),
+                'contact_number' => $this->input->post('mNo'),
+                'type_id' => $this->input->post('type_id'), 
+                'valid_id_number' => $this->input->post('validIdNo'),
+                'address' => $this->input->post('hAddress'),
+                'password'=>password_hash($temp_passwd, PASSWORD_BCRYPT),
+                'updated_at'=> date('Y-m-d h:i:s',now('Asia/Manila')),
+                'is_taken'=>1,
+                'is_verified' => 1
+              );
+              
               $update_passwd = $this->db->update('users',$u_data,array('email'=>$this->input->post('eAddress')));
               {
                 if($update_passwd)
@@ -400,7 +420,7 @@ class Users extends CI_Controller{
       "<ul><li>Username/email: ".$email."</li><li>Password: ".$temppassword."</li></ul><br/>
       Once logged in, we suggest you to change your password immediately. 
       ";
-      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($email);
       $this->email->subject($subject);
       $this->email->message($message);

@@ -593,7 +593,7 @@ class Admins extends CI_Controller{
       "<ul><li>Username: ".$username."</li><li>Password: ".$temppassword."</li></ul><br/>
       Once logged in, we suggest you to change your password immediately. 
       ";
-      $this->email->from($from,'CoopRIS Administrator');
+      $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($email);
       $this->email->subject($subject);
       $this->email->message($message);
