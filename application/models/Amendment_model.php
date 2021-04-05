@@ -1512,6 +1512,22 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_c
     return false;
   }else{
     if ($step==3){
+      // return $admin_info;
+      $query3  = $this->db->get_where('regional_officials',array('region_code'=>$admin_info->region_code));
+      if($query3->num_rows()>0)
+      {
+        $reg_officials_info = $query3->row_array();
+        
+
+      }
+      else
+      {
+           $reg_officials_info = array(
+            'email' => 'head_office',
+            'contact' => '0830403430'
+           );
+      }
+  
       $this->db->insert('amendment_comment',$data_comment);
       $this->db->select('amend_coop.proposed_name, amend_coop.type_of_cooperative, amend_coop.grouping, users.*');
       $this->db->from('amend_coop');
@@ -1520,7 +1536,7 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_c
       $query = $this->db->get();
       $client_info = $query->row();
       // return $client_info;
-      if($this->admin_model->sendEmailToClientDeferAmendment($client_info,$reason_commment,$amendment_info)){
+      if($this->admin_model->sendEmailToClientDeferAmendment($client_info,$reason_commment,$amendment_info,$reg_officials_info)){
         $this->db->trans_commit();
         return true;
       }else{
