@@ -410,8 +410,8 @@
             $date_annual = date("Y-m-d",strtotime($bylaw_info->annual_regular_meeting_day_date));
            
             ?>
-            <!--  <input type="date" name="Annaul_date_venue"  value="<?= $date_annual?>" class="form-control validate[required]" disabled /> -->
-             <input type="date" name="Annaul_date_venue"  value="" class="form-control validate[required]" disabled />
+              <input type="date" name="Annaul_date_venue"  value="<?= $date_annual?>" class="form-control validate[required]" disabled /> 
+           <!--   <input type="date" name="Annaul_date_venue"  value="" class="form-control validate[required]" disabled /> -->
            </div>
 
             </div>
