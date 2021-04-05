@@ -335,7 +335,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                     <?php if(in_array($admin_info->access_level,$ar)):?>
                     <ul id="ul-admin">
                       <li>
-                        <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Re-print Registration</a>
+                        <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/amendment_registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Re-print Registration</a>
                       </li>
                       <?php endif; ?>
                       <?php if(in_array($admin_info->access_level,$viewdoc_array)): ?>
@@ -406,7 +406,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                     <?php if(in_array($admin_info->access_level,$ar)):?>
                     <ul id="ul-admin">
                       <li>
-                        <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Re-print Registration</a>
+                        <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/amendment_registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Re-print Registration</a>
                       </li>
                       <?php endif; ?>
                       <?php if(in_array($admin_info->access_level,$viewdoc_array)): ?>
@@ -450,17 +450,14 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                   <td class="bord">Date</td>
                   <td class="bord" colspan="3"><b id="tDate"></b></td>
                 </tr>
-                <tr>
-                  <td>
-                    O.R Date
-                  </td>
-                  <td>
-                    <input type="date" name="orDate" id="orDate" class="form-control" value="<?=date('Y-m-d')?>" />
-                  </td>
-                </tr>
+               
                 <tr>
                   <td class="bord">O.R. No</td>
                   <td class="bord"><input type="text" id="orNo" name="orNo" class="form-control" placeholder="Type here..."></td>
+                </tr>
+                 <tr>
+                  <td class="bord">Date of OR</td>
+                  <td class="bord"><input type="date" id="dateofOR" name="dateofOR"  class="form-control"><span id="msgdate" style="font-size:11px;margin-left:100px;color:red;font-style: italic;"></span></td>
                 </tr>
                 <tr>
                   <td class="bord">Transaction No.</td>
@@ -510,11 +507,44 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
+<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 <script src="<?=base_url();?>assets/js/toword.js"></script>
 
 <script type="text/javascript">
+  $(document).ready(function(){
+   function GetNow()
+  { 
+    var currentdate = new Date(); 
+    var month = currentdate.getMonth() + 1;
+    var day = currentdate.getDate();
+    var date1 = (currentdate.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '')  + day);
+    return date1;
+  }
+  $('#dateofOR').on('change',function(){
+    var selectedDate = $(this).val();
+    var now = GetNow();
+    // alert(now+selectedDate);
+    if(selectedDate > now)
+    {
+      $(this).val(now);
+       $("#msgdate").text("Date of O.R. should not be future date");
+      setTimeout(function(){
+          $("#msgdate").text("");
+      },5000);    
+    }
+    else if(selectedDate == now)
+    {
+      $("#msgdate").text("");
+    }
+    else
+    {
+      $("#msgdate").text("");
+    }
   
+  });
+});
+</script>
+<script type="text/javascript">
 
   // function showPayment(coop_id,$coop_name) {
   function showPayment(coop_id) {
