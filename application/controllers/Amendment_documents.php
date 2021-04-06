@@ -2298,12 +2298,9 @@ public function count_documents_coop($coop_id,$num)
                                      $data['no_of_cooperator_orig'] = $this->cooperator_model->get_total_number_of_cooperators($cooperative_id);
                                    
                                      $data['committees_list_orig'] = $this->committee_model->get_all_committee_names_of_coop_multi($cooperative_id);
-<<<<<<< Updated upstream
-                                  
-=======
+
                                      $data['total_regular2'] = $this->amendment_cooperator_model->get_total_regular_amendment($cooperative_id,$decoded_id);
                                    
->>>>>>> Stashed changes
                                   }
                                   else
                                   {
@@ -3499,7 +3496,6 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       }
     }
   }
-
   function do_upload_6(){
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
