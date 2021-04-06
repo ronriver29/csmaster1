@@ -29,7 +29,7 @@
        font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
 
-  </style> 
+  </style>  
 </head>
 
 <body style="font-size:12">
@@ -317,7 +317,7 @@
                   $par_value = '<b>'.number_format($par_value,2).'</b>';
                 }
               ?>
-              <td><u><?php echo(($bylaw_info->kinds_of_members == 1) ? number_foramt($par_val,2) : number_format($par_value,2));?></u></td>
+              <td><u><?php echo(($bylaw_info->kinds_of_members == 1) ? number_format($par_val,2) : number_format($par_value,2));?></u></td>
 
             </tr>
           </tbody>

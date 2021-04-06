@@ -62,7 +62,6 @@ class Admin_model extends CI_Model{
       }
     }
   }
-
 public function add_admin_director($data,$raw_pass){
     $data = $this->security->xss_clean($data);
    
@@ -72,8 +71,7 @@ public function add_admin_director($data,$raw_pass){
     //     if($chk_qry->num_rows()>0)
     //     {
     //       return array('status'=>1,'msg'=>"Regional Director already exist");//already have an director
-    //     }
-        
+    //     } 
     // }
     if($data['access_name']=="Acting Regional Director")
     {

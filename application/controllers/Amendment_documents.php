@@ -11,7 +11,6 @@ class Amendment_documents extends CI_Controller{
     $this->load->model('amendment_uploaded_document_model');
 
   }
-
   function index($id = null)
   {
     if(!$this->session->userdata('logged_in')){
@@ -2299,7 +2298,12 @@ public function count_documents_coop($coop_id,$num)
                                      $data['no_of_cooperator_orig'] = $this->cooperator_model->get_total_number_of_cooperators($cooperative_id);
                                    
                                      $data['committees_list_orig'] = $this->committee_model->get_all_committee_names_of_coop_multi($cooperative_id);
+<<<<<<< Updated upstream
                                   
+=======
+                                     $data['total_regular2'] = $this->amendment_cooperator_model->get_total_regular_amendment($cooperative_id,$decoded_id);
+                                   
+>>>>>>> Stashed changes
                                   }
                                   else
                                   {

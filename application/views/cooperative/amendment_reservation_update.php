@@ -21,7 +21,7 @@
       </ul>
     </div>
   </div>
-</div>
+</div> 
 <?php endif;  ?>
 <div class="row">
   <div class="col-sm-12 col-md-12">
@@ -253,7 +253,7 @@
             
                 <div class="form-group">
                    <label for="compositionOfMembers" id="composition_of_members_label">Composition of Members </label> 
-                            
+                          
                             <?php if(empty($members_composition)) {?>
                             <select class="custom-select" name="compositionOfMembers[]" id="compositionOfMembers1">
                                 <option value="" selected></option>
@@ -278,7 +278,7 @@
                                     <td><select class="custom-select form-control  validate[required]" name="compositionOfMembers[]" id="compositionOfMembers'.++$no.'">
                                         <option value=""></option>';
                                         foreach($composition as $key2){
-                                          echo '<option value="'.$key2->composition;
+                                          echo '<option value="'.$key2->id;
                                           if ($key['composition']==$key2->composition)
                                             echo '" selected>';
                                           else

@@ -38,7 +38,7 @@
       <td class="bord">Date</td>
       <td class="bord" colspan="3"><b><?=$tDate?></b></td>
     </tr>
-    <?php
+    <?php var_dump($capitalization_info);
     if(!empty($coop_info->acronym_name)){ 
         $acronym_name = '('.$coop_info->acronym_name.')';
     } else {
@@ -47,6 +47,7 @@
       if ($nature=='Registration'){
         $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
         $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+
         $amount_in_words=0;
         $amount_in_words = ($rf+$lrf+$name_reservation_fee);
         ini_set('precision', 17);

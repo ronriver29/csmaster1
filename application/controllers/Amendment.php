@@ -95,13 +95,11 @@ class amendment extends CI_Controller{
                 {
                   // echo "dito";
                     $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_ho_senior($data['admin_info']->region_code,$amendment_id);
-                    // echo $this->db->last_query();
-                    
+                    // echo $this->db->last_query();    
                 } 
                 else
                 {
                       $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_ho_senior2("00");
-
                 }  
                 // echo $this->db->last_query();
                 // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
@@ -330,22 +328,28 @@ class amendment extends CI_Controller{
         {
           $cooperative_id = $urow['id'];
         }
-      }
 
-      $qry = $this->db->get_where('registeredcoop',array('application_id'=>$cooperative_id));
-      if($qry->num_rows()>0)
-      {
-        foreach($qry->result_array() as $row)
-        {
-          $regno = $row['regNo'];
-        }
+          $qry = $this->db->get_where('registeredcoop',array('application_id'=>$cooperative_id));
+          if($qry->num_rows()>0)
+          {
+            foreach($qry->result_array() as $row)
+            {
+              $regno = $row['regNo'];
+            }
 
+          }
+          else
+          {
+            $regno = NULL;
+          }
+          return $regno;
       }
       else
       {
-        $regno = NULL;
+
       }
-      return $regno;
+
+      
     }
 
 
@@ -1735,15 +1739,27 @@ class amendment extends CI_Controller{
                               }else{
                                 // echo "ditoo";
                                 if(!$this->admin_model->check_if_director_active($user_id)){
-                                  echo "No data found";
-                                  // $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
-                                  // if($success){
-                                  //   $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
-                                  //   redirect('cooperatives');
-                                  // }else{
-                                  //   $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
-                                  //   redirect('cooperatives');
-                                  // }
+                              
+                                  $comment = $this->input->post('comment');
+                                  $data_comment = array(
+                                        'user_id' => $this->session->userdata('user_id'),
+                                        'amendment_id' => $decoded_id,
+                                        'access_level' => $this->session->userdata('access_level'),
+                                        'status'=> 11,
+                                        'comment' => $comment,
+                                        'created_at' => date('Y-m-d h:i:s'),
+                                        'author' => $this->session->userdata('user_id')
+                                        );
+                                
+                                 // $this->debug($this->amendment_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3,$data_comment));
+                                  $success = $this->amendment_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3,$data_comment);
+                                  if($success){
+                                    $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
+                                    redirect('amendment');
+                                  }else{
+                                    $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
+                                    redirect('amendment');
+                                  }
                                 }else{
                                   $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated by the Director.');
                                   redirect('amendment');
