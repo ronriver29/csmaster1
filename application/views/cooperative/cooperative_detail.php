@@ -278,7 +278,7 @@
       <li class="list-group-item  flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
             <?php if($coop_info->grouping=="Federation"){
-                $coopaff = 'Affiliators';
+                $coopaff = 'Members';
             } else if($coop_info->grouping=="Union"){
                 $coopaff = 'Federation';
             } else {

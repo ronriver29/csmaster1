@@ -1466,7 +1466,20 @@
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                                 redirect('cooperatives');
                               }else{
-                                 $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                                $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+
+                                $query3  = $this->db->get_where('regional_officials',array('region_code'=>$admin_info->region_code));
+                                if($query3->num_rows()>0)
+                                {
+                                  $reg_officials_info = $query3->row_array();
+                                }
+                                else
+                                {
+                                  $reg_officials_info = array(
+                                    'email' => 'head_office',
+                                    'contact' => '0830403430'
+                                  );
+                                }
 
                                   // $coop_full_name = $this->input->post('cName',TRUE);
 
@@ -1480,7 +1493,7 @@
 
                                   $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
 
-                                  $this->admin_model->sendEmailToClientDefer($coop_full_name,$brgyforemail,$data['client_info']->email,$reason_commment,$data['admin_info']->region_code);
+                                  $this->admin_model->sendEmailToClientDefer($coop_full_name,$brgyforemail,$data['client_info']->email,$reason_commment,$data['admin_info']->region_code,$reg_officials_info);
 
                                 if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                   $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
@@ -1532,6 +1545,19 @@
 
                                   $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
 
+                                  $query3  = $this->db->get_where('regional_officials',array('region_code'=>$admin_info->region_code));
+                                  if($query3->num_rows()>0)
+                                  {
+                                    $reg_officials_info = $query3->row_array();
+                                  }
+                                  else
+                                  {
+                                    $reg_officials_info = array(
+                                      'email' => 'head_office',
+                                      'contact' => '0830403430'
+                                    );
+                                  }
+
                                   // $coop_full_name = $this->input->post('cName',TRUE);
 
                                   $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
@@ -1544,7 +1570,7 @@
 
                                   $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
 
-                                  $this->admin_model->sendEmailToClientDefer($coop_full_name,$brgyforemail,$data['client_info']->email,$reason_commment,$data['admin_info']->region_code);
+                                  $this->admin_model->sendEmailToClientDefer($coop_full_name,$brgyforemail,$data['client_info']->email,$reason_commment,$data['admin_info']->region_code,$reg_officials_info);
 
                                   $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
                                   if($success_comment && $success){

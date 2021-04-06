@@ -48,10 +48,10 @@
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
                     <option value="">--</option>
                     <option value="Primary">Primary</option>
-                    <option value="Secondary - Union">Secondary - Union</option>
-                    <option value="Tertiary - Union">Tertiary - Union</option>
-                    <option value="Secondary - Federation">Secondary - Federation</option>
-                    <option value="Tertiary - Federation">Tertiary - Federation</option> 
+                    <option value="Secondary - Union">Union</option>
+                    <!-- <option value="Tertiary - Union">Tertiary - Union</option> -->
+                    <option value="Secondary - Federation">Secondary</option>
+                    <option value="Tertiary - Federation">Tertiary</option> 
                   </select>
                 </div>
               </div>
@@ -201,7 +201,8 @@
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
-                  <strong>Proposed Address of the Cooperative</strong>
+                  <strong>Proposed Address of the Cooperative</strong><br>
+                  <div style="color:red;font-size: 11px;"><i>*Please leave the House/Lot and Blk No. and Street Name blank if not applicable</i></div>
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">

@@ -62,10 +62,10 @@
                     <option value="">--</option>
                     <option value="Primary" <?php if($coop_info->category_of_cooperative=="Primary") echo "selected";?>>Primary</option>
                     
-                    <option value="Secondary - Union" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Union") echo "selected";?>>Secondary - Union</option>
-                    <option value="Tertiary - Union" <?php if($coop_info->category_of_cooperative=="Tertiary" && $coop_info->grouping=="Union") echo "selected";?>>Tertiary - Union</option>
-                    <option value="Secondary - Federation" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Federation") echo "selected";?>>Secondary - Federation</option>
-                    <option value="Tertiary - Federation" <?php if($coop_info->category_of_cooperative=="Tertiary" && $coop_info->grouping=="Federation") echo "selected";?>>Tertiary - Federation</option> 
+                    <option value="Secondary - Union" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Union") echo "selected";?>>Union</option>
+                    <!-- <option value="Tertiary - Union" <?php if($coop_info->category_of_cooperative=="Tertiary" && $coop_info->grouping=="Union") echo "selected";?>>Tertiary - Union</option> -->
+                    <option value="Secondary - Federation" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Federation") echo "selected";?>>Secondary</option>
+                    <option value="Tertiary - Federation" <?php if($coop_info->category_of_cooperative=="Tertiary" && $coop_info->grouping=="Federation") echo "selected";?>>Tertiary</option> 
                     
                   </select>
                 </div>
@@ -280,7 +280,8 @@
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
-                  <strong>Proposed Address of the Cooperative</strong>
+                  <strong>Proposed Address of the Cooperative</strong><br>
+                  <div style="color:red;font-size: 11px;"><i>*Please leave the House/Lot and Blk No. and Street Name blank if not applicable</i></div>
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
