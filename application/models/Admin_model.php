@@ -857,6 +857,7 @@ You shall submit the above required documents within 30 days from the date of e-
         return false;
     }
   }
+  
   public function sendEmailToClientApproveBranch($name,$email){
 //	  echo $name;
     $from = "ecoopris@cda.gov.ph";    //senders email address
