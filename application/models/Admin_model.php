@@ -729,6 +729,7 @@ public function add_admin_director($data,$raw_pass){
       return true;
     }
   }
+  
   public function sendEmailToDirectorApprovedBySupervisor($admin_info,$emails,$coop_full_name){
     if(sizeof($emails)>0){
       $receiver = "";
