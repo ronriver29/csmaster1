@@ -817,7 +817,15 @@ You shall submit the above required documents within 30 days from the date of e-
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $client_full_name.' Amendment Evaluation Result';  //email subject
     $burl = base_url();
+    if($amendment_info->ho ==1)
+    {
+      $director_type = 'LRRD Director';
       //sending confirmEmail($receiver) function calling link to the user, inside message body
+    }
+    else
+    {
+      $director_type ='Regional Office Director';
+    }
     $message = "<pre>
     <b>Date:</b> ".date('Y-m-d h:i:s',now('Asia/Manila'))." 
     <b>Proposed Name of Cooperative:</b> ".$coop_full_name."
@@ -831,10 +839,10 @@ You shall submit the above required documents within 30 days from the date of e-
 
     Please comply the findings within 15 days so that we can facilitate with the issuance of your Certificate of Registration. However, your submission shall still be subject to further evaluation. 
 
-    For further information and clarification, please feel free to contact our Registration Division/Section at telephone numbers ".$reg_officials_info['contact']." (contact no. per region) or email us at ".$reg_officials_info['email']." (email per region). 
+    For further information and clarification, please feel free to contact our Registration Division/Section at telephone numbers ".$reg_officials_info['contact']." or email us at ".$reg_officials_info['email'].". 
 
     Very truly yours, 
-    Regional Office Director (for RO)/ LRRD Director (for HO)
+    ".$director_type."
 
 
     </pre>";
