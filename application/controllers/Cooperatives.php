@@ -1468,7 +1468,7 @@
                               }else{
                                 $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
 
-                                $query3  = $this->db->get_where('regional_officials',array('region_code'=>$admin_info->region_code));
+                                $query3  = $this->db->get_where('regional_officials',array('region_code'=>$data['admin_info']->region_code));
                                 if($query3->num_rows()>0)
                                 {
                                   $reg_officials_info = $query3->row_array();
@@ -1543,9 +1543,9 @@
                                     );
                                   $success_comment = $this->cooperatives_model->insert_comment_history($data_field);
 
-                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                                  // $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
 
-                                  $query3  = $this->db->get_where('regional_officials',array('region_code'=>$admin_info->region_code));
+                                  $query3  = $this->db->get_where('regional_officials',array('region_code'=>$data['admin_info']->region_code));
                                   if($query3->num_rows()>0)
                                   {
                                     $reg_officials_info = $query3->row_array();
