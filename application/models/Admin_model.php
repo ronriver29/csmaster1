@@ -943,7 +943,7 @@ The client shall submit the above required documents within 30 working days from
         return false;
     }
   }
-  public function sendEmailToClientDefer($coop_full_name,$brgyforemail,$email,$reason_commment,$directorregioncode){
+  public function sendEmailToClientDefer($coop_full_name,$brgyforemail,$email,$reason_commment,$directorregioncode,$reg_officials_info){
 
     if($directorregioncode == '00'){
       $trulyyours = 'LRRD Director';
