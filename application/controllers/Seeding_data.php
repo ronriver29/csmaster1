@@ -37,4 +37,24 @@ class Seeding_data extends CI_Controller{
   		echo"failed to seed data";
   	}
   }
+
+  public function luba()
+  {
+  	$data = array(
+  		'id'=>1648,
+  		'psgcCode' => 140114000,
+  		'citymunDesc' => 'Luba',
+  		'regCode' => 014,
+  		'provCode' => 1401,
+  		'citymunCode' => 140114
+  	);
+  	if($this->db->insert('refcitymun',$data))
+  	{
+  		echo" Successfully added City of Luba";
+  	}
+  	else
+  	{
+  		echo "failed to seed data";
+  	}
+  }
 }
