@@ -415,5 +415,7 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 
 $route['reset_migration'] = 'migrate/resetMigration';
 $route['undo_migration'] = 'migrate/undoMigration';
+$route['seeding_data/seed_luba'] = 'seeding_data/seed_luba';
+$route['seeding_data/unseed_luba'] = 'seeding_data/unseed_luba';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

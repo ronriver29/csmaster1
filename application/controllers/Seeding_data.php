@@ -38,7 +38,7 @@ class Seeding_data extends CI_Controller{
   	}
   }
 
-  public function luba()
+  public function seed_luba()
   {
   	$data = array(
   		'id'=>1648,
@@ -55,6 +55,14 @@ class Seeding_data extends CI_Controller{
   	else
   	{
   		echo "failed to seed data";
+  	}
+  }
+
+  public function unseed_luba()
+  {
+  	if($this->db->query('delete from refcitymun where id =1648'))
+  	{
+  		echo"successfully unseeded luba";
   	}
   }
 }
