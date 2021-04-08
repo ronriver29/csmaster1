@@ -101,9 +101,9 @@
             <a href="<?php echo base_url();?>amendment"><i class="fas fa-handshake"></i> Amendment</a>
           </li>    -->
           <?php if($admin_info->access_level == 2) : ?>
-          <li>   
+         <!--  <li>   
             <a href="<?php echo base_url();?>account_approval"><i class="fas fa-handshake"></i> Account Approval</a>
-          </li>
+          </li> -->
           <?php endif; ?>
         <?php endif; ?>
         <li>
