@@ -37,6 +37,7 @@
                 <th>Name of Cooperative</th>
                 <th>Registered Number</th>
                 <th>Client Name</th>
+                <th>Client Email</th>
                 <th>Action </th>
               </tr>
             </thead>
@@ -46,6 +47,7 @@
                   <td><?=$cooperative['coopName']?></td>
                   <td><?=$cooperative['regNo']?></td>
                   <td><?=$cooperative['last_name'].', '.$cooperative['first_name']?></td>
+                  <td><?=$cooperative['email']?></td>
                   <td><a href="<?php echo base_url();?>account_approval/<?= encrypt_custom($this->encryption->encrypt($cooperative['usersid'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View</a></td>
                 </tr>
               <?php endforeach; ?>

@@ -66,13 +66,13 @@ class User_model extends CI_Model{
   public function sendEmailCreateNewEmail($receiver,$hash,$full_name,$newnamearray,$AdminEmail){
 
       $from = "ecoopris@cda.gov.ph";    //senders email address
-      $subject = 'Verify email address';  //email subject
+      $subject = 'Account Creation Request';  //email subject
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $keywords = preg_split("/@/", $receiver);
-      $message = "Dear Director,<br><br> Client ".$full_name." with the email of ".$receiver." submitted attachement kindly see attached file to verify";
+      $message = "Good Day!<br><br> Client ".$full_name." with the email of ".$receiver.", submitted an Account Creation request. Kindly login to your account to check the said request";
 
-      $this->email->from($from);
+      $this->email->from($from, 'ecoopris CDA (No Reply)');
       $this->email->to($AdminEmail);
       $this->email->subject($subject);
       $this->email->message($message);
