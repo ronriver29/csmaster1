@@ -58,7 +58,7 @@
             </div>
             <div class="col-md-4">
                 <a href="<?php echo base_url();?>account_approval/<?=encrypt_custom($this->encryption->encrypt($account_info->usersid))?>/approve/<?=encrypt_custom($this->encryption->encrypt($account_info->email))?>" class="btn btn-success">Approve</a>
-                <a href="<?php echo base_url();?>account_approval/<?=encrypt_custom($this->encryption->encrypt($account_info->usersid))?>/deny" class="btn btn-danger">Deny</a>
+                <a href="<?php echo base_url();?>account_approval/<?=encrypt_custom($this->encryption->encrypt($account_info->usersid))?>/deny/<?=encrypt_custom($this->encryption->encrypt($account_info->email))?>" class="btn btn-danger">Deny</a>
               </p>
             </div>
             <div class="col-md-4">
