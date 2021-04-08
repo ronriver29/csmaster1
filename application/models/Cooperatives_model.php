@@ -172,7 +172,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('users.is_taken IS NULL OR users.is_taken = 0 AND registeredcoop.type NOT IN ('.$typeofcoopimp.')');
+    $this->db->where('users.is_taken IS NULL OR users.is_taken = 0 AND registeredcoop.type NOT IN ('.$typeofcoopimp.') AND users.files IS NOT NULL');
     // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
     $query = $this->db->get();
     $data = $query->result_array();
