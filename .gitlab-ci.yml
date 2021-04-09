@@ -57,7 +57,6 @@ deploy-production:
   image: devth/helm:v3.0.2
   script:
     - echo "Deploying to production"
-    - init_helm(${KUBECONFIG_PRODUCTION})
     - helm upgrade
       --install
       --kubeconfig ${KUBECONFIG_PRODUCTION}
