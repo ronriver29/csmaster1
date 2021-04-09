@@ -1,6 +1,7 @@
 FROM php:7-fpm
 
 RUN docker-php-ext-install mysqli
+RUN apt-get update && apt-get install -y apt-transport-https
 RUN apt-get -y update \
 && apt-get install -y libicu-dev \
 && docker-php-ext-configure intl \
