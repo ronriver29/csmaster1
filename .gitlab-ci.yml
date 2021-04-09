@@ -14,6 +14,7 @@ services:
 build:
   stage: build
   script:
+    - docker login --username crvn --password aaaab160-9b0c-4453-876a-b1d1b3cc6aea
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker build --pull -t "$CONTAINER" .
     - docker push "$CONTAINER"
