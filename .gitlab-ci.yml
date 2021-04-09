@@ -56,9 +56,10 @@ deploy-production:
   image: devth/helm:v3.0.2
   script:
     - echo "Deploying to production"
+    - init_helm(${KUBECONFIG_PRODUCTION})
     - helm upgrade
       --install
-      --kubeconfig $KUBECONFIG_PRODUCTION
+      --kubeconfig ${KUBECONFIG_PRODUCTION}
       --atomic
       --wait
       --set web.name="ris-${CI_COMMIT_REF_SLUG}"
@@ -75,3 +76,11 @@ deploy-production:
       ./.chart/application
   only:
     - master
+
+.functions: &functions |
+    # Functions
+    function init_helm(file) {
+        mkdir -p /etc/deploy
+        cat file
+        # echo "${SERVICE_ACCOUNT}" | base64 -d > /etc/deploy/config
+    }
