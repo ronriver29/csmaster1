@@ -61,12 +61,29 @@
               <td class="bord">Date</td>
               <td class="bord" colspan="3"><b><?= date('Y-m-d h:i:s',now('Asia/Manila')); ?></b></td>
             </tr>
+
             <?php
               if ($pay_from=='reservation'){
 
                 // $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $article_info->par_value_common : $total_regular['total_paid'] * $article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $article_info->par_value_common) : ($total_regular['total_paid'] *$article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred)) *0.001 : 500.00);
+                if(count(explode(',',$coop_info->type_of_cooperative))>1)
+                {
+                  $proposeName = $coop_info->proposed_name.' Multipurpose Cooperative'.$coop_info->grouping;
+                }
+                else
+                {
+                    $proposeName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.'  Cooperative '.$coop_info->grouping;
+                }
+                if($original_coop_name!=$proposeName)
+                {
+                   $basic_reservation_fee =300;
+                }
+                else
+                {
+                   $basic_reservation_fee =0;
+                }
                 $rf=0;
-                $basic_reservation_fee =300; //fixed amount
+                //fixed amount
                 $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_capitalization->total_amount_of_paid_up_capital;
                 //amendment paid up is greater than coop total paid up
                 if($diff_amount>0)
@@ -87,14 +104,7 @@
                   $lrf=10;
                  }
 
-                if(count(explode(',',$coop_info->type_of_cooperative))>1)
-                {
-                  $proposeName = $coop_info->proposed_name.' Multipurpose Cooperative'.$coop_info->grouping;
-                }
-                else
-                {
-                    $proposeName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.'  Cooperative '.$coop_info->grouping;
-                }
+                
 
                 echo '
                 <tr>

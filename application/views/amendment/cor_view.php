@@ -19,7 +19,7 @@
   
   </style>
 </head>
-<body>
+<body>  
 
 	<div  style="height: 1060px;border: 10px black double; border-radius: 30px; padding: 20px">
 	<table width=100%>

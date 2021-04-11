@@ -1195,7 +1195,12 @@ public function count_documents_coop($coop_id,$num)
                               } //end if had amendment
                               // $this->debug($this->amendment_model->get_common_bond($data['coop_info']));
                               $data['commonBond_'] = $this->amendment_model->get_common_bond($data['coop_info']);
-                              //  $this->debug($this->amentment_model->get_common_bond($data['coop_info']->common_bond_of_membership));
+                              $data['in_chartered_cities'] =false;
+                              if($this->charter_model->in_charter_city($data['coop_info']->cCode))
+                              {
+                              $data['in_chartered_cities']=true;
+                              $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
+                              }
                               // $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data);
                                 $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data,TRUE);
                                 $f = new pdf();
@@ -1379,7 +1384,12 @@ public function count_documents_coop($coop_id,$num)
                                 $data['capitalization_info_orig'] = $this->capitalization_model->get_capitalization_by_coop_id($cooperative_id);                            
                               } //end if had amendment
                                $data['commonBond_'] = $this->amendment_model->get_common_bond($data['coop_info']);
-                               // $this->debug($data['commonBond_'] = $this->amendment_model->get_common_bond($data['coop_info']));
+                               $data['in_chartered_cities'] =false;
+                              if($this->charter_model->in_charter_city($data['coop_info']->cCode))
+                              {
+                              $data['in_chartered_cities']=true;
+                              $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
+                              }
                                // $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data);
 
                                 $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data, TRUE);
@@ -2354,7 +2364,13 @@ public function count_documents_coop($coop_id,$num)
                                 $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
                                  $data['total_regular2'] = $this->amendment_cooperator_model->get_total_regular_amendment($cooperative_id,$decoded_id);
                               }//end of had amendment
-                             
+                              
+                              $data['in_chartered_cities'] =false;
+                              if($this->charter_model->in_charter_city($data['coop_info']->cCode))
+                              {
+                              $data['in_chartered_cities']=true;
+                              $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
+                              }
                               // $this->load->view('documents/amendment_economic_survey', $data);
                               $html2 = $this->load->view('documents/amendment_economic_survey', $data, TRUE);
                               $f = new pdf();
@@ -2509,6 +2525,13 @@ public function count_documents_coop($coop_id,$num)
                                 $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular_amendment($cooperative_id,$decoded_id);
                               }//end of had amendment
                                   
+                              $data['in_chartered_cities'] =false;
+                              if($this->charter_model->in_charter_city($data['coop_info']->cCode))
+                              {
+                              $data['in_chartered_cities']=true;
+                              $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
+                              }
+
                                //admin economic_survey
                                 // $this->load->view('documents/amendment_economic_survey', $data);
                                 $html2 = $this->load->view('documents/amendment_economic_survey', $data, TRUE);

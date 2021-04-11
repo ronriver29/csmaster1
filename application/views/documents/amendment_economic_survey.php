@@ -141,8 +141,10 @@
         <li>
           <?php 
           if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
-            $address_ = $coop_info->house_blk_no.' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.' '.$coop_info->city.', '.$coop_info->province.' '.$coop_info->region;
-            $address_orig_ = $coop_info_orig->house_blk_no.' '.ucwords($coop_info_orig->street).$x.' '.$coop_info_orig->brgy.' '.$coop_info_orig->city.', '.$coop_info_orig->province.' '.$coop_info_orig->region;
+            $address_ = $coop_info->house_blk_no.' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.' ';?><?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?> <?=$coop_info->region?>
+            <?php
+            $address_orig_ = $coop_info_orig->house_blk_no.' '.ucwords($coop_info_orig->street).$x.' '.$coop_info_orig->brgy.' ';?><?=($in_chartered_cities ? $chartered_cities : $coop_info_orig->city.', '.$coop_info_orig->province)?> <?=$coop_info_orig->region?>
+          <?php  
             if($address_!=$address_orig_)
             {
               $address_ = '<b>'.$address_.'</b>';

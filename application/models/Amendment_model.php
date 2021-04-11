@@ -335,6 +335,11 @@ class amendment_model extends CI_Model{
     return $query->row();
   }
 
+  public function get_last_amendment_info($cooperative_id)
+  {
+    $query = $this->db->query("select * from amend_coop where cooperative_id='$cooperative_id' and status=15 or status=14 order by id desc limit 1");
+     return $query->row();
+  }
   public function get_cooperative_info_by_admin_payment($amendment_id){
     $this->db->select('amend_coop.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,amend_coop.type_of_cooperative, payment.date_of_or as dateRegistered');
     $this->db->from('amend_coop');
@@ -1521,8 +1526,8 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_c
       else
       {
            $reg_officials_info = array(
-            'email' => 'head_office',
-            'contact' => '0830403430'
+            'email' => 'head_office@mail.com',
+            'contact' => '00000000'
            );
       }
   

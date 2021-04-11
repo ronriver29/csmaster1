@@ -340,7 +340,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                       <?php endif; ?>
                       <?php if(in_array($admin_info->access_level,$viewdoc_array)): ?>
                       <li style="list-style: none;">
-                        <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/documents" class="btn btn-sm btn-info"><i class='fas fa-eye'></i> View Document</a>
+                        <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/amendment_documents" class="btn btn-sm btn-info"><i class='fas fa-eye'></i> View Document</a>
                       </li>
                       <?php endif; //end of viewdoc array?>
                     </ul>
