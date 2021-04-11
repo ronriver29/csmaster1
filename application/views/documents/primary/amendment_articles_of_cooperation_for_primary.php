@@ -266,42 +266,7 @@
       and the field of membership shall be open to all 
       <?php 
       echo $commonBond_;
-      // if($coop_info->common_bond_of_membership="Institutional" || $coop_info->common_bond_of_membership="Associational")
-      //   { 
-      //     $name_ins_assoc = explode(',',$coop_info->name_of_ins_assoc);
-      //     echo $coop_info->field_of_membership; 
-      //     echo ' of ';
-      //     $count= count($name_ins_assoc) -1;
-      //     foreach($name_ins_assoc as $key => $ins_assoc)
-      //     {
-           
-      //        echo $ins_assoc;
-      //        if($key<$count)
-      //        {
-      //         echo ', ';
-      //        }
-      //     } 
-      //   }
-      //  if($coop_info->common_bond_of_membership="Occupational") 
-      //   { 
-      //     echo' of ';
-      //     $counts= count($members_composition) -1;
-      //     if(is_array($members_composition)) 
-      //     {
-      //         foreach($members_composition as $keys => $compo)
-      //       { 
-      //         echo $compo['composition']; 
-      //         if($keys<$counts)
-      //          {
-      //           echo ', ';
-      //          }
-      //       }
-      //     }   
-      //   }
-      //   if($coop_info->common_bond_of_membership="Residential")
-      //   {
-      //      echo ' of members working and/or residing in the area of operation'; 
-      //   }
+     
         ?> 
         who are natural persons, Filipino citizens, of legal age, with the capacity to contract and possess all the qualifications and none of the disqualifications provided for in the By-laws and this Articles of Cooperation.</p>
     </div>
@@ -314,18 +279,30 @@
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
       <p class="text-justify" style="text-indent: 50px;">That the membership of this Cooperative shall come from
-       <?php if($coop_info->area_of_operation=="Barangay"){
+       <!-- <?php if($coop_info->area_of_operation=="Barangay"){
          echo $coop_info->brgy.' '.$coop_info->city.' '.$coop_info->province.' '.$coop_info->region;
        }else if($coop_info->area_of_operation=="Municipality/City"){
          echo $coop_info->city.' '.$coop_info->province.' '.$coop_info->region;
        }else if($coop_info->area_of_operation=="Provincial"){
+         echo $coop_info->province.' '.$coop_info->region;
+       }else if($coop_info->area_of_operation=="Regional"){ 
+         echo $coop_info->region;
+       }else{
+         echo "Philippines";
+       }
+       ?> -->
+       <?php if($coop_info->area_of_operation=="Barangay"){ ?>
+        <?= ($in_chartered_cities ? $coop_info->brgy.' '.$chartered_cities.' '.$coop_info->region : $coop_info->brgy.' '.$coop_info->city.' '.$coop_info->province.' '.$coop_info->region)?>
+       <?php }else if($coop_info->area_of_operation=="Municipality/City"){ ?>
+         <?=($in_chartered_cities ? $chartered_cities.' '.$coop_info->region : $coop_info->city.' '.$coop_info->province.' '.$coop_info->region)?>
+      <?php }else if($coop_info->area_of_operation=="Provincial"){
          echo $coop_info->province.' '.$coop_info->region;
        }else if($coop_info->area_of_operation=="Regional"){
          echo $coop_info->region;
        }else{
          echo "Philippines";
        }
-       ?>. Its principal office shall be located at <strong><?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?><?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=$coop_info->city?> <?= $coop_info->province?> <?=$coop_info->region?>.</strong></p>
+       ?>.Its principal office shall be located at <strong><?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?><?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?> <?=$coop_info->region?>.</strong></p>
     </div>
   </div>
   <div class="row mb-2">
@@ -353,7 +330,16 @@
               <tr>
               <?=$count++;?>
               <?php
-              if(isset( $cooperators_list_board_orig[$key]))
+              $in_chartered_cities_cptr =false;
+                              if($this->charter_model->in_charter_city($cooperator['cCode']))
+                              {
+                              $in_chartered_cities_cptr=true;
+                              $chartered_cities_cptr =$this->charter_model->get_charter_city($cooperator['cCode']);
+                              }
+              ?>                
+
+              <?php
+              if(isset($cooperators_list_board_orig[$key]))
               {
                   $cooperator_orig = $cooperators_list_board_orig[$key];
                   if($cooperator_orig['full_name']!=$cooperator['full_name'])
@@ -369,7 +355,8 @@
                    $x=', '; 
                   } 
                   $address = $cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', '.$cooperator['city'].', '.$cooperator['province'];
-                  $address_orig = $cooperator_orig['house_blk_no'].' '.$cooperator_orig['streetName'].$x.$cooperator_orig['brgy'].', '.$cooperator_orig['city'].', '.$cooperator_orig['province'];
+                  $address_orig = $cooperator_orig['house_blk_no'].' '.$cooperator_orig['streetName'].$x.$cooperator_orig['brgy'].', ';?> <?=($in_chartered_cities_cptr ? $chartered_cities_cptr : $cooperator_orig['city'].', '.$cooperator_orig['province'])?>
+                  <?php
                   if($address != $address_orig)
                   {
                     $address = '<strong>'.$address.'</strong>';
@@ -396,7 +383,7 @@
                    $x=', '; 
                   } 
                   $address = $cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', '.$cooperator['city'].', '.$cooperator['province'];
-                  $address_orig = $cooperator_orig['house_blk_no'].' '.$cooperator_orig['streetName'].$x.$cooperator_orig['brgy'].', '.$cooperator_orig['city'].', '.$cooperator_orig['province'];
+                  $address_orig = $cooperator_orig['house_blk_no'].' '.$cooperator_orig['streetName'].$x.$cooperator_orig['brgy'].', ';?><?=($in_chartered_cities_cptr ? $chartered_cities_cptr : $cooperator['city'].', '.$cooperator['province'])?>
                    $address = '<strong>'.$address.'</strong>';
           ?>
                   <td><?=$count.'. '.$cooperator['full_name']?></td>

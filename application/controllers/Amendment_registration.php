@@ -20,7 +20,7 @@ class Amendment_registration extends CI_Controller{
     }else{
       $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $user_id = $this->session->userdata('user_id');
-
+       $cooperative_id =$this->amendment_model->coop_dtl($decoded_id);
       //add to registered cooop
       $coop_info = $this->amendment_model->get_cooperative_info_by_admin_payment($decoded_id);
       // $this->debug($coop_info);
@@ -41,24 +41,17 @@ class Amendment_registration extends CI_Controller{
       $j=$j.$x;
 
       $amendment_no ='';
-      $qry_amd_no = $this->db->query("select amendmentNo from amend_coop where cooperative_id=813 and status=15 order by id desc limit 1");
+      $qry_amd_no = $this->db->query("select amendmentNo from amend_coop where cooperative_id='$cooperative_id' and status=15 or status=14 order by id desc limit 1");
       if($qry_amd_no->num_rows()>0)
       {
-        if($qry_amd_no->num_rows()==1)
-        {
-           $amendment_no=1;
-         
-        }
-        else
-        {
-           $amendment_no = $qry_amd_no->num_rows()+1;
-        }
-       
+        $amendment_no = $qry_amd_no->num_rows()+1;
       }
       else
       {
         $amendment_no = 1;
       }
+
+
         if($this->db->update('amend_coop',array('amendmentNo'=>$amendment_no),array('id'=>$decoded_id)))
         {
           
@@ -212,9 +205,8 @@ class Amendment_registration extends CI_Controller{
           $data1['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($coop_info->cooperative_id,$decoded_id);
         
           set_time_limit(0);
-          // $this->debug($coop_details);
-       
-          // $this->load->view('amendment/cor_view', $data1);
+        
+          $this->load->view('amendment/cor_view', $data1);
           $html2 = $this->load->view('amendment/cor_view', $data1, TRUE);
           $J = new pdf();       
           $J->set_option('isRemoteEnabled',TRUE);

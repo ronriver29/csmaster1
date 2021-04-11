@@ -66,19 +66,35 @@ class Amendment_payments extends CI_Controller{
 
                                     $data['coop_capitalization']=$this->coop_capitalization($cooperative_id);
                                     $data['amendment_capitalization']= $this->amendment_capitalization($decoded_id);
+                                    if($this->amendment_model->if_had_amendment($cooperative_id))
+                                    {
+                                     $data['coop_info_orig']= $this->amendment_model->get_last_amendment_info($cooperative_id);
+                                      if(strlen($data['coop_info_orig']->acronym)>0)
+                                       {
+                                         $acronym =' ('.$data['coop_info_orig']->acronym.')';
+                                       }
+                                       else
+                                       {
+                                        $acronym = ''; 
+                                       }
+                                    }
+                                    else
+                                    {
+                                      $data['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
+                                      if(strlen($data['coop_info_orig']->acronym_name)>0)
+                                       {
+                                         $acronym =' ('.$data['coop_info_orig']->acronym_name.')';
+                                       }
+                                       else
+                                       {
+                                        $acronym = ''; 
+                                       }
+                                    }
+                                     // $this->debug($data['coop_info_orig']);
                                      
-                                     $data['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
-                                     if(strlen($data['coop_info_orig']->acronym_name)>0)
-                                     {
-                                       $acronym =' ('.$data['coop_info_orig']->acronym_name.')';
-                                     }
-                                     else
-                                     {
-                                      $acronym = '';
-                                     }
                                     $coop_orig_name = $data['coop_info_orig']->proposed_name;
                                     $data['original_coop_name']= $coop_orig_name.$acronym;
-                                    // $this->debug( $data['coop_info_orig']);
+                                 
                                     $this->load->view('./template/header', $data);
                                     $this->load->view('amendment/payment_form', $data);
                                     $this->load->view('./template/footer', $data);
