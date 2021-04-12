@@ -502,20 +502,40 @@ $this->last_query = $this->db->last_query();
           }//num rows 
           
         }else if(strcmp($cooperator_info['position'],'Secretary')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'])){
-            $this->db->trans_begin();
-            $this->db->where('id', $cooperator_id);
-            $this->db->update('amendment_cooperators',$cooperator_info);
-            if($this->db->trans_status() === FALSE){
-              $this->db->trans_rollback();
-              return array('success'=>false,'message'=>'Unable to update cooperator');
-            }else{
-              $this->db->trans_commit();
-              return array('success'=>true,'message'=>'Cooperator has been successfully updated');
-            }
-          }else{
-            return array('success'=>false,'message'=>'Only one Secretary is allowed');
+          $query_sec = $this->db->get_where('amendment_cooperators',array('id'=>$cooperator_id));
+          $cptr_data =  $query_sec->row();
+          if($cptr_data->id == $cooperator_id && $cptr_data->position=='Secretary')
+          {
+           // return  $cptr_data->id.' '.$cooperator_id.' '.$cptr_data->position;
+              $this->db->trans_begin();
+              $this->db->where('id', $cooperator_id);
+              $this->db->update('amendment_cooperators',$cooperator_info);
+              if($this->db->trans_status() === FALSE){
+                $this->db->trans_rollback();
+                return array('success'=>false,'message'=>'Unable to update cooperator');
+              }else{
+                $this->db->trans_commit();
+                return array('success'=>true,'message'=>'Cooperator has been successfully updated');
+              }
           }
+          else
+          {
+            if($this->check_position_not_exists($data->cooperatives_id,$amendment_id,$cooperator_info['position'])){
+              $this->db->trans_begin();
+              $this->db->where('id', $cooperator_id);
+              $this->db->update('amendment_cooperators',$cooperator_info);
+              if($this->db->trans_status() === FALSE){
+                $this->db->trans_rollback();
+                return array('success'=>false,'message'=>'Unable to update cooperator');
+              }else{
+                $this->db->trans_commit();
+                return array('success'=>true,'message'=>'Cooperator has been successfully updated');
+              }
+            }else{
+              return array('success'=>false,'message'=>'Only one Secretary is allowed');
+            }
+          }
+          
         }else{
           $this->db->trans_begin();
           $this->db->where('id', $cooperator_id);
@@ -556,7 +576,7 @@ $this->last_query = $this->db->last_query();
     }else{
       if ($this->checkname_not_id($cooperator_id, $cooperator_info['full_name'], $data->cooperatives_id)) {
         if(strcmp($cooperator_info['position'], 'Chairperson')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$amendment_id,$cooperator_info['position'])){
             if($this->check_directors_not_max($data->cooperatives_id,$amendment_id)){
               $this->db->trans_begin();
               $this->db->where('id', $cooperator_id);
@@ -575,7 +595,7 @@ $this->last_query = $this->db->last_query();
             return array('success'=>false,'message'=>'Only one Chairpeson is allowed');
           }
         }else if(strcmp($cooperator_info['position'], 'Vice-Chairperson')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$amendment_id,$cooperator_info['position'])){
             if($this->check_directors_not_max($data->cooperatives_id,$amendment_id)){
               $this->db->trans_begin();
               $this->db->where('id', $cooperator_id);
@@ -609,7 +629,7 @@ $this->last_query = $this->db->last_query();
             return array('success'=>false,'message'=>'Maximum of 15 directors');
           }
         }else if(strcmp($cooperator_info['position'], 'Treasurer')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$amendment_id,$cooperator_info['position'])){
             $this->db->trans_begin();
             $this->db->where('id', $cooperator_id);
             $this->db->update('laboratories_cooperators',$cooperator_info);
@@ -624,7 +644,7 @@ $this->last_query = $this->db->last_query();
             return array('success'=>false,'message'=>'Only one Treasurer is allowed');
           }
         }else if(strcmp($cooperator_info['position'],'Secretary')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$amendment_id,$cooperator_info['position'])){
             $this->db->trans_begin();
             $this->db->where('id', $cooperator_id);
             $this->db->update('laboratories_cooperators',$cooperator_info);
@@ -1087,7 +1107,7 @@ left join amendment_cooperators on cap.amendment_id = amendment_cooperators.amen
     $this->db->select('SUM(number_of_subscribed_shares) as total_subscribed, SUM(number_of_paid_up_shares) as total_paid');
     $query = $this->db->get_where('amendment_cooperators',array('cooperatives_id'=>$cooperative_id,'amendment_id' => $amendment_id,'type_of_member'=>'Regular'));
     $data = $query->row();
-    $query2 = $this->db->get_where('amendment_articles_of_cooperation',array('cooperatives_id' => $cooperative_id,'amendment_id'=>$amendment_id));
+    $query2 = $this->db->get_where('amendment_capitalization',array('cooperatives_id' => $cooperative_id,'amendment_id'=>$amendment_id));
     $article = $query2->row();
     $totalSubscribed = 0;
     $totalPaid = 0;
