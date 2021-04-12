@@ -298,10 +298,10 @@
                 $tot_reg_paid2_orig = ($total_regular_orig['total_paid'] * $capitalization_info->par_value) + ($total_associate_orig['total_paid'] * $capitalization_info->par_value);
                 if( $tot_reg_paid2!= $tot_reg_paid2_orig)
                 {
-                   $tot_reg_paid2 = '<b>'.$tot_reg_paid2.'</b>';
+                   $tot_reg_paid2_ = '<b>'.number_format($tot_reg_paid2,2).'</b>';
                 }
               ?>
-              <td><u><?php echo (($bylaw_info->kinds_of_members == 1) ?  number_format($tot_reg_paid,2) : number_format($tot_reg_paid2,2));?></u></td>
+              <td><u><?php echo (($bylaw_info->kinds_of_members == 1) ?  number_format($tot_reg_paid,2) : $tot_reg_paid2_);?></u></td>
               
 
             </tr>
