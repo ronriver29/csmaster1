@@ -21,7 +21,7 @@ $(function(){
           $("#paid-note").show().html('Should not exceed the remaining no of paid up share: '+available_paid_up_capital);
       }
   });
-  $('#editCooperatorForm #membershipType').on('change', function(){
+  $('#editCooperatorForm #membershipType').on('change', function(){ 
     var tempType  = $.trim($(this).val());
     var available_subscribed_capital = $("#available_subscribed_capital").val().length>0 ? parseInt($("#available_subscribed_capital").val()) : '';
     var available_paid_up_capital = $("#available_paid_up_capital").val().length>0 ? parseInt($("#available_paid_up_capital").val()) : '';    
@@ -47,14 +47,14 @@ $(function(){
           $("#paid-note").show().html('Should not exceed the remaining no of paid up share: '+available_paid_up_capital);
       }
     }else if(tempType.length > 0 && tempType=="Associate"){
-      $('#editCooperatorForm #subscribedShares').prop('readonly',false);
+      $('#editCooperatorForm #amd_subscribedShares').prop('readonly',false);
       $('#editCooperatorForm #amd_paidShares').prop('readonly',false);
-      $('#editCooperatorForm #subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumAssociateSubscriptionEditCallPhp]]'});
+      $('#editCooperatorForm #amd_subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumAssociateSubscriptionAmendmentCallPhp]]'});
       $('#editCooperatorForm #amd_paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateEditNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumAssociatePayEditAmendmentCallPhp]]'});
       var minimum_subscribed_share_associate = $("#minimum_subscribed_share_associate").val().length>0 ? $("#minimum_subscribed_share_associate").val() : '';
       var minimum_paid_up_share_associate = $("#minimum_paid_up_share_associate").val().length>0 ? $("#minimum_paid_up_share_associate").val() : '';
-      $('#editCooperatorForm #subscribedShares').attr('min',minimum_subscribed_share_associate);
-      $('#editCooperatorForm #amd_paidShares').attr('min',minimum_paid_up_share_associate);
+      $('#editCooperatorForm #amd_subscribedShares').attr('min',minimum_subscribed_share_associate);
+      $('#editCooperatorForm #amd_subscribedShares').attr('min',minimum_paid_up_share_associate);
       if(subscribed > available_subscribed_capital) {
           $(".subscribedSharesformError").hide().html('');
           $("#subscribed-note").show().html('Should not exceed the remaining no of subscribed share: '+available_subscribed_capital);
