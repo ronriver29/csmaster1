@@ -354,7 +354,7 @@ public $last_query = "";
     }else{
       if ($this->checkname_not_id($cooperator_id, $cooperator_info['full_name'], $data->cooperatives_id)) {
         if(strcmp($cooperator_info['position'], 'Chairperson')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name']) < 1){
             if($this->check_directors_not_max($data->cooperatives_id)){
               $this->db->trans_begin();
               $this->db->where('id', $cooperator_id);
@@ -375,7 +375,7 @@ public $last_query = "";
             return array('success'=>false,'message'=>'Only one Chairperson is allowed');
           }
         }else if(strcmp($cooperator_info['position'], 'Vice-Chairperson')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name']) < 1){
             if($this->check_directors_not_max($data->cooperatives_id)){
               $this->db->trans_begin();
               $this->db->where('id', $cooperator_id);
@@ -396,7 +396,7 @@ public $last_query = "";
             return array('success'=>false,'message'=>'Only one Vice-Chairperson is allowed');
           }
         }else if(strcmp($cooperator_info['position'],'Board of Director')===0){
-          if($this->check_directors_not_max($data->cooperatives_id)){
+          if($this->check_directors_not_max($data->cooperatives_id) < 1){
             $this->db->trans_begin();
             $this->db->where('id', $cooperator_id);
             $this->db->update('cooperators',$cooperator_info);
@@ -413,7 +413,7 @@ public $last_query = "";
             return array('success'=>false,'message'=>'Maximum of 15 directors');
           }
         }else if(strcmp($cooperator_info['position'], 'Treasurer')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name']) < 1){
             $this->db->trans_begin();
             $this->db->where('id', $cooperator_id);
             $this->db->update('cooperators',$cooperator_info);
@@ -430,7 +430,7 @@ public $last_query = "";
             return array('success'=>false,'message'=>'Only one Treasurer is allowed');
           }
         }else if(strcmp($cooperator_info['position'],'Secretary')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name'])){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name']) < 1){
             $this->db->trans_begin();
             $this->db->where('id', $cooperator_id);
             $this->db->update('cooperators',$cooperator_info);
