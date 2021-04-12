@@ -77,12 +77,12 @@
           <li>   
             <a href="<?php echo base_url();?>admins/cooperatives_list"><i class="fas fa-handshake"></i> All Cooperatives List</a>
           </li>
-            <!-- <li>   
+             <li>   
             <a href="<?php echo base_url();?>admins/amendment_list"><i class="fas fa-handshake"></i> All Amendments List</a>
           </li>
            <li>   
             <a href="<?php echo base_url();?>admins/branches_list"><i class="fas fa-handshake"></i> All Branches List</a>
-          </li>  -->
+          </li>  
         <?php endif; ?>
       
         <?php if($admin_info->access_level < 5) : ?>
@@ -90,7 +90,7 @@
             <a href="<?php echo base_url();?>cooperatives"><i class="fas fa-handshake"></i> Cooperatives</a>
           </li>
          
-         <!--  <li>   
+           <li>   
 
             <a href="<?php echo base_url();?>branches"><i class="fas fa-handshake"></i> Branches and Satellites</a>
           </li>
@@ -99,11 +99,11 @@
           </li>
           <li>   
             <a href="<?php echo base_url();?>amendment"><i class="fas fa-handshake"></i> Amendment</a>
-          </li>    -->
+          </li>  
           <?php if($admin_info->access_level == 2) : ?>
-         <!--  <li>   
+          <li>   
             <a href="<?php echo base_url();?>account_approval"><i class="fas fa-handshake"></i> Account Approval</a>
-          </li> -->
+          </li> 
           <?php endif; ?>
         <?php endif; ?>
         <li>
