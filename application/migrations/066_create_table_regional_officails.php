@@ -161,19 +161,21 @@ MAIMPIS, CITY OF SAN FERNANDO, 2000 PAMPANGA',
                       'region_code' => '012'
                       ),
                       array(
-                      'director' => 'GENARO D. POGATA. JR.',
-                      'act_supervising' => 'SALLY S. BONGABONG',
-                      'address' => 'CHRLDC BUILDING, APO SANDAWA HOMES III 9400 KIDAPAWAN CITY, COTABATO3/F BALEBRIA BLDG., PILI DRIVE, DAGOHOY 8600 BUTUAN CITY',
-                      'contact' => '(085) 342-5530',
-                      'email' => 'caraga@cda.gov.ph',
-                      'social_media' => 'https://www.facebook.com/cdacaragaro',
+                      'director' => 'PEDRO T. DEFENSOR, JR.',
+                      'act_supervising' => 'ANASTACIA A. HORA',
+                      'address' => 'LOWER GROUND FLOOR, EDSA GRAND RESIDENCES,
+75 CORREGIDOR ST., CORNER EDSA, BAGO BANTAY,
+BARANGAY MAGSAYSAY, QUEZON CITY 1105',
+                      'contact' => '(02)8442-9539,(02)8291-6422',
+                      'email' => 'ncr@cda.gov.ph',
+                      'social_media' => 'https://www.facebook.com/cdancro',
                       'region_code' => '013'
                       ),
                       array(
                       'director' => 'ATTY. FRANCO G. BAWANG, JR.',
                       'act_supervising' => 'LETICIA S. CAYANOS',
                       'address' => '4F New Building, Lyman Ogilby Centrum, 358 Magsaysay Avenue, 2600 Baguio City',
-                      'contact' => '(074) 422-0038',
+                      'contact' => '(074)422-0038',
                       'email' => 'car@cda.gov.ph',
                       'social_media' => 'https://www.facebook.com/cdacordillera',
                       'region_code' => '014'
@@ -187,6 +189,25 @@ MAIMPIS, CITY OF SAN FERNANDO, 2000 PAMPANGA',
                       'social_media' => 'https://www.facebook.com/cdaarmm',
                       'region_code' => '015'
                       ),
+                      array(
+                      'director' => 'GENARO D. POGATA. JR.',
+                      'act_supervising' => 'SALLY S. BONGABONG',
+                      'address' => 'CHRLDC BUILDING, APO SANDAWA HOMES III 9400 KIDAPAWAN CITY, COTABATO3/F BALEBRIA BLDG., PILI DRIVE, DAGOHOY 8600 BUTUAN CITY',
+                      'contact' => '(085) 342-5530',
+                      'email' => 'caraga@cda.gov.ph',
+                      'social_media' => 'https://www.facebook.com/cdacaragaro',
+                      'region_code' => '016'
+                      ),
+                      array(
+                      'director' => 'CRISTINA H. VILLAMIL',
+                      'act_supervising' => 'ALBERTO A. SABARIAS',
+                      'address' => '2/F FLOOR SANTES BLDG., NATIONAL HIGHWAY, BRGY. BAYANIHAN I, CALAPAN CITY, ORIENTAL MINDORO',
+                      'contact' => '(043)738-2496',
+                      'email' => 'mimaropa@cda.gov.ph',
+                      'social_media' => 'https://www.facebook.com/cdamimaropa',
+                      'region_code' => '017'
+                      ),
+
 
 
         );
