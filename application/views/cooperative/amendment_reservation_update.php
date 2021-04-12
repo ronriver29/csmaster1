@@ -4,7 +4,7 @@
   </div>
 </div>
 <?php if($coop_info->status == 0) :?>
-<div class="row">
+<div class="row">  
   <div class="col">
     <div class="alert alert-info shadow-sm" role="alert">
       <h5>Your reservation is already <strong>expired</strong>. Please fill up all the information to proceed into the next step</h5>
@@ -191,6 +191,7 @@
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Acronym of Cooperative Name:</label>
                   <input type="text" class="form-control" name="acronym_name" id="acronym_name" value="<?=$coop_info->acronym?>">
                 </div>
+                 <label id="acronymnameerr" style="color:red;font-size:80%;display:none"><i>* Acronym Name has been disabled. Maximum Character reach on "Proposed Name".</i></label>
               </div>
             </div>
             

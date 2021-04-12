@@ -199,7 +199,7 @@
               }
               
             ?>
-              <li> <?= $assoc_qualification ?> </li>
+            <!--   <li> <?= $assoc_qualification ?> </li> -->
             <?php endforeach; ?>
           </ol>
         </li>

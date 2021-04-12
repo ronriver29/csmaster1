@@ -499,6 +499,27 @@ function get_specific_subclass_desc(id)
          $("#type_of_coop").html(val);
            $("#proposed_name_msg").html('* Do not include the word Cooperative in proposed name');
       }
+        if($(this).val() && ($(this).val()).length > 0)
+        {
+        $("#amendmentAddForm #addMoreSubclassBtn").prop("disabled",false);
+          document.getElementById("proposedName").maxLength = "61";
+
+          $('#reserveUpdateForm #proposedName').on('change',function(){
+            document.getElementById('acronym_name').value = '';
+            var value = document.getElementById("proposedName").value;
+            var totalval = 61 - value.length; 
+            // alert(totalval+ value.length);
+            if(totalval == 0){ 
+              $("#reserveUpdateForm #acronym_name").prop("disabled",true);
+              $('#reserveUpdateForm #acronymnameerr').show();
+            } else {
+              $('#reserveUpdateForm #acronymnameerr').hide();
+              $("#reserveUpdateForm #acronym_name").prop("disabled",false);
+            }
+            document.getElementById("acronym_name").maxLength = totalval;
+          });
+        }  
+
      
     });
   //end name
