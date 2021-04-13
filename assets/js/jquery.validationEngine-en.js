@@ -353,7 +353,7 @@
                     "alertTextLoad": "* Validating, please wait"
                 },
                  "ajaxMinimumAssociateSubscriptionAmendmentCallPhp": {
-                    "url": "../../../amendmentbylaws/check_minimum_associate_subscription",
+                    "url": "../../amendmentbylaws/check_minimum_associate_subscription",
                      // "url": "../../bylaws/check_minimum_associate_subscription_amendment",
                     // you may want to pass extra data on the ajax call
                     "extraDataDynamic": ['#cooperatorID,#cooperative_id,#amd_id'],
