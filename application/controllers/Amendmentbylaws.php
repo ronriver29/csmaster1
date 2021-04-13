@@ -746,6 +746,7 @@ class Amendmentbylaws extends CI_Controller{
           'fieldId'=>$this->input->get('fieldId'),
           'fieldValue'=>$this->input->get('fieldValue'),
           'amendment_id'=>$this->encryption->decrypt(decrypt_custom($this->input->get('amd_id'))),
+          'cooperative_id' => $this->encryption->decrypt(decrypt_custom($this->input->get('cooperative_id')))
         );
         $result = $this->amendment_capitalization_model->check_minimum_associate_subscription($data);
         echo json_encode($result);
