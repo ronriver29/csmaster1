@@ -23,7 +23,7 @@
       <?php endif; ?>
      </ul>
     </div>
-  </div>
+  </div> 
 </div>
 <div class="row">
   <div class="col-sm-12 col-md-12">
@@ -33,7 +33,7 @@
         <div class="row">
           
           <input type="hidden" class="form-control" id="amd_id" name="amd_id" value="<?=$encrypted_id ?>">
-          <input type="hidden" class=="form-control" value="<?=$encrypted_coop_id?>" id="cooperative_id" name="cooperative_id"/>
+          <input type="hidden" class="form-control" value="<?=$encrypted_coop_id?>" id="cooperative_id" name="cooperative_id"/>
 
           <input type="hidden" class="form-control" id="cooperatorID" name="cooperatorID" value="<?= $encrypted_cooperator_id?>">
           <input type="hidden" class="form-control" id="regCode" name="regCode" value="<?= $cooperator_info->rCode ?>">
@@ -87,8 +87,11 @@
             <div class="form-group">
               <label for="subscribedShares">No of subscribed shares:</label>
              <!--  <input type="number" value="<?= $cooperator_info->number_of_subscribed_shares ?>" min="<?=$cooperator_info->type_of_member == 'Associate' ? $capitalization_info->minimum_subscribed_share_associate : $capitalization_info->minimum_subscribed_share_regular; ?>" max="<?=$available_subscribed_capital?>" class="form-control validate[required,min[1],custom[integer]]" id="amd_subscribedShares" name="amd_subscribedShares"> -->
+           
+            <!-- <input type="number" value="<?= $cooperator_info->number_of_subscribed_shares ?>" min="<?=$cooperator_info->type_of_member == 'Associate' ? $capitalization_info->minimum_subscribed_share_associate : $capitalization_info->minimum_subscribed_share_regular; ?>" max="<?=$available_subscribed_capital?>" class="form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumAssociateSubscriptionCallPhpAmendment]]" id="amd_subscribedShares" name="amd_subscribedShares"> -->
 
-            <input type="number" value="<?= $cooperator_info->number_of_subscribed_shares ?>" min="<?=$cooperator_info->type_of_member == 'Associate' ? $capitalization_info->minimum_subscribed_share_associate : $capitalization_info->minimum_subscribed_share_regular; ?>" max="<?=$available_subscribed_capital?>" class="form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumAssociateSubscriptionCallPhpAmendment]]" id="amd_subscribedShares" name="amd_subscribedShares">
+            <input type="number" value="<?= $cooperator_info->number_of_subscribed_shares ?>" min="<?=$capitalization_info->minimum_subscribed_share_associate ?>" max="<?=$available_subscribed_capital?>" id="amd_subscribedShares" name="amd_subscribedShares">
+
               <div id="subscribed-note" style="color: red; font-size: 12px;"></div>
             </div>
           </div>
