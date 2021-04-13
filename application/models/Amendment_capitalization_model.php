@@ -154,7 +154,6 @@ class Amendment_capitalization_model extends CI_Model{
       return array($ajax['fieldId'],false);
     }
   }
-  
   public function check_minimum_associate_pay($ajax){
     $this->db->select('minimum_paid_up_share_associate');
     $this->db->from('amendment_capitalization');
