@@ -265,6 +265,7 @@ class Amendment_committees extends CI_Controller{
                                 );
                               // $this->debug($data);
                               $success = $this->amendment_committee_model->add_committee($data);
+                              // $this->debug($success);
                               if($success['success']){
                                 $this->session->set_flashdata('committee_success', $success['message']);
                                 redirect('amendment/'.$this->input->post('amendmentID').'/committees');
@@ -455,6 +456,7 @@ class Amendment_committees extends CI_Controller{
                                 );
                                // $this->debug($data_com);
                               $success = $this->amendment_committee_model->edit_committee($decoded_post_committee_id,$data_com);
+                              // $this->debug($success);
                               if($success['success']){
                                 $this->session->set_flashdata('committee_success', $success['message']);
                                 redirect('amendment/'.$this->input->post('cooperativesID').'/committees');

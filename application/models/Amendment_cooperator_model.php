@@ -677,9 +677,10 @@ $this->last_query = $this->db->last_query();
     }
   }
   
-  public function delete_cooperator($data){
+  public function delete_cooperator($cooperator_id){
     $this->db->trans_begin();
-    $this->db->delete('amendment_cooperators',array('id' => $data));
+    $this->db->delete('amendment_cooperators',array('id' => $cooperator_id));
+    $this->db->delete('amendment_committees',array('amendment_cooperators_id'=> $cooperator_id));
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;

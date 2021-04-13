@@ -35,7 +35,7 @@ class Amendment_committee_model extends CI_Model{
     $position = $data['name'];
     
     $check_query = $this->db->get_where('amendment_committees' ,array('amendment_id'=>$amendment_id,'name'=>$position));
-    // return $check_query->num_rows();
+   // return $this->db->last_query();
     if($check_query->num_rows()>=3)
     {
       return array('success'=>false,'message'=>'Committee already has 3 '.$data['name']);

@@ -451,6 +451,8 @@ class Amendment_cooperators extends CI_Controller{
                             'proof_date_issued' => $dateIssued_,
                             'place_of_issuance' =>$this->input->post('placeIssuance'),
                             );
+                          // $this->debug($decoded_post_cooperator_id);
+                          // $this->debug($data); $this->debug($decoded_id);
                           // $this->debug($data);
                           $success = $this->amendment_cooperator_model->edit_cooperator($decoded_post_cooperator_id,$data,$decoded_id);
                           // $this->debug($success);
@@ -620,7 +622,7 @@ class Amendment_cooperators extends CI_Controller{
                     $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
                     redirect('amendment');
                   }else{
-                    $success = $this->cooperator_model->delete_cooperator($decoded_post_cooperator_id);
+                    $success = $this->amendment_cooperator_model->delete_cooperator($decoded_post_cooperator_id);
                     if($success){
                       $this->session->set_flashdata('cooperator_success', 'Cooperative has been deleted.');
                       redirect('amendment/'.$this->input->post('cooperativeID').'/amendment_cooperators');
