@@ -222,12 +222,12 @@ class Amendment_cooperators extends CI_Controller{
                           {
                              $dateIssued_ =$this->input->post('dateIssued');
                           }
-                          if($this->input->post('dateIssued_chk'))
+                          if($this->input->post('dateIssued_chks'))
                           {
-                            $dateIssued_  = $this->input->post('dateIssued_chk');
+                            $dateIssued_  = $this->input->post('dateIssued_chks');
                           }
 
-                      $data = array(
+                      $data = array( 
                         'cooperatives_id' => $cooperative_id,
                         'amendment_id' => $decoded_id,
                         'full_name' => $this->input->post('fName'),
