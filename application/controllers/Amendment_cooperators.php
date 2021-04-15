@@ -360,6 +360,7 @@ class Amendment_cooperators extends CI_Controller{
         }
     }
   }
+  
   function edit($id = null,$cooperator_id = null){
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
