@@ -22,6 +22,8 @@ build:
   only:
     - master
   allow_failure: false
+  tags:
+    - docker
 
 deploy-staging:
   needs: ["build"]
@@ -49,6 +51,8 @@ deploy-staging:
       ./.chart/application
   only:
     - master
+  tags:
+    - docker
 
 deploy-production:
   needs: ["build"]
@@ -78,6 +82,8 @@ deploy-production:
       ./.chart/application
   only:
     - master
+  tags:
+    - docker
 
 .functions: &functions |
     # Functions
