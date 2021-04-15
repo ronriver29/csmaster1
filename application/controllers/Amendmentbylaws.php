@@ -758,7 +758,6 @@ class Amendmentbylaws extends CI_Controller{
   }
   //paid up share associate
   public function check_minimum_associate_pay_amendment(){
-
     // if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('cooperatorID') &&  $this->input->get('cooperative_id') &&  $this->input->get('amd_id')){
     if($this->input->get('fieldId') && $this->input->get('fieldValue')  &&  $this->input->get('cooperative_id') &&  $this->input->get('amd_id')){
       $data = array(

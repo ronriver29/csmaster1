@@ -275,7 +275,7 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
-  document.getElementById("membershipType").options[2].disabled = true;
+  // document.getElementById("membershipType").options[2].disabled = true;
   document.getElementById("position").options[0].disabled = true;
   $( "#position" ).click(function() {
     var x = document.getElementById("position").value;
