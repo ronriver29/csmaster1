@@ -287,7 +287,6 @@
     }
     // alert( "Handler for .click() called." );
   });
-
   $(document).ready(function(){
     $(document).on('click', '#chkID', function() {
     // $("#dateIssued").removeAttr('disabled');
