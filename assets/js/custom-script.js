@@ -2311,6 +2311,35 @@ $('#editStaffForm #position').on('change', function(){
         }
   });
 
+  $('#assignInspectorModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var coop_name = button.data('cname');
+    var coop_id = button.data('coopid');
+    var coop_regno = button.data('coopregno');
+    var modal = $(this)
+    modal.find('.modal-body #cooperativesID').val(coop_id);
+    modal.find('.modal-body #cooperativeName').val(coop_name);
+    modal.find('.modal-body #cooperativeRegno').val(coop_regno);
+  });
+  $("#assignInspectortForm").validationEngine('attach',
+      {promptPosition: 'inline',
+      scroll: false,
+      focusFirstField : false,
+      onValidationComplete: function(form,status){
+          if(status==true){
+            if($("#assignInspectorLoadingBtn").length <= 0){
+              $("#assignInspectortForm #assignInspectortBtn").hide();
+              $("#assignInspectortForm .assignInspectorFooter").append($('<button></button>').attr({'id':'assignInspectorLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
+              return true;
+            }else{
+              return false;
+            }
+          }else{
+            return false;
+          }
+        }
+  });
+
   $('#assignSpecialistAmendmentModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
     var coop_name = button.data('cname');

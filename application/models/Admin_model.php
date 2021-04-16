@@ -109,9 +109,21 @@ public function add_admin_director($data,$raw_pass){
       
     } //end access anme
     
-    
+  
     
   }
+
+  public function get_inspector($regcode){
+    $this->db->like('region_code',$regcode);
+    $query = $this->db->get_where('ca_admin',array('active'=>1));
+    $data = $query->result_array();
+    if($this->db->count_all_results()==0){
+      return array();
+    }else{
+      return $data;
+    }
+  }
+
   public function update_admin($aid,$data){
     $aid = $this->security->xss_clean($aid);
     $data = $this->security->xss_clean($data);

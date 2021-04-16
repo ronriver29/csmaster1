@@ -94,12 +94,18 @@
       <td class="pera" align="right" width="13%"><b>'.number_format($lrf,2).'</b></td>
     </tr>
     <tr>
+    <td width="23%"></td>
+      <td class="pera"width=""><b>COC Fee</b></td>
+      <td class="pera"width="5%"> </td>
+      <td class="pera" align="right" width="13%"><b>'.number_format(100,2).'</b></td>
+    </tr>
+    <tr>
       <td colspan="4"></td>
     </tr>
     <tr>
       <td class="bord" colspan="2">Total </td>
       <td class="taas"  width="5%">Php </td>
-      <td class="taas" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
+      <td class="taas" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee+100,2).'</b></td>
     </tr>';
     }
     ?>

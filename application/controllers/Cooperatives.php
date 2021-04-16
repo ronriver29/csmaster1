@@ -6,6 +6,7 @@
     public function __construct()
     {
       parent::__construct();
+      $this->load->library('pdf');
       //Codeigniter : Write Less Do More
     }
 
@@ -120,18 +121,21 @@
                 // End Registered Coop Process by Head Office
                 $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_ho_director($data['admin_info']->region_code);
+                $data['list_specialist'] = $this->admin_model->get_inspector($data['admin_info']->region_code);
               } else {
                 // Registered Coop Process by Head Office
                   $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
                 // End Registered Coop Process by Head Office
                 $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_director($data['admin_info']->region_code);
+                $data['list_specialist'] = $this->admin_model->get_inspector($data['admin_info']->region_code);
               }
             }
             $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
             $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
             $this->load->view('templates/admin_header', $data);
             $this->load->view('applications/list_of_applications', $data);
+            $this->load->view('applications/assign_admin_modal_inspector');
             $this->load->view('applications/assign_admin_modal');
             $this->load->view('admin/grant_privilege_supervisor');
             $this->load->view('admin/revoke_privilege_supervisor');
@@ -957,8 +961,111 @@
       echo json_encode($data);
     }
 
-    
+    public function assign_inspector(){
+      if(!$this->session->userdata('logged_in')){
+        redirect('users/login');
+      }else{
+        $user_id = $this->session->userdata('user_id');
+        $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID',TRUE)));
+        $coop_info = $this->cooperatives_model->get_registeredcoop_coc($decoded_id);
+        $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
 
+        if($data['admin_info']->region_code=="00"){
+          // Registered Coop Process by Head Office
+            $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+          // End Registered Coop Process by Head Office
+          $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
+          $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_ho_director($data['admin_info']->region_code);
+          $data['list_specialist'] = $this->admin_model->get_inspector($data['admin_info']->region_code);
+        } else {
+          // Registered Coop Process by Head Office
+            $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+          // End Registered Coop Process by Head Office
+          $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
+          $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_director($data['admin_info']->region_code);
+          $data['list_specialist'] = $this->admin_model->get_inspector($data['admin_info']->region_code);
+        }
+
+        $data1['coop'] = $user_id;
+        $data1['region_code'] = str_replace('0', '',$data['admin_info']->region_code);
+        // $data1['coc_number'] = 01;
+
+        $data1['coopName'] = $coop_info->coopName;
+        $data1['address'] = $coop_info->noStreet.' '.$coop_info->Street.', '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
+
+        $timestamp = str_replace('-', '/', $coop_info->dateRegistered);
+        $data1['date_registered'] = date('F d, Y',strtotime($timestamp));
+
+        $data1['validity'] = $this->input->post('validity');
+
+        $data1['full_name'] = $this->input->post('full_name');
+
+        $data1['signatory'] = $this->input->post('sign');
+
+        $data1['issued'] = $coop_info->date_of_or;
+
+        $report_exist = $this->db->where(array('regNo'=>$this->input->post('cooperativeRegno'),'coopName'=>$coop_info->coopName))->get('coopris_report');
+        if($report_exist->num_rows()==0){
+
+          $this->db->select('*');
+          $this->db->from('coopris_report');
+          $series = $this->db->count_all_results();
+          $series = $series + 1;
+
+          $data1['coc_number'] = $series;
+
+          $coc_number = 'N-'.$data1['region_code'].'-'.date("Y",strtotime($data1['date_registered'])).'-'.$series;
+
+          $data_field = array(
+            'regNo' => $this->input->post('cooperativeRegno'),
+            'coopName' => $coop_info->coopName,
+            'application_id' => $decoded_id,
+            'signatory' => $this->input->post('sign'),
+            'full_name' => $this->input->post('full_name'),
+            'validity' => $this->input->post('validity'),
+            'coc_number' => $coc_number
+          );
+
+          $success = $this->cooperatives_model->insert_coc_report($data_field);
+          
+        } else {
+
+          $this->db->select('*');
+          $this->db->from('coopris_report');
+          $this->db->where('regNo',$this->input->post('cooperativeRegno'));
+          $this->db->where('coopName',$coop_info->coopName);
+          $query = $this->db->get();
+          $coc_number_update = $query->row();
+
+          // print_r($coc_number_update);
+          $data1['coc_number'] = $coc_number_update->coc_number;
+
+          $data_field = array(
+            'regNo' => $this->input->post('cooperativeRegno'),
+            'coopName' => $coop_info->coopName,
+            'application_id' => $decoded_id,
+            'signatory' => $this->input->post('sign'),
+            'full_name' => $this->input->post('full_name'),
+            'validity' => $this->input->post('validity'),
+            // 'coc_number' => $coc_number
+          );
+
+          $success = $this->cooperatives_model->update_coc_report($this->input->post('cooperativeRegno'),$coop_info->coopName,$data_field);
+        }
+
+
+        $this->load->view('report/coc_view','');
+ 
+            set_time_limit(0);
+            $html2 = $this->load->view('report/coc_view', $data1, TRUE);
+            $J = new pdf();
+            $J->set_option('isRemoteEnabled',TRUE);
+            $J->setPaper(array(0,0,595.28,841.89), 'landscape');
+            $J->load_html($html2);
+            $J->render();
+            $J->stream("certificate.pdf", array("Attachment"=>0));
+      }
+    }
     public function assign_specialist(){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
