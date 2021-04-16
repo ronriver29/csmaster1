@@ -501,14 +501,14 @@ function get_specific_subclass_desc(id)
       }
         if($(this).val() && ($(this).val()).length > 0)
         {
-        $("#amendmentAddForm #addMoreSubclassBtn").prop("disabled",false);
+        $("#reserveUpdateForm #addMoreSubclassBtn").prop("disabled",false);
           document.getElementById("proposedName").maxLength = "61";
 
           $('#reserveUpdateForm #proposedName').on('change',function(){
             document.getElementById('acronym_name').value = '';
             var value = document.getElementById("proposedName").value;
             var totalval = 61 - value.length; 
-            // alert(totalval+ value.length);
+            // alert(value.length);
             if(totalval == 0){ 
               $("#reserveUpdateForm #acronym_name").prop("disabled",true);
               $('#reserveUpdateForm #acronymnameerr').show();
@@ -518,7 +518,7 @@ function get_specific_subclass_desc(id)
             }
             document.getElementById("acronym_name").maxLength = totalval;
           });
-        }  
+        }   
 
      
     });

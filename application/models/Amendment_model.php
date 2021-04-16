@@ -1215,18 +1215,28 @@ public function submit_for_evaluation($user_id,$amendment_id,$region_code){
       }
     }
 }
-public function submit_for_reevaluation($user_id,$coop_id){
-  $user_id = $this->security->xss_clean($user_id);
-  $coop_id = $this->security->xss_clean($coop_id);
+public function submit_for_reevaluation($user_id,$amendment_id,$region_code){
+   $user_id = $this->security->xss_clean($user_id);
+  $amendment_id = $this->security->xss_clean($amendment_id);
+  $cooperative_id = $this->coop_dtl($amendment_id);
+  $amendment_info =$this->get_cooperative_info23($cooperative_id,$amendment_id);
+  $client_qry = $this->db->get_where('users',array('id'=>$user_id));
+  $client_info = $client_qry->row();
+  $admin_info = $this->admin_info_by_region($region_code);
   $this->db->trans_begin();
-  $this->db->where(array('users_id'=>$user_id,'id'=>$coop_id));
+  $this->db->where(array('users_id'=>$user_id,'id'=> $amendment_id));
   $this->db->update('amend_coop',array('status'=>6));
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
   }else{
-    $this->db->trans_commit();
-    return true;
+     if($this->email_model->sendEmailDefferedtoSenior($client_info,$admin_info,$amendment_info)){
+       $this->db->trans_commit();
+       return true;
+      }else{
+       $this->db->trans_rollback();
+       return false;
+      }
   }
 }
 public function assign_to_specialist($amendment_id,$specialist_id){
