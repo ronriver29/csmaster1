@@ -1193,7 +1193,7 @@ class amendment extends CI_Controller{
 
                               if($data['status_document_one'] && $data['status_document_two']){
                                 if($this->amendment_model->check_if_deferred($decoded_id)){
-                                  if($this->amendment_model->submit_for_reevaluation($user_id,$decoded_id)){
+                                  if($this->amendment_model->submit_for_reevaluation($user_id,$decoded_id,$data['coop_info']->rCode)){
                                     $this->session->set_flashdata('cooperative_success','Successfully resubmitted your application. Please wait again for an e-mail of either the payment procedure or the list of documents for compliance');
                                     redirect('amendment/'.$id);
                                   }else{

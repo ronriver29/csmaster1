@@ -90,6 +90,57 @@ class Email_model extends CI_Model{
 
   }
 
+  public function sendEmailDefferedtoSenior($client_info,$admin_info,$amendment_info)
+  { 
+    if(count(explode(',',$amendment_info->type_of_cooperative))>1)
+      {
+       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$amendment_info->grouping;
+      }
+      else
+      {
+        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$amendment_info->grouping;
+      }
+    $address_coop = $amendment_info->house_blk_no.' '.$amendment_info->brgy.' '.$amendment_info->street.' ,'.$amendment_info->city.' ,'.$amendment_info->province.' ,'.$amendment_info->region;
+    $client_full_name = $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;
+    $from = "ecoopris@cda.gov.ph";   
+    $admin_subject =$coop_full_name.'\'s Amendment Application'; 
+    $client_subject = 'Amendment Application';
+       
+       $admin_message = "Good day! A deferred application for Amendment registration with the following details has been re-submitted for re-evaluation:<p>
+                  <ol type='a'>  
+                     <b><li> Proposed Name of Cooperative:</b> ". $coop_full_name."</li>                
+                     <b><li> Address of proposed cooperative: </b>". $address_coop."</li>                             
+                     <b><li> Contact Person: </b>". $client_full_name."</li>                                         
+                     <b><li> Contact Number: </b>". $client_info->contact_number."</li>
+                     <b><li> Email address: </b>". $client_info->email."</li>
+                    </ol>";          
+
+      $client_message = "Successfully submitted your amendment application. Please wait for an email of either payment procedure or the list of documents for compliance.<p>";  
+     //Admin send mail                                                               ;
+     $this->email->from($from,'ecoopris CDA (No Reply)');
+     $this->email->to($admin_info->email);
+     $this->email->subject($admin_subject);
+     $this->email->message($admin_message);
+      if($this->email->send()){
+            // return true;
+            // Client send email
+               $this->email->from($from,'ecoopris CDA (No Reply)');
+               $this->email->to($client_info->email);
+               $this->email->subject($client_subject);
+               $this->email->message($client_message);
+               if($this->email->send())
+               {
+                  return true;
+               }
+               else
+               {
+                  return false;
+               }
+        }else{
+            return false;
+        }
+  }
+
   public function sendEmailfirstSubmissionAmendment($client_info,$admin_info,$amendment_info)
   {
     if(count(explode(',',$amendment_info->type_of_cooperative))>1)
