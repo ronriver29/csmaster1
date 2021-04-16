@@ -126,6 +126,7 @@ $route['laboratories/(:any)/laboratories_cooperators/(:any)/edit'] = 'laboratori
 $route['laboratories/(:any)/evaluate'] = 'laboratories/evaluate/$1';
 $route['laboratories/(:any)/laboratories_documents'] = 'laboratories_documents/index/$1';
 $route['cooperatives/assign_specialist'] = 'cooperatives/assign_specialist';
+$route['cooperatives/assign_inspector'] = 'cooperatives/assign_inspector';
 $route['laboratories/specialist'] = 'laboratories/specialist';
 $route['laboratories/(:any)/cooperative_tool'] = 'cooperative_tool/index/$1';
 

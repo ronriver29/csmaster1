@@ -237,6 +237,9 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                       <ul id="ul-admin">
                         <li>
                       <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Re-print Registration</a>
+
+                      <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/assign" data-toggle="modal" data-target="#assignInspectorModal" data-coopregno="<?= $cooperative_registered['regNo']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id']))?>" data-cname="<?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>" class="btn btn-info"><i class='fas fa-print'></i> Print COC</a>
+
                     </li>
                      <?php endif; ?>
                      <?php if(in_array($admin_info->access_level,$viewdoc_array)): ?>
@@ -307,6 +310,12 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
                       <ul id="ul-admin">
                         <li>
                       <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Re-print Registration</a>
+                      
+                      <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/assign" data-toggle="modal" data-target="#assignInspectorModal" data-coopregno="<?= $cooperative_registered['regNo']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id']))?>" data-cname="<?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>" class="btn btn-info"><i class='fas fa-print'></i> Print COC</a>
+
+                      <!-- <button type="button" class="btn btn-info btn-sm" 
+                    onclick="showDetails('<?php echo $cooperative_registered['regNo']; ?>','<?=encrypt_custom($this->encryption->encrypt($cooperative_registered['proposed_name']));?>')" data-toggle="modal" ><i class='fas fa-print'></i> Print COC</button>  -->
+
                     </li>
                      <?php endif; ?>
                      <?php if(in_array($admin_info->access_level,$viewdoc_array)): ?>
@@ -529,4 +538,6 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
       });
     }
   }
+
+
 </script>

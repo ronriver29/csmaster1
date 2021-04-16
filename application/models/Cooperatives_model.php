@@ -80,6 +80,21 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $data = $query->result_array();
     return $data;
   }
+
+  public function get_registeredcoop_coc($user_id){
+    $this->db->select('registeredcoop.*,refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,payment.date_of_or');
+    $this->db->from('registeredcoop');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->join('payment', 'registeredcoop ON payment.payor = registeredcoop.coopName','inner');
+    $this->db->where('registeredcoop.application_id', $user_id);
+    $this->db->order_by('registeredcoop.id','DESC');
+    $query = $this->db->get();
+    return $query->row();
+  }
+
   public function get_all_cooperatives($user_id){
     $this->db->select('cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('cooperatives');
@@ -289,8 +304,9 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
 
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
     // End Get Coop Type for HO
-    $this->db->select('cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->select('registeredcoop.regNo,cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('cooperatives');
+    $this->db->join('registeredcoop', 'registeredcoop.application_id = cooperatives.id','inner');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
@@ -315,8 +331,9 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
 
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
     // End Get Coop Type for HO
-    $this->db->select('cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->select('registeredcoop.regNo,cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('cooperatives');
+    $this->db->join('registeredcoop', 'registeredcoop.application_id = cooperatives.id','left');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
@@ -488,6 +505,25 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
             return true;
         }
   }
+
+  public function insert_coc_report($data_field){
+        $this->db->trans_begin();
+        $this->db->insert('coopris_report',$data_field);
+        $id = $this->db->insert_id();
+        if($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            return false;
+        }else{
+            $this->db->trans_commit();
+            return true;
+        }
+  }
+
+  public function update_coc_report($regno,$coop_name,$field_data){
+    $this->db->where(array('regNo'=>$regno,'coopName'=>$coop_name));
+    $this->db->update('coopris_report',$field_data);
+  }
+
   public function add_cooperative($data,$major_industry,$subtypes_array,$members_composition){
     $data = $this->security->xss_clean($data);
     $major_industry = $this->security->xss_clean($major_industry);
