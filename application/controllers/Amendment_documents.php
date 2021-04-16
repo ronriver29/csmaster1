@@ -2662,7 +2662,7 @@ public function count_documents_coop($coop_id,$num)
                   redirect('amendment');
                 }else{
                   if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
-                    $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin_amendment($decoded_id);
+                    $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
                     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                     if($data['bylaw_complete']){
                         $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$decoded_id);
@@ -2812,7 +2812,7 @@ public function count_documents_coop($coop_id,$num)
                   redirect('cooperatives');
                 }else{
                   if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
-                    $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+                    $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
                     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                     if($data['bylaw_complete']){
                         $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
