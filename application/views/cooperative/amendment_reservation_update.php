@@ -168,9 +168,9 @@
                 <div class="form-group" style="margin-bottom: 0">
                    <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
-                <!--   <input type="text" class="form-control validate[required,funcCall[validateAmendment_proposed_name],ajax[ajaxAmendmentNameCallPhp]]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> -->
+                  <input type="text" class="form-control validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> 
 
-                   <input type="text" class="form-control validate[required]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>">
+                 <!--   <input type="text" class="form-control validate[required]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> -->
                   <input type="hidden" class="form-control" id="cooperative_idss" />
                 
                 </div>

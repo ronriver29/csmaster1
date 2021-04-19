@@ -15,7 +15,7 @@ class amendment extends CI_Controller{
       $data = array(
         'id' => $this->input->post('payment_id'),
         'or_no' => $this->input->post('orNo'),
-        'date_of_or' => $this->input->post('orDate'),
+        'date_of_or' => $this->input->post('dateofOR'),
         'status' =>1,
         'amendment_id' => $amendment_id
       );

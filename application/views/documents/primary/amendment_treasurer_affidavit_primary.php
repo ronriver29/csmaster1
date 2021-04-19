@@ -71,11 +71,11 @@
           // echo 'b'.$article_info->par_value_common.'<br>';
           // echo 'c'.$total_associate['total_subscribed'].'<br>';
           // echo 'd'. $article_info->par_value_preferred;
-          $subscribed_shared_capitals_inwords= ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$capitalization_info->par_value) : ucwords(num_format_custom($total_regular['total_subscribed'] *$capitalization_info->par_value + $total_associate['total_subscribed'] * $capitalization_info->par_value));
+          $subscribed_shared_capitals_inwords= ($bylaw_info->kinds_of_members == 1) ? str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$capitalization_info->par_value) : $total_regular['total_subscribed'] *$capitalization_info->par_value + $total_associate['total_subscribed'] * $capitalization_info->par_value;
          
           $subscribed_shared_capitals_orig_inwords =  ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? str_replace(',','',$total_regular_orig['total_subscribed']) * str_replace(',','',$article_info_orig->par_value_common) : ucwords(num_format_custom($total_regular_orig['total_subscribed'] * $article_info_orig->par_value_common + $total_associate_orig['total_subscribed'] * $article_info_orig->par_value_preferred));
 
-          echo ($subscribed_shared_capitals_inwords!=$subscribed_shared_capitals_orig_inwords ? "<b>".  $subscribed_shared_capitals_inwords."</b>" :   $subscribed_shared_capitals_inwords).' Pesos';
+          echo ($subscribed_shared_capitals_inwords!=$subscribed_shared_capitals_orig_inwords ? "<b>".ucwords(num_format_custom($subscribed_shared_capitals_inwords))."</b>" :   ucwords(num_format_custom($subscribed_shared_capitals_inwords))).' Pesos';
           ?>
            (Php <?php 
            $subscribed_shared_capitals_num =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$article_info->par_value_common)),2) : number_format(((str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$capitalization_info->par_value)) + (str_replace(',','',$total_associate['total_subscribed']) * str_replace(',','',$capitalization_info->par_value))),2);

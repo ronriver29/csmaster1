@@ -30,21 +30,21 @@ class Migration_modify_users_table extends CI_Migration
         // $exists = ($result)?TRUE:FALSE;
         if($result->num_rows()>0)
         {
-           $qry = $this->db->query("ALTER TABLE users DROP COLUMN regno"); 
+         $this->db->query("ALTER TABLE users DROP COLUMN regno"); 
         }
 
         $result2 = $this->db->query("SHOW COLUMNS FROM `users` LIKE 'files'");
         // $exists = ($result)?TRUE:FALSE;
         if($result2->num_rows()>0)
         {
-           $qry2 = $this->db->query("ALTER TABLE users DROP COLUMN files"); 
+           $this->db->query("ALTER TABLE users DROP COLUMN files"); 
         }
 
         $result3 = $this->db->query("SHOW COLUMNS FROM `users` LIKE 'is_taken'");
         // $exists = ($result)?TRUE:FALSE;
         if($result3->num_rows()>0)
         {
-           $qry3 = $this->db->query("ALTER TABLE users DROP COLUMN is_taken"); 
+            $this->db->query("ALTER TABLE users DROP COLUMN is_taken"); 
         }
     }
 }

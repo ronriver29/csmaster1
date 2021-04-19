@@ -163,7 +163,7 @@ class Amendment_registration extends CI_Controller{
        
          $data1['coop_info']=$coop_details;
 
-        $query_or = $this->db->get_where('payment',array('amendment_id'=>$decoded_id));
+        $query_or = $this->db->get_where('payment',array('amendment_id'=>$decoded_id)); 
         if($query_or->num_rows()>0)
         {
           foreach($query_or->result_array() as $o)
@@ -175,7 +175,7 @@ class Amendment_registration extends CI_Controller{
         {
           $date_OR=now();
         }
-
+        
         $data1['date_year']= date('Y',strtotime($date_OR));
         $data1['date_month'] =date('F',strtotime($date_OR));
         $dateDay = date('d',strtotime($date_OR));

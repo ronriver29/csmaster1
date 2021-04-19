@@ -2550,12 +2550,11 @@ function validateCooperativeWordInNameCustom(field, rules, i, options){
     
   }
 }
-function validateAmendmentWordInNameCustom(field, rules, i, options){
+function validateAmendmentWordInNameCustom(field, rules, i, options){ 
   let tempName = $.trim($(field).val());
   if(tempName.length >0){
     var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa| Credit|Credit |cooperatiba|multipurpose|multi-purpose', 'i');
     var result = checkName.test(tempName);
- 
         if(result){
           return options.allrules.validateAmendment_proposed_name.alertText;
         }

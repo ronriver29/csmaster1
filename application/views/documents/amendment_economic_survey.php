@@ -141,9 +141,28 @@
         <li>
           <?php 
           if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
-            $address_ = $coop_info->house_blk_no.' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.' ';?><?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?> <?=$coop_info->region?>
-            <?php
-            $address_orig_ = $coop_info_orig->house_blk_no.' '.ucwords($coop_info_orig->street).$x.' '.$coop_info_orig->brgy.' ';?><?=($in_chartered_cities ? $chartered_cities : $coop_info_orig->city.', '.$coop_info_orig->province)?> <?=$coop_info_orig->region?>
+           $chartered = '';
+           $chartered_orig='';
+              if($in_chartered_cities){
+                $chartered = $chartered_cities;
+              }
+              else
+              {
+                $chartered = $coop_info->city.', '.$coop_info->province;
+              } 
+
+              if($in_chartered_cities_orig){
+                $chartered_orig = $chartered_cities;
+              }
+              else
+              {
+                $chartered_orig = $coop_info_orig->city.', '.$coop_info_orig->province;
+              } 
+
+            $address_ = $coop_info->house_blk_no.' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.' '.$chartered.' '.($coop_info->region);
+         
+            $address_orig_ = $coop_info_orig->house_blk_no.' '.ucwords($coop_info_orig->street).$x.' '.$coop_info_orig->brgy.' '.$chartered_orig.' '.$coop_info_orig->region;
+            ?>
           <?php  
             if($address_!=$address_orig_)
             {

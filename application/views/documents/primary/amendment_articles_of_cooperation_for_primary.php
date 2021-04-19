@@ -330,18 +330,29 @@
               <tr>
               <?=$count++;?>
               <?php
+              var_dump($cooperator['brgy']);
               $in_chartered_cities_cptr =false;
-                              if($this->charter_model->in_charter_city($cooperator['cCode']))
-                              {
-                              $in_chartered_cities_cptr=true;
-                              $chartered_cities_cptr =$this->charter_model->get_charter_city($cooperator['cCode']);
-                              }
+              if($this->charter_model->in_charter_city($cooperator['cCode']))
+              {
+                $in_chartered_cities_cptr=true;
+                $chartered_cities_cptr =$this->charter_model->get_charter_city($cooperator['cCode']);
+              }
+
+             
+
               ?>                
 
               <?php
               if(isset($cooperators_list_board_orig[$key]))
               {
                   $cooperator_orig = $cooperators_list_board_orig[$key];
+                   $in_chartered_cities_cptr_orig =false;
+                  if($this->charter_model->in_charter_city($cooperator_orig['cCode']))
+                  {
+                    $in_chartered_cities_cptr_orig=true;
+                    $in_chartered_cities_cptr_orig =$this->charter_model->get_charter_city($cooperator_orig['cCode']);
+                  }
+
                   if($cooperator_orig['full_name']!=$cooperator['full_name'])
                   {
                     $cooperator_orig['full_name'] ='<strong>'.$cooperator_orig['full_name'].'</strong>';
@@ -353,14 +364,34 @@
                   else
                   {
                    $x=', '; 
-                  } 
-                  $address = $cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', '.$cooperator['city'].', '.$cooperator['province'];
-                  $address_orig = $cooperator_orig['house_blk_no'].' '.$cooperator_orig['streetName'].$x.$cooperator_orig['brgy'].', ';?> <?=($in_chartered_cities_cptr ? $chartered_cities_cptr : $cooperator_orig['city'].', '.$cooperator_orig['province'])?>
-                  <?php
+                  }
+                  $charter_cptr_orig='';
+                  $charter_cptr = '';
+                  if($in_chartered_cities_cptr)
+                  {
+                    $charter_cptr =$cooperator['city'];
+                  }
+                  else
+                  {
+                    $charter_cptr=$cooperator['city'].', '.$cooperator['province'];
+                  }
+                  if($in_chartered_cities_cptr_orig)
+                  {
+                    $charter_cptr_orig=$cooperator_orig['city'];
+                  }
+                  else
+                  {
+                    $charter_cptr_orig = $cooperator_orig['city'].', '.$cooperator_orig['province'];
+                  }
+
+                  $address = $cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', '.$charter_cptr;
+
+                  $address_orig = $cooperator_orig['house_blk_no'].' '.$cooperator_orig['streetName'].$x.$cooperator_orig['brgy'].', '.$charter_cptr_orig;
+
                   if($address != $address_orig)
                   {
                     $address = '<strong>'.$address.'</strong>';
-                  }
+                  } 
                   ?>
                  
                     <td><?=$count.'. '.$cooperator['full_name']?></td>
@@ -382,8 +413,8 @@
                   {
                    $x=', '; 
                   } 
-                  $address = $cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', '.$cooperator['city'].', '.$cooperator['province'];
-                  $address_orig = $cooperator_orig['house_blk_no'].' '.$cooperator_orig['streetName'].$x.$cooperator_orig['brgy'].', ';?><?=($in_chartered_cities_cptr ? $chartered_cities_cptr : $cooperator['city'].', '.$cooperator['province'])?>
+                  $address = $cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', '. $charter_cptr;
+                  $address_orig = $cooperator_orig['house_blk_no'].' '.$cooperator_orig['streetName'].$x.$cooperator_orig['brgy'].', '.$charter_cptr_orig;
                    $address = '<strong>'.$address.'</strong>';
           ?>
                   <td><?=$count.'. '.$cooperator['full_name']?></td>
