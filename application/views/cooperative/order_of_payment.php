@@ -49,7 +49,7 @@
         $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
 
         $amount_in_words=0;
-        $amount_in_words = ($rf+$lrf+$name_reservation_fee);
+        $amount_in_words = ($rf+$lrf+$name_reservation_fee+100);
         ini_set('precision', 17);
         $total_ = number_format($amount_in_words,2);
         $peso_cents = '';
