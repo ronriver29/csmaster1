@@ -80,7 +80,7 @@
     </tr>
     <tr>
       <td class="bord">Amount in Words</td>
-      <td class="bord" colspan="3"><b>'.ucwords(num_format_custom($rf+$lrf+$name_reservation_fee)).' Pesos</b></td>
+      <td class="bord" colspan="3"><b>'.ucwords(num_format_custom($rf+$lrf+$name_reservation_fee+100)).' Pesos</b></td>
     </tr>
     <tr>
       <td class="bord" colspan="4" align="center">Particulars</td>
