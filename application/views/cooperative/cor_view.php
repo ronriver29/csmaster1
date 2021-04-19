@@ -21,6 +21,7 @@ ini_set('output_buffering', true); // no limit
   </style>
 </head> 
 <body>
+	<!-- <?=$mydateregistered;?> -->
 	<!-- <div  style="border: 10px black double; border-radius: 30px; padding: 20px"> -->
 	<div style="height: 1060px;border: 10px black double; border-radius: 30px;padding:20px;">
 	<table width="100%">
@@ -116,7 +117,8 @@ ini_set('output_buffering', true); // no limit
 		</td>
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
 		<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
+			<!-- <img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;"> -->
+			<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;padding-left:140px;">
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
@@ -228,7 +230,8 @@ ini_set('output_buffering', true); // no limit
 		</td>
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
 		<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
+			<!-- <img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;"> -->
+			<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;padding-left:140px;">
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
@@ -346,7 +349,8 @@ ini_set('output_buffering', true); // no limit
 		</td>
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
 		<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
+			<!-- <img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;"> -->
+			<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;padding-left:140px;">
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>

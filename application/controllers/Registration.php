@@ -92,8 +92,20 @@ class registration extends CI_Controller{
         // save image path in tree table
         $this->registration_model->save_qr_code($coop_details->regNo, $image_name);
 //      }
+      $registereddate = date("Y-m-d",strtotime($coop_details->dateRegistered));
+      // 04-18-2021
+      if($coop_details->dateRegistered >= "04-19-2021"){
+        // $data1['mydateregistered'] = $coop_details->dateRegistered;
+        $data1['signature'] = "../assets/img/camille.png"; 
+        $data1['chair'] = $this->registration_model->get_chairman()->chairman;
+      } else {
+        // $data1['mydateregistered'] = $registereddate;
+        $data1['chair'] = $this->registration_model->get_chairman2()->chairman;
+        $data1['signature'] = "../assets/img/1.png"; 
+      }
+
+
       
-      $data1['chair'] = $this->registration_model->get_chairman()->chairman;
       $data1['coop_info']=$coop_details;
       // $data1['director']=$this->registration_model->get_director($user_id)->full_name;
       // Get Count Coop Type for HO
@@ -239,6 +251,7 @@ class registration extends CI_Controller{
         }
         
         $data1['chair'] = $this->registration_model->get_chairman()->chairman;
+        $data1['effectivity_date'] = $this->registration_model->get_chairman()->effectivity_date;
         $data1['branch_info']=$branch_details;
         // $data1['director']=$this->registration_model->get_director($user_id)->full_name;
         $data1['type']=$type;
