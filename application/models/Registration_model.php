@@ -212,7 +212,15 @@ class registration_model extends CI_Model{
   public function get_chairman(){
       $this->db->select('*');
       $this->db->from('chairman');
-      $this->db->where(array('active_status' => 1));
+      $this->db->where('active_status = 1 AND effectivity_date > "2021-04-18"');
+      $query = $this->db->get();
+
+      return $query->row();
+  }
+  public function get_chairman2(){
+      $this->db->select('*');
+      $this->db->from('chairman');
+      $this->db->where('active_status = 1 AND effectivity_date <= "2021-04-18"');
       $query = $this->db->get();
 
       return $query->row();
