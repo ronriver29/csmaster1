@@ -69,11 +69,9 @@ $config['migration_auto_latest'] = TRUE;
 | be upgraded / downgraded to.
 |
 */
-<<<<<<< Updated upstream
-$config['migration_version'] = 71;
-=======
-$config['migration_version'] = 70;
->>>>>>> Stashed changes
+
+$config['migration_version'] = 72;
+
 
 /*
 |--------------------------------------------------------------------------
