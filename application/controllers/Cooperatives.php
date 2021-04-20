@@ -993,7 +993,7 @@
         $data1['coopName'] = $coop_info->coopName;
         $data1['address'] = $coop_info->noStreet.' '.$coop_info->Street.', '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
 
-        $timestamp = str_replace('-', '/', $coop_info->dateRegistered);
+        $timestamp = str_replace('-', '/', $coop_info->date_of_or);
         $data1['date_registered'] = date('F d, Y',strtotime($timestamp));
 
         $data1['validity'] = $this->input->post('validity');

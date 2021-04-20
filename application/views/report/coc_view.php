@@ -109,7 +109,8 @@
 
   <tr>
     
-    <td colspan="2" style="text-align: right; font-size: 12pt;" class="calibri"><b>COC No: N-<?=$region_code."-".date("Y",strtotime($date_registered))."-".$coc_number; ?> </b></td>
+    <td colspan="2" style="text-align: right; font-size: 12pt;" class="calibri"><b>COC No: <?=$coc_number; ?> </b></td>
+    <!-- <td colspan="2" style="text-align: right; font-size: 12pt;" class="calibri"><b>COC No: N-<?=$region_code."-".date("Y",strtotime($date_registered))."-".$coc_number; ?> </b></td> -->
   </tr>
 
   <tr>
