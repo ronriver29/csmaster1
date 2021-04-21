@@ -304,15 +304,16 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
 
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
     // End Get Coop Type for HO
-    $this->db->select('registeredcoop.regNo,cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->select('registeredcoop.*,cooperatives.*,payment.date_of_or, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('cooperatives');
     $this->db->join('registeredcoop', 'registeredcoop.application_id = cooperatives.id','inner');
+    $this->db->join('payment', 'registeredcoop ON payment.payor = registeredcoop.coopName','inner');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status = 15 AND type_of_cooperative NOT IN ('.$typeofcoopimp.')');
+    $this->db->where('cooperatives.status = 15 AND cooperatives.type_of_cooperative NOT IN ('.$typeofcoopimp.')');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
@@ -331,15 +332,16 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
 
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
     // End Get Coop Type for HO
-    $this->db->select('registeredcoop.regNo,cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->select('registeredcoop.*,cooperatives.*,payment.date_of_or, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('cooperatives');
     $this->db->join('registeredcoop', 'registeredcoop.application_id = cooperatives.id','left');
+    $this->db->join('payment', 'registeredcoop ON payment.payor = registeredcoop.coopName','inner');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     // $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status = 15 AND type_of_cooperative IN ('.$typeofcoopimp.')');
+    $this->db->where('cooperatives.status = 15 AND cooperatives.type_of_cooperative IN ('.$typeofcoopimp.')');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
