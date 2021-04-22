@@ -995,13 +995,13 @@
         if($coop_info->noStreet == ''){
           $noStreet = '';
         } else {
-          $noStreet = $coop_info->noStreet;
+          $noStreet = $coop_info->noStreet.' ';
         }
 
         if($coop_info->Street == ''){
           $street = '';
         } else {
-          $street = $coop_info->Street;
+          $street = $coop_info->Street.', ';
         }
 
 
