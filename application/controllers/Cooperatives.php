@@ -1005,7 +1005,7 @@
         }
 
 
-        $data1['address'] = $noStreet.' '.$street.', '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
+        $data1['address'] = $noStreet.$street.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
 
         $timestamp = str_replace('-', '/', $coop_info->date_of_or);
         $data1['date_registered'] = date('F d, Y',strtotime($timestamp));
