@@ -118,7 +118,9 @@ ini_set('output_buffering', true); // no limit
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
 		<td  style="text-align: center;padding-left:150px;"> 	
 			<!-- <img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;"> -->
-			<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;padding-left:140px;">
+			<div style="margin-top:-45px;">
+				<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;padding-left:110px;">
+			</div>
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
@@ -231,7 +233,9 @@ ini_set('output_buffering', true); // no limit
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
 		<td  style="text-align: center;padding-left:150px;"> 	
 			<!-- <img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;"> -->
-			<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;padding-left:140px;">
+			<div style="margin-top:-45px;">
+				<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;padding-left:110px;">
+			</div>
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
@@ -350,7 +354,9 @@ ini_set('output_buffering', true); // no limit
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
 		<td  style="text-align: center;padding-left:150px;"> 	
 			<!-- <img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;"> -->
-			<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;padding-left:140px;">
+			<div style="margin-top:-45px;">
+				<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;padding-left:110px;">
+			</div>
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
