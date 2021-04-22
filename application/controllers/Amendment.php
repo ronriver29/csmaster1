@@ -35,11 +35,20 @@ class amendment extends CI_Controller{
           $data['title'] = 'List of Cooperatives';
           $data['client_info'] = $this->user_model->get_user_info($user_id);
           $data['header'] = 'Amendment';
-          $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives($this->session->userdata('user_id'));
-            // $this->debug( $data['list_cooperatives']);
          
-          $this->load->view('template/header', $data);
-          $this->load->view('applications/list_of_amendment', $data);
+          
+          // $this->debug($data['list_of_migrated_coop']);
+            $this->load->view('template/header', $data);
+           if($data['client_info']->regno == NULL)
+           {
+             $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives($this->session->userdata('user_id'));
+            $this->load->view('applications/list_of_amendment', $data);
+           }
+           else
+           {
+              $data['list_cooperatives'] = $this->amendment_model->reg_coop_migrated_data($user_id);
+              $this->load->view('applications/list_of_reg_amendment', $data);
+           }
           $this->load->view('amendment/delete_modal_amendment');
           $this->load->view('template/footer');
         }else{
@@ -135,6 +144,7 @@ class amendment extends CI_Controller{
                 // End Registered Coop Process by Head Office
                 $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_director($data['admin_info']->region_code,$amendment_id);
+
                 $data['list_of_cooperative_by_ho_process'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
               }
             }
@@ -173,8 +183,15 @@ class amendment extends CI_Controller{
                   $temp = FALSE;
               }
               if ($temp == FALSE){
-                $data['regNo'] =$this->load_regNo($user_id);
-
+                if($data['client_info']->regNo =NULL)
+                {
+                   $data['regNo'] =$this->load_regNo($user_id);
+                }
+                else
+                {
+                   $data['regNo'] = $this->load_regNo_reg($user_id);
+                }
+                // echo $this->db->last_query();
                 ini_set('display_errors', 1);
                 $this->load->view('./template/header', $data);
                 $this->load->view('cooperative/amendment_detail', $data);
@@ -280,7 +297,7 @@ class amendment extends CI_Controller{
                 );
                 // $this->debug($field_data);
                 // $this->debug($this->amendment_model->if_had_amendment($coop_id));
-                if($this->amendment_model->if_had_amendment($coop_id))
+                if($this->amendment_model->if_had_amendment($this->input->post('regNo')))
                 {
                 	 // $this->debug($this->amendment_model->add_amendment($field_data,$major_industry,$subclass_array,$members_composition,$typeOfCooperative));
                   if($this->amendment_model->add_amendment($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative))
@@ -343,13 +360,46 @@ class amendment extends CI_Controller{
             $regno = NULL;
           }
           return $regno;
+      }   
+    }
+    public function load_regNo_reg($user_id)
+    {
+      $query_user_reg = $this->db->query("SELECT regno FROM users where id='$user_id'");
+      if($query_user_reg->num_rows()>0)
+      {
+        foreach($query_user_reg->result_array() as $row)
+        {
+           $data = $row['regno'];
+        }
       }
       else
       {
-
+        $data = NULL;
       }
+      return $data;
+      // $qry_user = $this->db->get_where('amend_coop',array('users_id'=>$user_id));
+      // if($qry_user->num_rows()>0)
+      // {
+      //   foreach($qry_user->result_array() as $urow)
+      //   {
+      //     $cooperative_id = $urow['id'];
+      //   }
 
-      
+      //     $qry = $this->db->get_where('registeredcoop',array('application_id'=>$cooperative_id));
+      //     if($qry->num_rows()>0)
+      //     {
+      //       foreach($qry->result_array() as $row)
+      //       {
+      //         $regno = $row['regNo'];
+      //       }
+
+      //     }
+      //     else
+      //     {
+      //       $regno = NULL;
+      //     }
+      //     return $regno;
+      // }   
     }
 
 
@@ -2068,13 +2118,28 @@ class amendment extends CI_Controller{
       echo json_encode($data);
     }
     public function coop_info($regNo){
-      $qr =$this->db->query("select application_id from registeredcoop where regNo='$regNo' order by id desc limit 1");
-      foreach($qr->result() as $c)
-      {
-        $cooperative_id = $c->application_id;
-      }
-     
-      if($this->amendment_model->if_had_amendment($cooperative_id))
+       $user_id = $this->session->userdata('user_id');
+      $datas['client_info'] = $this->user_model->get_user_info($user_id);
+      
+                if($datas['client_info']->regNo =NULL)
+                {
+                  $qr =$this->db->query("select application_id from registeredcoop where regNo='$regNo' order by id desc limit 1");
+                  foreach($qr->result() as $c)
+                  {
+                    $cooperative_id = $c->application_id;
+                  }
+                }
+                else
+                {
+                  //FOR MIGRATED AMENDMENT data
+                   $qr =$this->db->query("select amendment_id from registeredcoop where regNo='$regNo' order by id desc limit 1");
+                  foreach($qr->result() as $c)
+                  {
+                    $cooperative_id = $c->amendment_id;
+                  }
+                }
+
+      if($this->amendment_model->if_had_amendment($regNo))
       {
         $a_qty = $this->db->query("select amendment_id from registeredcoop where regNo='$regNo'");
         foreach($a_qty->result() as $a)
@@ -2083,7 +2148,7 @@ class amendment extends CI_Controller{
         }
          $data = $this->amendment_model->get_amendment($amendment_id);
 
-         //get business activity
+         // get business activity
          $this->db->select('major_industry.id as bactivity_id, major_industry.description as bactivity_name, subclass.id as bactivitysubtype_id, subclass.description as bactivitysubtype_name');
           $this->db->from('business_activities_cooperative_amendment');
           $this->db->join('industry_subclass_by_coop_type' , 'industry_subclass_by_coop_type.id = business_activities_cooperative_amendment.industry_subclass_by_coop_type_id','inner');
@@ -2098,7 +2163,9 @@ class amendment extends CI_Controller{
       }
       else
       {
+        // echo "dito";
          $data = $this->amendment_model->get_coop($regNo);
+         // echo $this->db->last_query();
         $this->db->select('major_industry.id as bactivity_id, major_industry.description as bactivity_name, subclass.id as bactivitysubtype_id, subclass.description as bactivitysubtype_name');
           $this->db->from('business_activities_cooperative');
           $this->db->join('industry_subclass_by_coop_type' , 'industry_subclass_by_coop_type.id = business_activities_cooperative.industry_subclass_by_coop_type_id','inner');
@@ -2106,6 +2173,7 @@ class amendment extends CI_Controller{
           $this->db->join('subclass', 'subclass.id = industry_subclass_by_coop_type.subclass_id','inner');
           $this->db->where('business_activities_cooperative.cooperatives_id',$cooperative_id);
           $query = $this->db->get();
+          // echo $this->db->last_query();
           $data2 = $query->result_array();
           $data->business_activities = $data2;
           echo json_encode($data);
