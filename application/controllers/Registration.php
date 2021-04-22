@@ -94,9 +94,9 @@ class registration extends CI_Controller{
 //      }
       $registereddate = date("Y-m-d",strtotime($coop_details->dateRegistered));
       // 04-18-2021
-      if($coop_details->date_of_or >= "2021-04-19"){
+      if($coop_details->date_of_or >= "2021-04-15"){
         // $data1['mydateregistered'] = $coop_details->date_of_or;
-        $data1['signature'] = "../assets/img/camille.png"; 
+        $data1['signature'] = "../assets/img/AsecJoy.png"; 
         $data1['chair'] = $this->registration_model->get_chairman()->chairman;
       } else {
         // $data1['mydateregistered'] = $registereddate;
