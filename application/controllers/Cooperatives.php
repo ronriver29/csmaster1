@@ -991,7 +991,21 @@
         // $data1['coc_number'] = 01;
 
         $data1['coopName'] = $coop_info->coopName;
-        $data1['address'] = $coop_info->noStreet.' '.$coop_info->Street.', '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
+
+        if($coop_info->noStreet == ''){
+          $noStreet = '';
+        } else {
+          $noStreet = $coop_info->noStreet;
+        }
+
+        if($coop_info->Street == ''){
+          $street = '';
+        } else {
+          $street = $coop_info->Street;
+        }
+
+
+        $data1['address'] = $noStreet.' '.$street.', '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
 
         $timestamp = str_replace('-', '/', $coop_info->date_of_or);
         $data1['date_registered'] = date('F d, Y',strtotime($timestamp));
