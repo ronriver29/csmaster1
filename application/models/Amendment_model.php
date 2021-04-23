@@ -368,9 +368,9 @@ class amendment_model extends CI_Model{
   }
 
 
-  public function if_had_amendment($cooperative_id)
+  public function if_had_amendment($regNo)
   {
-    $qry = $this->db->query("select * from amend_coop where cooperative_id ='$cooperative_id' and status =15 order by id desc limit 1");
+    $qry = $this->db->query("select * from amend_coop where regNo ='$regNo' and status =15 order by id desc limit 1");
     if($qry->num_rows()==1)
     {
       return true;
@@ -2246,5 +2246,22 @@ public function check_if_denied($coop_id){
     return true;
   }
 }
+  
+  public function reg_coop_migrated_data($user_id)
+  {
+     $this->db->select('amend_coop.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->from('amend_coop');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->join('registeredcoop', 'amend_coop.regNo = registeredcoop.regNo');
+    $this->db->join('users', 'amend_coop.regNo = users.regNo');
+    $this->db->where('amend_coop.status =15 and users.id='.$user_id);
+    
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
 
 }

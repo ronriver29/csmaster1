@@ -152,8 +152,7 @@ $route['laboratories/(:any)/laboratories_documents/economic_survey_lab'] = 'labo
 
 $route['amendment/(:any)/amendment_cooperators/check_edit_position_not_exist'] = 'amendment_cooperators/check_edit_position_not_exist';
 $route['amendment/(:any)/amendment_cooperators/get_post_cooperator_info_ajax'] = 'amendment_cooperators/get_post_cooperator_info_ajax';
-//$route['laboratories/deny_cooperative'] = 'laboratories/deny_cooperative';
-//$route['laboratories/defer_cooperative'] = 'laboratories/defer_cooperative';
+$route['amendment/coop_info/(:any)'] = 'amendment/coop_info/$1';
 
 
 $route['bylaws/(:any)/union'] = 'bylaws/union/$1';
@@ -356,6 +355,7 @@ $route['amendment/(:any)/amendment_cooperative_tool'] = 'amendment_cooperative_t
 $route['amendment/(:any)/amendment_registration'] = 'amendment_registration/index/$1';
 $route['amendment/(:any)/amendment_capitalization'] = 'amendment_capitalization/index/$1';
 $route['amendment/(:any)/amendment_committees/check_committee_name_not_exists'] = 'amendment_committees/check_committee_name_not_exists/$1';
+
 
 $route['users/login'] = 'users/login';
 $route['users/logout'] = 'users/logout';
