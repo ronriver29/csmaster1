@@ -29,13 +29,13 @@
                 </div>
                 <div class="col-sm-12 col-md-12">
                   <div class="form-group">
-                    <label for="specialistID" class="font-weight-bold">Full Name:</label>
+                    <label for="specialistID" class="font-weight-bold">Signatory:</label>
                     <input type="text" class="form-control validate[required]" name="full_name" id="full_name" value="">
                   </div>
                 </div>
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
-                      <label for="specialistID" class="font-weight-bold">Inspector</label>
+                      <label for="specialistID" class="font-weight-bold">Signatory Designation</label>
                       <?php $arr = array("Chairperson","Director II","Director III","Administrator","Executive Director","Acting Director","OIC Director"); ?>
                       <select name="sign" class="form-control" id="sign">
                         <?php foreach($arr as $a) : ?>
