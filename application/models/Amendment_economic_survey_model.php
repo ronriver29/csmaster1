@@ -59,7 +59,9 @@ class Amendment_economic_Survey_model extends CI_Model{
         foreach ($data as $key => $value){
           if(empty($value)) $counter++;
         }
-        if($counter<=14){
+        // if($counter<=14){
+        if($counter <14 || $counter =14 )
+        { 
           return true;
         }else{
           return false;
@@ -67,5 +69,6 @@ class Amendment_economic_Survey_model extends CI_Model{
     } else {
         return false;
     }
+    // return $counter;
   }
 }
