@@ -36,13 +36,13 @@ class registration extends CI_Controller{
       }
       // $this->debug($coop_info);
       if ($coop_info->status==14){
-        if(!$this->registration_model->register_coop($decoded_id,$coop_info->rCode,$pst,$acronymname))
+        if(!$this->registration_model->register_coop($decoded_id,$coop_info,$pst,$acronymname))
         {
             echo "Failed to print registration detials";
             exit;
         }
       }
-      $cName=$coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' '.$coop_info->grouping;
+      $cName=rtrim($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' '.$coop_info->grouping);
       $coop_details = $this->registration_model->get_coop_info($cName);
       // $this->debug($coop_details);
       // echo $this->db->last_query();

@@ -50,16 +50,37 @@ class registration_model extends CI_Model{
   }
 
 
-  public function register_coop($coop_id,$rCode,$pst,$acronymname){
+  public function register_coop($coop_id,$coop_info,$pst,$acronymname){
     $this->db->trans_begin();
     $x=$this->registered_coop_count()+1;
-    $j='9520-'.$pst.$rCode;
+    $j='9520-'.$pst.$coop_info->rCode;
     for($a=strlen($x);$a<8;$a++) //modify by json from 12 to 8
       $j=$j.'0';
     $j=$j.$x;
-
-    $sql=" INSERT INTO registeredcoop(coopName, regNo, category, type, dateRegistered, commonBond, areaOfOperation, noStreet, street, addrCode, compliant,application_id) SELECT RTRIM(CONCAT(proposed_name, ' ', type_of_cooperative,' Cooperative ','$acronymname',' ','grouping')), ?, category_of_cooperative, type_of_cooperative, ?, common_bond_of_membership, area_of_operation, house_blk_no, street, refbrgy_brgyCode, 'Compliant',id FROM cooperatives WHERE id=".$coop_id;
-    $this->db->query($sql,array($j,date('m-d-Y',now('Asia/Manila'))));
+    $grouping ='';
+    if(strlen($coop_info->grouping)>0)
+    {
+      $grouping=' '.$coop_info->grouping;
+    }
+    $coopName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative'.' '.$acronymname.$grouping;
+    // proposed_name, ' ', type_of_cooperative,' Cooperative ','$acronymname',' ',grouping
+    $data_reg = array(
+        'coopName'=>$coopName , 
+        'regNo'=> $j, 
+        'category'=> $coop_info->category_of_cooperative, 
+        'type'=> $coop_info->type_of_cooperative, 
+        'dateRegistered'=> date('m-d-Y',now('Asia/Manila')), 
+        'commonBond'=> $coop_info->common_bond_of_membership, 
+        'areaOfOperation'=> $coop_info->area_of_operation, 
+        'noStreet'=> $coop_info->house_blk_no, 
+        'street'=> $coop_info->street, 
+        'addrCode'=> $coop_info->refbrgy_brgyCode, 
+        'compliant'=>'Compliant',
+        'application_id'=> $coop_id
+    );
+    $this->db->insert('registeredcoop',$data_reg);
+    // $sql=" INSERT INTO registeredcoop(coopName, regNo, category, type, dateRegistered, commonBond, areaOfOperation, noStreet, street, addrCode, compliant,application_id) SELECT RTRIM(CONCAT(proposed_name, ' ', type_of_cooperative,' Cooperative ','$acronymname',' ',grouping)), ?, category_of_cooperative, type_of_cooperative, ?, common_bond_of_membership, area_of_operation, house_blk_no, street, refbrgy_brgyCode, 'Compliant',id FROM cooperatives WHERE id=".$coop_id;
+    // $this->db->query($sql,array($j,date('m-d-Y',now('Asia/Manila'))));
 
     $this->db->update('cooperatives', array('status'=>15),array('id'=>$coop_id));
 
