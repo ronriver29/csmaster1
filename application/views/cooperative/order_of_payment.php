@@ -38,7 +38,7 @@
       <td class="bord">Date</td>
       <td class="bord" colspan="3"><b><?=$tDate?></b></td>
     </tr>
-    <?php var_dump($capitalization_info);
+    <?php //  var_dump($capitalization_info);
     if(!empty($coop_info->acronym_name)){ 
         $acronym_name = '('.$coop_info->acronym_name.')';
     } else {
@@ -49,7 +49,8 @@
         $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
 
         $amount_in_words=0;
-        $amount_in_words = ($rf+$lrf+$name_reservation_fee+100);
+        // $amount_in_words = ($rf+$lrf+$name_reservation_fee+100);
+         $amount_in_words = ($rf+$lrf+$name_reservation_fee);
         ini_set('precision', 17);
         $total_ = number_format($amount_in_words,2);
         $peso_cents = '';
@@ -93,7 +94,18 @@
       <td class="pera"width="5%"> </td>
       <td class="pera" align="right" width="13%"><b>'.number_format($lrf,2).'</b></td>
     </tr>
+     <tr>
+      <td colspan="4"></td>
+    </tr>
     <tr>
+      <td class="bord" colspan="2">Total </td>
+      <td class="taas"  width="5%">Php </td>
+      <td class="taas" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
+    </tr>';
+  }
+  ?>
+  
+<!--     <tr>
     <td width="23%"></td>
       <td class="pera"width=""><b>COC Fee</b></td>
       <td class="pera"width="5%"> </td>
@@ -108,7 +120,7 @@
       <td class="taas" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee+100,2).'</b></td>
     </tr>';
     }
-    ?>
+    ?> -->
     <div>
     <u>Payment of Fees</u>
         <ol type="1">

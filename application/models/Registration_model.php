@@ -58,7 +58,7 @@ class registration_model extends CI_Model{
       $j=$j.'0';
     $j=$j.$x;
 
-    $sql=" INSERT INTO registeredcoop(coopName, regNo, category, type, dateRegistered, commonBond, areaOfOperation, noStreet, street, addrCode, compliant,application_id) SELECT RTRIM(CONCAT(proposed_name, ' ', type_of_cooperative,' Cooperative ','$acronymname',' ',grouping)), ?, category_of_cooperative, type_of_cooperative, ?, common_bond_of_membership, area_of_operation, house_blk_no, street, refbrgy_brgyCode, 'Compliant',id FROM cooperatives WHERE id=".$coop_id;
+    $sql=" INSERT INTO registeredcoop(coopName, regNo, category, type, dateRegistered, commonBond, areaOfOperation, noStreet, street, addrCode, compliant,application_id) SELECT RTRIM(CONCAT(proposed_name, ' ', type_of_cooperative,' Cooperative ','$acronymname',' ','grouping')), ?, category_of_cooperative, type_of_cooperative, ?, common_bond_of_membership, area_of_operation, house_blk_no, street, refbrgy_brgyCode, 'Compliant',id FROM cooperatives WHERE id=".$coop_id;
     $this->db->query($sql,array($j,date('m-d-Y',now('Asia/Manila'))));
 
     $this->db->update('cooperatives', array('status'=>15),array('id'=>$coop_id));
