@@ -826,10 +826,11 @@ function do_upload_others(){
     $data['encrypted_id'] = $id;
     $data['doc_types'] = $doc_type;
     $count_coop = $this->count_documents2($decoded_id,$doc_type);
+
     if($count_coop>0){
-        $data['uploaded_list_pdf'] = $this->count_documents2($decoded_id,$doc_type);
+        // $data['uploaded_list_pdf'] = $this->count_documents2($decoded_id,$doc_type);
         $data['uploaded_list_pdf'] = $this->count_documents($decoded_id,$doc_type);
-        
+        // $this->debug( $data['uploaded_list_pdf']);
     } else {
         $data['uploaded_list_pdf'] = $this->count_documents($decoded_id,$doc_type);
     }
@@ -904,7 +905,7 @@ public function count_documents_coop($coop_id,$num)
   }
   public function count_documents($amendment_id,$num)
   {
-//    $query = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coop_id, 'document_num'=>$num,'status'=>1));
+
     $query = $this->db->get_where('amendment_uploaded_documents',array('amendment_id'=>$amendment_id, 'document_num'=>$num,'status'=>1));
     if($query->num_rows()>0)
     {
@@ -3758,9 +3759,10 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
           if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
              $data['coop_infos'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
+            $random_ = random_string('alnum',5);
             $coop_status = $data['coop_infos']->status;
             $config['upload_path'] = UPLOAD_AMD_DIR;
-            $config['file_name'] = $this->session->userdata('user_id').'_'.$decoded_id.'_surety_bond.pdf';
+            $config['file_name'] = $random_.'_'.$this->session->userdata('user_id').'_'.$decoded_id.'_surety_bond.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
             $this->load->library('upload', $config);

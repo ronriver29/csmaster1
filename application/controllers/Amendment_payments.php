@@ -61,7 +61,7 @@ class Amendment_payments extends CI_Controller{
                                     $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
                                     $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                                     $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-                                    $data['name_reservation_fee']=100.00;
+                                    // $data['name_reservation_fee']=100.00;
                                     $data['pay_from']='reservation';
 
                                     $data['coop_capitalization']=$this->coop_capitalization($cooperative_id);
