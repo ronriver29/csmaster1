@@ -2113,8 +2113,8 @@ class amendment extends CI_Controller{
     public function coop_info($regNo){
        $user_id = $this->session->userdata('user_id');
       $datas['client_info'] = $this->user_model->get_user_info($user_id);
-      
-                if($datas['client_info']->regNo =NULL)
+      // echo $this->db->last_query();
+                if(strlen($datas['client_info']->regno)<1)
                 {
                   $qr =$this->db->query("select application_id from registeredcoop where regNo='$regNo' order by id desc limit 1");
                   foreach($qr->result() as $c)
@@ -2135,11 +2135,11 @@ class amendment extends CI_Controller{
 
       if($this->amendment_model->if_had_amendment($regNo))
       {
-        // $a_qty = $this->db->query("select amendment_id from registeredamendment where regNo='$regNo'");
-        // foreach($a_qty->result() as $a)
-        // {
-        //   $amendment_id = $a->amendment_id;
-        // }
+        $a_qty = $this->db->query("select amendment_id from registeredamendment where regNo='$regNo'");
+        foreach($a_qty->result() as $a)
+        {
+          $amendment_id = $a->amendment_id;
+        }
          $data = $this->amendment_model->get_amendment($amendment_id);
 
          // get business activity
@@ -2150,7 +2150,7 @@ class amendment extends CI_Controller{
           $this->db->join('subclass', 'subclass.id = industry_subclass_by_coop_type.subclass_id','inner');
           $this->db->where('business_activities_cooperative_amendment.amendment_id',$amendment_id);
           $qry  = $this->db->get();
-          $data2 = $qry->result_array();
+          $data2 = $qry->result_array(); 
           $data->business_activities = $data2;
          //end busineess activity
          echo json_encode($data);
