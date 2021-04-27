@@ -64,24 +64,39 @@
 
             <?php
               if ($pay_from=='reservation'){
+               
+                 $basic_reservation_fee =300;
+                 $name_reservation_fee =0;
+                 $acronym ='';
+                 // $amendment_name = ''; 
+                 if(strlen($coop_info->acronym)>0)
+                 {
+                  $acronym = '('.$coop_info->acronym.')';
+                  $amendment_name = $coop_info->proposed_name.$acronym;
+                 }
+                 else
+                 {
+                    $amendment_name = $coop_info->proposed_name;
+                 }
 
-                // $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $article_info->par_value_common : $total_regular['total_paid'] * $article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $article_info->par_value_common) : ($total_regular['total_paid'] *$article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred)) *0.001 : 500.00);
                 if(count(explode(',',$coop_info->type_of_cooperative))>1)
                 {
-                  $proposeName = $coop_info->proposed_name.' Multipurpose Cooperative'.$coop_info->grouping;
+                  $proposeName = $coop_info->proposed_name.' Multipurpose Cooperative'.$coop_info->grouping.' '.$acronym;
                 }
                 else
                 {
-                    $proposeName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.'  Cooperative '.$coop_info->grouping;
+
+                    $proposeName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.'  Cooperative '.$coop_info->grouping.' '.$acronym;;
                 }
-                if($original_coop_name!=$proposeName)
+               
+                $name_comparison = strcasecmp($original_coop_name,$amendment_name);
+                if($name_comparison>0)
                 {
-                   $basic_reservation_fee =300;
+                
+                  $name_reservation_fee = 100;
                 }
-                else
-                {
-                   $basic_reservation_fee =0;
-                }
+                
+                
                 $rf=0;
                 //fixed amount
                 $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_capitalization->total_amount_of_paid_up_capital;
@@ -118,13 +133,14 @@
                 <tr>
                   <td class="bord">Amount in Words</td>
                   <td class="bord" colspan="3"><b>'.ucwords(num_format_custom($rf+$lrf+$name_reservation_fee)).' Pesos</b></td>
-                </tr>';
-                if($original_coop_name!=$proposeName)
-                {
-                  echo'
+                </tr>
                 <tr>
                   <td class="bord" align="center" colspan="4">Particulars</td>
-                </tr>
+                </tr>';
+                if(strcasecmp($original_coop_name,$amendment_name)>0)
+                {
+                  echo'
+                
                 <tr>
                   <td width="23%"></td>
                   <td class="pera" width=""><b>Name Reservation Fee</b></td>

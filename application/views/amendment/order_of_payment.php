@@ -42,6 +42,22 @@
       if ($nature=='Amendment'){ 
         $rf=0;
         $basic_reservation_fee =300; //fixed amount
+        $name_reservation_fee =0;
+        $acronym ='';
+        if(strlen($coop_info->acronym)>0)
+        {
+          $acronym = '('.$coop_info->acronym.')';
+          $amendment_name = $coop_info->proposed_name.$acronym;
+        }
+        else
+        {
+           $amendment_name = $coop_info->proposed_name;
+        }
+          var_dump($original_coop_name);echo"<br>";var_dump($amendment_name);
+        if(strcasecmp($original_coop_name,$amendment_name)>0)
+        {
+          $name_reservation_fee =100;
+        } 
         $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_capitalization->total_amount_of_paid_up_capital;
         //amendment paid up is greater than coop total paid up
         if($diff_amount>0)
@@ -55,7 +71,7 @@
         {
           $rf =  $basic_reservation_fee;
         }
-        // $lrf=(($rf+$name_reservation_fee)*.01>10) ?($rf+$name_reservation_fee)*.01 : 10;
+        
                $lrf=$rf*0.01;
                  if($lrf<10)
                  {
@@ -86,7 +102,7 @@
       <td class="bord" colspan="4" align="center">Particulars</td>
     </tr>';
 
-     if($original_coop_name!=$proposeName)
+    if(strcasecmp($original_coop_name,$amendment_name)>0)
       {
         echo' 
         <tr>
