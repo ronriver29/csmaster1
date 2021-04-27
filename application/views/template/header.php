@@ -35,7 +35,7 @@
       <div class="sidebar-header">
         <div class="row">
           <div class="col-sm-3">
-            <img src="<?=base_url();?>assets/img/cda.png" width="50" height="50" class="d-inline-block align-top" alt="Responsive image">
+            <img src="<?=base_url();?>assets/img/cda_new.png" width="50" height="50" class="d-inline-block align-top" alt="Responsive image">
           </div>
           <div class="col-sm-8 align-self-center">
             <p class="h3">Coop<strong>RIS</strong></p>

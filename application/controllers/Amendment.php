@@ -95,33 +95,25 @@ class amendment extends CI_Controller{
               if($data['admin_info']->region_code=="00"){
                 // Registered Coop Process by Head Office
                   $data['list_cooperatives_registered_by_ho'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
-
-                // End Registered Coop Process by Head Office
-                // $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code);
-             
-               // var_dump($amendment_id);
                 if(count($amendment_id)>0) 
                 {
-                  // echo "dito";
-                    $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_ho_senior($data['admin_info']->region_code,$amendment_id);
-                    // echo $this->db->last_query();    
+                    $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_ho_senior($data['admin_info']->region_code,$amendment_id);  
                 } 
                 else
                 {
                       $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_ho_senior2("00");
                 }  
-                // echo $this->db->last_query();
-                // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
+               
               }
               else 
               {
                 // Registered Coop Process by Head Office
-                  $data['list_cooperatives_registered_by_ho'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+                $data['list_cooperatives_registered_by_ho'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
                 // End Registered Coop Process by Head Office
                 $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_senior($data['admin_info']->region_code,$amendment_id);
-                // echo $this->db->last_query();
                 $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code); 
+
                 $data['list_of_cooperative_by_ho_process'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
 
               }
@@ -153,7 +145,7 @@ class amendment extends CI_Controller{
             $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code); 
             $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
             $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
-             // $this->debug($data['list_cooperatives'])
+             // $this->debug($data['list_cooperatives']);
               $this->load->view('templates/admin_header', $data);
               $this->load->view('applications/list_of_amendment', $data);
               $this->load->view('applications/assign_admin_modal_amendment');
@@ -183,15 +175,16 @@ class amendment extends CI_Controller{
                   $temp = FALSE;
               }
               if ($temp == FALSE){
-                if($data['client_info']->regNo =NULL)
+               
+                if(strlen($data['client_info']->regno) ==0)
                 {
-                   $data['regNo'] =$this->load_regNo($user_id);
+                   $data['regNo'] =$this->load_regNo($user_id);echo"dito";
                 }
                 else
                 {
-                   $data['regNo'] = $this->load_regNo_reg($user_id);
+                   $data['regNo'] = $this->load_regNo_reg($user_id);echo"there";
                 }
-                // echo $this->db->last_query();
+          
                 ini_set('display_errors', 1);
                 $this->load->view('./template/header', $data);
                 $this->load->view('cooperative/amendment_detail', $data);
@@ -1003,7 +996,7 @@ class amendment extends CI_Controller{
                 // }
               // var_dump( $data['purposes_complete']);
               $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-
+              
               $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
 
               $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
@@ -2128,11 +2121,12 @@ class amendment extends CI_Controller{
                   {
                     $cooperative_id = $c->application_id;
                   }
+
                 }
                 else
                 {
                   //FOR MIGRATED AMENDMENT data
-                   $qr =$this->db->query("select amendment_id from registeredcoop where regNo='$regNo' order by id desc limit 1");
+                   $qr =$this->db->query("select amendment_id from registeredamendment where regNo='$regNo' order by id desc limit 1");
                   foreach($qr->result() as $c)
                   {
                     $cooperative_id = $c->amendment_id;
@@ -2141,11 +2135,11 @@ class amendment extends CI_Controller{
 
       if($this->amendment_model->if_had_amendment($regNo))
       {
-        $a_qty = $this->db->query("select amendment_id from registeredcoop where regNo='$regNo'");
-        foreach($a_qty->result() as $a)
-        {
-          $amendment_id = $a->amendment_id;
-        }
+        // $a_qty = $this->db->query("select amendment_id from registeredamendment where regNo='$regNo'");
+        // foreach($a_qty->result() as $a)
+        // {
+        //   $amendment_id = $a->amendment_id;
+        // }
          $data = $this->amendment_model->get_amendment($amendment_id);
 
          // get business activity
