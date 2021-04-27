@@ -320,7 +320,7 @@
                    $tot_reg_paid2_ = '<b>'.number_format($tot_reg_paid2,2).'</b>';
                 }
               ?>
-              <td><u><?php echo (($bylaw_info->kinds_of_members == 1) ?  number_format($tot_reg_paid,2) : $tot_reg_paid2_);?></u></td>
+              <td><u><?php echo (($bylaw_info->kinds_of_members == 1) ?  $tot_reg_paid : $tot_reg_paid2_);?></u></td>
               
 
             </tr>

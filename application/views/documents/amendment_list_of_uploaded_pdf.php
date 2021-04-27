@@ -86,9 +86,7 @@
 </div>
 <br>
 
-<?php if($is_client) : 
 
-else :?>
 <h3>New Upload</h3>
 <div class="row">
   <div class="col-sm-12 col-md-12">
@@ -137,4 +135,3 @@ else :?>
     </div>
   </div>
 </div>
-<?php endif; ?>

@@ -66,10 +66,13 @@
               <pre><?php 
   //            print_r($cooperatives_comments);
               foreach($director_comment as $cc) :
+                if(strlen($cc['comment'])>0)
+                {
                   echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
                   echo '<ul type="square">';
                       echo '<li>'.$cc['comment'].'</li>';
                   echo '</ul>';
+                }
               endforeach;
           ?></pre>
           </div>
