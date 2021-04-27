@@ -158,7 +158,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->select('users.*,users.id as usersid,registeredcoop.*');
     $this->db->from('users');
     $this->db->join('registeredcoop' , 'users.regNo = registeredcoop.regNo','inner');
-    $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = users.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
@@ -182,7 +182,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->select('users.*,users.id as usersid,registeredcoop.*');
     $this->db->from('users');
     $this->db->join('registeredcoop' , 'users.regNo = registeredcoop.regNo','inner');
-    $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = users.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');

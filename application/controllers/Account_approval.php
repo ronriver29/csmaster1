@@ -85,6 +85,18 @@
           'password'=> password_hash($temp_passwd, PASSWORD_BCRYPT)
         );
 
+        $getRegCoop = $this->db->get_where('users',array('id'=>$decoded_id));
+          if($getRegCoop->num_rows() != 0){
+            foreach($getRegCoop->result_array() as $reg){
+              $regCode = $reg['addrCode'];
+              $regNo = $reg['regno'];
+            }
+          }
+
+        $data_registeredcoop = array(
+          'addrCode' => $regCode
+        );
+
         $from = "ecoopris@cda.gov.ph";    //senders email address
         $subject = 'Cooperative Account Application';  //email subject
         $burl = base_url();
@@ -97,6 +109,8 @@
         $this->email->message($message);
         $this->email->send();
 
+        
+
         $this->db->where(array('id'=>$decoded_id));
         $this->db->update('users',$data);
         if($this->db->trans_status() === FALSE){
@@ -104,9 +118,17 @@
           $this->session->set_flashdata(array('email_sent_warning'=>'Account failed to approve. Please Contact Administrator.'));
           redirect('account_approval');
         }else{
-          $this->db->trans_commit();
-          $this->session->set_flashdata(array('email_sent_success'=>'Account has been approved.'));
-          redirect('account_approval');
+          $this->db->where(array('regNo'=>$regNo));
+          $this->db->update('registeredcoop',$data_registeredcoop);
+          if($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            $this->session->set_flashdata(array('email_sent_warning'=>'Account failed to approve. Please Contact Administrator.'));
+            redirect('account_approval');
+          } else {
+            $this->db->trans_commit();
+            $this->session->set_flashdata(array('email_sent_success'=>'Account has been approved.'));
+            redirect('account_approval');
+          }
         }
     }
 

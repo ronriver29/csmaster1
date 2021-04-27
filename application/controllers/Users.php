@@ -124,6 +124,9 @@ class Users extends CI_Controller{
         {
           $data['list_id'] = NULL;
         }
+
+        $data['regions_list'] = $this->region_model->get_regions();
+
         $this->load->view('./template/header', $data);
         // $this->load->view('client/options');
         $this->load->view('client/use_registered_email', $data);
@@ -175,15 +178,21 @@ class Users extends CI_Controller{
                 'password'=>password_hash($temp_passwd, PASSWORD_BCRYPT),
                 'updated_at'=> date('Y-m-d h:i:s',now('Asia/Manila')),
                 'is_taken'=>1,
-                'is_verified' => 1
+                'is_verified' => 1,
+                'addrCode' => $this->input->post('barangay')
+              );
+
+              $regcoop_data = array(
+                'addrCode' => $this->input->post('barangay')
               );
               
-              $update_passwd = $this->db->update('users',$u_data,array('email'=>$this->input->post('eAddress')));
+              $update_passwd = $this->db->update('users',$u_data,array('email'=>$this->input->post('eAddress'),'is_taken'=>0));
               {
+                $update_regcoop_address = $this->db->update('registeredcoop',$regcoop_data,array('regNo'=>$this->input->post('regno')));
                 if($update_passwd)
                 {   
+                    
                     $reg_name = $this->db->get_where('registeredcoop',array('regNo'=>$this->input->post('regno')));
-
                     foreach($reg_name->result_array() as $row)
                     {
                       $coopName = $row['coopName'];
@@ -232,6 +241,7 @@ class Users extends CI_Controller{
         {
           $data['list_id'] = NULL;
         }
+        $data['regions_list'] = $this->region_model->get_regions();
         $this->load->view('./template/header', $data);
         // $this->load->view('client/options');
         $this->load->view('client/create_new_email_account', $data);
@@ -250,34 +260,44 @@ class Users extends CI_Controller{
         } elseif($coop_exist_taken->num_rows() > 0) {
           $this->session->set_flashdata(array('email_sent_warning'=>'Registration Number already Taken.'));
                 // redirect('users/create_new_email_account');
-        } elseif($email_taken->num_rows() > 0) {
-          $this->session->set_flashdata(array('email_sent_warning'=>'Email already Taken.'));
-                // redirect('users/create_new_email_account');
-        } else {
+        } 
+        // elseif($email_taken->num_rows() > 0) {
+        //   $this->session->set_flashdata(array('email_sent_warning'=>'Email already Taken.'));
+        //         // redirect('users/create_new_email_account');
+        // } 
+        else {
 
           $getRegCoop = $this->db->get_where('registeredcoop',array('regNo'=>$this->input->post('regno')));
           if($getRegCoop->num_rows() != 0){
             foreach($getRegCoop->result_array() as $reg){
               $regCode = $reg['addrCode'];
             }
-          } else {
-            $this->session->set_flashdata(array('email_sent_warning'=>'Registered Cooperatives has no Region assign. Please contact the System Admin!'));
-                redirect('users/create_new_email_account');
-          }
-          $newregCode = substr($regCode, 0, 2);
+          } 
+          // else {
+          //   $this->session->set_flashdata(array('email_sent_warning'=>'Registered Cooperatives has no Region assign. Please contact the System Admin!'));
+          //       redirect('users/create_new_email_account');
+          // }
+          // echo $this->input->post('barangay');
+          // $newregCode2 = substr($this->input->post('barangay'), 0, 2);
+          // $newregCode2 = '0'.$newregCode2;
+
+          $newregCode = substr($this->input->post('barangay'), 0, 2);
           $newregCode = '0'.$newregCode;
+
+          // echo $newregCode2;
 
           $getAdminEmail = $this->db->get_where('admin',array('access_level'=>2,'region_code'=>$newregCode));
           if($getAdminEmail->num_rows() != 0){
             foreach($getAdminEmail->result_array() as $email){
               $AdminEmail = $email['email'];
             }
-          } else {
-            $this->session->set_flashdata(array('email_sent_warning'=>'Registered Cooperatives has no Region assign. Please contact the System Admin'));
+          } 
+          // else {
+          //   $this->session->set_flashdata(array('email_sent_warning'=>'Registered Cooperatives has no Region assign. Please contact the System Admin'));
 
-            // print_r($getAdminEmail->num_rows());
-                redirect('users/create_new_email_account');
-          }
+          //   // print_r($getAdminEmail->num_rows());
+          //       redirect('users/create_new_email_account');
+          // }
 
           $img = $_FILES['img'];
 
@@ -312,15 +332,16 @@ class Users extends CI_Controller{
             'hash' => md5(rand(0, 1000)),
             'type_id' => $this->input->post('type_id'), 
             'valid_id_number' => $this->input->post('validIdNo'),
+            'addrCode' => $this->input->post('barangay')
           );
             // print_r($data);
             $data = $this->security->xss_clean($data);
             if($this->user_model->add_user($data)){
               if($this->user_model->sendEmailCreateNewEmail($data['email'],$data['hash'],$full_name,$newnamearray,$AdminEmail)){
                 $this->session->set_flashdata(array('email_sent_success'=>'Your account application is pending for approval. Result and login credentials will be sent to your email.'));
-                redirect('users/login');
+                // redirect('users/login');
               }else{
-                redirect('users/login');
+                // redirect('users/login');
               }
             }else{
               echo 'server error';
