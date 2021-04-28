@@ -2604,7 +2604,6 @@ public function count_documents_coop($coop_id,$num)
                               $data['in_chartered_cities']=true;
                               $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                               }
-
                                //admin economic_survey
                                 $this->load->view('documents/amendment_economic_survey', $data);
                                 $html2 = $this->load->view('documents/amendment_economic_survey', $data, TRUE);

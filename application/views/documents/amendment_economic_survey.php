@@ -319,9 +319,7 @@
                    $tot_reg_paid2 = '<b>'.number_format($tot_reg_paid2,2).'</b>';
                 }
               ?>
-              <td><u><?php echo (($bylaw_info->kinds_of_members == 1) ?  $tot_reg_paid :  number_format($tot_reg_paid2,2));?></u></td>
-              
-
+              <td><u><?php echo (($bylaw_info->kinds_of_members == 1) ?  $tot_reg_paid :  number_format($tot_reg_paid2,2));?></u></td>   
             </tr>
             <tr>
               
