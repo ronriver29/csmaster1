@@ -158,10 +158,10 @@
                 <div class="form-group">
                   <label for="region">Region</label>
                   <select class="custom-select validate[required]" name="region" id="region">
-                    <option value="<?=$coop_info->rCode?>" selected><?=$coop_info->region; ?></option>
-                    <!-- <?php foreach ($regions_list as $region_list) : ?>
+                    <option value="" selected></option>
+                    <?php foreach ($regions_list as $region_list) : ?>
                       <option value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
-                    <?php endforeach; ?> -->
+                    <?php endforeach; ?>
                   </select>
                 </div>
               </div>
@@ -171,7 +171,7 @@
                 <div class="form-group">
                   <label for="province">Province</label>
                   <select class="custom-select validate[required]" name="province" id="province" disabled>
-                    <option value="<?=$coop_info->rCode?>" selected><?=$coop_info->province; ?></option>
+                    <option value="<?=$coop_info->rCode?>" selected></option>
                   </select>
                 </div>
               </div>
@@ -180,7 +180,7 @@
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
                   <select class="custom-select validate[required]" name="city" id="city" disabled>
-                    <option value="<?=$coop_info->rCode?>" selected><?=$coop_info->city; ?></option>
+                    <option value="<?=$coop_info->rCode?>" selected></option>
                   </select>
                 </div>
               </div>
