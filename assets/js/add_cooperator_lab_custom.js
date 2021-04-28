@@ -246,9 +246,20 @@ $(function(){
          if(data!=null){
         var tempCount = 0;
         setTimeout(function(){
-          // alert(data.bCode);
+          // alert(data.region);
           // $('#addCooperatorForm #barangay').val(data.bCode);
-
+        setTimeout( function(){
+          $('#addCooperatorForm #region').val(data.rCode);
+          $('#addCooperatorForm #region').trigger('change');
+        },100);
+        setTimeout( function(){
+            $('#addCooperatorForm #province').val(data.pCode);
+            $('#addCooperatorForm #province').trigger('change');
+        },500);
+        setTimeout(function(){
+          $('#addCooperatorForm #city').val(data.cCode);
+          $('#addCooperatorForm #city').trigger('change');
+        },1000);
           if(data.area_of_operation=='Barangay'){
             $('#addCooperatorForm #barangay').prop("disabled",true);
             $('#addCooperatorForm #city').prop("disabled",true);
@@ -273,19 +284,7 @@ $(function(){
             $('#addCooperatorForm #city').prop("disabled",false);
             $('#addCooperatorForm #barangay').prop("disabled",false);
           }
-        },1700); 
-        // setTimeout( function(){
-        //   // $('#addCooperatorForm #region').val(data.rCode);
-        //   $('#addCooperatorForm #region').trigger('change');
-        // },100);
-        // setTimeout( function(){
-        //     // $('#addCooperatorForm #province').val(data.pCode);
-        //     $('#addCooperatorForm #province').trigger('change');
-        // },500);
-        // setTimeout(function(){
-        //   // $('#addCooperatorForm #city').val(data.cCode);
-        //   $('#addCooperatorForm #city').trigger('change');
-        // },1000);
+        },1700);
       } //end if
 
       // if(data!=null){

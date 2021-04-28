@@ -91,7 +91,7 @@ $route['branches/(:any)/registration'] = 'registration/branch/$1';
 $route['branches/get_cooperative_info'] = 'branches/get_cooperative_info';
 $route['branches/(:any)/forpaymentbranches'] = 'forpaymentbranches/index/$1';
 
-
+$route['laboratories/coop_info/(:any)'] = 'laboratories/coop_info/$1';
 $route['laboratories/approve_laboratories_2'] ='Laboratories/approve_laboratories_2'; //modify
 $route['laboratories/payment'] = 'Laboratories/payment'; //modify by
 $route['laboratories/deny_laboratory'] = 'laboratories/deny_laboratory';//modify by json
@@ -101,6 +101,7 @@ $route['laboratories/get_cooperative_info'] = 'laboratories/get_cooperative_info
 $route['laboratories/(:any)'] = 'laboratories/view/$1';
 $route['laboratories/(:any)/laboratories_cooperators'] = 'laboratories_cooperators/index/$1';
 $route['laboratories/(:any)/laboratories_cooperators/add'] = 'laboratories_cooperators/add/$1';
+$route['laboratories/(:any)/laboratories_cooperators/coop_info/(:any)'] = 'laboratories_cooperators/coop_info/$1/$2';
 $route['laboratories_cooperators/(:any)/api/regions'] ='api/regions/index';
 $route['laboratories_cooperators/(:any)/api/provinces'] ='api/provinces/index';
 $route['laboratories/(:any)/api/provinces'] ='api/provinces/index';

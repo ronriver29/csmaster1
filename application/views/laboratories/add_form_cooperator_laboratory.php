@@ -16,6 +16,7 @@
           <input type="hidden" class="form-control" name="coop_ids" id="coopids" value="<?=$encrypted_coop_id?>"/>
           <input type="hidden" class="form-control" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_coop_id ?>">
           <input type="hidden" class="form-control validate[required]" id="userID" name="userID" value="<?= $encrypted_user_id ?>" />
+          <input type="hidden" class="form-control validate[required]" id="regNo" name="regNo" value="<?= $regno ?>" />
 
           <div class="col-sm-12 col-md-2">
             <div class="form-group">
@@ -153,14 +154,14 @@
                 </div>
               </div>
           
-      <?php //echo $coop_info->rCode?>
+      <?php //echo $coop_info->region?>
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="region">Region</label>
                   <select class="custom-select validate[required]" name="region" id="region">
                     <option value="" selected></option>
                     <?php foreach ($regions_list as $region_list) : ?>
-                      <option value ="<?=$coop_info->rCode?>"><?php echo $region_list['regDesc']?></option>
+                      <option value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
@@ -170,8 +171,11 @@
                 <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="province">Province</label>
-                  <select class="custom-select validate[required]" name="province" id="province" disabled>
-                    <option value="<?=$coop_info->pCode?>" selected></option>
+                  <select class="custom-select validate[required]" name="province" id="province">
+                    <option value="" selected></option>
+                  <?php foreach ($provinces_list as $province_list) : ?>
+                      <option value ="<?php echo $province_list['provCode'];?>"><?php echo $province_list['provDesc']?></option>
+                    <?php endforeach; ?>
                   </select>
                 </div>
               </div>
