@@ -186,7 +186,7 @@ class Users extends CI_Controller{
                 'addrCode' => $this->input->post('barangay')
               );
               
-              $update_passwd = $this->db->update('users',$u_data,array('email'=>$this->input->post('eAddress'),'is_taken'=>0));
+              $update_passwd = $this->db->update('users',$u_data,array('email'=>$this->input->post('eAddress'),'is_taken = 0 OR is_taken IS NULL'));
               {
                 $update_regcoop_address = $this->db->update('registeredcoop',$regcoop_data,array('regNo'=>$this->input->post('regno')));
                 if($update_passwd)
