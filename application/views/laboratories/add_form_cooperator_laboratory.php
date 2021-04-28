@@ -153,14 +153,14 @@
                 </div>
               </div>
           
-    
+      <?php //echo $coop_info->rCode?>
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="region">Region</label>
                   <select class="custom-select validate[required]" name="region" id="region">
                     <option value="" selected></option>
                     <?php foreach ($regions_list as $region_list) : ?>
-                      <option value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
+                      <option value ="<?=$coop_info->rCode?>"><?php echo $region_list['regDesc']?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
@@ -171,7 +171,7 @@
                 <div class="form-group">
                   <label for="province">Province</label>
                   <select class="custom-select validate[required]" name="province" id="province" disabled>
-                    <option value="<?=$coop_info->rCode?>" selected></option>
+                    <option value="<?=$coop_info->pCode?>" selected></option>
                   </select>
                 </div>
               </div>
@@ -180,7 +180,7 @@
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
                   <select class="custom-select validate[required]" name="city" id="city" disabled>
-                    <option value="<?=$coop_info->rCode?>" selected></option>
+                    <option value="<?=$coop_info->cCode?>" selected></option>
                   </select>
                 </div>
               </div>
@@ -189,6 +189,7 @@
                 <div class="form-group">
                   <label for="barangay">Barangay</label>
                   <select class="custom-select validate[required]" name="barangay" id="barangay" disabled>
+                    <option value="<?=$coop_info->bCode?>" selected></option>
                   </select>
                 </div>
               </div>
