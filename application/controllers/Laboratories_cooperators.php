@@ -226,6 +226,7 @@ class Laboratories_cooperators extends CI_Controller{
                       $data['encrypted_id'] = $id;
                       $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
                       $data['regions_list'] = $this->region_model->get_regions();
+                      $data['provinces_list'] = $this->province_model->all_provinces();
 
                       $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
 
@@ -234,6 +235,7 @@ class Laboratories_cooperators extends CI_Controller{
 
                      //cooperative id
                       $data['encrypted_coop_id']=encrypt_custom($this->encryption->encrypt($CoopInfo->cooperative_id)); 
+                      $data['regno']=$CoopInfo->coop_id; 
 
                         // echo"<pre>";
                         // print_r($data['coop_info']);
@@ -849,7 +851,7 @@ class Laboratories_cooperators extends CI_Controller{
           if($this->input->post('id') && $this->input->post('user_id')){
             $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('id')));
             $decoded_user_id = $this->encryption->decrypt(decrypt_custom($this->input->post('user_id')));
-           $decoded_coop_id= $this->encryption->decrypt(decrypt_custom($this->input->post('coop_ids')));
+            $decoded_coop_id= $this->encryption->decrypt(decrypt_custom($this->input->post('coop_ids')));
             $result = $this->laboratories_cooperator_model->get_cooperative_details($decoded_user_id,$decoded_coop_id);
             // echo json_encode($this->db->last_query());
              echo json_encode($result);
@@ -889,5 +891,11 @@ class Laboratories_cooperators extends CI_Controller{
    
 
    }
+
+  public function coop_info($regNo){
+      // $regno = $this->encryption->decrypt(decrypt_custom($regNo));
+      $data = $this->laboratories_model->get_coop($regNo);
+      echo $this->db->last_query();
+    }
 
 }//end of class
