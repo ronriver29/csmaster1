@@ -101,7 +101,7 @@
         $subject = 'Cooperative Account Application';  //email subject
         $burl = base_url();
            
-        $message = "Good Day! Your Account has been Approved!<br><br>Your Password is: ".$temp_passwd.".You may now Login.";
+        $message = "Good Day! Your Account has been Approved!<br><br>Your Password is: ".$temp_passwd." You may now Login.";
        
         $this->email->from($from,'ecoopris CDA (No Reply)');
         $this->email->to($email);
