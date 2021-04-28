@@ -2374,6 +2374,9 @@ public function count_documents_coop($coop_id,$num)
                                      $data['committees_list_orig'] = $this->committee_model->get_all_committee_names_of_coop_multi($cooperative_id);
                                      $data['total_regular2'] = $this->amendment_cooperator_model->get_total_regular_amendment($cooperative_id,$decoded_id);
                                       $data['in_chartered_cities_orig'] =false;
+
+                                     $data['total_regular2'] = $this->amendment_cooperator_model->get_total_regular_amendment($cooperative_id,$decoded_id);
+
                                       if($this->charter_model->in_charter_city($data['coop_info_orig']->cCode))
                                       {
                                       $data['in_chartered_cities_orig ']=true;
@@ -2573,7 +2576,7 @@ public function count_documents_coop($coop_id,$num)
                               }
                               else
                               {
-                                
+                               
                                 $data['coop_info_orig'] = $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
                                 $data['bylaw_info_orig'] = $this->bylaw_model->get_bylaw_by_coop_id($cooperative_id);
                                 $data['article_info_orig'] = $this->article_of_cooperation_model->get_article_by_coop_id($cooperative_id);
@@ -2584,7 +2587,9 @@ public function count_documents_coop($coop_id,$num)
                                 $data['staff_list_orig'] = $this->staff_model->get_all_staff_of_coop_by_position($cooperative_id);
                                $data['no_of_cooperator_orig'] = $this->cooperator_model->get_total_number_of_cooperators($cooperative_id);
                                $data['committees_list_orig'] = $this->committee_model->get_all_committee_names_of_coop_multi($cooperative_id);
-                                $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular_amendment($cooperative_id,$decoded_id);
+                                // $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular_amendment($cooperative_id,$decoded_id);
+                                $data['total_regular2'] = $this->amendment_cooperator_model->get_total_regular_amendment($cooperative_id,$decoded_id);
+                                $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
                                 $data['in_chartered_cities_orig'] =false;
                                 if($this->charter_model->in_charter_city($data['coop_info_orig']->cCode))
                                 {
@@ -2601,7 +2606,7 @@ public function count_documents_coop($coop_id,$num)
                               }
 
                                //admin economic_survey
-                                // $this->load->view('documents/amendment_economic_survey', $data);
+                                $this->load->view('documents/amendment_economic_survey', $data);
                                 $html2 = $this->load->view('documents/amendment_economic_survey', $data, TRUE);
                                 $f = new pdf();
                                  $f->set_option("isPhpEnabled", true);
