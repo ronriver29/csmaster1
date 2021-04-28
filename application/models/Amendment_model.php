@@ -995,6 +995,7 @@ class amendment_model extends CI_Model{
     $coopertiveTypeID=explode(",",$data['cooperative_type_id']);
     $amendment_info = $this->get_cooperative_info23($coop_id,$amendment_id);
     // return $amendment_info;
+   // $this->db->trans_begin();
      $query_type = $this->db->query("select * from industry_subclass_by_coop_type where cooperative_type_id IN({$param1}) AND major_industry_id IN($major_industry) AND subclass_id IN($subclass_array)");
       // return $this->db->last_query();
      if($query_type->num_rows()>0){
@@ -1017,7 +1018,7 @@ class amendment_model extends CI_Model{
       
     //   // return $a++;
 
-    //   $this->db->trans_begin();
+
     //   $this->db->select('id');
     //   $this->db->where(array('cooperative_type_id'=>$coopType_row));
     //   $this->db->where_in('major_industry_id',$major_industry);
@@ -1043,22 +1044,24 @@ class amendment_model extends CI_Model{
     //     'cooperatives_id' => $coop_id,
     //     'content'  => $this->get_purpose_content($data['type_of_cooperative'])
     //   );
-    if($amendment_info->type_of_cooperative != $data['type_of_cooperative'])
-    {
-        $cooptypess = explode(',',$data['type_of_cooperative']); 
-        foreach($cooptypess as $type_coop)
-        {
-           $temp_purpose = array(
-            'amendment_id' => $amendment_id,
-            'content'  => $this->get_purpose_content($type_coop),
-            'cooperative_type' => $type_coop
-          ); 
-           // return  $temp_purpose;
-           $this->db->where('amendment_id',$amendment_id);
-          $this->db->update('amendment_purposes',$temp_purpose);
 
-        } 
-    }
+    // // if($amendment_info->type_of_cooperative != $data['type_of_cooperative'])
+    // // {
+    //     $cooptypess = explode(',',$data['type_of_cooperative']); 
+
+    //     foreach($cooptypess as $type_coop)
+    //     {return 'ddd';
+    //        $temp_purpose = array(
+    //         'amendment_id' => $amendment_id,
+    //         'content'  => $this->get_purpose_content($type_coop),
+    //         'cooperative_type' => $type_coop
+    //       ); 
+    //        // return  $temp_purpose;
+    //        $this->db->where('amendment_id',$amendment_id);
+    //       $this->db->update('amendment_purposes',$temp_purpose);
+
+    //     } 
+    // // }
    
 
    //if Common bond of memebship is occupation

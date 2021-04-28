@@ -483,11 +483,8 @@ class amendment extends CI_Controller{
                 if(!$this->input->post('Amendment_ID')){
                   $data['client_info'] = $this->user_model->get_user_info($user_id); 
                   $data['members_composition'] = $this->amendment_model->get_coop_composition($decoded_id);
-                  // echo $this->db->last_query();
-                  // $this->debug($data['members_composition']);
                   $data['title'] = 'Update Amendment Details';
                   $data['header'] = 'Update Amendment Information';
-                  
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
 
                   $coopTypeName= $data['coop_info']->type_of_cooperative;
@@ -515,16 +512,6 @@ class amendment extends CI_Controller{
                     }
                		
                   } 
-                  // $this->debug($mjor_ins_id);
-                  // $this->debug($list_subclassID);
-
-                  //extract subclass id
-                  // foreach($list_subclassID as $srow_id) {
-
-                  // 	$subcassID= $srow_id['subclass_id'];
-                  // 	 $subclass_description[]=$this->major_industry_description_subclass($subcassID);
-                  // }
-                  // $this->debug($subclass_description);
 
                  $data['cooperative_type'] = $list_type; 
                  $data['major_industries_by_coop_type'] = $list_of_major_industry_cooptype;
@@ -604,7 +591,6 @@ class amendment extends CI_Controller{
                   // $data['members_compositions']=$this->amendment_model->get_composition_of_members($decoded_id);
                   // echo $this->db->last_query();
                   $data['list_type_coop'] = $this->coop_type($coopTypeName);
-                  // $this->debug( $data['members_composition']);
                   //cooperative type value
                   $data['amd_type_of_coop'] = $typeName_arr;
 
@@ -648,13 +634,6 @@ class amendment extends CI_Controller{
 
 	                $proposeName = strtolower($this->input->post('proposedName'));
 	                $type_of_cooperativeName = $this->format_name($typeOfCooperativeID);
-	                // echo $typeOfCooperativeID.' '.$proposeName;
-	                // if($this->amendment_name_exist($typeOfCooperativeID,$proposeName))
-	                // {
-	                //   // echo "duplicate entry";
-	                //    $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Proposed name already exist. Please try again.'));
-	                //     redirect('amendment');
-	                // }
 
 	                $occu_comp_of_membship='';
 	                if(is_array($this->input->post('compositionOfMembers'))>0)
@@ -687,6 +666,26 @@ class amendment extends CI_Controller{
                     // $this->debug($field_data);
                  
                     // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition));
+                     $coo_info_by_admin=$this->amendment_model->get_cooperative_info23($cooperative_id,$decoded_id);
+                    if($coo_info_by_admin->type_of_cooperative != $field_data['type_of_cooperative'])
+                    {
+                        $cooptypess = explode(',',$field_data['type_of_cooperative']); 
+                        foreach($cooptypess as $type_coop)
+                        {
+                           $temp_purpose[] = array(
+                            'cooperatives_id' => $cooperative_id,
+                            'amendment_id' => $decoded_id,
+                            'content'  => $this->amendment_model->get_purpose_content($type_coop),
+                            'cooperative_type' => $type_coop
+                          ); 
+                            // $this->debug($temp_purpose);
+                        } 
+                        if($this->db->delete('amendment_purposes',array('amendment_id'=>$decoded_id)))
+                        {
+                          $this->db->insert_batch('amendment_purposes',$temp_purpose);
+                        }
+                    }
+
                     if($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition)){
                       $this->session->set_flashdata('cooperative_success', 'Successfully updated basic information.');
                       redirect('amendment/'.$this->input->post('Amendment_ID'));
