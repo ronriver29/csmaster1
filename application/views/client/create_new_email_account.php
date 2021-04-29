@@ -162,6 +162,7 @@
               <div class="form-group form-group-img">
                 <label for="img">Upload file</label>
                 <input type="file" name="img[]" class="form-control validate[required]" multiple>
+                <div style="color:red;font-size:10px;"><i>* Note: Upload scan copy of letter request signed by the Manager/CEO of the cooperative to update their email address</i></div>
               </div>
             </div>
 
