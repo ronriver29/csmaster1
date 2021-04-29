@@ -100,6 +100,12 @@
                 <input type="email" class="form-control validate[equals[eAddress]]" id="coneAddress" name="coneAddress">
               </div>
             </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group form-group-eAddress">
+                <label for="eAddress">Chairperson:</label>
+                <input type="email" class="form-control validate[required]" id="chairperson" name="chairperson">
+              </div>
+            </div>
             <div class="col-sm-12 col-md-8">
               <div class="form-group form-group-hAddress">
                 <label for="hAddress">Home Address: </label>

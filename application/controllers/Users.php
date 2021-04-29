@@ -332,7 +332,8 @@ class Users extends CI_Controller{
             'hash' => md5(rand(0, 1000)),
             'type_id' => $this->input->post('type_id'), 
             'valid_id_number' => $this->input->post('validIdNo'),
-            'addrCode' => $this->input->post('barangay')
+            'addrCode' => $this->input->post('barangay'),
+            'chairperson' => $this->input->post('chairperson')
           );
             // print_r($data);
             $data = $this->security->xss_clean($data);
