@@ -186,7 +186,7 @@ class Users extends CI_Controller{
                 'addrCode' => $this->input->post('barangay')
               );
               
-              $update_passwd = $this->db->update('users',$u_data,array('email'=>$this->input->post('eAddress'),'is_taken'=>0));
+              $update_passwd = $this->db->update('users',$u_data,array('email'=>$this->input->post('eAddress'),'is_taken = 0 OR is_taken IS NULL'));
               {
                 $update_regcoop_address = $this->db->update('registeredcoop',$regcoop_data,array('regNo'=>$this->input->post('regno')));
                 if($update_passwd)
@@ -339,7 +339,7 @@ class Users extends CI_Controller{
             if($this->user_model->add_user($data)){
               if($this->user_model->sendEmailCreateNewEmail($data['email'],$data['hash'],$full_name,$newnamearray,$AdminEmail)){
                 $this->session->set_flashdata(array('email_sent_success'=>'Your account application is pending for approval. Result and login credentials will be sent to your email.'));
-                // redirect('users/login');
+                redirect('users/login');
               }else{
                 redirect('users/login');
               }
