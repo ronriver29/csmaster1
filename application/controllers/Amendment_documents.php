@@ -932,7 +932,6 @@ public function count_documents_coop($coop_id,$num)
       $data =NULL;
     }
     return $data;
-
   }
   public function count_documents_others2($amendment_id,$num)
   {
