@@ -91,12 +91,12 @@
                 <input type="email" class="form-control validate[required,custom[email]]" id="eAddress" name="eAddress">
               </div>
             </div>
-            <!-- <div class="col-sm-12 col-md-4">
+            <div class="col-sm-12 col-md-4">
               <div class="form-group form-group-eAddress">
                 <label for="eAddress">Confirm Email Address:</label>
                 <input type="email" class="form-control validate[equals[eAddress]]" id="coneAddress" name="coneAddress">
               </div>
-            </div> -->
+            </div>
             <div class="col-sm-12 col-md-8">
               <div class="form-group form-group-hAddress">
                 <label for="hAddress">Home Address: </label>

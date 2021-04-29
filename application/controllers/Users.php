@@ -339,7 +339,7 @@ class Users extends CI_Controller{
             if($this->user_model->add_user($data)){
               if($this->user_model->sendEmailCreateNewEmail($data['email'],$data['hash'],$full_name,$newnamearray,$AdminEmail)){
                 $this->session->set_flashdata(array('email_sent_success'=>'Your account application is pending for approval. Result and login credentials will be sent to your email.'));
-                // redirect('users/login');
+                redirect('users/login');
               }else{
                 redirect('users/login');
               }
