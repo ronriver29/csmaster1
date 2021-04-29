@@ -321,8 +321,7 @@
               ?>
               <td><u><?php echo (($bylaw_info->kinds_of_members == 1) ?  $tot_reg_paid :  number_format($tot_reg_paid2,2));?></u></td>   
             </tr>
-            <tr>
-              
+            <tr> 
               <td>Par value :</td>
               <!-- <td><u><?php echo(($bylaw_info->kinds_of_members == 1) ? number_format($article_info->par_value_common,2) : number_format(($article_info->par_value_common + $article_info->par_value_preferred),2));?></u></td> -->
               <?php
