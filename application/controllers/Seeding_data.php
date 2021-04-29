@@ -253,4 +253,16 @@ BARANGAY MAGSAYSAY, QUEZON CITY 1105',
       echo"regional_officials table has been updated successfully";
     }
   }
+
+  public function update_migrations($version)
+  {
+    if($this->db->update('migrations',array('version'=>$version)))
+    {
+      echo "success";
+    }
+    else
+    {
+      echo"failed";
+    }
+  }
 }
