@@ -3,35 +3,11 @@ class Migration_modify_paquestion_table extends CI_Migration
 {
     public function up()
     {
-    //     $this->dbforge->add_field(
-    //        $field =  array
-    //               (
-    //                'id' => array(
-    //                'type' => 'INT',
-    //                'constraint' => 11,
-    //                'unsigned' => true,
-    //                'auto_increment' => true
-    //                ),
-    //                 'isOther'=>array(
-    //                 'type'=>'TINYINT',
-    //                 'constraint'=>1,
-    //                 'after' => 'applicable',
-    //                 'default' => '0'
-    //                 ),
-    //                 'category'=>array(
-    //                 'type'=>'VARCHAR',
-    //                 'constraint'=>50,
-    //                 'after' => 'isOther',
-    //                 'default' => '1,2'
-    //                 )
-    //               )
-    //     );
-    //     $this->dbforge->add_key('id', TRUE);
-    //     $this->dbforge->add_column('paquestion',$field);
-    //     $this->db->query("UPDATE `paquestion` SET `isOther` = 1 WHERE `num` IN (131,151,212)");
-    //     $this->db->query("UPDATE `paquestion` SET `category` = '1' WHERE `num` BETWEEN 12 AND 17");
-    //     $this->db->query("UPDATE `paquestion` SET `category` = '2' WHERE `num` BETWEEN 18 AND 25");
+ 
       $this->db->query("ALTER TABLE `paquestion` ADD COLUMN `id` INT(11) UNSIGNED PRIMARY KEY AUTO_INCREMENT FIRST, ADD COLUMN `isOther` TINYINT(1) DEFAULT '0' AFTER `applicable`, ADD COLUMN `category` VARCHAR(50) DEFAULT '1,2' AFTER `isOther`");
+       $this->db->query("UPDATE `paquestion` SET `isOther` = 1 WHERE `num` IN (131,151,212)");
+        $this->db->query("UPDATE `paquestion` SET `category` = '1' WHERE `num` BETWEEN 12 AND 17");
+        $this->db->query("UPDATE `paquestion` SET `category` = '2' WHERE `num` BETWEEN 18 AND 25");
     }
 
     public function down()
