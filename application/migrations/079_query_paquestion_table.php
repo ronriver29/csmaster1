@@ -10,5 +10,6 @@ class Migration_query_paquestion_table extends CI_Migration
     { 
        $this->db->query("UPDATE `paquestion` SET `isScorable` = 0, `score` = 5 WHERE `num` = 131");
     }
+    
 }
 ?>
