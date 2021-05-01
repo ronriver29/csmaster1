@@ -74,6 +74,7 @@
         <?php if(!$minimum_associate_pay) echo '<li>Please update all associate member whose number of paid shares not greater than or equal to <strong>'.$capitalization_info->minimum_paid_up_share_associate.'</strong></li>';?>
       <?php endif; //kinds of membership ?>
         <!-- end associate -->
+       
         <?php if(isset($capitalization_info->total_no_of_subscribed_capital) ) : ?>
             <?php if($bylaw_info->kinds_of_members ==2) : ?>
                 <li>The total subscribed shares of all cooperator should be <strong><?= $capitalization_info->total_no_of_subscribed_capital?></strong>. (Current Total Subscribed Share: <strong><?= ($total_regular['total_subscribed']+$total_associate['total_subscribed']) ?></strong>)</li>

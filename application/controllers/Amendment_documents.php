@@ -1670,6 +1670,28 @@ public function count_documents_coop($coop_id,$num)
                                 $f->load_html($html2);
                                 // $f->setBasePath(public_path()); // This line resolve
                                 $f->render();
+                                $this->load->library('session');
+                                $path = 'amendment_bylaws_for_primary.pdf';
+                                $getTotalPages = $f->get_canvas()->get_page_count();
+                                $user_data = array(
+                                  // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
+                                  'total_pages' => $getTotalPages
+                                );
+                                $this->session->set_userdata($user_data);
+                                
+                                  $data_doc = array(
+                                    'amendment_id' => $decoded_id,
+                                    'name' => 'bylaws',
+                                    'total_pages' => $this->session->userdata('total_pages')
+                                  );
+                                 if($this->check_if_exist_doc($decoded_id,$data_doc['name']))
+                                 {
+                                    $this->db->update('document_info',$data_doc,array('amendment_id',$decoded_id));
+                                 }
+                                 else
+                                 {
+                                    $this->db->insert('document_info',$data_doc);
+                                 }
                                 $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
 
                             }else{
@@ -1839,13 +1861,27 @@ public function count_documents_coop($coop_id,$num)
                                 $f->load_html($html2);
                                 $f->render();
                                  $this->load->library('session');
-                                // $path = 'articles_of_cooperation_primary.pdf';
-                                $getTotalPagess = $f->get_canvas()->get_page_count();
+                                $path = 'amendment_bylaws_for_primary.pdf';
+                                $getTotalPages = $f->get_canvas()->get_page_count();
                                 $user_data = array(
                                   // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
-                                  'pagecount_bylaws' => $getTotalPagess
+                                  'total_pages' => $getTotalPages
                                 );
-                                // $this->session->userdata('pagecount_bylaws'));
+                                $this->session->set_userdata($user_data);
+                                
+                                  $data_doc = array(
+                                    'amendment_id' => $decoded_id,
+                                    'name' => 'bylaws',
+                                    'total_pages' => $this->session->userdata('total_pages')
+                                  );
+                                 if($this->check_if_exist_doc($decoded_id,$data_doc['name']))
+                                 {
+                                    $this->db->update('document_info',$data_doc,array('amendment_id',$decoded_id));
+                                 }
+                                 else
+                                 {
+                                    $this->db->insert('document_info',$data_doc);
+                                 }
                                 $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
@@ -2604,7 +2640,7 @@ public function count_documents_coop($coop_id,$num)
                               $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                               }
                                //admin economic_survey
-                                $this->load->view('documents/amendment_economic_survey', $data);
+                                // $this->load->view('documents/amendment_economic_survey', $data);
                                 $html2 = $this->load->view('documents/amendment_economic_survey', $data, TRUE);
                                 $f = new pdf();
                                  $f->set_option("isPhpEnabled", true);
@@ -3925,6 +3961,18 @@ public function delete_pdf()
   }
 //end modify
 
+  public function check_if_exist_doc($amendment_id,$doc_name)
+  {
+    $query = $this->db->query("select * from document_info where amendment_id = '$amendment_id' and name='$doc_name'");
+    if($query->num_rows()>0)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
   public function debug($array)
     {
         echo"<pre>";

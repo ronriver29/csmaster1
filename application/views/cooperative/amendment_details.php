@@ -347,7 +347,7 @@
         </small>
       <?php endif ?>
       </li>
-      <li class="list-group-item  flex-column align-items-start">
+     <!--  <li class="list-group-item  flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1 font-weight-bold">Additional Information: Economic Survey</h5>
           <small class="text-muted">
@@ -364,8 +364,8 @@
           <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_survey" class="btn btn-info btn-sm">View</a>
         </small>
       <?php endif ?>
-      </li>
-      <li class="list-group-item  flex-column align-items-start">
+      </li> -->
+      <!-- <li class="list-group-item  flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1 font-weight-bold">List of Staff/Employees</h5>
           <small class="text-muted">
@@ -382,7 +382,7 @@
           <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_staff" class="btn btn-info btn-sm">View</a>
         </small>
       <?php endif ?>
-      </li>
+      </li> -->
       <li class="list-group-item  flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1 font-weight-bold">
@@ -581,7 +581,7 @@
           </small>
         <?php endif ?>
         </li>
-        <li class="list-group-item  flex-column align-items-start">
+        <!-- <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 font-weight-bold">Step 8</h5>
             <small class="text-muted">
@@ -593,9 +593,6 @@
               <?php endif; ?>
             </small>
           </div>
-            <!-- <?php foreach($committeescount as $committeecount) : ?>
-                <?php $count = $committeecount['count'];?>
-            <?php endforeach; ?> -->
           <p class="mb-1 font-italic">Additional Information: Economic Survey</p>
           <?php if($coop_info->status!= 0 && $bylaw_complete && $cooperator_complete && $purposes_complete && $article_complete ): //Comment this && $cooperator_complete && $committees_complete?>
             <?php if(!$complete_position) {?>
@@ -605,8 +602,8 @@
                 </small>
             <?php } ?>
         <?php endif ?>
-        </li>
-        <li class="list-group-item  flex-column align-items-start">
+        </li> -->
+        <!-- <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 font-weight-bold">Step 9</h5>
             <small class="text-muted">
@@ -624,8 +621,8 @@
             <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_staff" class="btn btn-info btn-sm">View</a>
           </small>
         <?php endif ?>
-        </li>
-        <li class="list-group-item  flex-column align-items-start">
+        </li> -->
+        <!-- <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 font-weight-bold">Step 10</h5>
             <small class="text-muted">
@@ -664,10 +661,52 @@
               <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_documents" class="btn btn-info btn-sm">View</a>
             </small>
           <?php endif ?>
+        </li> -->
+
+        <li class="list-group-item  flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1 font-weight-bold">Step 8</h5>
+            <small class="text-muted">
+          
+            <?php  $count_coop_type= explode(',',$coop_info->type_of_cooperative); ?>
+            <?php if(count( $count_coop_type)>1){?>
+              
+                <?php if($status_document_one && $status_document_two && $status_document_cooptype && $status_feasibility && $status_books_of_account): ?>
+                <span class="badge badge-success">COMPLETE</span>
+                <?php else: ?>
+             
+                <span class="badge badge-secondary">PENDING</span>
+                <?php endif;?>
+            <?php }else{ ?>
+
+                 <?php if($status_document_one && $status_document_two && $status_document_cooptype): ?>
+                <span class="badge badge-success">COMPLETE</span>
+                <?php else: ?>
+             
+                <span class="badge badge-secondary">PENDING</span>
+                <?php endif;?>
+
+            <?php }//end else ?>
+             
+            </small>
+          </div>
+          <p class="mb-1 font-italic">View your Bylaws, Article of Cooperation, Treasurer Affidavit and
+            <?php if($is_client) : ?>
+            Upload other documents
+            <?php else : ?>
+            Uploaded documents
+            <?php endif;?>
+          </p>
+          <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $complete_position): //&& $cooperator_complete && $committees_complete && $economic_survey_complete && $staff_complete ?>
+            <small class="text-muted">
+              <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_documents" class="btn btn-info btn-sm">View</a>
+            </small>
+          <?php endif ?>
         </li>
+
           <li class="list-group-item  flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1 font-weight-bold">Step 11 </h5>
+              <h5 class="mb-1 font-weight-bold">Step 9 </h5>
               <small class="text-muted">
                 <?php if($coop_info->status > 1) :?>
                 <span class="badge badge-success">COMPLETE</span>
@@ -679,13 +718,13 @@
             </div>
             <p class="mb-1 font-italic">Finalize and review all the information you provide. After reviewing your application, click proceed for evaluation of your application.</p>
             <?php if(count( $count_coop_type)>1):?>
-              <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $economic_survey_complete && $staff_complete && $status_document_one && $status_document_two && $status_document_cooptype && $status_feasibility && $status_books_of_account && $complete_position){ ?>
+              <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $status_document_one && $status_document_two && $status_document_cooptype && $status_feasibility && $status_books_of_account && $complete_position){ ?>
               <small class="text-muted">
                 <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
               </small>
               <?php  } //end if $coop->status ==1 ?>
             <?php else: ?> 
-                <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $economic_survey_complete && $staff_complete && $status_document_one && $status_document_two && $status_document_cooptype && $complete_position){ ?>
+                <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $status_document_one && $status_document_two && $status_document_cooptype && $complete_position){ ?>
                   <small class="text-muted">
                     <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
                   </small>
@@ -694,7 +733,7 @@
           </li>
           <li class="list-group-item  flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1 font-weight-bold">Step 12</h5>
+              <h5 class="mb-1 font-weight-bold">Step 10</h5>
               <small class="text-muted">
                 <?php if($coop_info->status == 16 || $coop_info->status == 15 || $coop_info->status == 13 || $coop_info->status == 14) :?>
                 <span class="badge badge-success">COMPLETE</span>
@@ -708,7 +747,7 @@
           </li>
           <li class="list-group-item  flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1 font-weight-bold">Step 13</h5>
+              <h5 class="mb-1 font-weight-bold">Step 11</h5>
               <small class="text-muted">
                 <?php if($coop_info->status == 15 || $coop_info->status == 13 || $coop_info->status == 14) :?>
                 <span class="badge badge-success">COMPLETE</span>
@@ -720,14 +759,14 @@
             </div>
             <p class="mb-1 font-italic">Wait for an e-mail notification of payment procedure.</p>
             
-            <?php if(($coop_info->status==16) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $economic_survey_complete && $staff_complete && $status_document_one && $status_document_two && $status_document_cooptype): ?>
+            <?php if(($coop_info->status==16) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $status_document_one && $status_document_two && $status_document_cooptype): ?>
               <small class="text-muted">
                 <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_payments" class="btn btn-color-blue btn-sm ">Payment</a>
               </small>
             <?php endif ?>
             <!-- Download payment -->
             <?php
-            if(($coop_info->status ==13) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $economic_survey_complete && $staff_complete && $status_document_one && $status_document_two && $status_document_cooptype && $complete_position)
+            if(($coop_info->status ==13) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $status_document_one && $status_document_two && $status_document_cooptype && $complete_position)
               {
                   
                 if ($pay_from=='reservation')

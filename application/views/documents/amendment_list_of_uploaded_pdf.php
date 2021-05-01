@@ -59,7 +59,7 @@
               <tr>
                 <td> <?=$a++;?></td>
                 <td><?=$row['filename']?></td>
-                <td><?=date('F-d-Y',strtotime($row['created_at']))?></td>
+                <td><?=date('F-d-Y h:i:s',strtotime($row['created_at']))?></td>
               <!--   <td><?=$row['status']?></td> -->
                
                 <td>
@@ -109,7 +109,7 @@
               <tr>
                 <td> <?=$a++;?></td>
                 <td><?=$row['filename']?></td>
-                <td><?=date('F-d-Y',strtotime($row['created_at']))?></td>
+                <td><?=date('F-d-Y h:i:s',strtotime($row['created_at']))?></td>
               <!--   <td><?=$row['status']?></td> -->
                
                 <td>

@@ -751,8 +751,8 @@ class amendment extends CI_Controller{
                       $data['major_industry_list'] = $this->amendment_model->get_all_major_industry($decoded_id);
                       $data['subclasses_list'] = $this->amendment_model->get_all_subclasses($decoded_id);
                       $data['business_activities'] =  $this->amendment_model->get_all_business_activities($decoded_id);
-                      //new
-
+                      $data['members_composition'] = $this->amendment_model->get_coop_composition($decoded_id);
+                      $data['composition']= $this->amendment_model->get_composition();
                       $coopTypeName= $data['coop_info']->type_of_cooperative;
                       $typeName_arr = explode(',',$coopTypeName);
                       $list_of_major_industry_cooptype =$this->major_industry_model->get_major_industries_by_type_name($coopTypeName);
@@ -847,7 +847,7 @@ class amendment extends CI_Controller{
                        }
                         $data['cooperative_type'] = $list_type;
 
-                        
+                       $data['inssoc'] = explode(",",$data['coop_info']->name_of_ins_assoc);  
                       $data['encrypted_id'] = $id;
                        $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
                       $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
@@ -966,7 +966,8 @@ class amendment extends CI_Controller{
               // $this->debug(  $data['capitalization_complete']);
               $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
               $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($coop_id,$decoded_id);
-
+             // var_dump( $data['cooperator_complete']);
+             // echo $this->db->last_query();
               if($data['cooperator_complete']==false) {
                 $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($coop_id,$decoded_id);
               }
@@ -975,25 +976,7 @@ class amendment extends CI_Controller{
                 $data['committees_complete'] = $this->committee_model->committee_complete_count_amendment($decoded_id);
               }
               $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($coop_id,$decoded_id); 
-              // echo $this->db->last_query();
-              //    $mystring = "hello_there";
-              // if(str_replace("_", "", $mystring) != $mystring) 
-              // {
-              //     // There is an underscore
-              // }
-              // else
-              // {
-              //   //no underscore
-              // }
-
-                //$pos = strpos($mystring, '_');
-                // if(false !== $pos) {
-                //     //no _ in the mystring
-                // }
-                // else {
-                //     echo "_ found at pos ".$pos; 
-                // }
-              // var_dump( $data['purposes_complete']);
+             
               $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
               
               $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);

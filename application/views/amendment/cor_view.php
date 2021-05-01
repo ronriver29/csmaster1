@@ -64,7 +64,7 @@
 			<td><i style="color:white;">....</i></td>
 		</tr>
 	        <tr>
-			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=$this->session->userdata('pagecount')?></b> pages and By-Laws consisting of <b><?=$this->session->userdata('pagecount_bylaws')?></b> pages, being not contrary
+			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=$this->session->userdata('pagecount')?></b> pages and By-Laws consisting of <b><?=$this->session->userdata('pagecount')?></b> pages, being not contrary
 	                to the provisions of RA 9520 and the rules and regulations prescribed by the CDA, are hereby approved and registered.</td>
 		</tr>
 	        <tr>
