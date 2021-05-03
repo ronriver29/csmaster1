@@ -95,8 +95,8 @@ class Unioncoop extends CI_Controller{
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                   $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->capitalization_model->check_capitalization_primary_complete($decoded_id) : true;
                   if($data['bylaw_complete']){
-                        $data['title'] = 'List of Affiliators';
-                        $data['header'] = 'Affiliators';
+                        $data['title'] = 'List of Members';
+                        $data['header'] = 'List of Members';
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                         $data['encrypted_id'] = $id;
                         $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);

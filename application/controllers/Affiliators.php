@@ -27,8 +27,8 @@ class Affiliators extends CI_Controller{
                 if($data['capitalization_complete']){
                     $data['business_activities'] =  $this->cooperatives_model->get_all_business_activities($decoded_id);
                     $data['client_info'] = $this->user_model->get_user_info($user_id);
-                    $data['title'] = 'List of Affiliators';
-                    $data['header'] = 'Affiliators';
+                    $data['title'] = 'List of Members';
+                    $data['header'] = 'List of Members';
                     $data['encrypted_id'] = $id;
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
