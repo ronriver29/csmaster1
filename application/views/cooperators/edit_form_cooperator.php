@@ -160,6 +160,7 @@
                 <div class="form-group">
                   <label for="barangay">Barangay</label>
                   <select class="custom-select validate[required]" name="barangay" id="barangay">
+                    <option value="<?php echo $cooperator_info->bCode ?>"><?php echo $cooperator_info->brgy ?></option>
                   </select>
                 </div>
               </div>
@@ -167,6 +168,7 @@
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
                   <select class="custom-select validate[required]" name="city" id="city" disabled>
+                    <option value="<?php echo $cooperator_info->cCode ?>"><?php echo $cooperator_info->city ?></option>
                   </select>
                 </div>
               </div>
@@ -174,6 +176,7 @@
                 <div class="form-group">
                   <label for="province">Province</label>
                   <select class="custom-select validate[required]" name="province" id="province" disabled>
+                    <option value="<?php echo $cooperator_info->pCode ?>"><?php echo $cooperator_info->province ?></option>
                   </select>
                 </div>
               </div>
@@ -193,7 +196,7 @@
                 <div class="form-group">
                   <label for="barangay">Barangay</label>
                   <select class="custom-select validate[required]" name="barangay" id="barangay">
-
+                    <option value="<?php echo $cooperator_info->bCode ?>"><?php echo $cooperator_info->brgy ?></option>
                   </select>
                 </div>
               </div>
@@ -201,6 +204,7 @@
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
                   <select class="custom-select validate[required]" name="city" id="city" >
+                    <option value="<?php echo $cooperator_info->cCode ?>"><?php echo $cooperator_info->city ?></option>
                   </select>
                 </div>
               </div>

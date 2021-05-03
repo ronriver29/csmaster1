@@ -78,8 +78,8 @@
                     $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.$coop_info->grouping);
                 }
                 $amount_in_words=0;
-                  // $amount_in_words = ($rf+$lrf+$name_reservation_fee+100);
-                 $amount_in_words = ($rf+$lrf+$name_reservation_fee);
+                  $amount_in_words = ($rf+$lrf+$name_reservation_fee+100);
+                 // $amount_in_words = ($rf+$lrf+$name_reservation_fee);
 
                 ini_set('precision', 17);
                 $total_ = number_format($amount_in_words,2);
@@ -125,16 +125,6 @@
                   <td class="pera" align="right" width="13%"><b>'.number_format($lrf,2).'</b></td>
                 </tr>
                 <tr>
-                  <td colspan="4">&nbsp</td>
-                </tr>
-                <tr>
-                  <td class="bord" colspan="2">Total </td>
-                  <td class="pera" width="5%">Php </td>
-                  <td class="pera" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
-                </tr>';
-              }
-          ?>      
-                <!--  <tr>
                  <td width="23%"></td>
                    <td class="pera" width=""><b>COC Fee</b></td>
                    <td class="pera" width="5%"> </td>
@@ -147,7 +137,10 @@
                   <td class="bord" colspan="2">Total </td>
                   <td class="pera" width="5%">Php </td>
                   <td class="pera" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee+100,2).'</b></td>
-                </tr>'; -->
+                </tr>';
+              }
+          ?>      
+                 
           
           </table>
         <div>
@@ -172,10 +165,10 @@
           <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
           <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$payorname?>">
           <input type="hidden" class="form-control" id="nature" name="nature" value="Name Registration">
-          <!-- <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee<br/>COC Fee"> -->
-           <!-- <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2).'<br/>'.number_format(100,2) ?>"> -->
-           <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee">
-            <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2)?>">
+          <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee<br/>COC Fee">
+           <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2).'<br/>'.number_format(100,2) ?>">
+           <!-- <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee">
+            <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2)?>"> -->
           <input type="hidden" class="form-control" id="total" name="total" value="<?=$rf+$lrf+$name_reservation_fee?>">
           <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
       </div>

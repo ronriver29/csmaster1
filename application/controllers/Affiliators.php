@@ -178,6 +178,7 @@ class Affiliators extends CI_Controller{
               'application_id' => $this->input->post('applicationid'),
               'number_of_subscribed_shares' => $this->input->post('subscribedShares'),
               'number_of_paid_up_shares' => $this->input->post('paidShares'),
+              'representative' => $this->input->post('representative'),
               'user_id' => $user_id, 
               );
             $success = $this->affiliators_model->add_affiliators($data);
@@ -210,12 +211,13 @@ class Affiliators extends CI_Controller{
 
         $u_data = array(
             'number_of_subscribed_shares'=> $this->input->post('subscribedShares2'),
-            'number_of_paid_up_shares'=> $this->input->post('paidShares2')
+            'number_of_paid_up_shares'=> $this->input->post('paidShares2'),
+            'representative' => $this->input->post('repre'),
           );
 
-        $update_passwd = $this->db->update('affiliators',$u_data,array('id'=>$encrypted_post_coop_id));
+        $update_aff = $this->db->update('affiliators',$u_data,array('id'=>$encrypted_post_coop_id));
 
-        if($update_passwd)
+        if($update_aff)
         {  
           $this->session->set_flashdata('cooperator_success', 'Affiliator Successfully Updated.');
             redirect('cooperatives/'.$encryptedcoopid.'/affiliators');

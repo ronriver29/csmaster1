@@ -271,6 +271,9 @@ $('#editAffiliatorModal').on('show.bs.modal', function (event) {
   var application_id = button.data('application_id');
   var regno = button.data('regno');
   var regid = button.data('reg_id');
+  var repre = button.data('representative');
+  var subscribedShares2 = button.data('subscribed');
+  var paidShares2 = button.data('paidshares');
   var modal = $(this);
   modal.find('.modal-body #cooperativeID').val(coop_id);
  modal.find('.modal-body #cooperatorID').val(cooperatorid);
@@ -279,6 +282,9 @@ $('#editAffiliatorModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body .cooperator-name-text').text(full_name);
   modal.find('.modal-body #regno').val(regno);
   modal.find('.modal-body #regid').val(regid);
+  modal.find('.modal-body #repre').val(repre);
+  modal.find('.modal-body #subscribedShares2').val(subscribedShares2);
+  modal.find('.modal-body #paidShares2').val(paidShares2);
 });
 $('#fullInfoRegisteredModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget);

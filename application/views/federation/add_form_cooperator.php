@@ -64,6 +64,13 @@
                 <div id="paid-note" style="color: red; font-size:12px;"></div>
               </div>
             </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="paidShares">Name of Representative:</label>
+                <input type="text" id="representative" class="form-control validate[required]" name="representative">
+                <div id="paid-note" style="color: red; font-size:12px;"></div>
+              </div>
+            </div>
 
             <div class="modal-footer deleteCooperatorFooter">
               <input class="btn btn-color-blue btn-block" type="submit" id="deleteCooperatorBtn" name="deleteCooperatorBtn" value="Add">

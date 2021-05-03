@@ -126,7 +126,7 @@
                         
 
                     <?php if($is_client){ ?>
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editAffiliatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($applied_coops['aff_id']))?>"><i class='fas fa-eye'></i> Edit</button>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editAffiliatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($applied_coops['aff_id']))?>" data-representative="<?=$applied_coops['representative']?>" data-subscribed="<?=$applied_coops['number_of_subscribed_shares']?>" data-paidshares="<?=$applied_coops['number_of_paid_up_shares']?>"><i class='fas fa-eye'></i> Edit</button>
                     <!-- END -->
 
                       <?php // if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>

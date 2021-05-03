@@ -58,7 +58,14 @@ class Capitalization extends CI_Controller{
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     }
                     $this->load->view('./template/header', $data);
-                    $this->load->view('cooperative/bylaw_info/capitalization_form', $data);
+                    if($data['coop_info']->grouping == 'Federation'){
+                        $this->load->view('cooperative/bylaw_info/fed_capitalization_form', $data);
+                    } else if($data['coop_info']->grouping == 'Union'){
+                        $this->load->view('cooperative/bylaw_info/capitalization_form', $data);
+                    } else {
+                        $this->load->view('cooperative/bylaw_info/capitalization_form', $data);
+                    }
+                    // $this->load->view('cooperative/bylaw_info/capitalization_form', $data);
 //                    $this->load->view('cooperators/full_info_modal_cooperator');
 //                    $this->load->view('cooperators/delete_form_cooperator');
                     $this->load->view('./template/footer');
@@ -104,7 +111,14 @@ class Capitalization extends CI_Controller{
                         $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                         $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                         $this->load->view('./templates/admin_header', $data);
-                        $this->load->view('cooperative/bylaw_info/capitalization_form', $data);
+                        if($data['coop_info']->grouping == 'Federation'){
+                            $this->load->view('cooperative/bylaw_info/fed_capitalization_form', $data);
+                        } else if($data['coop_info']->grouping == 'Union'){
+                            $this->load->view('cooperative/bylaw_info/capitalization_form', $data);
+                        } else {
+                            $this->load->view('cooperative/bylaw_info/capitalization_form', $data);
+                        }
+                        
                         $this->load->view('./templates/admin_footer');
                   }else{
                     $this->session->set_flashdata('redirect_message', 'Please complete first the bylaw additional information.');

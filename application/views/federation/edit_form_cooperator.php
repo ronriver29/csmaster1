@@ -31,6 +31,7 @@
 
               <input type="hidden" class="validate[required]" id="cooperatorID" name="cooperatorID">
               <input type="hidden" class="validate[required]" id="cooperativeID" name="cooperativesID">
+              
               <!-- <input type="hidden" class="validate[required]" id="application_id" name="applicationid">
               <input type="hidden" class="validate[required]" id="coopname" name="coopName">
               <input type="hidden" class="validate[required]" id="regno" name="regNo">
@@ -38,7 +39,8 @@
               <!-- <div class="alert alert-info" role="alert">
                 <p> Are you sure you want to add <strong class="cooperator-name-text">test</strong> Cooperative?</p>
               </div> -->
-            </div>
+
+           
 
             <!-- <div class="form-group">
               <label for="membershipType">Type of Membership:</label>
@@ -64,10 +66,18 @@
                 <div id="paid-note2" style="color: red; font-size:12px;"></div>
               </div>
             </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="paidShares">Name of Representative:</label>
+                <input type="text" class="form-control validate[required]" id="repre" name="repre">
+                <!-- <input type="text" id="repre" name="repre" class="form-control validate[required]"> -->
+              </div>
+            </div>
 
             <div class="modal-footer deleteCooperatorFooter">
               <input class="btn btn-color-blue btn-block" type="submit" id="deleteCooperatorBtn" name="deleteCooperatorBtn" value="Add">
             </div>
+             </div>
           </form>
         </div>
       </div>
