@@ -46,7 +46,7 @@
               <select class="custom-select validate[required] cooperator_id" name="cooperatorID" id="cooperatorID">
                 <option value="" selected></option>
                 <?php foreach ($grouping as $cooperator) : ?>
-                  <option value ="<?php echo encrypt_custom($this->encryption->encrypt($cooperator['id']));?>"><?php echo $cooperator['full_name']?></option>
+                  <option value ="<?php echo encrypt_custom($this->encryption->encrypt($cooperator['id']));?>"><?php echo $cooperator['representative']?></option>
                 <?php endforeach; ?>
               </select>
             </div>
