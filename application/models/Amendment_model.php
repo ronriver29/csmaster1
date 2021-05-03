@@ -73,15 +73,15 @@ class amendment_model extends CI_Model{
   }
 
   public function get_amendment($amendment_id){
-    $this->db->select('registeredcoop.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region,amend_coop.proposed_name, amend_coop.category_of_cooperative, amend_coop.grouping,amend_coop.cooperative_type_id as type_id,amend_coop.common_bond_of_membership,amend_coop.field_of_membership,amend_coop.name_of_ins_assoc,amend_coop.acronym as acronym_name,amend_coop.type as coopTypes');
-    $this->db->from('registeredcoop');
-    $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
+    $this->db->select('registeredamendment.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region,amend_coop.proposed_name, amend_coop.category_of_cooperative, amend_coop.grouping,amend_coop.cooperative_type_id as type_id,amend_coop.common_bond_of_membership,amend_coop.field_of_membership,amend_coop.name_of_ins_assoc,amend_coop.acronym as acronym_name,amend_coop.type as coopTypes');
+    $this->db->from('registeredamendment');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredamendment.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->join('amend_coop','amend_coop.id=registeredcoop.amendment_id','inner');
+    $this->db->join('amend_coop','amend_coop.id=registeredamendment.amendment_id','inner');
     // $this->db->join('cooperative_type','cooperative_type.name=registeredcoop.type','inner');
-    $this->db->where('registeredcoop.amendment_id', $amendment_id);
+    $this->db->where('registeredamendment.amendment_id', $amendment_id);
     $query = $this->db->get();
 
   return $query->row();
@@ -307,6 +307,19 @@ class amendment_model extends CI_Model{
     return $query->row();
   }
 
+  public function get_amendment_info_byreg($regNo){
+    $this->db->select('amend_coop.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+    $this->db->from('amend_coop');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->join('registeredamendment', 'registeredamendment.regNo = amend_coop.regNo');
+    $this->db->where(array('registeredamendment.regNo'=>$regNo));
+    $query = $this->db->get();
+    return $query->row();
+  }
+
 
   // public function get_cooperative_info_by_admin($amendment_id){
   //   $this->db->select('amend_coop.*,amend_coop.acronym, amend_coop.proposed_name,registeredcoop.dateRegistered,registeredcoop.noStreet,registeredcoop.addrCode,registeredcoop.application_id,registeredcoop.qr_code, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,amend_coop.regNo');
@@ -340,6 +353,40 @@ class amendment_model extends CI_Model{
     $query = $this->db->query("select * from amend_coop where cooperative_id='$cooperative_id' and status=15 or status=14 order by id desc limit 1");
      return $query->row();
   }
+
+  public function amendment_info_by_regno($regno)
+  {
+    $query = $this->db->query("select comp_of_membership from amend_coop where regNo='$regno' and status=15 order by id desc limit 1 ");
+    if($query->num_rows()>0)
+    {
+      foreach($query->result_array() as $row)
+      {
+        return $row['comp_of_membership'];
+      }
+    }
+  }
+  public function coop_info_by_regno($regno)
+  {
+    $query = $this->db->query("select application_id from registeredcoop where regNo='$regno' order by id desc limit 1");
+    return $query->row();
+  }
+
+  public function get_composition_of_members_by_coop($coop_id)
+  {
+    $query = $this->db->query("select coop_mem.coop_id,composition_of_members.* from members_composition_of_cooperative as coop_mem left join composition_of_members on coop_mem.composition = composition_of_members.id  where coop_mem.coop_id='$coop_id'");
+    if($query->num_rows()>0)
+    {
+      foreach($query->result_array() as $row)
+      {
+        return $row['composition'];
+      }
+    }
+    else
+    {
+      return NULL;
+    }
+  }
+
   public function get_cooperative_info_by_admin_payment($amendment_id){
     $this->db->select('amend_coop.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,amend_coop.type_of_cooperative, payment.date_of_or as dateRegistered');
     $this->db->from('amend_coop');
@@ -2215,10 +2262,10 @@ public function check_if_denied($coop_id){
    }
    return $openTag.$data.$closeTag;
   }
-  public function get_composition_of_members($amendment_id)
+  public function get_composition_of_members()
   {
    $query = $this->db->get('composition_of_members');
-   return $query->row_array();
+   return $query->result_array();
   }
 
   public function get_all_amendments(){
@@ -2250,6 +2297,18 @@ public function check_if_denied($coop_id){
   }
 }
   
+   public function get_cooperative_info_by_admin_orig($coop_id){
+    $this->db->select('cooperatives.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,cooperatives.type_of_cooperative');
+    $this->db->from('cooperatives');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->where(array('cooperatives.id'=>$coop_id,'cooperatives.status'=>15));
+    $query = $this->db->get();
+    return $query->row();
+  }
+
   public function reg_coop_migrated_data($user_id)
   {
      $this->db->select('amend_coop.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
@@ -2267,4 +2326,16 @@ public function check_if_denied($coop_id){
     return $data;
   }
 
+  public function no_of_doc($amendment_id,$doc_name)
+  {
+    $query = $this->db->get_where('document_info',array('amendment_id'=>$amendment_id,'name'=>$doc_name));
+    if($query->num_rows()>0)
+    {
+      return $query->row();
+    }
+    else
+    {
+      return NULL;
+    }
+  }
 }

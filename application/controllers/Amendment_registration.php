@@ -166,19 +166,26 @@ class Amendment_registration extends CI_Controller{
           $data1['chartered_cities'] =$this->charter_model->get_charter_city($data1['coop_info']->cCode);
         }
         
-              
-      
+          if($date_OR >= "2021-04-15"){
+        // $data1['mydateregistered'] = $coop_details->date_of_or;
+        $data1['signature'] = "../assets/img/AsecJoy.png"; 
           $data1['chair'] = $this->registration_model->get_chairman()->chairman;
-         
+        } else {
+          // $data1['mydateregistered'] = $registereddate;
+          $data1['chair'] = $this->registration_model->get_chairman2()->chairman;
+          $data1['signature'] = "../assets/img/1.png"; 
+        }    
           // $this->debug($data1['coop_info']);
           $data1['amend_coop_info']=$coop_details;
       
           $data1['director']=$this->amendment_registration_model->get_director($coop_details->rCode);
           $data1['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($coop_info->cooperative_id,$decoded_id);
-        
+          //bylaws no of pages
+          $data1['bylaws_pages'] = $this->amendment_model->no_of_doc($decoded_id,'bylaws');
+          $data1['articles_pages'] = $this->amendment_model->no_of_doc($decoded_id,'articles');
+          // echo $data1['no_of_pages']->total_pages;
           set_time_limit(0);
-        
-          $this->load->view('amendment/cor_view', $data1);
+          // $this->load->view('amendment/cor_view', $data1);
           $html2 = $this->load->view('amendment/cor_view', $data1, TRUE);
           $J = new pdf();       
           $J->set_option('isRemoteEnabled',TRUE);

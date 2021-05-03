@@ -1232,6 +1232,19 @@ public function count_documents_coop($coop_id,$num)
                                   'pagecount' => $getTotalPages
                                 );
                                 $this->session->set_userdata($user_data);
+                                  $data_doc = array(
+                                    'amendment_id' => $decoded_id,
+                                    'name' => 'articles',
+                                    'total_pages' => $this->session->userdata('total_pages')
+                                  );
+                                 if($this->check_if_exist_doc($decoded_id,$data_doc['name']))
+                                 {
+                                    $this->db->update('document_info',$data_doc,array('amendment_id',$decoded_id));
+                                 }
+                                 else
+                                 {
+                                    $this->db->insert('document_info',$data_doc);
+                                 }
                                 $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
                               
                             }else{
@@ -1436,6 +1449,20 @@ public function count_documents_coop($coop_id,$num)
                                 'pagecount' => $getTotalPages
                               );
                               $this->session->set_userdata($user_data);
+                                  $data_doc = array(
+                                    'amendment_id' => $decoded_id,
+                                    'name' => 'articles',
+                                    'total_pages' => $this->session->userdata('total_pages')
+                                  );
+                                 if($this->check_if_exist_doc($decoded_id,$data_doc['name']))
+                                 {
+                                    $this->db->update('document_info',$data_doc,array('amendment_id',$decoded_id));
+                                 }
+                                 else
+                                 {
+                                    $this->db->insert('document_info',$data_doc);
+                                 }
+
                               $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
                               
                               }else{

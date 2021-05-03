@@ -63,8 +63,8 @@
 	        <tr>
 			<td><i style="color:white;">....</i></td>
 		</tr>
-	        <tr>
-			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=$this->session->userdata('pagecount')?></b> pages and By-Laws consisting of <b><?=$this->session->userdata('pagecount')?></b> pages, being not contrary
+	    <tr>
+			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=($articles_pages->total_pages>0 ? $articles_pages->total_pages : '<small style="color:red">Please generate artilcles of cooperation document to get the total pages</small>' )?></b> pages and By-Laws consisting of <b><?=($bylaws_pages->total_pages>0 ? $bylaws_pages->total_pages : '<small style="color:red">Please generate bylaws document to get the total pages</small>')?></b> pages, being not contrary
 	                to the provisions of RA 9520 and the rules and regulations prescribed by the CDA, are hereby approved and registered.</td>
 		</tr>
 	        <tr>
@@ -94,7 +94,7 @@
 			<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 			</td> 
 			<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
+			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px;">
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
@@ -159,8 +159,8 @@
 	        <tr>
 			<td><i style="color:white;">....</i></td>
 		</tr>
-	        <tr>
-			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b>21</b> pages and By-Laws consisting of <b>22</b> pages, being not contrary
+	    <tr>
+			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=($articles_pages->total_pages>0 ? $articles_pages->total_pages : '<small style="color:red">Please generate artilcles of cooperation document to get the total pages</small>' )?></b> pages and By-Laws consisting of <b><?=($bylaws_pages->total_pages>0 ? $bylaws_pages->total_pages : '<small style="color:red">Please generate bylaws document to get the total pages</small>')?></b> pages, being not contrary
 	                to the provisions of RA 9520 and the rules and regulations prescribed by the CDA, are hereby approved and registered.</td>
 		</tr>
 	        <tr>
@@ -190,7 +190,7 @@
 			<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 			</td>
 			<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
+			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px;">
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
@@ -260,8 +260,8 @@
 	        <tr>
 			<td><i style="color:white;">....</i></td>
 		</tr>
-	        <tr>
-			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b>21</b> pages and By-Laws consisting of <b>22</b> pages, being not contrary
+	    <tr>
+			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=($articles_pages->total_pages>0 ? $articles_pages->total_pages : '<small style="color:red">Please generate artilcles of cooperation document to get the total pages</small>' )?></b> pages and By-Laws consisting of <b><?=($bylaws_pages->total_pages>0 ? $bylaws_pages->total_pages : '<small style="color:red">Please generate bylaws document to get the total pages</small>')?></b> pages, being not contrary
 	                to the provisions of RA 9520 and the rules and regulations prescribed by the CDA, are hereby approved and registered.</td>
 		</tr>
 	        <tr>
@@ -291,7 +291,7 @@
 			<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 			</td>
 			<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
+			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px;">
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
