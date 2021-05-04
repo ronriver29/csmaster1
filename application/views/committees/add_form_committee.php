@@ -45,9 +45,19 @@
               <label for="cooperatorID">Name of Cooperator:</label>
               <select class="custom-select validate[required] cooperator_id" name="cooperatorID" id="cooperatorID">
                 <option value="" selected></option>
+                <?php
+                  if($coop_info->grouping == 'Federation'){
+                      ?>
+                      <?php foreach ($grouping as $cooperator) : ?>
+                      <option value ="<?php echo encrypt_custom($this->encryption->encrypt($cooperator['id']));?>"><?php echo $cooperator['representative']?></option>
+                    <?php endforeach; ?>
+                      <?php
+                  } else {
+                ?>
                 <?php foreach ($grouping as $cooperator) : ?>
                   <option value ="<?php echo encrypt_custom($this->encryption->encrypt($cooperator['id']));?>"><?php echo $cooperator['full_name']?></option>
                 <?php endforeach; ?>
+              <?php } ?>
               </select>
             </div>
           </div>
