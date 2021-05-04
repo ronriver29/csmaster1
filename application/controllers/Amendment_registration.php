@@ -41,12 +41,13 @@ class Amendment_registration extends CI_Controller{
       $j=$j.'0';
       $j=$j.$x;
 
-      $amendment_no =1;
+      // $amendment_no =1;
       if(!$this->amendment_registration_model->in_registeredamendment($coop_info->id))
       {
       $amendment_no = $this->amendment_registration_model->get_last_reg_amendment($coop_info->regNo);
       }
-      
+      $amendment_no = $this->amendment_registration_model->get_last_amendment_no($decoded_id);
+ 
         if($this->db->update('amend_coop',array('amendmentNo'=>$amendment_no,'status'=>15),array('id'=>$decoded_id)))
         {
           

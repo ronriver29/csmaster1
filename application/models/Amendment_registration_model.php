@@ -103,6 +103,20 @@ class Amendment_registration_model extends CI_Model{
   	return $amendment_no;
   }
 
+  public function get_last_amendment_no($amendment_id)
+  {
+    $query =$this->db->query("select amendment_no from registeredamendment where amendment_id='$amendment_id'");
+    if($query->num_rows()>0)
+    {
+      foreach($query->result_array() as $row)
+      {
+        $amendment_no = $row['amendment_no'];//.' '.$row['regNo'];
+      }
+    }
+    
+    return $amendment_no;
+  }
+
   public function in_registeredamendment($amendment_id)
   {
   	$query = $this->db->select('amendment_id')->from('registeredamendment')->where('amendment_id',$amendment_id)->get();

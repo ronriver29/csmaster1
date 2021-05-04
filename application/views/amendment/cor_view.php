@@ -64,7 +64,7 @@
 			<td><i style="color:white;">....</i></td>
 		</tr>
 	    <tr>
-			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=($articles_pages->total_pages>0 ? $articles_pages->total_pages : '<small style="color:red">Please generate artilcles of cooperation document to get the total pages</small>' )?></b> pages and By-Laws consisting of <b><?=($bylaws_pages->total_pages>0 ? $bylaws_pages->total_pages : '<small style="color:red">Please generate bylaws document to get the total pages</small>')?></b> pages, being not contrary
+			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=(isset($articles_pages) ? $articles_pages->total_pages : '<small style="color:red">Please generate artilcles of cooperation document to get the total pages</small>' )?></b> pages and By-Laws consisting of <b><?=(isset($bylaws_pages->total_pages) ? $bylaws_pages->total_pages : '<small style="color:red">Please generate bylaws document to get the total pages</small>')?></b> pages, being not contrary
 	                to the provisions of RA 9520 and the rules and regulations prescribed by the CDA, are hereby approved and registered.</td>
 		</tr>
 	        <tr>
@@ -160,7 +160,7 @@
 			<td><i style="color:white;">....</i></td>
 		</tr>
 	    <tr>
-			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=($articles_pages->total_pages>0 ? $articles_pages->total_pages : '<small style="color:red">Please generate artilcles of cooperation document to get the total pages</small>' )?></b> pages and By-Laws consisting of <b><?=($bylaws_pages->total_pages>0 ? $bylaws_pages->total_pages : '<small style="color:red">Please generate bylaws document to get the total pages</small>')?></b> pages, being not contrary
+			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=(isset($articles_pages) ? $articles_pages->total_pages : '<small style="color:red">Please generate artilcles of cooperation document to get the total pages</small>' )?></b> pages and By-Laws consisting of <b><?=(isset($bylaws_pages) ? $bylaws_pages->total_pages : '<small style="color:red">Please generate bylaws document to get the total pages</small>')?></b> pages, being not contrary
 	                to the provisions of RA 9520 and the rules and regulations prescribed by the CDA, are hereby approved and registered.</td>
 		</tr>
 	        <tr>
@@ -261,7 +261,7 @@
 			<td><i style="color:white;">....</i></td>
 		</tr>
 	    <tr>
-			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=($articles_pages->total_pages>0 ? $articles_pages->total_pages : '<small style="color:red">Please generate artilcles of cooperation document to get the total pages</small>' )?></b> pages and By-Laws consisting of <b><?=($bylaws_pages->total_pages>0 ? $bylaws_pages->total_pages : '<small style="color:red">Please generate bylaws document to get the total pages</small>')?></b> pages, being not contrary
+			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=(isset($articles_pages) ? $articles_pages->total_pages : '<small style="color:red">Please generate artilcles of cooperation document to get the total pages</small>' )?></b> pages and By-Laws consisting of <b><?=(isset($bylaws_pages) ? $bylaws_pages->total_pages : '<small style="color:red">Please generate bylaws document to get the total pages</small>')?></b> pages, being not contrary
 	                to the provisions of RA 9520 and the rules and regulations prescribed by the CDA, are hereby approved and registered.</td>
 		</tr>
 	        <tr>

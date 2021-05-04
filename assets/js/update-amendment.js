@@ -12,7 +12,7 @@ $(function(){
   });
 
 
- 
+  
  
   // load type coop modified
   if($("#reserveUpdateForm #typeOfCooperatives1").val().length>0)
@@ -40,7 +40,7 @@ $(function(){
     success: function(data){ 
     var business_activities = data.business_activities;
      var cbom = data.common_bond_of_membership;
-        
+ 
           if(cbom=='Institutional'){
               $('#reserveUpdateForm #fieldmembershipname').show();
               $('#reserveUpdateForm #field_membership').show();
@@ -69,6 +69,7 @@ $(function(){
               $('#reserveUpdateForm #compositionOfMembers').hide();
               $('#reserveUpdateForm #compositionOfMembers1').hide();
               $('#reserveUpdateForm .compositionRemoveBtn').hide();
+              $('#reserveUpdateForm .occupation-wrapper').hide();
           } else if (cbom=="Occupational"){
               $('#reserveUpdateForm #fieldmembershipname').hide();
               $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
@@ -101,6 +102,7 @@ $(function(){
 
         //commond bond
           $('#reserveUpdateForm #commonBondOfMembership').on('change',function(){
+            
             if($(this).val()=="Institutional"){
                 $('#reserveUpdateForm select[name="compositionOfMembers[]"').hide();
                 $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
@@ -120,9 +122,10 @@ $(function(){
                 $('#reserveUpdateForm #composition_of_members_label').hide();
                 $('#reserveUpdateForm #compositionOfMembers1').hide();
                 $("#reserveUpdateForm .compositionRemoveBtn").hide();
-                // $('#reserveUpdateForm .ins-div').show();
+                $('#reserveUpdateForm .occupation-wrapper').hide();
                  $("#reserveUpdateForm .insti_div").show();
             } else if($(this).val()=="Associational"){
+             
                 $('#reserveUpdateForm select[name="compositionOfMembers[]"').hide();
                 $('#reserveUpdateForm #addMoreComBtn').hide();
                 $('#reserveUpdateForm #commonbondname').hide();
@@ -141,8 +144,9 @@ $(function(){
                 $('#reserveUpdateForm #composition_of_members_label').hide();
                 $('#reserveUpdateForm #compositionOfMembers1').hide();
                 $("#reserveUpdateForm .compositionRemoveBtn").hide();
-                // $('#reserveUpdateForm .ins-div').show();
+                $('#reserveUpdateForm .occupation-wrapper').hide();
                  $("#reserveUpdateForm .insti_div").show();
+                 $("#compositionOfMembers2").hide();
             } else if($(this).val()=="Residential"){
                 $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
                 $('#reserveUpdateForm #field_membership').hide();
@@ -164,6 +168,7 @@ $(function(){
                 $("#reserveUpdateForm .compositionRemoveBtn").hide();
                 $("#reserveUpdateForm .div-ins-assoc-occu").hide();
                  $("#reserveUpdateForm .insti_div").hide();
+                $("#reserveUpdateForm .occupation-wrapper").hide(); 
             } else {
                 $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
                 $('#reserveUpdateForm #field_membership').hide();
@@ -183,7 +188,7 @@ $(function(){
                 $('#reserveUpdateForm #field_membership').prop("required",false);
                 $('#reserveUpdateForm #name_associational').prop("required",false);
                 $("#reserveUpdateForm .institutionRemoveBtn").hide();
-                // $("#reserveUpdateForm .ins-div").hide();
+                $("#reserveUpdateForm .occupation-wrapper").show();
                 $("#reserveUpdateForm .insti_div").show();
                 $("#reserveUpdateForm .compositionRemoveBtn").show();
                 $("reserveUpdateForm #occupation-div").show();

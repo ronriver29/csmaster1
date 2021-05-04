@@ -205,7 +205,7 @@
         <hr>
         <?php if($is_client) : ?>
           <strong>Status</strong>
-          <p class="text-muted">
+          <p class="text-muted"> 
             <?php if($coop_info->status==0) echo "EXPIRED"; ?>
             <?php if($coop_info->status==1) echo "PENDING"; ?>
             <?php if($coop_info->status>=2 && $coop_info->status<=9) echo "ON EVALUATION"; ?>

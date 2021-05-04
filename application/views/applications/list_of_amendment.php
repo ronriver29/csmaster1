@@ -119,11 +119,11 @@
                         else if($cooperative['status']>=2 && $cooperative['status']<=9) echo "ON VALIDATION";
                         else if($cooperative['status']==10) echo "DENIED";
                         else if($cooperative['status']==11) echo "DEFERRED";
-                        else if($cooperative['status']==12) echo "WAITING FOR PAYMENT";
+                        else if($cooperative['status']==12) echo "FOR PRINTING & SUBMISSION";
                         else if($cooperative['status']==13) echo "PAY AT CDA";
                         else if($cooperative['status']==14) echo "GET YOUR CERTIFICATE";
-                        else if($cooperative['status']==15) echo "REGISTERED"; 
-                        else if($cooperative['status']==16) echo "FOR PAYMENT";?>
+                        else if($cooperative['status']==15) echo "REGISTERED";
+                        else if($cooperative['status']==16) echo "FOR PAYMENT"; ?>
                       <?php else : ?>
                         <?php if($cooperative['status']==2)echo "FOR VALIDATION"; 
                          else if($cooperative['status']==3) echo "FOR VALIDATION";
@@ -138,7 +138,7 @@
                         else if($cooperative['status']==9) echo "SUBMITTED BY SENIOR CDS";
                         else if($cooperative['status']==10) echo "DENIED BY DIRECTOR";
                         else if($cooperative['status']==11) echo "DEFERRED BY DIRECTOR";
-                        else if($cooperative['status']==12) echo "FOR PAYMENT";
+                        else if($cooperative['status']==12) echo "FOR PRINT&SUBMIT";
                         else if($cooperative['status']==13) echo "WAITING FOR O.R.";
                         else if($cooperative['status']==14) echo "FOR PRINTING";
                         else if($cooperative['status']==15) echo "REGISTERED"; 
