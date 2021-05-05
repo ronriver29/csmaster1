@@ -168,7 +168,8 @@ class amendment extends CI_Controller{
               $data['client_info'] = $this->user_model->get_user_info($user_id);
               $data['header'] = 'Amendment';
               $data['regions_list'] = $this->region_model->get_regions();
-              // $data['composition'] = $this->cooperatives_model->get_composition();
+             
+             
               if(isset($_POST['amendmentAddBtn'])){
                   $temp = TRUE;
               } else {
@@ -178,13 +179,31 @@ class amendment extends CI_Controller{
                
                 if(strlen($data['client_info']->regno) ==0)
                 {
-                   $data['regNo'] =$this->load_regNo($user_id);echo"dito";
+                   $data['regNo'] =$this->load_regNo($user_id);
                 }
                 else
                 {
-                   $data['regNo'] = $this->load_regNo_reg($user_id);echo"there";
+                   $data['regNo'] = $this->load_regNo_reg($user_id);
                 }
-          
+                
+                if($this->amendment_model->if_had_amendment($data['regNo']))
+                {
+                  $composition_members = $this->amendment_model->amendment_info_by_regno($data['regNo']);
+                  //last amendment info
+                  $data['coop_info'] = $this->amendment_model->get_amendment_info_byreg($data['regNo']);
+                }
+                else
+                {
+                   $data['cooperative_id'] = $this->amendment_model->coop_info_by_regno($data['regNo'])->application_id;
+                    $composition_members = $this->amendment_model->get_composition_of_members_by_coop($data['cooperative_id']);
+                  //cooperative info if firt amendment apply  
+                  $data['coop_info'] =  $this->amendment_model->get_cooperative_info_by_admin_orig( $data['cooperative_id']);
+                }
+               
+                $data['comp_of_membership'] = explode(',',$composition_members);
+               // $this->debug($data['comp_of_membership']);
+                $data['list_of_composition'] = $this->amendment_model->get_composition_of_members();
+                // $this->debug($data['list_of_composition']);
                 ini_set('display_errors', 1);
                 $this->load->view('./template/header', $data);
                 $this->load->view('cooperative/amendment_detail', $data);
@@ -215,22 +234,22 @@ class amendment extends CI_Controller{
                 if($this->input->post('commonBondOfMembership')=='Institutional')
                 {
                     $name_of_ins_assoc = implode(',',$this->input->post('name_ins_assoc'));
-                    $field_memship =$this->input->post('ins_field_membership');
+                    $field_memship =$this->input->post('assoc_field_membership');
                 }
                 else if($this->input->post('commonBondOfMembership')=='Associational')
                 {
-                      $name_of_ins_assoc = implode(',',$this->input->post('name_associational'));
-                      $field_memship =$this->input->post('assoc_field_membership');
+                    $name_of_ins_assoc = implode(',',$this->input->post('name_associational'));
+                    $field_memship =$this->input->post('assoc_field_membership');
                 }
-                 else if($this->input->post('commonBondOfMembership')=='Occupational')
+                else if($this->input->post('commonBondOfMembership')=='Occupational')
                 {
-                      $name_of_ins_assoc ='';
-                      $field_memship ='';
+                    $name_of_ins_assoc ='';
+                    $field_memship ='';
                 }
                 else
                 {
                     $name_of_ins_assoc ='';
-                      $field_memship ='';
+                    $field_memship ='';
                 }    
              
 
@@ -483,6 +502,7 @@ class amendment extends CI_Controller{
                 if(!$this->input->post('Amendment_ID')){
                   $data['client_info'] = $this->user_model->get_user_info($user_id); 
                   $data['members_composition'] = $this->amendment_model->get_coop_composition($decoded_id);
+                  // echo $this->db->last_query();
                   $data['title'] = 'Update Amendment Details';
                   $data['header'] = 'Update Amendment Information';
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
@@ -589,12 +609,13 @@ class amendment extends CI_Controller{
                     }
                   }
                   // $data['members_compositions']=$this->amendment_model->get_composition_of_members($decoded_id);
-                  // echo $this->db->last_query();
+                  // $this->debug( $data['members_composition']); 
                   $data['list_type_coop'] = $this->coop_type($coopTypeName);
                   //cooperative type value
                   $data['amd_type_of_coop'] = $typeName_arr;
 
                   $data['inssoc'] = explode(",",$data['coop_info']->name_of_ins_assoc);
+
                   $this->load->view('./template/header', $data);
                   $this->load->view('cooperative/amendment_reservation_update', $data);
                   if($this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
@@ -2117,6 +2138,7 @@ class amendment extends CI_Controller{
 
       if($this->amendment_model->if_had_amendment($regNo))
       {
+
         $a_qty = $this->db->query("select amendment_id from registeredamendment where regNo='$regNo'");
         foreach($a_qty->result() as $a)
         {

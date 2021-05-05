@@ -87,9 +87,10 @@
 <?php endif; //end if client ?>
   <?php else: ?>  
     <!-- START CDS -->
-    <?php if(!empty($have_senior_comment) && is_array($have_senior_comment)): ?>
-    <?php $have_cds_comment = array_filter($have_cds_comment);?>
-    <?php if(count($have_cds_comment)>0):?>
+
+    <?php if(!empty($senior_comment) && is_array($senior_comment)): ?>
+   <!--  <?php $have_cds_comment = array_filter($have_cds_comment);?> -->
+    <?php if(!empty($cds_comment) && $cds_comment !=NULL):?>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg">* CDS Findings</button>
 
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -126,8 +127,8 @@
     <!-- END CDS -->
    <!--  START SENIOR -->
   
-   <?php if(!empty($have_senior_comment) && is_array($have_senior_comment)): ?>
-    <?php $have_senior_comment = array_filter($have_senior_comment); ?>
+   <?php if(!empty($senior_comment) && is_array($senior_comment)): ?>
+    <?php $senior_comment = array_filter($senior_comment); ?>
    <?php if(strlen($senior_comment && $admin_info->access_level==3 ) || strlen($senior_comment && $admin_info->access_level==2) || strlen($senior_comment && $admin_info->access_level==4) && $coop_info->status!=15) : ?>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg2">* Senior Findings</button>
 
@@ -161,8 +162,8 @@
   <?php endif; //end of strlen comment ?>
    <!--  END SENIOR -->
    <!--  START DIRECTOR -->
-  <?php if(!empty($have_director_comment) && is_array($have_director_comment)): ?>
-  <?php if(strlen(($have_director_comment && $admin_info->access_level==3) || ($have_director_comment && $admin_info->access_level==2) || ($have_director_comment && $admin_info->access_level==4) && $coop_info->status == 6 || strlen(($have_director_comment && $admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
+  <?php if(!empty($director_comment) && is_array($director_comment)): ?>
+  <?php if(strlen(($director_comment && $admin_info->access_level==3) || ($director_comment && $admin_info->access_level==2) || ($have_director_comment && $admin_info->access_level==4) && $coop_info->status == 6 || strlen(($have_director_comment && $admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
   <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Director Findings</button>
 
   <div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

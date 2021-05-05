@@ -225,7 +225,7 @@
               
           <!-- asldfk; -->
           <div class="row">
-              <div class="col-sm-12 col-md-12 col-com insti_div" id="insti_div" > 
+              <div class="col-sm-12 col-md-12 col-com insti_div" id="insti_div"> 
                 <div class="form-group">
                    <label for="compositionOfMembers1" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
                             <label for="compositionOfMembers1" id="fieldmembershipmemofficname">Field of Membership <i>(Note: Members, Officers)</i></label>
@@ -251,54 +251,50 @@
                             }
                         ?>
                 </div>
-            
-                <div class="form-group">
-                   <label for="compositionOfMembers" id="composition_of_members_label">Composition of Members </label> 
-                          
-                            <?php if(empty($members_composition)) {?>
-                            <select class="custom-select" name="compositionOfMembers[]" id="compositionOfMembers1">
-                                <option value="" selected></option>
-                                <?php
-                                  foreach ($composition as $key) {
-                                    echo '<option value="'.$key->composition.'">'.$key->composition.'</option>';
-                                  }
-                                ?>
-                              </select>
-                            <?php } ?>
-                            <?php 
-                            if($members_composition)
-                            {
-                              $no=0;
-                              foreach($members_composition as $key){
-
-
-                                echo '<div class="form-group">
-
-                                <table id="comp_tbl">
-                                  <tr>
-                                    <td><select class="custom-select form-control  validate[required]" name="compositionOfMembers[]" id="compositionOfMembers'.++$no.'">
-                                        <option value=""></option>';
-                                        foreach($composition as $key2){
-                                          echo '<option value="'.$key2->id;
-                                          if ($key['composition']==$key2->composition)
-                                            echo '" selected>';
-                                          else
-                                            echo '">';
-                                          echo $key2->composition.'</option>';}
-
-                                        echo '</select><br>
-                                    </td>
-                                    <td><a class="customDeleleBtn compositionRemoveBtn float-right text-danger"  onclick="$(this).parent().parent().remove()"><i class="fas fa-minus-circle"></i></a>
-                                    </td>
-                                  </tr>
-                                </table>                     
-
-                            </div>';
-                            }//end if is array
-                          } 
-              ?>
-                </div>
-              </div>
+              </div> <!-- end insti -->
+             
+                <div class="col-md-12 occupation-wrapper" id="occupation-wrapper" >
+                  
+                  <label for="compositionOfMembers" id="composition_of_members_label">Composition of Members </label>
+                  
+                  <?php if(empty($members_composition)) {?>
+                  <select class="custom-select" name="compositionOfMembers[]" id="compositionOfMembers1">
+                    <option value="" selected></option>
+                    <?php
+                    foreach ($composition as $key) {
+                    echo '<option value="'.$key->composition.'">'.$key->composition.'</option>';
+                    }
+                    ?>
+                  </select>
+                  <?php } ?>
+                  <?php
+                  if($members_composition)
+                  {
+                  $no=0;
+                  foreach($members_composition as $key){
+                    echo '<div class="form-group">
+                      <table id="comp_tbl">
+                        <tr>
+                          <td><select class="custom-select form-control  validate[required]" name="compositionOfMembers[]" id="compositionOfMembers'.++$no.'">
+                            <option value=""></option>';
+                            foreach($composition as $key2){
+                            echo '<option value="'.$key2->id;
+                              if ($key['composition']==$key2->composition)
+                              echo '" selected>';
+                              else
+                              echo '">';
+                            echo $key2->composition.'</option>';}
+                          echo '</select><br>
+                        </td>
+                        <td><a class="customDeleleBtn compositionRemoveBtn float-right text-danger"  onclick="$(this).parent().parent().remove()"><i class="fas fa-minus-circle"></i></a>
+                        </td>
+                        </tr>
+                      </table>
+                    </div>';
+                  }//end no emtpy
+                }
+                ?>
+                </div> <!-- END occupation-wrapper -->
           </div>      
           
           

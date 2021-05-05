@@ -1386,7 +1386,12 @@ public function approve_by_senior($admin_info,$coop_id,$coop_full_name,$data_com
     $director_email = $director['email'];
   }
  
-  $this->db->insert('amendment_comment',$data_comment); //insert comment
+  //if comment is not empty
+  if(strlen($data_comment['comment'])>0)
+  {
+    $this->db->insert('amendment_comment',$data_comment); //insert comment
+  }
+  
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
@@ -2072,21 +2077,8 @@ public function check_if_denied($coop_id){
       }
       return $data;
     }
-    public function deffered_comments($amendment_id,$access_level)
-    {
-       $query = $this->db->get_where('amendment_comment',array('amendment_id'=>$amendment_id,'access_level'=>$access_level,'status'=>11));
-      if($query->num_rows()>0)
-      {
-        $data=$query->result_array();
-      }
-      else
-      {
-        $data = NULL;
-      }
-      return $data;
-    }
 
-    public function admin_comment_value($amendment_id,$access_level)
+     public function admin_comment_value($amendment_id,$access_level)
     {
       $query = $this->db->get_where('amendment_comment',array('amendment_id'=>$amendment_id,'access_level'=>$access_level));
       if($query->num_rows()>0)
@@ -2102,6 +2094,22 @@ public function check_if_denied($coop_id){
       }
       return $data;
     }
+
+    public function deffered_comments($amendment_id,$access_level)
+    {
+       $query = $this->db->get_where('amendment_comment',array('amendment_id'=>$amendment_id,'access_level'=>$access_level,'status'=>11));
+      if($query->num_rows()>0)
+      {
+        $data=$query->result_array();
+      }
+      else
+      {
+        $data = NULL;
+      }
+      return $data;
+    }
+
+   
 
     public function cooperatives_comments($coop_id){
       $query = $this->db->query("select * from amendment_comment where amendment_id='$coop_id' and status=11 and access_level IN(3,4)");

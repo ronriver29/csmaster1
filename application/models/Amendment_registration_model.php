@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Amendment_registration_model extends CI_Model{
 
-	public function register_coop_amendment($coop_id,$data_reg,$pst){
+  public function register_coop_amendment($coop_id,$data_reg,$pst){
     $this->db->trans_begin();
     // $x=$this->registered_coop_count()+1;
     // $j='9520-'.$pst.$rCode;
@@ -88,19 +88,19 @@ class Amendment_registration_model extends CI_Model{
 
   public function get_last_reg_amendment($regno)
   {
-  	$query =$this->db->query("select regNo,amendment_no from registeredamendment where regNo='$regno'");
-  	if($query->num_rows()>0)
-  	{
-  		foreach($query->result_array() as $row)
-  		{
-  			$amendment_no = $row['amendment_no']+1;//.' '.$row['regNo'];
-  		}
-  	}
-  	else
-  	{
-  		$amendment_no = 1;
-  	}
-  	return $amendment_no;
+    $query =$this->db->query("select regNo,amendment_no from registeredamendment where regNo='$regno'");
+    if($query->num_rows()>0)
+    {
+      foreach($query->result_array() as $row)
+      {
+        $amendment_no = $row['amendment_no']+1;//.' '.$row['regNo'];
+      }
+    }
+    else
+    {
+      $amendment_no = 1;
+    }
+    return $amendment_no;
   }
 
   public function get_last_amendment_no($amendment_id)
@@ -119,15 +119,15 @@ class Amendment_registration_model extends CI_Model{
 
   public function in_registeredamendment($amendment_id)
   {
-  	$query = $this->db->select('amendment_id')->from('registeredamendment')->where('amendment_id',$amendment_id)->get();
-  	if($query->num_rows()>0)
-  	{
-  		return true;
-  	}
-  	else
-  	{
-  		return false;
-  	}
+    $query = $this->db->select('amendment_id')->from('registeredamendment')->where('amendment_id',$amendment_id)->get();
+    if($query->num_rows()>0)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 
   public function coop_dtl($amendment_id)

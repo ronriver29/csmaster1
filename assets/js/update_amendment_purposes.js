@@ -27,7 +27,7 @@ $(function(){
     // });
   });
  
-
+ 
   $("#editPurposesForm #addMorePurposeBtn").on('click',function(){
     var data_selector = $(this).data("id");  
     // if(data_selector ==1)

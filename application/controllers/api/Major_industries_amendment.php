@@ -11,7 +11,7 @@ class Major_Industries_amendment extends CI_Controller{
 
   function index()
   {
-   
+    
       $coop_type_id = implode(',',$this->input->post('cooptype_'));
       // echo $coop_type_id;
       $qry = $this->db->query("select distinct industry_subclass_by_coop_type.major_industry_id,major_industry.description from industry_subclass_by_coop_type left join major_industry on industry_subclass_by_coop_type.major_industry_id = major_industry.id where cooperative_type_id IN(".$coop_type_id.")");

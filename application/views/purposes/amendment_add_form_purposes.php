@@ -34,13 +34,14 @@
             $a=1;
             
             foreach($contents as $key_count=>  $content): ?>
-            <?php $count_= $key_count+1;?>
+            <?php $count_= $key_count+1;?> 
             <div class="col-sm-12 col-md-12 col-purpose<?=$count_?>">
               <div class="col-sm-12 offset-md-8 col-md-4" >
                 <button type="button" class="btn btn-success btn-sm btn-block" name="addMorePurposeBtn[]" id="addMorePurposeBtn" data-id='<?=$count_?>'><i class="fas fa-plus"></i> Add More Purpose</button>
               </div>
               <label><?=$content['cooperative_type']?></label>
-              <input type="hidden" name="item[ids][<?=$a?>][id]" value="<?=encrypt_custom($this->encryption->encrypt($content['id']))?>"/>
+              <input type="" name="items[<?=$a?>][type_of_cooperative]" value="<?=$content['cooperative_type']?>">
+              <input type="hidden" name="items[<?=$a?>][id]" value="<?=encrypt_custom($this->encryption->encrypt($content['id']))?>"/>
               <div id="type_count<?=$key_counts++?>" >
                 
                 <?php $b=1; foreach($content['content_purpose'] as $key=> $row_content){?>
@@ -48,7 +49,7 @@
                   <div class="form-group">
                     <a class="customDeleleBtn purposeRemoveBtn float-left text-danger"><i class="fas fa-minus-circle"></i></a>
                     <label for="purpose<?= ($tempCount - $key)?>"><strong>Purpose No. <?=  ($key + 1)?></strong></label>
-                    <textarea class="form-control validate[required] textarea-purpose" id="purpose<?= ($tempCount - $key)?>" name="purposes[]" placeholder="Must be in sentence" rows="2"><?=$row_content ?></textarea>
+                    <textarea class="form-control validate[required] textarea-purpose" id="purpose<?= ($tempCount - $key)?>" name="items[<?=$a?>][content][]purposes[]" placeholder="Must be in sentence" rows="2"><?=$row_content ?></textarea>
                   </div>
                   </div> <!-- end of purposes wrapper -->
                   <?php $b++; ?>

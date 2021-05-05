@@ -10,7 +10,7 @@ class Industry_subclasses extends CI_Controller{
   }
 
   function index()
-  {
+  { 
     if($this->input->method(TRUE)==="GET"){
       $data = array();
       echo json_encode($data);

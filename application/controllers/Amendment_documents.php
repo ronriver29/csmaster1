@@ -303,15 +303,15 @@ class Amendment_documents extends CI_Controller{
                                     }  
 
                                     $data['cds_comment'] = $this->amendment_model->admin_comment($decoded_id,1);
-                                    $data['have_cds_comment'] = $this->amendment_model->admin_comment_value($decoded_id,1);
+                                    // $data['have_cds_comment'] = $this->amendment_model->admin_comment_value($decoded_id,1);
                                     $data['senior_comment'] = $this->amendment_model->admin_comment($decoded_id,2);
                                   
-                                     $data['have_senior_comment'] = $this->amendment_model->admin_comment_value($decoded_id,2);
+                                     // $data['have_senior_comment'] = $this->amendment_model->admin_comment_value($decoded_id,2);
                                     
                                     $data['director_comment'] = $this->amendment_model->admin_comment($decoded_id,3);
                                    
-                                     $data['have_director_comment'] = $this->amendment_model->admin_comment_value($decoded_id,3);
-                                    //  $this->debug($data['have_cds_comment']);
+                                     // $data['have_director_comment'] = $this->amendment_model->admin_comment_value($decoded_id,3);
+                                     // $this->debug($data['have_cds_comment']);
                                     //   $data['amendment_id'] = $decoded_id;
                                     // $this->debug($data['have_senior_comment']);
                                     //   $data['amendment_id'] = $decoded_id;
@@ -1235,11 +1235,12 @@ public function count_documents_coop($coop_id,$num)
                                   $data_doc = array(
                                     'amendment_id' => $decoded_id,
                                     'name' => 'articles',
-                                    'total_pages' => $this->session->userdata('total_pages')
+                                    'total_pages' => $this->session->userdata('pagecount')
                                   );
                                  if($this->check_if_exist_doc($decoded_id,$data_doc['name']))
                                  {
-                                    $this->db->update('document_info',$data_doc,array('amendment_id',$decoded_id));
+                                    $this->db->where('amendment_id', $decoded_id);
+                                    $this->db->update('document_info', $data_doc);
                                  }
                                  else
                                  {
@@ -1452,11 +1453,13 @@ public function count_documents_coop($coop_id,$num)
                                   $data_doc = array(
                                     'amendment_id' => $decoded_id,
                                     'name' => 'articles',
-                                    'total_pages' => $this->session->userdata('total_pages')
+                                    'total_pages' => $this->session->userdata('pagecount')
                                   );
                                  if($this->check_if_exist_doc($decoded_id,$data_doc['name']))
-                                 {
-                                    $this->db->update('document_info',$data_doc,array('amendment_id',$decoded_id));
+                                 { 
+                                    $this->db->where('amendment_id', $decoded_id);
+                                    $this->db->update('document_info', $data_doc);
+                                   
                                  }
                                  else
                                  {
@@ -1713,7 +1716,8 @@ public function count_documents_coop($coop_id,$num)
                                   );
                                  if($this->check_if_exist_doc($decoded_id,$data_doc['name']))
                                  {
-                                    $this->db->update('document_info',$data_doc,array('amendment_id',$decoded_id));
+                                    $this->db->where('amendment_id', $decoded_id);
+                                    $this->db->update('document_info', $data_doc);
                                  }
                                  else
                                  {
@@ -1903,7 +1907,8 @@ public function count_documents_coop($coop_id,$num)
                                   );
                                  if($this->check_if_exist_doc($decoded_id,$data_doc['name']))
                                  {
-                                    $this->db->update('document_info',$data_doc,array('amendment_id',$decoded_id));
+                                    $this->db->where('amendment_id', $decoded_id);
+                                    $this->db->update('document_info', $data_doc);
                                  }
                                  else
                                  {
