@@ -119,8 +119,8 @@
                   <label for="newName"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your new name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
 
-                    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess">
-                   <!--  <input type="text" class="form-control p_name validate[required,funcCall[validateAmendment_proposed_name]]" name="newNamess" id="newNamess"> -->
+                    <!-- <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess"> -->
+                   <input type="text" class="form-control p_name validate[required]" name="newNamess" id="newNamess">
                   <input type="hidden" class="form-control" name="newName2" id="newName2">
                   <input type="hidden" id="cooperative_idss" />
                 </div>
@@ -172,57 +172,70 @@
           </div> <!-- end of col md 12 -->
       
       
+
             <!-- ASSOCIATIONAL -->
-        <div class="row" id="associational-wrappers" style="display:none">
-          <div class="col-md-12">
+      <input type="hidden" value="<?=$coop_info->common_bond_of_membership?>" id="commonBond">
+      <div class="row rd-row" id="common_bond_wrapper">      
+         <?php //if($coop_info->common_bond_of_membership == 'Associational' || $coop_info->common_bond_of_membership == 'Institutional') :?>     
+        <div class="col-md-6" id="associational-wrappers">
+          <!-- <div class="col-md-12"> -->
             <div class="form-group">
              <label for="fieldmembershipname" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
-              <input type="text" class="form-control" name="assoc_field_membership" id="assoc_field_membership" >
+              <input type="text" class="form-control" name="assoc_field_membership" id="assoc_field_membership" value="<?=$coop_info->field_of_membership?>">
             </div>
-          </div>  
+          <!-- </div>   -->
 
-          <div class="col-md-12">
+          <!-- <div class="col-md-12"> -->
             <div class="form-group">
               <label for="compositionOfMembers1" id="name_institution_label">Name of Association</label>
-              <input type="text" name="name_associational[]" id="name_associational" class="form-control"/>
-            </div>  
+              <?php 
+              $name_associational = explode(',',$coop_info->name_of_ins_assoc);
+              foreach($name_associational as $associational):
+              ?>
+              <input type="text" name="name_associational[]" id="name_associational" value="<?=$associational?>" class="form-control"/><br>
+              <?php
+            endforeach;
+              ?>
+            <!-- </div>   -->
                <div class="assoc-wrapper"></div>          
           
-             <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn_Associational"  style="margin-top:35px;">
+             <button type="button" class="btn btn-success btn-sm float-right btn-assoc" id="addMoreInsBtn_Associational"  style="margin-top:35px;">
                 <i class="fas fa-plus"></i> Add Additional Name of Associational</button>
-
           </div>  
         </div>
-        <!-- end of row -->
-        <!-- INSTITUTIONAL -->
-        <div class="col-sm-12 col-md-12" id="institutional-wrapper" style="padding:5px;border">
-          <div class="form-group">
-            <label for="compositionOfMembers1" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
-            <input type="text" class="form-control" name="ins_field_membership" id="ins_field_membership" >
-          </div>
+      <?php //endif;?>
 
-          <div class="form-group">
-            <label for="compositionOfMembers1" id="name_institution_label">Name of Institution</label>
-            <div id="wrapper" class="con-wrapper"></div><!-- end of wrapper -->
-            <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn_insti"  style="margin-top:35px;">
-            <i class="fas fa-plus"></i> Add Additional Name of Institution</button>
-          </div>
-         
-        </div>
-         <!--END INSTITUTIONAL -->
-
-          <!--OCCUPATIONAL-->
-          <div class="row" id="occupational-wrapper">
-            <div class="form-group">
-              <label for="compositionOfMembers1">Composition of Members </label>
-            </div>
-            <div id="wrappera" class="col-md-12 occupational-wrappera"></div>
-            <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
+        
+        <?php //if($coop_info->common_bond_of_membership == 'Occupational') :?> 
+          <div class="col-md-12 occupational-wrappers" id="occupational-wrappers">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="compositionOfMembers1">Composition of Members </label>
+              
+                <div id="wrappera" class="col-md-12 occupational-wrappera">
+                <?php foreach($comp_of_membership as $comRow):?>
+              
+                  <div class="col-md-12 list-compositions">
+                    <div class="form-group">
+                      <select class="custom-select composition-of-members validate[required]" name="compositionOfMembersa[]" id="compositionOfMembersa">
+                        <?php foreach($list_of_composition as $list_comp):?>
+                          <option value="<?=$list_comp['id']?>" <?=($comRow == $list_comp['id'] ? "selected" : "" )?>> <?=$list_comp['composition']?></option>
+                        <?php endforeach;?>
+                      </select>
+                      <a class="customDeleleBtn compositionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                    </div>  
+                  </div>
+                <?php endforeach;?>  
+                </div>
+              <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
+            </div>  
           </div><!--  end of row -->
-
+        <?php //endif; ?>  
           <!--END OCCUPATIONAL-->
+      </div> 
+      </div>   <!-- END OF DIV CLASS COMMON BOND WRAPPER --> 
          <br/><br/>
-          <div class="col-sm-12 col-md-12">
+          <div class="row col-sm-12 col-md-12">
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
