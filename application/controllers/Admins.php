@@ -120,8 +120,8 @@ class Admins extends CI_Controller{
       if(!$this->session->userdata('client')){
         $admin_user_id = $this->session->userdata('user_id');
         if($this->admin_model->check_super_admin($admin_user_id)){
-          $data['title'] = 'List of Signatorys';
-          $data['header'] = 'List of Signatorys';
+          $data['title'] = 'List of Signatory';
+          $data['header'] = 'List of Signatory';
           $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
           $data['signatory_list'] = $this->admin_model->get_all_signatory();
           $this->load->view('./templates/admin_header', $data);
@@ -362,7 +362,7 @@ class Admins extends CI_Controller{
                 'active' => 1,
                 'date_last_updated' => date('y-m-d H:i:s')
                 );
-                if($this->admin_model->update_admin($decoded_aid,$data)){
+                if($this->admin_model->update_signatory($decoded_aid,$data)){
                   $this->session->set_flashdata('update_admin_success', 'Successfully updated an Signatory.');
                   redirect('admins/all_signatory');
                 }else{

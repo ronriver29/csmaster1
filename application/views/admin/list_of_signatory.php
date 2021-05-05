@@ -63,7 +63,7 @@
 <?php endif; ?>
 <div class="row">
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
-    <a class="btn btn-color-blue btn-block" href="<?php echo base_url();?>admins/add_signatory" role="button"><i class="fas fa-plus"></i> Add Signatorys</a>
+    <a class="btn btn-color-blue btn-block" href="<?php echo base_url();?>admins/add_signatory" role="button"><i class="fas fa-plus"></i> Add Signatory</a>
   </div>
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue shadow-sm mb-4">
