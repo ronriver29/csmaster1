@@ -38,6 +38,13 @@ class Admin_model extends CI_Model{
     $query = $this->db->get();
     return $query->result_array();
   }
+  public function get_all_signatory(){
+    $this->db->select('*');
+    $this->db->from('signatory');
+    $this->db->where(array('active' => 1));
+    $query = $this->db->get();
+    return $query->result_array();
+  }
     public function get_all_user(){
     $this->db->select('*');
     $this->db->from('users');
@@ -61,6 +68,23 @@ class Admin_model extends CI_Model{
         return false;
       }
     }
+  }
+  public function add_admin_signatory($data){
+    $data = $this->security->xss_clean($data);
+      $this->db->trans_begin();
+      $this->db->insert('signatory',$data);
+      if($this->db->trans_status() === FALSE){
+        $this->db->trans_rollback();
+        return false;
+      }else{
+        // if($this->sendEmailAccountDetails($data['email'],$data['username'],$raw_pass)){
+          $this->db->trans_commit();
+          return array('status'=>1,'msg'=>"Successfully added an Administrator.");
+        // }else{
+        //   $this->db->trans_rollback();
+        //   return false;
+        // }
+      }
   }
 public function add_admin_director($data,$raw_pass){
     $data = $this->security->xss_clean($data);
@@ -138,6 +162,20 @@ public function add_admin_director($data,$raw_pass){
       return true;
     }
   }
+  public function update_signatory($aid,$data){
+    $aid = $this->security->xss_clean($aid);
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+    $this->db->where('id',$aid);
+    $this->db->update('signatory',$data);
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
   public function reset_password($aid,$data){
     $aid = $this->security->xss_clean($aid);
     $data = $this->security->xss_clean($data);
@@ -156,6 +194,20 @@ public function add_admin_director($data,$raw_pass){
     $aid = $this->security->xss_clean($aid);
     $this->db->trans_begin();
     $this->db->delete('admin',array('id' => $aid));
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
+  public function delete_signatory($aid,$data){
+    $aid = $this->security->xss_clean($aid);
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+    $this->db->where('id',$aid);
+    $this->db->update('signatory',$data);
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -1098,6 +1150,12 @@ Very truly yours, <br>
   public function get_admin_info($data){
     $data = $this->security->xss_clean($data);
     $query= $this->db->get_where('admin',array('id'=>$data));
+    $row = $query->row();
+    return $row;
+  }
+  public function get_signatory_info($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('signatory',array('id'=>$data));
     $row = $query->row();
     return $row;
   }

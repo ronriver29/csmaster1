@@ -184,6 +184,7 @@ $route['cooperatives/(:any)/documents'] = 'documents/index/$1';
 $route['documents/list_upload_pdf'] = 'documents/list_upload_pdf/$1/$2'; //modify by jason
 
 $route['cooperatives/(:any)/registration'] = 'registration/index/$1';
+$route['cooperatives/(:any)/assign_inspector'] = 'assign_inspector/index/$1';
 $route['cooperatives/(:any)/forpayment'] = 'forpayment/index/$1';
 
 $route['cooperatives/(:any)/staff/(:any)/edit'] = 'staff/edit/$1/$2';
@@ -363,6 +364,7 @@ $route['users/logout'] = 'users/logout';
 
 $route['users/manual/(:any)'] = 'users/users_manual/$1'; //modify
 $route['admins/(:any)/edit'] = 'admins/edit/$1';
+$route['admins/(:any)/edit_signatory'] = 'admins/edit_signatory/$1';
 $route['admins/add'] = 'admins/add';
 $route['admins/check_username_not_exists'] = 'admins/check_username_not_exists';
 $route['admins/add_admin'] = 'admins/add_admin';

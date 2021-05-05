@@ -113,6 +113,98 @@ class Admins extends CI_Controller{
       }
     }
   }
+  public function all_signatory(){ 
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        $admin_user_id = $this->session->userdata('user_id');
+        if($this->admin_model->check_super_admin($admin_user_id)){
+          $data['title'] = 'List of Signatorys';
+          $data['header'] = 'List of Signatorys';
+          $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
+          $data['signatory_list'] = $this->admin_model->get_all_signatory();
+          $this->load->view('./templates/admin_header', $data);
+          $this->load->view('admin/list_of_signatory', $data);
+          $this->load->view('admin/delete_modal_signatory', $data);
+          $this->load->view('./templates/admin_footer');
+        }else{
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('cooperatives');
+      }
+    }
+  }
+  public function add_signatory(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        $admin_user_id = $this->session->userdata('user_id');
+        if($this->admin_model->check_super_admin($admin_user_id)){
+          if($this->form_validation->run() == FALSE){
+            $data['title'] = 'Add Signatory';
+            $data['header'] = 'Add Signatory';
+            $data['regions_list'] = $this->region_model->get_regions();
+            $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
+            $this->load->view('./templates/admin_header', $data);
+            $this->load->view('admin/add_form_signatory', $data);
+            $this->load->view('./templates/admin_footer');
+          }else{
+            $data = array(
+              'signatory' => $this->input->post('signatory'),
+              'signatory_designation' => $this->input->post('designation'),
+              'region_code' => $this->input->post('region'),
+              'date_last_updated' => date('y-m-d H:i:s'),
+              'active' => 1
+              );
+                // if($this->input->post('access_name') == 'Acting Regional Director'){
+                  // $this->debug($this->admin_model->add_admin_director($data,$this->input->post('pword',true)));              
+                    $insert = $this->admin_model->add_admin_signatory($data);
+                    if($insert['status']==1)
+                    {
+                        $this->session->set_flashdata('add_admin_success', $insert['msg']);
+                        redirect('admins/all_signatory');
+                    }
+                    else if($insert['status']==0)
+                    {
+                      $this->session->set_flashdata('add_admin_error', $insert['msg']);
+                        redirect('admins/all_signatory');
+                    }
+                    else
+                    {
+                        $this->session->set_flashdata('add_admin_error', 'Unable to add administrator.');
+                        redirect('admins/all_admin');
+                    }
+                // } else {
+                //     $success = $this->admin_model->check_position_not_exists_in_region($data['access_level'],$data['region_code']);
+                //     if($success['success']){
+                //       if($this->admin_model->add_admin($data,$this->input->post('pword',true))){
+                //         $this->session->set_flashdata('add_admin_success', 'Successfully added an administrator.');
+                //       redirect('admins/all_admin');
+                //       }else{
+                //         $this->session->set_flashdata('add_admin_error', 'Unable to add administrator.');
+                //         redirect('admins/all_admin');
+                //       }
+                //     }else{
+                //       $this->session->set_flashdata('add_admin_error', $success['message']);
+                //       redirect('admins/all_admin');
+                //     }
+                // }
+          }
+        }else{
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('cooperatives');
+      }
+    }
+  }
   public function add(){
     if(!$this->session->userdata('logged_in')){
       redirect('admins/login');
@@ -242,6 +334,55 @@ class Admins extends CI_Controller{
       }
     }
   }
+  public function edit_signatory($aid=null){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      $decoded_aid = $this->encryption->decrypt(decrypt_custom($aid));
+      if(is_numeric($decoded_aid) && $decoded_aid!=0){
+        if(!$this->session->userdata('client')){
+          $admin_user_id = $this->session->userdata('user_id');
+          if($this->admin_model->check_super_admin($admin_user_id)){
+            if($this->form_validation->run() == FALSE){
+              $data['title'] = 'Edit Signatory';
+              $data['header'] = 'Edit Signatory';
+              $data['regions_list'] = $this->region_model->get_regions();
+              $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
+              $data['encrypted_aid'] = $aid;
+              $data['edit_signatory_info'] = $this->admin_model->get_signatory_info($decoded_aid);
+              $this->load->view('./templates/admin_header', $data);
+              $this->load->view('admin/edit_form_signatory', $data);
+              $this->load->view('./templates/admin_footer');
+            }else{
+              $decoded_aid = $this->encryption->decrypt(decrypt_custom($this->input->post('adID')));
+              $data = array(
+                'signatory' => $this->input->post('signatory'),
+                'signatory_designation'=> $this->input->post('designation'),
+                'region_code' => $this->input->post('region'),
+                'active' => 1,
+                'date_last_updated' => date('y-m-d H:i:s')
+                );
+                if($this->admin_model->update_admin($decoded_aid,$data)){
+                  $this->session->set_flashdata('update_admin_success', 'Successfully updated an Signatory.');
+                  redirect('admins/all_signatory');
+                }else{
+                  $this->session->set_flashdata('update_admin_error', 'Unable to update Signatory.');
+                  redirect('admins/all_signatory');
+                }
+            }
+          }else{
+            $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+            redirect('cooperatives');
+          }
+        }else{
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }
+      }else{
+        show_404();
+      }
+    }
+  }
   public function delete_admin(){
     if(!$this->session->userdata('logged_in')){
       redirect('admins/login');
@@ -259,6 +400,39 @@ class Admins extends CI_Controller{
               }else{
                 $this->session->set_flashdata('delete_admin_error', 'Unable to delete administrator.');
                 redirect('admins/all_admin');
+              }
+          }else{
+            $this->session->set_flashdata('redirect_admin_applications_message', 'Unauthorized!!.');
+            redirect('admins/all_admin');
+          }
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('cooperatives');
+      }
+    }
+  }
+  public function delete_signatory(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        if(!$this->session->userdata('access_level')==5){
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }else{
+          if($this->input->post('deleteAdministratorBtn')){
+            $decoded_aid = $this->encryption->decrypt(decrypt_custom($this->input->post('adminID')));
+            $data = array(
+              'active' => 0,
+              'date_last_updated' => date('y-m-d H:i:s')
+            );
+              if($this->admin_model->delete_signatory($decoded_aid,$data)){
+                $this->session->set_flashdata('delete_admin_success', 'Successfully deleted an Signatory.');
+                redirect('admins/all_signatory');
+              }else{
+                $this->session->set_flashdata('delete_admin_error', 'Unable to delete Signatory.');
+                redirect('admins/all_signatory');
               }
           }else{
             $this->session->set_flashdata('redirect_admin_applications_message', 'Unauthorized!!.');
