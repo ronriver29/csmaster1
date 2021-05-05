@@ -55,7 +55,7 @@ if($gad_count == 0 || $audit_count == 0 || $election_count == 0 || $medcon_count
               <?php if($election_count == 0) echo '<li>There must be 1 Election member on the list</li>';?>
               <?php if($medcon_count == 0) echo '<li>There must be 1 Mediation and Conciliation member on the list</li>';?>
               <?php if($ethics_count == 0) echo '<li>There must be 1 Ethics member on the list</li>';?>
-              <?php if($coop_info->type_of_cooperative == 'Credit'){
+              <?php if($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agrculture'){
                   if($credit_count == 0) echo '<li>There must be 1 Credit member on the list</li>';
               }?>
            </ul>
