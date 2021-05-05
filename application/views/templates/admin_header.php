@@ -75,6 +75,9 @@
             <a href="<?php echo base_url();?>admins/all_user"><i class="fas fa-user-tie"></i> Users</a>
           </li>
           <li>   
+            <a href="<?php echo base_url();?>admins/all_signatory"><i class="fas fa-handshake"></i>COC Signatory</a>
+          </li>  
+          <li>   
             <a href="<?php echo base_url();?>admins/cooperatives_list"><i class="fas fa-handshake"></i> All Cooperatives List</a>
           </li>
              <li>   

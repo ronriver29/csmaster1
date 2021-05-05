@@ -1290,6 +1290,40 @@ $config = array(
                   'rules' => 'trim|required|matches[pword]'
                 ),
         ),
+        'admins/add_signatory' => array (
+                array(
+                  'field' => 'signatory',
+                  'label' => 'Full Name',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'region',
+                  'label' => 'Region',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'designation',
+                  'label' => 'Signatory Designation',
+                  'rules' => 'trim|required'
+                ),
+        ),
+        'admins/edit_signatory' => array (
+                array(
+                  'field' => 'signatory',
+                  'label' => 'Full Name',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'region',
+                  'label' => 'Region',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'designation',
+                  'label' => 'Signatory Designation',
+                  'rules' => 'trim|required'
+                ),
+        ),
         'admins/edit' => array (
                 array(
                   'field' => 'fName',

@@ -48,6 +48,15 @@
   </div>
 </div>
 <?php endif; ?>
+<?php if($this->session->flashdata('delete_admin_success')): ?>
+  <div class="row mt-3">
+    <div class="col-sm-12 col-md-12">
+      <div class="alert alert-danger text-center" role="alert">
+       <?php echo $this->session->flashdata('delete_admin_success'); ?>
+      </div>
+    </div>
+  </div>
+<?php endif; ?>
 <div class="row">
   <?php if($is_client) :?>
    <?php if($count_cooperatives->coop_count == 0){?>
@@ -242,7 +251,9 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                     <?php $dateRegistered = strtotime($cooperative_registered['date_of_or']); $datestr = strtotime('2021-04-18'); //echo $dateRegistered.'-'.$datestr;
                     if($dateRegistered >= $datestr){?>
                       <li>
-                        <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/assign" data-toggle="modal" data-target="#assignInspectorModal" data-coopregno="<?= $cooperative_registered['regNo']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id']))?>" data-cname="<?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print COC</a>
+                        <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/assign_inspector" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print COC</a>
+
+                        <!-- <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/assign" data-toggle="modal" data-target="#assignInspectorModal" data-coopregno="<?= $cooperative_registered['regNo']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id']))?>" data-cname="<?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print COC</a> -->
                       </li>
                     <?php } ?>
                      <?php endif; ?>
@@ -318,7 +329,9 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
                       <?php $dateRegistered = strtotime($cooperative_registered['date_of_or']); $datestr = strtotime('2021-04-18'); //echo $dateRegistered.'-'.$datestr;
                     if($dateRegistered >= $datestr){?>
                         <li>
-                          <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/assign" data-toggle="modal" data-target="#assignInspectorModal" data-coopregno="<?= $cooperative_registered['regNo']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id']))?>" data-cname="<?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print COC</a>
+                          <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/assign_inspector" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print COC</a>
+
+                          <!-- <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/assign" data-toggle="modal" data-target="#assignInspectorModal" data-coopregno="<?= $cooperative_registered['regNo']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id']))?>" data-cname="<?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print COC</a> -->
                         </li>
                       <?php } ?>
                      <?php endif; ?>

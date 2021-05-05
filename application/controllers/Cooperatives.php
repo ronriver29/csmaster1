@@ -988,6 +988,16 @@
 
         $data1['coop'] = $user_id;
         $data1['region_code'] = str_replace('0', '',$data['admin_info']->region_code);
+
+        $this->db->select('*');
+        $this->db->from('signatory');
+        $this->db->where('region_code',$data['admin_info']->region_code);
+        $query = $this->db->get();
+        $signatorys = $query->row();
+
+        // print_r($coc_number_update);
+        $data1['coc_number'] = $coc_number_update->coc_number;
+
         // $data1['coc_number'] = 01;
 
         $data1['coopName'] = $coop_info->coopName;
@@ -1012,9 +1022,9 @@
 
         $data1['validity'] = $this->input->post('validity');
 
-        $data1['full_name'] = $this->input->post('full_name');
+        $data1['full_name'] = $signatorys->signatory;
 
-        $data1['signatory'] = $this->input->post('sign');
+        $data1['signatory'] = $signatorys->signatory_designation;
 
         $data1['issued'] = $coop_info->date_of_or;
 
