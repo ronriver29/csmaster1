@@ -10,7 +10,7 @@ class amendment extends CI_Controller{
       $this->load->model('amendment_uploaded_document_model');
     }
   
-    public function saveor($was){
+    public function saveor($was){ 
       $amendment_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cid')));
       $data = array(
         'id' => $this->input->post('payment_id'),

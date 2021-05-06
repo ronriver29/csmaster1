@@ -53,16 +53,16 @@ class Amendment_documents extends CI_Controller{
                         //   $data['committees_complete'] = $this->committee_model->committee_complete_count_amendment($decoded_id);
                         // }
                         if($data['committees_complete']){
-                            $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                            // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
                             // if(!$data['economic_survey_complete']) {
                             //     $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
                             // }
-                            if($data['economic_survey_complete']){
-                              $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                              // if(!$data['staff_complete']) {
-                              //   $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                              // }
-                              if($data['staff_complete']){
+                            // if($data['economic_survey_complete']){
+                            //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                            //   // if(!$data['staff_complete']) {
+                            //   //   $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
+                            //   // }
+                            //   if($data['staff_complete']){
                                 $data['coop_type'] = $this->amendment_model->get_cooperatve_types($data['coop_info']->cooperative_type_id);
                                 
                                 // $this->debug($data['coop_type']);
@@ -141,14 +141,14 @@ class Amendment_documents extends CI_Controller{
                                 $this->load->view('template/header', $data);
                                 $this->load->view('documents/amendment_list_of_documents', $data);
                                 $this->load->view('template/footer');
-                              }else{
-                                $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                                redirect('amendment/'.$id);
-                              }
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                              redirect('amendment/'.$id);
-                            }
+                            //   }else{
+                            //     $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
+                            //     redirect('amendment/'.$id);
+                            //   }
+                            // }else{
+                            //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
+                            //   redirect('amendment/'.$id);
+                            // }
                           }else{
                             $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
                             redirect('amendment/'.$id);
@@ -211,16 +211,16 @@ class Amendment_documents extends CI_Controller{
                               $data['committees_complete'] = $this->committee_model->committee_complete_count_amendment($decoded_id);
                             }
                             if($data['committees_complete']){
-                                $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                                if(!$data['economic_survey_complete']) {
-                                    $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                                }
-                                if($data['economic_survey_complete']){
-                                  $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                                  // if(!$data['staff_complete']) {
-                                  //   $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                                  // }
-                                    if($data['staff_complete']){
+                                // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                                // if(!$data['economic_survey_complete']) {
+                                //     $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                                // }
+                                // if($data['economic_survey_complete']){
+                                //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                                //   // if(!$data['staff_complete']) {
+                                //   //   $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
+                                //   // }
+                                //     if($data['staff_complete']){
                                       $data['title'] = 'List of Documents';
                                       $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                                       $data['header'] = 'Documents';
@@ -325,15 +325,15 @@ class Amendment_documents extends CI_Controller{
                                       $this->load->view('amendment/evaluation/deny_modal_cooperative');
                                       $this->load->view('amendment/evaluation/defer_modal_cooperative');
                                       $this->load->view('templates/admin_footer');
-                                    }else{  
-                                      $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Please complete first the list of staff.'));
-                                       redirect('amendment');
-                                    }
-                                  }else{ 
+                                  //   }else{  
+                                  //     $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Please complete first the list of staff.'));
+                                  //      redirect('amendment');
+                                  //   }
+                                  // }else{ 
                                   
-                                    $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Please complete first the economic survey additional information.'));
-                                    redirect('amendment');
-                                  }
+                                  //   $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Please complete first the economic survey additional information.'));
+                                  //   redirect('amendment');
+                                  // }
                                 }else{ 
                                   $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Please complete first the list of committee.'));
                                   redirect('amendment');
@@ -417,10 +417,10 @@ public function doc_link_view($id,$document_num)
                           if($data['article_complete']){
                             $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
                             if($data['committees_complete']){
-                              $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                              if($data['economic_survey_complete']){
-                                $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                                if($data['staff_complete']){
+                              // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                              // if($data['economic_survey_complete']){
+                              //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                              //   if($data['staff_complete']){
                                   // $this->load->view('template_pdf/whole_template_pdf',$data);
                                   $this->output
                                       ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
@@ -428,14 +428,14 @@ public function doc_link_view($id,$document_num)
                                       ->set_output(
                                         file_get_contents(UPLOAD_AMD_DIR.$file_name)
                                       );
-                                }else{
-                                  $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                                  redirect('amendment/'.$id);
-                                }
-                              }else{
-                                $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                                redirect('amendment/'.$id);
-                              }
+                              //   }else{
+                              //     $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
+                              //     redirect('amendment/'.$id);
+                              //   }
+                              // }else{
+                              //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
+                              //   redirect('amendment/'.$id);
+                              // }
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
                               redirect('amendment/'.$id);
@@ -465,8 +465,8 @@ public function doc_link_view($id,$document_num)
               }
             }else{
               if($this->session->userdata('access_level')==5){
-                // redirect('admins/login');
-                echo"aaaa";
+                redirect('admins/login');
+               
               }else{
                 if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){
                   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
@@ -485,9 +485,9 @@ public function doc_link_view($id,$document_num)
                               $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count($decoded_id);
                               if($data['committees_complete']){
                                 $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                                if($data['economic_survey_complete']){
-                                  $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                                  if($data['staff_complete']){
+                                // if($data['economic_survey_complete']){
+                                //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                                  // if($data['staff_complete']){
                                    $pdf_name = substr($file_name, 7);
                                     $this->output
                                         ->set_header('Content-Disposition: inline; filename="'.$pdf_name.'.pdf"')
@@ -495,14 +495,14 @@ public function doc_link_view($id,$document_num)
                                         ->set_output(
                                           file_get_contents(UPLOAD_AMD_DIR.$file_name)
                                         );
-                                  }else{
-                                    $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
-                                    redirect('amendment/'.$id);
-                                  }
-                                }else{
-                                  $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
-                                  redirect('amendment/'.$id);
-                                }
+                                  // }else{
+                                  //   $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
+                                  //   redirect('amendment/'.$id);
+                                  // }
+                                // }else{
+                                //   $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
+                                //   redirect('amendment/'.$id);
+                                // }
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
                                 redirect('amendment/'.$id);
@@ -592,16 +592,16 @@ public function doc_link_view($id,$document_num)
                           $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
                         }
                         if($data['committees_complete']){
-                            $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                            if(!$data['economic_survey_complete']) {
-                                $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            }
-                            if($data['economic_survey_complete']){
-                              $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                              if(!$data['staff_complete']) {
-                                $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                              }
-                              if($data['staff_complete']){
+                            // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                            // if(!$data['economic_survey_complete']) {
+                            //     $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                            // }
+                            // if($data['economic_survey_complete']){
+                            //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                            //   if(!$data['staff_complete']) {
+                            //     $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
+                            //   }
+                            //   if($data['staff_complete']){
                               if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                                 $data['client_info'] = $this->user_model->get_user_info($user_id);
                                 $data['title'] = 'Upload Document';
@@ -620,14 +620,14 @@ public function doc_link_view($id,$document_num)
                                 $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
                                 redirect('amendment/'.$id);
                               }
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                              redirect('amendment/'.$id);
-                            }
-                          }else{
-                            $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                            redirect('amendment/'.$id);
-                          }
+                          //   }else{
+                          //     $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
+                          //     redirect('amendment/'.$id);
+                          //   }
+                          // }else{
+                          //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
+                          //   redirect('amendment/'.$id);
+                          // }
                         }else{
                           $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
                           redirect('amendment/'.$id);
@@ -1086,16 +1086,16 @@ public function count_documents_coop($coop_id,$num)
                           $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
                         }
                         if($data['committees_complete']){
-                            $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                            if(!$data['economic_survey_complete']) {
-                                $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            }
-                            if($data['economic_survey_complete']){
-                              $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                              if(!$data['staff_complete']) {
-                                $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                              }
-                              if($data['staff_complete']){
+                            // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                            // if(!$data['economic_survey_complete']) {
+                            //     $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                            // }
+                            // if($data['economic_survey_complete']){
+                            //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                            //   if(!$data['staff_complete']) {
+                            //     $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
+                            //   }
+                            //   if($data['staff_complete']){
                               $data['title'] = 'Articles of Cooperation for Primary';
                               $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                                $data['bylaw_info_orig'] = $this->bylaw_model->get_bylaw_by_coop_id($cooperative_id);
@@ -1248,14 +1248,14 @@ public function count_documents_coop($coop_id,$num)
                                  }
                                 $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
                               
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                              redirect('amendment/'.$id);
-                            }
-                          }else{
-                            $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                            redirect('amendment/'.$id); 
-                          }
+                          //   }else{
+                          //     $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
+                          //     redirect('amendment/'.$id);
+                          //   }
+                          // }else{
+                          //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
+                          //   redirect('amendment/'.$id); 
+                          // }
                         }else{
                           $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
                           redirect('amendment/'.$id);
@@ -1318,16 +1318,16 @@ public function count_documents_coop($coop_id,$num)
                           $data['committees_complete'] = $this->committee_model->committee_complete_count_amendment($decoded_id);
                         }
                         if($data['committees_complete']){
-                            $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                            if(!$data['economic_survey_complete']) {
-                                $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            }
-                            if($data['economic_survey_complete']){
-                              $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                              if(!$data['staff_complete']) {
-                                $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                              }
-                              if($data['staff_complete']){
+                            // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                            // if(!$data['economic_survey_complete']) {
+                            //     $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                            // }
+                            // if($data['economic_survey_complete']){
+                            //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                            //   if(!$data['staff_complete']) {
+                            //     $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
+                            //   }
+                            //   if($data['staff_complete']){
                                 $data['title'] = 'Articles of Cooperation for Primary';
                                 $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                                 $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
@@ -1468,14 +1468,14 @@ public function count_documents_coop($coop_id,$num)
 
                               $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
                               
-                              }else{
-                                $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
-                                redirect('amendment/'.$id);
-                              }
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
-                              redirect('amendment/'.$id);
-                            }
+                            //   }else{
+                            //     $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
+                            //     redirect('amendment/'.$id);
+                            //   }
+                            // }else{
+                            //   $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
+                            //   redirect('amendment/'.$id);
+                            // }
                           }else{
                             $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
                             redirect('amendment/'.$id);
@@ -1586,16 +1586,16 @@ public function count_documents_coop($coop_id,$num)
                           $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
                         }
                         if($data['committees_complete']){
-                            $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                            if(!$data['economic_survey_complete']) {
-                                $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                            }
-                            if($data['economic_survey_complete']){
-                              $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                              if(!$data['staff_complete']) {
-                                $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                              }
-                              if($data['staff_complete']){
+                            // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                            // if(!$data['economic_survey_complete']) {
+                            //     $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                            // }
+                            // if($data['economic_survey_complete']){
+                            //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                            //   if(!$data['staff_complete']) {
+                            //     $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                            //   }
+                            //   if($data['staff_complete']){
                               $data['title'] = 'By Laws for Primary';
                               $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                               $data['regular_ar_qualifications'] = explode(";",$data['bylaw_info']->regular_qualifications);
@@ -1725,14 +1725,14 @@ public function count_documents_coop($coop_id,$num)
                                  }
                                 $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
 
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                              redirect('amendment/'.$id);
-                            }
-                          }else{
-                            $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                            redirect('amendment/'.$id);
-                          }
+                          //   }else{
+                          //     $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
+                          //     redirect('amendment/'.$id);
+                          //   }
+                          // }else{
+                          //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
+                          //   redirect('amendment/'.$id);
+                          // }
                         }else{
                           $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
                           redirect('amendment/'.$id);
@@ -1795,16 +1795,16 @@ public function count_documents_coop($coop_id,$num)
                           $data['committees_complete'] = $this->committee_model->committee_complete_count_amendment($decoded_id);
                         }
                         if($data['committees_complete']){
-                            $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                            if(!$data['economic_survey_complete']) {
-                                $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            }
-                            if($data['economic_survey_complete']){
-                              $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                              if(!$data['staff_complete']) {
-                                $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                              }
-                              if($data['staff_complete']){
+                            // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                            // if(!$data['economic_survey_complete']) {
+                            //     $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                            // }
+                            // if($data['economic_survey_complete']){
+                            //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                            //   if(!$data['staff_complete']) {
+                            //     $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
+                            //   }
+                            //   if($data['staff_complete']){
                                 $data['title'] = 'By Laws for Primary';
                                 $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$decoded_id);
                                 $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
@@ -1915,14 +1915,14 @@ public function count_documents_coop($coop_id,$num)
                                     $this->db->insert('document_info',$data_doc);
                                  }
                                 $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
-                              }else{
-                                $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
-                                redirect('amendment/'.$id);
-                              }
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
-                              redirect('amendment/'.$id);
-                            }
+                            //   }else{
+                            //     $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
+                            //     redirect('amendment/'.$id);
+                            //   }
+                            // }else{
+                            //   $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
+                            //   redirect('amendment/'.$id);
+                            // }
                           }else{
                             $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
                             redirect('amendment/'.$id);
@@ -2015,18 +2015,18 @@ public function count_documents_coop($coop_id,$num)
                           $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
                         }
                         if($data['committees_complete']){
-                            $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                            if(!$data['economic_survey_complete']) {
-                                $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                            }
-                            if($data['economic_survey_complete']){
-                              $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                              if(!$data['staff_complete']) {
-                                $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                              }
+                            // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                            // if(!$data['economic_survey_complete']) {
+                            //     $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                            // }
+                            // if($data['economic_survey_complete']){
+                            //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                            //   if(!$data['staff_complete']) {
+                            //     $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                            //   }
                               $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$decoded_id);
                                $data['capitalization_info_orig'] = $this->capitalization_model->get_capitalization_by_coop_id($cooperative_id);  
-                              if($data['staff_complete']){
+                              // if($data['staff_complete']){
                               $data['title'] = "Treasurer's Affidavit for Primary";
                               $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
                               $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
@@ -2104,14 +2104,14 @@ public function count_documents_coop($coop_id,$num)
                               $f->load_html($html2);
                               $f->render();
                               $f->stream("treasurer_affidavit_primary.pdf", array("Attachment"=>0));
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                              redirect('amendment/'.$id);
-                            }
-                          }else{
-                            $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                            redirect('amendment/'.$id);
-                          }
+                          //   }else{
+                          //     $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
+                          //     redirect('amendment/'.$id);
+                          //   }
+                          // }else{
+                          //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
+                          //   redirect('amendment/'.$id);
+                          // }
                         }else{
                           $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
                           redirect('amendment/'.$id);
@@ -2174,16 +2174,16 @@ public function count_documents_coop($coop_id,$num)
                           $data['committees_complete'] = $this->committee_model->committee_complete_count_amendment($decoded_id);
                         }
                         if($data['committees_complete']){
-                            $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                            if(!$data['economic_survey_complete']) {
-                                $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            }
-                            if($data['economic_survey_complete']){
-                              $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                              if(!$data['staff_complete']) {
-                                $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                              }
-                              if($data['staff_complete']){
+                            // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                            // if(!$data['economic_survey_complete']) {
+                            //     $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                            // }
+                            // if($data['economic_survey_complete']){
+                            //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                            //   if(!$data['staff_complete']) {
+                            //     $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
+                            //   }
+                            //   if($data['staff_complete']){
                                 $data['title'] = "Treasurer's Affidavit for Primary";
                                 $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                                 $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
@@ -2258,14 +2258,14 @@ public function count_documents_coop($coop_id,$num)
                                 $f->load_html($html2);
                                 $f->render();
                                 $f->stream("treasurer_affidavit_primary.pdf", array("Attachment"=>0));
-                              }else{
-                                $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
-                                redirect('amendment/'.$id);
-                              }
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
-                              redirect('amendment/'.$id);
-                            }
+                            //   }else{
+                            //     $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
+                            //     redirect('amendment/'.$id);
+                            //   }
+                            // }else{
+                            //   $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
+                            //   redirect('amendment/'.$id);
+                            // }
                           }else{
                             $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
                             redirect('amendment/'.$id);
@@ -2344,10 +2344,10 @@ public function count_documents_coop($coop_id,$num)
                       if($data['article_complete']){
                         $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count($decoded_id);
                         if($data['committees_complete']){
-                          $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                          if($data['economic_survey_complete']){
-                            $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                            if($data['staff_complete']){
+                          // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                          // if($data['economic_survey_complete']){
+                          //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                          //   if($data['staff_complete']){
                               $data['title'] = "Economic Survey";
                               $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                              
@@ -2499,14 +2499,14 @@ public function count_documents_coop($coop_id,$num)
                               $f->load_html($html2);
                               $f->render();
                               $f->stream("economic_survey.pdf", array("Attachment"=>0));
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                              redirect('amendment/'.$id);
-                            }
-                          }else{
-                            $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                            redirect('amendment/'.$id);
-                          }
+                          //   }else{
+                          //     $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
+                          //     redirect('amendment/'.$id);
+                          //   }
+                          // }else{
+                          //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
+                          //   redirect('amendment/'.$id);
+                          // }
                         }else{
                           $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
                           redirect('amendment/'.$id);
@@ -2555,10 +2555,10 @@ public function count_documents_coop($coop_id,$num)
                         if($data['article_complete']){
                           $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count($decoded_id);
                           if($data['committees_complete']){
-                            $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                            if($data['economic_survey_complete']){
-                              $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                              if($data['staff_complete']){
+                            // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                            // if($data['economic_survey_complete']){
+                            //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                            //   if($data['staff_complete']){
                                 $data['title'] = "Economic Survey";
                                 $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                                 $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
@@ -2680,14 +2680,14 @@ public function count_documents_coop($coop_id,$num)
                                 $f->load_html($html2);
                                 $f->render();
                                 $f->stream("economic_survey.pdf", array("Attachment"=>0));
-                              }else{
-                                $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
-                                redirect('amendment/'.$id);
-                              }
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
-                              redirect('amendment/'.$id);
-                            }
+                            //   }else{
+                            //     $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
+                            //     redirect('amendment/'.$id);
+                            //   }
+                            // }else{
+                            //   $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
+                            //   redirect('amendment/'.$id);
+                            // }
                           }else{
                             $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
                             redirect('amendment/'.$id);
@@ -2746,10 +2746,10 @@ public function count_documents_coop($coop_id,$num)
                           if($data['article_complete']){
                             $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
                             if($data['committees_complete']){
-                              $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                              if($data['economic_survey_complete']){
-                                $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                                if($data['staff_complete']){
+                              // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                              // if($data['economic_survey_complete']){
+                              //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                              //   if($data['staff_complete']){
                                   // $this->load->view('template_pdf/whole_template_pdf',$data);
                                   $this->output
                                       ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
@@ -2757,14 +2757,14 @@ public function count_documents_coop($coop_id,$num)
                                       ->set_output(
                                         file_get_contents(UPLOAD_AMD_DIR.$decoded_filename)
                                       );
-                                }else{
-                                  $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                                  redirect('amendment/'.$id);
-                                }
-                              }else{
-                                $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                                redirect('amendment/'.$id);
-                              }
+                              //   }else{
+                              //     $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
+                              //     redirect('amendment/'.$id);
+                              //   }
+                              // }else{
+                              //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
+                              //   redirect('amendment/'.$id);
+                              // }
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
                               redirect('amendment/'.$id);
@@ -2812,24 +2812,24 @@ public function count_documents_coop($coop_id,$num)
                             if($data['article_complete']){
                               $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count($decoded_id);
                               if($data['committees_complete']){
-                                $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                                if($data['economic_survey_complete']){
-                                  $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                                   if($data['staff_complete']){
+                                // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                                // if($data['economic_survey_complete']){
+                                //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                                //    if($data['staff_complete']){
                                     $this->output
                                         ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
                                         ->set_content_type('application/pdf','utf-8')
                                         ->set_output(
                                           file_get_contents(UPLOAD_AMD_DIR.$decoded_filename)
                                         );
-                                  }else{
-                                    $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
-                                    redirect('amendment/'.$id);
-                                  }
-                                }else{
-                                  $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
-                                  redirect('amendment/'.$id);
-                                }
+                                //   }else{
+                                //     $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
+                                //     redirect('amendment/'.$id);
+                                //   }
+                                // }else{
+                                //   $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
+                                //   redirect('amendment/'.$id);
+                                // }
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
                                 redirect('amendment/'.$id);
@@ -2896,10 +2896,10 @@ public function count_documents_coop($coop_id,$num)
                           if($data['article_complete']){
                             $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                             if($data['committees_complete']){
-                              $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                              if($data['economic_survey_complete']){
-                                $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                                if($data['staff_complete']){
+                              // $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                              // if($data['economic_survey_complete']){
+                              //   $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
+                              //   if($data['staff_complete']){
                                   // $this->load->view('template_pdf/whole_template_pdf',$data);
                                   $this->output
                                       ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
@@ -2907,14 +2907,14 @@ public function count_documents_coop($coop_id,$num)
                                       ->set_output(
                                         file_get_contents(UPLOAD_AMD_DIR.$decoded_filename)
                                       );
-                                }else{
-                                  $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                                  redirect('cooperatives/'.$id);
-                                }
-                              }else{
-                                $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                                redirect('cooperatives/'.$id);
-                              }
+                              //   }else{
+                              //     $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
+                              //     redirect('cooperatives/'.$id);
+                              //   }
+                              // }else{
+                              //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
+                              //   redirect('cooperatives/'.$id);
+                              // }
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
                               redirect('cooperatives/'.$id);
@@ -2962,24 +2962,24 @@ public function count_documents_coop($coop_id,$num)
                             if($data['article_complete']){
                               $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                               if($data['committees_complete']){
-                                $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                                if($data['economic_survey_complete']){
-                                  $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                                  if($data['staff_complete']){
+                                // $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                                // if($data['economic_survey_complete']){
+                                //   $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
+                                //   if($data['staff_complete']){
                                     $this->output
                                         ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
                                         ->set_content_type('application/pdf','utf-8')
                                         ->set_output(
                                           file_get_contents(UPLOAD_AMD_DIR.$decoded_filename)
                                         );
-                                  }else{
-                                    $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
-                                    redirect('cooperatives/'.$id);
-                                  }
-                                }else{
-                                  $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
-                                  redirect('cooperatives/'.$id);
-                                }
+                                //   }else{
+                                //     $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
+                                //     redirect('cooperatives/'.$id);
+                                //   }
+                                // }else{
+                                //   $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
+                                //   redirect('cooperatives/'.$id);
+                                // }
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
                                 redirect('cooperatives/'.$id);
@@ -3248,16 +3248,16 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                           $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
                         }
                         if($data['committees_complete']){
-                            $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                            if(!$data['economic_survey_complete']) {
-                                $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            }
-                            if($data['economic_survey_complete']){
-                              $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                              if(!$data['staff_complete']) {
-                                $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                              }
-                              if($data['staff_complete']){
+                            // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                            // if(!$data['economic_survey_complete']) {
+                            //     $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                            // }
+                            // if($data['economic_survey_complete']){
+                            //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                            //   if(!$data['staff_complete']) {
+                            //     $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
+                            //   }
+                            //   if($data['staff_complete']){
                               if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                                 $data['client_info'] = $this->user_model->get_user_info($user_id);
                                 $data['title'] = 'Upload Document';
@@ -3274,14 +3274,14 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                                 $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
                                 redirect('amendment/'.$id);
                               }
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                              redirect('amendment/'.$id);
-                            }
-                          }else{
-                            $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                            redirect('amendment/'.$id);
-                          }
+                          //   }else{
+                          //     $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
+                          //     redirect('amendment/'.$id);
+                          //   }
+                          // }else{
+                          //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
+                          //   redirect('amendment/'.$id);
+                          // }
                         }else{
                           $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
                           redirect('amendment/'.$id);
@@ -3346,10 +3346,10 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                       if($data['article_complete']){
                         $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
                         if($data['committees_complete']){
-                          $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                          if($data['economic_survey_complete']){
-                            $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                            if($data['staff_complete']){
+                          // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                          // if($data['economic_survey_complete']){
+                          //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                          //   if($data['staff_complete']){
                               if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                                 $data['client_info'] = $this->user_model->get_user_info($user_id);
                                 $data['title'] = 'Upload Document';
@@ -3366,14 +3366,14 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                                 $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
                                 redirect('amendment/'.$id);
                               }
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                              redirect('amendment/'.$id);
-                            }
-                          }else{
-                            $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                            redirect('amendment/'.$id);
-                          }
+                          //   }else{
+                          //     $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
+                          //     redirect('amendment/'.$id);
+                          //   }
+                          // }else{
+                          //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
+                          //   redirect('amendment/'.$id);
+                          // }
                         }else{
                           $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
                           redirect('amendment/'.$id);
@@ -3439,10 +3439,10 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                       if($data['article_complete']){
                         $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
                         if($data['committees_complete']){
-                          $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                          if($data['economic_survey_complete']){
-                            $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                            if($data['staff_complete']){
+                          // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
+                          // if($data['economic_survey_complete']){
+                          //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                          //   if($data['staff_complete']){
                               if(!$this->amendment_model->check_submitted_for_evaluation($decoded_id)){
                                 $data['coop_type'] = $this->amendment_model->get_type_of_coop_single($data['coop_info']->type_of_cooperative,$coop_id);
                                 $data['client_info'] = $this->user_model->get_user_info($user_id);
@@ -3460,14 +3460,14 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                                 $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
                                 redirect('amendment/'.$id);
                               }
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                              redirect('amendment/'.$id);
-                            }
-                          }else{
-                            $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                            redirect('amendment/'.$id);
-                          }
+                          //   }else{
+                          //     $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
+                          //     redirect('amendment/'.$id);
+                          //   }
+                          // }else{
+                          //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
+                          //   redirect('amendment/'.$id);
+                          // }
                         }else{
                           $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
                           redirect('amendment/'.$id);

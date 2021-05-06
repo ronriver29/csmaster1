@@ -298,8 +298,8 @@
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-sm-12 col-md-4">
+ <div class="row">
+  <!--<div class="col-sm-12 col-md-4">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Economic Survey</h5>
@@ -307,7 +307,7 @@
           <a target="_blank" href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/economic_survey" class="btn btn-primary">View</a>
         </div>
       </div>
-  </div>
+  </div> -->
   <div class="col-sm-12 col-md-4">
       <div class="card">
         <div class="card-body">
