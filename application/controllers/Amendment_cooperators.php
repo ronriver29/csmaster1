@@ -10,7 +10,6 @@ class Amendment_cooperators extends CI_Controller{
     $this->load->model("amendment_capitalization_model");
     $this->load->model("amendment_cooperator_model");
   }
-
   function index($id = null)
   {
     if(!$this->session->userdata('logged_in')){

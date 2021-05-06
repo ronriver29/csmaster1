@@ -1,13 +1,13 @@
 $(function(){
      $("#subscribed-note").hide().html('');
     $("#paid-note").hide().html('');
-    $('#editCooperatorForm #subscribedShares').on('change', function(){
+    $('#editCooperatorForm #amd_subscribedShares').on('change', function(){
       var val = parseInt($(this).val());
       var available_subscribed_capital = $("#available_subscribed_capital").val().length>0 ? parseInt($("#available_subscribed_capital").val()) : '';
       $("#subscribed-note").hide().html('');
       if(val > available_subscribed_capital) {
           $(".subscribedSharesformError").hide().html('');
-          $("#subscribed-note").show().html('Should not exceed the remaining no of subscribed share: '+available_subscribed_capital);
+          $("#subscribed-note").show().html('Should not exceed the remaining no. of subscribed share: '+available_subscribed_capital);
       }
       console.log(val);
       console.log(available_subscribed_capital);
@@ -18,11 +18,11 @@ $(function(){
       $("#paid-note").hide().html('');
       if(val > available_paid_up_capital) {
          $(".paidSharesformError").hide().html();
-          $("#paid-note").show().html('Should not exceed the remaining no of paid up share: '+available_paid_up_capital);
+          $("#paid-note").show().html('Should not exceed the remaining no. of paid up share: '+available_paid_up_capital);
       }
   });
   $('#editCooperatorForm #membershipType').on('change', function(){ 
-    var tempType  = $.trim($(this).val());
+    var tempType  = $.trim($(this).val()); 
     var available_subscribed_capital = $("#available_subscribed_capital").val().length>0 ? parseInt($("#available_subscribed_capital").val()) : '';
     var available_paid_up_capital = $("#available_paid_up_capital").val().length>0 ? parseInt($("#available_paid_up_capital").val()) : '';    
     var subscribed = $('#editCooperatorForm #amd_subscribedShares').val().length>0 ? parseInt($('#editCooperatorForm #amd_subscribedShares').val()) : 0;
@@ -38,7 +38,7 @@ $(function(){
       var minimum_paid_up_share_regular = $("#minimum_paid_up_share_regular").val().length>0 ? $("#minimum_paid_up_share_regular").val() : '';
       $('#editCooperatorForm #subscribedShares').attr('min',minimum_subscribed_share_regular);
       $('#editCooperatorForm #amd_paidShares').attr('min',minimum_paid_up_share_regular);
-      if(subscribed > available_subscribed_capital) {
+      if(subscribed > available_subscribed_capital) { 
           $(".subscribedSharesformError").hide().html('');
           $("#subscribed-note").show().html('Should not exceed the remaining no of subscribed share: '+available_subscribed_capital);
       }
@@ -56,7 +56,7 @@ $(function(){
       $('#editCooperatorForm #amd_subscribedShares').attr('min',minimum_subscribed_share_associate);
       $('#editCooperatorForm #amd_subscribedShares').attr('min',minimum_paid_up_share_associate);
       
-      if(subscribed > available_subscribed_capital) { alert('mataas');
+      if(subscribed > available_subscribed_capital) {
           $(".subscribedSharesformError").hide().html('');
           $("#subscribed-note").show().html('Should not exceed the remaining no of subscribed share: '+available_subscribed_capital);
       }
@@ -140,7 +140,6 @@ $(function(){
           });
         }
       });
-
     }
   });
 
