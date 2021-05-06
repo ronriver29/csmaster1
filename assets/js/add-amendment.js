@@ -141,7 +141,7 @@ $(function(){
 
   //for non dynamic
      
-  $('.compositionRemoveBtn').on('click',function(){alert("dito ka"); 
+  $('.compositionRemoveBtn').on('click',function(){
                 $(this).closest('.list-compositions').remove();//$("#con-wrapper").children().last().remove(); // $(this).parent().remove();// $(this).closest(".tbl").remove();
   });
 
@@ -1114,7 +1114,7 @@ $(function(){
             var subClassTemp =   $('#amendmentAddForm #subClass'+(intLastCount)); 
             $(subClassTemp).prop("disabled",false);
             var major_industry = $(this).val();
-            alert("k");
+          
             // if(coop_type.length > 0 ){ 
                 $.ajax({
                 type : "POST",
@@ -1140,7 +1140,7 @@ $(function(){
 
   //modified add major industry dynamically
   let count_major_industry=parseInt($('.major-industry').length);
-  $('#amendmentAddForm #addMoreSubclassBtn').on('click', function(){ alert('di');
+  $('#amendmentAddForm #addMoreSubclassBtn').on('click', function(){ 
         if($('#amendmentAddForm #typeOfCooperative1').val() && ($('#amendmentAddForm #typeOfCooperative1').val()).length > 0)
         {
           var lastCountOfSubclass = $('select[name="subClass[]"').last().attr('id'); 
