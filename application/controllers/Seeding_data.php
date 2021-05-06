@@ -265,4 +265,18 @@ BARANGAY MAGSAYSAY, QUEZON CITY 1105',
       echo"failed";
     }
   }
+
+  public function change_coop_type()
+  {
+    $this->db->set('name', 'Multipurpose');
+    $this->db->where('id', 6);
+    if($this->db->update('cooperative_type'))
+    {
+      echo"Multi-purpose to Multipurpose successfully changed.";
+    }
+    else
+    {
+      echo"failed to change Multi-purpose to Multipurpose.";
+    } 
+  }
 }
