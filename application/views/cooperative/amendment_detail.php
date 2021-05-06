@@ -8,7 +8,7 @@
     <div class="alert alert-info shadow-sm mt-2" role="alert">
       <h5>Please fill up all the information to proceed into the next step.</h5>
     </div>
-  </div>
+  </div> 
 </div>
 
 <div class="row">
@@ -239,6 +239,7 @@
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                   <strong>Proposed Address of Cooperative</strong>
+                   <div style="color:red;font-size: 11px;"><i>*Please leave the House/Lot and Blk No. and Street Name blank if not applicable</i></div>
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
@@ -251,6 +252,7 @@
                 <div class="form-group">
                   <label for="streetName">Street Name</label>
                   <input type="text" class="form-control" name="streetName" id="streetName" placeholder="">
+                 
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">

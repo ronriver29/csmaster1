@@ -41,18 +41,20 @@ class Amendment_registration extends CI_Controller{
       $j=$j.'0';
       $j=$j.$x;
 
-      // $amendment_no =1;
-      if(!$this->amendment_registration_model->in_registeredamendment($coop_info->id))
+      $amendment_no =1;
+      if(!$this->amendment_registration_model->in_registeredamendment($decoded_id))
       {
       $amendment_no = $this->amendment_registration_model->get_last_reg_amendment($coop_info->regNo);
       }
-      $amendment_no = $this->amendment_registration_model->get_last_amendment_no($decoded_id);
- 
-        if($this->db->update('amend_coop',array('amendmentNo'=>$amendment_no,'status'=>15),array('id'=>$decoded_id)))
+      
+        if($coop_info->status == 14)
         {
-          
- 
-            $data_reg = array(
+          $this->db->update('amend_coop',array('amendmentNo'=>$amendment_no,'status'=>15),array('id'=>$decoded_id));
+        }
+            // var_dump($this->amendment_registration_model->in_registeredamendment($coop_info->id));
+            if(!$this->amendment_registration_model->in_registeredamendment($decoded_id))
+            {
+              $data_reg = array(
               'coopName'=>$coop_info->proposed_name.' '.$coop_info->type_of_cooperative,
               'acronym'=> $coop_info->acronym,
               'regNo'=> $coop_info->regNo,
@@ -69,13 +71,9 @@ class Amendment_registration extends CI_Controller{
               // 'qr_code'=>$j,
               'cooperative_id'=>$coop_info->cooperative_id,
               'amendment_id'=>$decoded_id
-            );
-
-            //chech existing coop
-            // var_dump($this->amendment_registration_model->in_registeredamendment($coop_info->id));
-            if(!$this->amendment_registration_model->in_registeredamendment($coop_info->id))
-            {
+              );
               $this->amendment_registration_model->register_coop_amendment($decoded_id,$data_reg,$pst);
+              
             }
             
             // $this->debug($this->registration_model->register_coop_amendment($decoded_id,$coop_info->rCode,$pst));
@@ -84,7 +82,6 @@ class Amendment_registration extends CI_Controller{
            
             if (strlen($coop_details->qr_code)<1 || $coop_info->qr_code='')
             {
-
               $qr_code_config = array();
               $qr_code_config['cacheable'] = $this->config->item('cacheable');
               $qr_code_config['cachedir'] = $this->config->item('cachedir');
@@ -98,7 +95,7 @@ class Amendment_registration extends CI_Controller{
               $this->ci_qr_code->initialize($qr_code_config);
               // get full name and user details
               // $image_name = $coop_details->regNo . ".png";
-               $image_name = $coop_details->regNo."-".$coop_details->amendment_no.".png";
+              $image_name = $coop_details->regNo."-".$coop_details->amendment_no.".png";
               // create user content
               $codeContents = "Cooperative Name:";
               $codeContents .= $coop_details->coopName;
@@ -128,11 +125,7 @@ class Amendment_registration extends CI_Controller{
               // echo $this->db->last_query();
 
             } //end qr code
-        }
-        else
-        {
-          echo "Failed to update";
-        }//end update amendmentno
+         // $this->debug( $coop_details);
         
        
         $data1['coop_info']=$coop_details;
@@ -154,7 +147,7 @@ class Amendment_registration extends CI_Controller{
         $dateDay = date('d',strtotime($date_OR));
         $data1['date_day']=$this->OrdinalIndicator($date_OR);
         $dt_data = substr($data1['date_day'],0,1);
-       if($dt_data=="0")
+        if($dt_data=="0")
         {
           $data1['date_day']=substr($data1['date_day'],1);
         }
@@ -167,7 +160,7 @@ class Amendment_registration extends CI_Controller{
           $data1['chartered_cities'] =$this->charter_model->get_charter_city($data1['coop_info']->cCode);
         }
         
-          if($date_OR >= "2021-04-15"){
+        if($date_OR >= "2021-04-15"){
         // $data1['mydateregistered'] = $coop_details->date_of_or;
         $data1['signature'] = "../assets/img/AsecJoy.png"; 
           $data1['chair'] = $this->registration_model->get_chairman()->chairman;

@@ -315,6 +315,7 @@
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                   <strong>Proposed Address of the Cooperative</strong>
+                   <div style="color:red;font-size: 11px;"><i>*Please leave the House/Lot and Blk No. and Street Name blank if not applicable</i></div>
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
