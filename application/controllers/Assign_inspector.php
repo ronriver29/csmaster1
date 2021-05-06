@@ -130,15 +130,15 @@ class assign_inspector extends CI_Controller{
 
 
           $this->load->view('report/coc_view','');
-   
-              set_time_limit(0);
-              $html2 = $this->load->view('report/coc_view', $data1, TRUE);
-              $J = new pdf();
-              $J->set_option('isRemoteEnabled',TRUE);
-              $J->setPaper(array(0,0,595.28,841.89), 'landscape');
-              $J->load_html($html2);
-              $J->render();
-              $J->stream("certificate.pdf", array("Attachment"=>0));
+            $html2 = $this->load->view('report/coc_view', $data1, TRUE);
+            
+              // $html2 = $this->load->view('report/coc_view', $data1, TRUE);
+              // $J = new pdf();
+              // $J->set_option('isRemoteEnabled',TRUE);
+              // $J->setPaper(array(0,0,595.28,841.89), 'landscape');
+              // $J->load_html($html2);
+              // $J->render();
+              // $J->stream("certificate.pdf", array("Attachment"=>0));
         } else {
           $this->session->set_flashdata('delete_admin_success', 'Signatory not Assigned. Please Contact System Administrator!');
           redirect('cooperatives');
