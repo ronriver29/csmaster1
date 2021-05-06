@@ -10,8 +10,6 @@ class assign_inspector extends CI_Controller{
     //Codeigniter : Write Less Do More
     $this->load->library('pdf');
     $this->load->model('user_model', 'user');
-    $this->load->library('ci_qr_code');
-    $this->config->load('qr_code');
   }
 
   function index($id = null){
@@ -117,17 +115,17 @@ class assign_inspector extends CI_Controller{
             // print_r($coc_number_update);
             $data1['coc_number'] = $coc_number_update->coc_number;
 
-            $data_field = array(
-              'regNo' => $coop_info->regNo,
-              'coopName' => $coop_info->coopName,
-              'application_id' => $decoded_id,
-              'signatory' => $signatorys->signatory_designation,
-              'full_name' => $signatorys->signatory,
-              'validity' => $data1['validity'],
-              // 'coc_number' => $coc_number
-            );
+            // $data_field = array(
+            //   'regNo' => $coop_info->regNo,
+            //   'coopName' => $coop_info->coopName,
+            //   'application_id' => $decoded_id,
+            //   'signatory' => $signatorys->signatory_designation,
+            //   'full_name' => $signatorys->signatory,
+            //   'validity' => $data1['validity'],
+            //   // 'coc_number' => $coc_number
+            // );
 
-            $success = $this->cooperatives_model->update_coc_report($coop_info->regNo,$coop_info->coopName,$data_field);
+            // $success = $this->cooperatives_model->update_coc_report($coop_info->regNo,$coop_info->coopName,$data_field);
           }
 
 
