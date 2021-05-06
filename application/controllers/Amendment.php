@@ -2689,6 +2689,7 @@ class amendment extends CI_Controller{
 
     public function cooperative_type_ajax()
     {
+      $this->db->order_by("name", "asc");
       $qry = $this->db->get('cooperative_type');
       if($qry->num_rows()>0)
       {

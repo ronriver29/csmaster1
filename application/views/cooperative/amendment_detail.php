@@ -118,8 +118,8 @@
                   <label for="newName"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your new name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
 
-                    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess">
-                   <!-- <input type="text" class="form-control p_name validate[required]" name="newNamess" id="newNamess"> -->
+                    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess"> 
+                    <!-- <input type="text" class="form-control p_name validate[required]" name="newNamess" id="newNamess">  -->
                   <input type="hidden" class="form-control" name="newName2" id="newName2">
                   <input type="hidden" id="cooperative_idss" />
                 </div>
@@ -176,7 +176,7 @@
       <input type="hidden" value="<?=$coop_info->common_bond_of_membership?>" id="commonBond">
       <div class="row rd-row" id="common_bond_wrapper">      
          <?php //if($coop_info->common_bond_of_membership == 'Associational' || $coop_info->common_bond_of_membership == 'Institutional') :?>     
-        <div class="col-md-6" id="associational-wrappers">
+        <div class="col-md-12" id="associational-wrappers">
           <!-- <div class="col-md-12"> -->
             <div class="form-group">
              <label for="fieldmembershipname" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
