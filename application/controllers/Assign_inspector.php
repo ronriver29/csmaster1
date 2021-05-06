@@ -89,7 +89,7 @@ class assign_inspector extends CI_Controller{
 
             $coc_number = 'N-'.$data1['region_code'].'-'.date("Y",strtotime($data1['date_registered'])).'-'.$series;
 
-            // $data1['coc_number2'] = $coc_number;
+            $data1['coc_number'] = $coc_number;
 
             $data_field = array(
               'regNo' => $coop_info->regNo,
@@ -130,7 +130,7 @@ class assign_inspector extends CI_Controller{
 
           $data1['region_code'] = 'asdasdasdsad';
           // $this->load->view('report/coc_view','');
-          
+
             // $html2 = $this->load->view('report/coc_view', $data1);
 
               $html2 = $this->load->view('report/coc_view', $data1, TRUE);
