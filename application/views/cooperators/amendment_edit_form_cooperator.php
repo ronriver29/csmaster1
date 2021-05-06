@@ -88,7 +88,6 @@
               <label for="subscribedShares">No of subscribed shares:</label>
                <input type="number" value="<?= $cooperator_info->number_of_subscribed_shares ?>" min="<?=$cooperator_info->type_of_member == 'Associate' ? $capitalization_info->minimum_subscribed_share_associate : $capitalization_info->minimum_subscribed_share_regular; ?>" max="<?=$available_subscribed_capital?>" class="form-control validate[required,min[1],custom[integer]]" id="amd_subscribedShares" name="amd_subscribedShares">
               
-          
            <!-- <input type="number" value="<?= $cooperator_info->number_of_subscribed_shares ?>" min="<?=$cooperator_info->type_of_member == 'Associate' ? $capitalization_info->minimum_subscribed_share_associate : $capitalization_info->minimum_subscribed_share_regular; ?>" max="<?=$available_subscribed_capital?>" class="form-control validate[required,min[1],custom[integer]]" id="amd_subscribedShares" name="amd_subscribedShares">  -->
           
               <div id="subscribed-note" style="color: red; font-size: 12px;"></div>

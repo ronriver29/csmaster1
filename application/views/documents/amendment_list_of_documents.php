@@ -331,7 +331,6 @@
               <?php endif ?>
               <br>
             </p>
-
           <?php if($is_client && $coop_info->status<=1 || $coop_info->status>=11): ?>
             <a href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/upload_document_one" class="btn btn-primary">Upload</a>
           <?php endif; ?>

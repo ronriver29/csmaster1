@@ -22,7 +22,6 @@ class amendment extends CI_Controller{
      
       $this->amendment_model->save_OR(array('id' => $this->input->post('payment_id'),'amendment_id'=>$amendment_id),$data,$amendment_id);
       echo json_encode(array("status" => TRUE, "message"=>"O.R. No has been saved."));
-      
     }
 
     public function index(){

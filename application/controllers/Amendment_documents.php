@@ -3414,7 +3414,6 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       }
     }
   }
-  
   // modify by anjury
   function upload_document_others($id = null,$coop_id){
     if(!$this->session->userdata('logged_in')){
