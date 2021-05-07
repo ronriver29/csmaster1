@@ -2364,4 +2364,16 @@ public function check_if_denied($coop_id){
     }
     return $cds_name;
   }
+
+  public function get_regno_by_amd_id($amendment_id)
+  {
+      $query = $this->db->query("select regNo from amend_coop where id ='$amendment_id'");
+      if($query->num_rows()>0)
+      {
+        foreach($query->result() as $row)
+        {
+          return $row->regNo;
+        }
+      }
+  }
 }

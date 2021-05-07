@@ -232,21 +232,23 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article V<br>Term of Existence</p>
+        <p class="font-weight-bold">Article V<br>Term of Existence <?php var_dump($article_info_orig->years_of_existence); var_dump($article_info->years_of_existence); ?></p>
     </div>
   </div>
   <div class="row mb-4">
     <?php
-     $years_of_existence = '';
-      $years_of_existence2='';
+    $years_of_existence = $article_info->years_of_existence;
+    $years_of_existence2=ucwords(num_format_custom($article_info->years_of_existence));
+
     if($article_info_orig->years_of_existence!=$article_info->years_of_existence)
     {
-      $years_of_existence='<strong>'.ucwords(num_format_custom($article_info->years_of_existence)).'</strong>';
-       $years_of_existence2='<strong>'.$article_info->years_of_existence.'</strong>';
+      $years_of_existence='<strong>'.$years_of_existence.'</strong>';
+       $years_of_existence2='<strong>'. $years_of_existence2.'</strong>';
     }
+  
     ?>
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">The term for which this Cooperative shall exist is <?=  $years_of_existence?> (<?= $years_of_existence2?>) years from the date of its registration with the Cooperative Development Authority.</p>
+      <p class="text-justify" style="text-indent: 50px;">The term for which this Cooperative shall exist is <?=  $years_of_existence2?> (<?= $years_of_existence?>) years from the date of its registration with the Cooperative Development Authority.</p>
     </div>
   </div>
   <div class="row mb-2">
