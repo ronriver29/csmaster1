@@ -3,7 +3,7 @@
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
     <?php if($is_client) : ?>
     <h5 class="text-primary text-right">
-      Step 10
+      Step 8
     </h5> 
   <?php else :?>
     <?php if ($coop_info->status !=12){?>
@@ -163,7 +163,7 @@
    <!--  END SENIOR -->
    <!--  START DIRECTOR -->
   <?php if(!empty($director_comment) && is_array($director_comment)): ?>
-  <?php if(strlen(($director_comment && $admin_info->access_level==3) || ($director_comment && $admin_info->access_level==2) || ($have_director_comment && $admin_info->access_level==4) && $coop_info->status == 6 || strlen(($have_director_comment && $admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
+  <?php if(strlen(($director_comment && $admin_info->access_level==3) || ($director_comment && $admin_info->access_level==2) || ($admin_info->access_level==4) && $coop_info->status == 6 || strlen(($admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
   <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Director Findings</button>
 
   <div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -308,6 +308,7 @@
         </div>
       </div>
   </div> -->
+  <?php /*
   <div class="col-sm-12 col-md-4">
       <div class="card">
         <div class="card-body">
@@ -368,7 +369,7 @@
         </div>
       </div>
   </div>
-
+*/?>
     
 </div>
 <!--ANJURY-->

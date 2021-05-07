@@ -108,16 +108,16 @@ class Amendment_documents extends CI_Controller{
                                 $data['uid'] = $this->session->userdata('user_id');
                                 $data['cid'] = $decoded_id;
                                 $data['encrypted_id'] = $id;
-                                $data['document_one'] = $this->count_documents($decoded_id,1);
-                                if($data['document_one'])
-                                {
-                                  $data['read_upload'] = $this->count_documents($decoded_id,1);
-                                }
-                                $data['document_two'] = $this->count_documents($decoded_id,2);
-                                if($data['document_two'])
-                                {
-                                  $data['read_upload'] = $this->count_documents($decoded_id,2);
-                                }
+                                // $data['document_one'] = $this->count_documents($decoded_id,1);
+                                // if($data['document_one'])
+                                // {
+                                //   $data['read_upload'] = $this->count_documents($decoded_id,1);
+                                // }
+                                // $data['document_two'] = $this->count_documents($decoded_id,2);
+                                // if($data['document_two'])
+                                // {
+                                //   $data['read_upload'] = $this->count_documents($decoded_id,2);
+                                // }
                                 if($data['ching3'] == 2){
                                     $data['document_others'] = $this->count_documents_others($decoded_id,$data['ching4']);
                                     if($data['document_others'])
@@ -227,8 +227,8 @@ class Amendment_documents extends CI_Controller{
                                       $data['uid'] = $this->session->userdata('user_id');
                                       $data['cid'] = $decoded_id;
                                       $data['encrypted_id'] = $id;
-                                      $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
-                                      $data['document_two'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
+                                      // $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
+                                      // $data['document_two'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
                                       // $data['coop_type'] = $this->amendment_model->get_cooperatve_types($data['coop_info']->cooperative_type_id);
 
                                       $data['coop_type'] = $this->amendment_model->get_cooperatve_types($data['coop_info']->cooperative_type_id);
@@ -271,16 +271,16 @@ class Amendment_documents extends CI_Controller{
                                         }
                                     }
 
-                                    $data['document_one'] = $this->count_documents($decoded_id,1);
-                                    if($data['document_one'])
-                                    {
-                                      $data['read_upload'] = $this->count_documents($decoded_id,1);
-                                    }
-                                    $data['document_two'] = $this->count_documents($decoded_id,2);
-                                    if($data['document_two'])
-                                    {
-                                      $data['read_upload'] = $this->count_documents($decoded_id,2);
-                                    }
+                                    // $data['document_one'] = $this->count_documents($decoded_id,1);
+                                    // if($data['document_one'])
+                                    // {
+                                    //   $data['read_upload'] = $this->count_documents($decoded_id,1);
+                                    // }
+                                    // $data['document_two'] = $this->count_documents($decoded_id,2);
+                                    // if($data['document_two'])
+                                    // {
+                                    //   $data['read_upload'] = $this->count_documents($decoded_id,2);
+                                    // }
                                     if($data['ching3'] == 2){
                                         $data['document_others'] = $this->count_documents_others($decoded_id,$data['ching4']);
                                         if($data['document_others'])
@@ -716,15 +716,15 @@ public function doc_link_view($id,$document_num)
               );
               // $this->debug($file_array);
               if($this->amendment_uploaded_document_model->add_document_info_amendment($file_array)){
-                $this->session->set_flashdata('document_one_success', 'Successfully uploaded document one.');
+                $this->session->set_flashdata('document_one_success', 'Successfully uploaded.');
                 redirect('amendment/'.$this->input->post('amendment_id').'/amendment_documents');
               }else{
                 $file = $config['upload_path'].$config['file_name'];
                 if(is_readable($file) && unlink($file)){
-                  $this->session->set_flashdata('document_one_error', 'Please reupload document one.');
+                  $this->session->set_flashdata('document_one_error', 'Please reupload document.');
                   redirect('amendment/'.$this->input->post('amendment_id').'/amendment_documents');
                 }else{
-                  $this->session->set_flashdata('document_one_error', 'Please reupload document one.');
+                  $this->session->set_flashdata('document_one_error', 'Please reupload document.');
                   redirect('amendment/'.$this->input->post('amendment_id').'/amendment_documents');
                 }
               }

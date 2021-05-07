@@ -12,15 +12,15 @@ class Migrate extends CI_Controller {
         else
         {
             // echo 'Migrations ran successfully!';
-          $check = $this->db->query('select id from amendment_coop_type_upload');
-          if($check->num_rows()>0)
-          {
-            // echo "success seeding";
-          }
-          else
-          {
-            $this->document_type_seeding();
-          }
+          // $check = $this->db->query('select id from amendment_coop_type_upload');
+          // if($check->num_rows()>0)
+          // {
+          //   // echo "success seeding";
+          // }
+          // else
+          // {
+          //   $this->document_type_seeding();
+          // }
           //next seeding
           $check2 = $this->db->get('coop_type_upload');
           if($check2->num_rows()>0)

@@ -1320,7 +1320,7 @@ public function assign_to_specialist($amendment_id,$specialist_id){
        return false;  
      }
   }
-}
+} 
 public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$coop_type,$specialist_info){
   $amentmentID =  $this->security->xss_clean($coop_id);
   $temp = $this->get_cooperative_info_by_admin($coop_id);
@@ -1349,7 +1349,7 @@ public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$coop
 
   $this->db->trans_begin();
   $this->db->where('id',$coop_id);
-  $this->db->update('amend_coop',array('status'=>6,'evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL,'ho'=>$ho));
+  $this->db->update('amend_coop',array('status'=>6,'evaluated_by'=>$specialist_info->id,'evaluation_comment'=>NULL,'ho'=>$ho));
 
    if($this->email_model->sendEmailToSeniorAmendment($admin_info,$client_info,$amendment_info,$specialist_info)){
      $this->db->trans_commit();
@@ -1364,12 +1364,13 @@ public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$coop
 public function approve_by_senior($admin_info,$coop_id,$coop_full_name,$data_comment){
   $amentmentID = $this->security->xss_clean($coop_id);
   $already_deffered = false;
+  $cds_fullname =  $this->get_cds_by_amendment($amentmentID);
+  // return $cds_fullname;
   if($this->check_if_has_deffered($amentmentID))
   {
     $already_deffered = true;
   }
-  // return $this->db->last_query();
-
+  
   $this->db->trans_begin();
   $this->db->where('id',$coop_id);
   $this->db->update('amend_coop',array('status'=>9,'second_evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL));
@@ -1398,7 +1399,7 @@ public function approve_by_senior($admin_info,$coop_id,$coop_full_name,$data_com
   }else{
     
 
-   if($this->email_model->sendEmailToDirectorAmendment($admin_info,$client_info,$amendment_info,$director_email, $already_deffered)){
+   if($this->email_model->sendEmailToDirectorAmendment($admin_info,$client_info,$amendment_info,$director_email,$cds_fullname)){
      $this->db->trans_commit();
      return true;
    }else{
@@ -2345,5 +2346,22 @@ public function check_if_denied($coop_id){
     {
       return NULL;
     }
+  }
+
+  public function get_cds_by_amendment($amendment_id)
+  {
+    $query = $this->db->query("select amend_coop.evaluated_by,admin.full_name  from amend_coop left join admin on admin.id = amend_coop.evaluated_by where amend_coop.id='$amendment_id'");
+    if($query->num_rows()>0)
+    {
+      foreach($query->result() as $row)
+      {
+        $cds_name = $row->full_name;
+      }
+    }
+    else
+    {
+      $cds_name = 'Unknown';
+    }
+    return $cds_name;
   }
 }

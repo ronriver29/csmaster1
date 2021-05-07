@@ -76,7 +76,7 @@ class Amendment_cooperators extends CI_Controller{
                     $data['treasurer_count'] = $this->amendment_cooperator_model->check_treasurer($cooperative_id,$decoded_id);
                     $data['secretary_count'] = $this->amendment_cooperator_model->check_secretary($cooperative_id,$decoded_id);
                     $data['list_cooperators'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop($cooperative_id,$decoded_id);
-                   
+                    // $this->debug($data['list_cooperators']);
 
                     $data['list_cooperators_count'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_regular_count($cooperative_id,$decoded_id);
                     $data['list_cooperators_regular'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_regular($cooperative_id,$decoded_id);
