@@ -2707,117 +2707,103 @@ class amendment extends CI_Controller{
         redirect('users/login');
       }else{
         ini_set('memory_limit', '-1');
-        $data='';
-        $proposed_name = strtolower($this->input->get('fieldValue'));
-        $type_of_coop = $this->input->get('typeOfCooperative_value');
-        $coop_id = $this->input->get('cooperative_idss');
-        $qry = $this->db->query("select cooperative_id,cooperative_type_id,proposed_name from amend_coop where cooperative_id='$coop_id'");
-        // echo $this->db->last_query();
+        $data=array();
+        $acronym = $this->input->get('acronym_names');
+        $proposed_name = strtolower($this->input->get('fieldValue').' '.$acronym);
+        $regNo = $this->input->get('regNo');
+        $type_of_coop_id = $this->input->get('typeOfCooperative_value');
+        $qry = $this->db->query("select regNo,CONCAT(proposed_name,' ',acronym) as reg_propose_name,cooperative_type_id from amend_coop where status =15");
+
         if($qry->num_rows()>0)
         {
             foreach($qry->result_array() as $row)
             {
-              $coopType_id = $row['cooperative_type_id'];
-              $proposed_names = $row['proposed_name'];
+              $reg_regNo = $row['regNo'];
+              $reg_proposed_name = $row['reg_propose_name'];
+              $reg_cooperative_type_id = $row['cooperative_type_id'];
+
+              if(strcasecmp($regNo,$reg_regNo)>0 && strcasecmp($proposed_name,$reg_proposed_name)==0)
+              {
+                // $data = false;
+                array_push($data,'false');
+                 // echo json_encode(array($this->input->get("fieldId"),$data));
+              }
             }
-              if($coopType_id == $type_of_coop && strcasecmp($proposed_name,$proposed_names)==0)
-              {
-                $data=  true  ;
-              }
-              else
-              {
-                  $qrys = $this->db->query("select cooperative_id,cooperative_type_id,proposed_name from amend_coop where cooperative_id!=$coop_id");
-                  if($qrys->num_rows()>0)
-                  {
-                    $coopType_id_ = $row['cooperative_type_id'];
-                    $proposed_names_ = $row['proposed_name'];
-                     if($coopType_id_ == $type_of_coop && strcasecmp($proposed_name,$proposed_names_)==0)
-                      {
-                        $data=false;
-                      }
-                      else
-                      {
-                        $data = true;
-                      }
-                  }
-                  else
-                  {
-                     $data = true;
-                  }
-              }
+              // if(strcasecmp($regNo,$reg_regNo)==0 && strcasecmp($proposed_name,$reg_proposed_name)==0)
+              // {
+              //   // $data = true;
+              //   // array_push($data,true);
+              // }
+              // else if(strcasecmp($regNo,$reg_regNo)>0 && strcasecmp($proposed_name,$reg_proposed_name)==0)
+              // {
+              //   $data = false;
+              //   // array_push($data,false);
+              //    echo json_encode(array($this->input->get("fieldId"),$data));
+              // }
+              // else if(strcasecmp($regNo,$reg_regNo)>0 && strcasecmp($proposed_name,$reg_proposed_name)==0 && strcasecmp($type_of_coop_id,$reg_cooperative_type_id)>0)
+              // {
+              //   // return true;
+              //   // array_push($data,true);
+              // }
         }
-        else
-        {
-          //get total rows in cooperatives table
-          $qrow = $this->db->query("select id from cooperatives");
-          $total_rows = $qrow->num_rows(); 
-          $coop_query = $this->db->query("select id,proposed_name,type_of_cooperative from cooperatives limit ".$total_rows);
-          $c=count($coop_query->result_array());
-          $crow=$coop_query->result_array();
-          $a=1;
-            for($i =0;  $i < $c; $i++)
+         $reg_query_num = $this->db->query("select id from cooperatives where status =15 or status =14");
+         $total_rows =  $reg_query_num->num_rows();
+         $qrow = $this->db->query("select distinct CONCAT(cooperatives.proposed_name,' ',cooperatives.acronym_name) as coopname,CONCAT(registeredcoop.coopName,' ',registeredcoop.acronym) as regName,registeredcoop.regNo as regNo
+,(select id from cooperative_type where name =cooperatives.type_of_cooperative) as coop_type_id 
+from cooperatives left join registeredcoop ON cooperatives.proposed_name = registeredcoop.coopName
+ where cooperatives.status =15 OR cooperatives.status =14 limit ".$total_rows);
+            $c=count($qrow->result_array());
+            $crow=$qrow->result_array();
+           for($i =0;  $i < $c; $i++)
             {
 
-              $crow[$i]['input_coop_id'] = $coop_id;
-              $crow[$i]['input_type_coop_id'] = $type_of_coop;
-              $crow[$i]['input_prosposed_name'] = $proposed_name;
-              $coopid_db = $crow[$i]['id'];
-              $proposed_name_coop = $crow[$i]['proposed_name'];
-               // echo"<pre>"; print_r($crow[$i]);echo"</pre>";
-              $coop_typeName = $crow[$i]['type_of_cooperative'];
-              // echo $coop_typeName;
-             $coop_typeID['id']= $this->get_coopTypeID($coop_typeName);
-        
-              $crow[$i]['cooperative_type_id'] =   $coop_typeID['id'];
-              $crow[$i]['compare']='';
-              // echo json_encode(array($c=>$i,$crow[$i]['proposed_name'] => $crow[$i]['input_prosposed_name']));
-
-              if(strcasecmp($crow[$i]['proposed_name'],$crow[$i]['input_prosposed_name'])==0 && $crow[$i]['input_type_coop_id']==$crow[$i]['cooperative_type_id'] &&  $crow[$i]['input_coop_id']==$crow[$i]['id'])
-              {
-                 $crow[$i]['compare']='true'; 
-              }
-              elseif(strcasecmp($crow[$i]['proposed_name'],$crow[$i]['input_prosposed_name'])==0 && $crow[$i]['input_type_coop_id']==$crow[$i]['cooperative_type_id'] && $crow[$i]['input_coop_id']!=$crow[$i]['id'])
+              $reg_coop_regNo = $crow[$i]['regNo'];
+              $reg_coop_proposed_name = $crow[$i]['coopname'];
+              $reg_coop_type_of_coop_id = $crow[$i]['coop_type_id'];
+              if(strcasecmp($reg_coop_regNo, $regNo)>0 && strcasecmp($reg_coop_proposed_name, $proposed_name) && strcasecmp($type_of_coop_id,$reg_coop_type_of_coop_id)==0)
               {
                 
-                // echo json_encode(array($crow[$i]['proposed_name']=>$crow[$i]['input_prosposed_name'],$crow[$i]['input_type_coop_id']=>$crow[$i]['cooperative_type_id']));
-                //name and type of coop exist and no the same coop id
-                $crow[$i]['compare']='false'; 
-                // json_encode(array($this->input->get("fieldId"),false));
-                // exit();
-
-              }
-              elseif(strcasecmp($crow[$i]['proposed_name'],$crow[$i]['input_prosposed_name'])==0 && $crow[$i]['input_type_coop_id']!=$crow[$i]['cooperative_type_id'])
-              {
-                $crow[$i]['compare']='false';  // echo json_encode("dfadfa");
+                 array_push($data,'false');
+                 
               }
               else
               {
-                // $crow['compare'] ="matched available";
-                $crow[$i]['compare']='true';   //echo json_encode("eeee");
+                // $data = true;
+                array_push($data,'true');
+              
               }
-              // $d[] = array($crow['input_coop_id'],$coopid_db = $crow['id'], $crow['input_prosposed_name'],$crow['proposed_name'],  $crow['input_type_coop_id'],  $crow['cooperative_type_id']);
-              $compare_array[] = $crow[$i]['compare'];
-          // echo"success";
-            } //end of for loop
-            if(is_array($compare_array))
+             // echo  $reg_coop_regNo = $crow[$i]['regNo'].' '.$reg_coop_proposed_name.' '.$reg_coop_type_of_coop_id;
+          }
+            // var_dump($data);
+            if(is_array($data))
             {
-               if(in_array('false',$compare_array))
+               if(in_array('false',$data))
                {
-                $data = false;
+                $dataf = false;
                }
                else
                {
-                $data = true;
+                $dataf = true;
                }
             }
             else
             {
               echo "invalid";
             }
-        }
-        // echo json_encode( $data);
-        echo json_encode(array($this->input->get("fieldId"),$data));
+         echo json_encode(array($this->input->get("fieldId"),$dataf));
+        
       }
+    }
+
+    public function check_amendment_name_exists_coop_table()
+    {
+       ini_set('memory_limit', '-1');
+        $data=true;
+        $acronym = $this->input->get('acronym_names');
+        $proposed_name = strtolower($this->input->get('fieldValue').' '.$acronym);
+        $regNo = $this->input->get('regNo');
+        $type_of_coop_id = $this->input->get('typeOfCooperative_value');
+        echo json_encode(array($this->input->get("fieldId"),$data));
     }
 
     public function amendment_info()

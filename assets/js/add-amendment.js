@@ -761,31 +761,31 @@ $(function(){
 
    
       //modified by json
-      $(".coop-type").on('change',function(){
-              var cooptype_value = this.value;
-             // alert('dddd');
-              var typeCoop_arraysa=[]; 
-           $('select[name="typeOfCooperative[]"] option:selected').each(function() {
-           typeCoop_arraysa.push($(this).val());
-          // alert(typeCoop_arraysa);
-            $('#typeOfCooperative_value').val(typeCoop_arraysa);
-           });
+      // $(".coop-type").on('change',function(){
+      //         var cooptype_value = this.value;
+      //        // alert('dddd');
+      //         var typeCoop_arraysa=[]; 
+      //      $('select[name="typeOfCooperative[]"] option:selected').each(function() {
+      //      typeCoop_arraysa.push($(this).val());
+      //     alert(typeCoop_arraysa);
+      //       $('#typeOfCooperative_value').val(typeCoop_arraysa);
+      //      });
 
-                  $.ajax({
-                   type : "POST",
-                   url  : "get_coopTypeID_ajax",
-                   dataType: "json",
-                   data: {cooptype_:cooptype_value},
-                   success: function(responsetxt){
-                    // console.log(responsetxt['desciption']);
-                    $.each(responsetxt,function(a,major_industry){
-                       $('.select-major').append($('<option></option>').attr('value',major_industry['id']).text(major_industry['description']));
+      //             $.ajax({
+      //              type : "POST",
+      //              url  : "get_coopTypeID_ajax",
+      //              dataType: "json",
+      //              data: {cooptype_:cooptype_value},
+      //              success: function(responsetxt){
+      //               // console.log(responsetxt['desciption']);
+      //               $.each(responsetxt,function(a,major_industry){
+      //                  $('.select-major').append($('<option></option>').attr('value',major_industry['id']).text(major_industry['description']));
 
-                    });
-                   }
-                  }); 
-              }); 
-      //endo modified
+      //               });
+      //              }
+      //             }); 
+      //         }); 
+      // //endo modified
 
     $("#amendmentAddForm #amendmentAddAgree").click(function(){
       if($(this).is(':checked')){
@@ -998,8 +998,8 @@ $(function(){
         var cooptype_value = this.value;
         var typeCoop_arrays=[]; 
           $('select[name="typeOfCooperative[]"] option:selected').each(function() {
-              typeCoop_arrays.push($(this).val()); 
-              // $('#typeOfCooperative_value').val(typeCoop_arrays);
+              typeCoop_arrays.push($(this).val());
+              $('#typeOfCooperative_value').val(typeCoop_arrays);
           });      
            // alert(typeCoop_arrays);
             $('#amendmentAddForm .major-ins').empty();
@@ -1019,49 +1019,7 @@ $(function(){
                  }
                 }); //end ajax
 
-      // const current_cooperative_id =  $(this).attr('id');
-      // var intLastCount = parseInt(current_cooperative_id.substr(-1));
      
-      // $('#amendmentAddForm #majorIndustry'+(intLastCount)).prop("disabled",true);
-    
-      // var typeCoop_arrays=[]; 
-      //  if($(this).val() && ($(this).val()).length > 0){
-      //       var majorIndustryTemp =   $('#amendmentAddForm #majorIndustry'+(intLastCount));
-      //       $(majorIndustryTemp).prop("disabled",false);
-      //   }  
-          
-      // $('select[name="typeOfCooperative[]"] option:selected').each(function() {
-      //  typeCoop_arrays.push($(this).val());
-
-      //   // alert(typeCoop_arrays);
-      //   $('#typeOfCooperative_value').val(typeCoop_arrays);
-
-      // });
-
-      //    $('#typeOfCooperative_value').val(typeCoop_arrays);
-
-      //     $.each(typeCoop_arrays , function(n,type_coop_id){
-      //       // console.log(type_coop_id);
-
-      //         $('#amendmentAddForm #majorIndustry'+(intLastCount)).append($('<option></option').attr({'selected':true}).val(""));
-      //         $.ajax({
-      //            type : "POST",
-      //            url  : "get_major_industry_ajax",
-      //            dataType: "json",
-      //            data: {cooptype_:cooptype_value},
-      //            success: function(responsetxt){
-      //             $.each(responsetxt,function(a,major_industry){
-      //              console.log(major_industry);
-
-      //                $('.major-ins').append($('<option></option>').attr('value',major_industry['major_industry_id']).text(major_industry['description']));
-                     
-      //                // $('.select-major').append($('<option></option>').attr('value',major_industry['description']).text(major_industry['description']));
-
-      //             });
-      //            }
-      //           }); //end ajax
-
-      //     });
       });
      // }); 
     // //end onchange coop type 
