@@ -607,9 +607,32 @@ class amendment_model extends CI_Model{
    
 
     //amendment purposes
-       $type_coop = explode(',',$data_amendment['type_of_cooperative']);
-       foreach($type_coop as $rowcoop_type)
+      if(strcasecmp($data_amendment['type_of_cooperative'], $last_amendment_dtl->type_of_cooperative)==0)
+      {
+
+          $query_purposes = $this->db->query("SELECT cooperative_type,content FROM amendment_purposes WHERE amendment_id='$last_amendment_dtl->id'");
+          foreach($query_purposes->result() as $p)
+          {
+             $data_p = array(
+                'cooperatives_id' => $cooperative_ID,
+                'amendment_id' => $id,
+                'cooperative_type' => $p->cooperative_type,
+                'content' => $p->content
+             );
+              $this->db->insert('amendment_purposes',$data_p);
+          }
+         
+        
+        
+      }
+      else
+      {
+        //if there's a changes
+        $type_coop = explode(',',$data_amendment['type_of_cooperative']);
+       // $original_type_coop = explode(',',$last_amendment_dtl->type_of_cooperative);
+       foreach($type_coop as $key => $rowcoop_type)
        {
+      
          $temp_purpose[] = array(
         'cooperatives_id' => $cooperative_ID,
         'amendment_id' => $id,
@@ -619,6 +642,8 @@ class amendment_model extends CI_Model{
           
        }
       $this->db->insert_batch('amendment_purposes',$temp_purpose);
+      }
+       
      //end of purposes
      
 

@@ -232,7 +232,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article V<br>Term of Existence <?php var_dump($article_info_orig->years_of_existence); var_dump($article_info->years_of_existence); ?></p>
+        <p class="font-weight-bold">Article V<br>Term of Existence</p>
     </div>
   </div>
   <div class="row mb-4">
@@ -551,20 +551,20 @@
       if($totalRegular_orig != $totalRegular)
       {
         $totalRegular='<strong>'.number_format($totalRegular,2).'</strong>';
-         $total_regular_words = '<b>'.ucwords(num_format_custom($totalRegular)).'</b>';
+         $total_regular_words = '<b>'.num_format_custom($totalRegular).'</b>';
       }
       else
       {
-          $total_regular_words = ucwords(num_format_custom($totalRegular));
+          $total_regular_words = num_format_custom($totalRegular);
       }
 
       $regular_total_subscibed = $total_regular['total_subscribed'] * $capitalization_info->par_value + ($total_associate['total_subscribed'] * $capitalization_info->par_value);
        $regular_total_subscibed_orig = $total_regular_orig['total_subscribed'] * $capitalization_info_orig->par_value + ($total_associate_orig['total_subscribed'] * $capitalization_info_orig->par_value);
          $regular_total_subscibed2='';
-          $regular_total_subscibed2= ucwords(num_format_custom($regular_total_subscibed));
+          $regular_total_subscibed2= num_format_custom($regular_total_subscibed);
       if($regular_total_subscibed_orig!=$regular_total_subscibed)
       {   
-          $regular_total_subscibed2 = '<strong>'.ucwords(num_format_custom($regular_total_subscibed)).'</strong>';
+          $regular_total_subscibed2 = '<strong>'.num_format_custom($regular_total_subscibed).'</strong>';
         $regular_total_subscibed = '<strong>'.number_format($regular_total_subscibed,2).'</strong>';
       
       }

@@ -82,13 +82,14 @@
           $proposedName_original = $coop_info_orig->proposed_name.' '.$coop_info_orig->type_of_cooperative  .' Cooperative '.$coop_info_orig->grouping.' '.$acronymOrig_;  
 
           //end cooperative
-          $proposedName2 =$proposedName;
+       
+
           if($proposedName!=$proposedName_original)
           {
             $proposedName ='<strong>'.$proposedName .'</strong>';
           }
           ?>
-          <p class="font-weight-bold">BY-LAWS<br>OF<br><strong><?= $proposedName2?></strong></p>
+          <p class="font-weight-bold">BY-LAWS<br>OF<br><strong><?= $proposedName?></strong></p>
           
     </div>
   </div>
@@ -348,13 +349,14 @@ $minimum_paid_up_share_associate_3 ='';
     else
     {
       $minimum_paid_up_share_associate_=$capitalization_info->minimum_paid_up_share_associate;
+       $minimum_paid_up_share_associate_3=ucwords(num_format_custom($capitalization_info->minimum_paid_up_share_associate));
     }
 
   ?>
 
     <div class="col-sm-12 col-md-12 text-left">
       <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Minimum Share Capital Requirement.</i> An applicant for <strong>regular membership</strong> shall subscribe at least <?=$minimum_subscribed_share_regular2?> (<?= $capitalization_info->minimum_subscribed_share_regular?>) 
-        shares and pay the value of at least <?=  ucwords($minimum_paid_up_share_regular)?> (<?= $capitalization_info->minimum_paid_up_share_regular?>) shares upon approval of his/her membership.</p>
+        shares and pay the value of at least <?=  ucwords($minimum_paid_up_share_regular2)?> (<?= $capitalization_info->minimum_paid_up_share_regular?>) shares upon approval of his/her membership.</p>
       <?php if($bylaw_info->kinds_of_members == 2) :?>
       <p class="text-justify">An applicant for <strong>associate membership</strong> shall subscribe at least <?=$minimum_subscribed_share_associate2?> (<?= $capitalization_info->minimum_subscribed_share_associate?>) 
         shares and pay the value of at least <?=$minimum_paid_up_share_associate_3?> (<?= $minimum_paid_up_share_associate_?>) shares upon approval of his/her membership.</p>

@@ -171,7 +171,6 @@
           </div> <!-- end of col md 12 -->
       
       
-
             <!-- ASSOCIATIONAL -->
       <input type="hidden" value="<?=$coop_info->common_bond_of_membership?>" id="commonBond">
       <div class="row rd-row" id="common_bond_wrapper">      
