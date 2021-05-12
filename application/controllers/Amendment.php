@@ -2722,29 +2722,13 @@ class amendment extends CI_Controller{
               $reg_proposed_name = $row['reg_propose_name'];
               $reg_cooperative_type_id = $row['cooperative_type_id'];
 
-              if(strcasecmp($regNo,$reg_regNo)>0 && strcasecmp($proposed_name,$reg_proposed_name)==0)
+              if(strcasecmp($regNo,$reg_regNo)>0 && strcasecmp($proposed_name,$reg_proposed_name)==0 && strcasecmp($reg_cooperative_type_id, $type_of_coop_id)==0)
               {
-                // $data = false;
+               
                 array_push($data,'false');
                  // echo json_encode(array($this->input->get("fieldId"),$data));
               }
             }
-              // if(strcasecmp($regNo,$reg_regNo)==0 && strcasecmp($proposed_name,$reg_proposed_name)==0)
-              // {
-              //   // $data = true;
-              //   // array_push($data,true);
-              // }
-              // else if(strcasecmp($regNo,$reg_regNo)>0 && strcasecmp($proposed_name,$reg_proposed_name)==0)
-              // {
-              //   $data = false;
-              //   // array_push($data,false);
-              //    echo json_encode(array($this->input->get("fieldId"),$data));
-              // }
-              // else if(strcasecmp($regNo,$reg_regNo)>0 && strcasecmp($proposed_name,$reg_proposed_name)==0 && strcasecmp($type_of_coop_id,$reg_cooperative_type_id)>0)
-              // {
-              //   // return true;
-              //   // array_push($data,true);
-              // }
         }
          $reg_query_num = $this->db->query("select id from cooperatives where status =15 or status =14");
          $total_rows =  $reg_query_num->num_rows();
@@ -2760,7 +2744,7 @@ from cooperatives left join registeredcoop ON cooperatives.proposed_name = regis
               $reg_coop_regNo = $crow[$i]['regNo'];
               $reg_coop_proposed_name = $crow[$i]['coopname'];
               $reg_coop_type_of_coop_id = $crow[$i]['coop_type_id'];
-              if(strcasecmp($reg_coop_regNo, $regNo)>0 && strcasecmp($reg_coop_proposed_name, $proposed_name) && strcasecmp($type_of_coop_id,$reg_coop_type_of_coop_id)==0)
+              if(strcasecmp($reg_coop_regNo, $regNo)>0 && strcasecmp($reg_coop_proposed_name, $proposed_name)==0 && strcasecmp($type_of_coop_id,$reg_coop_type_of_coop_id)==0)
               {
                 
                  array_push($data,'false');

@@ -83,10 +83,10 @@
 
           //end cooperative
        
-
-          if($proposedName!=$proposedName_original)
-          {
-            $proposedName ='<strong>'.$proposedName .'</strong>';
+         
+          if(strcasecmp($proposedName,$proposedName_original)>0)
+          { 
+            $proposedName ='<strong>'.$proposedName.'</strong>';
           }
           ?>
           <p class="font-weight-bold">BY-LAWS<br>OF<br><strong><?= $proposedName?></strong></p>
