@@ -118,8 +118,8 @@
                   <label for="newName"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your new name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
 
-                    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp,ajaxAmendmentNameCallPhpcoop]]" name="newNamess" id="newNamess"> 
-                    <!-- <input type="text" class="form-control p_name validate[required]" name="newNamess" id="newNamess">  -->
+                    <!-- <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp,ajaxAmendmentNameCallPhpcoop]]" name="newNamess" id="newNamess">  -->
+                    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom]" name="newNamess" id="newNamess"> 
                   <input type="hidden" class="form-control" name="newName2" id="newName2">
                   <input type="hidden" id="cooperative_idss" />
                 </div>
