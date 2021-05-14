@@ -184,7 +184,7 @@
               </div>
             </div>
             <input type="hidden" class="form-control" name="count_types" id="count_types" />
-             <input type="" id="typeOfCooperative_value" value="">
+             <input type="hidden" id="typeOfCooperative_value" value="">
 
              <div class="row">
               <div class="col-sm-12 col-md-12">
