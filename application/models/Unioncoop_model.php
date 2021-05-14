@@ -19,7 +19,7 @@ class Unioncoop_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND grouping = "Federation"');
+        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND registeredcoop.category = "Tertiary" AND grouping = "Federation"');
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -32,7 +32,7 @@ class Unioncoop_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND grouping = "Federation"');
+        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND registeredcoop.category = "Tertiary" AND grouping = "Federation"');
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -45,7 +45,7 @@ class Unioncoop_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND grouping = "Federation"');
+        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND registeredcoop.category = "Tertiary" AND grouping = "Federation"');
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -58,7 +58,7 @@ class Unioncoop_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND grouping = "Federation"');
+        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND registeredcoop.category = "Tertiary" AND grouping = "Federation"');
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -70,7 +70,7 @@ class Unioncoop_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','right');
-        $this->db->where('(registeredcoop.type = "Federation") AND cooperatives.status IS NULL OR cooperatives.status = 15 AND cooperatives.grouping = "Federation"');
+        $this->db->where('(registeredcoop.type = "Federation" AND registeredcoop.category = "Tertiary") AND cooperatives.status IS NULL OR cooperatives.status = 15 AND cooperatives.grouping = "Federation"');
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -90,14 +90,26 @@ class Unioncoop_model extends CI_Model{
     }
     
     public function get_applied_coop($user_id){
+        // $this->db->select('unioncoop.*, unioncoop.id AS aff_id, registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+        // $this->db->from('unioncoop');
+        // $this->db->join('cooperatives', 'unioncoop.application_id = cooperatives.id','left');
+        // $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+        // $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+        // $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+        // $this->db->join('registeredcoop','registeredcoop.regNo = unioncoop.regNo','inner');
+        // $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+        // $this->db->where('user_id ='.$user_id);
+        // $query = $this->db->get();
+        // $data = $query->result_array();
+        // return $data;
         $this->db->select('unioncoop.*, unioncoop.id AS aff_id, registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
         $this->db->from('unioncoop');
-        $this->db->join('cooperatives', 'unioncoop.application_id = cooperatives.id','inner');
-        $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
-        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
-        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
-        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+        $this->db->join('cooperatives', 'unioncoop.application_id = cooperatives.id','left');
+        $this->db->join('registeredcoop','registeredcoop.id = unioncoop.registeredcoop_id','right');
+        $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','left');
+        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','left');
+        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','left');
+        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','left');
         $this->db->where('user_id ='.$user_id);
         $query = $this->db->get();
         $data = $query->result_array();
@@ -129,7 +141,7 @@ class Unioncoop_model extends CI_Model{
     public function is_requirements_complete($user_id){
     $this->db->where('user_id =',$user_id);
     $this->db->from('unioncoop');
-    if($this->db->count_all_results()<=4){
+    if($this->db->count_all_results()<=2){
       return false;
     }else{
       return true;

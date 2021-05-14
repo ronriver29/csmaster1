@@ -790,6 +790,25 @@ $this->last_query = $this->db->last_query();
 //    $data = $query->result_array();
 //    return $data;
   }
+
+  public function get_all_cooperator_of_coop_for_committee_union($cooperatives_id,$user_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $cooperatives_id = join(',',$cooperatives_id);  
+    $this->db->select('*');
+    $this->db->from('unioncoop');
+    $this->db->where('user_id ='.$user_id);
+    $this->db->order_by('representative','asc');
+    $query=$this->db->get();
+    $this->last_query = $this->db->last_query();
+    $data = $query->result_array();
+    return $data;
+    
+//    $cooperatives_id = join(',',$cooperatives_id);  
+//    $this->db->order_by('full_name','asc');
+//    $query = $this->db->get_where('cooperators','cooperatives_id IN ('.$cooperatives_id.') AND position != "Chairperson" AND type_of_member != "Associate"');
+//    $data = $query->result_array();
+//    return $data;
+  }
   
   public function no_of_directors($cooperatives_id){
     $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');

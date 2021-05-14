@@ -45,9 +45,20 @@
         $acronym_name = '';
     }
       if ($nature=='Registration'){
-        $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
-        $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
-
+        if($coop_info->grouping == 'Union'){
+          if($coop_info->area_of_operation == 'National'){
+            $rf = 3000;
+          } else if($coop_info->area_of_operation == 'Regional'){
+            $rf = 2000;
+          } else {
+            $rf = 1000;
+          }
+            $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+        } else {
+          $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
+          $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+        }
+        
         $amount_in_words=0;
         $amount_in_words = ($rf+$lrf+$name_reservation_fee+100);
          $amount_in_words = ($rf+$lrf+$name_reservation_fee);

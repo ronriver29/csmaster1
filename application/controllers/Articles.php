@@ -94,10 +94,10 @@ class Articles extends CI_Controller{
                     }
                     
                     
-                  if($data['cooperator_complete']){
+                  if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
-                  if($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Primary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Secondary"){
+                  if($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Primary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Secondary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Tertiary"){
                         if($this->form_validation->run() == FALSE){
                           $data['title'] = 'Articles of Cooperation';
                           $data['header'] = 'Articles of Cooperation';
@@ -193,7 +193,7 @@ class Articles extends CI_Controller{
                     }
                     
                     
-                    if($data['cooperator_complete']){
+                    if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
                         if($this->cooperatives_model->get_cooperative_info_by_admin($decoded_id)->category_of_cooperative =="Primary" || $this->cooperatives_model->get_cooperative_info($data['coop_info']->users_id,$decoded_id)->category_of_cooperative =="Secondary"){

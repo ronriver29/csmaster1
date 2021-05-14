@@ -64,8 +64,19 @@
             </tr>
             <?php
               if ($pay_from=='reservation'){ 
-                $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
-                $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                if($coop_info->grouping == 'Union'){
+                  if($coop_info->area_of_operation == 'National'){
+                    $rf = 3000;
+                  } else if($coop_info->area_of_operation == 'Regional'){
+                    $rf = 2000;
+                  } else {
+                    $rf = 1000;
+                  }
+                    $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                } else {
+                  $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
+                  $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                }
                 
                 if(!empty($coop_info->acronym_name)){ 
                     $acronym_name = '('.$coop_info->acronym_name.') ';
@@ -73,7 +84,7 @@
                     $acronym_name = '';
                 }
                 if($coop_info->grouping == 'Union'){
-                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->grouping.' Of '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name);
+                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.$coop_info->grouping);
                 } else {
                     $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.$coop_info->grouping);
                 }

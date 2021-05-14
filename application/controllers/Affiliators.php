@@ -57,11 +57,16 @@ class Affiliators extends CI_Controller{
                     $data['treasurer_count'] = $this->cooperator_model->check_treasurer($decoded_id);
                     $data['secretary_count'] = $this->cooperator_model->check_secretary($decoded_id);
                     $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
+                    
                     $data['list_cooperators_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
 //                    $data['list_cooperators_count'] = $this->cooperator_model->get_all_cooperator_of_coop_regular_count($decoded_id);
                     $data['list_cooperators_associate'] = $this->cooperator_model->get_all_cooperator_of_coop_associate($decoded_id);
                     $data['ten_percent'] = $this->cooperator_model->ten_percent($decoded_id);
-                    $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                    if($data['coop_info']->category_of_cooperative == 'Tertiary'){
+                      $data['registered_coop'] = $this->affiliators_model->get_registered_coop_secondary($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                    } else {
+                      $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                    }
                     $data['applied_coop'] = $this->affiliators_model->get_applied_coop($user_id);
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $data['list_affiliators'] = $this->affiliators_model->get_all_affiliators_of_coop($user_id);

@@ -274,6 +274,22 @@ class Committee_model extends CI_Model{
       return false;
   }  
 
+  public function isExistingUnion($co_id,$user_id){
+    $query = $this->db->get_where('committees_union', array('cooperators_id'=>$co_id,'user_id'=>$user_id));
+    if ($query->num_rows()>0)
+      return true;
+    else
+      return false;
+  }  
+
+  public function isExisting2union($co_name,$user_id){
+    $query = $this->db->get_where('committees_union', array('name'=>$co_name,'user_id'=>$user_id));
+    if ($query->num_rows()>2)
+      return true;
+    else
+      return false;
+  }
+
   public function get_committee_info($com_id){
     $query = $this->db->get_where('committees', array('id'=>$com_id));
     $data = $query->row();

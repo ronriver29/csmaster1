@@ -32,7 +32,6 @@ class Cooperatives_model extends CI_Model{
     $this->db->where('nature','Registration');
     $this->db->order_by('id','DESC');
     $query = $this->db->get();
-
     return $query->row();
   }
   // start modify

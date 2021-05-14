@@ -165,22 +165,39 @@
                         
                         <?php elseif($cooperative['status']==13): ?>
                           <?php
+                          if($cooperative['grouping'] == 'Union'){
+                            if(!empty($cooperative['acronym_name'])){ 
+                                $acronym_name = '('.$cooperative['acronym_name'].')';
+
+                                if($cooperative['grouping'] != ''){
+                                  $grouping = ' '.$cooperative['grouping'];
+                                } else {
+                                  $grouping = '';
+                                }
+                            } else {
+                                $acronym_name = '';
+                                if($cooperative['grouping'] != ''){
+                                  $grouping = $cooperative['grouping'];
+                                } else {
+                                  $grouping = '';
+                                }
+
+                            } 
+                          } else {
                             if(!empty($cooperative['acronym_name'])){ 
                                 $acronym_name = '('.$cooperative['acronym_name'].')';
                             } else {
                                 $acronym_name = ' ';
-                            }
-                          ?>
-                          
-                          <?php
+                            } 
+
                             if($cooperative['grouping'] != ''){
                               $grouping = ' '.$cooperative['grouping'];
                             } else {
                               $grouping = '';
                             }
+                          }
                           ?>
-
-                          <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment(<?=$cooperative['id']?>,'<?= encrypt_custom($this->encryption->encrypt($cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$acronym_name.$grouping))?>')" value="Save O.R. No.">
+                          <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment(<?=$cooperative['id']?>,'<?=encrypt_custom($this->encryption->encrypt($cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$acronym_name.$grouping))?>')" value="Save O.R. No.">
                        
                         <?php elseif($cooperative['status']==12): ?>
                           <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/forpayment" class="btn btnOkForPayment btn-color-blue"> OK For Payment</a>
@@ -477,6 +494,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty();
 
+    // alert(coop_id);
     $.ajax({
         url : "<?php echo base_url('cooperatives/payment')?>/" + coop_name,
         type: "GET",
@@ -484,7 +502,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
         success: function(data)
         {
 
-             var s = convert(data.total);
+            var s = convert(data.total);
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);
@@ -510,7 +528,6 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
   }
 
   function save(){
-
     var x = $('#orNo').val();
     var y = $('#dateofOR').val();
     if (x==''){

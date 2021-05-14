@@ -36,6 +36,8 @@
         <?php 
             if($coop_info->grouping == 'Federation'){
                 $grouping = $cooperators_federation;
+            } if($coop_info->grouping == 'Union'){
+                $grouping = $cooperators_union;
             } else {
                 $grouping = $cooperators;
             }
@@ -46,7 +48,7 @@
               <select class="custom-select validate[required] cooperator_id" name="cooperatorID" id="cooperatorID">
                 <option value="" selected></option>
                 <?php
-                  if($coop_info->grouping == 'Federation'){
+                  if($coop_info->grouping == 'Federation' || $coop_info->grouping == 'Union'){
                       ?>
                       <?php foreach ($grouping as $cooperator) : ?>
                       <option value ="<?php echo encrypt_custom($this->encryption->encrypt($cooperator['id']));?>"><?php echo $cooperator['representative']?></option>

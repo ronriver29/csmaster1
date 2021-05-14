@@ -32,7 +32,7 @@ class Unioncoop extends CI_Controller{
                     $data['encrypted_id'] = $id;
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
-                    $data['requirements_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
+                    // $data['requirements_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
                     $data['directors_count'] = $this->cooperator_model->check_no_of_directors($decoded_id);
                     $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($decoded_id);
                     $data['total_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
@@ -45,10 +45,10 @@ class Unioncoop extends CI_Controller{
 //                    $data['minimum_regular_pay'] = $this->cooperator_model->check_all_minimum_regular_pay($decoded_id);
 //                    $data['minimum_associate_subscription'] = $this->cooperator_model->check_all_minimum_associate_subscription($decoded_id);
 //                    $data['minimum_associate_pay'] = $this->cooperator_model->check_all_minimum_associate_pay($decoded_id);
-                    $data['minimum_regular_subscription'] = $capitalization_info->minimum_subscribed_share_regular;
-                    $data['minimum_regular_pay'] = $capitalization_info->minimum_paid_up_share_regular;
-                    $data['minimum_associate_subscription'] = $capitalization_info->minimum_subscribed_share_associate;
-                    $data['minimum_associate_pay'] = $capitalization_info->minimum_paid_up_share_associate;
+                    // $data['minimum_regular_subscription'] = $capitalization_info->minimum_subscribed_share_regular;
+                    // $data['minimum_regular_pay'] = $capitalization_info->minimum_paid_up_share_regular;
+                    // $data['minimum_associate_subscription'] = $capitalization_info->minimum_subscribed_share_associate;
+                    // $data['minimum_associate_pay'] = $capitalization_info->minimum_paid_up_share_associate;
                     $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                     $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                     $data['check_regular_paid'] = $this->cooperator_model->check_regular_total_shares_paid_is_correct($data['total_regular']);
@@ -64,9 +64,10 @@ class Unioncoop extends CI_Controller{
                     $data['registered_coop'] = $this->unioncoop_model->get_registered_fed_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
                     $data['applied_coop'] = $this->unioncoop_model->get_applied_coop($user_id);
                     $this->load->view('./template/header', $data);
-                    $this->load->view('union/federation_list', $data);
+                    $this->load->view('union/union_list', $data);
                     $this->load->view('federation/full_info_modal_registeredcoop');
                     $this->load->view('union/add_form_affiliates');
+                    $this->load->view('union/edit_form_cooperator');
                     $this->load->view('union/delete_form_affiliates');
                     $this->load->view('./template/footer');
                 }else{
@@ -102,7 +103,7 @@ class Unioncoop extends CI_Controller{
                         $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
                         $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                         $capitalization_info = $data['capitalization_info'];
-                        $data['requirements_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
+                        $data['requirements_complete'] = $this->unioncoop_model->is_requirements_complete($data['coop_info']->users_id);
 //                        $data['directors_count'] = $this->cooperator_model->check_no_of_directors($decoded_id);
 //                        $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($decoded_id);
                         $data['total_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
@@ -134,7 +135,7 @@ class Unioncoop extends CI_Controller{
                         $data['list_cooperators_associate'] = $this->cooperator_model->get_all_cooperator_of_coop_associate($decoded_id);
                         $data['ten_percent']=$this->cooperator_model->ten_percent($decoded_id);
                         $this->load->view('./templates/admin_header', $data);
-                        $this->load->view('union/federation_list', $data);
+                        $this->load->view('union/union_list', $data);
                         $this->load->view('federation/full_info_modal_registeredcoop');
                         $this->load->view('federation/add_form_cooperator');
                         $this->load->view('federation/delete_form_cooperator');
@@ -171,20 +172,49 @@ class Unioncoop extends CI_Controller{
               'regNo' => $this->input->post('regNo'),
               'coopName' => $this->input->post('coopName'),
               'application_id' => $this->input->post('applicationid'),
+              'representative' => $this->input->post('fName'),
               'user_id' => $user_id, 
               );
             $success = $this->unioncoop_model->add_unioncoop($data);
-            if($success){
+            if(!$success){
               $this->session->set_flashdata('cooperator_success', 'Cooperative Added.');
                     redirect('cooperatives/'.$encrypted_post_coop_id.'/unioncoop');
             }else{
-              $this->session->set_flashdata('cooperator_error', $success['message']);
+              $this->session->set_flashdata('cooperator_error', 'Cooperative Failed to Add.');
               redirect('cooperatives/'.$encrypted_post_coop_id.'/unioncoop');
             }
         } else {
 //            echo $query;
             $this->session->set_flashdata('cooperator_error', 'Cooperative already exists.');
                     redirect('cooperatives/'.$encrypted_post_coop_id.'/unioncoop');
+        }
+    }
+
+    function edit_unioncoop($id = null){
+        $user_id = $this->session->userdata('user_id');
+        $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+        $user_id = $this->session->userdata('user_id');
+        $data['encrypted_id'] = $id;
+        $data['is_client'] = $this->session->userdata('client');
+        // $query = $this->affiliators_model->existing_affiliators($user_id,$this->input->post('regNo'));
+        // $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
+
+        $encryptedcoopid = $this->input->post('cooperativesID');
+        $encrypted_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
+
+        $u_data = array(
+            'representative' => $this->input->post('repre'),
+          );
+
+        $update_aff = $this->db->update('unioncoop',$u_data,array('id'=>$encrypted_post_coop_id));
+
+        if($update_aff)
+        {  
+          $this->session->set_flashdata('cooperator_success', 'Affiliator Successfully Updated.');
+            redirect('cooperatives/'.$encryptedcoopid.'/unioncoop');
+        }else{
+          $this->session->set_flashdata('cooperator_success', 'Affiliator failed to Update');
+          redirect('cooperatives/'.$encryptedcoopid.'/unioncoop');
         }
     }
     

@@ -38,7 +38,7 @@ class Payments extends CI_Controller{
                     } else if($data['coop_info']->grouping == 'Union'){
                         $model = 'unioncoop_model';
                         $ids = $user_id;
-                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($user_id);
                     } else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
@@ -56,7 +56,7 @@ class Payments extends CI_Controller{
                         }
                       if($data['gad_count']>0){
                       $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                      if($data['economic_survey_complete']){
+                      if($data['economic_survey_complete'] || $data['coop_info']->grouping == 'Union' || $data['coop_info']->grouping == 'Federation'){
                         $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                         if($data['staff_complete']){
                           $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
@@ -120,12 +120,13 @@ class Payments extends CI_Controller{
                       redirect('cooperatives/'.$id);
                     }
                   }else{
-                    if($data['coop_info']->grouping == 'Federation'){
-                            $complete = 'Affiliators';
-                        } else {
-                            $complete = 'Cooperators';
-                        }
-                        $this->session->set_flashdata('redirect_message', 'Please complete first your list of '.$complete.'');
+                    if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->grouping == 'Union'){
+                        $complete = 'Members';
+                    } else {
+                        $complete = 'Cooperators';
+                    }
+                    // echo $this->db->last_query();
+                    $this->session->set_flashdata('redirect_message', 'Please complete first your list of '.$complete.'');
                     redirect('cooperatives/'.$id);
                   }
                 }else{

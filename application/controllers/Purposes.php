@@ -30,14 +30,17 @@ class Purposes extends CI_Controller{
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } 
-                    else {
+                    } else if($data['coop_info']->grouping == 'Union'){
+                        $model = 'unioncoop_model';
+                        $ids = $user_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
+                    } else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
                     
-                  if($data['cooperator_complete']){
+                  if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
                     $data['title'] = 'List of Purposes';
                     $data['header'] = 'Purposes';
                     $data['client_info'] = $this->user_model->get_user_info($user_id);
@@ -54,7 +57,9 @@ class Purposes extends CI_Controller{
                     $this->load->view('template/footer');
                   }else{
                         if($data['coop_info']->grouping == 'Federation'){
-                            $complete = 'Affiliators';
+                            $complete = 'Members';
+                        } else if($data['coop_info']->grouping == 'Union'){
+                            $complete = 'Members';
                         } else {
                             $complete = 'Cooperators';
                         }
@@ -92,15 +97,18 @@ class Purposes extends CI_Controller{
                         $model = 'affiliators_model';
                         $ids = $data['coop_info']->users_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$ids);
-                    } 
-                    else {
+                    } else if($data['coop_info']->grouping == 'Union'){
+                        $model = 'unioncoop_model';
+                        $ids = $user_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($user_id);
+                    } else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
                       
                       
-                    if($data['cooperator_complete']){
+                    if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
                       $data['title'] = 'List of Purposes';
                       $data['header'] = 'Purposes';
                       $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
@@ -167,7 +175,7 @@ class Purposes extends CI_Controller{
                     }
                     
                     
-                  if($data['cooperator_complete']){
+                  if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
                     if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                       if($this->form_validation->run() == FALSE){
                         $data['title'] = 'List of Purposes';
@@ -246,7 +254,7 @@ class Purposes extends CI_Controller{
                     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                     if($data['bylaw_complete']){
                       $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
-                      if($data['cooperator_complete']){
+                      if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
                         if($this->form_validation->run() == FALSE){
                           $data['title'] = 'List of Purposes';
                           $data['header'] = 'Purposes';

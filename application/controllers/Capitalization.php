@@ -58,8 +58,10 @@ class Capitalization extends CI_Controller{
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     }
                     $this->load->view('./template/header', $data);
-                    if($data['coop_info']->grouping == 'Federation'){
+                    if($data['coop_info']->grouping == 'Federation' && $data['coop_info']->category_of_cooperative == 'Secondary'){
                         $this->load->view('cooperative/bylaw_info/fed_capitalization_form', $data);
+                    } else if($data['coop_info']->grouping == 'Federation' && $data['coop_info']->category_of_cooperative == 'Tertiary'){
+                        $this->load->view('cooperative/bylaw_info/fed_tert_capitalization_form', $data);
                     } else if($data['coop_info']->grouping == 'Union'){
                         $this->load->view('cooperative/bylaw_info/capitalization_form', $data);
                     } else {

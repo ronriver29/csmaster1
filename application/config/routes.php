@@ -169,8 +169,10 @@ $route['cooperatives/sp'] = 'cooperatives/sp';
 //modiy by json
 $route['cooperatives/(:any)/documents/view_document_one/(:any)/(:any)'] = 'documents/view_document_one/$1/$2/$3';
 $route['cooperatives/(:any)/documents/view_document_two/(:any)'] = 'documents/view_document_two/$1/$2';
+$route['cooperatives/(:any)/documents/view_document_three/(:any)'] = 'documents/view_document_three/$1/$2';
 $route['cooperatives/(:any)/documents/upload_document_one'] = 'documents/upload_document_one/$1';
 $route['cooperatives/(:any)/documents/upload_document_two'] = 'documents/upload_document_two/$1';
+$route['cooperatives/(:any)/documents/upload_document_three'] = 'documents/upload_document_three/$1';
 $route['cooperatives/(:any)/documents/upload_document_others/(:any)'] = 'documents/upload_document_others/$1/$2';
 $route['cooperatives/(:any)/documents/economic_survey'] = 'documents/economic_survey/$1';
 $route['cooperatives/(:any)/documents/affidavit_primary'] = 'documents/affidavit_primary/$1';
@@ -206,6 +208,7 @@ $route['cooperatives/(:any)/unioncoop'] = 'unioncoop/index/$1';
 $route['cooperatives/(:any)/affiliators'] = 'affiliators/index/$1';
 $route['cooperatives/(:any)/affiliators/add_affiliators'] = 'affiliators/add_affiliators/$1';
 $route['cooperatives/(:any)/affiliators/edit_affiliators'] = 'affiliators/edit_affiliators/$1';
+$route['cooperatives/(:any)/affiliators/edit_unioncoop'] = 'affiliators/edit_unioncoop/$1';
 $route['cooperatives/(:any)/cooperators/get_cooperative_info'] ='cooperatives/get_cooperative_info';
 $route['cooperatives/(:any)/rupdate']  =  'cooperatives/rupdate/$1';
 
