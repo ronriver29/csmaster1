@@ -168,9 +168,11 @@
                 <div class="form-group" style="margin-bottom: 0">
                    <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
-                  <input type="text" class="form-control validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> 
+                 <!--  <input type="text" class="form-control validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>">  -->
 
-                 <!--   <input type="text" class="form-control validate[required]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> -->
+                <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess"
+                     value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> 
+                   <input type="hidden" class="form-control" name="newName2" id="newName2">
                   <input type="hidden" class="form-control" id="cooperative_idss" />
                 
                 </div>
@@ -182,7 +184,7 @@
               </div>
             </div>
             <input type="hidden" class="form-control" name="count_types" id="count_types" />
-             <input type="hidden" id="typeOfCooperative_value" value="">
+             <input type="" id="typeOfCooperative_value" value="">
 
              <div class="row">
               <div class="col-sm-12 col-md-12">
@@ -226,7 +228,7 @@
           <!-- asldfk; -->
           <div class="row">
               <div class="col-sm-12 col-md-12 col-com insti_div" id="insti_div"> 
-                <div class="form-group">
+                <div class="form-group col-md-12">
                    <label for="compositionOfMembers1" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
                             <label for="compositionOfMembers1" id="fieldmembershipmemofficname">Field of Membership <i>(Note: Members, Officers)</i></label>
                             <input type="text" class="form-control" name="field_membership" id="field_membership" value="<?=$coop_info->field_of_membership?>">
@@ -253,8 +255,8 @@
                 </div>
               </div> <!-- end insti -->
              
-                <div class="col-md-12 occupation-wrapper" id="occupation-wrapper" >
-                  
+               
+                  <div class="col-md-12 ocu-div">
                   <label for="compositionOfMembers" id="composition_of_members_label">Composition of Members </label>
                   
                   <?php if(empty($members_composition)) {?>
@@ -273,7 +275,7 @@
                   $no=0;
                   foreach($members_composition as $key){
                     echo '<div class="form-group">
-                      <table id="comp_tbl">
+                      <table id="comp_tbl" width="100%">
                         <tr>
                           <td><select class="custom-select form-control  validate[required]" name="compositionOfMembers[]" id="compositionOfMembers'.++$no.'">
                             <option value=""></option>';
@@ -285,15 +287,24 @@
                               echo '">';
                             echo $key2->composition.'</option>';}
                           echo '</select><br>
-                        </td>
-                        <td><a class="customDeleleBtn compositionRemoveBtn float-right text-danger"  onclick="$(this).parent().parent().remove()"><i class="fas fa-minus-circle"></i></a>
-                        </td>
-                        </tr>
+                        </td>';
+                        ?>
+                        <?php 
+                        if(count($members_composition)>1)
+                        {
+                          echo' <td><a class="customDeleleBtn compositionRemoveBtn float-right text-danger"  onclick="$(this).parent().parent().remove()"><i class="fas fa-minus-circle"></i></a>
+                        </td>';
+                        }
+                        ?>
+                     <?php
+                       echo' </tr>
                       </table>
                     </div>';
                   }//end no emtpy
                 }
                 ?>
+              </div> <!-- end of ocu-div -->
+                 <div class="col-md-12 occupation-wrapper" id="occupation-wrapper" >
                 </div> <!-- END occupation-wrapper -->
           </div>      
           
@@ -315,6 +326,7 @@
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                   <strong>Proposed Address of the Cooperative</strong>
+                   <div style="color:red;font-size: 11px;"><i>*Please leave the House/Lot and Blk No. and Street Name blank if not applicable</i></div>
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">

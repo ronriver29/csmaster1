@@ -165,7 +165,7 @@ $(function(){
 
           if (data.coopTypes=='Multipurpose'){
               count_id=1
-              var label = $('<label></label>').attr({'for': 'typeCooperative '}).text("Type of Cooperative");
+              var label = $('<label></label>').attr({'for': 'typeCooperative '}).text("Type of Cooperativeddd");
               var typestr = data.type_id;
               var ctype = typestr.split(',');  
             $.each(ctype, function(i,row) {
@@ -199,13 +199,13 @@ $(function(){
             var divFormGroup= $('<div></div>').attr({'class':'form-group'});
             // var divCol = $('<div></div>').attr({'class':'col-sm-12 col-md-12'});
              var divRow = $('<div></div>').attr({'class':'row col-md-12'});
-            var label = $('<label></label>').attr({'for': 'typeCooperative '}).text("Type of Cooperative");
+            var label = $('<label></label>').attr({'for': 'typeCooperative '}).text("Type of Cooperativefff");
             var selectCoop = $('<select></select>').attr({'class': 'custom-select coop-type form-control  validate[required]','name': 'typeOfCooperative[]', 'id': 'typeOfCooperative' + c}); 
-            var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn float-right text-danger'}).click(function(e){
-             $(this).parent().remove();
-            }); //end delete
+            // var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn float-right text-danger'}).click(function(e){
+            //  $(this).parent().remove();
+            // }); //end delete
 
-            $(divFormGroup).append(label,selectCoop,deleteSpan);
+            $(divFormGroup).append(label,selectCoop);
             // $(divRow).css({"border":"1px solid red"});
             // $(divCol).append(divFormGroup);
             $(htmlc).append(divFormGroup);
@@ -761,31 +761,31 @@ $(function(){
 
    
       //modified by json
-      $(".coop-type").on('change',function(){
-              var cooptype_value = this.value;
-             // alert('dddd');
-              var typeCoop_arraysa=[]; 
-           $('select[name="typeOfCooperative[]"] option:selected').each(function() {
-           typeCoop_arraysa.push($(this).val());
-          // alert(typeCoop_arraysa);
-            $('#typeOfCooperative_value').val(typeCoop_arraysa);
-           });
+      // $(".coop-type").on('change',function(){
+      //         var cooptype_value = this.value;
+      //        // alert('dddd');
+      //         var typeCoop_arraysa=[]; 
+      //      $('select[name="typeOfCooperative[]"] option:selected').each(function() {
+      //      typeCoop_arraysa.push($(this).val());
+      //     alert(typeCoop_arraysa);
+      //       $('#typeOfCooperative_value').val(typeCoop_arraysa);
+      //      });
 
-                  $.ajax({
-                   type : "POST",
-                   url  : "get_coopTypeID_ajax",
-                   dataType: "json",
-                   data: {cooptype_:cooptype_value},
-                   success: function(responsetxt){
-                    // console.log(responsetxt['desciption']);
-                    $.each(responsetxt,function(a,major_industry){
-                       $('.select-major').append($('<option></option>').attr('value',major_industry['id']).text(major_industry['description']));
+      //             $.ajax({
+      //              type : "POST",
+      //              url  : "get_coopTypeID_ajax",
+      //              dataType: "json",
+      //              data: {cooptype_:cooptype_value},
+      //              success: function(responsetxt){
+      //               // console.log(responsetxt['desciption']);
+      //               $.each(responsetxt,function(a,major_industry){
+      //                  $('.select-major').append($('<option></option>').attr('value',major_industry['id']).text(major_industry['description']));
 
-                    });
-                   }
-                  }); 
-              }); 
-      //endo modified
+      //               });
+      //              }
+      //             }); 
+      //         }); 
+      // //endo modified
 
     $("#amendmentAddForm #amendmentAddAgree").click(function(){
       if($(this).is(':checked')){
@@ -912,20 +912,48 @@ $(function(){
       var divFormGroup= $('<div></div>').attr({'class':'form-group'});
       var selectCoop = $('<select></select>').attr({'class': 'custom-select coop-type form-control validate[required]','name': 'typeOfCooperative[]', 'id': 'typeOfCooperative1' + (intLastCount + 1)}).prop("disabled",false);
       var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn float-right text-danger'}).click(function(e){
-       
-        $(this).parent().remove();
-        // count_text_input--;
-        // less_count_updateName(count_text_input);
+            
+        //remove coop type      
+        $(this).parent().remove(); 
+            $('.major-ins').empty();
+            $('.subclass-in').empty();
+            $('.subclass-in').prop("disabled",true);
+            var typeCoop_arrays=[]; 
+          $('select[name="typeOfCooperative[]"] option:selected').each(function() {
+              typeCoop_arrays.push($(this).val()); 
+              // $('#typeOfCooperative_value').val(typeCoop_arrays);
+          });      
+           // alert(typeCoop_arrays);
+            // $('#amendmentAddForm .major-ins').empty();
+            $('#amendmentAddForm .major-ins').append($('<option></option').attr({'selected':true}).val(""));
+                $.ajax({
+                 type : "POST",
+                 url  : "../api/major_industries_amendment",
+                 dataType: "json",
+                 data: {cooptype_:typeCoop_arrays},
+                 success: function(responsetxt){
+                  $.each(responsetxt,function(a,major_industry){
+                   console.log(major_industry);
+
+                     $('.major-ins').append($('<option></option>').attr('value',major_industry['major_industry_id']).text(major_industry['description']));
+                     
+                     // $('.select-major').append($('<option></option>').attr('value',major_industry['description']).text(major_industry['description']));
+
+                  });
+                 }
+                }); //end ajax
+
          });
+        //end remove coop type
 
       
     
       $(divFormGroup).append(selectCoop,deleteSpan);
       $(htmlc).append(divFormGroup);
       $(divRow).append(htmlc);
-     
       $("#amendmentAddForm .type-coop-row").append(divRow);
-        list_cooperative_type(selectCoop);
+    
+      list_cooperative_type(selectCoop); //load coop type selectbox
 
     
 
@@ -970,11 +998,13 @@ $(function(){
         var cooptype_value = this.value;
         var typeCoop_arrays=[]; 
           $('select[name="typeOfCooperative[]"] option:selected').each(function() {
-              typeCoop_arrays.push($(this).val()); 
-              // $('#typeOfCooperative_value').val(typeCoop_arrays);
+              typeCoop_arrays.push($(this).val());
+              $('#typeOfCooperative_value').val(typeCoop_arrays);
           });      
            // alert(typeCoop_arrays);
             $('#amendmentAddForm .major-ins').empty();
+            $('#amendmentAddForm .subclass-in').empty();
+            $('#amendmentAddForm .subclass-in').prop('disable',true);
             $('#amendmentAddForm .major-ins').append($('<option></option').attr({'selected':true}).val(""));
            $.ajax({
                  type : "POST",
@@ -983,59 +1013,13 @@ $(function(){
                  data: {cooptype_:typeCoop_arrays},
                  success: function(responsetxt){
                   $.each(responsetxt,function(a,major_industry){
-                   console.log(major_industry);
-
                      $('.major-ins').append($('<option></option>').attr('value',major_industry['major_industry_id']).text(major_industry['description']));
-                     
-                     // $('.select-major').append($('<option></option>').attr('value',major_industry['description']).text(major_industry['description']));
-
                   });
+
                  }
                 }); //end ajax
 
-      // const current_cooperative_id =  $(this).attr('id');
-      // var intLastCount = parseInt(current_cooperative_id.substr(-1));
      
-      // $('#amendmentAddForm #majorIndustry'+(intLastCount)).prop("disabled",true);
-    
-      // var typeCoop_arrays=[]; 
-      //  if($(this).val() && ($(this).val()).length > 0){
-      //       var majorIndustryTemp =   $('#amendmentAddForm #majorIndustry'+(intLastCount));
-      //       $(majorIndustryTemp).prop("disabled",false);
-      //   }  
-          
-      // $('select[name="typeOfCooperative[]"] option:selected').each(function() {
-      //  typeCoop_arrays.push($(this).val());
-
-      //   // alert(typeCoop_arrays);
-      //   $('#typeOfCooperative_value').val(typeCoop_arrays);
-
-      // });
-
-      //    $('#typeOfCooperative_value').val(typeCoop_arrays);
-
-      //     $.each(typeCoop_arrays , function(n,type_coop_id){
-      //       // console.log(type_coop_id);
-
-      //         $('#amendmentAddForm #majorIndustry'+(intLastCount)).append($('<option></option').attr({'selected':true}).val(""));
-      //         $.ajax({
-      //            type : "POST",
-      //            url  : "get_major_industry_ajax",
-      //            dataType: "json",
-      //            data: {cooptype_:cooptype_value},
-      //            success: function(responsetxt){
-      //             $.each(responsetxt,function(a,major_industry){
-      //              console.log(major_industry);
-
-      //                $('.major-ins').append($('<option></option>').attr('value',major_industry['major_industry_id']).text(major_industry['description']));
-                     
-      //                // $('.select-major').append($('<option></option>').attr('value',major_industry['description']).text(major_industry['description']));
-
-      //             });
-      //            }
-      //           }); //end ajax
-
-      //     });
       });
      // }); 
     // //end onchange coop type 
@@ -1171,23 +1155,23 @@ $(function(){
             // subclass
             var major_id = $(this).val();
             // alert(major_id);
-                  $(selectSubClass).empty();
-                  $(selectSubClass).prop("disabled",true); 
-                    var coop_type_val = $('#amendmentAddForm #typeOfCooperative1').val();
-                        $.ajax({
-                        type : "POST",
-                        url  : "major_industry_description_subclass_ajax",
-                        dataType: "json",
-                        data : {
-                          major_types: major_id
-                        },
-                        success: function(data){
-                            $(selectSubClass).append($('<option></option>').attr('value',"").text(""));
-                            $.each(data, function(key,value){
-                              $(selectSubClass).append($('<option></option>').attr('value',value.sub_class_id).text(value.subclass_description));
-                            });
-                        }
-                      });
+                  // $(selectSubClass).empty();
+                  // $(selectSubClass).prop("disabled",true); 
+                  //   var coop_type_val = $('#amendmentAddForm #typeOfCooperative1').val();
+                  //       $.ajax({
+                  //       type : "POST",
+                  //       url  : "major_industry_description_subclass_ajax",
+                  //       dataType: "json",
+                  //       data : {
+                  //         major_types: major_id
+                  //       },
+                  //       success: function(data){
+                  //           $(selectSubClass).append($('<option></option>').attr('value',"").text(""));
+                  //           $.each(data, function(key,value){
+                  //             $(selectSubClass).append($('<option></option>').attr('value',value.sub_class_id).text(value.subclass_description));
+                  //           });
+                  //       }
+                  //     });
                   
                   //end subclass
           });

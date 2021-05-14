@@ -78,7 +78,7 @@
 
           //end cooperative
           $proposedName2 =$proposedName;
-          if($proposedName!=$proposedName_original)
+          if(strcasecmp($proposedName,$proposedName_original)>0)
           {
             $proposedName ='<strong>'.$proposedName .'</strong>';
           }
@@ -232,21 +232,23 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article V<br>Term of Existence</p>
+        <p class="font-weight-bold">Article V<br>Term of years_of_existence</p>
     </div>
   </div>
   <div class="row mb-4">
     <?php
-     $years_of_existence = '';
-      $years_of_existence2='';
+    $years_of_existence = $article_info->years_of_existence;
+    $years_of_existence2=ucwords(num_format_custom($article_info->years_of_existence));
+
     if($article_info_orig->years_of_existence!=$article_info->years_of_existence)
     {
-      $years_of_existence='<strong>'.ucwords(num_format_custom($article_info->years_of_existence)).'</strong>';
-       $years_of_existence2='<strong>'.$article_info->years_of_existence.'</strong>';
+      $years_of_existence='<strong>'.$years_of_existence.'</strong>';
+       $years_of_existence2='<strong>'. $years_of_existence2.'</strong>';
     }
+  
     ?>
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">The term for which this Cooperative shall exist is <?=  $years_of_existence?> (<?= $years_of_existence2?>) years from the date of its registration with the Cooperative Development Authority.</p>
+      <p class="text-justify" style="text-indent: 50px;">The term for which this Cooperative shall exist is <?=  $years_of_existence2?> (<?= $years_of_existence?>) years from the date of its registration with the Cooperative Development Authority.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -302,7 +304,16 @@
        }else{
          echo "Philippines";
        }
-       ?>.Its principal office shall be located at <strong><?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?><?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?> <?=$coop_info->region?>.</strong></p>
+       
+       if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
+       ?>
+
+       <?php 
+       $address = $coop_info->house_blk_no.' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.' '.($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province).' '.$coop_info->region;
+      $address_orig = $coop_info_orig->house_blk_no.' '.ucwords($coop_info_orig->street).$x.' '.$coop_info_orig->brgy.' '.($in_chartered_cities_orig ? $chartered_cities_orig : $coop_info_orig->city.', '.$coop_info_orig->province).' '.$coop_info_orig->region;
+       
+       ?>.Its principal office shall be located at <?=(strcasecmp($address, $address_orig)>0 ? '<b>'.$address.'</b>' : $address)?>.</p>
+
     </div>
   </div>
   <div class="row mb-2">

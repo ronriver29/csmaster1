@@ -82,13 +82,14 @@
           $proposedName_original = $coop_info_orig->proposed_name.' '.$coop_info_orig->type_of_cooperative  .' Cooperative '.$coop_info_orig->grouping.' '.$acronymOrig_;  
 
           //end cooperative
-          $proposedName2 =$proposedName;
-          if($proposedName!=$proposedName_original)
-          {
-            $proposedName ='<strong>'.$proposedName .'</strong>';
+       
+         
+          if(strcasecmp($proposedName,$proposedName_original)>0)
+          { 
+            $proposedName ='<strong>'.$proposedName.'</strong>';
           }
           ?>
-          <p class="font-weight-bold">BY-LAWS<br>OF<br><strong><?= $proposedName2?></strong></p>
+          <p class="font-weight-bold">BY-LAWS<br>OF<br><strong><?= $proposedName?></strong></p>
           
     </div>
   </div>
@@ -315,11 +316,11 @@
   <?php
     if($capitalization_info_orig->minimum_subscribed_share_regular!=$capitalization_info->minimum_subscribed_share_regular)
     {
-      $minimum_subscribed_share_regular2='<strong>'.num_format_custom($capitalization_info->minimum_subscribed_share_regular).'</strong>';
+      $minimum_subscribed_share_regular2='<strong>'.ucwords(num_format_custom($capitalization_info->minimum_subscribed_share_regular)).'</strong>';
     }
     else
     {
-       $minimum_subscribed_share_regular2=num_format_custom($capitalization_info->minimum_subscribed_share_regular);
+       $minimum_subscribed_share_regular2=ucwords(num_format_custom($capitalization_info->minimum_subscribed_share_regular));
     }
     if($capitalization_info_orig->minimum_paid_up_share_regular!=$capitalization_info->minimum_paid_up_share_regular)
     {
@@ -333,31 +334,32 @@
     }
     if($capitalization_info_orig->minimum_subscribed_share_associate!=$capitalization_info->minimum_subscribed_share_associate)
     {
-      $minimum_subscribed_share_associate2='<strong>'.num_format_custom($capitalization_info->minimum_subscribed_share_associate).'</strong>';
+      $minimum_subscribed_share_associate2='<strong>'.ucwords(num_format_custom($capitalization_info->minimum_subscribed_share_associate)).'</strong>';
     }
     else
     {
-        $minimum_subscribed_share_associate2=num_format_custom($capitalization_info->minimum_subscribed_share_associate);
+        $minimum_subscribed_share_associate2=ucwords(num_format_custom($capitalization_info->minimum_subscribed_share_associate));
     }
 $minimum_paid_up_share_associate_3 ='';
     if($capitalization_info_orig->minimum_paid_up_share_associate!=$capitalization_info->minimum_paid_up_share_associate)
     {
       $minimum_paid_up_share_associate_='<strong>'.$capitalization_info->minimum_paid_up_share_associate.'</strong>';
-       $minimum_paid_up_share_associate_3='<strong>'.num_format_custom($capitalization_info->minimum_paid_up_share_associate).'</strong>';
+       $minimum_paid_up_share_associate_3='<strong>'.ucwords(num_format_custom($capitalization_info->minimum_paid_up_share_associate)).'</strong>';
     }
     else
     {
       $minimum_paid_up_share_associate_=$capitalization_info->minimum_paid_up_share_associate;
+       $minimum_paid_up_share_associate_3=ucwords(num_format_custom($capitalization_info->minimum_paid_up_share_associate));
     }
 
   ?>
 
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Minimum Share Capital Requirement.</i> An applicant for <strong>regular membership</strong> shall subscribe at least <?= ucwords( $minimum_subscribed_share_regular2)?> (<?= $capitalization_info->minimum_subscribed_share_regular?>) 
-        shares and pay the value of at least <?=  ucwords($minimum_paid_up_share_regular)?> (<?= $capitalization_info->minimum_paid_up_share_regular?>) shares upon approval of his/her membership.</p>
+      <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Minimum Share Capital Requirement.</i> An applicant for <strong>regular membership</strong> shall subscribe at least <?=$minimum_subscribed_share_regular2?> (<?= $capitalization_info->minimum_subscribed_share_regular?>) 
+        shares and pay the value of at least <?=  ucwords($minimum_paid_up_share_regular2)?> (<?= $capitalization_info->minimum_paid_up_share_regular?>) shares upon approval of his/her membership.</p>
       <?php if($bylaw_info->kinds_of_members == 2) :?>
       <p class="text-justify">An applicant for <strong>associate membership</strong> shall subscribe at least <?=$minimum_subscribed_share_associate2?> (<?= $capitalization_info->minimum_subscribed_share_associate?>) 
-        shares and pay the value of at least <?= ucwords($minimum_paid_up_share_associate_3)?> (<?= $minimum_paid_up_share_associate_?>) shares upon approval of his/her membership.</p>
+        shares and pay the value of at least <?=$minimum_paid_up_share_associate_3?> (<?= $minimum_paid_up_share_associate_?>) shares upon approval of his/her membership.</p>
       <?php endif;?>
       <p class="text-justify" style="text-indent: 50px;">However, no member shall own or hold more than ten percent (10%) of the total subscribed share capital of the Cooperative.</p>
   </div>
@@ -578,10 +580,10 @@ $minimum_paid_up_share_associate_3 ='';
         <li>Unfinished business; </li>
         <li>New business;
             <ol class="text-justify" type="i">
-              <li>h.1 Election of directors and committee members </li>
-              <li>h.2 Approval of Development and/or annual Plan and Budget </li>
-              <li>h.3 Hiring of External Auditor </li>
-              <li>h.4 Other related business matters </li>
+              <li><!-- h.1 --> Election of directors and committee members </li>
+              <li><!-- h.2 --> Approval of Development and/or annual Plan and Budget </li>
+              <li><!-- h.3 --> Hiring of External Auditor </li>
+              <li><!-- h.4 --> Other related business matters </li>
             </ol>
         </li>
         <li>Announcements; and </li>
@@ -1054,7 +1056,7 @@ $minimum_paid_up_share_associate_3 ='';
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Officers and their Duties.</i> TThe officers of the cooperative shall include the Members of the Board of Directors, Members of the Different Committees, General Manager/Chief Executive Officer, Secretary and Treasurer who shall serve according to the functions and responsibilities of their respective offices as follows:</p>
+        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Officers and their Duties.</i> The officers of the cooperative shall include the Members of the Board of Directors, Members of the Different Committees, General Manager/Chief Executive Officer, Secretary and Treasurer who shall serve according to the functions and responsibilities of their respective offices as follows:</p>
     </div>
   </div>
   <div class="row">
@@ -1542,7 +1544,7 @@ $minimum_paid_up_share_associate_3 ='';
             // echo"<br>";
             //  echo"<pre>";print_r( $cooperators_list_regular_orig);echo"</pre>";
             ?>
-            <?php $count=0; foreach($cooperators_list_regular as $key=> $cooperator) :
+            <?php $count=1; foreach($cooperators_list_regular as $key=> $cooperator) :
                 
                 echo"<tr>";
                 if(isset($cooperators_list_regular_orig[$key]))

@@ -71,7 +71,7 @@
 			<td><i style="color:white;">....</i></td>
 		</tr>
 	        <tr>
-			<td style="text-align: justify; text-indent: 40px;"><b>IN WITNESS WHEREOF, by virtue of the powers vested in me by law, I have hereunto set my hand and cause the seal of Authority to be affixed </b>
+			<td style="text-align: justify; text-indent: 40px;">IN WITNESS WHEREOF, by virtue of the powers vested in me by law, I have hereunto set my hand and cause the seal of Authority to be affixed 
 	                        this <b><?=$date_day?> day of <?= $date_month,', '.$date_year?> at Quezon City,</b> Philippines.</td> 
 		</tr>
 		 <tr>

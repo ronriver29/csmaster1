@@ -98,7 +98,7 @@ class Amendment_registration_model extends CI_Model{
     }
     else
     {
-      $amendment_no = 1;
+      $amendment_no =1;
     }
     return $amendment_no;
   }

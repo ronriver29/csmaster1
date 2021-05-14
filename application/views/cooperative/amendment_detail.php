@@ -8,7 +8,7 @@
     <div class="alert alert-info shadow-sm mt-2" role="alert">
       <h5>Please fill up all the information to proceed into the next step.</h5>
     </div>
-  </div>
+  </div> 
 </div>
 
 <div class="row">
@@ -118,8 +118,8 @@
                   <label for="newName"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your new name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
 
-                    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess">
-                   <!-- <input type="text" class="form-control p_name validate[required]" name="newNamess" id="newNamess"> -->
+                    <!-- <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp,ajaxAmendmentNameCallPhpcoop]]" name="newNamess" id="newNamess">  -->
+                    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom]" name="newNamess" id="newNamess"> 
                   <input type="hidden" class="form-control" name="newName2" id="newName2">
                   <input type="hidden" id="cooperative_idss" />
                 </div>
@@ -171,12 +171,11 @@
           </div> <!-- end of col md 12 -->
       
       
-
             <!-- ASSOCIATIONAL -->
       <input type="hidden" value="<?=$coop_info->common_bond_of_membership?>" id="commonBond">
       <div class="row rd-row" id="common_bond_wrapper">      
          <?php //if($coop_info->common_bond_of_membership == 'Associational' || $coop_info->common_bond_of_membership == 'Institutional') :?>     
-        <div class="col-md-6" id="associational-wrappers">
+        <div class="col-md-12" id="associational-wrappers">
           <!-- <div class="col-md-12"> -->
             <div class="form-group">
              <label for="fieldmembershipname" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
@@ -239,6 +238,7 @@
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                   <strong>Proposed Address of Cooperative</strong>
+                   <div style="color:red;font-size: 11px;"><i>*Please leave the House/Lot and Blk No. and Street Name blank if not applicable</i></div>
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
@@ -251,6 +251,7 @@
                 <div class="form-group">
                   <label for="streetName">Street Name</label>
                   <input type="text" class="form-control" name="streetName" id="streetName" placeholder="">
+                 
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
