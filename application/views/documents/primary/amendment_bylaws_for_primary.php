@@ -1573,8 +1573,8 @@ $minimum_paid_up_share_associate_3 ='';
     </div>
   </div>
   <div class="row mb-4">
-    <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify mb-4" style="text-indent: 50px;">We, constituting the majority of the Board of Directors of the <?= $coop_info->proposed_name?> <?= (count($coop_type)>0?"Multipurpose Cooperative" :$coop_info->type_of_cooperative."Cooperative")?> <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> do hereby certify that the foregoing instrument is the Code of By-laws of this Cooperative.</p>
+    <div class="col-sm-12 col-md-12 text-left"> 
+        <p class="text-justify mb-4" style="text-indent: 50px;">We, constituting the majority of the Board of Directors of the <?= $coop_info->proposed_name?> <?= (count($coop_type)>1?"Multipurpose Cooperative" :$coop_info->type_of_cooperative."Cooperative")?> <?php if(strlen($coop_info->acronym)>0){ echo '('.$coop_info->acronym.')';}?> <?= $coop_info->grouping?> do hereby certify that the foregoing instrument is the Code of By-laws of this Cooperative.</p>
         <p class="text-justify" style="text-indent: 50px;">Signed this _______ of __________, ___________, in ____________.</p>
     </div>
   </div>

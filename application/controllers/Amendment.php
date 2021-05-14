@@ -232,7 +232,7 @@ class amendment extends CI_Controller{
                   $typeOfCooperative = implode(',',$this->input->post('typeOfCooperative'));
                 if($this->input->post('commonBondOfMembership')=='Institutional')
                 {
-                    $name_of_ins_assoc = implode(',',$this->input->post('name_ins_assoc'));
+                    $name_of_ins_assoc = implode(',',$this->input->post('name_associational'));
                     $field_memship =$this->input->post('assoc_field_membership');
                 }
                 else if($this->input->post('commonBondOfMembership')=='Associational')

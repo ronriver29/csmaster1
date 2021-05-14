@@ -56,10 +56,10 @@
       <p class="text-justify" style="text-indent: 50px;">I, <?= ($treasurer_of_coop->full_name!=$treasurer_of_coop_orig->full_name ? "<b>".$treasurer_of_coop->full_name."</b>" : $treasurer_of_coop->full_name)?>, after having been duly sworn to in accordance with law, do hereby depose and say:</p>
     </div>
   </div>
-  <div class="row mb-4">
+  <div class="row mb-4"> 
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="1">
-        <li>That I am the duly elected Treasurer of the <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> to act as such until my successor shall have been appointed and qualified in accordance with the By-laws of the Cooperative;</li>
+        <li>That I am the duly elected Treasurer of the <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(strlen($coop_info->acronym)>0){ echo '('.$coop_info->acronym.')';}?> <?= $coop_info->grouping?> to act as such until my successor shall have been appointed and qualified in accordance with the By-laws of the Cooperative;</li>
         <li>That as such, I hereby certify that the authorized share capital of this cooperative is
          <?= ($capitalization_info->authorized_share_capital!=$capitalization_info_orig->authorized_share_capital ? "<b>".ucwords(num_format_custom($capitalization_info->authorized_share_capital))."</b>" : ucwords(num_format_custom($capitalization_info->authorized_share_capital)))?> Pesos (Php 
           <?=$capitalization_info->authorized_share_capital!=$capitalization_info_orig->authorized_share_capital ? "<b>".number_format($capitalization_info->authorized_share_capital,2)."</b>" : number_format($capitalization_info->authorized_share_capital,2);?>)</li>

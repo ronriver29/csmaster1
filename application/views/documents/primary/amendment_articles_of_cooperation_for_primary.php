@@ -150,7 +150,7 @@
                 <?php               
                  $content = explode(';',$purpose['content']);
                  $content_orig = explode(';',$purpose_orig['content']);
-                 //  echo'<pre>';print_r($content);echo'</pre>';
+                  // echo'<pre>';print_r($content);echo'</pre>'; echo'<br><br><br>'; 
                  // echo'<pre>';print_r($content_orig);echo'</pre>';
                   foreach($content as $keys => $contents)
                   {
@@ -159,11 +159,15 @@
                       $content_orig[$keys] =0;
                     }
                     $contents_orig =  $content_orig[$keys];
-                    if( $contents_orig!==$contents)
+                    if(strcasecmp($contents_orig,$contents)>0)
                     {
-                       $contents = '<strong>'. $contents.'</strong>';
+                       echo '<strong><li>'. $contents.'</li></strong>';
                     }
-                    echo '<li>'.$contents.'</li>';
+                    else
+                    {
+                        echo '<li>'.$contents.'</li>';
+                    }
+                  
                   }
                 ?> 
                   </ol></div>
@@ -560,11 +564,12 @@
       if($totalRegular_orig != $totalRegular)
       {
         $totalRegular='<strong>'.number_format($totalRegular,2).'</strong>';
-         $total_regular_words = '<b>'.num_format_custom($totalRegular).'</b>';
+         $total_regular_words = '<b>'.ucwrods(num_format_custom($totalRegular)).'</b>';
       }
       else
       {
-          $total_regular_words = num_format_custom($totalRegular);
+         $totalRegular=number_format($totalRegular,2);
+          $total_regular_words = ucwords(num_format_custom($totalRegular));
       }
 
       $regular_total_subscibed = $total_regular['total_subscribed'] * $capitalization_info->par_value + ($total_associate['total_subscribed'] * $capitalization_info->par_value);
@@ -607,7 +612,7 @@
         <?php echo ($bylaw_info->kinds_of_members == 1) ? $total_regular_words : $regular_total_subscibed2 ;?> Pesos
         (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular : ($regular_total_subscibed);?>) has been subscribed, and
         <!-- <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular2 :   $paidUp;?> -->
-        <?=$paidUp?> Pesos
+        <?=ucwords($paidUp)?> Pesos
         (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? $paidUpsss : $paidUpsss ;?>) of the total subscription has been paid by the following members-subscribers:</p>
     </div>
   </div>
@@ -937,7 +942,7 @@
   </div>
   <div class="row mb-3">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>, consists of <u><?=$this->session->userdata('pagecount')?></u> pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>
+      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(strlen($coop_info->acronym)>0){ echo '('.$coop_info->acronym.')';}?>, consists of <u><?=$this->session->userdata('pagecount')?></u> pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>
     </div>
   </div>
 
@@ -965,3 +970,4 @@
 </body>
 
 </html>
+ 
