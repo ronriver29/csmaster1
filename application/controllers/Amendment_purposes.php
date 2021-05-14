@@ -202,13 +202,14 @@ class Amendment_purposes extends CI_Controller{
                           // {
                           //   $purposes1 .=$row_content.';';  
                           // }
-                           $purposes1 = substr_replace($purposes1, "", -1);
-                            // echo $purposes1;
+                           // $purposes1 = substr_replace($purposes1, "", -1);
+                            // echo $contents;
                             $data_purposes = array(
                               'id' => $this->encryption->decrypt(decrypt_custom($row['id'])),
                               'cooperative_type' =>$row['type_of_cooperative'],
                               'content' => $contents
                             );
+                            // $this->debug( $data_purposes);
                                 $process++;
                                 $this->db->trans_begin();
                                 $this->db->update('amendment_purposes',$data_purposes,array('id'=>$data_purposes['id']));

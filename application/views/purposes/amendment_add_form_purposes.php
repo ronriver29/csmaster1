@@ -40,7 +40,10 @@
                 <button type="button" class="btn btn-success btn-sm btn-block" name="addMorePurposeBtn[]" id="addMorePurposeBtn" data-id='<?=$count_?>'><i class="fas fa-plus"></i> Add More Purpose</button>
               </div>
               <label><?=$content['cooperative_type']?></label>
+
               <input type="hidden" name="items[<?=$a?>][type_of_cooperative]" value="<?=$content['cooperative_type']?>">
+
+
               <input type="hidden" name="items[<?=$a?>][id]" value="<?=encrypt_custom($this->encryption->encrypt($content['id']))?>"/>
               <div id="type_count<?=$key_counts++?>" >
                 
