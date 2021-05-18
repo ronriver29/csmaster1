@@ -840,7 +840,14 @@
                             if($data['staff_complete']){
                               $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
                               $data['document_two'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
-                              $data['document_three'] = $this->uploaded_document_model->get_document_three_info($decoded_id);
+                              if($data['coop_info']->grouping == 'Federation'){
+                                  $data['document_three'] = $this->uploaded_document_model->get_document_three_info($decoded_id);
+                              } else if($data['coop_info']->grouping == 'Union'){
+                                  $data['document_three'] = $this->uploaded_document_model->get_document_three_info($decoded_id);
+                              } else {
+                                  $data['document_three'] = 1;
+                              }
+                              
                               if($data['document_one'] && $data['document_two'] && $data['document_three']){
                                 if($this->cooperatives_model->check_if_deferred($decoded_id)){
                                   if($this->cooperatives_model->submit_for_reevaluation($user_id,$decoded_id)){
