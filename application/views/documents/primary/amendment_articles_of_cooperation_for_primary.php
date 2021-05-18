@@ -578,9 +578,14 @@
           $regular_total_subscibed2= num_format_custom($regular_total_subscibed);
       if($regular_total_subscibed_orig!=$regular_total_subscibed)
       {   
-          $regular_total_subscibed2 = '<strong>'.num_format_custom($regular_total_subscibed).'</strong>';
+          $regular_total_subscibed2 = '<strong>'.ucwords(num_format_custom($regular_total_subscibed)).'</strong>';
         $regular_total_subscibed = '<strong>'.number_format($regular_total_subscibed,2).'</strong>';
       
+      }
+      else
+      {
+          $regular_total_subscibed2 =ucwords(num_format_custom($regular_total_subscibed));
+        $regular_total_subscibed = number_format($regular_total_subscibed,2);
       }
       
       // echo $total_regular['total_subscribed'].'a' .$capitalization_info->par_value .'b'.$total_associate['total_subscribed'] .'c'. $preferred_share2;
