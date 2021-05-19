@@ -64,7 +64,7 @@
             </tr>
             <tr>
               <td class="bord">Date</td>
-              <td class="bord" colspan="3"><b><?= date('Y-m-d',now('Asia/Manila')); ?></b></td>
+              <td class="bord" colspan="3"><b><?= date('d-m-Y',now('Asia/Manila')); ?></b></td>
             </tr>
             <?php
             $refNo = substr($coop_info->refbrgy_brgyCode,0,2).'-'.date('Y-m',now('Asia/Manila')).'-'.$series;

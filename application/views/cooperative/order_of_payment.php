@@ -40,7 +40,7 @@
     </tr>
     <tr>
       <td class="bord">Date</td>
-      <td class="bord" colspan="3"><b><?=$tDate?></b></td>
+      <td class="bord" colspan="3"><b><?=date('d-m-Y',strtotime($tDate));?></b></td>
     </tr>
     <?php //  var_dump($capitalization_info);
     if(!empty($coop_info->acronym_name)){ 
