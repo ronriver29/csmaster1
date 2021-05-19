@@ -765,9 +765,10 @@
                   $report_exist = $this->db->where(array('payor'=>$payorname))->get('payment');
                   if($report_exist->num_rows()==0){
                     // Payment Series
+                    $current_year = date('Y');
                     $this->db->select('*');
                     $this->db->from('payment');
-                    $this->db->where('refNo IS NOT NULL OR refNo != ""');
+                    $this->db->where("(refNo IS NOT NULL OR refNo != '') AND YEAR(date) = '".$current_year."'");
                     $series = $this->db->count_all_results();
                     $series = $series + 1;
                     // End Payment Series

@@ -67,9 +67,10 @@ class Payments extends CI_Controller{
                                 if($this->cooperatives_model->check_second_evaluated($decoded_id)){
                                   if($this->cooperatives_model->check_last_evaluated($decoded_id)){
                                   // Payment Series
+                                    $current_year = date('Y');
                                     $this->db->select('*');
                                     $this->db->from('payment');
-                                    $this->db->where('refNo IS NOT NULL OR refNo != ""');
+                                    $this->db->where("(refNo IS NOT NULL OR refNo != '') AND YEAR(date) = '".$current_year."'");
                                     $series = $this->db->count_all_results();
                                     $data['series'] = $series + 1;
                                   // End
@@ -189,9 +190,10 @@ class Payments extends CI_Controller{
       $report_exist = $this->db->where(array('payor'=>$this->input->post('payor')))->get('payment');
           if($report_exist->num_rows()==0){
             // Payment Series
+            $current_year = date('Y');
             $this->db->select('*');
             $this->db->from('payment');
-            $this->db->where('refNo IS NOT NULL OR refNo != ""');
+            $this->db->where("(refNo IS NOT NULL OR refNo != '') AND YEAR(date) = '".$current_year."'");
             $series = $this->db->count_all_results();
             $data1['series'] = $series + 1;
             // End Payment Series
