@@ -155,7 +155,7 @@
         $this->email->send();
 
         $this->db->where(array('id'=>$decoded_id));
-        $this->db->update('users',$data);
+        $this->db->delete('users');
         if($this->db->trans_status() === FALSE){
           $this->db->trans_rollback();
           $this->session->set_flashdata(array('email_sent_warning'=>'Account failed to deny. Please Contact Administrator.'));
