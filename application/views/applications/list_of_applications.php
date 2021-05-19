@@ -403,7 +403,8 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
                   <td class="bord"><input type="date" id="dateofOR" name="dateofOR"  class="form-control"><span id="msgdate" style="font-size:11px;margin-left:100px;color:red;font-style: italic;"></span></td>
                 </tr>
                 <tr>
-                  <td class="bord">Transaction No.</td>
+                  <!-- <td class="bord">Transaction No.</td> -->
+                  <td class="bord">Order of Payment No.</td>
                   <td class="bord" colspan="3"><b id="tNo"></b></td>
                 </tr>
                 <tr>
@@ -506,7 +507,8 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);
-            $('#tNo').text(data.transactionNo);
+            // $('#tNo').text(data.transactionNo);
+            $('#tNo').text(data.refNo);
             $('#cid').val(coop_id);   
             $('#word').text(s);
             $('#nature').text(data.nature);

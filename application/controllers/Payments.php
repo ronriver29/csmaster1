@@ -66,6 +66,13 @@ class Payments extends CI_Controller{
                               if($this->cooperatives_model->check_first_evaluated($decoded_id)){
                                 if($this->cooperatives_model->check_second_evaluated($decoded_id)){
                                   if($this->cooperatives_model->check_last_evaluated($decoded_id)){
+                                  // Payment Series
+                                    $this->db->select('*');
+                                    $this->db->from('payment');
+                                    $this->db->where('refNo IS NOT NULL OR refNo != ""');
+                                    $series = $this->db->count_all_results();
+                                    $data['series'] = $series + 1;
+                                  // End
                                     $data['client_info'] = $this->user_model->get_user_info($user_id);
                                     $data['title'] = 'Payment Details';
                                     $data['header'] = 'Order of Payment';
@@ -164,6 +171,7 @@ class Payments extends CI_Controller{
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
       $this->Payment_model->pay_offline($decoded_id);
       $data=array(
+        'refNo' => $this->input->post('refNo'),
         'payor' => $this->input->post('payor'),
         'date'    => $this->input->post('tDate'),
         'nature'  => "Registration",
@@ -178,7 +186,25 @@ class Payments extends CI_Controller{
         $this->Payment_model->save_payment($data,$this->input->post('rCode'));
       
       $user_id = $this->session->userdata('user_id');
-
+      $report_exist = $this->db->where(array('payor'=>$this->input->post('payor')))->get('payment');
+          if($report_exist->num_rows()==0){
+            // Payment Series
+            $this->db->select('*');
+            $this->db->from('payment');
+            $this->db->where('refNo IS NOT NULL OR refNo != ""');
+            $series = $this->db->count_all_results();
+            $data1['series'] = $series + 1;
+            // End Payment Series
+          } else {
+            $this->db->select('*');
+            $this->db->from('payment');
+            $this->db->where('payor',$this->input->post('payor'));
+            $query = $this->db->get();
+            $series = $query->row();
+            $lastseries = $series->refNo;
+            $string = substr($lastseries, strrpos($lastseries, '-' )+1);
+            $data1['series'] = $string; // about-us
+          }
       $data1['tDate'] = $this->Payment_model->get_payment_info($data)->date;
       $data1['nature'] = $this->Payment_model->get_payment_info($data)->nature;
 

@@ -59,11 +59,23 @@
         <div class="row">
           <table class="bord" width="65%">
             <tr>
+              <td class="bord">Order of Payment No.</td>
+              <td class="bord" colspan="3"><b><?=substr($coop_info->refbrgy_brgyCode,0,2)?>-<?= date('Y-m',now('Asia/Manila')); ?>-<?=$series?></b></td>
+            </tr>
+            <tr>
               <td class="bord">Date</td>
-              <td class="bord" colspan="3"><b><?= date('Y-m-d h:i:s',now('Asia/Manila')); ?></b></td>
+              <td class="bord" colspan="3"><b><?= date('Y-m-d',now('Asia/Manila')); ?></b></td>
             </tr>
             <?php
+            $refNo = substr($coop_info->refbrgy_brgyCode,0,2).'-'.date('Y-m',now('Asia/Manila')).'-'.$series;
               if ($pay_from=='reservation'){ 
+                if($coop_info->category_of_cooperative == 'Tertiary'){
+                  $registrationfeename = 'Tertiary';
+                } else if ($coop_info->category_of_cooperative == 'Secondary'){
+                  $registrationfeename = 'Secondary';
+                } else {
+                  $registrationfeename = 'Primary';
+                }
                 if($coop_info->grouping == 'Union'){
                   if($coop_info->area_of_operation == 'National'){
                     $rf = 3000;
@@ -125,7 +137,7 @@
                 </tr>
                 <tr>
                   <td width="23%"></td>
-                  <td class="pera" width=""><b>Registration Fee</b></td>
+                  <td class="pera" width=""><b>Registration Fee - '.$registrationfeename.'</b><br><i>(1/10 of 1% of Php'.number_format($capitalization_info->total_amount_of_paid_up_capital,2).' paid up capital amounted to Php'.number_format($capitalization_info->total_amount_of_paid_up_capital*0.001,2).' or a minimum of Php500.00, whichever is higher)</i></td>
                   <td class="pera" width="5%"> </td>
                   <td class="pera" align="right" width="13%"><b>'.number_format($rf,2).'</b></td>
                 </tr>
@@ -146,8 +158,8 @@
                 </tr>
                 <tr>
                   <td class="bord" colspan="2">Total </td>
-                  <td class="pera" width="5%">Php </td>
-                  <td class="pera" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee+100,2).'</b></td>
+                  <td class="taas" width="5%">Php </td>
+                  <td class="taas" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee+100,2).'</b></td>
                 </tr>';
               }
           ?>      
@@ -174,9 +186,10 @@
         </div>
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=$encrypted_id ?>">
           <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
+          <input type="hidden" class="form-control" id="refNo" name="refNo" value="<?=$refNo?>">
           <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$payorname?>">
           <input type="hidden" class="form-control" id="nature" name="nature" value="Name Registration">
-          <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee<br/>COC Fee">
+          <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration Fee - <?=$registrationfeename?><br><i>(1/10 of 1% of Php<?=number_format($capitalization_info->total_amount_of_paid_up_capital,2)?> paid up capital amounted to Php<?=number_format($capitalization_info->total_amount_of_paid_up_capital*0.001,2)?> or a minimum of Php500.00, whichever is higher)</i><br/>Legal and Research Fund Fee<br/>COC Fee">
            <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2).'<br/>'.number_format(100,2) ?>">
            <!-- <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee">
             <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2)?>"> -->

@@ -761,12 +761,43 @@
                 }
                 $w = new Numbertowords();
                 ?>
+                <?php
+                  $report_exist = $this->db->where(array('payor'=>$payorname))->get('payment');
+                  if($report_exist->num_rows()==0){
+                    // Payment Series
+                    $this->db->select('*');
+                    $this->db->from('payment');
+                    $this->db->where('refNo IS NOT NULL OR refNo != ""');
+                    $series = $this->db->count_all_results();
+                    $series = $series + 1;
+                    // End Payment Series
+                  } else {
+                    $this->db->select('*');
+                    $this->db->from('payment');
+                    $this->db->where('payor',$payorname);
+                    $query = $this->db->get();
+                    $series = $query->row();
+                    $series = $series->refNo;
+                    // $string = substr($lastseries, strrpos($lastseries, '-' )+1);
+                    // $series = $string; // about-us
+                  }
+                  
+                  if($coop_info->category_of_cooperative == 'Tertiary'){
+                    $registrationfeename = 'Tertiary';
+                  } else if ($coop_info->category_of_cooperative == 'Secondary'){
+                    $registrationfeename = 'Secondary';
+                  } else {
+                    $registrationfeename = 'Primary';
+                  }
+                ?>
                    <?php echo form_open('payments/add_payment',array('id'=>'paymentForm','name'=>'paymentForm')); ?>
                    <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=$encrypted_id ?>">
                   <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
+                  <input type="hidden" class="form-control" id="refNo" name="refNo" value="<?=$series?>">
                   <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$payorname?>">
                   <input type="hidden" class="form-control" id="nature" name="nature" value="Name Registration">
-                  <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee">
+                  <!-- <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee"> -->
+                  <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration Fee - <?=$registrationfeename?><br><i>(1/10 of 1% of Php<?=number_format($capitalization_info->total_amount_of_paid_up_capital,2)?> paid up capital amounted to Php<?=number_format($capitalization_info->total_amount_of_paid_up_capital*0.001,2)?> or a minimum of Php500.00, whichever is higher)</i><br/>Legal and Research Fund Fee<br/>COC Fee">
                   <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2) ?>">
                   <input type="hidden" class="form-control" id="total" name="total" value="<?=$rf+$lrf+$name_reservation_fee?>">
                   <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
