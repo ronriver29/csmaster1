@@ -34,6 +34,10 @@
   <br><br>
 
   <table width="100%" class="bord">
+     <tr>
+      <td class="bord" >Order of Payment No.</td>
+      <td class="bord" colspan="3" ><b><?=$refNo?></b></td>
+    </tr>
     <tr>
       <td class="bord">Date</td>
       <td class="bord" colspan="3"><b><?=$tDate?></b></td>
@@ -86,6 +90,7 @@
                     $proposeName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.'  Cooperative '.$coop_info->grouping;
                 }
     echo '
+    
     <tr>
       <td class="bord">Payor</td>
       <td class="bord" colspan="3"><b>'.ucwords($proposeName).'</b></td>
@@ -97,15 +102,15 @@
     <tr>
       <td class="bord">Amount in Words</td>
       <td class="bord" colspan="3"><b>'.ucwords(num_format_custom($rf+$lrf+$name_reservation_fee)).' Pesos</b></td>
-    </tr>
-    <tr>
-      <td class="bord" colspan="4" align="center">Particulars</td>
-    </tr>';
+  </tr>
+  <tr>
+    <td class="bord" colspan="4" align="center">Particulars</td>
+  </tr>'; 
 
-    if(strcasecmp($original_coop_name,$amendment_name)>0)
-      {
-        echo' 
-        <tr>
+  if(strcasecmp($original_coop_name,$amendment_name)>0)
+    {
+      echo' 
+      <tr>
         <td width="23%"></td>
         <td class="pera"width=""><b>Name Reservation Fee</b></td>
         <td class="pera"width="5%">Php </td>
@@ -113,26 +118,37 @@
        </tr>';     
       }
    echo'
-    <tr>
+      <tr>
       <td width="23%"></td>
-      <td class="pera"width=""><b>Amendment Fee</b></td>
-      <td class="pera"width="5%"> </td>
+      <td class="pera" width=""><b>Amendment Fee</b></td>
+      <td class="pera" width="5%"> </td>
       <td class="pera" align="right" width="13%"><b>'.number_format($rf,2).'</b></td>
-    </tr>
-    <tr>
-    <td width="23%"></td>
-      <td class="pera"width=""><b>Legal and Research Fund Fee</b></td>
-      <td class="pera"width="5%"> </td>
-      <td class="pera" align="right" width="13%"><b>'.number_format($lrf,2).'</b></td>
-    </tr>
-    <tr>
-      <td colspan="4"></td>
-    </tr>
-    <tr>
-      <td class="bord" colspan="2">Total </td>
-      <td class="taas"  width="5%">Php </td>
-      <td class="taas" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
-    </tr>';
+      </tr>';
+      // <tr>
+      // <td width="23%"></td>
+      //   <td class="pera" width=""><b>Legal and Research Fund Fee</b></td>
+      //   <td class="pera" width="5%"> </td>
+      //   <td class="pera" align="right" width="13%"><b>'.number_format($lrf,2).'</b></td>
+      // </tr>
+      echo'
+      <tr>
+       <td width="23%"></td>
+      <td colspan="3"><b>Registration Fee Primary</b></td>
+      </tr>
+      <tr>
+      <td></td>
+      <td><p style="font-style:italic;font-size:11pt;">(1/10 of 1% of <b>Php '.$diff_amount.'</b> paid up capital amounted to Php 100.00 or a minimum of Php 500.00 whichever is higher)<p></td>
+      <td class="pera" width="5%">Php </td>
+      <td class="pera" align="right"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
+      </tr>';
+      // <tr>
+      // <td colspan="4"></td>
+      // </tr>';
+      // <tr>
+      // <td class="bord" colspan="2">Total </td>
+      // <td class="pera" width="5%">Php </td>
+      // <td class="pera" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
+      // </tr>';
     }
     ?>
     <div>

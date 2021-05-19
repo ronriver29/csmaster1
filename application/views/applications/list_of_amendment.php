@@ -448,6 +448,11 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
               
 
               <table width="100%" class="bord">
+                 <tr>
+                  <td class="bord">Order of Payment No.</td>
+                    <td class="bord" colspan="3"><b id="ref_nos"></b></td>
+                </tr>
+
                 <tr>
                   <td class="bord">Date</td>
                   <td class="bord" colspan="3"><b id="tDate"></b></td>
@@ -562,8 +567,9 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
         dataType: "JSON",
         data: {coop_id:coop_id},
         success: function(data)
-        {
+        { 
             var s=convert(data.total);
+            $('#ref_nos').text(data.refNo);
             $('#payment_id').val(data.id);
             $('#tDate').text(data.date);
             $('#payor').text(data.payor);

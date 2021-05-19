@@ -50,13 +50,17 @@
       <div class="card-header">
         <div class="row d-flex">
           <div class="col-sm-12 col-md-12 col-btn-action-payment">
-            <h4 class="float-left"ORDER OF PAYMENT:</h4>
+            <h4 class="float-left"ORDER OF PAYMENT:></h4>
           </div>
         </div>
       </div>
       <div class="card-body">
         <div class="row">
           <table class="bord" width="65%">
+            <tr>
+              <td class="bord" >Order of Payment No.</td>
+              <td class="bord" colspan="3"><b><?=$ref_no?></b></td>
+            </tr>
             <tr>
               <td class="bord">Date</td>
               <td class="bord" colspan="3"><b><?= date('Y-m-d h:i:s',now('Asia/Manila')); ?></b></td>
@@ -119,8 +123,6 @@
                   $lrf=10;
                  }
 
-                
-
                 echo '
                 <tr>
                   <td class="bord">Payor</td>
@@ -154,21 +156,32 @@
                   <td class="pera" width=""><b>Amendment Fee</b></td>
                   <td class="pera" width="5%"> </td>
                   <td class="pera" align="right" width="13%"><b>'.number_format($rf,2).'</b></td>
+                </tr>';
+                // <tr>
+                // <td width="23%"></td>
+                //   <td class="pera" width=""><b>Legal and Research Fund Fee</b></td>
+                //   <td class="pera" width="5%"> </td>
+                //   <td class="pera" align="right" width="13%"><b>'.number_format($lrf,2).'</b></td>
+                // </tr>
+                echo'
+                <tr> 
+                <td></td>
+                <td><b>Registration Fee Primary</b></td>
                 </tr>
                 <tr>
-                <td width="23%"></td>
-                  <td class="pera" width=""><b>Legal and Research Fund Fee</b></td>
-                  <td class="pera" width="5%"> </td>
-                  <td class="pera" align="right" width="13%"><b>'.number_format($lrf,2).'</b></td>
+                <td></td>
+                <td><p style="font-style:italic;font-size:11pt;">(1/10 of 1% of <b>Php '.$diff_amount.'</b> paid up capital amounted to Php 100.00 or a minimum of Php 500.00 whichever is higher)<p></td>
+                <td class="pera" width="5%">Php </td>
+                <td class="pera" align="right"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
                 </tr>
                 <tr>
                   <td colspan="4">&nbsp</td>
-                </tr>
-                <tr>
-                  <td class="bord" colspan="2">Total </td>
-                  <td class="pera" width="5%">Php </td>
-                  <td class="pera" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
                 </tr>';
+                // <tr>
+                //   <td class="bord" colspan="2">Total </td>
+                //   <td class="pera" width="5%">Php </td>
+                //   <td class="pera" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
+                // </tr>';
             }
           ?>
           </table>
@@ -192,6 +205,7 @@
         </div>
 
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=$encrypted_id ?>">
+          <input type="hidden" class="form-control" id="ref_no" name="ref_no" value="<?=$ref_no?>">
           <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
           <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$proposeName?>">
           <input type="hidden" class="form-control" id="nature" name="nature" value="Amendment">

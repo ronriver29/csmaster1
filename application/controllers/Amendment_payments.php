@@ -3,7 +3,6 @@ use Dompdf\Options;
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Amendment_payments extends CI_Controller{
-
   public function __construct()
   {
     parent::__construct();
@@ -63,7 +62,7 @@ class Amendment_payments extends CI_Controller{
                                     $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                                     // $data['name_reservation_fee']=100.00;
                                     $data['pay_from']='reservation';
-
+                                    $data['ref_no'] = $this->orderPaymentNo($decoded_id);
                                     $data['coop_capitalization']=$this->coop_capitalization($cooperative_id);
                                     $data['amendment_capitalization']= $this->amendment_capitalization($decoded_id);
                                     if($this->amendment_model->if_had_amendment($cooperative_id))
@@ -202,7 +201,11 @@ class Amendment_payments extends CI_Controller{
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
       $cooperative_id = $this->amendment_model->coop_dtl($decoded_id);
       $this->Payment_model->pay_offline_amendment($decoded_id);
+     
+      // // $this->debug($amendment_info);
+      // $ref_no  = $this->orderPaymentNo($decoded_id);
       $data=array(
+        'refNo' => $this->input->post('ref_no'),
         'payor' => $this->input->post('payor'),
         'date'    => $this->input->post('tDate'),
         'nature'  => $this->input->post('nature'),
@@ -211,7 +214,7 @@ class Amendment_payments extends CI_Controller{
         'total'  => $this->input->post('total'),
         'payment_option'=> 'offline',
         'status' => 0,
-        'amendment_id'=> $decoded_id
+        'amendment_id'=> $decoded_id,
       );
       // $this->debug($data);
     
@@ -229,7 +232,7 @@ class Amendment_payments extends CI_Controller{
          
           $user_id = $this->session->userdata('user_id');
           $data1['tDate'] = $this->Payment_model->get_payment_info_amendment($data)->date;
-          // echo $this->db->last_query();
+          $data1['refNo'] = $this->Payment_model->get_payment_info_amendment($data)->refNo;
           $data1['nature'] = $this->Payment_model->get_payment_info_amendment($data)->nature;
 
           $data1['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
@@ -265,7 +268,7 @@ class Amendment_payments extends CI_Controller{
       else{
           $user_id = $this->session->userdata('user_id');
           $data1['tDate'] = $this->Payment_model->get_payment_info_amendment($data)->date;
-          // echo $this->db->last_query();
+          $data1['refNo'] = $this->Payment_model->get_payment_info_amendment($data)->refNo;
           $data1['nature'] = $this->Payment_model->get_payment_info_amendment($data)->nature;
 
           $data1['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
@@ -309,6 +312,26 @@ class Amendment_payments extends CI_Controller{
       $this->session->set_flashdata('redirect_applications_message', 'Error');
      redirect('amendment');
     }
+  }
+  public function orderPaymentNo($amendment_id)
+  {
+     $amendment_info = $this->amendment_model->get_cooperative_info_by_admin($amendment_id);
+      $query= $this->db->query("select refNo from payment order by id desc limit 1 ");
+      foreach($query->result() as $row)
+      {
+       if(strlen($row->refNo)>0)
+       {
+        $last_ref = substr($row->refNo, -1,1) +1;
+       }
+       else
+       {
+        $last_ref =1;
+       }
+       
+      }
+      $region_code =substr($amendment_info->rCode,1);
+     $ref_no =$region_code.'-'.date('Y-m',now('Asia/Manila')).'-'.$last_ref;
+     return $ref_no;
   }
   public function debug($array)
     {
