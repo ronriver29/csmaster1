@@ -119,20 +119,13 @@
                 </tr>';
                 }
                 echo'
-                <tr>
-                  <td width="23%"></td>
-                  <td class="pera" width=""><b>Amendment Fee</b></td>
-                  <td class="pera" width="5%">Php </td>
-                  <td class="pera" align="right" width="13%"><b>'.number_format($rf,2).'</b></td>
-                </tr>
-               
                 <tr> 
-               <td></td>
-                <td colspan="3"><b>Registration Fee - Primary</b></td>
+                <td></td>
+                <td colspan="3"><b>Amendment Fee</b></td>
                 </tr>
                 <tr>
                 <td></td>
-                <td><p style="font-style:italic;font-size:11pt;">(1/10 of 1% of Php '.number_format($diff_amount,2).' paid up capital<br> amounted to Php 100.00 or a minimum of Php 500.00 whichever is higher)<p></td>
+                <td><p style="font-style:italic;font-size:11pt;">(1/10 of 1% of Php '.number_format($diff_amount,2).' increased in paid up capital<br> amounted to Php '.number_format($diff_amount,2).' or a minimum of<br> Php 300.00 whichever is higher)<p></td>
                 <td class="pera" width="5%"> </td>
                 <td class="pera" align="right"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
                 </tr>
@@ -143,7 +136,7 @@
                   <td class="pera" align="right" width="13%"><b>'.number_format($lrf,2).'</b></td>
                 </tr>
                 <tr>
-                  <td colspan="4"></td>
+                  <td colspan="4"</td>
                 </tr>
                 <tr>
                   <td class="bord" colspan="2">Total </td>
