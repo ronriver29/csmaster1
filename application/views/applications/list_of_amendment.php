@@ -448,11 +448,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
               
 
               <table width="100%" class="bord">
-                 <tr>
-                  <td class="bord">Order of Payment No.</td>
-                    <td class="bord" colspan="3"><b id="ref_nos"></b></td>
-                </tr>
-
+                
                 <tr>
                   <td class="bord">Date</td>
                   <td class="bord" colspan="3"><b id="tDate"></b></td>
@@ -466,6 +462,11 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                   <td class="bord">Date of OR</td>
                   <td class="bord"><input type="date" id="dateofOR" name="dateofOR"  class="form-control"><span id="msgdate" style="font-size:11px;margin-left:100px;color:red;font-style: italic;"></span></td>
                 </tr>
+                 <tr>
+                  <td class="bord">Order of Payment No.</td>
+                    <td class="bord" colspan="3"><b id="ref_nos"></b></td>
+                </tr>
+
                 <tr>
                   <td class="bord">Transaction No.</td>
                   <td class="bord" colspan="3"><b id="tNo"></b></td>
@@ -568,10 +569,16 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
         data: {coop_id:coop_id},
         success: function(data)
         { 
+          var currentdate = new Date(data.date);
+          var month = currentdate.getMonth() + 1;
+          var day = currentdate.getDate();
+          var formated_date = ( (('' + day).length < 2 ? '0' : '')  + day + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' +currentdate.getFullYear());
+
+         
             var s=convert(data.total);
             $('#ref_nos').text(data.refNo);
             $('#payment_id').val(data.id);
-            $('#tDate').text(data.date);
+            $('#tDate').text(formated_date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
             $('#cid').val(coop_id);   

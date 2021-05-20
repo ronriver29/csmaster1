@@ -63,7 +63,7 @@
             </tr>
             <tr>
               <td class="bord">Date</td>
-              <td class="bord" colspan="3"><b><?= date('Y-m-d h:i:s',now('Asia/Manila')); ?></b></td>
+              <td class="bord" colspan="3"><b><?= date("d-m-Y", strtotime(date('Y-m-d h:i:s',now('Asia/Manila')))); ?></b></td>
             </tr>
 
             <?php
@@ -154,34 +154,35 @@
                 <tr>
                   <td width="23%"></td>
                   <td class="pera" width=""><b>Amendment Fee</b></td>
-                  <td class="pera" width="5%"> </td>
+                  <td class="pera" width="5%">Php </td>
                   <td class="pera" align="right" width="13%"><b>'.number_format($rf,2).'</b></td>
-                </tr>';
-                // <tr>
-                // <td width="23%"></td>
-                //   <td class="pera" width=""><b>Legal and Research Fund Fee</b></td>
-                //   <td class="pera" width="5%"> </td>
-                //   <td class="pera" align="right" width="13%"><b>'.number_format($lrf,2).'</b></td>
-                // </tr>
-                echo'
+                </tr>
+               
                 <tr> 
                 <td></td>
-                <td><b>Registration Fee Primary</b></td>
+                <td><b>Registration Fee - Primary</b></td>
                 </tr>
                 <tr>
                 <td></td>
-                <td><p style="font-style:italic;font-size:11pt;">(1/10 of 1% of <b>Php '.$diff_amount.'</b> paid up capital amounted to Php 100.00 or a minimum of Php 500.00 whichever is higher)<p></td>
-                <td class="pera" width="5%">Php </td>
+                <td><p style="font-style:italic;font-size:11pt;">(1/10 of 1% of Php '.number_format($diff_amount,2).' paid up capital<br> amounted to Php 100.00 or a minimum of Php 500.00 whichever is higher)<p></td>
+                <td class="pera" width="5%"> </td>
                 <td class="pera" align="right"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
+                </tr>
+                  <tr>
+                <td width="23%"></td>
+                  <td class="pera" width=""><b>Legal and Research Fund Fee</b></td>
+                  <td class="pera" width="5%"> </td>
+                  <td class="pera" align="right" width="13%"><b>'.number_format($lrf,2).'</b></td>
                 </tr>
                 <tr>
                   <td colspan="4">&nbsp</td>
+                </tr>
+                <tr>
+                  <td class="bord" colspan="2">Total </td>
+                  <td class="taas" width="5%">Php </td>
+                  <td class="taas" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
                 </tr>';
-                // <tr>
-                //   <td class="bord" colspan="2">Total </td>
-                //   <td class="pera" width="5%">Php </td>
-                //   <td class="pera" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
-                // </tr>';
+
             }
           ?>
           </table>
@@ -210,10 +211,10 @@
           <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$proposeName?>">
           <input type="hidden" class="form-control" id="nature" name="nature" value="Amendment">
           <?php if($name_reservation_fee>0):?>
-          <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee">
+          <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration Fee - Primary<br>(1/10 of 1% of Php <?=number_format($diff_amount,2)?> paid up capital<br> amounted to Php 100.00 or a minimum of Php 500.00 whichever is higher)<br>Legal and Research Fund Fee">
            <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2) ?>">
           <?php else: ?>
-          <input type="hidden" class="form-control" id="particulars" name="particulars" value="Registration<br/>Legal and Research Fund Fee">
+          <input type="hidden" class="form-control" id="particulars" name="particulars" value="Registration Fee - Primary<br/>(1/10 of 1% of Php <?=number_format($diff_amount,2)?> paid up capital<br> amounted to Php 100.00 or a minimum of Php 500.00 whichever is higher)<br>Legal and Research Fund Fee">
           <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($rf,2).'<br/>'.number_format($lrf,2) ?>">
           <?php endif;?>
          
