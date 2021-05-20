@@ -1322,7 +1322,7 @@ class amendment extends CI_Controller{
 
     public function payment(){
       $decoded_id =  $this->encryption->decrypt(decrypt_custom($this->input->post('coop_id')));
-      $data = $this->amendment_model->get_payment_info( $decoded_id);
+      $data = $this->amendment_model->get_payment_info($decoded_id);
       $data->amendment_id = encrypt_custom($this->encryption->encrypt($data->amendment_id));
       echo json_encode($data);
     }
@@ -2709,10 +2709,10 @@ class amendment extends CI_Controller{
         ini_set('memory_limit', '-1');
         $data=array();
         $acronym = $this->input->get('acronym_names');
-        $proposed_name = strtolower($this->input->get('fieldValue').' '.$acronym);
+        $proposed_name = $this->input->get('fieldValue');
         $regNo = $this->input->get('regNo');
         $type_of_coop_id = $this->input->get('typeOfCooperative_value');
-        $qry = $this->db->query("select regNo,CONCAT(proposed_name,' ',acronym) as reg_propose_name,cooperative_type_id from amend_coop where status =15");
+        $qry = $this->db->query("select regNo,CONCAT(proposed_name,' ',acronym) as reg_propose_name,cooperative_type_id from amend_coop where status =15 or status =14");
 
         if($qry->num_rows()>0)
         {
@@ -2721,60 +2721,67 @@ class amendment extends CI_Controller{
               $reg_regNo = $row['regNo'];
               $reg_proposed_name = $row['reg_propose_name'];
               $reg_cooperative_type_id = $row['cooperative_type_id'];
-
-              if(strcasecmp($regNo,$reg_regNo)>0 && strcasecmp($proposed_name,$reg_proposed_name)==0 && strcasecmp($reg_cooperative_type_id, $type_of_coop_id)==0)
+             // echo $proposed_name.' '.$reg_proposed_name. ' '.$reg_cooperative_type_id.' '. $type_of_coop_id;
+              if(strcasecmp($reg_regNo, $regNo)>0 && strcasecmp($proposed_name,$reg_proposed_name)==0 && strcasecmp($reg_cooperative_type_id, $type_of_coop_id)==0)
               {
-               
-                array_push($data,'false');
-                 // echo json_encode(array($this->input->get("fieldId"),$data));
+            
+                // array_push($data,'false');    
+                 $data = false;
+                 echo json_encode(array($this->input->get("fieldId"),$data));
+                 exit;
               }
             }
+          // echo json_encode(array($this->input->get("fieldId"),false));
         }
-         $reg_query_num = $this->db->query("select id from cooperatives where status =15 or status =14");
-         $total_rows =  $reg_query_num->num_rows();
-         $qrow = $this->db->query("select distinct CONCAT(cooperatives.proposed_name,' ',cooperatives.acronym_name) as coopname,CONCAT(registeredcoop.coopName,' ',registeredcoop.acronym) as regName,registeredcoop.regNo as regNo
-,(select id from cooperative_type where name =cooperatives.type_of_cooperative) as coop_type_id 
-from cooperatives left join registeredcoop ON cooperatives.proposed_name = registeredcoop.coopName
- where cooperatives.status =15 OR cooperatives.status =14 limit ".$total_rows);
+         // $reg_query_num = $this->db->query("select id from cooperatives where status =15 or status =14");
+         // $total_rows =  $reg_query_num->num_rows();
+         $qrow = $this->db->query("SELECT r.regNo,coop.proposed_name,coop.acronym_name,cooperative_type.id AS type_id,coop.type_of_cooperative FROM registeredcoop AS r LEFT JOIN cooperatives coop ON coop.id = r.application_id LEFT JOIN cooperative_type ON cooperative_type.name = coop.type_of_cooperative WHERE coop.status =15 or coop.status=14");
             $c=count($qrow->result_array());
             $crow=$qrow->result_array();
            for($i =0;  $i < $c; $i++)
             {
-
+ 
               $reg_coop_regNo = $crow[$i]['regNo'];
-              $reg_coop_proposed_name = $crow[$i]['coopname'];
-              $reg_coop_type_of_coop_id = $crow[$i]['coop_type_id'];
-              if(strcasecmp($reg_coop_regNo, $regNo)>0 && strcasecmp($reg_coop_proposed_name, $proposed_name)==0 && strcasecmp($type_of_coop_id,$reg_coop_type_of_coop_id)==0)
+              $reg_coop_proposed_name = $crow[$i]['proposed_name'];
+              $reg_acronym = $crow[$i]['acronym_name'];
+              $reg_coop_type_of_coop_id = $crow[$i]['type_id'];
+              if(strcasecmp($reg_coop_regNo, $regNo)>0 && strcasecmp($reg_coop_proposed_name, $proposed_name)==0 && strcasecmp($type_of_coop_id,$reg_coop_type_of_coop_id)==0 && strcasecmp($reg_acronym,  $acronym)==0)
               {
                 
-                 array_push($data,'false');
+                 // array_push($data,'false');
+                $data = false;
+                echo json_encode(array($this->input->get("fieldId"),$data));
+                exit;
                  
               }
               else
               {
                 // $data = true;
-                array_push($data,'true');
+                // array_push($data,'true');
+                 $data = true;
+                 echo json_encode(array($this->input->get("fieldId"),$data));
+                 exit;
               
               }
              // echo  $reg_coop_regNo = $crow[$i]['regNo'].' '.$reg_coop_proposed_name.' '.$reg_coop_type_of_coop_id;
           }
             // var_dump($data);
-            if(is_array($data))
-            {
-               if(in_array('false',$data))
-               {
-                $dataf = false;
-               }
-               else
-               {
-                $dataf = true;
-               }
-            }
-            else
-            {
-              echo "invalid";
-            }
-         echo json_encode(array($this->input->get("fieldId"),$dataf));
+         //    if(is_array($data))
+         //    {
+         //       if(in_array('false',$data))
+         //       {
+         //        $dataf = false;
+         //       }
+         //       else
+         //       {
+         //        $dataf = true;
+         //       }
+         //    }
+         //    else
+         //    {
+         //      echo "invalid";
+         //    }
+         // echo json_encode(array($this->input->get("fieldId"),$dataf));
         
       }
     }
