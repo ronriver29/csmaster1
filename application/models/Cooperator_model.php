@@ -1128,7 +1128,7 @@ $this->last_query = $this->db->last_query();
     $this->db->where_in('position', $position);
     $this->db->from('cooperators');
     $count = $this->db->count_all_results();
-    if($count<15){
+    if($count>14){
       return true;
     }else{
       return false;
