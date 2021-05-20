@@ -126,16 +126,9 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
-        <ol class="text-justify" type="1">
-
-    			<?php foreach($purposes_list as $key => $purpose) :
-            // if(empty($purposes_list_orig[$key]))
-            // {
-            //   $purposes_list_orig[$key]=;
-
-            // }
-           
-          ?>
+        <ol class="text-justify" type="1"> 
+          <?php $purposes_list_modified = array(); ?>
+    			<?php foreach($purposes_list as $key => $purpose) :?>
 
           <?php if(isset($purposes_list_orig[$key])){
                $purpose_orig =$purposes_list_orig[$key];
@@ -146,33 +139,45 @@
           <li type="I" style="margin-top: 20px;"></strong><?=$purpose['cooperative_type']?></li> 
 
          <?php } ?>                    
-                 <div> <ol>
+               <!--   <div> <ol> -->
                 <?php               
                  $content = explode(';',$purpose['content']);
                  $content_orig = explode(';',$purpose_orig['content']);
-                  // echo'<pre>';print_r($content);echo'</pre>'; echo'<br><br><br>'; 
-                 // echo'<pre>';print_r($content_orig);echo'</pre>';
+                 $content_orig = array_reverse($content_orig);
+                 $content = array_reverse($content);
                   foreach($content as $keys => $contents)
-                  {
+                  { 
                     if(empty($content_orig[$keys]))
                     {
                       $content_orig[$keys] =0;
                     }
                     $contents_orig =  $content_orig[$keys];
-                    if(strcasecmp($contents_orig,$contents)>0)
+                    if(strcasecmp($contents, $contents_orig)>0)
                     {
-                       echo '<strong><li>'. $contents.'</li></strong>';
+                      $content_compare = '<b>'.$contents.'</b>';
+                      array_push($purposes_list_modified, $content_compare);
                     }
                     else
                     {
-                        echo '<li>'.$contents.'</li>';
+                       $content_compare = $contents;
+                      array_push($purposes_list_modified, $content_compare);
                     }
-                  
+                    // echo '<li>'.$contents.' : '.$contents_orig.'</li>';
                   }
                 ?> 
-                  </ol></div>
+                 <!--  </ol></div> -->
             
           <?php endforeach; ?>
+          <div><ol>
+         <!--  <?php echo"<pre>";print_r($purposes_list_modified);echo"</pre>";?> -->
+          <?php
+          $purposes_list_modified = array_reverse($purposes_list_modified);
+          foreach($purposes_list_modified as $final_content)
+          {
+            echo '<li>'.$final_content.'</li>';
+          }
+          ?>
+           </ol></div>
     		</ol>
     </div>
   </div>
