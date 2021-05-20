@@ -279,4 +279,20 @@ BARANGAY MAGSAYSAY, QUEZON CITY 1105',
       echo"failed to change Multi-purpose to Multipurpose.";
     } 
   }
+
+  public function update_migration_application_id()
+  {
+    $this->db->query("select @i := 0;");
+    // echo $this->db->last_query();
+    $this->db->set('application_id', '(select @i := @i + 1)',FALSE);
+    $this->db->where('application_id', 0);
+    if($this->db->update('registeredcoop'))
+    {
+      echo"Update Migration successfully changed.";
+    }
+    else
+    {
+      echo"Failed to change Update Migration";
+    } 
+  }
 }
