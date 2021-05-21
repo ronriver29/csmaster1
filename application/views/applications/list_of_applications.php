@@ -502,10 +502,14 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
         dataType: "JSON",
         success: function(data)
         {
+            var currentdate = new Date(data.date);
+            var month = currentdate.getMonth() + 1;
+            var day = currentdate.getDate();
+            var formated_date = ( (('' + day).length < 2 ? '0' : '')  + day + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' +currentdate.getFullYear());
 
             var s = convert(data.total);
             $('#payment_id').val(data.id);
-            $('#tDate').text(data.date);
+            $('#tDate').text(formated_date);
             $('#payor').text(data.payor);
             // $('#tNo').text(data.transactionNo);
             $('#tNo').text(data.refNo);
