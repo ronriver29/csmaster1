@@ -60,14 +60,44 @@
           <table class="bord" width="65%">
             <tr>
               <td class="bord">Order of Payment No.</td>
-              <td class="bord" colspan="3"><b><?=substr($coop_info->refbrgy_brgyCode,0,2)?>-<?= date('Y-m',now('Asia/Manila')); ?>-<?=$series?></b></td>
+              <?php
+                if(!empty($coop_info->acronym_name)){ 
+                    $acronym_name = '('.$coop_info->acronym_name.') ';
+                } else {
+                    $acronym_name = '';
+                }
+
+                if($coop_info->grouping == 'Union'){
+                      $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.$coop_info->grouping);
+                  } else {
+                      $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.$coop_info->grouping);
+                  }
+
+                $report_exist = $this->db->where(array('payor'=>$payorname))->get('payment');
+
+                // echo $report_exist->num_rows();
+                if($report_exist->num_rows()==0){
+                  $series = substr($coop_info->refbrgy_brgyCode,0,2).'-'.date('Y-m',now('Asia/Manila')).'-'.$series;
+                  $datee = date('d-m-Y',now('Asia/Manila'));
+                } else {
+                  foreach($report_exist->result_array() as $row){
+                    $series = $row['refNo'];
+                    $datee = date('d-m-Y',strtotime($row['date']));
+                  }
+
+                  // $series = 
+                }
+
+                // print_r($report_exist->result());
+              ?>
+              <td class="bord" colspan="3"><b><?=$series?></b></td>
             </tr>
             <tr>
               <td class="bord">Date</td>
-              <td class="bord" colspan="3"><b><?= date('d-m-Y',now('Asia/Manila')); ?></b></td>
+              <td class="bord" colspan="3"><b><?=$datee;?></b></td>
             </tr>
             <?php
-            $refNo = substr($coop_info->refbrgy_brgyCode,0,2).'-'.date('Y-m',now('Asia/Manila')).'-'.$series;
+            $refNo = $series;
               if ($pay_from=='reservation'){ 
                 if($coop_info->category_of_cooperative == 'Tertiary'){
                   $registrationfeename = 'Tertiary';
@@ -90,16 +120,6 @@
                   $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
                 }
                 
-                if(!empty($coop_info->acronym_name)){ 
-                    $acronym_name = '('.$coop_info->acronym_name.') ';
-                } else {
-                    $acronym_name = '';
-                }
-                if($coop_info->grouping == 'Union'){
-                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.$coop_info->grouping);
-                } else {
-                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.$coop_info->grouping);
-                }
                 $amount_in_words=0;
                   $amount_in_words = ($rf+$lrf+$name_reservation_fee+100);
                  // $amount_in_words = ($rf+$lrf+$name_reservation_fee);
