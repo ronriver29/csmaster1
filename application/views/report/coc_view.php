@@ -29,7 +29,7 @@
   </style>
 </head> 
 <body style="background-image: url(<?php echo base_url()."assets/img/cda3.png"; ?>); background-repeat: no-repeat; background-position: center;margin-top:-50px;opacity:.5;">
-    <img class="center" src="<?=APPPATH?>../assets/img/cda_new.png" style="background-repeat: no-repeat; background-position: center;margin-top:100px;">
+    <img class="center" src="<?=APPPATH?>../assets/img/logo.png" style="background-repeat: no-repeat; background-position: center;margin-top:100px;">
   <!-- <div  style="border: 10px black double; border-radius: 30px; padding: 20px"> -->
   <div style="padding:20px;">
   <table width="100%">

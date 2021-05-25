@@ -66,7 +66,7 @@ class assign_inspector extends CI_Controller{
 
           $region2 = preg_replace("/\([^)]+\)/","",$coop_info->region); // 'ABC '
 
-          $data1['extension'] = 'CDA '.$region2.' Office';
+          $data1['extension'] = $region2.' Office';
           $data1['address'] = $noStreet.$street.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
 
           $timestamp = str_replace('-', '/', $coop_info->date_of_or);
