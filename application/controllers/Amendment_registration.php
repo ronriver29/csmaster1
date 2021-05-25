@@ -41,20 +41,11 @@ class Amendment_registration extends CI_Controller{
       $j=$j.'0';
       $j=$j.$x;
 
-      $amendment_no =1;
+      // $amendment_no =1;
       if(!$this->amendment_registration_model->in_registeredamendment($decoded_id))
       {
       $amendment_no = $this->amendment_registration_model->get_last_reg_amendment($coop_info->regNo);
-      }
-      
-        if($coop_info->status == 14)
-        {
-          $this->db->update('amend_coop',array('amendmentNo'=>$amendment_no,'status'=>15),array('id'=>$decoded_id));
-        }
-            // var_dump($this->amendment_registration_model->in_registeredamendment($coop_info->id));
-            if(!$this->amendment_registration_model->in_registeredamendment($decoded_id))
-            {
-              $data_reg = array(
+      $data_reg = array(
               'coopName'=>$coop_info->proposed_name.' '.$coop_info->type_of_cooperative,
               'acronym'=> $coop_info->acronym,
               'regNo'=> $coop_info->regNo,
@@ -73,8 +64,13 @@ class Amendment_registration extends CI_Controller{
               'amendment_id'=>$decoded_id
               );
               $this->amendment_registration_model->register_coop_amendment($decoded_id,$data_reg,$pst);
-              
-            }
+          if($coop_info->status == 14)
+          {
+            $this->db->update('amend_coop',array('amendmentNo'=>$amendment_no,'status'=>15),array('id'=>$decoded_id));
+          }
+
+      }
+      // echo $amendment_no
             
             // $this->debug($this->registration_model->register_coop_amendment($decoded_id,$coop_info->rCode,$pst));
             $cName=$coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping;
