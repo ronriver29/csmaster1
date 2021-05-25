@@ -63,7 +63,7 @@
             </tr>
             <tr>
               <td class="bord">Date</td>
-              <td class="bord" colspan="3"><b><?= date("d-m-Y", strtotime(date('Y-m-d h:i:s',now('Asia/Manila')))); ?></b></td>
+              <td class="bord" colspan="3"><b><?= date("d-m-Y", strtotime($date_ok_for_payment)); ?></b></td>
             </tr>
 
             <?php
@@ -200,7 +200,7 @@
 
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=$encrypted_id ?>">
           <input type="hidden" class="form-control" id="ref_no" name="ref_no" value="<?=$ref_no?>">
-          <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
+         <!--  <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>"> -->
           <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$proposeName?>">
           <input type="hidden" class="form-control" id="nature" name="nature" value="Amendment">
           <?php if($name_reservation_fee>0):?>

@@ -403,7 +403,7 @@
             <label><strong>General Assembly Venue</strong></label>
              <input type="text" name="Annaul_ga_venue" id="" value="<?=$bylaw_info->annual_regular_meeting_day_venue?>" class="form-control validate[required]" disabled /></div>
             <div class="form-group">
-             <!--  <label><strong>General Assembly</strong></label> -->
+              <label><strong>General Assembly Type</strong></label>
               <select class="form-control validate[required]" name="type" id="type" disabled>
                 <option value="Special">Special</option>
                  <option value="Regular">Regular</option>

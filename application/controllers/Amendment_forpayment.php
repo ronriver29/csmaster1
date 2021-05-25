@@ -12,6 +12,11 @@ class Amendment_forpayment extends CI_Controller{
   function index($id = null)
   {
     $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+    $data_payment = array(
+            'date' => date('Y-m-d h:i:s',now('Asia/Manila')),
+            'amendment_id' => $decoded_id
+    );
+    $this->db->insert('payment',$data_payment);
     $items['status'] = '16';
     if($this->db->where("id",$decoded_id)->update("amend_coop",$items)) {
     
