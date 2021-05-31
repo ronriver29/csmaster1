@@ -22,8 +22,8 @@
       display: block;
       margin-left: auto;
       margin-right: auto;
-      width: 55%;
-      margin-left:250px;
+      width: 70%;
+      margin-left:160px;
       opacity:.2;
     }
   </style>
