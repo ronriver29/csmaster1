@@ -509,7 +509,7 @@ class amendment extends CI_Controller{
                   $coopTypeName= $data['coop_info']->type_of_cooperative;
                   $typeName_arr = explode(',',$coopTypeName);
                   $list_of_major_industry_cooptype =$this->major_industry_model->get_major_industries_by_type_name($coopTypeName);
-                  $list_type[] = $this->coop_type($coopTypeName);
+                  $list_type[] = $this->coop_type($coopTypeName,$data['coop_info']->category_of_cooperative);
                   $list_coop_type_id[] =$this->get_coopTypeID( $typeName_arr); 
                   // echo $this->db->last_query();
                  //get major industry id
@@ -609,7 +609,7 @@ class amendment extends CI_Controller{
                   }
                   // $data['members_compositions']=$this->amendment_model->get_composition_of_members($decoded_id);
                   // $this->debug( $data['members_composition']); 
-                  $data['list_type_coop'] = $this->coop_type($coopTypeName);
+                  $data['list_type_coop'] = $this->coop_type($coopTypeName,$data['coop_info']->category_of_cooperative);
                   //cooperative type value
                   $data['amd_type_of_coop'] = $typeName_arr;
 
@@ -2239,10 +2239,40 @@ class amendment extends CI_Controller{
   		return $data;
   	}
 
-  	public function coop_type($existing_type)
+  	public function coop_type($existing_type,$category)
   	{
-  		
-  		$coop_type = $this->db->get('cooperative_type');
+  		if($category == 'Primary')
+      { 
+        $except_type = array('Cooperative Bank','Insurance');
+        $this->db->select('*');
+        $this->db->where_not_in('name',$except_type);
+        $this->db->order_by('name', 'ASC');
+        $coop_type = $this->db->get('cooperative_type');
+      }
+      elseif($category == 'Secondary')
+      { 
+        $except_type = array('Cooperative Bank','Insurance');
+        $this->db->select('*');
+        $this->db->where_not_in('name',$except_type);
+        $this->db->order_by('name', 'ASC');
+        $coop_type = $this->db->get('cooperative_type');
+      }
+      elseif($category == 'Tertiary')
+      { 
+        $except_type = array('Cooperative Bank','Insurance');
+        $this->db->select('*');
+        $this->db->where_not_in('name',$except_type);
+        $this->db->order_by('name', 'ASC');
+        $coop_type = $this->db->get('cooperative_type');
+      }
+      else
+      {
+        $except_type = array('Cooperative Bank','Insurance','Union');
+        $this->db->select('*');
+        $this->db->where_in('name',$except_type);
+        $this->db->order_by('name', 'ASC');
+        $coop_type = $this->db->get('cooperative_type');
+      }
   		foreach($coop_type->result_array() as $row)
   		{
   			$row['amended_type'] = explode(',',$existing_type);
@@ -2535,9 +2565,8 @@ class amendment extends CI_Controller{
       }
       
     }
-
     //end updata
-      //list of major industry
+    //list of major industry
     public function list_of_majorindustry2($cooperativetype_id)
     {
       $qry = $this->db->query("select distinct major_industry_id from industry_subclass_by_coop_type where cooperative_type_id='$cooperativetype_id'");
@@ -2689,18 +2718,89 @@ class amendment extends CI_Controller{
 
     public function cooperative_type_ajax()
     {
-      $this->db->order_by("name", "asc");
-      $qry = $this->db->get('cooperative_type');
-      if($qry->num_rows()>0)
-      {
-        foreach($qry->result_array() as $row)
+      // $this->db->order_by("name", "asc");
+      // $qry = $this->db->get('cooperative_type');
+      // if($qry->num_rows()>0)
+      // {
+      //   foreach($qry->result_array() as $row)
+      //   {
+      //     $data[] = $row;
+      //   }
+      // }
+      // echo json_encode($data);
+      $category =  $this->input->post('category');
+      if($category == 'Primary')
+      { 
+        $except_type = array('Cooperative Bank','Insurance');
+        $this->db->select('*');
+        $this->db->where_not_in('name',$except_type);
+        $this->db->order_by('name', 'ASC');
+        $query = $this->db->get('cooperative_type');
+        foreach($query->result_array() as $row)
         {
           $data[] = $row;
         }
+        echo json_encode($data);
       }
-      echo json_encode($data);
+      elseif($category == 'Secondary')
+      { 
+        $except_type = array('Cooperative Bank','Insurance');
+        $this->db->select('*');
+        $this->db->where_not_in('name',$except_type);
+        $this->db->order_by('name', 'ASC');
+        $query = $this->db->get('cooperative_type');
+        foreach($query->result_array() as $row)
+        {
+          $data[] = $row;
+        }
+        echo json_encode($data);
+      }
+      elseif($category == 'Primary')
+      { 
+        $except_type = array('Cooperative Bank','Insurance');
+        $this->db->select('*');
+        $this->db->where_not_in('name',$except_type);
+        $this->db->order_by('name', 'ASC');
+        $query = $this->db->get('cooperative_type');
+        foreach($query->result_array() as $row)
+        {
+          $data[] = $row;
+        }
+        echo json_encode($data);
+      }
+      else
+      {
+        $except_type = array('Cooperative Bank','Insurance','Union');
+        $this->db->select('*');
+        $this->db->where_in('name',$except_type);
+        $this->db->order_by('name', 'ASC');
+        $query = $this->db->get('cooperative_type');
+        foreach($query->result_array() as $row)
+        {
+          $data[] = $row;
+        }
+        echo json_encode($data);
+      }
+      
     }
     //END AJAX REQUEST
+
+    public function load_coop_type_ajax()
+    {
+      $category =  $this->input->post('category');
+      if($category == 'Primary')
+      { 
+        $this->db->select('*');
+        $this->db->where_not_in('name', 'Cooperative Bank');
+        $this->db->order_by('name', 'ASC');
+        $query = $this->db->get('cooperative_type');
+        foreach($query->result_array() as $row)
+        {
+          $data[] = $row;
+        }
+        echo json_encode($data);
+      }
+    }
 
     public function check_amendment_name_exists(){
       if(!$this->session->userdata('logged_in')){
@@ -2721,69 +2821,72 @@ class amendment extends CI_Controller{
               $reg_regNo = $row['regNo'];
               $reg_proposed_name = $row['reg_propose_name'];
               $reg_cooperative_type_id = $row['cooperative_type_id'];
-             // echo $proposed_name.' '.$reg_proposed_name. ' '.$reg_cooperative_type_id.' '. $type_of_coop_id;
               if(strcasecmp($reg_regNo, $regNo)>0 && strcasecmp($proposed_name,$reg_proposed_name)==0 && strcasecmp($reg_cooperative_type_id, $type_of_coop_id)==0)
               {
-            
-                // array_push($data,'false');    
                  $data = false;
                  echo json_encode(array($this->input->get("fieldId"),$data));
                  exit;
               }
             }
-          // echo json_encode(array($this->input->get("fieldId"),false));
         }
-         // $reg_query_num = $this->db->query("select id from cooperatives where status =15 or status =14");
-         // $total_rows =  $reg_query_num->num_rows();
-         $qrow = $this->db->query("SELECT r.regNo,coop.proposed_name,coop.acronym_name,cooperative_type.id AS type_id,coop.type_of_cooperative FROM registeredcoop AS r LEFT JOIN cooperatives coop ON coop.id = r.application_id LEFT JOIN cooperative_type ON cooperative_type.name = coop.type_of_cooperative WHERE coop.status =15 or coop.status=14");
-            $c=count($qrow->result_array());
-            $crow=$qrow->result_array();
-           for($i =0;  $i < $c; $i++)
+
+         $qrow = $this->db->query("SELECT coop.id as cooID,r.regNo,coop.proposed_name,coop.acronym_name,cooperative_type.id AS type_id,coop.type_of_cooperative FROM registeredcoop AS r LEFT JOIN cooperatives coop ON coop.id = r.application_id LEFT JOIN cooperative_type ON cooperative_type.name = coop.type_of_cooperative WHERE  coop.status =15 or coop.status=14");
+         foreach($qrow->result_array() as $arow)
+         {
+            $reg_coop_regNo = $arow['regNo'];
+            $reg_coop_proposed_name = $arow['proposed_name'];
+            $reg_acronym = $arow['acronym_name'];
+            $reg_coop_type_of_coop_id = $arow['type_id'];
+            if(strcasecmp($reg_coop_regNo, $regNo)>0 && strcasecmp($reg_coop_proposed_name, $proposed_name)==0 && strcasecmp($type_of_coop_id,$reg_coop_type_of_coop_id)==0 && strcasecmp($reg_acronym,  $acronym)==0)
             {
- 
-              $reg_coop_regNo = $crow[$i]['regNo'];
-              $reg_coop_proposed_name = $crow[$i]['proposed_name'];
-              $reg_acronym = $crow[$i]['acronym_name'];
-              $reg_coop_type_of_coop_id = $crow[$i]['type_id'];
-              if(strcasecmp($reg_coop_regNo, $regNo)>0 && strcasecmp($reg_coop_proposed_name, $proposed_name)==0 && strcasecmp($type_of_coop_id,$reg_coop_type_of_coop_id)==0 && strcasecmp($reg_acronym,  $acronym)==0)
-              {
+              $data = false;  
+            }  
+         }
+         echo json_encode(array($this->input->get("fieldId"),$data));
+           //  $c=count($qrow->result_array());
+           //  // $crow=$qrow->result_array();
+           //  $data = true;
+           // for($i =0;  $i < $c; $i++)
+           //  {
+           //    $reg_coop_regNo = $crow[$i]['regNo'];
+           //    $reg_coop_proposed_name = $crow[$i]['proposed_name'];
+           //    $reg_acronym = $crow[$i]['acronym_name'];
+           //    $reg_coop_type_of_coop_id = $crow[$i]['type_id'];
+
+           //    // echo $reg_proposed_name;
+           //    if(strcasecmp($reg_coop_regNo, $regNo)>0 && strcasecmp($reg_coop_proposed_name, $proposed_name)==0 && strcasecmp($type_of_coop_id,$reg_coop_type_of_coop_id)==0 && strcasecmp($reg_acronym,  $acronym)==0)
+           //    {
                 
-                 // array_push($data,'false');
-                $data = false;
-                echo json_encode(array($this->input->get("fieldId"),$data));
-                exit;
-                 
-              }
-              else
-              {
-                // $data = true;
-                // array_push($data,'true');
-                 $data = true;
-                 echo json_encode(array($this->input->get("fieldId"),$data));
-                 exit;
-              
-              }
-             // echo  $reg_coop_regNo = $crow[$i]['regNo'].' '.$reg_coop_proposed_name.' '.$reg_coop_type_of_coop_id;
-          }
-            // var_dump($data);
-         //    if(is_array($data))
-         //    {
-         //       if(in_array('false',$data))
-         //       {
-         //        $dataf = false;
-         //       }
-         //       else
-         //       {
-         //        $dataf = true;
-         //       }
-         //    }
-         //    else
-         //    {
-         //      echo "invalid";
-         //    }
-         // echo json_encode(array($this->input->get("fieldId"),$dataf));
-        
+           //      $data = false;  
+           //    }  
+           //  }
+           //     echo json_encode(array($this->input->get("fieldId"),$data));
+          // $qrow = $this->db->query("SELECT coop.id as cooID,r.regNo,coop.proposed_name,coop.acronym_name,cooperative_type.id AS type_id,coop.type_of_cooperative FROM registeredcoop AS r LEFT JOIN cooperatives coop ON coop.id = r.application_id LEFT JOIN cooperative_type ON cooperative_type.name = coop.type_of_cooperative WHERE  coop.status =15 or coop.status=14");
+          // $crow = $qrow->result_array();
+          //   $data = true;
+          //   $i = 0;
+          //   do
+          //   {
+          //     $reg_coop_regNo = $crow[$i]['regNo'];
+          //     $reg_coop_proposed_name = $crow[$i]['proposed_name'];
+          //     $reg_acronym = $crow[$i]['acronym_name'];
+          //     $reg_coop_type_of_coop_id = $crow[$i]['type_id'];
+          //     $data = $this->doThis($reg_coop_regNo,$rengNo,$reg_coop_proposed_name,$prposed_name,$type_of_coop_id,$reg_coop_type_of_coop_id,$reg_acronym,$acronym);
+          //     $i++;
+          //   } while ($data==true);
+
+          //   echo json_encode(array($this->input->get("fieldId"),$data));
+
       }
+    }
+
+    public  function doThis($reg_coop_regNo,$reg_coop_proposed_name,$reg_acronym,$reg_coop_type_of_coop_id)
+    {
+      if(strcasecmp($reg_coop_regNo, $regNo)>0 && strcasecmp($reg_coop_proposed_name, $proposed_name)==0 && strcasecmp($type_of_coop_id,$reg_coop_type_of_coop_id)==0 && strcasecmp($reg_acronym,  $acronym)==0)
+      {
+        return false;   
+      }
+        return true;
     }
 
     public function check_amendment_name_exists_coop_table()
