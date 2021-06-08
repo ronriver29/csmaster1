@@ -69,8 +69,6 @@ $config['migration_auto_latest'] = TRUE;
 | be upgraded / downgraded to.
 |
 */
-
-// <<<<<<< HEAD
 $config['migration_version'] = 90;
 // =======
 // $config['migration_version'] = 84;

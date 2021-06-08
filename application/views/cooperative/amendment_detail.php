@@ -87,7 +87,6 @@
               </div>
             </div>
            
-           
             <div class="row type-coop-row">
             </div>
 

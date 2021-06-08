@@ -1173,9 +1173,7 @@ $(function(){
                     
             
                  }
-            }); //end ajax
-
-          
+            }); //end ajax  
                    
         }else{
           $('#amendmentAddForm #typeOfCooperative1').focus();

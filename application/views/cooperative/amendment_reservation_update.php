@@ -171,7 +171,7 @@
 
                 <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess"
                      value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> 
-                   <input type="hidden" class="form-control" name="newName2" id="newName2">
+                <input type="hidden" class="form-control" name="newName2" id="newName2">
                   <input type="hidden" class="form-control" id="cooperative_idss" />
                 
                 </div>
@@ -179,7 +179,6 @@
                    <div style="margin-bottom:20px;"><small>
                   <span id="proposed_name_msg" style="margin-top:-20px;font-style:italic;"></span></small></div>
                
-
               </div>
             </div>
             <input type="hidden" class="form-control" name="count_types" id="count_types" />

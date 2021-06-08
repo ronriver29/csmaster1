@@ -2715,7 +2715,6 @@ class amendment extends CI_Controller{
     	}
     	// echo json_encode($id);
     }
-
     public function cooperative_type_ajax()
     {
       // $this->db->order_by("name", "asc");
