@@ -4,7 +4,7 @@
   </div>
 </div>
 <?php if($coop_info->status == 0) :?>
-<div class="row">  
+<div class="row">   
   <div class="col">
     <div class="alert alert-info shadow-sm" role="alert">
       <h5>Your reservation is already <strong>expired</strong>. Please fill up all the information to proceed into the next step</h5>
@@ -64,12 +64,11 @@
                 <div class="form-group">
                   <label for="categoryOfCooperative">Category of Cooperative:</label>
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
-                    <option value="">--</option>
+                   <!--  <option value="">--</option> -->
                     <option value="Primary" <?php if($coop_info->category_of_cooperative=="Primary") echo "selected";?>>Primary</option>
-                    <option value="Secondary - Union" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Union") echo "selected";?>>Secondary - Union</option>
-                    <option value="Tertiary - Union" <?php if($coop_info->category_of_cooperative=="Tertiary" && $coop_info->grouping=="Union") echo "selected";?>>Tertiary - Union</option>
-                    <option value="Secondary - Federation" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Federation") echo "selected";?>>Secondary - Federation</option>
-                    <option value="Tertiary - Federation" <?php if($coop_info->category_of_cooperative=="Tertiary" && $coop_info->grouping=="Federation") echo "selected";?>>Tertiary - Federation</option>
+                    <option value="Secondary" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Secondary") echo "selected";?>>Secondary</option>
+                    <option value="Tertiary" <?php if($coop_info->category_of_cooperative=="Tertiary" ) echo "selected";?>>Tertiary</option>
+                    <option value="Others" <?php if($coop_info->category_of_cooperative=="Others") echo "selected";?>>Others</option>
                   </select>
                 </div>
               </div>

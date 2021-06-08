@@ -79,16 +79,19 @@
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
                     <option value="">--</option>
                     <option value="Primary">Primary</option>
-                    <option value="Secondary - Union">Secondary - Union</option>
-                    <option value="Tertiary - Union">Tertiary - Union</option>
-                    <option value="Secondary - Federation">Secondary - Federation</option>
-                    <option value="Tertiary - Federation">Tertiary - Federation</option>
+                    <option value="Secondary">Secondary</option>
+                    <option value="Tertiary">Tertiary</option>
+                     <option value="Others">Others</option>
                   </select>
                 </div>
               </div>
             </div>
+           
+           
             <div class="row type-coop-row">
             </div>
+
+
            <!--  <span id="count_type" style="border:1px solid red;"></span> -->
           <div class="col-sm-12 col-md-12">
             <div class="row">

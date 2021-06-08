@@ -188,7 +188,7 @@ $(function(){
                 $(divRow).append(htmlc);
 
                 $('#amendmentAddForm .type-coop-row').append(divRow);  
-                list_cooperative_type2(selectCoop,row);
+                loadCoopType(selectCoop,row,data.category_of_cooperative);
             });
           }else{
 
@@ -199,7 +199,7 @@ $(function(){
             var divFormGroup= $('<div></div>').attr({'class':'form-group'});
             // var divCol = $('<div></div>').attr({'class':'col-sm-12 col-md-12'});
              var divRow = $('<div></div>').attr({'class':'row col-md-12'});
-            var label = $('<label></label>').attr({'for': 'typeCooperative '}).text("Type of Cooperativefff");
+            var label = $('<label></label>').attr({'for': 'typeCooperative '}).text("Type of Cooperative");
             var selectCoop = $('<select></select>').attr({'class': 'custom-select coop-type form-control  validate[required]','name': 'typeOfCooperative[]', 'id': 'typeOfCooperative' + c}); 
             // var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn float-right text-danger'}).click(function(e){
             //  $(this).parent().remove();
@@ -211,19 +211,18 @@ $(function(){
             $(htmlc).append(divFormGroup);
             $(divRow).append(htmlc);
             $('#amendmentAddForm .type-coop-row').append(divRow);  
-
-           
-            list_cooperative_type2(selectCoop,data.type_id); //load list of  cooperative type
-
-            // $(selectCoop).val(data.type_id); 
-
+            loadCoopType(selectCoop,data.type_id,data.category_of_cooperative); //load list of  cooperative type
           }
 
           if (data.category_of_cooperative=='Primary')
-              $('#amendmentAddForm #categoryOfCooperative').val(data.category_of_cooperative);
+          {  
+              $('#amendmentAddForm #categoryOfCooperative').val(data.category_of_cooperative);  
+          }
           else
-              $('#amendmentAddForm #categoryOfCooperative').val(data.category_of_cooperative+' - '+data.grouping);
-        
+          {
+             $('#amendmentAddForm #categoryOfCooperative').val(data.category_of_cooperative+' - '+data.grouping);
+          }  
+             
           $('#amendmentAddForm #coopName').val(data.coopName);
           $('#amendmentAddForm #acronym_names').val(data.acronym_name);
           $('#amendmentAddForm #areaOfOperation').val(data.areaOfOperation);
@@ -609,7 +608,10 @@ $(function(){
             });
           });
 
-
+    $("#amendmentAddForm #acronym_names").on("change",function()
+    {
+        $("#newNamess").focus();
+    });
     $("#amendmentAddForm #newNamess").bind("keyup change",function(){
     
 
@@ -795,7 +797,7 @@ $(function(){
       }
     });
 
-   
+
     
 
 }); //end of $function
@@ -954,40 +956,6 @@ $(function(){
       $("#amendmentAddForm .type-coop-row").append(divRow);
     
       list_cooperative_type(selectCoop); //load coop type selectbox
-
-    
-
-          // $(".coop-type").on('change',function(){ alert("dd");
-          //      var cooptype_value = this.value;
-          //      $('.major-ins').empty();
-          //      var typeCoop_arrays=[]; 
-          //     $('select[name="typeOfCooperative[]"] option:selected').each(function() {
-          //      typeCoop_arrays.push($(this).val());
-               
-               
-          //       $('#typeOfCooperative_value').val(typeCoop_arrays);
-          //         $.each(typeCoop_arrays , function(n,type_coop_id){
-                
-
-          //             $.ajax({
-          //              type : "POST",
-          //              url  : "get_major_industry_ajax",
-          //              dataType: "json",
-          //              data: {cooptype_:type_coop_id},
-          //              success: function(responsetxt){
-          //               // alert("success");
-          //               $.each(responsetxt,function(a,major_industry){
-          //                 console.log(major_industry['id']+major_industry['description']);
-          //                  $('.major-ins').append($('<option></option>').attr('value',major_industry['id']).text(major_industry['description']));
-
-          //                  // $('.select-major').append($('<option></option>').attr('value',major_industry['description']).text(major_industry['description']));
-
-          //               });
-          //              }
-          //             }); //end ajax
-          //        }); //end $.each
-          //     }); 
-          // }); //end onchange of type coop
       e.preventDefault();
       
     }); //end of addCoop function
@@ -1048,40 +1016,33 @@ $(function(){
     //end list coop type
 
     //start list_coop_type2
-  function list_cooperative_type2($select_id,$selected_id)
+  function loadCoopType($select_id,$selected_id,$category)
   {
-   $(document).ready(function(){
-              $.ajax({
-               type : "POST",
-               url  : "cooperative_type_ajax",
-               dataType: "json",
-               success: function(responsetxt){
-                // console.log('id_selectd '+$selected_id+ ':' +responsetxt);
-                $.each(responsetxt,function(a,coop_type){
-                  var selected="";
-                
-                    $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
-                   // $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
-                  if($selected_id == coop_type['id'] )
-                  {
-                    // alert(coop_type['id']);
-                    var val = coop_type['id'];
-                    var c_name = coop_type['name'];
-                    $selected ="selected";
-                      $($select_id).val(val).prop('selected', true);
+    $(document).ready(function(){
+        $.ajax({
+            type : "POST",
+            url  : "cooperative_type_ajax",
+            dataType: "json",
+            data : {
+                category: $category,
+            },
+            success: function(responsetxt){
+              $.each(responsetxt,function(a,coop_type){
+                var selected="";
+                $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
+                if($selected_id == coop_type['id'] )
+                {
+                  var val = coop_type['id'];
+                  var c_name = coop_type['name'];
+                  $selected ="selected";
+                  $($select_id).val(val).prop('selected', true);
                     // $($select_id).append($('<option selected></option>').attr('value',val).text(c_name));
                     // $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
-                  }
-                   
-                    
-
-                  
-                });//end ajax
-                     // $($select_id).append($('<option></option>').attr('value',"1").text("Credit"));
-
-               }
-              }); 
-      }); //end document ready        
+                }  
+              });
+            }
+        }); //end ajax
+    }); //end document ready        
   }
   //end list_coop_type2
 
@@ -1221,7 +1182,50 @@ $(function(){
         }
   }); //end major industry
 
+  
+  $("#amendmentAddForm #categoryOfCooperative").on('change',function(){
 
+      $('.coop-type').empty();
+      $('.coop-type').prop("disabled",true);
+      loadCoopType('.coop-type','',$(this).val());
+       $('.coop-type').prop("disabled",false);
+      // if($(this).val())
+     // if($(this).val() =='Secondary')
+     // {
+     //     $("#div-tertiary").remove();
+     //    var divColSubcategory = $('<div></div>').attr({'class':'col-sm-12 col-md-6','id': 'div-secodary'});
+     //    var divFormGroupCategory= $('<div></div>').attr({'class':'form-group'});
+     //    var labelSubcategory = $('<label></label>').attr({'for': 'Sub Category'}).text("Sub Category");
+     //    var selectSubcategory = $('<select></select>').attr({'class': 'custom-select form-control validate[required]','name': 'subCategory', 'id': 'subCategory'}).prop("disabled",true);
+     //    $(selectSubcategory).append($('<option></option').attr({'selected':true}).val(""));
+     //    $(selectSubcategory).append($('<option></option>').attr('value','Federation').text('Federation'));
+     //    $(selectSubcategory).append($('<option></option>').attr('value','Cooperative Bank').text('Cooperative Bank'));
+     //    $(selectSubcategory).append($('<option></option>').attr('value','Insurance').text('Insurance'));
+     //    $(selectSubcategory).prop("disabled",false);
+     //    $(divColSubcategory).append(divFormGroupCategory,labelSubcategory,selectSubcategory);
+     //    $("#subRow").append(divColSubcategory); 
+     // }
+     // else if($(this).val() =='Tertiary')
+     // {
+     //  $("#div-secodary").remove();
+     //   var divColSubcategory = $('<div></div>').attr({'class':'col-sm-12 col-md-6', 'id': 'div-tertiary'});
+     //    var divFormGroupCategory= $('<div></div>').attr({'class':'form-group'});
+     //    var labelSubcategory = $('<label></label>').attr({'for': 'Sub Category'}).text("Sub Category");
+     //    var selectSubcategory = $('<select></select>').attr({'class': 'custom-select form-control validate[required]','name': 'subCategory', 'id': 'subCategory'}).prop("disabled",true);
+     //    $(selectSubcategory).append($('<option></option').attr({'selected':true}).val(""));
+     //    $(selectSubcategory).append($('<option></option>').attr('value','Federation').text('Federation'));
+     //    $(selectSubcategory).append($('<option></option>').attr('value','Coopbank').text('Coopbank'));
+     //    // $(selectSubcategory).append($('<option></option>').attr('value','Insurance').text('Insurance'));
+     //    $(selectSubcategory).prop("disabled",false);
+     //    $(divColSubcategory).append(divFormGroupCategory,labelSubcategory,selectSubcategory);
+     //    $("#subRow").append(divColSubcategory); 
+     // }
+     // else
+     // {
+     //  $("#div-secodary").remove();
+     //  $("#div-tertiary").remove();
+     // }
 
+  });
  
   

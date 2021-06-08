@@ -71,7 +71,7 @@ $config['migration_auto_latest'] = TRUE;
 */
 
 // <<<<<<< HEAD
-$config['migration_version'] = 88;
+$config['migration_version'] = 90;
 // =======
 // $config['migration_version'] = 84;
 // >>>>>>> da8e723e250548a466d7fe2b38fb67deddfe8307
