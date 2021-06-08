@@ -156,6 +156,7 @@ class registration extends CI_Controller{
           $data1['in_chartered_cities']=true;
           $data1['chartered_cities'] =$this->charter_model->get_charter_city($data1['coop_info']->cCode);
         }
+        $data1['memory_usage'] = memory_get_usage();
        
          // $html2 = $this->load->view('cooperative/cor_view', $data1);
          $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);

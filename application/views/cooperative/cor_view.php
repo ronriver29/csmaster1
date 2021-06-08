@@ -1,5 +1,6 @@
 <?php
 ini_set('output_buffering', true); // no limit
+// echo $memory_usage;
 ?>
 <!DOCTYPE html>
 <html lang="en"> 

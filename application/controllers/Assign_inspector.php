@@ -39,6 +39,7 @@ class assign_inspector extends CI_Controller{
 
         $data1['coop'] = $user_id;
         $data1['region_code'] = str_replace('0', '',$data['admin_info']->region_code);
+        $data1['registered_no'] = $coop_info->regNo;
         // $data1['coc_number'] = 01;
 
         $this->db->select('*');
@@ -63,7 +64,9 @@ class assign_inspector extends CI_Controller{
             $street = $coop_info->Street.', ';
           }
 
+          $region2 = preg_replace("/\([^)]+\)/","",$coop_info->region); // 'ABC '
 
+          $data1['extension'] = $region2.' Office';
           $data1['address'] = $noStreet.$street.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
 
           $timestamp = str_replace('-', '/', $coop_info->date_of_or);

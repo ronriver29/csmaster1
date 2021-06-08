@@ -34,13 +34,16 @@
           
           
         <?php 
+        // $grouping = array();
             if($coop_info->grouping == 'Federation'){
+              // array_push($grouping, $cooperators_federation);
                 $grouping = $cooperators_federation;
             } if($coop_info->grouping == 'Union'){
                 $grouping = $cooperators_union;
             } else {
                 $grouping = $cooperators;
             }
+            // print_r($grouping);
         ?>
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
@@ -48,9 +51,17 @@
               <select class="custom-select validate[required] cooperator_id" name="cooperatorID" id="cooperatorID">
                 <option value="" selected></option>
                 <?php
-                  if($coop_info->grouping == 'Federation' || $coop_info->grouping == 'Union'){
+                  if($coop_info->grouping == 'Federation'){
                       ?>
-                      <?php foreach ($grouping as $cooperator) : ?>
+                      <?php foreach ($cooperators_federation as $cooperator) : ?>
+                        <?=$cooperator['representative'];?>
+                      <option value ="<?php echo encrypt_custom($this->encryption->encrypt($cooperator['id']));?>"><?php echo $cooperator['representative']?></option>
+                    <?php endforeach; ?>
+                      <?php
+                  } else if($coop_info->grouping == 'Union'){
+                      ?>
+                      <?php foreach ($cooperators_union as $cooperator) : ?>
+                        <?=$cooperator['representative'];?>
                       <option value ="<?php echo encrypt_custom($this->encryption->encrypt($cooperator['id']));?>"><?php echo $cooperator['representative']?></option>
                     <?php endforeach; ?>
                       <?php
