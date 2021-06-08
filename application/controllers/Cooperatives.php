@@ -1825,10 +1825,14 @@
       $typeOfCooperative = $this->input->post('typeOfCooperative');
       if(strlen($typeOfCooperative) > 0){
         $typeName = $this->cooperative_type_model->get_cooperative_type_name_by_id($typeOfCooperative);
-        if(preg_match('/('.$typeName->name.')/i',$proposedName)){
+         if(preg_match("/Accredited/i",$proposedName)){
+          return true;
+        } else if(preg_match("/Credited/i",$proposedName)){
+          return true;
+        } else if(preg_match('/('.$typeName->name.')/i',$proposedName)){
           $this->form_validation->set_message('coop_name_exists_check', 'Dont include the type of cooperative in your proposed name.');
           return FALSE;
-        }else{
+        } else {
           return true;
         }
       }else{
