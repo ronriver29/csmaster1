@@ -50,7 +50,8 @@
     </div>
   </div>
 <?php endif; ?>
-<?php if($is_client && $coop_info->status==11 && strlen($coop_info->evaluation_comment) >= 1 && ($coop_info->evaluated_by > 0)) : ?>
+
+<?php if($is_client && $coop_info->status==11 && ($coop_info->evaluated_by > 0)) : ?>
   
   <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Deferred Reason/s</button>
 
@@ -215,7 +216,8 @@
 
             <?php if($coop_info->status==13 || $coop_info->status==14) echo "COMPLETE"; ?>
             <?php if($coop_info->status==15) echo "REGISTERED"; ?>
-              <?php if($coop_info->status==16) echo "FOR PAYMENT"; ?>
+            <?php if($coop_info->status==16) echo "FOR PAYMENT"; ?>
+            <?php if($coop_info->status==17) echo "REVERT FOR RE-EVALUATION"; ?>
           </p>
           <hr> 
           <?php if($coop_info->status==1 || $coop_info->status==12) :?>

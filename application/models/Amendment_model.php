@@ -232,7 +232,7 @@ class amendment_model extends CI_Model{
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status IN ("7","8","9") AND amend_coop.id IN ('.$amendment_id_arr.') AND ho=0');
+    $this->db->where('status IN ("7","8","9","17") AND amend_coop.id IN ('.$amendment_id_arr.') AND ho=0');
     // $this->db->where_in('status',array('7','8','9'));
     $query = $this->db->get();
     $data = $query->result_array();
@@ -1594,54 +1594,91 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_c
   $cooperative_id = $this->coop_dtl($amentmentID);    
   $amendment_info =$this->get_cooperative_info23($cooperative_id,$amentmentID);
   $this->db->trans_begin();
-  $this->db->where('id',$coop_id);
-  if ($step==1)
-    $this->db->update('amend_coop',array('evaluated_by'=>$admin_id,'status'=>5,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment));
-  else if($step==2)
-    $this->db->update('amend_coop',array('second_evaluated_by'=>$admin_id,'status'=>8,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment));
-  else 
-    $this->db->update('amend_coop',array('third_evaluated_by'=>$admin_id,'status'=>11,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment));
-  if($this->db->trans_status() === FALSE){
-    $this->db->trans_rollback();
-    return false;
-  }else{
-    if ($step==3){
-      // return $admin_info;
-      $query3  = $this->db->get_where('regional_officials',array('region_code'=>$admin_info->region_code));
-      if($query3->num_rows()>0)
-      {
-        $reg_officials_info = $query3->row_array();
-        
-
-      }
-      else
-      {
-           $reg_officials_info = array(
-            'email' => 'head_office@mail.com',
-            'contact' => '00000000'
-           );
-      }
-  
-      $this->db->insert('amendment_comment',$data_comment);
-      $this->db->select('amend_coop.proposed_name, amend_coop.type_of_cooperative, amend_coop.grouping, users.*');
-      $this->db->from('amend_coop');
-      $this->db->join('users' , 'users.id = amend_coop.users_id','inner');
-      $this->db->where('amend_coop.id', $coop_id);
-      $query = $this->db->get();
-      $client_info = $query->row();
-      // return $client_info;
-      if($this->admin_model->sendEmailToClientDeferAmendment($client_info,$reason_commment,$amendment_info,$reg_officials_info)){
-        $this->db->trans_commit();
-        return true;
-      }else{
-        $this->db->trans_rollback();
-        return false;
-      }
-    }else{
-      $this->db->trans_commit();
-      return true;
-    }
+  // $this->db->where('id',$coop_id);
+  if($step ==4)
+  { 
+    $this->db->update('amend_coop',array('third_evaluated_by'=>$admin_id,'status'=>17,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60)))),array('id'=>$coop_id));
+  }elseif ($step==3){
+      $this->db->update('amend_coop',array('third_evaluated_by'=>$admin_id,'status'=>11,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60)))),array('id'=>$coop_id));
   }
+  
+      // return $admin_id.' '.$coop_id.' '.$reason_commment.' '.$step.' '.$data_comment;
+        $query3  = $this->db->get_where('regional_officials',array('region_code'=>$admin_info->region_code));
+        if($query3->num_rows()>0)
+        {
+          $reg_officials_info = $query3->row_array(); 
+        }
+        else
+        {
+             $reg_officials_info = array(
+              'email' => 'head_office@mail.com',
+              'contact' => '00000000'
+             );
+        }
+    
+        $this->db->insert('amendment_comment',$data_comment);
+        $this->db->select('amend_coop.proposed_name, amend_coop.type_of_cooperative, amend_coop.grouping, users.*');
+        $this->db->from('amend_coop');
+        $this->db->join('users' , 'users.id = amend_coop.users_id','inner');
+        $this->db->where('amend_coop.id', $coop_id);
+        $query = $this->db->get();
+        $client_info = $query->row();
+        // return $client_info;
+        if($this->admin_model->sendEmailToClientDeferAmendment($client_info,$reason_commment,$amendment_info,$reg_officials_info)){
+          $this->db->trans_commit();
+          return true;
+        }else{
+          $this->db->trans_rollback();
+          return false;
+        }
+  // if ($step==1)
+  //   $this->db->update('amend_coop',array('evaluated_by'=>$admin_id,'status'=>5,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment));
+  // else if($step==2)
+  //   $this->db->update('amend_coop',array('second_evaluated_by'=>$admin_id,'status'=>8,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment));
+  // else 
+  //   $this->db->update('amend_coop',array('third_evaluated_by'=>$admin_id,'status'=>11,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment));
+  // if($this->db->trans_status() === FALSE){
+  //   $this->db->trans_rollback();
+  //   return false;
+  // }else{
+    // if ($step==3){
+    //   $this->db->update('amend_coop',array('third_evaluated_by'=>$admin_id,'status'=>11,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment));
+    //   // return $admin_id.' '.$coop_id.' '.$reason_commment.' '.$step.' '.$data_comment;
+    //     $query3  = $this->db->get_where('regional_officials',array('region_code'=>$admin_info->region_code));
+    //     if($query3->num_rows()>0)
+    //     {
+    //       $reg_officials_info = $query3->row_array();
+          
+
+    //     }
+    //     else
+    //     {
+    //          $reg_officials_info = array(
+    //           'email' => 'head_office@mail.com',
+    //           'contact' => '00000000'
+    //          );
+    //     }
+    
+    //     $this->db->insert('amendment_comment',$data_comment);
+    //     $this->db->select('amend_coop.proposed_name, amend_coop.type_of_cooperative, amend_coop.grouping, users.*');
+    //     $this->db->from('amend_coop');
+    //     $this->db->join('users' , 'users.id = amend_coop.users_id','inner');
+    //     $this->db->where('amend_coop.id', $coop_id);
+    //     $query = $this->db->get();
+    //     $client_info = $query->row();
+    //     // return $client_info;
+    //     if($this->admin_model->sendEmailToClientDeferAmendment($client_info,$reason_commment,$amendment_info,$reg_officials_info)){
+    //       $this->db->trans_commit();
+    //       return true;
+    //     }else{
+    //       $this->db->trans_rollback();
+    //       return false;
+    //     }
+    // }else{
+    //   $this->db->trans_commit();
+    //   return true;
+    // }
+  // }
 }
 public function check_own_cooperative($cooperative_id,$amendment_id,$user_id){
   $cooperative_id = $this->security->xss_clean($cooperative_id);
@@ -2076,6 +2113,22 @@ public function check_if_denied($coop_id){
       return $data;
     }
 
+    //last amendment detail for print
+    public function amendment_info_not_own_id($cooperative_id,$amendment_id)
+    {
+      $query = $this->db->query("select * from amend_coop where id != 3 and status =15 and status=14 order by id desc limit 1");
+       if($query->num_rows()>0)
+      {
+        $data = $query->row();
+      }
+      else
+      {
+        //no amendment yet get detail in coop
+        $data = $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
+        
+      }
+      return $data;
+    }
     public function amendment_info($amendment_id)
     {
       $query = $this->db->query("select * from amend_coop where id ='$amendment_id'");

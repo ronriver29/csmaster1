@@ -1671,7 +1671,7 @@ class amendment extends CI_Controller{
                             if($this->cooperatives_model->check_second_evaluated($decoded_id)){
                               if($this->cooperatives_model->check_last_evaluated($decoded_id)){
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
-                                redirect('cooperatives');
+                                redirect('amendment');
                               }else{
                                 if($this->admin_model->check_if_director_active($user_id)){
                                   $success = $this->cooperatives_model->deny_by_admin($user_id,$decoded_id,$reason_commment,3);
@@ -1762,7 +1762,7 @@ class amendment extends CI_Controller{
           $user_id = $this->session->userdata('user_id');
           $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
           $data['is_client'] = $this->session->userdata('client');
-
+          $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
           if(is_numeric($decoded_id) && $decoded_id!=0){
             if($this->session->userdata('client')){
               $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
@@ -1821,9 +1821,9 @@ class amendment extends CI_Controller{
                         }else if($this->session->userdata('access_level')==3){
                           if($this->amendment_model->check_first_evaluated($decoded_id)){
                             if($this->amendment_model->check_second_evaluated($decoded_id)){
-                              if($this->amendment_model->check_last_evaluated($decoded_id)){
+                              if($this->amendment_model->check_last_evaluated($decoded_id) && $data['coop_info']->status != 17){
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
-                                redirect('cooperatives');
+                                redirect('amendment');
                               }else{
                                 if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                 $comment = $this->input->post('comment');
@@ -1856,24 +1856,70 @@ class amendment extends CI_Controller{
                               redirect('amendment');
                             }
                           }else{
-                            $this->session->set_flashdata('redirect_applications_message', 'The application must evaluate first by a Cooperative Development Specialist IIddddd.');
+                            $this->session->set_flashdata('redirect_applications_message', 'The application must evaluate first by a Cooperative Development Specialist II.');
                             redirect('amendment');
                           }
                         }else if($this->session->userdata('access_level')==2){
+                          $comment = $this->input->post('comment');
+                          $data_comment = array(
+                                        'user_id' => $this->session->userdata('user_id'),
+                                        'amendment_id' => $decoded_id,
+                                        'access_level' => $this->session->userdata('access_level'),
+                                        'status'=> 11,
+                                        'comment' => $comment,
+                                        'created_at' => date('Y-m-d h:i:s'),
+                                        'author' => $this->session->userdata('user_id')
+                                        );
+
                           if($this->cooperatives_model->check_first_evaluated($decoded_id)){
-                            if($this->cooperatives_model->check_second_evaluated($decoded_id)){
-                              $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Senior Cooperative Development Specialist.');
-                              redirect('amendment');
-                            }else{
-                              $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,2);
+                            if($data['coop_info']->status ==12)
+                            {
+                              $data_comment = array(
+                                        'user_id' => $this->session->userdata('user_id'),
+                                        'amendment_id' => $decoded_id,
+                                        'access_level' => $this->session->userdata('access_level'),
+                                        'status'=> 17,
+                                        'comment' => $comment,
+                                        'created_at' => date('Y-m-d h:i:s'),
+                                        'author' => $this->session->userdata('user_id')
+                                        );
+                              // echo $user_id.' '.$decoded_id.' '.$reason_commment.' 3 '.$data_comment;
+                               $success = $this->amendment_model->defer_by_admin($user_id,$decoded_id,$reason_commment,4,$data_comment);
+                               // var_dump(  $success  );  
                               if($success){
-                                $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
+                                $this->session->set_flashdata('list_success_message', 'Cooperative has been revert.');
                                 redirect('amendment');
                               }else{
                                 $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
                                 redirect('amendment');
                               }
                             }
+                            else
+                            {
+                              // if($this->cooperatives_model->check_second_evaluated($decoded_id)){
+                              // $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Senior Cooperative Development Specialist.');
+                              // redirect('amendment');
+                              // }else{
+                                       $data_comment = array(
+                                        'user_id' => $this->session->userdata('user_id'),
+                                        'amendment_id' => $decoded_id,
+                                        'access_level' => $this->session->userdata('access_level'),
+                                        'status'=> 11,
+                                        'comment' => $comment,
+                                        'created_at' => date('Y-m-d h:i:s'),
+                                        'author' => $this->session->userdata('user_id')
+                                        );
+                                $success = $this->amendment_model->defer_by_admin($user_id,$decoded_id,$reason_commment,2);
+                                if($success){
+                                  $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
+                                  redirect('amendment');
+                                }else{
+                                  $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
+                                  redirect('amendment');
+                                }
+                              // }
+                            }
+                            
                           }else{
                             $this->session->set_flashdata('redirect_applications_message', 'The application must evaluate first by a Cooperative Development Specialist IIssss.');
                             redirect('amendment');
@@ -2715,6 +2761,7 @@ class amendment extends CI_Controller{
     	}
     	// echo json_encode($id);
     }
+
     public function cooperative_type_ajax()
     {
       // $this->db->order_by("name", "asc");
