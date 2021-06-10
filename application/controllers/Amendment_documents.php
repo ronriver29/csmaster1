@@ -1167,6 +1167,7 @@ public function count_documents_coop($coop_id,$num)
                                     $data['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
                                     $data['article_info_orig'] = $this->article_of_cooperation_model->get_article_by_coop_id($cooperative_id);
                                     $purposes_orig=$this->purpose_model->get_all_purposes2($cooperative_id);
+                                  
                                     $data['purposes_list_orig'] =$purposes_orig;
                                     // $this->debug( $data['purposes_list_orig']);
                                     $data['total_regular_orig'] = $this->cooperator_model->get_total_regular($cooperative_id);

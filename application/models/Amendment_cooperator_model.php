@@ -77,6 +77,27 @@ $this->last_query = $this->db->last_query();
     $data = $query->result_array();
     return $data;
   }
+  public function count_total_cptr_capitalization($amendment_id)
+  {
+    $total = 0;
+    $reg = 0;
+    $assoc = 0;
+    $query = $this->db->query("select regular_members,associate_members from amendment_capitalization where amendment_id ='$amendment_id'");
+    if($query->num_rows()>0)
+    {
+      foreach($query->result_array() as $row)
+      {
+        $reg = $row['regular_members'];
+        if($row['associate_members']!=NULL)
+        {
+          $assoc = $row['associate_members'];
+        }
+        $total = $reg+$assoc;
+      }
+    }
+    
+    return $total;
+  }
   public function get_all_cooperator_of_coop_associate($cooperatives_id,$amendment_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $this->db->select('amendment_cooperators.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region');
@@ -1267,6 +1288,19 @@ left join amendment_cooperators on cap.amendment_id = amendment_cooperators.amen
   public function check_directors_odd_number($cooperatives_id,$amendment_id){
     $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
     $this->db->where('cooperatives_id',$cooperatives_id);
+    $this->db->where('amendment_id',$amendment_id);
+    $this->db->where_in('position', $position);
+    $this->db->from('amendment_cooperators');
+    $count = $this->db->count_all_results();
+    if($count%2==1){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  public function check_directors_odd_number_amendment($amendment_id){
+    $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
+    // $this->db->where('cooperatives_id',$cooperatives_id);
     $this->db->where('amendment_id',$amendment_id);
     $this->db->where_in('position', $position);
     $this->db->from('amendment_cooperators');

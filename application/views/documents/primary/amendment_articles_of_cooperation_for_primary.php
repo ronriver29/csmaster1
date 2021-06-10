@@ -569,7 +569,7 @@
       if($totalRegular_orig != $totalRegular)
       {
         $totalRegular='<strong>'.number_format($totalRegular,2).'</strong>';
-         $total_regular_words = '<b>'.ucwrods(num_format_custom($totalRegular)).'</b>';
+         $total_regular_words = '<b>'.ucwords(num_format_custom($totalRegular)).'</b>';
       }
       else
       {

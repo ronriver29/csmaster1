@@ -442,7 +442,7 @@ function load_composition($select_class)
     dataType: "json",
     success: function(data){
     // $('#compositionOfMembersa').append($('<option></option>').attr('value',"").text(""));
-    $.each(data, function(key,value){
+    $.each(data, function(key,value){ 
 
     $select_class.append($('<option></option>').attr('value',value.id).text(value.composition));
     // $("#compositionOfMembersa option[value='"+data.comp_of_membership+"']").attr("selected", "selected");
@@ -539,6 +539,7 @@ function get_specific_subclass_desc(id)
   var count_text_input =1;
   $('#reserveUpdateForm #addCoop').on('click', function(e){ 
     var name_origin =  $("#newName2").val(); 
+    var category = $("#categoryOfCooperative").val();
     count_text_input++;
     $('#count_type').text(count_text_input );
     if(count_text_input>1)
@@ -585,7 +586,7 @@ function get_specific_subclass_desc(id)
       $(divFormGroup).append("<table><tr><td>",selectCoop,"</td><td>",deleteSpan,"</td></tr></table>");
       $("#reserveUpdateForm .coop-col").append(divFormGroup);
 
-       list_cooperative_type(selectCoop);
+       list_cooperative_type(selectCoop,category);
     
 
       e.preventDefault();
@@ -629,7 +630,7 @@ function get_specific_subclass_desc(id)
             var subClassTemp =   $('#reserveUpdateForm #subClass'+(intLastCount)); 
             $(subClassTemp).prop("disabled",false);
             var major_industry = $(this).val();
-          
+ 
             // if(coop_type.length > 0 ){ 
                 $.ajax({
                 type : "POST",
@@ -764,9 +765,9 @@ function get_specific_subclass_desc(id)
           dataType: "json",
           data: {cooptype_:typeCoop_arrays},
           success: function(data){
-             
+             // alert('fire');
               $.each(data, function(key,value){
-                $(selectMajorIndustry).append($('<option></option>').attr('value',value.id).text(value.description));
+                $(selectMajorIndustry).append($('<option></option>').attr('value',value.major_industry_id).text(value.description));
               });
               $(divFormGroupSubclass).append(labelSubClass,selectSubClass,deleteSpanss);
               $(divColSubclass).append(divFormGroupSubclass);
@@ -820,7 +821,7 @@ function get_specific_subclass_desc(id)
   //end major
 
   //cooperative type list
-function list_cooperative_type($select_id)
+function list_cooperative_type($select_id,$category)
 {
   $($select_id).append($('<option></option').attr({'selected':true}).val(""));
                 $.ajax({
@@ -828,6 +829,7 @@ function list_cooperative_type($select_id)
                   type : "POST",
                  url  : "../cooperative_type_ajax",
                  dataType: "json",
+                 data:{category:$category},
                  success: function(responsetxt){
                   // console.log(responsetxt);
                   $.each(responsetxt,function(a,coop_type){
@@ -843,35 +845,7 @@ function list_cooperative_type($select_id)
 $('.customDeleleBtn').on('click', function(){
   $(this).parent().remove(); 
 });
- //end delete coop type
-
-//    //modify occupational
-// $('#reserveUpdateForm #addMoreComBtne').on('click', function(){ 
-
-// var htmlFielda = '<div class="com-div"> <select class="custom-select composition-of-members" name="compositionOfMembersa[]" id="compositionOfMembersa required="required" ></select><a class="customDeleleBtn compositionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a></div> ';          
-//     $.ajax({
-//       type : "POST",
-//       url  : "composition",
-//       dataType: "json",
-//       success: function(data){
-//            $('#compositionOfMembersa').append($('<option></option>').attr('value',"").text(""));
-//           $.each(data, function(key,value){
-              
-//             $('.composition-of-members').append($('<option></option>').attr('value',value.id).text(value.composition));
-           
-//           });
-        
-//       }
-
-//     });
-
-//       $("#reserveUpdateForm .occupational-div").append(htmlFielda);   
-//             $('.compositionRemoveBtn').on('click',function(){
-//               $(this).closest('.com-div').remove();//$("#con-wrapper").children().last().remove(); // $(this).parent().remove();// $(this).closest(".tbl").remove();
-//             });
-//   });
-// //end modify
-
+ //end delete coop typ
 
   //start
  $('#reserveUpdateForm #addMoreInsBtn_insti').on('click', function(){
@@ -883,6 +857,44 @@ $('.customDeleleBtn').on('click', function(){
     
   });
   //end 
+  function loadCoopType($select_id,$seelcted_id,$category)
+  {
+    $(document).ready(function(){
+        $.ajax({
+            type : "POST",
+            url  : "../cooperative_type_ajax",
+            dataType: "json",
+            data : {
+                category: $category,
+            },
+            success: function(responsetxt){
+              $.each(responsetxt,function(a,coop_type){
+                var selected="";
+                $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
+                if($selected_id == coop_type['id'] )
+                {
+                  var val = coop_type['id'];
+                  var c_name = coop_type['name'];
+                  $selected ="selected";
+                  $($select_id).val(val).prop('selected', true);
+                    // $($select_id).append($('<option selected></option>').attr('value',val).text(c_name));
+                    // $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
+                }  
+              });
+            }
+        }); //end ajax
+    }); //end document ready        
+  }
+  $("#reserveUpdateForm #categoryOfCooperative").on('change',function(){
+
+      $('.coop-type').empty();
+      $('.coop-type').prop("disabled",true);
+      loadCoopType('.coop-type','',$(this).val());
+       $('.coop-type').prop("disabled",false);
+
+  });
+
+
 
 
 
