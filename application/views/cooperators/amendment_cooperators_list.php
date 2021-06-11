@@ -1,6 +1,6 @@
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
-    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back  <?php echo $total_reg_assoc_cptr;?></a>
     <h5 class="text-primary text-right">
       <?php if($is_client): ?>
       Step 4
@@ -109,10 +109,10 @@
 <?php if(($is_client && $coop_info->status<=1) || (($coop_info->status==11))): ?>
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
    <?php if(isset($capitalization_info->total_no_of_subscribed_capital) && ($capitalization_info->total_no_of_subscribed_capital > $total_subscribed) || $capitalization_info->total_no_of_paid_up_capital > $total_paid || $list_cooperators_associate_count < $capitalization_info->associate_members) : ?>
-  
+      <?php if($count_matching): ?>  
         <a class="btn btn-color-blue btn-block" role="button"href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_cooperators/add" role="button"><i class="fas fa-plus"></i> Add Cooperator
       </a>
-   
+      <?php endif;//count matching?>
 
     
    <?php endif; ?>

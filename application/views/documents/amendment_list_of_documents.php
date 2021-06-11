@@ -21,7 +21,8 @@
         }
       ?>
      <!-- FOR SENIOR  -->
-            <?php if($admin_info->access_level == 2 && $coop_info->status ==12) {?>
+
+            <?php if(!$is_client && $admin_info->access_level == 2 && $coop_info->status ==12) {?>
               <div class="btn-group float-right" role="group" aria-label="Basic example">
                 <!-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button> -->
                 <button type="button" class="btn btn-secondary btn-sm btn-dark" data-toggle="modal" data-target="#deferCooperativeModal"  data-cname="<?=$proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Revert for re-evaluation</button>

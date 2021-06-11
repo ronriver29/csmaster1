@@ -668,7 +668,7 @@ class amendment extends CI_Controller{
                       'users_id' => $this->session->userdata('user_id'),
                       'cooperative_id'=>$this->coop_dtl($decoded_id),
                       'category_of_cooperative' => $this->input->post('categoryOfCooperative'),
-                      'proposed_name' => $this->input->post('proposedName'),
+                      'proposed_name' => $this->input->post('newNamess'),
                       'acronym' => $this->input->post('acronym_name'),
                       'type_of_cooperative' =>   $type_of_cooperativeName,
                       'cooperative_type_id' => $cooperativeType_id,

@@ -79,10 +79,19 @@ class Amendment_cooperators extends CI_Controller{
                     // $this->debug($data['list_cooperators']);
 
                     $data['list_cooperators_count'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_regular_count($cooperative_id,$decoded_id);
+
                     $data['list_cooperators_regular'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_regular($cooperative_id,$decoded_id);
                     $data['list_cooperators_associate_count'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_associate_count($decoded_id);
                     $data['list_cooperators_associate'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_associate($cooperative_id,$decoded_id);
-                    // $data['ten_percent']=$this->amendment_cooperator_model->ten_percent($decoded_id);
+
+                    $data['count_cooperators_total'] =$this->amendment_cooperator_model->count_total_cptr_capitalization($decoded_id);
+                    $data['total_reg_assoc_cptr'] =  $data['list_cooperators_count'] +  $data['list_cooperators_associate_count'];
+                    $data['count_matching']= false;
+                    if( $data['total_reg_assoc_cptr'] < $data['count_cooperators_total'])
+                    {
+                      $data['count_matching'] =true;
+                    }
+                      $data['ten_percent']=$this->amendment_cooperator_model->ten_percent($decoded_id);
           
                     $this->load->view('./template/header', $data);
                     $this->load->view('cooperators/amendment_cooperators_list', $data);
