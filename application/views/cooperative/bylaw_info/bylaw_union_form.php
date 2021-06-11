@@ -21,7 +21,13 @@
                 <select class="custom-select" name="kindsOfMember" id="kindsOfMember">
                   <option value="" selected>--</option>
                   <option value="1" <?php if($bylaw_info->kinds_of_members == 1) echo "selected"; ?>>Regular Member Only</option>
-                  <option value="2" <?php if($bylaw_info->kinds_of_members == 2) echo "selected"; ?>>Regular And Associate Member</option>
+                  <?php
+                    if($coop_info->type_of_cooperative == 'Union' || $coop_info->type_of_cooperative == 'Federation') {
+
+                    } else { ?>
+                      <option value="2" <?php if($bylaw_info->kinds_of_members == 2) echo "selected"; ?>>Regular And Associate Member</option>
+                  <?php  } ?>
+                  
                 </select>
               </div>
           </div>

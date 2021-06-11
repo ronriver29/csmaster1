@@ -141,7 +141,7 @@ class Unioncoop_model extends CI_Model{
     public function is_requirements_complete($user_id){
     $this->db->where('user_id =',$user_id);
     $this->db->from('unioncoop');
-    if($this->db->count_all_results()<=2){
+    if($this->db->count_all_results()<=9){
       return false;
     }else{
       return true;

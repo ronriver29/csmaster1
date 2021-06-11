@@ -1,6 +1,12 @@
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php if($admin_info->access_level == 2 && $coop_info->status ==12) {?>
+              <div class="btn-group float-right" role="group" aria-label="Basic example">
+                <!-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button> -->
+                <button type="button" class="btn btn-secondary btn-sm btn-dark" data-toggle="modal" data-target="#revertCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Revert for re-evaluation</button>
+              </div>  
+            <?php }?>
     <?php if($is_client) : ?>
     <h5 class="text-primary text-right">
       Step 10
@@ -17,7 +23,7 @@
       <?php if($coop_info->status !=15):?>
       <div class="btn-group float-right" role="group" aria-label="Basic example">
         <a  class="btn btn-info btn-sm" href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/cooperative_tool">Tool</a>
-        <?php if($admin_info->access_level ==2 || $is_active_director || $supervising_): ?>
+        <?php if(($admin_info->access_level ==2 || $is_active_director || $supervising_) && $coop_info->status != 10): ?>
         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>><?=$submit?></button><!--  modify by Jayson change approve button to submit -->
       <?php endif; //endo fo coop info status ?>  
         <?php endif;// is director and supervising?>

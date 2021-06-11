@@ -100,6 +100,7 @@
                 // End Registered Coop Process by Head Office
                 $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_ho_senior($data['admin_info']->region_code);
+                $data['list_cooperatives_defer_deny'] = $this->cooperatives_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
                 $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
               } else {
                 // Registered Coop Process by Head Office
@@ -107,6 +108,7 @@
                 // End Registered Coop Process by Head Office
                 $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_senior($data['admin_info']->region_code);
+                $data['list_cooperatives_defer_deny'] = $this->cooperatives_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
                 $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
               }
               // echo '<pre>';
@@ -1254,7 +1256,8 @@
                       }else if($this->session->userdata('access_level')==3){
                         if($this->cooperatives_model->check_first_evaluated($decoded_id)){
                           if($this->cooperatives_model->check_second_evaluated($decoded_id)){
-                            if($this->cooperatives_model->check_last_evaluated($decoded_id)){
+                            $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+                            if($this->cooperatives_model->check_last_evaluated($decoded_id) && $coop_info->status != 17){
                               $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                               redirect('cooperatives');
                             }else{
@@ -1799,6 +1802,207 @@
                         }
                       }else{
                         $this->session->set_flashdata('redirect_applications_message', 'The cooperative you trying to defer is already denied.');
+                        redirect('cooperatives');
+                      }
+                    }else{
+                      $this->session->set_flashdata('redirect_applications_message', 'The cooperative you trying to deny is not yet submitted for evaluation.');
+                      redirect('cooperatives');
+                    }
+                  }else{
+                    $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
+                    redirect('cooperatives');
+                  }
+                }
+            }
+          }else{
+            show_404();
+          }
+        }else{
+          $this->session->set_flashdata('cooperative_error', validation_errors('<li>','</li>'));
+          redirect('cooperatives/'.$this->input->post('cooperativeID',TRUE));
+        }
+      }
+    }
+
+    public function revert_cooperative(){
+      if(!$this->session->userdata('logged_in')){
+        redirect('users/login');
+      }else{
+        if($this->form_validation->run() == TRUE){
+          $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID',TRUE)));
+          $user_id = $this->session->userdata('user_id');
+          $data['is_client'] = $this->session->userdata('client');
+          if(is_numeric($decoded_id) && $decoded_id!=0){
+            if($this->session->userdata('client')){
+              $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+              redirect('cooperatives');
+            }else{
+                if($this->session->userdata('access_level')==5){
+                  redirect('admins/login');
+                }else{
+                  if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
+                    if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
+                      if(!$this->cooperatives_model->check_if_denied($decoded_id)){
+                        $reason_commment = $this->input->post('comment',TRUE);
+                        if($this->session->userdata('access_level')==4){
+                          if($this->cooperatives_model->check_first_evaluated($decoded_id)){
+                            if($this->cooperatives_model->check_second_evaluated($decoded_id)){
+                              if($this->cooperatives_model->check_last_evaluated($decoded_id)){
+                                $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
+                                redirect('cooperatives');
+                              }else{
+                                $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+
+                                $query3  = $this->db->get_where('regional_officials',array('region_code'=>$data['admin_info']->region_code));
+                                if($query3->num_rows()>0)
+                                {
+                                  $reg_officials_info = $query3->row_array();
+                                }
+                                else
+                                {
+                                  $reg_officials_info = array(
+                                    'email' => 'head_office',
+                                    'contact' => '0830403430'
+                                  );
+                                }
+
+                                  // $coop_full_name = $this->input->post('cName',TRUE);
+
+                                  $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+
+                                  $coop_full_name = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping;
+
+                                  if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
+
+                                  $brgyforemail = ucwords($coop_info->house_blk_no).' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
+
+                                  $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
+
+                                  $this->admin_model->sendEmailToClientDefer($coop_full_name,$brgyforemail,$data['client_info']->email,$reason_commment,$data['admin_info']->region_code,$reg_officials_info);
+
+                                if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
+                                  $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
+                                   $comment = array(
+                                        'cooperatives_id' => $decoded_id,
+                                        'comment' => $reason_commment,
+                                        'user_id' => $user_id,
+                                        'user_level' => $this->session->userdata('access_level'),
+                                        'status' =>11
+                                    );
+                                  $this->cooperatives_model->insert_comment_history($comment);
+                                  if($success){
+                                    $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
+                                    redirect('cooperatives');
+                                  }else{
+                                    $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
+                                    redirect('cooperatives');
+                                  }
+                                }else{
+                                  $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated by the Director.');
+                                  redirect('cooperatives');
+                                }
+                              }
+                            }else{
+                              $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated first by a Senior Cooperative Development Specialist.');
+                              redirect('cooperatives');
+                            }
+                          }else{
+                            $this->session->set_flashdata('redirect_applications_message', 'The application must evaluate first by a Cooperative Development Specialist II.');
+                            redirect('cooperatives');
+                          }
+                        }else if($this->session->userdata('access_level')==2){
+                          if($this->cooperatives_model->check_first_evaluated($decoded_id)){
+                            if($this->cooperatives_model->check_second_evaluated($decoded_id)){
+                              if($this->cooperatives_model->check_last_evaluated_revert($decoded_id)){
+                                $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
+                                redirect('cooperatives');
+                              }else{
+                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+
+                                    $data_field = array(
+                                        'cooperatives_id' => $decoded_id,
+                                        'comment' => $reason_commment,
+                                        'user_id' => $user_id,
+                                        'user_level' => $data['admin_info']->access_level,
+                                        'status' =>17
+                                    );
+                                  $success_comment = $this->cooperatives_model->insert_comment_history($data_field);
+
+                                  // $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+
+                                  $query3  = $this->db->get_where('regional_officials',array('region_code'=>$data['admin_info']->region_code));
+                                  if($query3->num_rows()>0)
+                                  {
+                                    $reg_officials_info = $query3->row_array();
+                                  }
+                                  else
+                                  {
+                                    $reg_officials_info = array(
+                                      'email' => 'head_office',
+                                      'contact' => '0830403430'
+                                    );
+                                  }
+
+                                  // $coop_full_name = $this->input->post('cName',TRUE);
+
+                                  $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+
+                                  $temp = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+                                  // Get Count Coop Type for HO
+                                    $this->db->where(array('name'=>$temp->type_of_cooperative,'active'=>1));
+                                    $this->db->from('head_office_coop_type');
+                                  // End Get Count Coop
+                                  if($this->db->count_all_results()>0){
+
+                                    $this->db->where(array('region_code'=>00,'is_director_active'=>1,'access_level'=>3));
+                                    $this->db->from('admin');
+
+                                    if($this->db->count_all_results()>0){
+                                      $senior_emails = $this->admin_model->get_emails_of_director_by_region("00");
+                                    } else {
+                                      $senior_emails = $this->admin_model->get_emails_of_supervisor_by_region("00");
+                                    }
+
+                                    $data['admin_info_ho'] = $this->admin_model->get_admin_info($coop_info->evaluated_by);
+                                  } else {
+                                    $senior_emails = $this->admin_model->get_emails_of_director_by_region($temp->rCode);
+                                    $data['admin_info_ho'] = $this->admin_model->get_admin_info($coop_info->evaluated_by);
+                                  }
+
+                                  $coop_full_name = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping;
+
+                                  if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
+
+                                  $brgyforemail = ucwords($coop_info->house_blk_no).' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
+
+                                  $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
+
+                                  $this->admin_model->sendEmailToAdminRevert($coop_full_name,$brgyforemail,$senior_emails,$reason_commment,$data['admin_info']->region_code,$reg_officials_info);
+
+                                  $success = $this->cooperatives_model->revert_by_senior($user_id,$decoded_id,$reason_commment,3);
+                                  if($success_comment && $success){
+                                    $this->session->set_flashdata('list_success_message', 'Cooperative has been Revert.');
+                                    redirect('cooperatives');
+                                  }else{
+                                    $this->session->set_flashdata('list_error_message', 'Unable to Revert cooperative.');
+                                    redirect('cooperatives');
+                                  }
+                                // }else{
+                                //   $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated by the Supervising CDS.');
+                                //   redirect('cooperatives');
+                                // }
+                              }
+                            }else{
+                              $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated first by a Senior Cooperative Development Specialist.');
+                              redirect('cooperatives');
+                            }
+                          }else{
+                            $this->session->set_flashdata('redirect_applications_message', 'The application must evaluate first by a Cooperative Development Specialist II.');
+                            redirect('cooperatives');
+                          }
+                        }
+                      }else{
+                        $this->session->set_flashdata('redirect_applications_message', 'The cooperative you trying to Revert is already denied.');
                         redirect('cooperatives');
                       }
                     }else{

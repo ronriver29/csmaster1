@@ -226,6 +226,7 @@ $route['cooperatives/composition'] = 'cooperatives/composition';
 $route['cooperatives/(:any)/composition'] = 'cooperatives/composition';
 $route['cooperatives/deny_cooperative'] = 'cooperatives/deny_cooperative';
 $route['cooperatives/defer_cooperative'] = 'cooperatives/defer_cooperative';
+$route['cooperatives/revert_cooperative'] = 'cooperatives/revert_cooperative';
 $route['cooperatives/approve_cooperative'] = 'cooperatives/approve_cooperative';
 $route['cooperatives/delete_cooperative'] = 'cooperatives/delete_cooperative';
 $route['cooperatives/delete_branches'] = 'cooperatives/delete_branches';

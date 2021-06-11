@@ -208,10 +208,12 @@
           <p class="text-muted">
             <?php if($coop_info->status==0) echo "EXPIRED"; ?>
             <?php if($coop_info->status==1) echo "PENDING"; ?>
-            <?php if($coop_info->status>=2 && $coop_info->status<=9) echo "ON EVALUATION"; ?>
+            <?php if($coop_info->status>=2 && $coop_info->status<=9 && $coop_info->third_evaluated_by<0) echo "ON EVALUATION"; ?>
+            <?php if($coop_info->status==6 && $coop_info->third_evaluated_by>0) echo "FOR RE-EVALUATION";?>
             <?php if($coop_info->status==10) echo "DENIED"; ?>
             <?php if($coop_info->status==11) echo "DEFERRED"; ?>
             <?php if($coop_info->status==12) echo "FOR PRINTING & SUBMISSION"; ?>
+            <?php if($coop_info->status==17) echo "REVERT FOR RE-EVALUATION"; ?>
 
             <?php if($coop_info->status==13 || $coop_info->status==14) echo "COMPLETE"; ?>
             <?php if($coop_info->status==15) echo "REGISTERED"; ?>
