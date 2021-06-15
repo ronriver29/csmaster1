@@ -4444,15 +4444,34 @@ function do_upload_two_(){
                               $data['in_chartered_cities']=true;
                               $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                               }
-                              //$this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
 
-                              $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data, TRUE);
                               $f = new pdf();
                               $f->set_option("isPhpEnabled", true);
+                              $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data, TRUE);
+                             
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
                               $f->render();
+                              
+                              $this->load->library('session');
+                              $path = 'articles_of_cooperation_primary.pdf';
+                              $getTotalPages = $f->get_canvas()->get_page_count();
+                              $user_data = array(
+                                // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
+                                'pagecount' => $getTotalPages
+                              );
+
+                              $this->session->set_userdata($user_data);
                               $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
+                              //$this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
+
+                              // $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data, TRUE);
+                              // $f = new pdf();
+                              // $f->set_option("isPhpEnabled", true);
+                              // $f->setPaper('folio', 'portrait');
+                              // $f->load_html($html2);
+                              // $f->render();
+                              // $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
                               
                             // }else{
                             //   $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
