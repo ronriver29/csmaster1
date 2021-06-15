@@ -272,6 +272,7 @@ class Documents extends CI_Controller{
                                   $this->load->view('cooperative/evaluation/approve_modal_cooperative');
                                   $this->load->view('cooperative/evaluation/deny_modal_cooperative');
                                   $this->load->view('cooperative/evaluation/defer_modal_cooperative');
+                                  $this->load->view('cooperative/evaluation/revert_modal_cooperative');
                                   $this->load->view('templates/admin_footer');
                                 } else {
                                   // echo"dito";

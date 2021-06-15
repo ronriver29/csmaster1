@@ -8,6 +8,7 @@ $(function(){
   $('#cooperativesTable').DataTable();
   $('#cooperativesTable2').DataTable();
   $('#cooperativesTable3').DataTable();
+  $('#cooperativesTable4').DataTable();
   $('#cooperatorsTable').DataTable();
   $('#cooperatorsTable2').DataTable();
   $('#staffTable').DataTable();
@@ -1683,6 +1684,34 @@ $('#editStaffForm #position').on('change', function(){
         }
   });
   /* END DENY COOPERATIVE*/
+  $('#revertCooperativeModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var coop_name = button.data('cname');
+    var comment = button.data('comment');
+    var coop_id = button.data('coopid');
+    var modal = $(this)
+    modal.find('.modal-body #cooperativeID').val(coop_id);
+    modal.find('.modal-body .cooperative-name-text').text(coop_name);
+    modal.find('.modal-body .cooperative-comment-text').text(comment);
+  });
+  $("#revertCooperativeForm").validationEngine('attach',
+      {promptPosition: 'inline',
+      scroll: false,
+      focusFirstField : false,
+      onValidationComplete: function(form,status){
+          if(status==true){
+            if($("#deferAdministratorLoadingBtn").length <= 0){
+              $("#revertCooperativeForm #deferCooperativeBtn").hide();
+              $("#revertCooperativeForm .col-defer-cooperative-btn").append($('<button></button>').attr({'id':'deferAdministratorLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
+              return true;
+            }else{
+              return false;
+            }
+          }else{
+            return false;
+          }
+        }
+  });
   /* START DEFER COOPERATIVE*/
   $('#deferCooperativeModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);

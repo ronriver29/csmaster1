@@ -1073,6 +1073,61 @@ The client shall submit the above required documents within 30 working days from
         return false;
     }
   }
+  public function sendEmailToAdminRevert($coop_full_name,$brgyforemail,$emails,$reason_commment,$directorregioncode,$reg_officials_info){
+    if(sizeof($emails)>0){
+      $receiver = "";
+      if(sizeof($emails)>1){
+        $tempEmail = array();
+        foreach($emails as $email){
+          array_push($tempEmail, $email['email']);
+        }
+        $receiver = implode(", ",$tempEmail);
+      }else{
+        $receiver = $emails[0]['email'];
+      }
+      if($directorregioncode == '00'){
+        $trulyyours = 'LRRD Director';
+      } else {
+        $trulyyours = 'Regional Office Director';
+      }
+
+      // if(strpos($reason_commment, "\n") !== FALSE) {
+      //   $wk = 'New line break found';
+      // }
+      // else {
+      //   $wk = 'not found';
+      // }
+      $wk = trim(preg_replace('/\s\s+/', '<br>', $reason_commment));
+      // $wk = str_replace(strpos($reason_commment, "\n"),"<br><br>",$reason_commment);
+
+      $from = "ecoopris@cda.gov.ph";    //senders email address
+      $subject =$coop_full_name.' Evaluation Result';  //email subject
+      $burl = base_url();
+        //sending confirmEmail($receiver) function calling link to the user, inside message body
+      // $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> has been deferred because of the following reason/s:<br><pre>".$comment."</pre><br> You have 15 days to complete the following.";
+
+      $message = "".date('F d, Y')." <br><br>
+
+  Proposed Name of Cooperative: ".$coop_full_name." <br>
+  Proposed Address of Cooperative : ".$brgyforemail."<br><br>
+
+  Good Day! <br><br>
+
+  This is a Sample Email Message
+  ".$trulyyours."
+  ";
+
+      $this->email->from($from,'ecoopris CDA (No Reply)');
+      $this->email->to($receiver);
+      $this->email->subject($subject);
+      $this->email->message($message);
+      if($this->email->send()){
+          return true;
+      }else{
+          return true;
+      }
+    }
+  }
   public function sendEmailToClientDefer($coop_full_name,$brgyforemail,$email,$reason_commment,$directorregioncode,$reg_officials_info){
 
     if($directorregioncode == '00'){

@@ -102,7 +102,7 @@
                     <tr>
                         <td>Regular</td>
                         <td>
-                            <input type="number" name="item[regular_members]" id="regular_members" class="form-control" min="15" value="<?=$regular_members;?>"/>
+                            <input type="number" name="item[regular_members]" id="regular_members" class="form-control" max="3" value="<?=$regular_members;?>"/>
                             <br/>
                             <span id="regular_members_note" class="err-message-note"></span>
                         </td>
@@ -221,7 +221,8 @@
                         <td>
                             <input type="number" name="item[total_amount_of_paid_up_capital]" id="total_amount_of_paid_up_capital" class="form-control" value="<?=$total_amount_of_paid_up_capital;?>"/>
                             <br/>
-                            <span id="total_amount_of_paid_up_capital_note"class="err-message-note"></span>
+                            <span id="total_amount_of_paid_up_capital_note"class="err-message-note"></span><br/>
+                            <span id="total_amount_of_paid_up_capital_note2"class="err-message-note"></span>
                         </td>
                         <td>Total no of paid-up capital</td>
                         <td>
@@ -383,8 +384,8 @@ function computeCapital() {
     var total_members = parseInt(regular_members) + parseInt(associate_members);
     if($("#regular_members").length>0) {
         $("#regular_members_note").removeClass("err-message-note-error");
-        if(regular_members < 15) {
-            $("#regular_members_note").html("Should be at least 15 members");
+        if(regular_members < 3) {
+            $("#regular_members_note").html("Should be at least 3 members");
             $("#regular_members_note").addClass("err-message-note-error");
         }
         $("#total_members").val(total_members);
@@ -510,11 +511,12 @@ function computeCapital() {
         }
 
 //        $("#total_amount_of_paid_up_capital").val(amount_of_paid_up_capital);
-        $("#total_amount_of_paid_up_capital").attr("min",1000000);
-        $("#total_amount_of_paid_up_capital_note").html("Should be at least "+1000000);
-        $("#total_amount_of_paid_up_capital_note").removeClass("err-message-note-error");
+        $("#total_amount_of_paid_up_capital2").attr("min",amount_of_paid_up_capital);
+        $("#total_amount_of_paid_up_capital_note2").html("Should be at least "+amount_of_paid_up_capital);
+        $("#total_amount_of_paid_up_capital_note").html("Minimum Paid Up Capital must be: "+1000000);
+        $("#total_amount_of_paid_up_capital_note2").removeClass("err-message-note-error");
         if(minimum_amount_of_paid_up_capital>amount_of_paid_up_capital) {
-            $("#total_amount_of_paid_up_capital_note").addClass("err-message-note-error");
+            $("#total_amount_of_paid_up_capital_note2").addClass("err-message-note-error");
         }
         $("#total_no_of_paid_up_capital").val(no_of_paid_up_capital);
         $("#total_no_of_paid_up_capital").attr("min",minimum_no_of_paid_up_capital);

@@ -218,16 +218,16 @@ $config = array(
                   'label' => 'Type of Cooperative',
                   'rules' => 'trim|required'
                 ),
-                array(
-                  'field' => 'majorIndustry[]',
-                  'label' => 'Major Industry',
-                  'rules' => 'trim|required'
-                ),
-                array(
-                  'field' => 'subClass[]',
-                  'label' => 'Major Industry Subclass',
-                  'rules' => 'trim|required'
-                ),
+                // array(
+                //   'field' => 'majorIndustry[]',
+                //   'label' => 'Major Industry',
+                //   'rules' => 'trim|required'
+                // ),
+                // array(
+                //   'field' => 'subClass[]',
+                //   'label' => 'Major Industry Subclass',
+                //   'rules' => 'trim|required'
+                // ),
                 array(
                   'field' => 'proposedName',
                   'label' => 'Proposed Name',
@@ -293,16 +293,16 @@ $config = array(
                   'label' => 'Type of Cooperative',
                   'rules' => 'trim|required'
                 ),
-                array(
-                  'field' => 'majorIndustry[]',
-                  'label' => 'Major Industry',
-                  'rules' => 'trim|required'
-                ),
-                array(
-                  'field' => 'subClass[]',
-                  'label' => 'Major Industry Subclass',
-                  'rules' => 'trim|required'
-                ),
+                // array(
+                //   'field' => 'majorIndustry[]',
+                //   'label' => 'Major Industry',
+                //   'rules' => 'trim|required'
+                // ),
+                // array(
+                //   'field' => 'subClass[]',
+                //   'label' => 'Major Industry Subclass',
+                //   'rules' => 'trim|required'
+                // ),
                 array(
                   'field' => 'proposedName',
                   'label' => 'Proposed Name',
@@ -1204,6 +1204,13 @@ $config = array(
                 array(
                   'field' => 'monthlyCompensation',
                   'label' => 'Monthly Compensation',
+                  'rules' => 'trim|required'
+                ),
+        ),
+        'cooperatives/revert_cooperative' => array (
+                array(
+                  'field' => 'comment',
+                  'label' => 'Reason why deferred',
                   'rules' => 'trim|required'
                 ),
         ),

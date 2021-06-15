@@ -39,6 +39,11 @@
 <?php endif;  ?>
 <div class="row mt-3">
   <div class="col-sm-12 col-md-12">
+    <?php 
+      if($coop_info->grouping == 'Federation' || $coop_info->grouping == 'Union'){
+
+      } else {
+    ?>
     <div class="alert alert-info" role="alert">
       <strong>Reminder:</strong>
        <ul>
@@ -68,6 +73,7 @@
         <?php endif; ?>
        </ul>-->
     </div>
+    <?php } ?>
   </div>
 </div>
 <div class="row">
