@@ -385,9 +385,11 @@
           }else{
             if($this->session->userdata('access_level')==5){
               redirect('admins/login');
-            }else if($this->session->userdata('access_level')!=1){
-              redirect('cooperatives');
-            }else{
+            }
+            // else if($this->session->userdata('access_level')!=1){
+            //   redirect('cooperatives');
+            // }
+            else{
               if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
                 if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                   $data['title'] = 'Cooperative Details';
