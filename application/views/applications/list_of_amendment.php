@@ -117,6 +117,7 @@
                         <?php if($cooperative['status']==0) echo "EXPIRED";
                         else if($cooperative['status']==1) echo "PENDING";
                         else if($cooperative['status']>=2 && $cooperative['status']<=9) echo "ON VALIDATION";
+                        else if($cooperative['status']==6 && $cooperative['third_evaluated_by']>0) echo "FOR RE-EVALUATION";
                         else if($cooperative['status']==10) echo "DENIED";
                         else if($cooperative['status']==11) echo "DEFERRED";
                         else if($cooperative['status']==12) echo "FOR PRINTING & SUBMISSION";
@@ -182,7 +183,7 @@
                     ?>
                     <td>
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                      <?php if($admin_info->access_level == 1 ) : ?>
+                      <?php if($admin_info->access_level == 1 || $admin_info->access_level ==2) : ?>
                         <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View Cooperative</a>
                       <?php else: ?>
                          

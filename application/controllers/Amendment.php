@@ -1040,11 +1040,12 @@ class amendment extends CI_Controller{
               $this->load->view('cooperative/amendment_details', $data);
               $this->load->view('./template/footer');
           }else{
-            if($this->session->userdata('access_level')==5){
-              redirect('admins/login');
-            }else if($this->session->userdata('access_level')!=1){
-              redirect('amendment');
-            }else{
+            // if($this->session->userdata('access_level')==5){
+            //   redirect('admins/login');
+            // }else if($this->session->userdata('access_level')!=1){
+            //   redirect('amendment');
+            // }else{
+            if($this->session->userdata('access_level') == 1 || $this->session->userdata('access_level') == 2){
               if(!$this->amendment_model->check_expired_reservation_by_admin($coop_id,$decoded_id)){
                 if($this->amendment_model->check_submitted_for_evaluation($coop_id,$decoded_id)){
                   $data['title'] = 'Cooperative Details';
@@ -1110,6 +1111,10 @@ class amendment extends CI_Controller{
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('amendment');
               }
+            }
+            else
+            {
+              redirect('admins/login');
             }
           }
         }else{

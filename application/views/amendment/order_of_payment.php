@@ -57,18 +57,21 @@
         {
            $amendment_name = $coop_info->proposed_name;
         }
-          var_dump($original_coop_name);echo"<br>";var_dump($amendment_name);
+        
         if(strcasecmp($original_coop_name,$amendment_name)>0)
         {
           $name_reservation_fee =100;
         } 
+
+        $rf=0;
+        $percentage_amount = 0;
+        $total_amendment_fee = 0;
         $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_capitalization->total_amount_of_paid_up_capital;
         //amendment paid up is greater than coop total paid up
         if($diff_amount>0)
         {
-          $percentage_of_onepercent= $diff_amount * 0.01; //x 1%
-          $pecentage_of_ten_percent = $percentage_of_onepercent *0.1; //10% of one percent 
-          $total_reservation_fee = $pecentage_of_ten_percent+ $basic_reservation_fee;
+          $percentage_amount= $diff_amount * 0.001; // 1 over 10 of 1% 
+          $total_reservation_fee = $percentage_amount+ $basic_reservation_fee;
           $rf = $total_reservation_fee;
         }
         else
@@ -76,11 +79,21 @@
           $rf =  $basic_reservation_fee;
         }
         
-               $lrf=$rf*0.01;
-                 if($lrf<10)
-                 {
-                  $lrf=10;
-                 }
+        $lrf=$rf*0.01;
+        if($lrf<10)
+        {
+        $lrf=10;
+
+        }
+               
+        if($basic_reservation_fee > $percentage_amount )
+        {
+          $total_amendment_fee   = 300;
+        }
+        else
+        {
+        $total_amendment_fee   = $percentage_amount ;
+        }
          if(count(explode(',',$coop_info->type_of_cooperative))>1)
                 {
                   $proposeName = $coop_info->proposed_name.' Multipurpose Cooperative'.$coop_info->grouping;
@@ -101,7 +114,7 @@
     </tr>
     <tr>
       <td class="bord">Amount in Words</td>
-      <td class="bord" colspan="3"><b>'.ucwords(num_format_custom($rf+$lrf+$name_reservation_fee)).' Pesos</b></td>
+      <td class="bord" colspan="3"><b>'.ucwords(num_format_custom($total_amendment_fee+$lrf+$name_reservation_fee)).' Pesos</b></td>
   </tr>
   <tr>
     <td class="bord" colspan="4" align="center">Particulars</td>
@@ -115,7 +128,7 @@
                   <td width="23%"></td>
                   <td class="pera" width=""><b>Name Reservation Fee</b></td>
                   <td class="pera" width="5%">Php </td>
-                  <td class="pera" align="right" width="13%"><b>'.number_format($name_reservation_fee,2).'</b></td>
+                  <td class="pera" align="right" width="13%"><b>'.number_format($name_reservation_fee + $total_amendment_fee + $lrf,2).'</b></td>
                 </tr>';
                 }
                 echo'
@@ -125,9 +138,9 @@
                 </tr>
                 <tr>
                 <td></td>
-                <td><p style="font-style:italic;font-size:11pt;">(1/10 of 1% of Php '.number_format($diff_amount,2).' increased in paid up capital<br> amounted to Php '.number_format($diff_amount,2).' or a minimum of<br> Php 300.00 whichever is higher)<p></td>
+                <td><p style="font-style:italic;font-size:11pt;">(1/10 of 1% of Php '.number_format($diff_amount,2).' increased in paid up capital<br> amounted to Php '.number_format($percentage_amount,2).' or a minimum of<br> Php 300.00 whichever is higher)<p></td>
                 <td class="pera" width="5%"> </td>
-                <td class="pera" align="right"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
+                <td class="pera" align="right"><b>'.number_format($total_amendment_fee,2).'</b></td>
                 </tr>
                   <tr>
                 <td width="23%"></td>
@@ -141,7 +154,7 @@
                 <tr>
                   <td class="bord" colspan="2">Total </td>
                   <td class="taas" width="5%">Php </td>
-                  <td class="taas" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
+                  <td class="taas" align="right" width="13%"><b>'.number_format($total_amendment_fee+$lrf+$name_reservation_fee,2).'</b></td>
                 </tr>';
     }
     ?>

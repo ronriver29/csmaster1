@@ -21,16 +21,16 @@
                 <label for="comment">State the reason/s: </label>
                 <pre>
                 <textarea class="form-control validate[required]" style="resize: none;" id="comment" name="comment" placeholder=""rows="8"><?php 
-                foreach($cds_comment as $cds){
-                    echo $cds['comment'].PHP_EOL;    
-                }
+                // foreach($cds_comment as $cds){
+                //     echo $cds['comment'].PHP_EOL;    
+                // }
                 
-                if(strlen($coop_info->tool_findings)>0)
-                {
-                  echo ''.PHP_EOL;
-                  echo $coop_info->tool_findings.PHP_EOL;
-                  echo ''.PHP_EOL;
-                }
+                // if(strlen($coop_info->tool_findings)>0)
+                // {
+                //   echo ''.PHP_EOL;
+                //   echo $coop_info->tool_findings.PHP_EOL;
+                //   echo ''.PHP_EOL;
+                // }
                 
                 
                 foreach($senior_comment as $senior){

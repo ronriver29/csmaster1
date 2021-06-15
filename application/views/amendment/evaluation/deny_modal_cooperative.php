@@ -19,7 +19,8 @@
               <div class="form-group">
                 <label for="comment">State the reason/s:</label>
                 <pre><textarea class="form-control validate[required]" style="resize: none;" id="comment" name="comment" placeholder=""rows="8"><?php 
-                foreach($cds_comment as $cds){echo $cds['comment'].PHP_EOL;}foreach($senior_comment as $senior){echo $senior['comment'].PHP_EOL;}?></textarea></pre>
+                // foreach($cds_comment as $cds){echo $cds['comment'].PHP_EOL;}
+                foreach($senior_comment as $senior){echo $senior['comment'].PHP_EOL;}?></textarea></pre>
               </div>
             </div>
             <div class="modal-footer denyCooperativeFooter">

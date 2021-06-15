@@ -94,6 +94,7 @@ class Amendment_payments extends CI_Controller{
                                     $coop_orig_name = $data['coop_info_orig']->proposed_name;
                                     $data['original_coop_name']= $coop_orig_name.$acronym;
                                     $data['date_ok_for_payment'] = $this->Payment_model->get_payment_info_amendment($decoded_id)->date;
+                                   
                                     $this->load->view('./template/header', $data);
                                     $this->load->view('amendment/payment_form', $data);
                                     $this->load->view('./template/footer', $data);

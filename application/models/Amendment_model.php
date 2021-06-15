@@ -1594,7 +1594,7 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_c
   $cooperative_id = $this->coop_dtl($amentmentID);    
   $amendment_info =$this->get_cooperative_info23($cooperative_id,$amentmentID);
   $this->db->trans_begin();
-  // $this->db->where('id',$coop_id);
+// return $reason_commment;
   if($step ==4)
   { 
     $this->db->update('amend_coop',array('third_evaluated_by'=>$admin_id,'status'=>17,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60)))),array('id'=>$coop_id));
@@ -1623,14 +1623,28 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_c
         $this->db->where('amend_coop.id', $coop_id);
         $query = $this->db->get();
         $client_info = $query->row();
-        // return $client_info;
-        if($this->admin_model->sendEmailToClientDeferAmendment($client_info,$reason_commment,$amendment_info,$reg_officials_info)){
+        if($step ==4)
+        {
+          if($this->admin_model->sendEmailToDirectorRevertAmendment($client_info,$reason_commment,$amendment_info,$reg_officials_info))
+           {
+            $this->db->trans_commit();
+            return true;
+            }else{
+              $this->db->trans_rollback();
+              return false;
+            }
+        }
+        else
+        {
+           if($this->admin_model->sendEmailToClientDeferAmendment($client_info,$reason_commment,$amendment_info,$reg_officials_info)){
           $this->db->trans_commit();
           return true;
-        }else{
-          $this->db->trans_rollback();
-          return false;
+          }else{
+            $this->db->trans_rollback();
+            return false;
+          }
         }
+       
   // if ($step==1)
   //   $this->db->update('amend_coop',array('evaluated_by'=>$admin_id,'status'=>5,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment));
   // else if($step==2)
