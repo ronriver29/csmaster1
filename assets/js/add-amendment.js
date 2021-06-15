@@ -896,6 +896,7 @@ $(function(){
   //add coop type dynamically modified
   var count_text_input =1;
   $("#amendmentAddForm #addCoop").on('click', function(e){ 
+      var category = $("#amendmentAddForm #categoryOfCooperative").val();
       var name_origin =  $("#newName2").val();
       count_text_input++;
       $('#count_type').text(count_text_input );
@@ -955,7 +956,7 @@ $(function(){
       $(divRow).append(htmlc);
       $("#amendmentAddForm .type-coop-row").append(divRow);
     
-      list_cooperative_type(selectCoop); //load coop type selectbox
+      list_cooperative_type(selectCoop,category); //load coop type selectbox
       e.preventDefault();
       
     }); //end of addCoop function
@@ -993,7 +994,7 @@ $(function(){
     // //end onchange coop type 
    
     //list coopt type
-    function list_cooperative_type($select_id)
+    function list_cooperative_type($select_id,$category)
     {
               // alert($select_id);
 
@@ -1003,11 +1004,11 @@ $(function(){
                   type : "POST",
                  url  : "cooperative_type_ajax",
                  dataType: "json",
+                 data: {category:$category},
                  success: function(responsetxt){
                   // console.log(responsetxt);
                   $.each(responsetxt,function(a,coop_type){
                      $($select_id).append($('<option></option>').attr('value',coop_type['id']).text(coop_type['name']));
-
                   });
                  }
                 }); 

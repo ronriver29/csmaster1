@@ -183,7 +183,7 @@
                     ?>
                     <td>
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                      <?php if($admin_info->access_level == 1 || $admin_info->access_level ==2) : ?>
+                      <?php if($admin_info->access_level == 1 ) : ?>
                         <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View Cooperative</a>
                       <?php else: ?>
                          
@@ -226,6 +226,90 @@
     </div>
   </div> 
 </div>
+    
+<?php if(!$is_client && $admin_info->region_code != '00' && $admin_info->access_level==2) :?>
+<h4 style="
+padding: 15px 10px;
+background: #fff;
+background-color: rgb(255, 255, 255);
+border: none;
+border-radius: 0;
+margin-bottom: 20px;
+box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Defered/Denied</h4>
+
+<div class="card border-top-blue shadow-sm mb-4">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="cooperativesTable">
+        <thead>
+          <tr>
+            <th>Name of Cooperative</th>
+            <?php if(!$is_client) : ?>
+            <th>Office Address</th>
+            <?php endif;?>
+            <th>Status</th>
+            <th>Action </th>
+          </tr>
+        </thead>
+        <?php
+          foreach($list_of_defer_deny as $cooperative)
+          {
+        ?>
+            <tr>
+                  <td>
+                   <?php
+                   if(strlen($cooperative['acronym'])>0)
+                   {
+                    $acronym_ = '('.$cooperative['acronym'].')';
+                   }
+                   else
+                   {
+                    $acronym_='';
+                   }
+                    $count_tYpe = explode(',',$cooperative['type_of_cooperative']);
+                    if(count($count_tYpe)>1)
+
+                    {
+                      $proposeNames = $cooperative['proposed_name'].' Multipurpose Cooperative '.$acronym_.' '.$cooperative['grouping'];
+                    }
+                    else
+                    {
+                      $proposeNames = $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative']. ' Cooperative '.$acronym_.' '.$cooperative['grouping'];
+                    }
+                    echo $proposeNames;
+                    ?>  
+                  </td>
+
+                  <td>
+                      <?php if($cooperative['house_blk_no']==null && $cooperative['street']==null) $x=''; else $x=', ';?>
+                      <?=$cooperative['house_blk_no']?> <?=$cooperative['street'].$x?><?=$cooperative['brgy']?>, <?=$cooperative['city']?>, <?= $cooperative['province']?> <?=$cooperative['region']?>
+                  </td>
+                  <td>  
+                  <span class="badge badge-secondary">
+                        <?php
+                         if($cooperative['status']==10) echo "DENIED BY DIRECTOR";
+                        else if($cooperative['status']==11) echo "DEFERRED BY DIRECTOR";
+                        ?>
+                  </span>
+                  </td>
+
+                  <td> 
+                  <?php if($cooperative['status'] ==10 || $cooperative['status'] ==11 && $admin_info->access_level ==2):?>
+
+                      <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/amendment_documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
+                  <?php endif;?>
+                  </td>                    
+            </tr>        
+        <?php    
+          }
+        ?>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<?php endif;?>          
 
 <?php if(!$is_client && $admin_info->region_code != '00') :?>
 <h4 style="

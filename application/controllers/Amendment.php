@@ -108,6 +108,8 @@ class amendment extends CI_Controller{
               {
                 // Registered Coop Process by Head Office
                 $data['list_cooperatives_registered_by_ho'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+                //denied and deferred coop
+                $data['list_of_defer_deny'] =$this->amendment_model->get_all_cooperatives_debydefer($data['admin_info']->region_code);
                 // End Registered Coop Process by Head Office
                 $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_senior($data['admin_info']->region_code,$amendment_id);

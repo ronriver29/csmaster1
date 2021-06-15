@@ -40,6 +40,21 @@ class amendment_model extends CI_Model{
     return $data;
   }
 
+  public function get_all_cooperatives_debydefer($regcode){
+    $this->db->select('amend_coop.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->from('amend_coop');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->like('refregion.regCode', $regcode);
+    $this->db->where('status = 10 OR status =11 AND ho=0');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+
+
   public function get_all_cooperatives_by_ho_senior($regioncode,$amendment_id){
     $amendment_id = implode(',', $amendment_id);
     $this->db->select('amend_coop.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
@@ -1625,7 +1640,7 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_c
         $client_info = $query->row();
         if($step ==4)
         {
-          if($this->admin_model->sendEmailToDirectorRevertAmendment($client_info,$reason_commment,$amendment_info,$reg_officials_info))
+          if($this->admin_model-> sendEmailToDirectorRevertAmendment($client_info,$reason_commment,$amendment_info,$reg_officials_info))
            {
             $this->db->trans_commit();
             return true;
@@ -1728,7 +1743,7 @@ public function check_submitted_for_evaluation($cooperative_id,$amendment_id){
   $query = $this->db->get_where('amend_coop',array('id'=>$amendment_id,'cooperative_id'=>$cooperative_id));
   $data = $query->row();
   $coop_status = $data->status;
-  if($coop_status > 1 && $coop_status!=11){
+  if($coop_status > 1 && $coop_status!=11 || $coop_status!=10){
     return true;
   }else{
     return false;

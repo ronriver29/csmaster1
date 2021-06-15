@@ -857,7 +857,7 @@ $('.customDeleleBtn').on('click', function(){
     
   });
   //end 
-  function loadCoopType($select_id,$seelcted_id,$category)
+  function loadCoopType($select_id,$selcted_id,$category)
   {
     $(document).ready(function(){
         $.ajax({
@@ -877,19 +877,39 @@ $('.customDeleleBtn').on('click', function(){
                   var c_name = coop_type['name'];
                   $selected ="selected";
                   $($select_id).val(val).prop('selected', true);
-                    // $($select_id).append($('<option selected></option>').attr('value',val).text(c_name));
-                    // $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
+                    $($select_id).append($('<option selected></option>').attr('value',val).text(c_name));
+                    $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
                 }  
               });
             }
         }); //end ajax
     }); //end document ready        
   }
-  $("#reserveUpdateForm #categoryOfCooperative").on('change',function(){
 
+   function loadCoopType2($select_id,$category)
+  {
+    $(document).ready(function(){
+        $.ajax({
+            type : "POST",
+            url  : "../cooperative_type_ajax",
+            dataType: "json",
+            data : {
+                category: $category,
+            },
+            success: function(responsetxt){
+              $.each(responsetxt,function(a,coop_type){alert(coop_type  ['name']);
+                $($select_id).append($('<option></option>').attr('value',coop_type['id']).text(coop_type['name']));
+                          
+              });
+            }
+        }); //end ajax
+    }); //end document ready        
+  }
+  $("#reserveUpdateForm #categoryOfCooperative").on('change',function(){
+    alert($(this).val());
       $('.coop-type').empty();
       $('.coop-type').prop("disabled",true);
-      loadCoopType('.coop-type','',$(this).val());
+      loadCoopType2('.coop-type',$(this).val());
        $('.coop-type').prop("disabled",false);
 
   });
