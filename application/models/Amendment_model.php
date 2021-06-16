@@ -1743,7 +1743,7 @@ public function check_submitted_for_evaluation($cooperative_id,$amendment_id){
   $query = $this->db->get_where('amend_coop',array('id'=>$amendment_id,'cooperative_id'=>$cooperative_id));
   $data = $query->row();
   $coop_status = $data->status;
-  if($coop_status > 1 && $coop_status!=11 || $coop_status!=10){
+  if($coop_status > 1 && ($coop_status!=11 || $coop_status!=10)){
     return true;
   }else{
     return false;
