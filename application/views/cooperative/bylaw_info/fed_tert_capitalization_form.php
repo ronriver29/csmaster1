@@ -96,13 +96,13 @@
                     <tr>
                         <td>No. of Members</td>
                         <td>
-                            <input type="number" class="form-control" id="total_members" disabled="disabled" value="<?=$total_members?>"/>
+                            <input type="number" class="form-control" id="total_members" min="3" min="50" disabled="disabled" value="<?=$total_members?>"/>
                         </td>
                     </tr>
                     <tr>
                         <td>Regular</td>
                         <td>
-                            <input type="number" name="item[regular_members]" id="regular_members" class="form-control" max="3" value="<?=$regular_members;?>"/>
+                            <input type="number" name="item[regular_members]" min="3" min="50" id="regular_members" class="form-control"  value="<?=$regular_members;?>"/>
                             <br/>
                             <span id="regular_members_note" class="err-message-note"></span>
                         </td>
@@ -381,11 +381,11 @@ function computeCapital() {
     var minimum_no_of_subscribed_share_associate;
     var minimum_no_of_paid_up_share_associate;
     
-    var total_members = parseInt(regular_members) + parseInt(associate_members);
+    var total_members = parseInt(regular_members);
     if($("#regular_members").length>0) {
         $("#regular_members_note").removeClass("err-message-note-error");
-        if(regular_members < 15) {
-            $("#regular_members_note").html("Should be at least 15 members");
+        if(regular_members < 3) {
+            $("#regular_members_note").html("Should be at least 3 members");
             $("#regular_members_note").addClass("err-message-note-error");
         }
         $("#total_members").val(total_members);

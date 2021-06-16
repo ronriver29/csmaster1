@@ -152,7 +152,7 @@
             <?php if($coop_info->grouping == 'Union') {?>
                 <?= $coop_info->proposed_name?> <?= $coop_info->grouping?> Of <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
             <?php } else { ?>
-                <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> 
+                <?= $coop_info->proposed_name?> Federation of <?= $coop_info->type_of_cooperative?> <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
             <?php } ?>
         </p>
         <hr>

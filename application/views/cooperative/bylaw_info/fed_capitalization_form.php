@@ -102,7 +102,7 @@
                     <tr>
                         <td>Regular</td>
                         <td>
-                            <input type="number" name="item[regular_members]" id="regular_members" class="form-control" max="3" value="<?=$regular_members;?>"/>
+                            <input type="number" name="item[regular_members]" id="regular_members" class="form-control" min="3" value="<?=$regular_members;?>"/>
                             <br/>
                             <span id="regular_members_note" class="err-message-note"></span>
                         </td>

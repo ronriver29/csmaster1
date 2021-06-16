@@ -1154,6 +1154,9 @@
 
                                 // if($this->admin_model->is_active_director($data['director_info']->id)){
                                   $data['director_info'] = $this->admin_model->get_emails_of_senior_by_region($regioncode);
+
+                                  $data['suvervising_info'] = $this->admin_model->get_specialst_info($branch_info->evaluator3);
+                                  
                                 // } else {
                                   // $data['director_info'] = $this->admin_model->get_emails_of_supervisor_by_region($regioncode);
                                 // }
@@ -1194,7 +1197,7 @@
                                 }
 
                                 // echo $coop_full_name.'-'.$branchname.'-'.$brgyforemail.'-'.$fullnameforemail.'-'.$data['client_info']->contact_number.'-'.$data['client_info']->email.'-'.$emaildirect.'-'.$branch_info->type;
-                                if($this->admin_model->sendEmailToSpecialistBranch($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$emaildirect,$branch_info->type)){
+                                if($this->admin_model->sendEmailToSeniorBranch($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$emaildirect,$branch_info->type,$data['suvervising_info']->full_name)){
                                   $success = $this->branches_model->approve_by_admin2($admin_info,$decoded_id,$reason_commment,3,$comment_by_specialist_senior,$coop_full_name);
                                   if($success){
                                     $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been submitted.');
@@ -1449,7 +1452,8 @@
                                     $this->session->set_flashdata('redirect_applications_message', 'Branch already evaluated by the Regional Director.');
                                     redirect('branches');
                                   }else{
-                                    if(!$this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
+                                    $data['admin_info'] = $admin_info;
+                                    if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                         $data_field = array(
                                         'branches_id' => $decoded_id,
                                         'comment' => $reason_commment,
@@ -1457,17 +1461,66 @@
                                         'user_level' => $data['admin_info']->access_level
                                     );
                                   $success = $this->branches_model->insert_comment_history($data_field);
-                                      $success = $this->branches_model->defer_by_admin($admin_info,$decoded_id,$reason_commment,5);
-                                      if($success){
-                                        $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been deferred.');
-                                        redirect('branches');
+                                  $success = $this->branches_model->defer_by_admin($admin_info,$decoded_id,$reason_commment,5);
+
+                                    $branch_info = $this->branches_model->get_branch_info_by_admin($decoded_id);
+                                    $data['branch_info'] = $branch_info;
+
+                                    if($data['branch_info']->house_blk_no==null && $data['branch_info']->street==null) $x=''; else $x=', ';
+                            
+                                    $data['client_info'] = $this->user_model->get_user_info($data['branch_info']->user_id);
+
+                                    $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
+
+                                    // Get Count Coop Type for HO
+                                    $this->db->where(array('name'=>$data['branch_info']->type_of_cooperative,'active'=>1));
+                                    $this->db->from('head_office_coop_type_branch');
+                                    // End Get Count Coop Type
+                                    if($this->db->count_all_results()>0)
+                                    {
+                                      $regioncode = '00';
+                                    } else {
+                                      $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
+                                    }
+                                    
+                                    $data['senior_info'] = $this->admin_model->get_senior_info($regioncode);
+
+                                    $brgyforemail = ucwords($data['branch_info']->house_blk_no).' '.ucwords($data['branch_info']->street).$x.' '.$data['branch_info']->brgy.', '.$data['branch_info']->city.', '.$data['branch_info']->province.', '.$data['branch_info']->region;
+
+                                    $proposednameemail = $data['branch_info']->coopName;
+
+                                    if($data['branch_info']->area_of_operation == 'Barangay' || $data['branch_info']->area_of_operation == 'Municipality/City'){
+                                        $proposedbranch = $data['branch_info']->brgy.' '.$data['branch_info']->type;
+                                    } else if($data['branch_info']->area_of_operation == 'Provincial') {
+                                        $proposedbranch = $data['branch_info']->city.' '.$data['branch_info']->type;
+                                    } else if ($data['branch_info']->area_of_operation == 'Regional') {
+                                        if($this->charter_model->in_charter_city($data['branch_info']->cCode))
+                                        {
+                                          $proposedbranch = $data['branch_info']->city.' '.$data['branch_info']->type;
+                                        } else {
+                                          $proposedbranch = $data['branch_info']->city.', '.$data['branch_info']->province.' '.$data['branch_info']->type;
+                                        }
+                                    } else if ($data['branch_info']->area_of_operation == 'National') {
+                                      if($this->charter_model->in_charter_city($data['branch_info']->cCode))
+                                        {
+                                          $proposedbranch = $data['branch_info']->city.' '.$data['branch_info']->type;
+                                        } else {
+                                          $proposedbranch = $data['branch_info']->city.', '.$data['branch_info']->province.' '.$data['branch_info']->type;
+                                        }
+                                    }
+
+                                    if($this->admin_model->sendEmailToClientDeferBranch($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type)){
+                                        if($success){
+                                          $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been deferred.');
+                                          redirect('branches');
+                                        }else{
+                                          $this->session->set_flashdata('list_error_message', 'Unable to defer branch.');
+                                          redirect('branches');
+                                        }  
                                       }else{
-                                        $this->session->set_flashdata('list_error_message', 'Unable to defer branch.');
+                                        $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated by the Director.');
                                         redirect('branches');
-                                      }  
-                                    }else{
-                                      $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated by the Director.');
-                                      redirect('branches');
+                                      }
                                     }
                                   }
                                 }else{
@@ -1509,12 +1562,61 @@
                                     );
                                   $success = $this->branches_model->insert_comment_history($data_field);
                                     $success = $this->branches_model->defer_by_admin($admin_info,$decoded_id,$reason_commment,5);
-                                    if($success){
-                                      $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been deferred.');
-                                      redirect('branches');
-                                    }else{
-                                      $this->session->set_flashdata('list_error_message', 'Unable to defer branch.');
-                                      redirect('branches');
+
+                                    $branch_info = $this->branches_model->get_branch_info_by_admin($decoded_id);
+                                    $data['branch_info'] = $branch_info;
+
+                                    if($data['branch_info']->house_blk_no==null && $data['branch_info']->street==null) $x=''; else $x=', ';
+                            
+                                    $data['client_info'] = $this->user_model->get_user_info($data['branch_info']->user_id);
+
+                                    $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
+
+                                    // Get Count Coop Type for HO
+                                    $this->db->where(array('name'=>$data['branch_info']->type_of_cooperative,'active'=>1));
+                                    $this->db->from('head_office_coop_type_branch');
+                                    // End Get Count Coop Type
+                                    if($this->db->count_all_results()>0)
+                                    {
+                                      $regioncode = '00';
+                                    } else {
+                                      $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
+                                    }
+                                    
+                                    $data['senior_info'] = $this->admin_model->get_senior_info($regioncode);
+
+                                    $brgyforemail = ucwords($data['branch_info']->house_blk_no).' '.ucwords($data['branch_info']->street).$x.' '.$data['branch_info']->brgy.', '.$data['branch_info']->city.', '.$data['branch_info']->province.', '.$data['branch_info']->region;
+
+                                    $proposednameemail = $data['branch_info']->coopName;
+
+                                    if($data['branch_info']->area_of_operation == 'Barangay' || $data['branch_info']->area_of_operation == 'Municipality/City'){
+                                        $proposedbranch = $data['branch_info']->brgy.' '.$data['branch_info']->type;
+                                    } else if($data['branch_info']->area_of_operation == 'Provincial') {
+                                        $proposedbranch = $data['branch_info']->city.' '.$data['branch_info']->type;
+                                    } else if ($data['branch_info']->area_of_operation == 'Regional') {
+                                        if($this->charter_model->in_charter_city($data['branch_info']->cCode))
+                                        {
+                                          $proposedbranch = $data['branch_info']->city.' '.$data['branch_info']->type;
+                                        } else {
+                                          $proposedbranch = $data['branch_info']->city.', '.$data['branch_info']->province.' '.$data['branch_info']->type;
+                                        }
+                                    } else if ($data['branch_info']->area_of_operation == 'National') {
+                                      if($this->charter_model->in_charter_city($data['branch_info']->cCode))
+                                        {
+                                          $proposedbranch = $data['branch_info']->city.' '.$data['branch_info']->type;
+                                        } else {
+                                          $proposedbranch = $data['branch_info']->city.', '.$data['branch_info']->province.' '.$data['branch_info']->type;
+                                        }
+                                    }
+
+                                    if($this->admin_model->sendEmailToClientDeferBranch($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type)){
+                                      if($success){
+                                        $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been deferred.');
+                                        redirect('branches');
+                                      }else{
+                                        $this->session->set_flashdata('list_error_message', 'Unable to defer branch.');
+                                        redirect('branches');
+                                      }
                                     }      
                                   }
                                 }else{

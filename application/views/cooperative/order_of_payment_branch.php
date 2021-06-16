@@ -36,7 +36,7 @@
   <table width="100%" class="bord">
     <tr>
       <td class="bord">Date</td>
-      <td class="bord" colspan="3"><b><?=$payment->date?></b></td>
+      <td class="bord" colspan="3"><b><?=date('d-m-Y',strtotime($payment->date))?></b></td>
     </tr>
     <tr>
       <td class="bord">Payor</td>
