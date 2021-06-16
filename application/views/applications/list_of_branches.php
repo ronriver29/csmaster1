@@ -97,7 +97,7 @@ if($tomorrow>=$now){
   <?php if(!$is_client && $admin_info->access_level == 3) : ?>
     <?php if($admin_info->is_director_active == 1) : ?>
     <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
-      <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#grantSupervisorModal"><i class='fas fa-user-plus'></i> Grant All Privileges to Supervisor</button>
+      <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#grantSupervisorModal"><i class='fas fa-user-plus'></i> Grant All Authority to Supervisor</button>
     </div>
     <?php else : ?>
       <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
@@ -527,10 +527,14 @@ if($tomorrow>=$now){
         dataType: "JSON",
         success: function(data)
         {
-            
+            var currentdate = new Date(data.date);
+            var month = currentdate.getMonth() + 1;
+            var day = currentdate.getDate();
+            var formated_date = ( (('' + day).length < 2 ? '0' : '')  + day + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' +currentdate.getFullYear());
+
             var s=convert(data.total);
             $('#payment_id').val(data.id);
-            $('#tDate').text(data.date);
+            $('#tDate').text(formated_date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
             $('#branch_ID').val(coop_id);   

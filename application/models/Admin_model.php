@@ -526,14 +526,15 @@ public function add_admin_director($data,$raw_pass){
         return false;
     }
   }
-  public function sendEmailToSeniorBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
+  public function sendEmailToSeniorBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type,$fullnamesupervising){
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Good day! An application for establishment of ".$type." with the following details has been submitted:<p>
+    $message = "A validated application for establishment of ".$type." with the following details has been submitted for your evaluation:<p>
 
     <ol type='a'> 
+      <b><li> Name of CDS II/Validator:</b>".$fullnamesupervising."</li>
       <b><li> Name of Cooperative:</b>".$proposedname."</li>
       <b><li> Name of Proposed Branch:</b>".$proposedbranch."</li>
       <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
@@ -577,12 +578,38 @@ public function add_admin_director($data,$raw_pass){
     }
   }
 
+  public function sendEmailToClientDeferBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = "Good day! A deferred application for establishment of ".$type." with the following details has been submitted:<p>
+
+    <ol type='a'> 
+      <b><li> Name of Cooperative:</b>".$proposedname."</li>
+      <b><li> Name of Proposed Branch:</b>".$proposedbranch."</li>
+      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
+      <b><li> Contact Person:</b> ".$fullname."</li>
+      <b><li> Contact Number: </b>".$contactnumber."</li>
+      <b><li> Email Address: </b>".$email."</li>
+    </ol>";
+    $this->email->from($from,'ecoopris CDA (No Reply)');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+
   public function sendEmailToSpecialistBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Good day! An application for establishment of ".$type." with the following details has been submitted:<p>
+    $message = "You are assigned to validate the  application for establishment of ".$type." with the following details: <p>
 
     <ol type='a'> 
       <b><li> Name of Cooperative:</b>".$proposedname."</li>
@@ -1239,6 +1266,12 @@ Very truly yours, <br>
     }else{
       return $data;
     }
+  }
+  public function get_specialst_info($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('admin',array('id'=>$data,'access_level'=>1));
+    $row = $query->row();
+    return $row;
   }
   public function get_senior_info($data){
     $data = $this->security->xss_clean($data);
