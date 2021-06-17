@@ -153,8 +153,7 @@ $(function(){
   // });
   $('#reserveAddForm #acronymnameerr').hide();
   $('#reserveAddForm #typeOfCooperative').find('option:contains(Federation)').hide();
-  
-  
+
   $('#reserveAddForm #categoryOfCooperative').on('change', function(){
         var categorycoop = $(this).val();
 
@@ -169,7 +168,7 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Advocacy)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Agrarian Reform)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Agriculture)').show();
-            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Consumers)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Credit)').show();
@@ -179,7 +178,6 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Fishermen)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Health Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Housing)').show();
-            $('#reserveAddForm #typeOfCooperative').find('option:contains(Insurance)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Labor Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Marketing)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Producers)').show();
@@ -189,7 +187,6 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Transport)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Water Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Workers)').show();
-            // $('#reserveAddForm #coopbank').hide();
         } else if(categorycoop=="Secondary - Federation"){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Insurance)').hide();
@@ -198,7 +195,7 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Advocacy)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Agrarian Reform)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Agriculture)').show();
-            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Consumers)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Credit)').show();
@@ -208,7 +205,6 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Fishermen)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Health Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Housing)').show();
-            $('#reserveAddForm #typeOfCooperative').find('option:contains(Insurance)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Labor Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Marketing)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Producers)').show();
@@ -227,7 +223,7 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Advocacy)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Agrarian Reform)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Agriculture)').show();
-            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Consumers)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Credit)').show();
@@ -237,7 +233,6 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Fishermen)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Health Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Housing)').show();
-            $('#reserveAddForm #typeOfCooperative').find('option:contains(Insurance)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Labor Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Marketing)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Producers)').show();
@@ -256,9 +251,9 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Advocacy)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Agrarian Reform)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Agriculture)').hide();
-            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Consumers)').hide();
-            $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Credit)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Dairy)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Electric)').hide();
@@ -267,7 +262,6 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Fishermen)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Health Service)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Housing)').hide();
-            // $('#reserveAddForm #typeOfCooperative').find('option:contains(Insurance)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Labor Service)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Marketing)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Producers)').hide();
@@ -285,7 +279,7 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Advocacy)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Agrarian Reform)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Agriculture)').show();
-            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Consumers)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Credit)').show();
@@ -295,7 +289,6 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Fishermen)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Health Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Housing)').show();
-            $('#reserveAddForm #typeOfCooperative').find('option:contains(Insurance)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Labor Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Marketing)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Producers)').show();
@@ -308,6 +301,8 @@ $(function(){
         }
   });
   
+    
+
   $("#reserveAddForm #proposedName").bind("keyup change",function(){
       var val = $(this).val();
       var typeofcoop = $( "#reserveAddForm #typeOfCooperative option:selected").text();
@@ -324,11 +319,11 @@ $(function(){
       }
     });
 
-  $('#reserveAddForm #typeOfCooperative').on('change', function(){
-    var val = $("#reserveAddForm #typeOfCooperative option:selected").text();
+  $('#reserveAddForm #categoryOfCooperative').on('change', function(){
+    var val = $("#reserveAddForm #categoryOfCooperative option:selected").text();
 
     // alert(val);
-    if(val == 'Federation' || val == 'Union'){
+    if(val == 'Secondary' || val == 'Tertiary' || val == 'Others'){
       $('#reserveAddForm #majorIndustry1').hide();
       $('#reserveAddForm #subClass1').hide();
       $('#reserveAddForm #addMoreSubclassBtn').hide();
@@ -341,7 +336,10 @@ $(function(){
       $('#reserveAddForm #majorlabel').show();
       $('#reserveAddForm #subclasslabel').show();
     }
+  });
 
+  $('#reserveAddForm #typeOfCooperative').on('change', function(){
+    var val = $("#reserveAddForm #typeOfCooperative option:selected").text();
     $('#reserveAddForm #addMoreSubclassBtn').prop("disabled",true);
     $("#reserveAddForm #proposedName").prop("disabled",true);
     $('#reserveAddForm select[name="majorIndustry[]"').each(function(index){

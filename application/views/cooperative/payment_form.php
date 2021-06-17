@@ -69,6 +69,8 @@
 
                 if($coop_info->grouping == 'Union'){
                       $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.$coop_info->grouping);
+                  } else if($coop_info->grouping == 'Federation'){
+                      $payorname = ucwords($coop_info->proposed_name.' Federation of '.$coop_info->type_of_cooperative .' '.$acronym_name);
                   } else {
                       $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.$coop_info->grouping);
                   }

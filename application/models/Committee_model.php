@@ -354,10 +354,10 @@ class Committee_model extends CI_Model{
     }
   }
   public function get_all_committees_of_coop_federation($coop_id){
-    $this->db->select('committees_federation.id as comid, committees_federation.* ,cooperators.*');
+    $this->db->select('committees_federation.id as comid, committees_federation.* ,affiliators.*');
     $this->db->from('committees_federation');
-    $this->db->join('cooperators', 'cooperators.id = committees_federation.cooperators_id', 'inner');
-    $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id', 'inner');
+    $this->db->join('affiliators', 'affiliators.id = committees_federation.cooperators_id', 'inner');
+    // $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id', 'inner');
     $this->db->where('committees_federation.user_id', $coop_id);
     $query = $this->db->get();
     $data =  $query->result_array();

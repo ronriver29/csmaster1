@@ -613,12 +613,15 @@
           }else{
             if($this->session->userdata('access_level')==5){
               redirect('admins/login');
-            }else if($this->session->userdata('access_level')!=1){
-              redirect('cooperatives');
-            }else{
+            }
+            // else if($this->session->userdata('access_level')!=1){
+            //   redirect('cooperatives');
+            // }
+            else{
               if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
                 if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
-                  if(!$this->cooperatives_model->check_first_evaluated($decoded_id)){
+                  $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+                  if($this->cooperatives_model->check_first_evaluated($decoded_id) && $coop_info->status == 6){
                     if($this->form_validation->run() == FALSE){
                       $data['title'] = 'Update Cooperative Details';
                       $data['header'] = 'Update Cooperative Information';
@@ -697,14 +700,23 @@
                 if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                     // $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
                   $data['coop_info']= $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
-                    // if($data['coop_info']=="Federation"){
-                    //     $deletecoop = 'delete_cooperative';
-                    // } else {
-                    //     $deletecoop = 'delete_cooperative_federation';
-                    // }
+                    if($data['coop_info']=="Federation"){
+                        $deletecoop = 'delete_cooperative';
+                    } else {
+                        $deletecoop = 'delete_cooperative_federation';
+                    }
                     if($data['coop_info']->category_of_cooperative == 'Primary')
                     {
                      $success =  $this->cooperatives_model->delete_cooperative($decoded_id,$data['coop_info']->status,$user_id);
+                      if($success){
+                        $this->session->set_flashdata('list_success_message', 'Cooperative has been deleted.');
+                        redirect('cooperatives');
+                      }else{
+                        $this->session->set_flashdata('list_error_message', 'Unable to delete cooperative.');
+                        redirect('cooperatives');
+                      }
+                    } else {
+                      $success =  $this->cooperatives_model->delete_cooperative($decoded_id,$data['coop_info']->status,$user_id);
                       if($success){
                         $this->session->set_flashdata('list_success_message', 'Cooperative has been deleted.');
                         redirect('cooperatives');
@@ -1454,7 +1466,8 @@
                         if($this->session->userdata('access_level')==4){
                           if($this->cooperatives_model->check_first_evaluated($decoded_id)){
                             if($this->cooperatives_model->check_second_evaluated($decoded_id)){
-                              if($this->cooperatives_model->check_last_evaluated($decoded_id)){
+                              $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+                              if($this->cooperatives_model->check_last_evaluated($decoded_id) && $coop_info->status != 17){
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                                 redirect('cooperatives');
                               }else{
@@ -1507,7 +1520,8 @@
                         }else if($this->session->userdata('access_level')==3){
                           if($this->cooperatives_model->check_first_evaluated($decoded_id)){
                             if($this->cooperatives_model->check_second_evaluated($decoded_id)){
-                              if($this->cooperatives_model->check_last_evaluated($decoded_id)){
+                              $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+                              if($this->cooperatives_model->check_last_evaluated($decoded_id) && $coop_info->status != 17){
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                                 redirect('cooperatives');
                               }else{
@@ -1637,7 +1651,8 @@
                         if($this->session->userdata('access_level')==4){
                           if($this->cooperatives_model->check_first_evaluated($decoded_id)){
                             if($this->cooperatives_model->check_second_evaluated($decoded_id)){
-                              if($this->cooperatives_model->check_last_evaluated($decoded_id)){
+                              $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+                              if($this->cooperatives_model->check_last_evaluated($decoded_id) && $coop_info->status != 17){
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                                 redirect('cooperatives');
                               }else{
@@ -1703,7 +1718,8 @@
                         }else if($this->session->userdata('access_level')==3){
                           if($this->cooperatives_model->check_first_evaluated($decoded_id)){
                             if($this->cooperatives_model->check_second_evaluated($decoded_id)){
-                              if($this->cooperatives_model->check_last_evaluated($decoded_id)){
+                              $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+                              if($this->cooperatives_model->check_last_evaluated($decoded_id) && $coop_info->status != 17){
                                 $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
                                 redirect('cooperatives');
                               }else{

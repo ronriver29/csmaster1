@@ -363,6 +363,24 @@ $("#deleteCooperatorForm").validationEngine('attach',
       }
     }
 });
+$("#editAffiliatorForm").validationEngine('attach',
+  {promptPosition: 'inline',
+  scroll: false,
+  focusFirstField : false,
+  onValidationComplete: function(form,status){
+      if(status==true){
+        if($("#deleteCooperatorLoadingBtn").length <= 0){
+          $("#editAffiliatorForm #deleteCooperatorBtn").hide();
+          $("#editAffiliatorForm .col-delete-cooperator-btn").append($('<button></button>').attr({'id':'deleteCooperatorLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
+          return true;
+        }else{
+          return false;
+        }
+      }else{
+        return false;
+      }
+    }
+});
 /* END DELETE COOPERATOR*/
 /* START DELETE COMMITTEE*/
 $('#deleteCommitteeModal').on('show.bs.modal', function (event) {
@@ -1205,6 +1223,37 @@ $("#deleteStaffForm").validationEngine('attach',
             $("#bylawsPrimaryBtn").hide();
             $("#bylawsPrimaryCancelBtn").prop('disabled',true);
             $(".bylawsPrimaryFooter").append($('<button></button>').attr({'id':'bylawsPrimaryLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
+            return true;
+          }else{
+            return false;
+          }
+        }else{
+          return false;
+        }
+      }
+  });
+  $('#btnEditBylawsSecondary').on('click', function(){
+    $(this).hide();
+    var btnGroup = $('<div></div>').attr({'id':'bylawsPrimaryCancelBtn','class':'btn-group','role':'group','aria-label':'Basic-example'});
+    var btnCancel = $('<a></a>').attr({'class':'btn btn-secondary btn-sm float-right text-white','role':'button'}).html("<i class='fas fa-times'></i> Cancel").click(function(){
+      location.reload();
+    });
+    $('.col-btn-action-bylaws-primary').append(btnCancel);
+    $(".bylawsOthersFooter").show();
+    $("#bylawsUnionForm select,input,textarea,button").prop('disabled', false);
+  });
+  /* END PRIMARY BYLAWS FORM*/
+  /* START PRIMARY ARTICLES FORM*/
+  $("#articlesPrimaryForm").validationEngine('attach',
+      {promptPosition: 'inline',
+      scroll: false,
+      focusFirstField : false,
+      onValidationComplete: function(form,status){
+        if(status==true){
+          if($("#articlesPrimaryLoadingBtn").length <= 0){
+            $("#articlesPrimaryBtn").hide();
+            $("#articlesPrimaryCancelBtn").prop('disabled',true);
+            $(".articlesPrimaryFooter").append($('<button></button>').attr({'id':'articlesPrimaryLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
             return true;
           }else{
             return false;

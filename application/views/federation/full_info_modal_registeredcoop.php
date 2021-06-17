@@ -28,14 +28,14 @@
               </div>
               <div class="col-sm-12 col-md-4 text-center mb-2">
                 <strong>Major Industry</strong><br>
-                <i class="business_activity">Test</i>
+                <i class="business_activity"></i>
               </div>
               <div class="col-sm-12 col-md-12 text-center mb-2">
                 <br>
               </div>
               <div class="col-sm-12 col-md-4 text-center mb-2">
                 <strong>Subclass</strong><br>
-                <i class="business_activity_sub">Test</i>
+                <i class="business_activity_sub"></i>
               </div>
                 <div class="col-sm-12 col-md-4 text-center mb-2">
                 <strong>Region</strong><br>

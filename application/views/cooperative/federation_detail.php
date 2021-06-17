@@ -373,7 +373,7 @@
         </small>
       <?php endif ?>
       </li>
-      <li class="list-group-item  flex-column align-items-start">
+      <!-- <li class="list-group-item  flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1 font-weight-bold">Additional Information: Economic Survey</h5>
           <small class="text-muted">
@@ -390,7 +390,7 @@
           <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/survey" class="btn btn-info btn-sm">View</a>
         </small>
       <?php endif ?>
-      </li>
+      </li> -->
       <li class="list-group-item  flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1 font-weight-bold">List of Staff/Employees</h5>
@@ -403,7 +403,7 @@
             <?php endif; ?>
           </small>
         </div>
-        <?php if($coop_info->status!= 0 && $bylaw_complete && $article_complete && $purposes_complete && $grouping && $committees_complete && $economic_survey_complete): ?>
+        <?php if($coop_info->status!= 0 && $bylaw_complete && $article_complete && $purposes_complete && $grouping && $committees_complete): ?>
         <small class="text-muted">
           <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/staff" class="btn btn-info btn-sm">View</a>
         </small>
@@ -423,7 +423,7 @@
           <?php endif;?>
           </small>
         </div>
-        <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete): ?>
+        <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $staff_complete): ?>
           <small class="text-muted">
             <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" class="btn btn-info btn-sm">View</a>
           </small>
@@ -441,12 +441,14 @@
               <?php endif; ?>
             </small>
           </div>
-          <?php if($coop_info->status==3 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two && $document_three): ?>
+          <?php if($coop_info->status==3 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $staff_complete && $document_one && $document_two && $document_three): ?>
           <small class="text-muted">
             <div class="btn-group" role="group" aria-label="Basic example">
               <a  class="btn btn-info btn-sm" href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/cooperative_tool">Tool</a>
               <?php if($coop_info->grouping == 'Union'){?>
                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->grouping?> Of <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Submit</button>
+              <?php } else if($coop_info->grouping == 'Federation'){?> 
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> Federation of <?=$coop_info->type_of_cooperative?> <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Submit</button>
               <?php } else {?>
                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Submit</button>
               <?php }?>

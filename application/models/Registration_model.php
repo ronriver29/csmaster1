@@ -62,10 +62,14 @@ class registration_model extends CI_Model{
     {
       $grouping = $coop_info->grouping;
     }
-    $coopName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative'.' '.$acronymname.$grouping;
+    if($coop_info->grouping != 'Federation'){
+      $coopName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative'.' '.$acronymname.$grouping;
+    } else {
+      $coopName = $coop_info->proposed_name.' Federation of '.$coop_info->type_of_cooperative.' '.$acronymname;
+    }
     // proposed_name, ' ', type_of_cooperative,' Cooperative ','$acronymname',' ',grouping
     $data_reg = array(
-        'coopName'=>$coopName , 
+        'coopName'=>$coopName, 
         'regNo'=> $j, 
         'category'=> $coop_info->category_of_cooperative, 
         'type'=> $coop_info->type_of_cooperative, 
@@ -152,6 +156,20 @@ class registration_model extends CI_Model{
   public function registered_branch_count2(){
       $query= $this->db->query("select * from branches where status = 21");
       return $query->num_rows();
+  }
+  public function get_coop_info_federation($coop){
+    $this->db->select('registeredcoop.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,payment.date_of_or as dateofor,cooperatives.type_of_cooperative,payment.date_of_or');
+    $this->db->from('registeredcoop');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('cooperatives','cooperatives.id = registeredcoop.application_id','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->join('payment', 'payment.payor = registeredcoop.coopName');
+    $this->db->where(array('registeredcoop.application_id'=>$coop));
+    $query = $this->db->get();
+
+    return $query->row();
   }
 
   public function get_coop_info_union($coop){

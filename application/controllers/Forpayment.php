@@ -46,12 +46,12 @@ Thank you. </pre>";
     $this->email->subject($subject);
     $this->email->message($message);
     if($this->email->send()){
-        redirect('cooperatives/'.$id);
+        redirect('cooperatives');
     }else{
         return false;
     }
         
-        redirect('cooperatives/'.$id);
+        redirect('cooperatives');
     } else {
         $this->session->set_flashdata('cooperative_error', 'Successfully updated basic information.');
 //        redirect('cooperatives/'.$this->input->post('cooperativeID'));

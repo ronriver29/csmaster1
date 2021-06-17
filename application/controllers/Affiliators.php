@@ -68,6 +68,7 @@ class Affiliators extends CI_Controller{
                       $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
                     }
                     $data['applied_coop'] = $this->affiliators_model->get_applied_coop($user_id);
+                    $data['applied_coop_count'] = count($this->affiliators_model->get_applied_coop($user_id));
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $data['list_affiliators'] = $this->affiliators_model->get_all_affiliators_of_coop($user_id);
                     $data['affiliator_info'] = $this->affiliators_model->get_affiliator_info($user_id);
@@ -75,8 +76,8 @@ class Affiliators extends CI_Controller{
                     $this->load->view('./template/header', $data);
                     $this->load->view('federation/affiliators_list', $data);
                     $this->load->view('federation/full_info_modal_registeredcoop');
-                    $this->load->view('federation/add_form_cooperator');
-                    $this->load->view('federation/edit_form_cooperator');
+                    $this->load->view('federation/add_form_cooperator', $data);
+                    $this->load->view('federation/edit_form_cooperator', $data);
                     $this->load->view('federation/delete_form_cooperator');
                     $this->load->view('./template/footer');
                 }else{
