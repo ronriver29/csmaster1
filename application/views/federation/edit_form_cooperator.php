@@ -22,7 +22,7 @@
               </button>
             </div>
             <div class="modal-body">
-              <!-- <input type="hidden" class="form-control" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_id ?>"> -->
+              <input type="hidden" class="form-control" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_id ?>">
 
               <input type='hidden' id='available_subscribed_capital2' value="<?=isset($capitalization_info->total_no_of_subscribed_capital) ? $capitalization_info->total_no_of_subscribed_capital - $total_subscribed: ''?>" />
               <input type='hidden' id='available_paid_up_capital2' value="<?=isset($capitalization_info->total_no_of_paid_up_capital) ? $capitalization_info->total_no_of_paid_up_capital - $total_paid: ''?>" />
@@ -30,7 +30,16 @@
               <input type='hidden' id='minimum_paid_up_share_regular2' value="<?=isset($capitalization_info->minimum_paid_up_share_regular) ? $capitalization_info->minimum_paid_up_share_regular: ''?>" />
 
               <input type="hidden" class="validate[required]" id="cooperatorID" name="cooperatorID">
-              <input type="hidden" class="validate[required]" id="cooperativeID" name="cooperativesID">
+              <div class="alert alert-info" role="alert">
+                <strong>Reminder: <small>(The information below is in your bylaws (capitalization))</small></strong>
+                 <ul>
+                   <li>Regular Member must subscribed at least <strong><?= $capitalization_info->minimum_subscribed_share_regular?></strong> shares and pay at least <strong><?= $capitalization_info->minimum_paid_up_share_regular?></strong> shares.</li>
+                   <?php if($bylaw_info->kinds_of_members ==2) : ?>
+                    <li>Associate Member must subscribed at least  <strong><?= $capitalization_info->minimum_subscribed_share_associate?></strong> shares and pay at least <strong><?= $capitalization_info->minimum_paid_up_share_associate?></strong> shares.</li>
+                  <?php endif; ?>
+                 </ul>
+                </div>
+              <!-- <input type="hidden" class="validate[required]" id="cooperativeID" name="cooperativesID"> -->
               
               <!-- <input type="hidden" class="validate[required]" id="application_id" name="applicationid">
               <input type="hidden" class="validate[required]" id="coopname" name="coopName">

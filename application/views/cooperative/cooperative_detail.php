@@ -229,7 +229,7 @@
         <?php endif; ?>
       </small>
       </div>
-      <?php if(($is_client && ($coop_info->status==11||$coop_info->status<=1)) || (!$is_client &&  $coop_info->status==3)): ?>
+      <?php if(($is_client && ($coop_info->status==11||$coop_info->status<=1)) || (!$is_client &&  $coop_info->status==3) || (!$is_client &&  $coop_info->status==6)): ?>
         <div class="card-footer">
           <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/rupdate" class="btn btn-block btn-color-blue"><i class='fas fa-edit'></i> Update Basic Information</a>
         </div>

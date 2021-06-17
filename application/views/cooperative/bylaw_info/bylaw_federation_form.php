@@ -87,7 +87,7 @@
                 <label for="kindsOfMember"><strong>Define Membership:</strong></label>
                 <select class="custom-select validate[required]" name="kindsOfMember" id="kindsOfMember" disabled>
                   <option value="1" <?php if($bylaw_info->kinds_of_members == 1) echo "selected"; ?>>Regular Member Only</option>
-                  <option value="2" <?php if($bylaw_info->kinds_of_members == 2) echo "selected"; ?>>Regular And Associate Member</option>
+                  <!-- <option value="2" <?php if($bylaw_info->kinds_of_members == 2) echo "selected"; ?>>Regular And Associate Member</option> -->
                 </select>
               </div>
           </div>

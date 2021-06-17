@@ -78,9 +78,11 @@ class Cooperators extends CI_Controller{
           }else{
             if($this->session->userdata('access_level')==5){
               redirect('admins/login');
-            }else if($this->session->userdata('access_level')!=1){
-              redirect('cooperatives');
-            }else{
+            }
+            // else if($this->session->userdata('access_level')!=1){
+            //   redirect('cooperatives');
+            // }
+            else{
               if($this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('cooperatives');
@@ -386,6 +388,30 @@ class Cooperators extends CI_Controller{
                           {
                             $dateIssued_  = $this->input->post('dateIssued_chk');
                           }
+
+                          // Get Count Committee
+
+                          echo $decoded_post_cooperator_id;
+                            $this->db->where(array('id'=>$decoded_post_cooperator_id));
+                            $this->db->from('committees');
+                          
+                          if($this->db->count_all_results()>0){
+                            $committee_info = array(
+                              'name' => ''
+                            );
+
+                            $this->db->where('cooperators_id', $decoded_post_cooperator_id);
+                            $this->db->update('committees',$committee_info);
+                            if($this->db->trans_status() === FALSE){
+                              $this->db->trans_rollback();
+                              return array('success'=>false,'message'=>'Unable to updated committee');
+                            }else{
+                              $this->db->trans_commit();
+                              return array('success'=>true,'message'=>'Committee has been successfully updated');
+                            }
+                          }
+                          // End Get Committee
+
                           $data = array(
                             'full_name' => $this->input->post('fName'),
                             'gender' => $this->input->post('gender'),

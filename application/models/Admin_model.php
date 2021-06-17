@@ -578,21 +578,35 @@ public function add_admin_director($data,$raw_pass){
     }
   }
 
-  public function sendEmailToClientDeferBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
+  public function sendEmailToClientDeferBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type,$comment){
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Good day! A deferred application for establishment of ".$type." with the following details has been submitted:<p>
+    $message = "".date('F d, Y')." <br><br>
 
-    <ol type='a'> 
-      <b><li> Name of Cooperative:</b>".$proposedname."</li>
-      <b><li> Name of Proposed Branch:</b>".$proposedbranch."</li>
-      <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
-      <b><li> Contact Person:</b> ".$fullname."</li>
-      <b><li> Contact Number: </b>".$contactnumber."</li>
-      <b><li> Email Address: </b>".$email."</li>
-    </ol>";
+  Proposed Name of Cooperative: ".$proposedname." <br>
+  Proposed Address of Cooperative : ".$brgy."<br><br>
+
+  Good Day! <br><br>
+
+  This refers to the application for registration of the proposed ".$proposedname.".<br><br>
+
+    Upon review of the documents submitted online the following are our findings:<p> <br>
+    
+    ".trim(preg_replace('/\s\s+/', '<br>', $comment))."
+
+    <br>Please comply immediately with the above-mentioned findings within 15 days. <br>
+
+    <br>Should you need further information or clarification, please feel free to contact Registration Division/Section at telephone numbers (official telephone no. of region) or email us at (Official email address of region)  <br><br>
+
+
+Very truly yours,<br>
+
+<br>Regional Director<br>
+Region";
+
+
     $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($email);
     $this->email->subject($subject);

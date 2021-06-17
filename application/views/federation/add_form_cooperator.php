@@ -38,6 +38,15 @@
               <div class="alert alert-info" role="alert">
                 <p> Are you sure you want to add <strong class="cooperator-name-text">test</strong> Cooperative?</p>
               </div>
+              <div class="alert alert-info" role="alert">
+                <strong>Reminder: <small>(The information below is in your bylaws (capitalization))</small></strong>
+                 <ul>
+                   <li>Regular Member must subscribed at least <strong><?= $capitalization_info->minimum_subscribed_share_regular?></strong> shares and pay at least <strong><?= $capitalization_info->minimum_paid_up_share_regular?></strong> shares.</li>
+                   <?php if($bylaw_info->kinds_of_members ==2) : ?>
+                    <li>Associate Member must subscribed at least  <strong><?= $capitalization_info->minimum_subscribed_share_associate?></strong> shares and pay at least <strong><?= $capitalization_info->minimum_paid_up_share_associate?></strong> shares.</li>
+                  <?php endif; ?>
+                 </ul>
+                </div>
             </div>
 
             <!-- <div class="form-group">
@@ -53,7 +62,7 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="subscribedShares">No of subscribed shares:</label>
-                <input type="number" min="1" max="<?=isset($capitalization_info->total_no_of_subscribed_capital) ? $capitalization_info->total_no_of_subscribed_capital - $total_subscribed: ''?>" class="form-control validate[required,min[1],custom[integer]]" id="subscribedShares" name="subscribedShares">
+                <input type="number" max="<?=isset($capitalization_info->total_no_of_subscribed_capital) ? $capitalization_info->total_no_of_subscribed_capital - $total_subscribed: ''?>" class="form-control validate[required,min[1],custom[integer]]" id="subscribedShares" name="subscribedShares">
                 <div id="subscribed-note" style="color: red; font-size: 12px;"></div>
               </div>
             </div>

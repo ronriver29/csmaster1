@@ -82,10 +82,15 @@
         }
         $w = new Numbertowords();
 
+        if($coop_info->grouping == 'Federation'){
+          $payorname = ucwords($coop_info->proposed_name.' Federation of '.$coop_info->type_of_cooperative.' '.$acronym_name);
+        } else {
+          $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronym_name.' '.$coop_info->grouping);
+        }
     echo '
     <tr>
       <td class="bord">Payor</td>
-      <td class="bord" colspan="3"><b>'.ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronym_name.' '.$coop_info->grouping).'</b></td>
+      <td class="bord" colspan="3"><b>'.$payorname.'</b></td>
     </tr>
     <tr>
       <td class="bord">Nature of Payment</td>

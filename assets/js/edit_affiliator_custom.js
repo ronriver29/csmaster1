@@ -12,7 +12,7 @@ $(function(){
       console.log(val);
       console.log(available_subscribed_capital2);
   });
-  $('#deleteCooperatorForm #paidShares2').on('change', function(){
+  $('#editAffiliatorForm #paidShares2').on('change', function(){
       var val = parseInt($(this).val());
         var available_paid_up_capital2 = $("#available_paid_up_capital2").val().length>0 ? $("#available_paid_up_capital2").val() : ''; 
       $("#paid-note2").hide().html('');
@@ -21,7 +21,7 @@ $(function(){
           $("#paid-note2").show().html('Should not exceed the remaining no of paid up share: '+available_paid_up_capital2);
       }
   });
-  // $('#deleteCooperatorForm #membershipType').on('change', function(){
+  // $('#editAffiliatorForm #membershipType').on('change', function(){
     
     // var tempType  = $.trim($(this).val());
     var available_subscribed_capital2 = $("#available_subscribed_capital2").val().length>0 ? parseInt($("#available_subscribed_capital2").val()) : '';
@@ -29,14 +29,14 @@ $(function(){
     // if(tempType.length > 0 && tempType=="Regular"){ 
         var minimum_subscribed_share_regular2 = $("#minimum_subscribed_share_regular2").val().length>0 ? $("#minimum_subscribed_share_regular2").val() : '';
         var minimum_paid_up_share_regular2 = $("#minimum_paid_up_share_regular2").val().length>0 ? $("#minimum_paid_up_share_regular2").val() : '';
-      $('#deleteCooperatorForm #subscribedShares2').prop('readonly',false);
-      $('#deleteCooperatorForm #paidShares2').prop('readonly',false);
-//      $('#deleteCooperatorForm #subscribedShares').val(minimum_subscribed_share_regular2);
-//      $('#deleteCooperatorForm #paidShares').val(minimum_paid_up_share_regular2);
-      $('#deleteCooperatorForm #subscribedShares2').attr('min',minimum_subscribed_share_regular2);
-      $('#deleteCooperatorForm #paidShares2').attr('min',minimum_paid_up_share_regular2);
-      $('#deleteCooperatorForm #subscribedShares2').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionCallPhp]]'});
-      $('#deleteCooperatorForm #paidShares2').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumRegularPayCallPhp]]'});
+      $('#editAffiliatorForm #subscribedShares2').prop('readonly',false);
+      $('#editAffiliatorForm #paidShares2').prop('readonly',false);
+//      $('#editAffiliatorForm #subscribedShares').val(minimum_subscribed_share_regular2);
+//      $('#editAffiliatorForm #paidShares').val(minimum_paid_up_share_regular2);
+      $('#editAffiliatorForm #subscribedShares2').attr('min',minimum_subscribed_share_regular2);
+      $('#editAffiliatorForm #paidShares2').attr('min',minimum_paid_up_share_regular2);
+      $('#editAffiliatorForm #subscribedShares2').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionCallPhp]]'});
+      $('#editAffiliatorForm #paidShares2').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumRegularPayCallPhp]]'});
       if(minimum_subscribed_share_regular2 > available_subscribed_capital2) {
           $(".subscribedSharesformError2").hide().html('');
           $("#subscribed-note2").show().html('Should not exceed the remaining no of subscribed share: '+available_subscribed_capital2);
@@ -49,14 +49,14 @@ $(function(){
 //     }else if(tempType.length > 0 && tempType=="Associate"){
 //         var minimum_subscribed_share_associate = $("#minimum_subscribed_share_associate").val().length>0 ? $("#minimum_subscribed_share_associate").val() : '';
 //         var minimum_paid_up_share_associate = $("#minimum_paid_up_share_associate").val().length>0 ? $("#minimum_paid_up_share_associate").val() : '';
-//       $('#deleteCooperatorForm #subscribedShares').prop('readonly',false);
-//       $('#deleteCooperatorForm #paidShares').prop('readonly',false);
-// //      $('#deleteCooperatorForm #subscribedShares').val(minimum_subscribed_share_associate);
-// //      $('#deleteCooperatorForm #paidShares').val(minimum_paid_up_share_associate);
-//       $('#deleteCooperatorForm #subscribedShares').attr('min',minimum_subscribed_share_associate);
-//       $('#deleteCooperatorForm #paidShares').attr('min',minimum_paid_up_share_associate);
-//       $('#deleteCooperatorForm #subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumAssociateSubscriptionCallPhp]]'});
-//       $('#deleteCooperatorForm #paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumAssociatePayCallPhp]]'});
+//       $('#editAffiliatorForm #subscribedShares').prop('readonly',false);
+//       $('#editAffiliatorForm #paidShares').prop('readonly',false);
+// //      $('#editAffiliatorForm #subscribedShares').val(minimum_subscribed_share_associate);
+// //      $('#editAffiliatorForm #paidShares').val(minimum_paid_up_share_associate);
+//       $('#editAffiliatorForm #subscribedShares').attr('min',minimum_subscribed_share_associate);
+//       $('#editAffiliatorForm #paidShares').attr('min',minimum_paid_up_share_associate);
+//       $('#editAffiliatorForm #subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumAssociateSubscriptionCallPhp]]'});
+//       $('#editAffiliatorForm #paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumAssociatePayCallPhp]]'});
 //       if(minimum_subscribed_share_associate > available_subscribed_capital2) {
 //           $(".subscribedSharesformError").hide().html('');
 //           $("#subscribed-note").show().html('Should not exceed the remaining no of subscribed share: '+available_subscribed_capital2);
@@ -66,27 +66,27 @@ $(function(){
 //           $("#paid-note").show().html('Should not exceed the remaining no of paid up share: '+available_paid_up_capital2);
 //       }
 //     }else{
-//       $('#deleteCooperatorForm #subscribedShares').prop('readonly',true);
-//       $('#deleteCooperatorForm #paidShares').prop('readonly',true);
-//       $('#deleteCooperatorForm #subscribedShares').val('');
-//       $('#deleteCooperatorForm #paidShares').val('');
-//       $('#deleteCooperatorForm #subscribedShares').attr('min',1);
-//       $('#deleteCooperatorForm #paidShares').attr('min',1);
-//       $('#deleteCooperatorForm #subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer]]'});
-//       $('#deleteCooperatorForm #paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom]]'});
+//       $('#editAffiliatorForm #subscribedShares').prop('readonly',true);
+//       $('#editAffiliatorForm #paidShares').prop('readonly',true);
+//       $('#editAffiliatorForm #subscribedShares').val('');
+//       $('#editAffiliatorForm #paidShares').val('');
+//       $('#editAffiliatorForm #subscribedShares').attr('min',1);
+//       $('#editAffiliatorForm #paidShares').attr('min',1);
+//       $('#editAffiliatorForm #subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer]]'});
+//       $('#editAffiliatorForm #paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom]]'});
 //     }
       
   // });
 
-  $('#deleteCooperatorForm #region').on('change',function(){
-    $('#deleteCooperatorForm #province').empty();
-    $("#deleteCooperatorForm #province").prop("disabled",true);
-    $('#deleteCooperatorForm #city').empty();
-    $("#deleteCooperatorForm #city").prop("disabled",true);
-    $('#deleteCooperatorForm #barangay').empty();
-    $("#deleteCooperatorForm #barangay").prop("disabled",true);
+  $('#editAffiliatorForm #region').on('change',function(){
+    $('#editAffiliatorForm #province').empty();
+    $("#editAffiliatorForm #province").prop("disabled",true);
+    $('#editAffiliatorForm #city').empty();
+    $("#editAffiliatorForm #city").prop("disabled",true);
+    $('#editAffiliatorForm #barangay').empty();
+    $("#editAffiliatorForm #barangay").prop("disabled",true);
     if($(this).val() && ($(this).val()).length > 0){
-      $("#deleteCooperatorForm #province").prop("disabled",false);
+      $("#editAffiliatorForm #province").prop("disabled",false);
       var region = $(this).val();
         $.ajax({
         type : "POST",
@@ -96,22 +96,22 @@ $(function(){
           region: region
         },
         success: function(data){
-          $('#deleteCooperatorForm #province').append($('<option></option>').attr('value',"").text(""));
+          $('#editAffiliatorForm #province').append($('<option></option>').attr('value',"").text(""));
           $.each(data, function(key,value){
-            $('#deleteCooperatorForm #province').append($('<option></option>').attr('value',value.provCode).text(value.provDesc));
+            $('#editAffiliatorForm #province').append($('<option></option>').attr('value',value.provCode).text(value.provDesc));
           });
         }
       });
     }
   });
 
-  $('#deleteCooperatorForm #province').on('change',function(){
-    $('#deleteCooperatorForm #city').empty();
-    $("#deleteCooperatorForm #city").prop("disabled",true);
-    $('#deleteCooperatorForm #barangay').empty();
-    $("#deleteCooperatorForm #barangay").prop("disabled",true);
+  $('#editAffiliatorForm #province').on('change',function(){
+    $('#editAffiliatorForm #city').empty();
+    $("#editAffiliatorForm #city").prop("disabled",true);
+    $('#editAffiliatorForm #barangay').empty();
+    $("#editAffiliatorForm #barangay").prop("disabled",true);
     if($(this).val() && ($(this).val()).length > 0){
-      $("#deleteCooperatorForm #city").prop("disabled",false);
+      $("#editAffiliatorForm #city").prop("disabled",false);
       var province = $(this).val();
         $.ajax({
         type : "POST",
@@ -121,20 +121,20 @@ $(function(){
           province: province
         },
         success: function(data){
-          $('#deleteCooperatorForm #city').append($('<option></option>').attr('value',"").text(""));
+          $('#editAffiliatorForm #city').append($('<option></option>').attr('value',"").text(""));
           $.each(data, function(key,value){
-            $('#deleteCooperatorForm #city').append($('<option></option>').attr('value',value.citymunCode).text(value.citymunDesc));
+            $('#editAffiliatorForm #city').append($('<option></option>').attr('value',value.citymunCode).text(value.citymunDesc));
           });
         }
       });
     }
   });
 
-  $('#deleteCooperatorForm #city').on('change',function(){
-    $('#deleteCooperatorForm #barangay').empty();
-    $("#deleteCooperatorForm #barangay").prop("disabled",true);
+  $('#editAffiliatorForm #city').on('change',function(){
+    $('#editAffiliatorForm #barangay').empty();
+    $("#editAffiliatorForm #barangay").prop("disabled",true);
     if($(this).val() && ($(this).val()).length > 0){
-      $("#deleteCooperatorForm #barangay").prop("disabled",false);
+      $("#editAffiliatorForm #barangay").prop("disabled",false);
       var cities = $(this).val();
         $.ajax({
         type : "POST",
@@ -144,9 +144,9 @@ $(function(){
           cities: cities
         },
         success: function(data){
-          $('#deleteCooperatorForm #barangay').append($('<option></option>').attr('value',"").text(""));
+          $('#editAffiliatorForm #barangay').append($('<option></option>').attr('value',"").text(""));
           $.each(data, function(key,value){
-            $('#deleteCooperatorForm #barangay').append($('<option></option>').attr('value',value.brgyCode).text(value.brgyDesc));
+            $('#editAffiliatorForm #barangay').append($('<option></option>').attr('value',value.brgyCode).text(value.brgyDesc));
           });
         }
       });

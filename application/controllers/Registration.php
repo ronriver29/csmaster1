@@ -51,12 +51,18 @@ class registration extends CI_Controller{
             exit;
         }
       }
-      $cName=rtrim($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' '.$coop_info->grouping);
+      if($coop_info != 'Federation'){
+        $cName=rtrim($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' '.$coop_info->grouping);
+      } else {
+        $cName=rtrim($coop_info->proposed_name.' Federation of '.$coop_info->type_of_cooperative.' '.$acronymname);
+      }
       // echo $coop_info->id;
       // $cName = $coop_info->id;
       if($coop_info->grouping == 'Union'){
         $coop_details = $this->registration_model->get_coop_info_union($coop_info->id);
-      } else {
+      } else if($coop_info->grouping == 'Federation'){
+        $coop_details = $this->registration_model->get_coop_info_federation($coop_info->id);
+      }else {
         $coop_details = $this->registration_model->get_coop_info($cName);
       }
       

@@ -708,7 +708,7 @@
                               $sendemailtosenior = 'sendEmailToSeniorBranch';
                             }
 
-                            if($this->admin_model->$sendemailtosenior($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type)){
+                            if($this->admin_model->$sendemailtosenior($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type,'')){
                               if($this->admin_model->sendEmailToClientBranch($data['client_info']->email)){
                                 $this->session->set_flashdata('branch_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
                                 redirect('branches/'.$id);
@@ -797,7 +797,7 @@
                             } else {
                               $sendemailtosenior = 'sendEmailToSeniorBranch';
                             }
-                            if($this->admin_model->$sendemailtosenior($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type)){
+                            if($this->admin_model->$sendemailtosenior($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type,'')){
                               $this->session->set_flashdata('branch_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
                               redirect('branches/'.$id);
                             }
@@ -1509,7 +1509,7 @@
                                         }
                                     }
 
-                                    if($this->admin_model->sendEmailToClientDeferBranch($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type)){
+                                    if($this->admin_model->sendEmailToClientDeferBranch($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type,$reason_commment)){
                                         if($success){
                                           $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been deferred.');
                                           redirect('branches');
@@ -1609,7 +1609,7 @@
                                         }
                                     }
 
-                                    if($this->admin_model->sendEmailToClientDeferBranch($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type)){
+                                    if($this->admin_model->sendEmailToClientDeferBranch($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type,$reason_commment)){
                                       if($success){
                                         $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been deferred.');
                                         redirect('branches');

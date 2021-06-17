@@ -85,9 +85,11 @@ class Capitalization extends CI_Controller{
           }else{
             if($this->session->userdata('access_level')==5){
               redirect('admins/login');
-            }else if($this->session->userdata('access_level')!=1){
-              redirect('cooperatives');
-            }else{
+            }
+            // else if($this->session->userdata('access_level')!=1){
+            //   redirect('cooperatives');
+            // }
+            else{
               if($this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('cooperatives');

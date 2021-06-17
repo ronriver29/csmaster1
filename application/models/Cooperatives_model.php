@@ -211,7 +211,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status IN ("2","3","4","5","6","16") OR (status = 6 AND third_evaluated_by < 0  AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 12 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 13 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 14 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%")');
+    $this->db->where('status IN ("2","3","4","5","16") OR (third_evaluated_by = 0 AND status = 6) OR (third_evaluated_by < 0 AND status = 6 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 12 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 13 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 14 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%")');
     // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
     $query = $this->db->get();
     $data = $query->result_array();
@@ -236,7 +236,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status IN ("10","6") AND third_evaluated_by > 0');
+    $this->db->where('status IN ("11",10,"6") AND third_evaluated_by > 0');
     // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
     $query = $this->db->get();
     $data = $query->result_array();
@@ -611,7 +611,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     }
     $temp_purpose = array(
         'cooperatives_id' => $id,
-        'content'  => $this->get_purpose_content($coop_type->name)
+        'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
       );
     $this->db->insert('purposes',$temp_purpose);
     $this->db->insert('bylaws', array('cooperatives_id'=>$id));
@@ -651,7 +651,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $query2 = $this->db->get();
     $coop_type = $query2->row();
 
-    $this->db->select('type_of_cooperative');
+    $this->db->select('type_of_cooperative,category_of_cooperative');
     $this->db->where('id',$coop_id);
     $this->db->from('cooperatives');
     $query3 = $this->db->get();
@@ -684,7 +684,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
 
     $temp_purpose = array(
         'cooperatives_id' => $coop_id,
-        'content'  => $this->get_purpose_content($coop_type->name)
+        'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
       );
     
     $this->db->select('id');
@@ -704,10 +704,10 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
         $this->db->insert_batch('members_composition_of_cooperative', $batch_composition);
     }
 
-    if($coop_type_of_coop->type_of_cooperative != $coop_type->name){
+    if($coop_type_of_coop->type_of_cooperative != $coop_type->name || $coop_type_of_coop->category_of_cooperative != $data['category_of_cooperative']){
       $temp_purpose = array(
           'cooperatives_id' => $coop_id,
-          'content'  => $this->get_purpose_content($coop_type->name)
+          'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
         );
       $this->db->where('cooperatives_id',$coop_id);
       $this->db->update('purposes',$temp_purpose);
@@ -736,7 +736,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $query = $this->db->get();
     $industry_subclasses_id_array = $query->result_array();
 
-    $this->db->select('type_of_cooperative');
+    $this->db->select('type_of_cooperative,category_of_cooperative');
     $this->db->where('id',$coop_id);
     $this->db->from('cooperatives');
     $query3 = $this->db->get();
@@ -759,10 +759,10 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     }
     $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
 
-    if($coop_type_of_coop->type_of_cooperative != $coop_type->name){
+    if($coop_type_of_coop->type_of_cooperative != $coop_type->name || $coop_type_of_coop->category_of_cooperative != $data['category_of_cooperative']){
       $temp_purpose = array(
           'cooperatives_id' => $coop_id,
-          'content'  => $this->get_purpose_content($coop_type->name)
+          'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
         );
       $this->db->where('cooperatives_id',$coop_id);
       $this->db->update('purposes',$temp_purpose);
@@ -1249,7 +1249,7 @@ public function check_submitted_for_evaluation($coop_id){
   $data = $query->row();
   $coop_status = $data->status;
   // if($coop_status > 1 && $coop_status <11){
-  if($coop_status > 1 && $coop_status <16 && $coop_status != 11 || $coop_status == 17){ //modify by json
+  if($coop_status > 1 && $coop_status <=16 && $coop_status != 11 || $coop_status == 17 ){ //modify by json
     return true;
   }else if($coop_status == 11){
     return false;
@@ -1394,7 +1394,52 @@ public function check_if_denied($coop_id){
     return $token;
   }
 
-  public function get_purpose_content($coop_type){
+  public function get_purpose_content($coop_type,$grouping){
+    if($grouping == 'Federation'){
+      $data = array('Advocacy' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Agrarian Reform' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Agriculture' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Consumers' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Credit' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Dairy' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Education' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Electric' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Financial Service' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Fishermen' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Health Service' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Housing' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Labor Service' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Marketing' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Producers' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Professionals' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Service' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Small Scale Mining' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Transport' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Water Service' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+        'Workers' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________'
+      );
+    } else {
     $data = array(
       'Advocacy'=> 'Promoting and advocating cooperativism among its members and the public through socially oriented projects, education and training, research and communication and other similar activities to reach out to its intended beneficiaries;'.
         'Promoting and advancing the economic and social status of the members;'.
@@ -1428,11 +1473,15 @@ public function check_if_denied($coop_id){
         'Ensuring the viability of Cooperatives through the utilization of new technologies;'.
         'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation;'.
         'Promoting the maintenance of sustainable farming and ecological  balance in the agrarian reform community.',
-      'Bank' => 'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+      'Bank' => 'That the purpose(s) for which this Cooperative Union is organized are:;'.
+        'a)___________________________________________________________;'.
+        'b)___________________________________________________________;'.
+        'c)___________________________________________________________;',
+        // 'Promoting and advancing the economic and social status of the members;'.
+        // 'Coordinating and facilitating the activities of cooperatives;'.
+        // 'Advocating for the cause of the cooperative movements;'.
+        // 'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+        // 'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
       'Consumers' => 'Procurement and distribution of commodities to members and nonmembers such as (retail, wholesale, restaurant/canteen operation, water refilling and etc.),_____________ and other basic commodities;'.
         'Promoting and advancing the economic and social status of the members;'.
         'Coordinating and facilitating the activities of cooperatives;'.
@@ -1519,11 +1568,15 @@ public function check_if_denied($coop_id){
         'Ensuring the viability of cooperatives through the utilization of new technologies;'.
         'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation;'.
         'To provide goods and services to members.',
-      'Insurance' => 'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+      'Insurance' => 'That the purpose(s) for which this Cooperative Union is organized are:;'.
+        'a)___________________________________________________________;'.
+        'b)___________________________________________________________;'.
+        'c)___________________________________________________________;',
+        // 'Promoting and advancing the economic and social status of the members;'.
+        // 'Coordinating and facilitating the activities of cooperatives;'.
+        // 'Advocating for the cause of the cooperative movements;'.
+        // 'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+        // 'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
       'Labor Service' => 'To ensure and provide continuous employment opportunities to its members;'.
         'Promoting and advancing the economic and social status of the members;'.
         'Coordinating and facilitating the activities of Cooperatives;'.
@@ -1596,10 +1649,11 @@ public function check_if_denied($coop_id){
         'c)___________________________________________________________;',
       'Federation' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
         '_________________________________________________________________________________________________',
-      'Cooperative Bank' => 'That the purpose and scope of business for which the Cooperative Bank is formed are;'.
+      'Bank' => 'That the purpose and scope of business for which the Cooperative Bank is formed are;'.
         '1. To provide a wide range of financial services primarily to cooperative organizations and their members, and to the general public; and'.
         '2 To Perform any or all transactions and banking services offered by other types of banks subject to applicable laws, rules and regulations'
     );
+  }
       return $data[$coop_type];
   }
 public function check_second_evaluated_laboratories($coop_id){

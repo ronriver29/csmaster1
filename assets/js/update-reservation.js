@@ -9,7 +9,7 @@
   var categryofcoop = $("#reserveUpdateForm #categoryOfCooperative option:selected").text();
   var typeofcoop = $("#reserveUpdateForm #typeOfCooperative option:selected").text();
 
-  if(typeofcoop == 'Federation' || typeofcoop == 'Union'){
+  if(categryofcoop == 'Secondary' || categryofcoop == 'Tertiary' || categryofcoop == 'Others'){
       $('#reserveUpdateForm #majorIndustry1').hide();
       $('#reserveUpdateForm #subClass1').hide();
       $('#reserveUpdateForm #addMoreSubclassBtn').hide();
@@ -23,11 +23,11 @@
       $('#reserveUpdateForm #subclasslabel').show();
     }
 
-  $('#reserveUpdateForm #typeOfCooperative').on('change', function(){
-    var val = $("#reserveUpdateForm #typeOfCooperative option:selected").text();
+  $('#reserveUpdateForm #categoryOfCooperative').on('change', function(){
+    var val = $("#reserveUpdateForm #categoryOfCooperative option:selected").text();
 
     // alert(val);
-    if(val == 'Federation' || val == 'Union'){
+    if(val == 'Secondary' || val == 'Tertiary' || val == 'Others'){
 
       $.each([ 'majorIndustry1', 'majorIndustry2', 'majorIndustry3'], function( index, value ) {
         $('#reserveUpdateForm #'+value+'').hide();
@@ -61,7 +61,7 @@
 
   // alert(typeofcoop);
   if(categryofcoop == 'Others'){
-    $.each([ 'Federation', 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Bank', 'Consumers', 'Credit', 'Dairy', 'Electric'
+    $.each([ 'Federation', 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Consumers', 'Credit', 'Dairy', 'Electric'
     , 'Education', 'Financial Service', 'Fishermen', 'Health Service', 'Housing', 'Labor Service', 'Marketing', 'Producers', 'Professionals', 'Service'
     , 'Small Scale Mining', 'Transport', 'Water Service', 'Workers'], function( index, value ) {
       $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').hide();
@@ -71,34 +71,34 @@
       $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').show();
     });
   } else if(categryofcoop == 'Secondary'){
-    $.each([ 'Federation', 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Bank', 'Consumers', 'Credit', 'Dairy', 'Electric'
+    $.each([ 'Federation', 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Consumers', 'Credit', 'Dairy', 'Electric'
     , 'Education', 'Financial Service', 'Fishermen', 'Health Service', 'Housing', 'Labor Service', 'Marketing', 'Producers', 'Professionals', 'Service'
     , 'Small Scale Mining', 'Transport', 'Water Service', 'Workers'], function( index, value ) {
       $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').show();
     });
 
-    $.each([ 'Cooperative Bank', 'Insurance', 'Union'], function( index, value ) {
+    $.each([ 'Cooperative Bank', 'Insurance', 'Union', 'Bank'], function( index, value ) {
       $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').hide();
     });
 
   } else if(categryofcoop == 'Tertiary'){
-    $.each([ 'Federation', 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Bank', 'Consumers', 'Credit', 'Dairy', 'Electric'
+    $.each([ 'Federation', 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Consumers', 'Credit', 'Dairy', 'Electric'
     , 'Education', 'Financial Service', 'Fishermen', 'Health Service', 'Housing', 'Labor Service', 'Marketing', 'Producers', 'Professionals', 'Service'
     , 'Small Scale Mining', 'Transport', 'Water Service', 'Workers'], function( index, value ) {
       $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').show();
     });
 
-    $.each([ 'Cooperative Bank', 'Insurance', 'Union'], function( index, value ) {
+    $.each([ 'Cooperative Bank', 'Insurance', 'Union', 'Bank'], function( index, value ) {
       $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').hide();
     });
   } else {
-    $.each([ 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Bank', 'Consumers', 'Credit', 'Dairy', 'Electric'
+    $.each([ 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Consumers', 'Credit', 'Dairy', 'Electric'
     , 'Education', 'Financial Service', 'Fishermen', 'Health Service', 'Housing', 'Labor Service', 'Marketing', 'Producers', 'Professionals', 'Service'
     , 'Small Scale Mining', 'Transport', 'Water Service', 'Workers'], function( index, value ) {
       $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').show();
     });
 
-    $.each([ 'Cooperative Bank', 'Insurance', 'Union', 'Federation'], function( index, value ) {
+    $.each([ 'Cooperative Bank', 'Insurance', 'Union', 'Federation', 'Bank'], function( index, value ) {
       $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').hide();
     });
 }
@@ -110,43 +110,43 @@
         $("#proposed_name_msg").html('');
      // alert(categorycoop);
         if(categorycoop=="Primary"){
-            $.each([ 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Bank', 'Consumers', 'Credit', 'Dairy', 'Electric'
+            $.each([ 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Consumers', 'Credit', 'Dairy', 'Electric'
             , 'Education', 'Financial Service', 'Fishermen', 'Health Service', 'Housing', 'Labor Service', 'Marketing', 'Producers', 'Professionals', 'Service'
             , 'Small Scale Mining', 'Transport', 'Water Service', 'Workers'], function( index, value ) {
               $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').show();
             });
 
-            $.each([ 'Cooperative Bank', 'Insurance', 'Union', 'Federation'], function( index, value ) {
+            $.each([ 'Cooperative Bank', 'Insurance', 'Union', 'Federation', 'Bank'], function( index, value ) {
               $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').hide();
             });
         } else if(categorycoop=="Secondary - Federation"){
-            $.each([ 'Federation', 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Bank', 'Consumers', 'Credit', 'Dairy', 'Electric'
+            $.each([ 'Federation', 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Consumers', 'Credit', 'Dairy', 'Electric'
             , 'Education', 'Financial Service', 'Fishermen', 'Health Service', 'Housing', 'Labor Service', 'Marketing', 'Producers', 'Professionals', 'Service'
             , 'Small Scale Mining', 'Transport', 'Water Service', 'Workers'], function( index, value ) {
               $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').show();
             });
 
-            $.each([ 'Cooperative Bank', 'Insurance', 'Union'], function( index, value ) {
+            $.each([ 'Cooperative Bank', 'Insurance', 'Union', 'Bank'], function( index, value ) {
               $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').hide();
             });
         } else if(categorycoop=="Tertiary - Federation"){
-            $.each([ 'Federation', 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Bank', 'Consumers', 'Credit', 'Dairy', 'Electric'
+            $.each([ 'Federation', 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Consumers', 'Credit', 'Dairy', 'Electric'
             , 'Education', 'Financial Service', 'Fishermen', 'Health Service', 'Housing', 'Labor Service', 'Marketing', 'Producers', 'Professionals', 'Service'
             , 'Small Scale Mining', 'Transport', 'Water Service', 'Workers'], function( index, value ) {
               $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').show();
             });
 
-            $.each([ 'Cooperative Bank', 'Insurance', 'Union'], function( index, value ) {
+            $.each([ 'Cooperative Bank', 'Insurance', 'Union', 'Bank'], function( index, value ) {
               $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').hide();
             });
         } else if(categorycoop=="Secondary - Union"){
-            $.each([ 'Federation', 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Bank', 'Consumers', 'Credit', 'Dairy', 'Electric'
+            $.each([ 'Federation', 'Advocacy', 'Agrarian Reform', 'Agriculture', 'Consumers', 'Credit', 'Dairy', 'Electric'
             , 'Education', 'Financial Service', 'Fishermen', 'Health Service', 'Housing', 'Labor Service', 'Marketing', 'Producers', 'Professionals', 'Service'
             , 'Small Scale Mining', 'Transport', 'Water Service', 'Workers'], function( index, value ) {
               $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').hide();
             });
 
-            $.each([ 'Cooperative Bank', 'Insurance', 'Union'], function( index, value ) {
+            $.each([ 'Cooperative Bank', 'Insurance', 'Union', 'Bank'], function( index, value ) {
               $('#reserveUpdateForm #typeOfCooperative').find('option:contains('+value+')').show();
             });
         } else {
@@ -157,9 +157,9 @@
             $('#reserveUpdateForm #typeOfCooperative').find('option:contains(Advocacy)').show();
             $('#reserveUpdateForm #typeOfCooperative').find('option:contains(Agrarian Reform)').show();
             $('#reserveUpdateForm #typeOfCooperative').find('option:contains(Agriculture)').show();
-            $('#reserveUpdateForm #typeOfCooperative').find('option:contains(Bank)').show();
+            $('#reserveUpdateForm #typeOfCooperative').find('option:contains(Bank)').hide();
             $('#reserveUpdateForm #typeOfCooperative').find('option:contains(Consumers)').show();
-            $('#reserveUpdateForm #typeOfCooperative').find('option:contains(Cooperative Bank)').show();
+            $('#reserveUpdateForm #typeOfCooperative').find('option:contains(Cooperative Bank)').hide();
             $('#reserveUpdateForm #typeOfCooperative').find('option:contains(Credit)').show();
             $('#reserveUpdateForm #typeOfCooperative').find('option:contains(Dairy)').show();
             $('#reserveUpdateForm #typeOfCooperative').find('option:contains(Electric)').show();
@@ -179,6 +179,24 @@
             $('#reserveUpdateForm #typeOfCooperative').find('option:contains(Workers)').show();
         }
   });
+
+  $('#reserveUpdateForm #typeOfCooperative').on('change', function(){
+      var typeofcoop = $(this).val();
+      // alert(typeofcoop);
+      if(typeofcoop == 16 || typeofcoop == 26 || typeofcoop == 9){
+        var categoryofcoop = $( "#reserveUpdateForm #categoryOfCooperative option:selected").text();
+        // alert('wow');
+        if(categoryofcoop == 'Primary' || categoryofcoop == 'Secondary' || categoryofcoop == 'Tertiary'){
+          $('#reserveUpdateForm #typeOfCooperative').val('');
+        } 
+      } else {
+        var categoryofcoop = $( "#reserveUpdateForm #categoryOfCooperative option:selected").text();
+        
+        if(categoryofcoop == 'Others'){
+          $('#reserveUpdateForm #typeOfCooperative').val('');
+        } 
+      }
+    });
 
   $('#reserveUpdateForm #proposedName').on('change',function(){
       var val = $(this).val();

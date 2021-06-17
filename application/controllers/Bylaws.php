@@ -40,9 +40,11 @@ class Bylaws extends CI_Controller{
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
-          }else if($this->session->userdata('access_level')!=1){
-            redirect('cooperatives');
-          }else{
+          }
+          // else if($this->session->userdata('access_level')!=1){
+          //   redirect('cooperatives');
+          // }
+          else{
             if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
               if($data['coop_info']->grouping =="Federation"){
@@ -723,9 +725,11 @@ class Bylaws extends CI_Controller{
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
-          }else if($this->session->userdata('access_level')!=1){
-            redirect('cooperatives');
-          }else{
+          }
+          // else if($this->session->userdata('access_level')!=1){
+          //   redirect('cooperatives');
+          // }
+          else{
             if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
               if($this->cooperatives_model->get_cooperative_info_by_admin($decoded_id)->category_of_cooperative =="Primary"){
                 if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){

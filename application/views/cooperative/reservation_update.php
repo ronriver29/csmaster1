@@ -81,7 +81,7 @@
                     <option value="24" <?php if($coop_info->type_of_cooperative =="Agriculture") echo "selected"; ?>>Agriculture</option>
                     <option value="9" <?php if($coop_info->type_of_cooperative =="Bank") echo "selected"; ?>>Bank</option>
                     <option value="4" <?php if($coop_info->type_of_cooperative =="Consumers") echo "selected"; ?>>Consumers</option>
-                    <option value="27" <?php if($coop_info->type_of_cooperative =="Cooperative Bank") echo "selected"; ?>>Cooperative Bank</option>
+                    <!-- <option value="27" <?php if($coop_info->type_of_cooperative =="Cooperative Bank") echo "selected"; ?>>Cooperative Bank</option> -->
                     <option value="1" <?php if($coop_info->type_of_cooperative =="Credit") echo "selected"; ?>>Credit</option>
                     <option value="10" <?php if($coop_info->type_of_cooperative =="Dairy") echo "selected"; ?>>Dairy</option>
                     <option value="11" <?php if($coop_info->type_of_cooperative =="Education") echo "selected"; ?>>Education</option>
