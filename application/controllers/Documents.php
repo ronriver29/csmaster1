@@ -121,6 +121,7 @@ class Documents extends CI_Controller{
                                     $data['read_upload'] = $this->count_documents($decoded_id,3);
                                   }
                                 // }  
+                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                                 $this->load->view('template/header', $data);
                                 if($data['coop_info']->grouping == 'Federation'){
                                   $this->load->view('documents/list_of_documents_federation', $data);
@@ -895,7 +896,7 @@ public function delete_pdf()
   // end modify by anj
 //end modify
   function articles_cooperation_primary($id = null){
-     ini_set('memory_limit', '1024');
+     ini_set('memory_limit', '1024M');
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
@@ -947,23 +948,28 @@ public function delete_pdf()
                               $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                               }
 
-                              $f = new pdf();
-                              $f->set_option("isPhpEnabled", true);
-                              $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
+                              $data['client_info'] = $this->user_model->get_user_info($user_id);
+                              $data['header'] = 'Articles of Cooperation';
+                              $this->load->view('template/header', $data);
+                              $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
+                              $this->load->view('template/footer');
+                              // $f = new pdf();
+                              // $f->set_option("isPhpEnabled", true);
+                              // $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
                              
-                              $f->setPaper('folio', 'portrait');
-                              $f->load_html($html2);
-                              $f->render();
+                              // $f->setPaper('folio', 'portrait');
+                              // $f->load_html($html2);
+                              // $f->render();
                               
-                              $this->load->library('session');
-                              $path = 'articles_of_cooperation_primary.pdf';
-                              $getTotalPages = $f->get_canvas()->get_page_count();
-                              $user_data = array(
-                                // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
-                                'pagecount' => $getTotalPages
-                              );
-                              $this->session->set_userdata($user_data);
-                              $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
+                              // $this->load->library('session');
+                              // $path = 'articles_of_cooperation_primary.pdf';
+                              // $getTotalPages = $f->get_canvas()->get_page_count();
+                              // $user_data = array(
+                              //   // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
+                              //   'pagecount' => $getTotalPages
+                              // );
+                              // $this->session->set_userdata($user_data);
+                              // $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
                               redirect('cooperatives/'.$id);
@@ -1048,21 +1054,26 @@ public function delete_pdf()
                                 $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                                 }
 
-                                $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
-                                $f = new pdf();
-                                 $f->set_option("isPhpEnabled", true);
-                                $f->setPaper('folio', 'portrait');
-                                $f->load_html($html2);
-                                $f->render();
-                                $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
-                                $this->load->library('session');
-                              $path = 'articles_of_cooperation_primary.pdf';
-                              $getTotalPages = $f->get_canvas()->get_page_count();
-                              $user_data = array(
-                                // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
-                                'pagecount' => $getTotalPages
-                              );
-                              $this->session->set_userdata($user_data);
+                              $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                              $data['header'] = 'Articles of Cooperation';
+                              $this->load->view('template/header', $data);
+                              $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
+                              $this->load->view('template/footer');
+                              //   $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
+                              //   $f = new pdf();
+                              //    $f->set_option("isPhpEnabled", true);
+                              //   $f->setPaper('folio', 'portrait');
+                              //   $f->load_html($html2);
+                              //   $f->render();
+                              //   $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
+                              //   $this->load->library('session');
+                              // $path = 'articles_of_cooperation_primary.pdf';
+                              // $getTotalPages = $f->get_canvas()->get_page_count();
+                              // $user_data = array(
+                              //   // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
+                              //   'pagecount' => $getTotalPages
+                              // );
+                              // $this->session->set_userdata($user_data);
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                 redirect('cooperatives/'.$id);
