@@ -19,9 +19,11 @@
     border: 0.5px solid #000 !important; 
     border-collapse: collapse;
   }
+  <?php if($coop_info->status == 15){ ?>
   body{
         font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
+  <?php } ?>
   </style>
 
 </head>
@@ -41,11 +43,23 @@
             $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
             
         }
-
 </script>
+<?php if($coop_info->status != 15){ ?>
 
-
-<div class="container-fluid text-monospace">
+<style>
+#printPage
+{
+  margin-left: 475px;
+  padding: 0px;
+  width: 670px;
+  height: 900px;
+  clear: both;
+  page-break-after: always;
+  font-family: 'Bookman Old Style',arial !important;font-size:17px;
+}
+</style>
+<?php } ?>
+<div class="container-fluid text-monospace" id="printPage">
 
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center"> 
