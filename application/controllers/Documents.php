@@ -1056,9 +1056,9 @@ public function delete_pdf()
 
                               $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                               $data['header'] = 'Articles of Cooperation';
-                              $this->load->view('template/header', $data);
+                              $this->load->view('templates/admin_header', $data);
                               $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
-                              $this->load->view('template/footer');
+                              $this->load->view('templates/admin_footer');
                               //   $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
                               //   $f = new pdf();
                               //    $f->set_option("isPhpEnabled", true);
