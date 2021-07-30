@@ -93,10 +93,10 @@
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
         <ol class="text-justify" type="1">
-    			<?php foreach($purposes_list as $purpose) :?>
+          <?php foreach($purposes_list as $purpose) :?>
             <li><?=$purpose?></li>
           <?php endforeach; ?>
-    		</ol>
+        </ol>
     </div>
   </div>
   <div class="row mb-2">
@@ -196,14 +196,39 @@
        }else if($coop_info->area_of_operation=="Regional"){
          echo $coop_info->region;
        }else{
+        if($coop_info->area_of_operation=="Interregional"){
+          $region_array = array();
+
+          foreach ($regions_island_list as $region_island_list){
+            array_push($region_array, $region_island_list['regDesc']);
+          }
+          // echo implode(", ", $region_array);
+          $last  = array_slice($region_array, -1);
+          $first = join(', ', array_slice($region_array, 0, -1));
+          $both  = array_filter(array_merge(array($first), $last), 'strlen');
+          echo join(' and ', $both);
+        } else {
          echo "Philippines";
+        }
        }
        ?>. Its principal office shall be located at <?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?><?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?> <?=$coop_info->region?>.</p>
     </div>
   </div>
+  <?php if($coop_info->type_of_cooperative == 'Transport'){?>
+    <div class="row mb-2">
+    <div class="col-sm-12 col-md-12 text-center">
+        <p class="font-weight-bold">Article VIII<br>Business Operation</p>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-sm-12 col-md-12 text-left">
+      <p class="text-justify" style="text-indent: 50px;">That the business operation of the transport cooperative shall be based on the routes or whatever stated in the duly approved franchise/Certificate of Public Convenience and Necessity, issued by the concerned government agency.</p>
+    </div>
+  </div>
+  <?php } ?>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article VIII<br>Name and Address of Cooperators</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport'){ echo 'Article IX'; } else { echo 'Article VIII'; }?><br>Name and Address of Cooperators</p>
     </div>
   </div>
   <div class="row ">
@@ -244,7 +269,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article IX<br>Board of Directors</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport'){ echo 'Article X'; } else { echo 'Article IX'; }?><br>Board of Directors</p>
     </div>
   </div>
   <div class="row ">
@@ -275,7 +300,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article X<br>Capitalization</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport'){ echo 'Article XI'; } else { echo 'Article X'; }?><br>Capitalization</p>
     </div>
   </div>
   <div class="row ">
@@ -295,7 +320,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article XI<br>Subscribed and Paid-up Share Capital</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport'){ echo 'Article XII'; } else { echo 'Article XI'; }?><br>Subscribed and Paid-up Share Capital</p>
     </div>
   </div>
   <div class="row ">
@@ -404,7 +429,7 @@
   <?php endif;?>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article XII<br>Arbitral Clause</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport'){ echo 'Article XIII'; } else { echo 'Article XII'; }?><br>Arbitral Clause</p>
     </div>
   </div>
   <div class="row mb-2">

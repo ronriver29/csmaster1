@@ -1,5 +1,6 @@
 <?php
 ini_set('output_buffering', true); // no limit
+// echo $memory_usage;
 ?>
 <!DOCTYPE html>
 <html lang="en"> 
@@ -35,7 +36,7 @@ ini_set('output_buffering', true); // no limit
 <?php if($coop_info->noStreet==null && $coop_info->Street==null) $x=''; else $x=', ';?>
 <br/><br/>
 
-<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda3.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;">
+<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda4.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;opacity: 0.2;">
 
 	<tr>
 		
@@ -152,7 +153,7 @@ ini_set('output_buffering', true); // no limit
 <?php if($coop_info->noStreet==null && $coop_info->Street==null) $x=''; else $x=', ';?>
 <br/><br/>
 
-<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda3.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;">
+<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda4.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;opacity: 0.2;">
 
 	<tr>
 		
@@ -273,7 +274,7 @@ ini_set('output_buffering', true); // no limit
 <?php if($coop_info->noStreet==null && $coop_info->Street==null) $x=''; else $x=', ';?>
 <br/><br/>
 
-<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda3.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;">
+<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda4.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;opacity: 0.2;">
 
 	<tr>
 		
@@ -383,7 +384,7 @@ ini_set('output_buffering', true); // no limit
 <!-- end page 3 -->
 
 
-<div  style="padding-top:30px;text-align: justify; font-family: Calibri,sans-serif; font-size: 12.5px; background-image: url(<?=base_url();?>/assets/img/cda2.png); background-repeat: no-repeat; background-position: center;">
+<div  style="padding-top:30px;text-align: justify; font-family: Calibri,sans-serif; font-size: 12.5px; background-image: url(<?=base_url();?>/assets/img/cda2_edited.png); background-repeat: no-repeat; background-position: center;">
 <p >
 <?=date("F d, Y", strtotime( (substr($coop_info->dateRegistered,3,2).'-'.substr($coop_info->dateRegistered,0,2).'-'.substr($coop_info->dateRegistered,6,4) ) ) ); ?><br/>
 <br/>
@@ -434,7 +435,7 @@ Very truly yours,<br/>
 <b><?=strtoupper($director->full_name); ?></b><br/>
 <?=strtoupper($director->access_name); ?>
 <?php } ?>
-
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </p>
 </td>
 </tr>
