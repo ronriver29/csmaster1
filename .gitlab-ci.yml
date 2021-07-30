@@ -19,8 +19,7 @@ build:
     - docker build --pull -t "$CONTAINER" .
     - docker push "$CONTAINER"
   retry: 2
-  only:
-    - master
+  
   allow_failure: false
   tags:
     - docker
