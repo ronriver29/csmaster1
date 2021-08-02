@@ -47,8 +47,6 @@ deploy-staging:
       --set db.database=$DB_DATABASE
       ris
       ./.chart/application
-  only:
-    - master
   tags:
     - docker
 
@@ -78,8 +76,6 @@ deploy-production:
       --set db.database=$DB_DATABASE
       ris
       ./.chart/application
-  only:
-    - master
   tags:
     - docker
 
