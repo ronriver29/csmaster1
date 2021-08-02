@@ -1,5 +1,6 @@
 image: docker:18.09.7
 
+
 stages:
   - build
   - deploy
@@ -19,7 +20,6 @@ build:
     - docker build --pull -t "$CONTAINER" .
     - docker push "$CONTAINER"
   retry: 2
-  
   allow_failure: false
   tags:
     - docker
