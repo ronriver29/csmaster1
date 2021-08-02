@@ -1040,21 +1040,9 @@
     	</ol>
     </div>
   </div>
-  <?php if($coop_info->type_of_cooperative == 'Transport') {?>
-  	<div class="row mb-2">
-    <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article VIII<br>Vehicle Operation and Fleet Management</p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12 col-md-12 text-left">
-        <p class="font-weight-regular text-justify">The cooperative shall procure  Public Utility Vehicle Modernization Program (PUVMP) - compliant units or as prescribed by the concerned government agency. The said units shall be owned and managed by the cooperative, and the franchise/Certificate of Public Convenience and Necessity shall be registered under its name. <br><br> The aforementioned units shall be under the established fleet management system of the cooperative, either operated internally or by its duly authorized third party.</p>
-    </div>
-  </div>
-  <?php } ?>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport'){ echo 'Article IX'; } else { echo 'Article VIII'; }?><br>Allocation and Distribution of Net Surplus</p>
+        <p class="font-weight-bold">Article VIII<br>Allocation and Distribution of Net Surplus</p>
     </div>
   </div>
   <div class="row">
@@ -1105,7 +1093,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport'){ echo 'Article X'; } else { echo 'Article IX'; }?><br>Settlement of Disputes</p>
+        <p class="font-weight-bold">Article IX<br>Settlement of Disputes</p>
     </div>
   </div>
   <div class="row">
@@ -1120,7 +1108,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport'){ echo 'Article XI'; } else { echo 'Article X'; }?><br>Miscellaneous</p>
+        <p class="font-weight-bold">Article X<br>Miscellaneous</p>
     </div>
   </div>
   <div class="row">
@@ -1167,7 +1155,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport'){ echo 'Article XII'; } else { echo 'Article XI'; }?><br>Amendments</p>
+        <p class="font-weight-bold">Article XI<br>Amendments</p>
     </div>
   </div>
   <div class="row mb-2">
