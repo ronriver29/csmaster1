@@ -1,71 +1,15 @@
-<div class="row mb-2">
-  <div class="col-sm-12 col-md-12">
-    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
-    <h5 class="text-primary text-right">
-      <?php if($is_client): ?>
-      Step 2
-      <?php endif; ?>
-    </h5>
-  </div>
-</div>
-<?php if(!$this->session->flashdata('bylaw_success') || !$this->session->flashdata('bylaw_error') || !$this->session->flashdata('bylaw_redirect')): ?>
-<div class="row">
-  <div class="col-sm-12 col-md-12">
-    <div class="alert alert-info" role="alert">
-      Whatever information you enter will appear in the by laws document.
-    </div>
-  </div>
-</div>
-<?php endif; ?>
-<?php if($this->session->flashdata('bylaw_redirect')): ?>
-<div class="row">
-  <div class="col-sm-12 col-md-12">
-    <div class="alert alert-info text-center" role="alert">
-      <?php echo $this->session->flashdata('bylaws_redirect'); ?>
-    </div>
-  </div>
-</div>
-<?php endif; ?>
-<?php if($this->session->flashdata('bylaw_success')): ?>
-  <div class="row">
-    <div class="col-sm-12 col-md-12">
-      <div class="alert alert-success text-center" role="alert">
-       <?php echo $this->session->flashdata('bylaw_success'); ?>
-      </div>
-    </div>
-  </div>
-<?php endif; ?>
-<?php if($this->session->flashdata('bylaw_error')): ?>
-  <div class="row">
-    <div class="col-sm-12 col-md-12">
-      <div class="alert alert-danger text-center" role="alert">
-       <?php echo $this->session->flashdata('bylaw_error'); ?>
-      </div>
-    </div>
-  </div>
-<?php endif; ?>
-<?php if(validation_errors()) : ?>
-<div class="row">
-  <div class="col-sm-12 col-md-12">
-    <div class="alert alert-danger" role="alert">
-      <ul>
-        <?php echo validation_errors('<li>','</li>'); ?>
-      </ul>
-    </div>
-  </div>
-</div>
-<?php endif;  ?>
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">
       <?php echo form_open('bylaws/'.$encrypted_id.'/union',array('id'=>'bylawsUnionForm','name'=>'bylawsUnionForm')); ?>
       <div class="card-header">
-        <div class="row d-flex">
-          <div class="col-sm-12 col-md-12 col-btn-action-bylaws-primary">
-            <h4 class="float-left">Details:</h4>
-            <?php if(($is_client && $coop_info->status<=1) || ($coop_info->status==11)): ?>
-            <a class="btn btn-primary btn-sm float-right text-white" id="btnEditBylawsSecondary"><i class="fas fa-edit"></i> Edit</a>
-            <?php endif; ?>
+          <input type="hidden" class="form-control" id="bylaw_coop_id" name="bylaw_coop_id" value="<?=$encrypted_id ?>">
+        <div class="row">
+          <div class="col-sm-12 col-md-4">
+            <h4>By Laws Information:</h4>
+          </div>
+          <div class="col-sm-12 offset-md-7 col-md-1">
+            <h5 class="text-primary">Step 1</h5>
           </div>
         </div>
       </div>
@@ -74,23 +18,17 @@
           <div class="col-sm-12 col-md-6">
               <div class="form-group">
                 <label for="kindsOfMember">Kinds of Member:</label>
-                <select class="custom-select" name="kindsOfMember" id="kindsOfMember" disabled>
+                <select class="custom-select" name="kindsOfMember" id="kindsOfMember">
                   <option value="" selected>--</option>
                   <option value="1" <?php if($bylaw_info->kinds_of_members == 1) echo "selected"; ?>>Regular Member Only</option>
-                  <?php
-                    if($coop_info->type_of_cooperative == 'Union' || $coop_info->type_of_cooperative == 'Federation') {
-
-                    } else { ?>
-                      <option value="2" <?php if($bylaw_info->kinds_of_members == 2) echo "selected"; ?>>Regular And Associate Member</option>
-                  <?php  } ?>
-                  
+                  <option value="2" <?php if($bylaw_info->kinds_of_members == 2) echo "selected"; ?>>Regular And Associate Member</option>
                 </select>
               </div>
           </div>
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
             <label for="membershipFee"><strong>How much is the membership fee?</strong></label>
-            <input type="number" min="1" value="<?= number_format($bylaw_info->membership_fee,2) ?>" step="1" class="form-control" id="membershipFee" name="membershipFee"placeholder="&#8369; 0.00" disabled>
+            <input type="number" min="1" value="<?= number_format($bylaw_info->membership_fee,2) ?>" step="1" class="form-control" id="membershipFee" name="membershipFee"placeholder="&#8369; 0.00">
             <small id="emailHelp" class="form-text">In case the application should be rejected, this fee shall be refunded to the applicant within 7-10 business days.</small>
            </div>
           </div>
@@ -111,21 +49,21 @@
                <!--<label><strong>List down any additional requirements for membership in your cooperative</strong></label>--> 
                
         
-              <input class="form-control " style="resize: none;" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->additional_requirements_for_membership ?>" disabled>
+              <input class="form-control " style="resize: none;" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->additional_requirements_for_membership ?>">
             </div>
           </div>
         </div>
 
         <!--<div class="row">-->
             <div class="col-sm-12 offset-md-8 col-md-4">
-              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreRequirementsBtn" disabled><i class="fas fa-plus"></i> Add More Requirements for Membership</button>
+              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreRequirementsBtn"><i class="fas fa-plus"></i> Add More Requirements for Membership</button>
             </div>
           <!--</div>-->
           <!--</div>-->
         		<div class="col-sm-12 col-md-12">
         		  <div class="form-group">
         			<label for="actUponMembershipDays"><strong>How many days will the Board of Directors have to act upon an application for membership once it has been submitted?</strong></label>
-        			<input type="number" class="form-control" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" value="<?= $bylaw_info->act_upon_membership_days ?>" disabled>
+        			<input type="number" class="form-control" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" value="<?= $bylaw_info->act_upon_membership_days ?>">
         			<small id="emailHelp" class="form-text ">Days from the date filing.</small>
         		 </div>
            </div>
@@ -149,13 +87,13 @@
                           </div>
                          <!--<label><strong>List down any additional requirements for membership in your cooperative</strong></label>--> 
 
-                        <input class="form-control " style="resize: none;" id="additionaldelegatePowers" name="additionaldelegatePowers[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->delegate_powers ?>" disabled>
+                        <input class="form-control " style="resize: none;" id="additionaldelegatePowers" name="additionaldelegatePowers[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->delegate_powers ?>">
                         </div>
                     </div>
                 </div>
 
                 <div class="col-sm-12 offset-md-8 col-md-4">
-                    <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoredelegatePowersBtn" disabled><i class="fas fa-plus"></i> Add More General Assembly</button>
+                    <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoredelegatePowersBtn"><i class="fas fa-plus"></i> Add More General Assembly</button>
                 </div>
 
 <!--          End Delegate Powers-->
@@ -174,20 +112,20 @@
         		<div class="col-sm-12 col-md-12">
         		  <div class="form-group">
         			<label for="quorumPercentage"><strong>How many percent of the members are entitled to vote to constitute the quorum?</strong></label>
-        			<input type="number" class="form-control" id="quorumPercentage" name="quorumPercentage" min="25" placeholder="Enter Percent %" value="<?=$bylaw_info->members_percent_quorom?>" disabled>
+        			<input type="number" class="form-control" id="quorumPercentage" name="quorumPercentage" min="25" placeholder="Enter Percent %" value="<?=$bylaw_info->members_percent_quorom?>">
         			<small id="emailHelp" class="form-text">Atleast twenty five percent.</small>
         		 </div>
            </div>
         		<div class="col-sm-12 col-md-12">
         		  <div class="form-group">
         			<label for="termHoldDirector"><strong>How many years should the office shall be hold before the new election of directors?</strong></label>
-        			<input type="number" class="form-control" id="termHoldDirector" name="termHoldDirector" placeholder="Enter years" value="<?=$bylaw_info->director_hold_term?>" disabled>
+        			<input type="number" class="form-control" id="termHoldDirector" name="termHoldDirector" placeholder="Enter years" value="<?=$bylaw_info->director_hold_term?>">
         		 </div>
         		</div>
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
           			<label for="directorsTerm"><strong>All Directors should serve for a term of how many years?</strong></label>
-          			<input type="number" class="form-control" id="directorsTerm" name="directorsTerm" placeholder="Enter years" value="<?=$bylaw_info->directors_term?>" disabled>
+          			<input type="number" class="form-control" id="directorsTerm" name="directorsTerm" placeholder="Enter years" value="<?=$bylaw_info->directors_term?>">
           		</div>
             </div>
 
@@ -208,13 +146,13 @@
                       </div>
                      <!--<label><strong>List down any additional requirements for membership in your cooperative</strong></label>--> 
 
-                    <input class="form-control " style="resize: none;" id="primaryConsideration" name="primaryConsideration[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->delegate_powers ?>" disabled>
+                    <input class="form-control " style="resize: none;" id="primaryConsideration" name="primaryConsideration[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->delegate_powers ?>">
                     </div>
                 </div>
             </div>
 
             <div class="col-sm-12 offset-md-8 col-md-4">
-                <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreprimaryConsiderationBtn" disabled><i class="fas fa-plus"></i> Add More Primary Consideration</button>
+                <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreprimaryConsiderationBtn"><i class="fas fa-plus"></i> Add More Primary Consideration</button>
             </div>
 
 <!--            <div class="col-sm-12 col-md-12">
@@ -225,7 +163,7 @@
             </div>-->
           </div>
       </div>
-      <div class="card-footer bylawsOthersFooter">
+      <div class="card-footer addCooperatorFooter">
         <input class="btn btn-color-blue btn-block" type="submit" id="bylawsUnionBtn" name="bylawsUnionBtn" value="Submit">
       </div>
     </form>

@@ -48,10 +48,10 @@
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
                     <option value="">--</option>
                     <option value="Primary">Primary</option>
-                     <!-- <option value="Tertiary - Union">Tertiary - Union</option>  -->
+                    <!--  <option value="Secondary - Union">Union</option> 
+                     <option value="Tertiary - Union">Tertiary - Union</option> 
                     <option value="Secondary - Federation">Secondary</option>
-                    <option value="Tertiary - Federation">Tertiary</option>  
-                    <option value="Secondary - Union">Others</option> 
+                    <option value="Tertiary - Federation">Tertiary</option>   -->
                   </select>
                 </div>
               </div>
@@ -67,12 +67,11 @@
                     <option value="24">Agriculture</option>
                     <option value="9">Bank</option>
                     <option value="4">Consumers</option>
-                    <!-- <option value="27" id="coopbank">Cooperative Bank</option> -->
+                    <option value="27" id="coopbank">Cooperative Bank</option>
                     <option value="1">Credit</option>
                     <option value="10">Dairy</option>
                     <option value="11">Education</option>
                     <option value="12">Electric</option>
-                    <!-- <option value="25">Federation</option> -->
                     <option value="13">Financial Service</option>
                     <option value="14">Fishermen</option>
                     <option value="15">Health Service</option>
@@ -85,7 +84,6 @@
                     <option value="3">Service</option>
                     <option value="23">Small Scale Mining</option>
                     <option value="17">Transport</option>
-                    <option value="26">Union</option>
                     <option value="18">Water Service</option>
                     <option value="19">Workers</option>
                   </select>
@@ -97,7 +95,7 @@
                 <div class="row">
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
-                      <label for="majorIndustry1" id="majorlabel">Major Industry Classification No. 1</label>
+                      <label for="majorIndustry1">Major Industry Classification No. 1</label>
                       <select class="custom-select form-control  validate[required]" name="majorIndustry[]" id="majorIndustry1">
                       
                       </select>
@@ -105,7 +103,7 @@
                   </div>
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
-                      <label for="subClass1" id="subclasslabel">Major Industry Classification No. 1 Subclass</label>
+                      <label for="subClass1">Major Industry Classification No. 1 Subclass</label>
                       <select class="custom-select form-control validate[required]" name="subClass[]" id="subClass1" disabled>
                         
                       </select>
@@ -125,13 +123,9 @@
                   <label for="proposedName"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
                   <input type="text" class="form-control validate[required,funcCall[validateActivityNotNullAddCustom],funcCall[validateActivityInNameAddCustom],funcCall[validateCooperativeWordInNameCustom],ajax[ajaxCoopNameCallPhp]]" name="proposedName" id="proposedName" placeholder="" disabled>
-                  <div style="margin-bottom:20px;"> <small><span id="type_of_coop" style="margin-top:-20px;"></span></small> </div>
-                   <div style="margin-bottom:20px;"><small>
-                  <span id="proposed_name_msg" style="margin-top:-20px;font-style:italic;"></span></small></div>
                 </div>
               </div>
             </div>
-
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">

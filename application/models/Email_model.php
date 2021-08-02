@@ -276,7 +276,7 @@ class Email_model extends CI_Model{
         }
   }
 
-  public function sendEmailToDirectorAmendment($admin_info,$client_info,$amendment_info,$director_email,$cds_fullname)
+  public function sendEmailToDirectorAmendment($admin_info,$client_info,$amendment_info,$director_email)
   {
       if(count(explode(',',$amendment_info->type_of_cooperative))>1)
       {
@@ -298,7 +298,7 @@ class Email_model extends CI_Model{
         
        $admin_message = "Senior CDS evaluated application for amendment registration with the following details has been submitted for your evaluation and approval/denial/deferment:<p>
                   <ol type='a'>  
-                     <b><li> Name of CDS II/Validator:</b> ".$cds_fullname."</li>                
+                     <b><li> Name of CDS II/Validator:</b> ". $admin_info->full_name."</li>                
                      <b><li> Date of validation:</b> ".date('Y-m-d h:i:s',now('Asia/Manila'))."</li>
                      <b><li> Sr. CDS Evaluation Date:</b> ".date('Y-m-d h:i:s',now('Asia/Manila'))."</li>                          
                      <b><li> Name of proposed Cooperative:</b> ". $coop_full_name."</li>
@@ -313,7 +313,7 @@ class Email_model extends CI_Model{
     {
         $admin_message = "Senior CDS evaluated application for amendment registration with the following details has been submitted for your evaluation and approval/denial/deferment:<p>
                   <ol type='a'>
-                    <b><li> Name of CDS II/Validator:</b> ". $cds_fullname."</li>                
+                    <b><li> Name of CDS II/Validator:</b> ". $admin_info->full_name."</li>                
                      <b><li> Date of validation:</b> ".date('Y-m-d h:i:s',now('Asia/Manila'))."</li>
                      <b><li> Sr. CDS Evaluation Date:</b> ".date('Y-m-d h:i:s',now('Asia/Manila'))."</li>                          
                      <b><li> Name of proposed Cooperative:</b> ". $coop_full_name."</li>

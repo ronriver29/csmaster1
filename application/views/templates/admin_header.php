@@ -34,10 +34,10 @@
       <div class="sidebar-header">
         <div class="row">
           <div class="col-sm-3">
-            <img src="<?=base_url();?>assets/img/cda_new.png" width="50" height="50" class="d-inline-block align-top" alt="Responsive image">
+            <img src="<?=base_url();?>assets/img/cda.png" width="50" height="50" class="d-inline-block align-top" alt="Responsive image">
           </div>
-          <div class="col-sm-9 align-self-center" >
-            <p class="h4">E-Coop<strong>RIS</strong></p>
+          <div class="col-sm-8 align-self-center">
+            <p class="h3">Coop<strong>RIS</strong></p>
           </div>
         </div>
         <div class="row">
@@ -75,17 +75,14 @@
             <a href="<?php echo base_url();?>admins/all_user"><i class="fas fa-user-tie"></i> Users</a>
           </li>
           <li>   
-            <a href="<?php echo base_url();?>admins/all_signatory"><i class="fas fa-handshake"></i>COC Signatory</a>
-          </li>  
-          <li>   
             <a href="<?php echo base_url();?>admins/cooperatives_list"><i class="fas fa-handshake"></i> All Cooperatives List</a>
           </li>
-             <li>   
+            <!--  <li>   
             <a href="<?php echo base_url();?>admins/amendment_list"><i class="fas fa-handshake"></i> All Amendments List</a>
-          </li>
-           <li>   
+          </li> -->
+          <!--  <li>   
             <a href="<?php echo base_url();?>admins/branches_list"><i class="fas fa-handshake"></i> All Branches List</a>
-          </li>  
+          </li>   -->
         <?php endif; ?>
       
         <?php if($admin_info->access_level < 5) : ?>
@@ -93,7 +90,7 @@
             <a href="<?php echo base_url();?>cooperatives"><i class="fas fa-handshake"></i> Cooperatives</a>
           </li>
          
-           <li>   
+          <!--  <li>   
 
             <a href="<?php echo base_url();?>branches"><i class="fas fa-handshake"></i> Branches and Satellites</a>
           </li>
@@ -102,11 +99,11 @@
           </li>
           <li>   
             <a href="<?php echo base_url();?>amendment"><i class="fas fa-handshake"></i> Amendment</a>
-          </li>  
+          </li>   -->
           <?php if($admin_info->access_level == 2) : ?>
-          <li>   
+         <!--  <li>   
             <a href="<?php echo base_url();?>account_approval"><i class="fas fa-handshake"></i> Account Approval</a>
-          </li> 
+          </li>  -->
           <?php endif; ?>
         <?php endif; ?>
         <li>

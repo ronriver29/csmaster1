@@ -56,28 +56,28 @@
 		</tr>
 		<tr>
 			<td style="text-align: justify; text-indent: 40px;">This is to certify that the proposed amendments to the <b> ARTICLES OF COOPERATION AND BYLAWS</b> of the
-	                <?=$amend_coop_info->proposed_name?>, with office address at <?= $coop_info->house_blk_no.' '.$coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?> adopted in its <b><?=$bylaw_info->type?></b> Annual
+	                <?=$amend_coop_info->proposed_name?>, with office address at <?= $coop_info->house_blk_no.' '.$coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?> adopted in its <b>REGULAR</b> Annual
 	                    General Assembly meeting held at <b><?=$coop_info->ga_venue?></b> on <b><?=date('F d, Y', strtotime($bylaw_info->annual_regular_meeting_day_date))?></b> were
 	                    submitted to the Cooperative Development Authority (CDA) for registration pursuant to the provisions of Republic Act No. 9520.</td>
 		</tr>
 	        <tr>
 			<td><i style="color:white;">....</i></td>
 		</tr>
-	    <tr>
-			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=(isset($articles_pages) ? $articles_pages->total_pages : '<small style="color:red">Please generate artilcles of cooperation document to get the total pages</small>' )?></b> pages and By-Laws consisting of <b><?=(isset($bylaws_pages->total_pages) ? $bylaws_pages->total_pages : '<small style="color:red">Please generate bylaws document to get the total pages</small>')?></b> pages, being not contrary
+	        <tr>
+			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=$this->session->userdata('pagecount')?></b> pages and By-Laws consisting of <b><?=$this->session->userdata('pagecount_bylaws')?></b> pages, being not contrary
 	                to the provisions of RA 9520 and the rules and regulations prescribed by the CDA, are hereby approved and registered.</td>
 		</tr>
 	        <tr>
 			<td><i style="color:white;">....</i></td>
 		</tr>
 	        <tr>
-			<td style="text-align: justify; text-indent: 40px;">IN WITNESS WHEREOF, by virtue of the powers vested in me by law, I have hereunto set my hand and cause the seal of Authority to be affixed 
+			<td style="text-align: justify; text-indent: 40px;"><b>IN WITNESS WHEREOF, by virtue of the powers vested in me by law, I have hereunto set my hand and cause the seal of Authority to be affixed </b>
 	                        this <b><?=$date_day?> day of <?= $date_month,', '.$date_year?> at Quezon City,</b> Philippines.</td> 
 		</tr>
 		 <tr>
 			<td><i style="color:white;">....</i></td>
 		</tr>
-	        <tr> 
+	        <tr>
 			<td><i style="color:white;">....</i></td>
 		</tr>
 	<!-- 	</tr>
@@ -94,7 +94,7 @@
 			<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 			</td> 
 			<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px;">
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
@@ -159,8 +159,8 @@
 	        <tr>
 			<td><i style="color:white;">....</i></td>
 		</tr>
-	    <tr>
-			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=(isset($articles_pages) ? $articles_pages->total_pages : '<small style="color:red">Please generate artilcles of cooperation document to get the total pages</small>' )?></b> pages and By-Laws consisting of <b><?=(isset($bylaws_pages) ? $bylaws_pages->total_pages : '<small style="color:red">Please generate bylaws document to get the total pages</small>')?></b> pages, being not contrary
+	        <tr>
+			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b>21</b> pages and By-Laws consisting of <b>22</b> pages, being not contrary
 	                to the provisions of RA 9520 and the rules and regulations prescribed by the CDA, are hereby approved and registered.</td>
 		</tr>
 	        <tr>
@@ -190,7 +190,7 @@
 			<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 			</td>
 			<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px;">
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
@@ -260,8 +260,8 @@
 	        <tr>
 			<td><i style="color:white;">....</i></td>
 		</tr>
-	    <tr>
-			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b><?=(isset($articles_pages) ? $articles_pages->total_pages : '<small style="color:red">Please generate artilcles of cooperation document to get the total pages</small>' )?></b> pages and By-Laws consisting of <b><?=(isset($bylaws_pages) ? $bylaws_pages->total_pages : '<small style="color:red">Please generate bylaws document to get the total pages</small>')?></b> pages, being not contrary
+	        <tr>
+			<td style="text-align: justify; text-indent: 40px;">The attached amended Articles of Cooperation consisting of <b>21</b> pages and By-Laws consisting of <b>22</b> pages, being not contrary
 	                to the provisions of RA 9520 and the rules and regulations prescribed by the CDA, are hereby approved and registered.</td>
 		</tr>
 	        <tr>
@@ -291,7 +291,7 @@
 			<td rowspan="2"><!-- <img src="<?=base_url();?>/assets/qr_code/tmp/qr_codes_images/<?= $coop_info->regNo ?>.png" width="100" height="100" > -->			
 			</td>
 			<td  style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px;">
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>

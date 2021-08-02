@@ -61,10 +61,13 @@
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
                     <option value="">--</option>
                     <option value="Primary" <?php if($coop_info->category_of_cooperative=="Primary") echo "selected";?>>Primary</option>
+                    
+                     <!-- <option value="Secondary - Union" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Union") echo "selected";?>>Union</option>  -->
+
                     <!-- <option value="Tertiary - Union" <?php if($coop_info->category_of_cooperative=="Tertiary" && $coop_info->grouping=="Union") echo "selected";?>>Tertiary - Union</option> -->
-                     <option value="Secondary - Federation" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Federation") echo "selected";?>>Secondary</option>
-                    <option value="Tertiary - Federation" <?php if($coop_info->category_of_cooperative=="Tertiary" && $coop_info->grouping=="Federation") echo "selected";?>>Tertiary</option>  
-                    <option value="Secondary - Union" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Union") echo "selected";?>>Others</option> 
+                    
+                   <!--   <option value="Secondary - Federation" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Federation") echo "selected";?>>Secondary</option>
+                    <option value="Tertiary - Federation" <?php if($coop_info->category_of_cooperative=="Tertiary" && $coop_info->grouping=="Federation") echo "selected";?>>Tertiary</option>  --> 
                     
                   </select>
                 </div>
@@ -81,12 +84,10 @@
                     <option value="24" <?php if($coop_info->type_of_cooperative =="Agriculture") echo "selected"; ?>>Agriculture</option>
                     <option value="9" <?php if($coop_info->type_of_cooperative =="Bank") echo "selected"; ?>>Bank</option>
                     <option value="4" <?php if($coop_info->type_of_cooperative =="Consumers") echo "selected"; ?>>Consumers</option>
-                    <!-- <option value="27" <?php if($coop_info->type_of_cooperative =="Cooperative Bank") echo "selected"; ?>>Cooperative Bank</option> -->
                     <option value="1" <?php if($coop_info->type_of_cooperative =="Credit") echo "selected"; ?>>Credit</option>
                     <option value="10" <?php if($coop_info->type_of_cooperative =="Dairy") echo "selected"; ?>>Dairy</option>
                     <option value="11" <?php if($coop_info->type_of_cooperative =="Education") echo "selected"; ?>>Education</option>
                     <option value="12" <?php if($coop_info->type_of_cooperative =="Electric") echo "selected"; ?>>Electric</option>
-                    <!-- <option value="25" <?php if($coop_info->type_of_cooperative =="Federation") echo "selected"; ?>>Federation</option> -->
                     <option value="13" <?php if($coop_info->type_of_cooperative =="Financial Service") echo "selected"; ?>>Financial Service</option>
                     <option value="14" <?php if($coop_info->type_of_cooperative =="Fishermen") echo "selected"; ?>>Fishermen</option>
                     <option value="15" <?php if($coop_info->type_of_cooperative =="Health Service") echo "selected"; ?>>Health Service</option>
@@ -99,7 +100,6 @@
                     <option value="3" <?php if($coop_info->type_of_cooperative =="Service") echo "selected"; ?>>Service</option>
                     <option value="23" <?php if($coop_info->type_of_cooperative =="Small Scale Mining") echo "selected"; ?>>Small Scale Mining</option>
                     <option value="17" <?php if($coop_info->type_of_cooperative =="Transport") echo "selected"; ?>>Transport</option>
-                    <option value="26" <?php if($coop_info->type_of_cooperative =="Union") echo "selected"; ?>>Union</option>
                     <option value="18" <?php if($coop_info->type_of_cooperative =="Water Service") echo "selected"; ?>>Water Service</option>
                     <option value="19" <?php if($coop_info->type_of_cooperative =="Workers") echo "selected"; ?>>Workers</option>
                   </select>
@@ -116,7 +116,7 @@
                       <?php if($key>=1) :?>
                         <a class="customDeleleBtn businessActivityRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                       <?php endif; ?>
-                      <label for="majorIndustry" id="majorlabel">Major Industry Classification No. <?= ($key+1)?></label>
+                      <label for="majorIndustry">Major Industry Classification No. <?= ($key+1)?></label>
                       <select class="custom-select form-control  validate[required]" name="majorIndustry[]" id="majorIndustry<?= ($key+1)?>">
                         <option value=""></option>
                         <?php foreach($major_industries_by_coop_type as $key2 => $major_industry_single) : ?>
@@ -127,7 +127,7 @@
                   </div>
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
-                      <label for="subClass<?= ($key+1)?>" id="subclasslabel">Major Industry Classification No. <?= ($key+1)?> Subclass</label>
+                      <label for="subClass<?= ($key+1)?>">Major Industry Classification No. <?= ($key+1)?> Subclass</label>
                       <select class="custom-select form-control validate[required]" name="subClass[]" id="subClass<?= ($key+1)?>">
                       </select>
                     </div>
@@ -147,9 +147,7 @@
                   <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
                   <input type="text" class="form-control validate[required,funcCall[validateActivityNotNullUpdateCustom],funcCall[validateCooperativeWordInNameCustom], funcCall[validateActivityInNameUpdateCustom],<?php echo ($coop_info->status > 0) ? "ajax[ajaxCoopNameUpdateCallPhp]" : "ajax[ajaxCoopNameExpiredCallPhp]";?>]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= $coop_info->proposed_name;?> <?php endif;?>">
-                  <div style="margin-bottom:20px;"> <small><span id="type_of_coop" style="margin-top:-20px;"></span></small> </div>
-                   <div style="margin-bottom:20px;"><small>
-                  <span id="proposed_name_msg" style="margin-top:-20px;font-style:italic;"></span></small></div>
+
                 </div>
               </div>
             </div>

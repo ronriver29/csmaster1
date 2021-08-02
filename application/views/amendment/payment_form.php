@@ -50,7 +50,7 @@
       <div class="card-header">
         <div class="row d-flex">
           <div class="col-sm-12 col-md-12 col-btn-action-payment">
-            <h4 class="float-left"ORDER OF PAYMENT:></h4>
+            <h4 class="float-left"ORDER OF PAYMENT:</h4>
           </div>
         </div>
       </div>
@@ -58,61 +58,40 @@
         <div class="row">
           <table class="bord" width="65%">
             <tr>
-              <td class="bord" >Order of Payment No.</td>
-              <td class="bord" colspan="3"><b><?=$ref_no?></b></td>
-            </tr>
-            <tr>
               <td class="bord">Date</td>
-              <td class="bord" colspan="3"><b><?= date("d-m-Y", strtotime($date_ok_for_payment)); ?></b></td>
+              <td class="bord" colspan="3"><b><?= date('Y-m-d h:i:s',now('Asia/Manila')); ?></b></td>
             </tr>
 
             <?php
               if ($pay_from=='reservation'){
-               
-                 $basic_reservation_fee =300;
-                 $name_reservation_fee =0;
-                 $acronym ='';
-                 // $amendment_name = ''; 
-                 if(strlen($coop_info->acronym)>0)
-                 {
-                  $acronym = '('.$coop_info->acronym.')';
-                  $amendment_name = $coop_info->proposed_name.$acronym;
-                 }
-                 else
-                 {
-                    $amendment_name = $coop_info->proposed_name;
-                 }
 
+                // $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $article_info->par_value_common : $total_regular['total_paid'] * $article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $article_info->par_value_common) : ($total_regular['total_paid'] *$article_info->par_value_common + $total_associate['total_paid'] *$article_info->par_value_preferred)) *0.001 : 500.00);
                 if(count(explode(',',$coop_info->type_of_cooperative))>1)
                 {
-                  $proposeName = $coop_info->proposed_name.' Multipurpose Cooperative'.$coop_info->grouping.' '.$acronym;
+                  $proposeName = $coop_info->proposed_name.' Multipurpose Cooperative'.$coop_info->grouping;
                 }
                 else
                 {
-
-                    $proposeName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.'  Cooperative '.$coop_info->grouping.' '.$acronym;;
+                    $proposeName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.'  Cooperative '.$coop_info->grouping;
                 }
-               
-                $name_comparison = strcasecmp($original_coop_name,$amendment_name);
-                if($name_comparison>0)
+                if($original_coop_name!=$proposeName)
                 {
-                
-                  $name_reservation_fee = 100;
+                   $basic_reservation_fee =300;
                 }
-                
-                
-                 $rf=0;
-                 $percentage_amount = 0;
-                 $total_amendment_fee = 0;
+                else
+                {
+                   $basic_reservation_fee =0;
+                }
+                $rf=0;
                 //fixed amount
                 $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_capitalization->total_amount_of_paid_up_capital;
                 //amendment paid up is greater than coop total paid up
                 if($diff_amount>0)
                 {
-                  $percentage_amount= $diff_amount * 0.001; // 1 over 10 of 1% 
-                  $total_reservation_fee = $percentage_amount+ $basic_reservation_fee;
+                  $percentage_of_onepercent= $diff_amount * 0.01; //x 1%
+                  $pecentage_of_ten_percent = $percentage_of_onepercent *0.1; //10% of one percent 
+                  $total_reservation_fee = $pecentage_of_ten_percent+ $basic_reservation_fee;
                   $rf = $total_reservation_fee;
-
                 }
                 else
                 {
@@ -123,18 +102,9 @@
                  if($lrf<10)
                  {
                   $lrf=10;
+                 }
 
-                 }
-               
-                 if($basic_reservation_fee > $percentage_amount )
-                 {
-                    $total_amendment_fee   = 300;
-                 }
-                 else
-                 {
-                  $total_amendment_fee   = $percentage_amount ;
-                 }
-                 
+                
 
                 echo '
                 <tr>
@@ -147,34 +117,29 @@
                 </tr>
                 <tr>
                   <td class="bord">Amount in Words</td>
-                  <td class="bord" colspan="3"><b>'.ucwords(num_format_custom($total_amendment_fee+$lrf+$name_reservation_fee)).' Pesos</b></td>
-                </tr>
-                <tr>
-                  <td class="bord" align="center" colspan="4">Particulars</td>
+                  <td class="bord" colspan="3"><b>'.ucwords(num_format_custom($rf+$lrf+$name_reservation_fee)).' Pesos</b></td>
                 </tr>';
-                if(strcasecmp($original_coop_name,$amendment_name)>0)
+                if($original_coop_name!=$proposeName)
                 {
                   echo'
-                
+                <tr>
+                  <td class="bord" align="center" colspan="4">Particulars</td>
+                </tr>
                 <tr>
                   <td width="23%"></td>
                   <td class="pera" width=""><b>Name Reservation Fee</b></td>
                   <td class="pera" width="5%">Php </td>
-                  <td class="pera" align="right" width="13%"><b>'.number_format($name_reservation_fee + $total_amendment_fee + $lrf,2).'</b></td>
+                  <td class="pera" align="right" width="13%"><b>'.number_format($name_reservation_fee,2).'</b></td>
                 </tr>';
                 }
                 echo'
-                <tr> 
-                <td></td>
-                <td><b>Amendment Fee</b></td>
+                <tr>
+                  <td width="23%"></td>
+                  <td class="pera" width=""><b>Amendment Fee</b></td>
+                  <td class="pera" width="5%"> </td>
+                  <td class="pera" align="right" width="13%"><b>'.number_format($rf,2).'</b></td>
                 </tr>
                 <tr>
-                <td></td>
-                <td><p style="font-style:italic;font-size:11pt;">(1/10 of 1% of Php '.number_format($diff_amount,2).' increased in paid up capital<br> amounted to Php '.number_format($percentage_amount,2).' or a minimum of<br> Php 300.00 whichever is higher)<p></td>
-                <td class="pera" width="5%"> </td>
-                <td class="pera" align="right"><b>'.number_format($total_amendment_fee,2).'</b></td>
-                </tr>
-                  <tr>
                 <td width="23%"></td>
                   <td class="pera" width=""><b>Legal and Research Fund Fee</b></td>
                   <td class="pera" width="5%"> </td>
@@ -185,10 +150,9 @@
                 </tr>
                 <tr>
                   <td class="bord" colspan="2">Total </td>
-                  <td class="taas" width="5%">Php </td>
-                  <td class="taas" align="right" width="13%"><b>'.number_format($total_amendment_fee+$lrf+$name_reservation_fee,2).'</b></td>
+                  <td class="pera" width="5%">Php </td>
+                  <td class="pera" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
                 </tr>';
-
             }
           ?>
           </table>
@@ -212,19 +176,12 @@
         </div>
 
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=$encrypted_id ?>">
-          <input type="hidden" class="form-control" id="ref_no" name="ref_no" value="<?=$ref_no?>">
-         <!--  <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>"> -->
+          <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
           <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$proposeName?>">
           <input type="hidden" class="form-control" id="nature" name="nature" value="Amendment">
-          <?php if($name_reservation_fee>0):?>
-          <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Amendment Fee - Primary<br>(1/10 of 1% of Php '.number_format($diff_amount,2).' increased in paid up capital<br> amounted to Php '.number_format($percentage_amount,2).' or a minimum of<br> Php 300.00 whichever is higher)<br>Legal and Research Fund Fee">
-           <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($total_amendment_fee,2).'<br/>'.number_format($lrf,2) ?>">
-          <?php else: ?>
-          <input type="hidden" class="form-control" id="particulars" name="particulars" value="Amendment Fee <br/>(1/10 of 1% of Php <?=number_format($diff_amount,2)?> increased in paid up capital<br> amounted to Php <?=number_format($percentage_amount,2)?> or a minimum of<br> Php 300.00 whichever is higher)<br>Legal and Research Fund Fee">
-          <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($total_amendment_fee,2).'<br/>'.number_format($lrf,2) ?>">
-          <?php endif;?>
-         
-          <input type="hidden" class="form-control" id="total" name="total" value="<?=$total_amendment_fee+$lrf+$name_reservation_fee?>">
+          <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee">
+          <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2) ?>">
+          <input type="hidden" class="form-control" id="total" name="total" value="<?=$rf+$lrf+$name_reservation_fee?>">
           <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
       </div>
       <br><br>

@@ -41,12 +41,6 @@
               </p>
             </div>
             <div class="col-md-4">
-              <strong>Chairperson:</strong>
-              <p class="text-muted">
-                  <?=$account_info->chairperson?>
-              </p>
-            </div>
-            <div class="col-md-4">
               <strong>Account File Uploaded:</strong>
               <p class="text-muted">
                 <?php $pieces = explode("|", $account_info->files);

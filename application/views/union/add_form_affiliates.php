@@ -19,15 +19,6 @@
               <div class="alert alert-info" role="alert">
                 <p> Are you sure you want to add <strong class="cooperator-name-text">test</strong> Cooperative?</p>
               </div>
-
-              <div class="col-sm-12 col-md-12">
-                <div class="form-group">
-                  <label for="fName">Full Name:</label>
-                  <input type="text" class="form-control validate[required,custom[fullname]]" id="fName" name="fName">
-                  <label for="fName" style="font-style: italic;font-size: 11px;">(Last Name, First Name Middle Name)</label>
-                </div>
-              </div>
-
             </div>
             <div class="modal-footer deleteCooperatorFooter">
               <input class="btn btn-color-blue btn-block" type="submit" id="deleteCooperatorBtn" name="deleteCooperatorBtn" value="Add">

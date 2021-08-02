@@ -14,35 +14,27 @@
               <input type="hidden" id="cooperativeID" name="cooperativeID" readonly>
               <div class="alert alert-info" role="alert">
                 Cooperative Name:<br>
-
                 <strong class="cooperative-name-text">test</strong> <strong></strong>
               </div>
               <div class="form-group">
-                <label for="comment">State the reason/s: </label>
+                <label for="comment">State the reason/s:</label>
                 <pre>
                 <textarea class="form-control validate[required]" style="resize: none;" id="comment" name="comment" placeholder=""rows="8"><?php 
-                // foreach($cds_comment as $cds){
-                //     echo $cds['comment'].PHP_EOL;    
-                // }
+                foreach($cds_comment as $cds){
+                    echo $cds['comment'].PHP_EOL;    
+                }
                 
-                // if(strlen($coop_info->tool_findings)>0)
-                // {
-                //   echo ''.PHP_EOL;
-                //   echo $coop_info->tool_findings.PHP_EOL;
-                //   echo ''.PHP_EOL;
-                // }
-                
+                echo ''.PHP_EOL;
+                echo $coop_info->tool_findings.PHP_EOL;
+                echo ''.PHP_EOL;
                 
                 foreach($senior_comment as $senior){
-                  if(strlen($senior['comment'])>0)
-                  {
                     echo $senior['comment'].PHP_EOL;
-                  }
                 }?></textarea></pre>
               </div>
             </div>
             <div class="modal-footer deferCooperativeFooter">
-              <input class="btn btn-color-blue" type="submit" id="deferCooperativeBtn" name="deferCooperativeBtn" value="<?=($coop_info->status==12 ? "Submit" : "Defer")?>">
+              <input class="btn btn-color-blue" type="submit" id="deferCooperativeBtn" name="deferCooperativeBtn" value="Defer">
             </div>
           </form>
         </div>

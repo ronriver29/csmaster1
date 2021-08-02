@@ -70,75 +70,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','right');
-        $this->db->where('registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND (cooperatives.status IS NULL OR cooperatives.status = 15)');
-        $this->db->limit('10');
-        $query = $this->db->get();
-        $data = $query->result_array();
-        return $data;
-        }
-    }
-
-    public function get_registered_coop_secondary($area_of_operation,$addresscode,$type_of_cooperative){
-    if($area_of_operation == 'Barangay'){
-        $this->db->select('registeredcoop.*, registeredcoop.id as registered_id,cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
-        $this->db->from('cooperatives');
-        $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
-        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
-        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
-        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.category = "Secondary" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
-        $query = $this->db->get();
-        $data = $query->result_array();
-        return $data;
-    } else if($area_of_operation == 'Municipality/City'){
-        $addresscode = substr($addresscode, 0, 6);
-        $this->db->select('registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
-        $this->db->from('cooperatives');
-        $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
-        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
-        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
-        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.category = "Secondary" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
-        $query = $this->db->get();
-        $data = $query->result_array();
-        return $data;
-    } else if($area_of_operation == 'Provincial'){
-        $addresscode = substr($addresscode, 0, 4);
-        $this->db->select('registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
-        $this->db->from('cooperatives');
-        $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
-        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
-        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
-        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.category = "Secondary" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
-        $query = $this->db->get();
-        $data = $query->result_array();
-        return $data;
-    } else if($area_of_operation == 'Regional'){
-        $addresscode = substr($addresscode, 0, 2);
-        $this->db->select('registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
-        $this->db->from('cooperatives');
-        $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
-        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
-        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
-        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.category = "Secondary" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
-        $query = $this->db->get();
-        $data = $query->result_array();
-        return $data;
-    } else if($area_of_operation == 'National'){
-        $this->db->select('registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
-        $this->db->from('cooperatives');
-        $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
-        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
-        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','right');
-        $this->db->where('registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND registeredcoop.category = "Secondary" AND (cooperatives.status IS NULL OR cooperatives.status = 15)');
+        $this->db->where('registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND cooperatives.status IS NULL OR cooperatives.status = 15');
         // $this->db->limit('10');
         $query = $this->db->get();
         $data = $query->result_array();

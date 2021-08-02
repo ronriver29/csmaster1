@@ -78,7 +78,7 @@
 
           //end cooperative
           $proposedName2 =$proposedName;
-          if(strcasecmp($proposedName,$proposedName_original)>0)
+          if($proposedName!=$proposedName_original)
           {
             $proposedName ='<strong>'.$proposedName .'</strong>';
           }
@@ -126,9 +126,16 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
-        <ol class="text-justify" type="1"> 
-          <?php $purposes_list_modified = array(); ?>
-    			<?php foreach($purposes_list as $key => $purpose) :?>
+        <ol class="text-justify" type="1">
+
+    			<?php foreach($purposes_list as $key => $purpose) :
+            // if(empty($purposes_list_orig[$key]))
+            // {
+            //   $purposes_list_orig[$key]=;
+
+            // }
+           
+          ?>
 
           <?php if(isset($purposes_list_orig[$key])){
                $purpose_orig =$purposes_list_orig[$key];
@@ -139,45 +146,29 @@
           <li type="I" style="margin-top: 20px;"></strong><?=$purpose['cooperative_type']?></li> 
 
          <?php } ?>                    
-               <!--   <div> <ol> -->
+                 <div> <ol>
                 <?php               
                  $content = explode(';',$purpose['content']);
                  $content_orig = explode(';',$purpose_orig['content']);
-                 $content_orig = array_reverse($content_orig);
-                 $content = array_reverse($content);
+                 //  echo'<pre>';print_r($content);echo'</pre>';
+                 // echo'<pre>';print_r($content_orig);echo'</pre>';
                   foreach($content as $keys => $contents)
-                  { 
+                  {
                     if(empty($content_orig[$keys]))
                     {
                       $content_orig[$keys] =0;
                     }
                     $contents_orig =  $content_orig[$keys];
-                    if(strcasecmp($contents, $contents_orig)>0)
+                    if( $contents_orig!==$contents)
                     {
-                      $content_compare = '<b>'.$contents.'</b>';
-                      array_push($purposes_list_modified, $content_compare);
+                       $contents = '<strong>'. $contents.'</strong>';
                     }
-                    else
-                    {
-                       $content_compare = $contents;
-                      array_push($purposes_list_modified, $content_compare);
-                    }
-                    // echo '<li>'.$contents.' : '.$contents_orig.'</li>';
+                    echo '<li>'.$contents.'</li>';
                   }
                 ?> 
-                 <!--  </ol></div> -->
+                  </ol></div>
             
           <?php endforeach; ?>
-          <div><ol>
-         <!--  <?php echo"<pre>";print_r($purposes_list_modified);echo"</pre>";?> -->
-          <?php
-          $purposes_list_modified = array_reverse($purposes_list_modified);
-          foreach($purposes_list_modified as $final_content)
-          {
-            echo '<li>'.$final_content.'</li>';
-          }
-          ?>
-           </ol></div>
     		</ol>
     </div>
   </div>
@@ -241,23 +232,21 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article V<br>Term of years_of_existence</p>
+        <p class="font-weight-bold">Article V<br>Term of Existence</p>
     </div>
   </div>
   <div class="row mb-4">
     <?php
-    $years_of_existence = $article_info->years_of_existence;
-    $years_of_existence2=ucwords(num_format_custom($article_info->years_of_existence));
-
+     $years_of_existence = '';
+      $years_of_existence2='';
     if($article_info_orig->years_of_existence!=$article_info->years_of_existence)
     {
-      $years_of_existence='<strong>'.$years_of_existence.'</strong>';
-       $years_of_existence2='<strong>'. $years_of_existence2.'</strong>';
+      $years_of_existence='<strong>'.ucwords(num_format_custom($article_info->years_of_existence)).'</strong>';
+       $years_of_existence2='<strong>'.$article_info->years_of_existence.'</strong>';
     }
-  
     ?>
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">The term for which this Cooperative shall exist is <?=  $years_of_existence2?> (<?= $years_of_existence?>) years from the date of its registration with the Cooperative Development Authority.</p>
+      <p class="text-justify" style="text-indent: 50px;">The term for which this Cooperative shall exist is <?=  $years_of_existence?> (<?= $years_of_existence2?>) years from the date of its registration with the Cooperative Development Authority.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -313,16 +302,7 @@
        }else{
          echo "Philippines";
        }
-       
-       if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
-       ?>
-
-       <?php 
-       $address = $coop_info->house_blk_no.' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.' '.($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province).' '.$coop_info->region;
-      $address_orig = $coop_info_orig->house_blk_no.' '.ucwords($coop_info_orig->street).$x.' '.$coop_info_orig->brgy.' '.($in_chartered_cities_orig ? $chartered_cities_orig : $coop_info_orig->city.', '.$coop_info_orig->province).' '.$coop_info_orig->region;
-       
-       ?>.Its principal office shall be located at <?=(strcasecmp($address, $address_orig)>0 ? '<b>'.$address.'</b>' : $address)?>.</p>
-
+       ?>.Its principal office shall be located at <strong><?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?><?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?> <?=$coop_info->region?>.</strong></p>
     </div>
   </div>
   <div class="row mb-2">
@@ -569,12 +549,11 @@
       if($totalRegular_orig != $totalRegular)
       {
         $totalRegular='<strong>'.number_format($totalRegular,2).'</strong>';
-         $total_regular_words = '<b>'.ucwords(num_format_custom($totalRegular)).'</b>';
+         $total_regular_words = '<b>'.num_format_custom($totalRegular).'</b>';
       }
       else
       {
-         $totalRegular=number_format($totalRegular,2);
-          $total_regular_words = ucwords(num_format_custom($totalRegular));
+          $total_regular_words = num_format_custom($totalRegular);
       }
 
       $regular_total_subscibed = $total_regular['total_subscribed'] * $capitalization_info->par_value + ($total_associate['total_subscribed'] * $capitalization_info->par_value);
@@ -583,14 +562,9 @@
           $regular_total_subscibed2= num_format_custom($regular_total_subscibed);
       if($regular_total_subscibed_orig!=$regular_total_subscibed)
       {   
-          $regular_total_subscibed2 = '<strong>'.ucwords(num_format_custom($regular_total_subscibed)).'</strong>';
+          $regular_total_subscibed2 = '<strong>'.num_format_custom($regular_total_subscibed).'</strong>';
         $regular_total_subscibed = '<strong>'.number_format($regular_total_subscibed,2).'</strong>';
       
-      }
-      else
-      {
-          $regular_total_subscibed2 =ucwords(num_format_custom($regular_total_subscibed));
-        $regular_total_subscibed = number_format($regular_total_subscibed,2);
       }
       
       // echo $total_regular['total_subscribed'].'a' .$capitalization_info->par_value .'b'.$total_associate['total_subscribed'] .'c'. $preferred_share2;
@@ -622,7 +596,7 @@
         <?php echo ($bylaw_info->kinds_of_members == 1) ? $total_regular_words : $regular_total_subscibed2 ;?> Pesos
         (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular : ($regular_total_subscibed);?>) has been subscribed, and
         <!-- <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular2 :   $paidUp;?> -->
-        <?=ucwords($paidUp)?> Pesos
+        <?=$paidUp?> Pesos
         (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? $paidUpsss : $paidUpsss ;?>) of the total subscription has been paid by the following members-subscribers:</p>
     </div>
   </div>
@@ -952,7 +926,7 @@
   </div>
   <div class="row mb-3">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(strlen($coop_info->acronym)>0){ echo '('.$coop_info->acronym.')';}?>, consists of <u><?=$this->session->userdata('pagecount')?></u> pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>
+      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>, consists of <u><?=$this->session->userdata('pagecount')?></u> pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>
     </div>
   </div>
 
@@ -980,4 +954,3 @@
 </body>
 
 </html>
- 

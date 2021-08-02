@@ -4,7 +4,7 @@
   </div>
 </div>
 <?php if($coop_info->status == 0) :?>
-<div class="row">   
+<div class="row">  
   <div class="col">
     <div class="alert alert-info shadow-sm" role="alert">
       <h5>Your reservation is already <strong>expired</strong>. Please fill up all the information to proceed into the next step</h5>
@@ -64,11 +64,12 @@
                 <div class="form-group">
                   <label for="categoryOfCooperative">Category of Cooperative:</label>
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
-                   <!--  <option value="">--</option> -->
+                    <option value="">--</option>
                     <option value="Primary" <?php if($coop_info->category_of_cooperative=="Primary") echo "selected";?>>Primary</option>
-                    <option value="Secondary" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Secondary") echo "selected";?>>Secondary</option>
-                    <option value="Tertiary" <?php if($coop_info->category_of_cooperative=="Tertiary" ) echo "selected";?>>Tertiary</option>
-                    <option value="Others" <?php if($coop_info->category_of_cooperative=="Others") echo "selected";?>>Others</option>
+                    <option value="Secondary - Union" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Union") echo "selected";?>>Secondary - Union</option>
+                    <option value="Tertiary - Union" <?php if($coop_info->category_of_cooperative=="Tertiary" && $coop_info->grouping=="Union") echo "selected";?>>Tertiary - Union</option>
+                    <option value="Secondary - Federation" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Federation") echo "selected";?>>Secondary - Federation</option>
+                    <option value="Tertiary - Federation" <?php if($coop_info->category_of_cooperative=="Tertiary" && $coop_info->grouping=="Federation") echo "selected";?>>Tertiary - Federation</option>
                   </select>
                 </div>
               </div>
@@ -167,11 +168,9 @@
                 <div class="form-group" style="margin-bottom: 0">
                    <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
-                 <!--  <input type="text" class="form-control validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>">  -->
+                  <input type="text" class="form-control validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> 
 
-                <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess"
-                     value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> 
-                <input type="hidden" class="form-control" name="newName2" id="newName2">
+                 <!--   <input type="text" class="form-control validate[required]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> -->
                   <input type="hidden" class="form-control" id="cooperative_idss" />
                 
                 </div>
@@ -179,6 +178,7 @@
                    <div style="margin-bottom:20px;"><small>
                   <span id="proposed_name_msg" style="margin-top:-20px;font-style:italic;"></span></small></div>
                
+
               </div>
             </div>
             <input type="hidden" class="form-control" name="count_types" id="count_types" />
@@ -225,8 +225,8 @@
               
           <!-- asldfk; -->
           <div class="row">
-              <div class="col-sm-12 col-md-12 col-com insti_div" id="insti_div"> 
-                <div class="form-group col-md-12">
+              <div class="col-sm-12 col-md-12 col-com insti_div" id="insti_div" > 
+                <div class="form-group">
                    <label for="compositionOfMembers1" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
                             <label for="compositionOfMembers1" id="fieldmembershipmemofficname">Field of Membership <i>(Note: Members, Officers)</i></label>
                             <input type="text" class="form-control" name="field_membership" id="field_membership" value="<?=$coop_info->field_of_membership?>">
@@ -251,59 +251,54 @@
                             }
                         ?>
                 </div>
-              </div> <!-- end insti -->
-             
-               
-                  <div class="col-md-12 ocu-div">
-                  <label for="compositionOfMembers" id="composition_of_members_label">Composition of Members </label>
-                  
-                  <?php if(empty($members_composition)) {?>
-                  <select class="custom-select" name="compositionOfMembers[]" id="compositionOfMembers1">
-                    <option value="" selected></option>
-                    <?php
-                    foreach ($composition as $key) {
-                    echo '<option value="'.$key->composition.'">'.$key->composition.'</option>';
-                    }
-                    ?>
-                  </select>
-                  <?php } ?>
-                  <?php
-                  if($members_composition)
-                  {
-                  $no=0;
-                  foreach($members_composition as $key){
-                    echo '<div class="form-group">
-                      <table id="comp_tbl" width="100%">
-                        <tr>
-                          <td><select class="custom-select form-control  validate[required]" name="compositionOfMembers[]" id="compositionOfMembers'.++$no.'">
-                            <option value=""></option>';
-                            foreach($composition as $key2){
-                            echo '<option value="'.$key2->id;
-                              if ($key['composition']==$key2->composition)
-                              echo '" selected>';
-                              else
-                              echo '">';
-                            echo $key2->composition.'</option>';}
-                          echo '</select><br>
-                        </td>';
-                        ?>
-                        <?php 
-                        if(count($members_composition)>1)
-                        {
-                          echo' <td><a class="customDeleleBtn compositionRemoveBtn float-right text-danger"  onclick="$(this).parent().parent().remove()"><i class="fas fa-minus-circle"></i></a>
-                        </td>';
-                        }
-                        ?>
-                     <?php
-                       echo' </tr>
-                      </table>
-                    </div>';
-                  }//end no emtpy
-                }
-                ?>
-              </div> <!-- end of ocu-div -->
-                 <div class="col-md-12 occupation-wrapper" id="occupation-wrapper" >
-                </div> <!-- END occupation-wrapper -->
+            
+                <div class="form-group">
+                   <label for="compositionOfMembers" id="composition_of_members_label">Composition of Members </label> 
+                          
+                            <?php if(empty($members_composition)) {?>
+                            <select class="custom-select" name="compositionOfMembers[]" id="compositionOfMembers1">
+                                <option value="" selected></option>
+                                <?php
+                                  foreach ($composition as $key) {
+                                    echo '<option value="'.$key->composition.'">'.$key->composition.'</option>';
+                                  }
+                                ?>
+                              </select>
+                            <?php } ?>
+                            <?php 
+                            if($members_composition)
+                            {
+                              $no=0;
+                              foreach($members_composition as $key){
+
+
+                                echo '<div class="form-group">
+
+                                <table id="comp_tbl">
+                                  <tr>
+                                    <td><select class="custom-select form-control  validate[required]" name="compositionOfMembers[]" id="compositionOfMembers'.++$no.'">
+                                        <option value=""></option>';
+                                        foreach($composition as $key2){
+                                          echo '<option value="'.$key2->id;
+                                          if ($key['composition']==$key2->composition)
+                                            echo '" selected>';
+                                          else
+                                            echo '">';
+                                          echo $key2->composition.'</option>';}
+
+                                        echo '</select><br>
+                                    </td>
+                                    <td><a class="customDeleleBtn compositionRemoveBtn float-right text-danger"  onclick="$(this).parent().parent().remove()"><i class="fas fa-minus-circle"></i></a>
+                                    </td>
+                                  </tr>
+                                </table>                     
+
+                            </div>';
+                            }//end if is array
+                          } 
+              ?>
+                </div>
+              </div>
           </div>      
           
           
@@ -324,7 +319,6 @@
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                   <strong>Proposed Address of the Cooperative</strong>
-                   <div style="color:red;font-size: 11px;"><i>*Please leave the House/Lot and Blk No. and Street Name blank if not applicable</i></div>
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">

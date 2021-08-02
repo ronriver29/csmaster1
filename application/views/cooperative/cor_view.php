@@ -1,6 +1,5 @@
 <?php
 ini_set('output_buffering', true); // no limit
-// echo $memory_usage;
 ?>
 <!DOCTYPE html>
 <html lang="en"> 
@@ -435,7 +434,7 @@ Very truly yours,<br/>
 <b><?=strtoupper($director->full_name); ?></b><br/>
 <?=strtoupper($director->access_name); ?>
 <?php } ?>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
 </p>
 </td>
 </tr>

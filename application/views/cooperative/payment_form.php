@@ -59,72 +59,27 @@
         <div class="row">
           <table class="bord" width="65%">
             <tr>
-              <td class="bord">Order of Payment No.</td>
-              <?php
+              <td class="bord">Date</td>
+              <td class="bord" colspan="3"><b><?= date('Y-m-d h:i:s',now('Asia/Manila')); ?></b></td>
+            </tr>
+            <?php
+              if ($pay_from=='reservation'){ 
+                $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
+                $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                
                 if(!empty($coop_info->acronym_name)){ 
                     $acronym_name = '('.$coop_info->acronym_name.') ';
                 } else {
                     $acronym_name = '';
                 }
-
                 if($coop_info->grouping == 'Union'){
-                      $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.$coop_info->grouping);
-                  } else if($coop_info->grouping == 'Federation'){
-                      $payorname = ucwords($coop_info->proposed_name.' Federation of '.$coop_info->type_of_cooperative .' '.$acronym_name);
-                  } else {
-                      $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.$coop_info->grouping);
-                  }
-
-                $report_exist = $this->db->where(array('payor'=>$payorname))->get('payment');
-
-                // echo $report_exist->num_rows();
-                if($report_exist->num_rows()==0){
-                  $series = substr($coop_info->refbrgy_brgyCode,0,2).'-'.date('Y-m',now('Asia/Manila')).'-'.$series;
-                  $datee = date('d-m-Y',now('Asia/Manila'));
+                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->grouping.' Of '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name);
                 } else {
-                  foreach($report_exist->result_array() as $row){
-                    $series = $row['refNo'];
-                    $datee = date('d-m-Y',strtotime($row['date']));
-                  }
-
-                  // $series = 
+                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.$coop_info->grouping);
                 }
-
-                // print_r($report_exist->result());
-              ?>
-              <td class="bord" colspan="3"><b><?=$series?></b></td>
-            </tr>
-            <tr>
-              <td class="bord">Date</td>
-              <td class="bord" colspan="3"><b><?=$datee;?></b></td>
-            </tr>
-            <?php
-            $refNo = $series;
-              if ($pay_from=='reservation'){ 
-                if($coop_info->category_of_cooperative == 'Tertiary'){
-                  $registrationfeename = 'Tertiary';
-                } else if ($coop_info->category_of_cooperative == 'Secondary'){
-                  $registrationfeename = 'Secondary';
-                } else {
-                  $registrationfeename = 'Primary';
-                }
-                if($coop_info->grouping == 'Union'){
-                  if($coop_info->area_of_operation == 'National'){
-                    $rf = 3000;
-                  } else if($coop_info->area_of_operation == 'Regional'){
-                    $rf = 2000;
-                  } else {
-                    $rf = 1000;
-                  }
-                    $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
-                } else {
-                  $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
-                  $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
-                }
-                
                 $amount_in_words=0;
-                  $amount_in_words = ($rf+$lrf+$name_reservation_fee+100);
-                 // $amount_in_words = ($rf+$lrf+$name_reservation_fee);
+                  // $amount_in_words = ($rf+$lrf+$name_reservation_fee+100);
+                 $amount_in_words = ($rf+$lrf+$name_reservation_fee);
 
                 ini_set('precision', 17);
                 $total_ = number_format($amount_in_words,2);
@@ -159,7 +114,7 @@
                 </tr>
                 <tr>
                   <td width="23%"></td>
-                  <td class="pera" width=""><b>Registration Fee - '.$registrationfeename.'</b><br><i>(1/10 of 1% of Php'.number_format($capitalization_info->total_amount_of_paid_up_capital,2).' paid up capital amounted to Php'.number_format($capitalization_info->total_amount_of_paid_up_capital*0.001,2).' or a minimum of Php500.00, whichever is higher)</i></td>
+                  <td class="pera" width=""><b>Registration Fee</b></td>
                   <td class="pera" width="5%"> </td>
                   <td class="pera" align="right" width="13%"><b>'.number_format($rf,2).'</b></td>
                 </tr>
@@ -170,6 +125,16 @@
                   <td class="pera" align="right" width="13%"><b>'.number_format($lrf,2).'</b></td>
                 </tr>
                 <tr>
+                  <td colspan="4">&nbsp</td>
+                </tr>
+                <tr>
+                  <td class="bord" colspan="2">Total </td>
+                  <td class="pera" width="5%">Php </td>
+                  <td class="pera" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
+                </tr>';
+              }
+          ?>      
+                <!--  <tr>
                  <td width="23%"></td>
                    <td class="pera" width=""><b>COC Fee</b></td>
                    <td class="pera" width="5%"> </td>
@@ -180,12 +145,9 @@
                 </tr>
                 <tr>
                   <td class="bord" colspan="2">Total </td>
-                  <td class="taas" width="5%">Php </td>
-                  <td class="taas" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee+100,2).'</b></td>
-                </tr>';
-              }
-          ?>      
-                 
+                  <td class="pera" width="5%">Php </td>
+                  <td class="pera" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee+100,2).'</b></td>
+                </tr>'; -->
           
           </table>
         <div>
@@ -208,14 +170,13 @@
         </div>
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=$encrypted_id ?>">
           <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
-          <input type="hidden" class="form-control" id="refNo" name="refNo" value="<?=$refNo?>">
           <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$payorname?>">
           <input type="hidden" class="form-control" id="nature" name="nature" value="Name Registration">
-          <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration Fee - <?=$registrationfeename?><br><i>(1/10 of 1% of Php<?=number_format($capitalization_info->total_amount_of_paid_up_capital,2)?> paid up capital amounted to Php<?=number_format($capitalization_info->total_amount_of_paid_up_capital*0.001,2)?> or a minimum of Php500.00, whichever is higher)</i><br/>Legal and Research Fund Fee<br/>COC Fee">
-           <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2).'<br/>'.number_format(100,2) ?>">
-           <!-- <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee">
-            <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2)?>"> -->
-          <input type="hidden" class="form-control" id="total" name="total" value="<?=$rf+$lrf+$name_reservation_fee+100?>">
+          <!-- <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee<br/>COC Fee"> -->
+           <!-- <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2).'<br/>'.number_format(100,2) ?>"> -->
+           <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee">
+            <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2)?>">
+          <input type="hidden" class="form-control" id="total" name="total" value="<?=$rf+$lrf+$name_reservation_fee?>">
           <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
       </div>
       <br><br>

@@ -12,7 +12,6 @@ class Amendment_registration extends CI_Controller{
     $this->load->model('user_model', 'user');
     $this->load->library('ci_qr_code');
     $this->config->load('qr_code');
-    $this->load->model('Amendment_registration_model','amendment_registration_model');
   }
 
   function index($id = null){
@@ -24,7 +23,7 @@ class Amendment_registration extends CI_Controller{
        $cooperative_id =$this->amendment_model->coop_dtl($decoded_id);
       //add to registered cooop
       $coop_info = $this->amendment_model->get_cooperative_info_by_admin_payment($decoded_id);
-     
+      // $this->debug($coop_info);
 
       if ($coop_info->category_of_cooperative =='Primary')
           $pst="1";
@@ -33,23 +32,34 @@ class Amendment_registration extends CI_Controller{
       else
         $pst="3";
 
-     ;
+      // $cooperative_id = $this->registration_model->coop_dtl($decoded_id);
       $rCode = $coop_info->rCode;
-      $x=$this->amendment_registration_model->registered_coop_count()+1;
+      $x=$this->registration_model->registered_coop_count()+1;
       $j='9520-'.$pst.$rCode;
       for($a=strlen($x);$a<8;$a++) //modify by json from 12 to 8
       $j=$j.'0';
       $j=$j.$x;
 
-      // $amendment_no =1;
-      if(!$this->amendment_registration_model->in_registeredamendment($decoded_id))
+      $amendment_no ='';
+      $qry_amd_no = $this->db->query("select amendmentNo from amend_coop where cooperative_id='$cooperative_id' and status=15 or status=14 order by id desc limit 1");
+      if($qry_amd_no->num_rows()>0)
       {
-      $amendment_no = $this->amendment_registration_model->get_last_reg_amendment($coop_info->regNo);
-      $data_reg = array(
+        $amendment_no = $qry_amd_no->num_rows()+1;
+      }
+      else
+      {
+        $amendment_no = 1;
+      }
+
+
+        if($this->db->update('amend_coop',array('amendmentNo'=>$amendment_no),array('id'=>$decoded_id)))
+        {
+          
+ 
+            $data_reg = array(
               'coopName'=>$coop_info->proposed_name.' '.$coop_info->type_of_cooperative,
               'acronym'=> $coop_info->acronym,
               'regNo'=> $coop_info->regNo,
-              'amendment_no'=>$amendment_no,
               'category'=> $coop_info->category_of_cooperative,
               'type'=> $coop_info->type_of_cooperative,
               'dateRegistered'=>$coop_info->dateRegistered,
@@ -60,24 +70,22 @@ class Amendment_registration extends CI_Controller{
               'addrCode'=> $coop_info->refbrgy_brgyCode,
               'compliant'=>'Compliant',
               // 'qr_code'=>$j,
-              'cooperative_id'=>$coop_info->cooperative_id,
+              'application_id'=>$coop_info->cooperative_id,
               'amendment_id'=>$decoded_id
-              );
-              $this->amendment_registration_model->register_coop_amendment($decoded_id,$data_reg,$pst);
-          if($coop_info->status == 14)
-          {
-            $this->db->update('amend_coop',array('amendmentNo'=>$amendment_no,'status'=>15),array('id'=>$decoded_id));
-          }
+            );
 
-      }
-      // echo $amendment_no
-            
+      
+      
+            $this->registration_model->register_coop_amendment($decoded_id,$data_reg,$pst);
             // $this->debug($this->registration_model->register_coop_amendment($decoded_id,$coop_info->rCode,$pst));
             $cName=$coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping;
-            $coop_details = $this->amendment_registration_model->get_coop_info_amendment($decoded_id);
-           
-            if (strlen($coop_details->qr_code)<1 || $coop_info->qr_code='')
-            {
+            $coop_details = $this->registration_model->get_coop_info_amendment($decoded_id);
+            // $amend_coop_details = $this->registration_model->get_coop_info_amendment($decoded_id);
+            // $this->debug($coop_details);
+            // $this->debug($coop_info);
+            // if (strlen($coop_info->qr_code)<1 || $coop_info->qr_code='')
+            // {
+
               $qr_code_config = array();
               $qr_code_config['cacheable'] = $this->config->item('cacheable');
               $qr_code_config['cachedir'] = $this->config->item('cachedir');
@@ -89,18 +97,27 @@ class Amendment_registration extends CI_Controller{
               $qr_code_config['black'] = $this->config->item('black');
               $qr_code_config['white'] = $this->config->item('white');
               $this->ci_qr_code->initialize($qr_code_config);
+
+
+
+
               // get full name and user details
               // $image_name = $coop_details->regNo . ".png";
-              $image_name = $coop_details->regNo."-".$coop_details->amendment_no.".png";
+               $image_name = $coop_details->regNo."-".$amendment_no.".png";
+
+
               // create user content
               $codeContents = "Cooperative Name:";
               $codeContents .= $coop_details->coopName;
               $codeContents .= "\n";
               $codeContents .= "Registration No:";
-              $codeContents .= $coop_details->regNo."-".$coop_details->amendment_no;
+              $codeContents .= $coop_details->regNo."-".$amendment_no;
               $codeContents .= "\n";
               $codeContents .= "Date Registered:";
               $codeContents .= $coop_details->dateRegistered;
+
+              
+
               $params['data'] = $codeContents;
               $params['level'] = 'H';
               $params['size'] = 2;
@@ -109,6 +126,18 @@ class Amendment_registration extends CI_Controller{
               $this->ci_qr_code->generate($params);
 
               $this->data['qr_code_image_url'] = base_url() . $qr_code_config['imagedir'] . $image_name;
+
+              // save image path in tree table
+              // if(!$this->registration_model->save_qr_code($coop_details->regNo, $image_name))
+              // {
+              //   echo"Failed to generate QRCode";
+              //   exit;
+              // }
+              // else
+              // {
+              //   echo"qr code saved";
+              // }
+
               if(!$this->save_Qrcode_amendment($decoded_id,$image_name))
               {
                 echo"Failed to generate QRCode";
@@ -120,11 +149,20 @@ class Amendment_registration extends CI_Controller{
               }
               // echo $this->db->last_query();
 
-            } //end qr code
-         // $this->debug( $coop_details);
+             
+
+
+
+            // } //end qr code
+        }
+        else
+        {
+          echo "Failed to update";
+        }//end update amendmentno
         
        
-        $data1['coop_info']=$coop_details;
+         $data1['coop_info']=$coop_details;
+
         $query_or = $this->db->get_where('payment',array('amendment_id'=>$decoded_id)); 
         if($query_or->num_rows()>0)
         {
@@ -143,7 +181,7 @@ class Amendment_registration extends CI_Controller{
         $dateDay = date('d',strtotime($date_OR));
         $data1['date_day']=$this->OrdinalIndicator($date_OR);
         $dt_data = substr($data1['date_day'],0,1);
-        if($dt_data=="0")
+       if($dt_data=="0")
         {
           $data1['date_day']=substr($data1['date_day'],1);
         }
@@ -156,26 +194,19 @@ class Amendment_registration extends CI_Controller{
           $data1['chartered_cities'] =$this->charter_model->get_charter_city($data1['coop_info']->cCode);
         }
         
-        if($date_OR >= "2021-04-15"){
-        // $data1['mydateregistered'] = $coop_details->date_of_or;
-        $data1['signature'] = "../assets/img/AsecJoy.png"; 
+              
+      
           $data1['chair'] = $this->registration_model->get_chairman()->chairman;
-        } else {
-          // $data1['mydateregistered'] = $registereddate;
-          $data1['chair'] = $this->registration_model->get_chairman2()->chairman;
-          $data1['signature'] = "../assets/img/1.png"; 
-        }    
+         
           // $this->debug($data1['coop_info']);
           $data1['amend_coop_info']=$coop_details;
       
-          $data1['director']=$this->amendment_registration_model->get_director($coop_details->rCode);
+          $data1['director']=$this->registration_model->get_director($coop_details->rCode);
           $data1['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($coop_info->cooperative_id,$decoded_id);
-          //bylaws no of pages
-          $data1['bylaws_pages'] = $this->amendment_model->no_of_doc($decoded_id,'bylaws');
-          $data1['articles_pages'] = $this->amendment_model->no_of_doc($decoded_id,'articles');
-          // echo $data1['no_of_pages']->total_pages;
+        
           set_time_limit(0);
-          // $this->load->view('amendment/cor_view', $data1);
+        
+          $this->load->view('amendment/cor_view', $data1);
           $html2 = $this->load->view('amendment/cor_view', $data1, TRUE);
           $J = new pdf();       
           $J->set_option('isRemoteEnabled',TRUE);
@@ -311,7 +342,10 @@ class Amendment_registration extends CI_Controller{
 
   public function save_Qrcode_amendment($id,$qr_code)
   {
-      if($this->db->update('registeredamendment', array('qr_code'=>$qr_code),array('amendment_id'=>$id)))
+    // $data = array('qr_code'=> $qr_code);
+      // $this->db->trans_begin();
+    // $this->db->where('id',$id);
+      if($this->db->update('registeredcoop', array('qr_code'=>$qr_code),array('amendment_id'=>$id)))
       {
           return true;
       }

@@ -99,7 +99,6 @@
               <tr>
                 <th>Coop Name</th>
                 <th>Registered Number</th>
-                <th>Representative</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -108,17 +107,13 @@
                 <tr>
                   <td><?= $applied_coops['coopName']?></td>
                   <td><?= $applied_coops['regNo']?></td>
-                  <td><?= $applied_coops['representative']?></td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-info" data-regno="<?=$applied_coops['regNo']?>" data-fname="<?=$applied_coops['coopName']?>" data-placeissuance="<?= $applied_coops['dateRegistered']?>" data-business_activity="<?=$business_activity?>" data-business_activity_sub="<?=$business_activity_sub?>" data-common_bond_membership="<?=$applied_coops['common_bond_of_membership']?>" data-region="<?=$applied_coops['region']?>" data-province="<?=$applied_coops['province']?>" data-city="<?=$applied_coops['city']?>" data-brgy="<?=$applied_coops['brgy']?>" data-street="<?=$applied_coops['street']?>" data-house_blk_no="<?=$applied_coops['house_blk_no']?>" data-type="<?=$applied_coops['type']?>" data-toggle="modal" data-target="#fullInfoRegisteredModal" ><i class='fas fa-eye'></i> View</button>
-
-                      <?php if($is_client){ ?>
-                          <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editAffiliatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($applied_coops['aff_id']))?>" data-representative="<?=$applied_coops['representative']?>"><i class='fas fa-eye'></i> Edit</button>
-                      
+                      <?php // if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
+                        <!--<input class="btn btn-color-blue" type="submit" id="offlineBtn" name="offlineBtn" value="Add">-->
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCooperatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($applied_coops['aff_id']))?>"><i class='fas fa-minus'></i> Remove</button>
-                      <?php } ?>
-
+                      <?php // endif;?>
                     </div>
                   </td>
                   <input type="hidden" value="<?=$applied_coops['aff_id'];?>" name="registered_id">

@@ -14,7 +14,7 @@
               <input type="hidden" id="cooperativeID" name="cooperativeID" readonly>
               <div class="alert alert-info" role="alert">
                 Cooperative Name:<br>
-                <strong class="cooperative-name-text">test</strong>
+                <strong class="cooperative-name-text">test</strong> <strong>Cooperative</strong>
               </div>
               <div class="form-group">
                 <label for="comment">State the reason/s:</label>

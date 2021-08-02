@@ -1232,7 +1232,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
   public function branches_comments_client($coop_id){
     $this->db->select('*');
     $this->db->from('branches_comment');
-    $this->db->where('branches_id = '.$coop_id.' AND user_level = 3 OR user_level = 4');
+    $this->db->where(array('branches_id'=>$coop_id,'user_level'=>3));
     $query = $this->db->get();
     return $query->result_array();
   }

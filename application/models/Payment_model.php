@@ -43,19 +43,19 @@ class Payment_model extends CI_Model{
             
   }
 
-  public function check_payment_not_exist_amendment($amendment_id){
-    $amendment_id = $this->security->xss_clean($amendment_id);
+  public function check_payment_not_exist_amendment($data){
+    $data = $this->security->xss_clean($data);
     $this->db->select ('*');
     $this->db->from ('payment');
     // $this->db->where('payor',$data['payor']);
     // $this->db->where('nature',$data['nature']);
     // $this->db->where('amount',$data['amount']);
-    $this->db->where('amendment_id',$amendment_id);
+    $this->db->where('amendment_id',$data['amendment_id']);
 
     
     $query = $this->db->get();
 
-    if ($query->num_rows()>0) 
+    if ($query->num_rows()==0) 
       return true;
     else
       return false;
@@ -76,14 +76,14 @@ class Payment_model extends CI_Model{
 
             
   }
-   public function get_payment_info_amendment($amendment_id){
-    $amendment_id = $this->security->xss_clean($amendment_id);
+   public function get_payment_info_amendment($data){
+    $data = $this->security->xss_clean($data);
     $this->db->select ('*');
     $this->db->from ('payment');
     // $this->db->where('payor',$data['payor']);
     // $this->db->where('nature',$data['nature']);
     // $this->db->where('amount',$data['amount']);
-    $this->db->where('amendment_id',$amendment_id);
+    $this->db->where('amendment_id',$data['amendment_id']);
     
     $query = $this->db->get();
 
@@ -109,36 +109,6 @@ class Payment_model extends CI_Model{
     $data2=array('transactionNo'=>$j);
 
     $this->update_payment($data,$data2);
-    if($this->db->trans_status() === FALSE){
-        $this->db->trans_rollback();
-        return false;
-    }
-    else
-    {
-      $this->db->trans_commit();
-      return true;
-    }
-    
-  }
-
-  public function update_payment_amendment($data,$rCode,$amendment_id){
-    $data = $this->security->xss_clean($data);
-    
-    // return $this->db->last_query();
-    $x=$this->get_payment_info_amendment($amendment_id)->id;
-    
-    $j=$rCode;
-        $year = date('y');
-    $month = date('m');
-    $day = date('d');
-    for($a=strlen($x);$a<5;$a++)
-      $j=$j.'0';
-    $j=$year.$month.$day.$j.$x;
-
-    $data2=array('transactionNo'=>$j);
-    $this->db->trans_begin();
-    $this->db->update('payment',$data,array('amendment_id' =>$amendment_id));
-     $this->db->update('payment',$data2,array('amendment_id'=>$amendment_id));
     if($this->db->trans_status() === FALSE){
         $this->db->trans_rollback();
         return false;

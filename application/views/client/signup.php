@@ -146,9 +146,9 @@
               <div class="col-md-6">
                 <a class="btn btn-link" href="<?php echo base_url();?>users/login" role="button">Sign In Instead</a>
               </div>
-               <div class="col-md-6">
+              <!--  <div class="col-md-6">
                 <a class="btn btn-link" data-toggle="modal" data-target="#deleteCooperativeModal" href="" role="button">Are you an existing coop?</a>
-              </div> 
+              </div>  -->
             </div>
           </div>
           <div class="col-sm-12 offset-md-8 col-md-2 align-self-center order-xs-2 order-sm-2 order-1 col-signup-btn">

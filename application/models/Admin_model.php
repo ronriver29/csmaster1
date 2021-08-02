@@ -38,13 +38,6 @@ class Admin_model extends CI_Model{
     $query = $this->db->get();
     return $query->result_array();
   }
-  public function get_all_signatory(){
-    $this->db->select('*');
-    $this->db->from('signatory');
-    $this->db->where(array('active' => 1));
-    $query = $this->db->get();
-    return $query->result_array();
-  }
     public function get_all_user(){
     $this->db->select('*');
     $this->db->from('users');
@@ -68,23 +61,6 @@ class Admin_model extends CI_Model{
         return false;
       }
     }
-  }
-  public function add_admin_signatory($data){
-    $data = $this->security->xss_clean($data);
-      $this->db->trans_begin();
-      $this->db->insert('signatory',$data);
-      if($this->db->trans_status() === FALSE){
-        $this->db->trans_rollback();
-        return false;
-      }else{
-        // if($this->sendEmailAccountDetails($data['email'],$data['username'],$raw_pass)){
-          $this->db->trans_commit();
-          return array('status'=>1,'msg'=>"Successfully added an Administrator.");
-        // }else{
-        //   $this->db->trans_rollback();
-        //   return false;
-        // }
-      }
   }
 public function add_admin_director($data,$raw_pass){
     $data = $this->security->xss_clean($data);
@@ -162,20 +138,6 @@ public function add_admin_director($data,$raw_pass){
       return true;
     }
   }
-  public function update_signatory($aid,$data){
-    $aid = $this->security->xss_clean($aid);
-    $data = $this->security->xss_clean($data);
-    $this->db->trans_begin();
-    $this->db->where('id',$aid);
-    $this->db->update('signatory',$data);
-    if($this->db->trans_status() === FALSE){
-      $this->db->trans_rollback();
-      return false;
-    }else{
-      $this->db->trans_commit();
-      return true;
-    }
-  }
   public function reset_password($aid,$data){
     $aid = $this->security->xss_clean($aid);
     $data = $this->security->xss_clean($data);
@@ -194,20 +156,6 @@ public function add_admin_director($data,$raw_pass){
     $aid = $this->security->xss_clean($aid);
     $this->db->trans_begin();
     $this->db->delete('admin',array('id' => $aid));
-    if($this->db->trans_status() === FALSE){
-      $this->db->trans_rollback();
-      return false;
-    }else{
-      $this->db->trans_commit();
-      return true;
-    }
-  }
-  public function delete_signatory($aid,$data){
-    $aid = $this->security->xss_clean($aid);
-    $data = $this->security->xss_clean($data);
-    $this->db->trans_begin();
-    $this->db->where('id',$aid);
-    $this->db->update('signatory',$data);
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -526,15 +474,14 @@ public function add_admin_director($data,$raw_pass){
         return false;
     }
   }
-  public function sendEmailToSeniorBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type,$fullnamesupervising){
+  public function sendEmailToSeniorBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "A validated application for establishment of ".$type." with the following details has been submitted for your evaluation:<p>
+    $message = "Good day! An application for establishment of ".$type." with the following details has been submitted:<p>
 
     <ol type='a'> 
-      <b><li> Name of CDS II/Validator:</b>".$fullnamesupervising."</li>
       <b><li> Name of Cooperative:</b>".$proposedname."</li>
       <b><li> Name of Proposed Branch:</b>".$proposedbranch."</li>
       <b><li> Address of Proposed Cooeprative:</b>".$brgy."</li>
@@ -578,52 +525,12 @@ public function add_admin_director($data,$raw_pass){
     }
   }
 
-  public function sendEmailToClientDeferBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type,$comment){
-    $from = "ecoopris@cda.gov.ph";    //senders email address
-    $subject = $proposedname.' Application';  //email subject
-    $burl = base_url();
-    //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "".date('F d, Y')." <br><br>
-
-  Proposed Name of Cooperative: ".$proposedname." <br>
-  Proposed Address of Cooperative : ".$brgy."<br><br>
-
-  Good Day! <br><br>
-
-  This refers to the application for registration of the proposed ".$proposedname.".<br><br>
-
-    Upon review of the documents submitted online the following are our findings:<p> <br>
-    
-    ".trim(preg_replace('/\s\s+/', '<br>', $comment))."
-
-    <br>Please comply immediately with the above-mentioned findings within 15 days. <br>
-
-    <br>Should you need further information or clarification, please feel free to contact Registration Division/Section at telephone numbers (official telephone no. of region) or email us at (Official email address of region)  <br><br>
-
-
-Very truly yours,<br>
-
-<br>Regional Director<br>
-Region";
-
-
-    $this->email->from($from,'ecoopris CDA (No Reply)');
-    $this->email->to($email);
-    $this->email->subject($subject);
-    $this->email->message($message);
-    if($this->email->send()){
-        return true;
-    }else{
-        return false;
-    }
-  }
-
   public function sendEmailToSpecialistBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type){
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "You are assigned to validate the  application for establishment of ".$type." with the following details: <p>
+    $message = "Good day! An application for establishment of ".$type." with the following details has been submitted:<p>
 
     <ol type='a'> 
       <b><li> Name of Cooperative:</b>".$proposedname."</li>
@@ -963,62 +870,6 @@ You shall submit the above required documents within 30 days from the date of e-
     }
   }
   
-  public function sendEmailToDirectorRevertAmendment($client_info,$reason_comment,$amendment_info,$reg_officials_info){
-    if(count(explode(',',$amendment_info->type_of_cooperative))>1)
-      {
-       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$amendment_info->grouping;
-      }
-      else
-      {
-        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$amendment_info->grouping;
-      }
-    $address_coop = $amendment_info->house_blk_no.' '.$amendment_info->brgy.' '.$amendment_info->street.' ,'.$amendment_info->city.' ,'.$amendment_info->province.' ,'.$amendment_info->region;
-    $client_full_name = $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;
-
-    //$step_str = (($step==1) ? "First" : (($step==2) ? "Second" : "Third"));
-    $from = "ecoopris@cda.gov.ph";    //senders email address
-    $subject = $client_full_name.' Amendment Revert for re-evaluation';  //email subject
-    $burl = base_url();
-    if($amendment_info->ho ==1)
-    {
-      $director_type = 'LRRD Director';
-      //sending confirmEmail($receiver) function calling link to the user, inside message body
-    }
-    else
-    {
-      $director_type ='Regional Office Director';
-    }
-    $message = "<pre>
-    <b>Date:</b> ".date('Y-m-d h:i:s',now('Asia/Manila'))." 
-    <b>Proposed Name of Cooperative:</b> ".$coop_full_name."
-    <b>Proposed Address of Cooperative:</b> ".$address_coop." 
-
-    Good Day! This refers to the application for registration of the proposed (Name of Cooperative). 
-    Based on the evaluation of the submitted application documents for registration, the following are our findings and comments:
-
-    ".$reason_comment." 
-
-
-    Please comply the findings within 15 days so that we can facilitate with the issuance of your Certificate of Registration. However, your submission shall still be subject to further evaluation. 
-
-    For further information and clarification, please feel free to contact our Registration Division/Section at telephone numbers ".$reg_officials_info['contact']." or email us at ".$reg_officials_info['email'].". 
-
-    Very truly yours, 
-    ".$director_type."
-
-
-    </pre>";
-    $this->email->from($from,'ecoopris CDA (No Reply)');
-    $this->email->to($client_info->email);
-    $this->email->subject($subject);
-    $this->email->message($message);
-    if($this->email->send()){
-        return true;
-    }else{
-        return false;
-    }
-  }
-  
   public function sendEmailToClientApproveBranch($name,$email){
 //	  echo $name;
     $from = "ecoopris@cda.gov.ph";    //senders email address
@@ -1112,61 +963,6 @@ The client shall submit the above required documents within 30 working days from
         return true;
     }else{
         return false;
-    }
-  }
-  public function sendEmailToAdminRevert($coop_full_name,$brgyforemail,$emails,$reason_commment,$directorregioncode,$reg_officials_info){
-    if(sizeof($emails)>0){
-      $receiver = "";
-      if(sizeof($emails)>1){
-        $tempEmail = array();
-        foreach($emails as $email){
-          array_push($tempEmail, $email['email']);
-        }
-        $receiver = implode(", ",$tempEmail);
-      }else{
-        $receiver = $emails[0]['email'];
-      }
-      if($directorregioncode == '00'){
-        $trulyyours = 'LRRD Director';
-      } else {
-        $trulyyours = 'Regional Office Director';
-      }
-
-      // if(strpos($reason_commment, "\n") !== FALSE) {
-      //   $wk = 'New line break found';
-      // }
-      // else {
-      //   $wk = 'not found';
-      // }
-      $wk = trim(preg_replace('/\s\s+/', '<br>', $reason_commment));
-      // $wk = str_replace(strpos($reason_commment, "\n"),"<br><br>",$reason_commment);
-
-      $from = "ecoopris@cda.gov.ph";    //senders email address
-      $subject =$coop_full_name.' Evaluation Result';  //email subject
-      $burl = base_url();
-        //sending confirmEmail($receiver) function calling link to the user, inside message body
-      // $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> has been deferred because of the following reason/s:<br><pre>".$comment."</pre><br> You have 15 days to complete the following.";
-
-      $message = "".date('F d, Y')." <br><br>
-
-  Proposed Name of Cooperative: ".$coop_full_name." <br>
-  Proposed Address of Cooperative : ".$brgyforemail."<br><br>
-
-  Good Day! <br><br>
-
-  This is a Sample Email Message
-  ".$trulyyours."
-  ";
-
-      $this->email->from($from,'ecoopris CDA (No Reply)');
-      $this->email->to($receiver);
-      $this->email->subject($subject);
-      $this->email->message($message);
-      if($this->email->send()){
-          return true;
-      }else{
-          return true;
-      }
     }
   }
   public function sendEmailToClientDefer($coop_full_name,$brgyforemail,$email,$reason_commment,$directorregioncode,$reg_officials_info){
@@ -1281,12 +1077,6 @@ Very truly yours, <br>
       return $data;
     }
   }
-  public function get_specialst_info($data){
-    $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('admin',array('id'=>$data,'access_level'=>1));
-    $row = $query->row();
-    return $row;
-  }
   public function get_senior_info($data){
     $data = $this->security->xss_clean($data);
     $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>2));
@@ -1308,12 +1098,6 @@ Very truly yours, <br>
   public function get_admin_info($data){
     $data = $this->security->xss_clean($data);
     $query= $this->db->get_where('admin',array('id'=>$data));
-    $row = $query->row();
-    return $row;
-  }
-  public function get_signatory_info($data){
-    $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('signatory',array('id'=>$data));
     $row = $query->row();
     return $row;
   }

@@ -38,11 +38,9 @@ class Articles extends CI_Controller{
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
-          }
-          // else if($this->session->userdata('access_level')!=1){
-          //   redirect('cooperatives');
-          // }
-          else{
+          }else if($this->session->userdata('access_level')!=1){
+            redirect('cooperatives');
+          }else{
             if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
               if($data['coop_info']->category_of_cooperative =="Primary"){
@@ -96,10 +94,10 @@ class Articles extends CI_Controller{
                     }
                     
                     
-                  if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                  if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
-                  if($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Primary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Secondary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Tertiary"){
+                  if($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Primary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Secondary"){
                         if($this->form_validation->run() == FALSE){
                           $data['title'] = 'Articles of Cooperation';
                           $data['header'] = 'Articles of Cooperation';
@@ -170,11 +168,9 @@ class Articles extends CI_Controller{
           }else{
             if($this->session->userdata('access_level')==5){
               redirect('admins/login');
-            }
-            // else if($this->session->userdata('access_level')!=1){
-            //   redirect('cooperatives');
-            // }
-            else{
+            }else if($this->session->userdata('access_level')!=1){
+              redirect('cooperatives');
+            }else{
               if($this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('cooperatives');
@@ -197,7 +193,7 @@ class Articles extends CI_Controller{
                     }
                     
                     
-                    if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                    if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
                         if($this->cooperatives_model->get_cooperative_info_by_admin($decoded_id)->category_of_cooperative =="Primary" || $this->cooperatives_model->get_cooperative_info($data['coop_info']->users_id,$decoded_id)->category_of_cooperative =="Secondary"){

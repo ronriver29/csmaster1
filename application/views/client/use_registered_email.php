@@ -91,12 +91,12 @@
                 <input type="email" class="form-control validate[required,custom[email]]" id="eAddress" name="eAddress">
               </div>
             </div>
-            <div class="col-sm-12 col-md-4">
+            <!-- <div class="col-sm-12 col-md-4">
               <div class="form-group form-group-eAddress">
                 <label for="eAddress">Confirm Email Address:</label>
                 <input type="email" class="form-control validate[equals[eAddress]]" id="coneAddress" name="coneAddress">
               </div>
-            </div>
+            </div> -->
             <div class="col-sm-12 col-md-8">
               <div class="form-group form-group-hAddress">
                 <label for="hAddress">Home Address: </label>
@@ -149,42 +149,6 @@
               </div>
             </div>
 
-            <div class="col-sm-12 col-md-4">
-              <div class="form-group">
-                <label for="region">Region</label>
-                <select class="custom-select validate[required]" name="region" id="region">
-                  <option value="" selected></option>
-                  <?php foreach ($regions_list as $region_list) : ?>
-                    <option value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
-                  <?php endforeach; ?>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-sm-12 col-md-4">
-              <div class="form-group">
-                <label for="province">Province</label>
-                <select class="custom-select validate[required]" name="province" id="province" disabled>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-sm-12 col-md-4">
-               <div class="form-group">
-                <label for="city">City/Municipality</label>
-                <select class="custom-select validate[required]" name="city" id="city" disabled>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-sm-12 col-md-4">
-              <div class="form-group">
-                <label for="barangay">Barangay</label>
-                <select class="custom-select validate[required]" name="barangay" id="barangay" disabled>
-                </select>
-              </div>
-            </div>
-
             <div class="w-100"></div>
             <div class="col-sm-12 offset-md-3 col-md-6 align-self-end">
               <div class="form-group">
@@ -219,81 +183,6 @@
 </div>
 <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
-  $('#region').on('change',function(){
-      $('#province').empty();
-      $("#province").prop("disabled",true);
-      $('#city').empty();
-      $("#city").prop("disabled",true);
-      $('#barangay').empty();
-      $("#barangay").prop("disabled",true);
-      if($(this).val() && ($(this).val()).length > 0){
-        $("#province").prop("disabled",false);
-        var region = $(this).val();
-          $.ajax({
-          type : "POST",
-          url  : "../api/provinces",
-          dataType: "json",
-          data : {
-            region: region
-          },
-          success: function(data){
-            $('#province').append($('<option></option>').attr('value',"").text(""));
-            $.each(data, function(key,value){
-              $('#province').append($('<option></option>').attr('value',value.provCode).text(value.provDesc));
-            });
-          }
-        });
-      }
-    });
-
-    $('#province').on('change',function(){
-      $('#city').empty();
-      $("#city").prop("disabled",true);
-      $('#barangay').empty();
-      $("#barangay").prop("disabled",true);
-      if($(this).val() && ($(this).val()).length > 0){
-        $("#city").prop("disabled",false);
-        var province = $(this).val();
-          $.ajax({
-          type : "POST",
-          url  : "../api/cities",
-          dataType: "json",
-          data : {
-            province: province
-          },
-          success: function(data){
-            $('#city').append($('<option></option>').attr('value',"").text(""));
-            $.each(data, function(key,value){
-              $('#city').append($('<option></option>').attr('value',value.citymunCode).text(value.citymunDesc));
-            });
-          }
-        });
-      }
-    });
-
-    $('#city').on('change',function(){
-      $('#barangay').empty();
-      $("#barangay").prop("disabled",true);
-      if($(this).val() && ($(this).val()).length > 0){
-        $("#barangay").prop("disabled",false);
-        var cities = $(this).val();
-          $.ajax({
-          type : "POST",
-          url  : "../api/barangays",
-          dataType: "json",
-          data : {
-            cities: cities
-          },
-          success: function(data){
-            $('#barangay').append($('<option></option>').attr('value',"").text(""));
-            $.each(data, function(key,value){
-              $('#barangay').append($('<option></option>').attr('value',value.brgyCode).text(value.brgyDesc));
-            });
-          }
-        });
-      }
-    });
-    
   $(document).ready(function(){
   $('#signUpAgree').click(function(){
       if ($(this).is(':checked')) {

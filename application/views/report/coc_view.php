@@ -16,20 +16,10 @@
     .calibri { font-family: Calibri, sans-serif !important; }
     .arial {font-family: "Arial Narrow",sans-serif !important;}
     .monotype{font-family:"Monotype Corsiva" !important;}
-
-    .center {
-      text-align:center;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      width: 70%;
-      margin-left:160px;
-      opacity:.2;
-    }
   </style>
 </head> 
 <body style="background-image: url(<?php echo base_url()."assets/img/cda3.png"; ?>); background-repeat: no-repeat; background-position: center;margin-top:-50px;opacity:.5;">
-    <img class="center" src="<?=APPPATH?>../assets/img/logo.png" style="background-repeat: no-repeat; background-position: center;margin-top:100px;">
+    
   <!-- <div  style="border: 10px black double; border-radius: 30px; padding: 20px"> -->
   <div style="padding:20px;">
   <table width="100%">
@@ -109,8 +99,7 @@
                       echo $al;
 
       ?>
-      <?=$extension?></b>
-    </td>
+      Extension Office</b></td>
       <td width="18%"><i style="color:white;">....</i></td>
     </tr>
   </table>
@@ -150,7 +139,7 @@
   </tr>
   <tr>
     <td  colspan="2" style="text-align: justify; ; text-indent: 40px;"> 
-    <center class="arial">A cooperative duly registered with this Authority under Registration No. <b><?=$registered_no;?></b> issued on <b><?=$date_registered;?></b> <br> <!--<?=date_format($date_registered,"F d, Y"); ?>-->
+    <center class="arial">A cooperative duly registered with this Authority under Registration No. <b><?=$coop;?></b> issued on <b><?=$date_registered;?></b> <br> <!--<?=date_format($date_registered,"F d, Y"); ?>-->
         for being compliant with all the requirements under Memorandum Circular No. 2016-07.</center></td>
   </tr>
   <tr>

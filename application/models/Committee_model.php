@@ -274,22 +274,6 @@ class Committee_model extends CI_Model{
       return false;
   }  
 
-  public function isExistingUnion($co_id,$user_id){
-    $query = $this->db->get_where('committees_union', array('cooperators_id'=>$co_id,'user_id'=>$user_id));
-    if ($query->num_rows()>0)
-      return true;
-    else
-      return false;
-  }  
-
-  public function isExisting2union($co_name,$user_id){
-    $query = $this->db->get_where('committees_union', array('name'=>$co_name,'user_id'=>$user_id));
-    if ($query->num_rows()>2)
-      return true;
-    else
-      return false;
-  }
-
   public function get_committee_info($com_id){
     $query = $this->db->get_where('committees', array('id'=>$com_id));
     $data = $query->row();
@@ -354,10 +338,10 @@ class Committee_model extends CI_Model{
     }
   }
   public function get_all_committees_of_coop_federation($coop_id){
-    $this->db->select('committees_federation.id as comid, committees_federation.* ,affiliators.*');
+    $this->db->select('committees_federation.id as comid, committees_federation.* ,cooperators.*');
     $this->db->from('committees_federation');
-    $this->db->join('affiliators', 'affiliators.id = committees_federation.cooperators_id', 'inner');
-    // $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id', 'inner');
+    $this->db->join('cooperators', 'cooperators.id = committees_federation.cooperators_id', 'inner');
+    $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id', 'inner');
     $this->db->where('committees_federation.user_id', $coop_id);
     $query = $this->db->get();
     $data =  $query->result_array();

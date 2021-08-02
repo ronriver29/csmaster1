@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Amendment_article_of_Cooperation_model extends CI_Model{
+
   public function __construct()
   {
     parent::__construct();
@@ -48,16 +49,16 @@ class Amendment_article_of_Cooperation_model extends CI_Model{
         }
     }
     if($data->kinds_of_members==1){
-      // if($counter<=2){
+      if($counter<=2){
         $temp = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$amendment_id);
         if($data2->common_share >= $temp['total_subscribed'] && $data2->common_share <= ($temp['total_subscribed']*4)){
           return true;
         }else{
           return false;
         }
-      // }else{
-      //   return false;
-      // }
+      }else{
+        return false;
+      }
     }else{
       if($counter<=0){
        

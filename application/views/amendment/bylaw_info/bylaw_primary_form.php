@@ -204,6 +204,7 @@
             </div>
           </div>
         </div>
+
         <div class="row">
             <div class="col-sm-12 offset-md-8 col-md-4">
               <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreRequirementsBtn" disabled><i class="fas fa-plus"></i> Add More Requirements for Membership</button>
@@ -402,13 +403,6 @@
             <div class="form-group"> 
             <label><strong>General Assembly Venue</strong></label>
              <input type="text" name="Annaul_ga_venue" id="" value="<?=$bylaw_info->annual_regular_meeting_day_venue?>" class="form-control validate[required]" disabled /></div>
-            <div class="form-group">
-              <label><strong>General Assembly Type</strong></label>
-              <select class="form-control validate[required]" name="type" id="type" disabled>
-                <option value="Special">Special</option>
-                 <option value="Regular">Regular</option>
-              </select>
-            </div> 
 
              <div class="form-group"> 
             <label><strong>Assembly Date </strong></label>

@@ -23,52 +23,27 @@ class registration extends CI_Controller{
 
       //add to registered cooop
       $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
-
       if ($coop_info->category_of_cooperative =='Primary')
           $pst="1";
       else if ($coop_info->category_of_cooperative =='Secondary')  
         $pst="2";
       else
         $pst="3";
-      if($coop_info->grouping == 'Union'){
-        if(!empty($coop_info->acronym_name)){ 
-            $acronymname = '('.$coop_info->acronym_name.') ';
-        } else {
-            $acronymname = '';
-        }
+      if(!empty($coop_info->acronym_name)){ 
+          $acronymname = '('.$coop_info->acronym_name.')';
       } else {
-        if(!empty($coop_info->acronym_name)){ 
-            $acronymname = '('.$coop_info->acronym_name.')';
-        } else {
-            $acronymname = '';
-        }
+          $acronymname = '';
       }
       // $this->debug($coop_info);
       if ($coop_info->status==14){
         if(!$this->registration_model->register_coop($decoded_id,$coop_info,$pst,$acronymname))
         {
-            echo "Failed to print registration details";
+            echo "Failed to print registration detials";
             exit;
         }
       }
-      if($coop_info != 'Federation'){
-        $cName=rtrim($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' '.$coop_info->grouping);
-      } else {
-        $cName=rtrim($coop_info->proposed_name.' Federation of '.$coop_info->type_of_cooperative.' '.$acronymname);
-      }
-      // echo $coop_info->id;
-      // $cName = $coop_info->id;
-      if($coop_info->grouping == 'Union'){
-        $coop_details = $this->registration_model->get_coop_info_union($coop_info->id);
-      } else if($coop_info->grouping == 'Federation'){
-        $coop_details = $this->registration_model->get_coop_info_federation($coop_info->id);
-      }else {
-        $coop_details = $this->registration_model->get_coop_info($cName);
-      }
-      
-
-      // echo $coop_details;
-      // echo print_r($coop_details);
+      $cName=rtrim($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' '.$coop_info->grouping);
+      $coop_details = $this->registration_model->get_coop_info($cName);
       // $this->debug($coop_details);
       // echo $this->db->last_query();
 //      if ($coop_details->qr_code==null || ($coop_details->qr_code=='')){
@@ -162,7 +137,6 @@ class registration extends CI_Controller{
           $data1['in_chartered_cities']=true;
           $data1['chartered_cities'] =$this->charter_model->get_charter_city($data1['coop_info']->cCode);
         }
-        $data1['memory_usage'] = memory_get_usage();
        
          // $html2 = $this->load->view('cooperative/cor_view', $data1);
          $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);

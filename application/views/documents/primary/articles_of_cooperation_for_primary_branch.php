@@ -43,15 +43,7 @@
         }
 
 </script>
-<?php
-    function do_alert($msg) 
-    {
-        echo '<script type="text/javascript">alert("' . $msg . '"); </script>';
-    }
-?>
-<?php
-    do_alert("Hello");
-?>
+
 
 <div class="container-fluid text-monospace">
 

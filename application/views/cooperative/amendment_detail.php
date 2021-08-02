@@ -8,7 +8,7 @@
     <div class="alert alert-info shadow-sm mt-2" role="alert">
       <h5>Please fill up all the information to proceed into the next step.</h5>
     </div>
-  </div> 
+  </div>
 </div>
 
 <div class="row">
@@ -79,18 +79,17 @@
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
                     <option value="">--</option>
                     <option value="Primary">Primary</option>
-                    <option value="Secondary">Secondary</option>
-                    <option value="Tertiary">Tertiary</option>
-                     <option value="Others">Others</option>
+                    <option value="Secondary - Union">Secondary - Union</option>
+                    <option value="Tertiary - Union">Tertiary - Union</option>
+                    <option value="Secondary - Federation">Secondary - Federation</option>
+                    <option value="Tertiary - Federation">Tertiary - Federation</option>
                   </select>
                 </div>
               </div>
             </div>
-           
             <div class="row type-coop-row">
+          
             </div>
-
-
            <!--  <span id="count_type" style="border:1px solid red;"></span> -->
           <div class="col-sm-12 col-md-12">
             <div class="row">
@@ -120,8 +119,8 @@
                   <label for="newName"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your new name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
 
-                    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp,ajaxAmendmentNameCallPhpcoop]]" name="newNamess" id="newNamess"> 
-                   <!--  <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom]" name="newNamess" id="newNamess">  -->
+                    <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess">
+                   <!--  <input type="text" class="form-control p_name validate[required,funcCall[validateAmendment_proposed_name]]" name="newNamess" id="newNamess"> -->
                   <input type="hidden" class="form-control" name="newName2" id="newName2">
                   <input type="hidden" id="cooperative_idss" />
                 </div>
@@ -174,73 +173,60 @@
       
       
             <!-- ASSOCIATIONAL -->
-      <input type="hidden" value="<?=$coop_info->common_bond_of_membership?>" id="commonBond">
-      <div class="row rd-row" id="common_bond_wrapper">      
-         <?php //if($coop_info->common_bond_of_membership == 'Associational' || $coop_info->common_bond_of_membership == 'Institutional') :?>     
-        <div class="col-md-12" id="associational-wrappers">
-          <!-- <div class="col-md-12"> -->
+        <div class="row" id="associational-wrappers" style="display:none">
+          <div class="col-md-12">
             <div class="form-group">
              <label for="fieldmembershipname" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
-              <input type="text" class="form-control" name="assoc_field_membership" id="assoc_field_membership" value="<?=$coop_info->field_of_membership?>">
+              <input type="text" class="form-control" name="assoc_field_membership" id="assoc_field_membership" >
             </div>
-          <!-- </div>   -->
+          </div>  
 
-          <!-- <div class="col-md-12"> -->
+          <div class="col-md-12">
             <div class="form-group">
               <label for="compositionOfMembers1" id="name_institution_label">Name of Association</label>
-              <?php 
-              $name_associational = explode(',',$coop_info->name_of_ins_assoc);
-              foreach($name_associational as $associational):
-              ?>
-              <input type="text" name="name_associational[]" id="name_associational" value="<?=$associational?>" class="form-control"/><br>
-              <?php
-            endforeach;
-              ?>
-            <!-- </div>   -->
+              <input type="text" name="name_associational[]" id="name_associational" class="form-control"/>
+            </div>  
                <div class="assoc-wrapper"></div>          
           
-             <button type="button" class="btn btn-success btn-sm float-right btn-assoc" id="addMoreInsBtn_Associational"  style="margin-top:35px;">
+             <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn_Associational"  style="margin-top:35px;">
                 <i class="fas fa-plus"></i> Add Additional Name of Associational</button>
+
           </div>  
         </div>
-      <?php //endif;?>
+        <!-- end of row -->
+        <!-- INSTITUTIONAL -->
+        <div class="col-sm-12 col-md-12" id="institutional-wrapper" style="padding:5px;border">
+          <div class="form-group">
+            <label for="compositionOfMembers1" id="fieldmembershipname">Field of Membership <i>(Note: Employees/Retirees)</i></label>
+            <input type="text" class="form-control" name="ins_field_membership" id="ins_field_membership" >
+          </div>
 
-        
-        <?php //if($coop_info->common_bond_of_membership == 'Occupational') :?> 
-          <div class="col-md-12 occupational-wrappers" id="occupational-wrappers">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="compositionOfMembers1">Composition of Members </label>
-              
-                <div id="wrappera" class="col-md-12 occupational-wrappera">
-                <?php foreach($comp_of_membership as $comRow):?>
-              
-                  <div class="col-md-12 list-compositions">
-                    <div class="form-group">
-                      <select class="custom-select composition-of-members validate[required]" name="compositionOfMembersa[]" id="compositionOfMembersa">
-                        <?php foreach($list_of_composition as $list_comp):?>
-                          <option value="<?=$list_comp['id']?>" <?=($comRow == $list_comp['id'] ? "selected" : "" )?>> <?=$list_comp['composition']?></option>
-                        <?php endforeach;?>
-                      </select>
-                      <a class="customDeleleBtn compositionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
-                    </div>  
-                  </div>
-                <?php endforeach;?>  
-                </div>
-              <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
-            </div>  
+          <div class="form-group">
+            <label for="compositionOfMembers1" id="name_institution_label">Name of Institution</label>
+            <div id="wrapper" class="con-wrapper"></div><!-- end of wrapper -->
+            <button type="button" class="btn btn-success btn-sm float-right" id="addMoreInsBtn_insti"  style="margin-top:35px;">
+            <i class="fas fa-plus"></i> Add Additional Name of Institution</button>
+          </div>
+         
+        </div>
+         <!--END INSTITUTIONAL -->
+
+          <!--OCCUPATIONAL-->
+          <div class="row" id="occupational-wrapper">
+            <div class="form-group">
+              <label for="compositionOfMembers1">Composition of Members </label>
+            </div>
+            <div id="wrappera" class="col-md-12 occupational-wrappera"></div>
+            <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
           </div><!--  end of row -->
-        <?php //endif; ?>  
+
           <!--END OCCUPATIONAL-->
-      </div> 
-      </div>   <!-- END OF DIV CLASS COMMON BOND WRAPPER --> 
          <br/><br/>
-          <div class="row col-sm-12 col-md-12">
+          <div class="col-sm-12 col-md-12">
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                   <strong>Proposed Address of Cooperative</strong>
-                   <div style="color:red;font-size: 11px;"><i>*Please leave the House/Lot and Blk No. and Street Name blank if not applicable</i></div>
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
@@ -253,7 +239,6 @@
                 <div class="form-group">
                   <label for="streetName">Street Name</label>
                   <input type="text" class="form-control" name="streetName" id="streetName" placeholder="">
-                 
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">

@@ -8,7 +8,6 @@ $(function(){
   $('#cooperativesTable').DataTable();
   $('#cooperativesTable2').DataTable();
   $('#cooperativesTable3').DataTable();
-  $('#cooperativesTable4').DataTable();
   $('#cooperatorsTable').DataTable();
   $('#cooperatorsTable2').DataTable();
   $('#staffTable').DataTable();
@@ -272,9 +271,6 @@ $('#editAffiliatorModal').on('show.bs.modal', function (event) {
   var application_id = button.data('application_id');
   var regno = button.data('regno');
   var regid = button.data('reg_id');
-  var repre = button.data('representative');
-  var subscribedShares2 = button.data('subscribed');
-  var paidShares2 = button.data('paidshares');
   var modal = $(this);
   modal.find('.modal-body #cooperativeID').val(coop_id);
  modal.find('.modal-body #cooperatorID').val(cooperatorid);
@@ -283,9 +279,6 @@ $('#editAffiliatorModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body .cooperator-name-text').text(full_name);
   modal.find('.modal-body #regno').val(regno);
   modal.find('.modal-body #regid').val(regid);
-  modal.find('.modal-body #repre').val(repre);
-  modal.find('.modal-body #subscribedShares2').val(subscribedShares2);
-  modal.find('.modal-body #paidShares2').val(paidShares2);
 });
 $('#fullInfoRegisteredModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget);
@@ -354,24 +347,6 @@ $("#deleteCooperatorForm").validationEngine('attach',
         if($("#deleteCooperatorLoadingBtn").length <= 0){
           $("#deleteCooperatorForm #deleteCooperatorBtn").hide();
           $("#deleteCooperatorForm .col-delete-cooperator-btn").append($('<button></button>').attr({'id':'deleteCooperatorLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
-          return true;
-        }else{
-          return false;
-        }
-      }else{
-        return false;
-      }
-    }
-});
-$("#editAffiliatorForm").validationEngine('attach',
-  {promptPosition: 'inline',
-  scroll: false,
-  focusFirstField : false,
-  onValidationComplete: function(form,status){
-      if(status==true){
-        if($("#deleteCooperatorLoadingBtn").length <= 0){
-          $("#editAffiliatorForm #deleteCooperatorBtn").hide();
-          $("#editAffiliatorForm .col-delete-cooperator-btn").append($('<button></button>').attr({'id':'deleteCooperatorLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
           return true;
         }else{
           return false;
@@ -1232,37 +1207,6 @@ $("#deleteStaffForm").validationEngine('attach',
         }
       }
   });
-  $('#btnEditBylawsSecondary').on('click', function(){
-    $(this).hide();
-    var btnGroup = $('<div></div>').attr({'id':'bylawsPrimaryCancelBtn','class':'btn-group','role':'group','aria-label':'Basic-example'});
-    var btnCancel = $('<a></a>').attr({'class':'btn btn-secondary btn-sm float-right text-white','role':'button'}).html("<i class='fas fa-times'></i> Cancel").click(function(){
-      location.reload();
-    });
-    $('.col-btn-action-bylaws-primary').append(btnCancel);
-    $(".bylawsOthersFooter").show();
-    $("#bylawsUnionForm select,input,textarea,button").prop('disabled', false);
-  });
-  /* END PRIMARY BYLAWS FORM*/
-  /* START PRIMARY ARTICLES FORM*/
-  $("#articlesPrimaryForm").validationEngine('attach',
-      {promptPosition: 'inline',
-      scroll: false,
-      focusFirstField : false,
-      onValidationComplete: function(form,status){
-        if(status==true){
-          if($("#articlesPrimaryLoadingBtn").length <= 0){
-            $("#articlesPrimaryBtn").hide();
-            $("#articlesPrimaryCancelBtn").prop('disabled',true);
-            $(".articlesPrimaryFooter").append($('<button></button>').attr({'id':'articlesPrimaryLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
-            return true;
-          }else{
-            return false;
-          }
-        }else{
-          return false;
-        }
-      }
-  });
   $('#btnEditBylawsPrimary').on('click', function(){
     $(this).hide();
     var btnGroup = $('<div></div>').attr({'id':'bylawsPrimaryCancelBtn','class':'btn-group','role':'group','aria-label':'Basic-example'});
@@ -1733,34 +1677,6 @@ $('#editStaffForm #position').on('change', function(){
         }
   });
   /* END DENY COOPERATIVE*/
-  $('#revertCooperativeModal').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget);
-    var coop_name = button.data('cname');
-    var comment = button.data('comment');
-    var coop_id = button.data('coopid');
-    var modal = $(this)
-    modal.find('.modal-body #cooperativeID').val(coop_id);
-    modal.find('.modal-body .cooperative-name-text').text(coop_name);
-    modal.find('.modal-body .cooperative-comment-text').text(comment);
-  });
-  $("#revertCooperativeForm").validationEngine('attach',
-      {promptPosition: 'inline',
-      scroll: false,
-      focusFirstField : false,
-      onValidationComplete: function(form,status){
-          if(status==true){
-            if($("#deferAdministratorLoadingBtn").length <= 0){
-              $("#revertCooperativeForm #deferCooperativeBtn").hide();
-              $("#revertCooperativeForm .col-defer-cooperative-btn").append($('<button></button>').attr({'id':'deferAdministratorLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
-              return true;
-            }else{
-              return false;
-            }
-          }else{
-            return false;
-          }
-        }
-  });
   /* START DEFER COOPERATIVE*/
   $('#deferCooperativeModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);

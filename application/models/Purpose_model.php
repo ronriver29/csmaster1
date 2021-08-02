@@ -15,7 +15,6 @@ class Purpose_model extends CI_Model{
     return $data;
   }
   public function get_all_purposes2($cooperatives_id){
-    $data=array();
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $query = $this->db->get_where('purposes',array('cooperatives_id'=>$cooperatives_id));
    foreach($query->result_array() as $row)

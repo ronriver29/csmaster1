@@ -13,7 +13,6 @@ class Forpayment extends CI_Controller{
   {
     $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
     $items['status'] = '16';
-    $items['date_for_payment'] = date("Y-m-d");
     if($this->db->where("id",$decoded_id)->update("cooperatives",$items)) {
     
     $query_payment = $this->db->select("cooperatives.*,users.*")
@@ -34,11 +33,9 @@ class Forpayment extends CI_Controller{
 
     $message="<pre><b>Congratulations!</b> Your application status is <b>FOR PAYMENT</b>.
 
-Please Print the system generated Order of payment in your account and present the same to the CDA Cashier or you may opt to pay thru the available online facilities encoding the details in the Order of Payment.
+You may opt to pay thru the available online facilities listed in your CoopRIS account or at CDA Cashier. 
 
-Once payment has been settled the client may now claim the Certificate of Registration by presenting the Official Receipt or incase of online payment the successful transaction receipt to CDA Registration Division/Section having jurisdiction over your area.
-
-Thank you. </pre>";
+Once payment has been settled the client may now claim the Certificate of Registration. </pre>";
 
 
     $this->email->from($from,'ecoopris CDA (No Reply)');
@@ -46,12 +43,12 @@ Thank you. </pre>";
     $this->email->subject($subject);
     $this->email->message($message);
     if($this->email->send()){
-        redirect('cooperatives');
+        redirect('cooperatives/'.$id);
     }else{
         return false;
     }
         
-        redirect('cooperatives');
+        redirect('cooperatives/'.$id);
     } else {
         $this->session->set_flashdata('cooperative_error', 'Successfully updated basic information.');
 //        redirect('cooperatives/'.$this->input->post('cooperativeID'));

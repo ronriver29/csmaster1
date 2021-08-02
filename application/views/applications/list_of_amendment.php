@@ -117,15 +117,13 @@
                         <?php if($cooperative['status']==0) echo "EXPIRED";
                         else if($cooperative['status']==1) echo "PENDING";
                         else if($cooperative['status']>=2 && $cooperative['status']<=9) echo "ON VALIDATION";
-                        else if($cooperative['status']==6 && $cooperative['third_evaluated_by']>0) echo "FOR RE-EVALUATION";
                         else if($cooperative['status']==10) echo "DENIED";
                         else if($cooperative['status']==11) echo "DEFERRED";
-                        else if($cooperative['status']==12) echo "FOR PRINTING & SUBMISSION";
+                        else if($cooperative['status']==12) echo "WAITING FOR PAYMENT";
                         else if($cooperative['status']==13) echo "PAY AT CDA";
                         else if($cooperative['status']==14) echo "GET YOUR CERTIFICATE";
-                        else if($cooperative['status']==15) echo "REGISTERED";
-                        else if($cooperative['status']==16) echo "FOR PAYMENT";
-                         else if($cooperative['status']==17) echo "REVERT FOR RE-EVALUATION"; ?>
+                        else if($cooperative['status']==15) echo "REGISTERED"; 
+                        else if($cooperative['status']==16) echo "FOR PAYMENT";?>
                       <?php else : ?>
                         <?php if($cooperative['status']==2)echo "FOR VALIDATION"; 
                          else if($cooperative['status']==3) echo "FOR VALIDATION";
@@ -137,16 +135,14 @@
                         else if($cooperative['status']==8) echo "DEFERRED BY SENIOR CDS";
                         else if($cooperative['status']==9 && !$is_acting_director && $admin_info->access_level==3) echo "DELEGATED BY DIRECTOR";
                         else if($cooperative['status']==9 && $supervising_ && $admin_info->access_level==4) echo "DELEGATED BY DIRECTOR";
-                        else if($cooperative['status']==9 && $cooperative['third_evaluated_by']>0) echo "FOR RE-EVALUATION";
                         else if($cooperative['status']==9) echo "SUBMITTED BY SENIOR CDS";
                         else if($cooperative['status']==10) echo "DENIED BY DIRECTOR";
                         else if($cooperative['status']==11) echo "DEFERRED BY DIRECTOR";
-                        else if($cooperative['status']==12) echo "FOR PRINT&SUBMIT";
+                        else if($cooperative['status']==12) echo "FOR PAYMENT";
                         else if($cooperative['status']==13) echo "WAITING FOR O.R.";
                         else if($cooperative['status']==14) echo "FOR PRINTING";
                         else if($cooperative['status']==15) echo "REGISTERED"; 
-                        else if($cooperative['status']==16) echo "FOR PAYMENT";
-                        else if($cooperative['status']==17) echo "REVERT FOR RE-EVALUATION"; ?>
+                        else if($cooperative['status']==16) echo "FOR PAYMENT"; ?>
                       <?php endif ?>
 
                       </span>
@@ -154,7 +150,7 @@
                   <?php if($is_client) :?> 
                     <td>
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                        <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View </a>
+                        <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View</a>
                       <?php if($cooperative['status']<2 || $cooperative['status']==10|| $cooperative['status']==11) : ?>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAmendmentForm" data-cname="<?= $cooperative['proposed_name']?> <?= $cooperative['type_of_cooperative']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>"><i class='fas fa-trash'></i><?php echo ($cooperative['status']==10 || $cooperative['status']==11) ? "Delete": "Cancel" ?></button>
                       <?php endif;?>
@@ -183,11 +179,11 @@
                     ?>
                     <td>
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                      <?php if($admin_info->access_level == 1 ) : ?>
+                      <?php if($admin_info->access_level == 1) : ?>
                         <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View Cooperative</a>
                       <?php else: ?>
                          
-                        <?php if(($cooperative['status'] ==17) ||  $cooperative['status']>2 && $cooperative['status']<11  && $cooperative['status']!=3 && $cooperative['evaluated_by']!=0 ) : ?>
+                        <?php if($cooperative['status']>2 && $cooperative['status']<11 && $cooperative['status']!=3 && $cooperative['evaluated_by']!=0) : ?>
                           <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/amendment_documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
                         <?php elseif($cooperative['status']==2 && $cooperative['evaluated_by']==0): ?>
                           <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/assign" data-toggle="modal" data-target="#assignSpecialistAmendmentModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>" data-cname="<?= $proposeName_?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Assign Validator</a>
@@ -226,90 +222,6 @@
     </div>
   </div> 
 </div>
-    
-<?php if(!$is_client && $admin_info->region_code != '00' && $admin_info->access_level==2) :?>
-<h4 style="
-padding: 15px 10px;
-background: #fff;
-background-color: rgb(255, 255, 255);
-border: none;
-border-radius: 0;
-margin-bottom: 20px;
-box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Defered/Denied</h4>
-
-<div class="card border-top-blue shadow-sm mb-4">
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-bordered" id="cooperativesTable">
-        <thead>
-          <tr>
-            <th>Name of Cooperative</th>
-            <?php if(!$is_client) : ?>
-            <th>Office Address</th>
-            <?php endif;?>
-            <th>Status</th>
-            <th>Action </th>
-          </tr>
-        </thead>
-        <?php
-          foreach($list_of_defer_deny as $cooperative)
-          {
-        ?>
-            <tr>
-                  <td>
-                   <?php
-                   if(strlen($cooperative['acronym'])>0)
-                   {
-                    $acronym_ = '('.$cooperative['acronym'].')';
-                   }
-                   else
-                   {
-                    $acronym_='';
-                   }
-                    $count_tYpe = explode(',',$cooperative['type_of_cooperative']);
-                    if(count($count_tYpe)>1)
-
-                    {
-                      $proposeNames = $cooperative['proposed_name'].' Multipurpose Cooperative '.$acronym_.' '.$cooperative['grouping'];
-                    }
-                    else
-                    {
-                      $proposeNames = $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative']. ' Cooperative '.$acronym_.' '.$cooperative['grouping'];
-                    }
-                    echo $proposeNames;
-                    ?>  
-                  </td>
-
-                  <td>
-                      <?php if($cooperative['house_blk_no']==null && $cooperative['street']==null) $x=''; else $x=', ';?>
-                      <?=$cooperative['house_blk_no']?> <?=$cooperative['street'].$x?><?=$cooperative['brgy']?>, <?=$cooperative['city']?>, <?= $cooperative['province']?> <?=$cooperative['region']?>
-                  </td>
-                  <td>  
-                  <span class="badge badge-secondary">
-                        <?php
-                         if($cooperative['status']==10) echo "DENIED BY DIRECTOR";
-                        else if($cooperative['status']==11) echo "DEFERRED BY DIRECTOR";
-                        ?>
-                  </span>
-                  </td>
-
-                  <td> 
-                  <?php if($cooperative['status'] ==10 || $cooperative['status'] ==11 && $admin_info->access_level ==2):?>
-
-                      <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/amendment_documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
-                  <?php endif;?>
-                  </td>                    
-            </tr>        
-        <?php    
-          }
-        ?>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-<?php endif;?>          
 
 <?php if(!$is_client && $admin_info->region_code != '00') :?>
 <h4 style="
@@ -356,7 +268,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                     <?php if(in_array($admin_info->access_level,$ar)):?>
                       <ul id="ul-admin">
                         <li style="list-style: none;">
-                      <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/amendment_registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Re-print Registration</a>
+                      <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/amendment_registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print Registration</a>
                     </li>
                      <?php endif; ?>
                      <?php if(in_array($admin_info->access_level,$viewdoc_array)): ?>
@@ -536,7 +448,6 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
               
 
               <table width="100%" class="bord">
-                
                 <tr>
                   <td class="bord">Date</td>
                   <td class="bord" colspan="3"><b id="tDate"></b></td>
@@ -550,11 +461,6 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                   <td class="bord">Date of OR</td>
                   <td class="bord"><input type="date" id="dateofOR" name="dateofOR"  class="form-control"><span id="msgdate" style="font-size:11px;margin-left:100px;color:red;font-style: italic;"></span></td>
                 </tr>
-                 <tr>
-                  <td class="bord">Order of Payment No.</td>
-                    <td class="bord" colspan="3"><b id="ref_nos"></b></td>
-                </tr>
-
                 <tr>
                   <td class="bord">Transaction No.</td>
                   <td class="bord" colspan="3"><b id="tNo"></b></td>
@@ -656,17 +562,10 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
         dataType: "JSON",
         data: {coop_id:coop_id},
         success: function(data)
-        { 
-          var currentdate = new Date(data.date);
-          var month = currentdate.getMonth() + 1;
-          var day = currentdate.getDate();
-          var formated_date = ( (('' + day).length < 2 ? '0' : '')  + day + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' +currentdate.getFullYear());
-
-         
+        {
             var s=convert(data.total);
-            $('#ref_nos').text(data.refNo);
             $('#payment_id').val(data.id);
-            $('#tDate').text(formated_date);
+            $('#tDate').text(data.date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
             $('#cid').val(coop_id);   

@@ -1,19 +1,19 @@
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
-    <?php if($coop_info->status == 11 || $coop_info->status == 10 || $coop_info->status ==2 || ($coop_info->status ==6 && $coop_inf->third_evaluated_by>0))
-    {
-    ?>
-          <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
-    <?php    
-    }
-    else
-    {
-    ?>
-         <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
-    <?php    
-    }
-    ?>  
-     <?php
+    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php if($is_client) : ?>
+    <h5 class="text-primary text-right">
+      Step 10
+    </h5> 
+  <?php else :?>
+    <?php if ($coop_info->status !=12){?>
+    <?php if($admin_info->access_level != 3 && $admin_info->access_level != 4){
+            $submit = 'Submit';
+        } else {
+            $submit = 'Approve';
+        }?>
+    <?php if($admin_info->access_level !=5) : ?>
+      <?php
         if(strlen($coop_info->acronym)>0)
         {
             $acronym_ = '('.$coop_info->acronym .')';
@@ -32,29 +32,6 @@
            $proposedName= $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '. $acronym_;
         }
       ?>
-     <!-- FOR SENIOR  -->
-
-            <?php if(!$is_client && $admin_info->access_level == 2 && $coop_info->status ==12) {?>
-              <div class="btn-group float-right" role="group" aria-label="Basic example">
-                <!-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button> -->
-                <button type="button" class="btn btn-secondary btn-sm btn-dark" data-toggle="modal" data-target="#deferCooperativeModal"  data-cname="<?=$proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Revert for re-evaluation</button>
-              </div>  
-            <?php }?>
-            <!-- END SENIOR -->
-
-    <?php if($is_client) : ?>
-    <h5 class="text-primary text-right">
-      Step 8
-    </h5> 
-  <?php else :?>
-    <?php if ($coop_info->status !=12){?>
-    <?php if($admin_info->access_level != 3 && $admin_info->access_level != 4){
-            $submit = 'Submit';
-        } else {
-            $submit = 'Approve';
-        }?>
-    <?php if($admin_info->access_level !=5) : ?>
-     
       <div class="btn-group float-right" role="group" aria-label="Basic example">
         <a  class="btn btn-info btn-sm" href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_cooperative_tool">Tool</a>
         <!-- Supervising -->
@@ -66,7 +43,6 @@
         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button>
         <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferCooperativeModal"  data-cname="<?=$proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Defer</button>
     <?php } //end Supervising?>
-           
       </div>
       <?php endif;?>
         <?php } ?>
@@ -111,10 +87,9 @@
 <?php endif; //end if client ?>
   <?php else: ?>  
     <!-- START CDS -->
-
- 
-
-    <?php if(!empty($cds_comment) && $cds_comment !=NULL):?>
+    <?php if(!empty($have_senior_comment) && is_array($have_senior_comment)): ?>
+    <?php $have_cds_comment = array_filter($have_cds_comment);?>
+    <?php if(count($have_cds_comment)>0):?>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg">* CDS Findings</button>
 
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -129,21 +104,13 @@
                 <pre><?php 
                     if(count($cds_comment)>0):
                     foreach($cds_comment as $cc) :
-                      if(strlen($cc['comment'])>0)
-                      {
                         echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
                         echo '<ul type="square">';
                             echo '<li>'.$cc['comment'].'</li>';
                         echo '</ul>';
-                      }
-                        
                     endforeach;
-                        if(strlen($coop_info->tool_findings)>0)
-                        {
-                           echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
-                           echo '<p>'.$coop_info->tool_findings.'</p>';
-                        }
-                       
+                        echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
+                        echo '<p>'.$coop_info->tool_findings.'</p>';
                     endif;    
                 ?></pre>  
             </div>
@@ -155,12 +122,12 @@
       </div>
     </div>
     <?php endif; //end of strlen commetn ?>
-
+  <?php endif;?>  
     <!-- END CDS -->
    <!--  START SENIOR -->
   
-   <?php if(!empty($senior_comment) && is_array($senior_comment)): ?>
-    <?php $senior_comment = array_filter($senior_comment); ?>
+   <?php if(!empty($have_senior_comment) && is_array($have_senior_comment)): ?>
+    <?php $have_senior_comment = array_filter($have_senior_comment); ?>
    <?php if(strlen($senior_comment && $admin_info->access_level==3 ) || strlen($senior_comment && $admin_info->access_level==2) || strlen($senior_comment && $admin_info->access_level==4) && $coop_info->status!=15) : ?>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg2">* Senior Findings</button>
 
@@ -194,8 +161,8 @@
   <?php endif; //end of strlen comment ?>
    <!--  END SENIOR -->
    <!--  START DIRECTOR -->
-  <?php if(!empty($director_comment) && is_array($director_comment)): ?>
-  <?php if(strlen(($director_comment && $admin_info->access_level==3) || ($director_comment && $admin_info->access_level==2) || ($admin_info->access_level==4) && $coop_info->status == 6 || strlen(($admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
+  <?php if(!empty($have_director_comment) && is_array($have_director_comment)): ?>
+  <?php if(strlen(($have_director_comment && $admin_info->access_level==3) || ($have_director_comment && $admin_info->access_level==2) || ($have_director_comment && $admin_info->access_level==4) && $coop_info->status == 6 || strlen(($have_director_comment && $admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
   <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Director Findings</button>
 
   <div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -330,8 +297,8 @@
     </div>
   </div>
 </div>
- <div class="row">
-  <!--<div class="col-sm-12 col-md-4">
+<div class="row">
+  <div class="col-sm-12 col-md-4">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Economic Survey</h5>
@@ -339,8 +306,7 @@
           <a target="_blank" href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/economic_survey" class="btn btn-primary">View</a>
         </div>
       </div>
-  </div> -->
-  <?php /*
+  </div>
   <div class="col-sm-12 col-md-4">
       <div class="card">
         <div class="card-body">
@@ -364,6 +330,7 @@
               <?php endif ?>
               <br>
             </p>
+
           <?php if($is_client && $coop_info->status<=1 || $coop_info->status>=11): ?>
             <a href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/upload_document_one" class="btn btn-primary">Upload</a>
           <?php endif; ?>
@@ -401,7 +368,7 @@
         </div>
       </div>
   </div>
-*/?>
+
     
 </div>
 <!--ANJURY-->

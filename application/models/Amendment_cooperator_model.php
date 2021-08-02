@@ -77,27 +77,6 @@ $this->last_query = $this->db->last_query();
     $data = $query->result_array();
     return $data;
   }
-  public function count_total_cptr_capitalization($amendment_id)
-  {
-    $total = 0;
-    $reg = 0;
-    $assoc = 0;
-    $query = $this->db->query("select regular_members,associate_members from amendment_capitalization where amendment_id ='$amendment_id'");
-    if($query->num_rows()>0)
-    {
-      foreach($query->result_array() as $row)
-      {
-        $reg = $row['regular_members'];
-        if($row['associate_members']!=NULL)
-        {
-          $assoc = $row['associate_members'];
-        }
-        $total = $reg+$assoc;
-      }
-    }
-    
-    return $total;
-  }
   public function get_all_cooperator_of_coop_associate($cooperatives_id,$amendment_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $this->db->select('amendment_cooperators.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region');
@@ -969,111 +948,44 @@ $this->last_query = $this->db->last_query();
   }
 
   public function is_requirements_complete($cooperatives_id,$amendment_id){
-    if($this->check_no_of_directors($cooperatives_id,$amendment_id))
-    {  
-      if($this->check_chairperson($cooperatives_id,$amendment_id))
-      { //return true; 
-        if($this->check_vicechairperson($cooperatives_id,$amendment_id))
-        { //return true;
-          if($this->check_treasurer($cooperatives_id,$amendment_id))
-          {  //return true;
-            if($this->check_secretary($cooperatives_id,$amendment_id))
-            { //return true;
-              if($this->check_directors_odd_number($cooperatives_id,$amendment_id))
-              { //return true;
-                if($this->ten_percent($amendment_id))
-                { //return true;  
-                  if($this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperatives_id,$amendment_id)->kinds_of_members==1){
-
-                      if($this->check_associate_not_exists($cooperatives_id,$amendment_id))
-                      {//  return true;
-                        if($this->check_all_minimum_regular_subscription($cooperatives_id,$amendment_id))
-                        {
-                          if($this->check_all_minimum_regular_pay($cooperatives_id,$amendment_id))
-                          {
-                            if($this->check_regular_total_shares_paid_is_correct($this->get_total_regular($cooperatives_id,$amendment_id)))
-                            {
-                              if($this->check_equal_shares($amendment_id))
-                              {
-                                return true;
-                              }
-                              else
-                              {
-                                return false;
-                              }
-                            }
-                            else
-                            {
-
-                            }
-                          }
-                          else
-                          {
-                            return false;
-                          }
-                        }
-                        else
-                        {
-                          return false;
-                        }
-                      }else{
-                        return false;
-                      }
-                  }
-                  else
-                  { 
-                      if($this->check_all_minimum_regular_subscription($cooperatives_id,$amendment_id) && $this->check_all_minimum_regular_pay($cooperatives_id,$amendment_id) && $this->check_all_minimum_associate_subscription($cooperatives_id,$amendment_id) && $this->check_all_minimum_associate_pay($cooperatives_id,$amendment_id)){
-                        if($this->check_with_associate_total_shares_paid_is_correct($this->get_total_regular($cooperatives_id,$amendment_id),$this->get_total_associate($cooperatives_id,$amendment_id))){
-                           if($this->check_equal_shares($amendment_id)) //modified
-                          {
-                            $count_associate =$this->get_all_cooperator_of_coop_associate_count($amendment_id);
-                            $capitalization_info = $this->get_capitalization_info($amendment_id);
-                            if($count_associate < $capitalization_info->associate_members)
-                            {
-                              return false;
-                            }
-                            else
-                            {
-                              return true;
-                            }
-                          }
-                        }else{
-                          return false;
-                        }
-                      }else{
-                        return false;
-                      }
-                  }   
-                }
-                else
-                {
-                  return false;
-                }    
+    if($this->check_no_of_directors($cooperatives_id,$amendment_id) && $this->check_chairperson($cooperatives_id,$amendment_id) && $this->check_vicechairperson($cooperatives_id,$amendment_id) && $this->check_treasurer($cooperatives_id,$amendment_id) && $this->check_secretary($cooperatives_id,$amendment_id) && $this->check_directors_odd_number($cooperatives_id,$amendment_id) && $this->ten_percent($cooperatives_id)){
+      if($this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperatives_id,$amendment_id)->kinds_of_members==1){
+        if($this->check_associate_not_exists($cooperatives_id,$amendment_id) && $this->check_all_minimum_regular_subscription($cooperatives_id,$amendment_id) && $this->check_all_minimum_regular_pay($cooperatives_id,$amendment_id)){
+          if($this->check_regular_total_shares_paid_is_correct($this->get_total_regular($cooperatives_id,$amendment_id))){
+            if($this->check_equal_shares($amendment_id))
+            {
+               return true;
+            }
+           
+          }else{
+            return false;
+          }
+        }else{
+          return false;
+        }
+      }else{
+        if($this->check_all_minimum_regular_subscription($cooperatives_id,$amendment_id) && $this->check_all_minimum_regular_pay($cooperatives_id,$amendment_id) && $this->check_all_minimum_associate_subscription($cooperatives_id,$amendment_id) && $this->check_all_minimum_associate_pay($cooperatives_id,$amendment_id)){
+          if($this->check_with_associate_total_shares_paid_is_correct($this->get_total_regular($cooperatives_id,$amendment_id),$this->get_total_associate($cooperatives_id,$amendment_id))){
+             if($this->check_equal_shares($amendment_id)) //modified
+            {
+              $count_associate =$this->get_all_cooperator_of_coop_associate_count($amendment_id);
+              $capitalization_info = $this->get_capitalization_info($amendment_id);
+              if($count_associate < $capitalization_info->associate_members)
+              {
+                return false;
               }
               else
               {
-
-              } //end  
+                return true;
+              }
             }
-            else
-            {
-              return false; 
-            }//end of secreatary    
-          }
-          else
-          {
+          }else{
             return false;
-          }        
-        }
-        else
-        {
+          }
+        }else{
           return false;
-        } //end of vice chairperson         
+        }
       }
-      else
-      {
-        return false;
-      } //end check_chairperson();          
     }else{
       return false;
     }
@@ -1288,19 +1200,6 @@ left join amendment_cooperators on cap.amendment_id = amendment_cooperators.amen
   public function check_directors_odd_number($cooperatives_id,$amendment_id){
     $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
     $this->db->where('cooperatives_id',$cooperatives_id);
-    $this->db->where('amendment_id',$amendment_id);
-    $this->db->where_in('position', $position);
-    $this->db->from('amendment_cooperators');
-    $count = $this->db->count_all_results();
-    if($count%2==1){
-      return true;
-    }else{
-      return false;
-    }
-  }
-  public function check_directors_odd_number_amendment($amendment_id){
-    $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
-    // $this->db->where('cooperatives_id',$cooperatives_id);
     $this->db->where('amendment_id',$amendment_id);
     $this->db->where_in('position', $position);
     $this->db->from('amendment_cooperators');

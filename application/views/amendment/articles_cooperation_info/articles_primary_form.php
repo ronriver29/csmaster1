@@ -37,7 +37,6 @@
   </div>
 </div>
 <?php endif;  ?>
-<?php /*
 <div class="row mt-3">
   <div class="col-sm-12 col-md-12">
     <div class="alert alert-info" role="alert">
@@ -62,7 +61,6 @@
     </div>
   </div>
 </div>
-*/?>
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">

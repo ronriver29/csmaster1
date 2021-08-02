@@ -77,155 +77,80 @@ $(function(){
       
   });
 
-  // $('#addCooperatorForm #region').on('change',function(){
-  //   $('#addCooperatorForm #province').empty();
-  //   $("#addCooperatorForm #province").prop("disabled",true);
-  //   $('#addCooperatorForm #city').empty();
-  //   $("#addCooperatorForm #city").prop("disabled",true);
-  //   $('#addCooperatorForm #barangay').empty();
-  //   $("#addCooperatorForm #barangay").prop("disabled",true);
-  //   if($(this).val() && ($(this).val()).length > 0){
-  //     $("#addCooperatorForm #province").prop("disabled",false);
-  //     var region = $(this).val();
-  //       $.ajax({
-  //       type : "POST",
-  //       url  : "../api/provinces",
-  //       dataType: "json",
-  //       data : {
-  //         region: region
-  //       },
-  //       success: function(data){
-  //         $('#addCooperatorForm #province').append($('<option></option>').attr('value',"").text(""));
-  //         $.each(data, function(key,value){
-  //           $('#addCooperatorForm #province').append($('<option></option>').attr('value',value.provCode).text(value.provDesc));
-  //         });
-  //       }
-  //     });
-  //   }
-  // });
-
-  // $('#addCooperatorForm #province').on('change',function(){
-  //   $('#addCooperatorForm #city').empty();
-  //   $("#addCooperatorForm #city").prop("disabled",true);
-  //   $('#addCooperatorForm #barangay').empty();
-  //   $("#addCooperatorForm #barangay").prop("disabled",true);
-  //   if($(this).val() && ($(this).val()).length > 0){
-  //     $("#addCooperatorForm #city").prop("disabled",false);
-  //     var province = $(this).val();
-  //       $.ajax({
-  //       type : "POST",
-  //       url  : "../api/cities",
-  //       dataType: "json",
-  //       data : {
-  //         province: province
-  //       },
-  //       success: function(data){
-  //         $('#addCooperatorForm #city').append($('<option></option>').attr('value',"").text(""));
-  //         $.each(data, function(key,value){
-  //           $('#addCooperatorForm #city').append($('<option></option>').attr('value',value.citymunCode).text(value.citymunDesc));
-  //         });
-  //       }
-  //     });
-  //   }
-  // });
-
-  // $('#addCooperatorForm #city').on('change',function(){
-  //   $('#addCooperatorForm #barangay').empty();
-  //   $("#addCooperatorForm #barangay").prop("disabled",true);
-  //   if($(this).val() && ($(this).val()).length > 0){
-  //     $("#addCooperatorForm #barangay").prop("disabled",false);
-  //     var cities = $(this).val();
-  //       $.ajax({
-  //       type : "POST",
-  //       url  : "../api/barangays",
-  //       dataType: "json",
-  //       data : {
-  //         cities: cities
-  //       },
-  //       success: function(data){
-  //         $('#addCooperatorForm #barangay').append($('<option></option>').attr('value',"").text(""));
-  //         $.each(data, function(key,value){
-  //           $('#addCooperatorForm #barangay').append($('<option></option>').attr('value',value.brgyCode).text(value.brgyDesc));
-  //         });
-  //       }
-  //     });
-  //   }
-  // });
-
   $('#addCooperatorForm #region').on('change',function(){
-      $('#addCooperatorForm #province').empty();
-      $("#addCooperatorForm #province").prop("disabled",true);
-      $('#addCooperatorForm #city').empty();
-      $("#addCooperatorForm #city").prop("disabled",true);
-      $('#addCooperatorForm #barangay').empty();
-      $("#addCooperatorForm #barangay").prop("disabled",true);
-      if($(this).val() && ($(this).val()).length > 0){
-        $("#addCooperatorForm #province").prop("disabled",false);
-        var region = $(this).val();
-          $.ajax({
-          type : "POST",
-          url  : "../api/provinces",
-          dataType: "json",
-          data : {
-            region: region
-          },
-          success: function(data){
-            $('#addCooperatorForm #province').append($('<option></option>').attr('value',"").text(""));
-            $.each(data, function(key,value){
-              $('#addCooperatorForm #province').append($('<option></option>').attr('value',value.provCode).text(value.provDesc));
-            });
-          }
-        });
-      }
-    });
+    $('#addCooperatorForm #province').empty();
+    $("#addCooperatorForm #province").prop("disabled",true);
+    $('#addCooperatorForm #city').empty();
+    $("#addCooperatorForm #city").prop("disabled",true);
+    $('#addCooperatorForm #barangay').empty();
+    $("#addCooperatorForm #barangay").prop("disabled",true);
+    if($(this).val() && ($(this).val()).length > 0){
+      $("#addCooperatorForm #province").prop("disabled",false);
+      var region = $(this).val();
+        $.ajax({
+        type : "POST",
+        url  : "../api/provinces",
+        dataType: "json",
+        data : {
+          region: region
+        },
+        success: function(data){
+          $('#addCooperatorForm #province').append($('<option></option>').attr('value',"").text(""));
+          $.each(data, function(key,value){
+            $('#addCooperatorForm #province').append($('<option></option>').attr('value',value.provCode).text(value.provDesc));
+          });
+        }
+      });
+    }
+  });
 
-    $('#addCooperatorForm #province').on('change',function(){
-      $('#addCooperatorForm #city').empty();
-      $("#addCooperatorForm #city").prop("disabled",true);
-      $('#addCooperatorForm #barangay').empty();
-      $("#addCooperatorForm #barangay").prop("disabled",true);
-      if($(this).val() && ($(this).val()).length > 0){
-        $("#addCooperatorForm #city").prop("disabled",false);
-        var province = $(this).val();
-          $.ajax({
-          type : "POST",
-          url  : "../api/cities",
-          dataType: "json",
-          data : {
-            province: province
-          },
-          success: function(data){
-            $('#addCooperatorForm #city').append($('<option></option>').attr('value',"").text(""));
-            $.each(data, function(key,value){
-              $('#addCooperatorForm #city').append($('<option></option>').attr('value',value.citymunCode).text(value.citymunDesc));
-            });
-          }
-        });
-      }
-    });
+  $('#addCooperatorForm #province').on('change',function(){
+    $('#addCooperatorForm #city').empty();
+    $("#addCooperatorForm #city").prop("disabled",true);
+    $('#addCooperatorForm #barangay').empty();
+    $("#addCooperatorForm #barangay").prop("disabled",true);
+    if($(this).val() && ($(this).val()).length > 0){
+      $("#addCooperatorForm #city").prop("disabled",false);
+      var province = $(this).val();
+        $.ajax({
+        type : "POST",
+        url  : "../api/cities",
+        dataType: "json",
+        data : {
+          province: province
+        },
+        success: function(data){
+          $('#addCooperatorForm #city').append($('<option></option>').attr('value',"").text(""));
+          $.each(data, function(key,value){
+            $('#addCooperatorForm #city').append($('<option></option>').attr('value',value.citymunCode).text(value.citymunDesc));
+          });
+        }
+      });
+    }
+  });
 
-    $('#addCooperatorForm #city').on('change',function(){
-      $('#addCooperatorForm #barangay').empty();
-      $("#addCooperatorForm #barangay").prop("disabled",true);
-      if($(this).val() && ($(this).val()).length > 0){
-        $("#addCooperatorForm #barangay").prop("disabled",false);
-        var cities = $(this).val();
-          $.ajax({
-          type : "POST",
-          url  : "../api/barangays",
-          dataType: "json",
-          data : {
-            cities: cities
-          },
-          success: function(data){
-            $('#addCooperatorForm #barangay').append($('<option></option>').attr('value',"").text(""));
-            $.each(data, function(key,value){
-              $('#addCooperatorForm #barangay').append($('<option></option>').attr('value',value.brgyCode).text(value.brgyDesc));
-            });
-          }
-        });
-      }
-    });
+  $('#addCooperatorForm #city').on('change',function(){
+    $('#addCooperatorForm #barangay').empty();
+    $("#addCooperatorForm #barangay").prop("disabled",true);
+    if($(this).val() && ($(this).val()).length > 0){
+      $("#addCooperatorForm #barangay").prop("disabled",false);
+      var cities = $(this).val();
+        $.ajax({
+        type : "POST",
+        url  : "../api/barangays",
+        dataType: "json",
+        data : {
+          cities: cities
+        },
+        success: function(data){
+          $('#addCooperatorForm #barangay').append($('<option></option>').attr('value',"").text(""));
+          $.each(data, function(key,value){
+            $('#addCooperatorForm #barangay').append($('<option></option>').attr('value',value.brgyCode).text(value.brgyDesc));
+          });
+        }
+      });
+    }
+  });
 
   var id = $("#addCooperatorForm #cooperativesID").val();
   var userid = $("#addCooperatorForm #userID").val();
@@ -242,12 +167,10 @@ $(function(){
       coop_ids:coop_ids
     },
     success: function(data){
-     // console.log(data.area_of_operation);
+     console.log(data.area_of_operation);
+
          if(data!=null){
         var tempCount = 0;
-        setTimeout(function(){
-          // alert(data.region);
-          // $('#addCooperatorForm #barangay').val(data.bCode);
         setTimeout( function(){
           $('#addCooperatorForm #region').val(data.rCode);
           $('#addCooperatorForm #region').trigger('change');
@@ -260,31 +183,32 @@ $(function(){
           $('#addCooperatorForm #city').val(data.cCode);
           $('#addCooperatorForm #city').trigger('change');
         },1000);
+        setTimeout(function(){
+          $('#addCooperatorForm #barangay').val(data.bCode);
           if(data.area_of_operation=='Barangay'){
+          
             $('#addCooperatorForm #barangay').prop("disabled",true);
             $('#addCooperatorForm #city').prop("disabled",true);
             $('#addCooperatorForm #province').prop("disabled",true);
             $('#addCooperatorForm #region').prop("disabled",true);
-
           }else if(data.area_of_operation=='Municipality/City'){
+            
             $('#addCooperatorForm #city').prop("disabled",true);
             $('#addCooperatorForm #province').prop("disabled",true);
             $('#addCooperatorForm #region').prop("disabled",true);
-
           }else if(data.area_of_operation=='Provincial'){
+            
             $('#addCooperatorForm #province').prop("disabled",true);
             $('#addCooperatorForm #region').prop("disabled",true);
-
           }else if(data.area_of_operation=='Regional'){
+            
             $('#addCooperatorForm #region').prop("disabled",true);
-
           }else if(data.area_of_operation=='National'){
+            
             $('#addCooperatorForm #region').prop("disabled",false);
-            $('#addCooperatorForm #province').prop("disabled",false);
-            $('#addCooperatorForm #city').prop("disabled",false);
-            $('#addCooperatorForm #barangay').prop("disabled",false);
           }
-        },1700);
+
+        },1700); 
       } //end if
 
       // if(data!=null){

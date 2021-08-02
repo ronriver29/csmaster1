@@ -204,15 +204,7 @@
                 "ajaxAmendmentNameCallPhp": {
                     "url": "check_amendment_name_exists",
                     // you may want to pass extra data on the ajax call
-                    "extraDataDynamic":['#regNo','#newNamess','#acronym_names','#typeOfCooperative_value'],
-                    "alertText": "* This  Cooperative name is not available",
-                    "alertTextOk": "* This  Cooperative name is available",
-                    "alertTextLoad": "* Validating, please wait"
-                },
-                "ajaxAmendmentNameCallPhpcoop": {
-                    "url": "check_amendment_name_exists_coop_table",
-                    // you may want to pass extra data on the ajax call
-                    "extraDataDynamic":['#regNo','#newNamess','#acronym_names','#typeOfCooperative_value'],
+                    "extraDataDynamic":['#typeOfCooperative_value','#cooperative_idss'],
                     "alertText": "* This  Cooperative name is not available",
                     "alertTextOk": "* This  Cooperative name is available",
                     "alertTextLoad": "* Validating, please wait"

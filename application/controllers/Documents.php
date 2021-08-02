@@ -31,30 +31,27 @@ class Documents extends CI_Controller{
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else if($data['coop_info']->grouping == 'Union'){
-                        $model = 'unioncoop_model';
-                        $ids = $user_id;
-                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else {
+                    } 
+                    else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                    
+                    
+                    if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                        if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                        if($data['article_complete']){
                           if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
-                          } else if($data['coop_info']->grouping == 'Union'){
-                            $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
-                          } else {
-                              $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
-                          }
-                          if($data['gad_count']>0){
+                        } else {
+                            $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
+                        }
+                      if($data['gad_count']>0){
                             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                            if($data['economic_survey_complete']){
                               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                               if($data['staff_complete']){
                                 $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
@@ -115,22 +112,9 @@ class Documents extends CI_Controller{
                                   {
                                     $data['read_upload'] = $this->count_documents($decoded_id,2);
                                   }
-                                  $data['document_three'] =$this->get_documentss($decoded_id,3);
-                                  if($data['document_three'])
-                                  {
-                                    $data['read_upload'] = $this->count_documents($decoded_id,3);
-                                  }
                                 // }  
-                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                                 $this->load->view('template/header', $data);
-                                if($data['coop_info']->grouping == 'Federation'){
-                                  $this->load->view('documents/list_of_documents_federation', $data);
-                                } else if($data['coop_info']->grouping == 'Union'){
-                                  $this->load->view('documents/list_of_documents_union', $data);
-                                } else {
-                                    $this->load->view('documents/list_of_documents', $data);
-                                }
-                                
+                                $this->load->view('documents/list_of_documents', $data);
                                 $this->load->view('template/footer');
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
@@ -190,31 +174,29 @@ class Documents extends CI_Controller{
                         $model = 'affiliators_model';
                         $ids = $data['coop_info']->users_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$ids);
-                      } else if($data['coop_info']->grouping == 'Union'){
-                        $model = 'unioncoop_model';
-                        $ids = $user_id;
-                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                      } else {
+                      } 
+                      else
+                       {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                       }
                       
-                     if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                                             if($data['cooperator_complete']){
                         $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                         if($data['purposes_complete']){
                           $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                          if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                          if($data['article_complete']){
                             if($data['coop_info']->grouping == 'Federation'){
-                              $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($data['coop_info']->users_id);
-                            } else if($data['coop_info']->grouping == 'Union'){
-                              $data['gad_count'] = $this->committee_model->get_all_gad_count_union($data['coop_info']->users_id);
-                            } else {
-                              $data['gad_count'] = $this->committee_model->committee_complete_count($decoded_id);
+                            $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($data['coop_info']->users_id);
+                            } 
+                            else 
+                            {
+                                $data['gad_count'] = $this->committee_model->committee_complete_count($decoded_id);
                             }
                             if($data['gad_count']>0){
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                              if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                              if($data['economic_survey_complete']){
                                 $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                                 if($data['staff_complete']){
                                     $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
@@ -258,43 +240,33 @@ class Documents extends CI_Controller{
                                   $data['encrypted_id'] = $id;
                                   $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
                                   $data['document_two'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
-                                  $data['document_three'] = $this->uploaded_document_model->get_document_three_info($decoded_id);
                                   $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
                                   $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
                             
                                   $this->load->view('templates/admin_header', $data);
-                                  if($data['coop_info']->grouping == 'Federation'){
-                                    $this->load->view('documents/list_of_documents_federation', $data);
-                                  } else if($data['coop_info']->grouping == 'Union'){
-                                    $this->load->view('documents/list_of_documents_union', $data);
-                                  } else {
-                                      $this->load->view('documents/list_of_documents', $data);
-                                  }
+                                  $this->load->view('documents/list_of_documents', $data);
                                   $this->load->view('cooperative/evaluation/approve_modal_cooperative');
                                   $this->load->view('cooperative/evaluation/deny_modal_cooperative');
                                   $this->load->view('cooperative/evaluation/defer_modal_cooperative');
-                                  $this->load->view('cooperative/evaluation/revert_modal_cooperative');
                                   $this->load->view('templates/admin_footer');
-                                } else {
-                                  // echo"dito";
-                                  $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
-                                  redirect('cooperatives/'.$id);
+                                }else{echo"dito";
+                                  // $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
+                                  // redirect('cooperatives/'.$id);
                                 }
-                              } else { 
-                                // echo"hear";
-                                $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
-                                redirect('cooperatives/'.$id);
+                              }else{ echo"hear";
+                                // $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
+                                // redirect('cooperatives/'.$id);
                               }
-                            } else {
-                              // echo"ddd";
-                              // echo $this->db->last_query();
-                              $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
-                              redirect('cooperatives/'.$id);
                             }
-                          } else { 
-                            // echo"dddddf";
-                            $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
-                            redirect('cooperatives/'.$id);
+                            else
+                            {echo"ddd";
+                              echo $this->db->last_query();
+                              // $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
+                              // redirect('cooperatives/'.$id);
+                            }
+                          }else{ echo"dddddf";
+                            // $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
+                            // redirect('cooperatives/'.$id);
                           }
                         }else{
                           $this->session->set_flashdata('redirect_message', 'Please complete first the cooperative&apos;s purpose .');
@@ -896,7 +868,7 @@ public function delete_pdf()
   // end modify by anj
 //end modify
   function articles_cooperation_primary($id = null){
-     ini_set('memory_limit', '1024M');
+     ini_set('memory_limit', '1024');
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
@@ -913,15 +885,15 @@ public function delete_pdf()
                   $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                   $capitalization_info = $data['capitalization_info'];
                   $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
-                  if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                  if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                      if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                      if($data['article_complete']){
                         $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                         if($data['committees_complete']){
                           $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                          if($data['economic_survey_complete']){
                             $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                             if($data['staff_complete']){
                               $data['title'] = 'Articles of Cooperation for Primary';
@@ -948,28 +920,23 @@ public function delete_pdf()
                               $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                               }
 
-                              $data['client_info'] = $this->user_model->get_user_info($user_id);
-                              $data['header'] = 'Articles of Cooperation';
-                              $this->load->view('template/header', $data);
-                              $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
-                              $this->load->view('template/footer');
-                              // $f = new pdf();
-                              // $f->set_option("isPhpEnabled", true);
-                              // $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
+                              $f = new pdf();
+                              $f->set_option("isPhpEnabled", true);
+                              $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
                              
-                              // $f->setPaper('folio', 'portrait');
-                              // $f->load_html($html2);
-                              // $f->render();
+                              $f->setPaper('folio', 'portrait');
+                              $f->load_html($html2);
+                              $f->render();
                               
-                              // $this->load->library('session');
-                              // $path = 'articles_of_cooperation_primary.pdf';
-                              // $getTotalPages = $f->get_canvas()->get_page_count();
-                              // $user_data = array(
-                              //   // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
-                              //   'pagecount' => $getTotalPages
-                              // );
-                              // $this->session->set_userdata($user_data);
-                              // $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
+                              $this->load->library('session');
+                              $path = 'articles_of_cooperation_primary.pdf';
+                              $getTotalPages = $f->get_canvas()->get_page_count();
+                              $user_data = array(
+                                // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
+                                'pagecount' => $getTotalPages
+                              );
+                              $this->session->set_userdata($user_data);
+                              $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
                               redirect('cooperatives/'.$id);
@@ -1020,11 +987,11 @@ public function delete_pdf()
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
                     $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
-                    if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                    if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                        if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                        if($data['article_complete']){
                           $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                           if($data['committees_complete']){
                             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
@@ -1054,26 +1021,21 @@ public function delete_pdf()
                                 $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                                 }
 
-                              $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-                              $data['header'] = 'Articles of Cooperation';
-                              $this->load->view('templates/admin_header', $data);
-                              $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
-                              $this->load->view('templates/admin_footer');
-                              //   $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
-                              //   $f = new pdf();
-                              //    $f->set_option("isPhpEnabled", true);
-                              //   $f->setPaper('folio', 'portrait');
-                              //   $f->load_html($html2);
-                              //   $f->render();
-                              //   $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
-                              //   $this->load->library('session');
-                              // $path = 'articles_of_cooperation_primary.pdf';
-                              // $getTotalPages = $f->get_canvas()->get_page_count();
-                              // $user_data = array(
-                              //   // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
-                              //   'pagecount' => $getTotalPages
-                              // );
-                              // $this->session->set_userdata($user_data);
+                                $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
+                                $f = new pdf();
+                                 $f->set_option("isPhpEnabled", true);
+                                $f->setPaper('folio', 'portrait');
+                                $f->load_html($html2);
+                                $f->render();
+                                $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
+                                $this->load->library('session');
+                              $path = 'articles_of_cooperation_primary.pdf';
+                              $getTotalPages = $f->get_canvas()->get_page_count();
+                              $user_data = array(
+                                // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
+                                'pagecount' => $getTotalPages
+                              );
+                              $this->session->set_userdata($user_data);
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                 redirect('cooperatives/'.$id);
@@ -1139,7 +1101,6 @@ public function delete_pdf()
                 $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
                 $data['document_one'] = $this->uploaded_document_model->get_document_one_info($branch_info->application_id);
                 $data['document_two'] = $this->uploaded_document_model->get_document_two_info($branch_info->application_id);
-                $data['document_three'] = $this->uploaded_document_model->get_document_three_info($branch_info->application_id);
                 $data['document_5'] = $this->uploaded_document_model->get_document_5_info($branch_info->id,$branch_info->application_id);
                 $data['document_6'] = $this->uploaded_document_model->get_document_6_info($branch_info->id,$branch_info->application_id);
                 $data['document_7'] = $this->uploaded_document_model->get_document_7_info($branch_info->id,$branch_info->application_id);
@@ -1195,7 +1156,6 @@ public function delete_pdf()
                 $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
                 $data['document_one'] = $this->uploaded_document_model->get_document_one_info($branch_info->application_id);
                 $data['document_two'] = $this->uploaded_document_model->get_document_two_info($branch_info->application_id);
-                $data['document_three'] = $this->uploaded_document_model->get_document_three_info($branch_info->application_id);
                 $data['document_5'] = $this->uploaded_document_model->get_document_5_info($branch_info->id,$branch_info->application_id);
                 $data['document_6'] = $this->uploaded_document_model->get_document_6_info($branch_info->id,$branch_info->application_id);
                 $data['document_7'] = $this->uploaded_document_model->get_document_7_info($branch_info->id,$branch_info->application_id);
@@ -1276,15 +1236,15 @@ public function delete_pdf()
                   $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                   $capitalization_info = $data['capitalization_info'];
                   $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
-                  if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                  if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                      if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                      if($data['article_complete']){
                         $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                         if($data['committees_complete']){
                           $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                          if($data['economic_survey_complete']){
                             $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                             if($data['staff_complete']){
                               $data['title'] = 'By Laws for Primary';
@@ -1365,11 +1325,11 @@ public function delete_pdf()
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
                     $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
-                    if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                    if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                        if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                        if($data['article_complete']){
                           $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                           if($data['committees_complete']){
                             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
@@ -1476,21 +1436,19 @@ public function delete_pdf()
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
                     }
                   // $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
-                  if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                  if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                      if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                      if($data['article_complete']){
                         if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
-                        } else if($data['coop_info']->grouping == 'Union'){
-                            $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                         }
                       if($data['gad_count']>0){
                           $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                          if($data['economic_survey_complete']){
                             $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                             if($data['staff_complete']){
                               $data['title'] = 'By Laws for Primary';
@@ -1580,11 +1538,11 @@ public function delete_pdf()
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
                     }
                       
-                    if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                    if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                        if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                        if($data['article_complete']){
                           if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($data['coop_info']->users_id);
                         } else {
@@ -1679,15 +1637,15 @@ public function delete_pdf()
                   $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                   $capitalization_info = $data['capitalization_info'];
                   $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
-                  if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                  if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                      if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                      if($data['article_complete']){
                         $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                         if($data['committees_complete']){
                           $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                          if($data['economic_survey_complete']){
                             $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                             if($data['staff_complete']){
                               $data['title'] = "Treasurer's Affidavit for Primary";
@@ -1763,11 +1721,11 @@ public function delete_pdf()
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
                     $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
-                    if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                    if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                        if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                        if($data['article_complete']){
                           $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                           if($data['committees_complete']){
                             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
@@ -1870,32 +1828,27 @@ public function delete_pdf()
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else if($data['coop_info']->grouping == 'Union'){
-                        $model = 'unioncoop_model';
-                        $ids = $user_id;
-                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else {
+                    } 
+                    else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
                     
                     
-                  if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                  if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                      if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                      if($data['article_complete']){
                         if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
-                        } else if($data['coop_info']->grouping == 'Union'){
-                            $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                         }
                       if($data['gad_count']>0){
                           $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                          if($data['economic_survey_complete']){
                             $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                             if($data['staff_complete']){
                               $data['title'] = "Economic Survey";
@@ -1992,22 +1945,19 @@ public function delete_pdf()
                         $model = 'affiliators_model';
                         $ids = $data['coop_info']->users_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$ids);
-                    } else if($data['coop_info']->grouping == 'Union'){
-                        $model = 'unioncoop_model';
-                        $ids = $user_id;
-                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else {
+                    } 
+                    else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
                     
                       
-                    if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                    if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                        if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                        if($data['article_complete']){
                           if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($data['coop_info']->users_id);
                         } else {
@@ -2271,25 +2221,22 @@ public function delete_pdf()
                     if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
-                    } else if($data['coop_info']->grouping == 'Union'){
-                        $model = 'unioncoop_model';
-                        $ids = $user_id;
-                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else {
+                    } 
+                    else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                     }
                     
                     $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
-                      if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                      if($data['cooperator_complete']){
                         $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                         if($data['purposes_complete']){
                           $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                          if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                          if($data['article_complete']){
                             $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                             if($data['committees_complete']){
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                              if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                              if($data['economic_survey_complete']){
                                 $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                                 if($data['staff_complete']){
                                   // $this->load->view('template_pdf/whole_template_pdf',$data);
@@ -2350,22 +2297,19 @@ public function delete_pdf()
                         if($data['coop_info']->grouping == 'Federation'){
                             $model = 'affiliators_model';
                             $ids = $user_id;
-                        } else if($data['coop_info']->grouping == 'Union'){
-                            $model = 'unioncoop_model';
-                            $ids = $user_id;
-                            $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                        } else {
+                        } 
+                        else {
                             $model = 'cooperator_model';
                             $ids = $decoded_id;
                         }
                         $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                         $capitalization_info = $data['capitalization_info'];
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
-                        if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                        if($data['cooperator_complete']){
                           $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                           if($data['purposes_complete']){
                             $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                            if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                            if($data['article_complete']){
                               $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                               if($data['committees_complete']){
                                 $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
@@ -2445,15 +2389,15 @@ public function delete_pdf()
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                   if($data['bylaw_complete']){
                       $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
-                      if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                      if($data['cooperator_complete']){
                         $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                         if($data['purposes_complete']){
                           $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                          if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                          if($data['article_complete']){
                             $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                             if($data['committees_complete']){
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                              if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                              if($data['economic_survey_complete']){
                                 $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                                 if($data['staff_complete']){
                                   // $this->load->view('template_pdf/whole_template_pdf',$data);
@@ -2511,11 +2455,11 @@ public function delete_pdf()
                     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                     if($data['bylaw_complete']){
                         $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
-                        if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                        if($data['cooperator_complete']){
                           $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                           if($data['purposes_complete']){
                             $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                            if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                            if($data['article_complete']){
                               $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                               if($data['committees_complete']){
                                 $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
@@ -2948,32 +2892,27 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else if($data['coop_info']->grouping == 'Union'){
-                        $model = 'unioncoop_model';
-                        $ids = $user_id;
-                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else {
+                    } 
+                    else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
                     
                     
-                  if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                  if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                      if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                      if($data['article_complete']){
                         if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
-                        } else if($data['coop_info']->grouping == 'Union'){
-                            $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                         }
                       if($data['gad_count']>0){
                           $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                          if($data['economic_survey_complete']){
                             $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                             if($data['staff_complete']){
                               if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
@@ -3066,32 +3005,27 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else if($data['coop_info']->grouping == 'Union'){
-                        $model = 'unioncoop_model';
-                        $ids = $user_id;
-                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else {
+                    } 
+                    else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
                     
                     
-                  if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                  if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                      if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                      if($data['article_complete']){
                         if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
-                        } else if($data['coop_info']->grouping == 'Union'){
-                            $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                         }
                       if($data['gad_count']>0){
                           $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                          if($data['economic_survey_complete']){
                             $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                             if($data['staff_complete']){
                               if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
@@ -3105,123 +3039,6 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                                 $data['coopid'] = $decoded_id;
                                 $this->load->view('./template/header', $data);
                                 $this->load->view('cooperative/upload_form/upload_document_two', $data);
-                                $this->load->view('./template/footer');
-                              }else{
-                                $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
-                                redirect('cooperatives/'.$id);
-                              }
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                              redirect('cooperatives/'.$id);
-                            }
-                          }else{
-                            $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                            redirect('cooperatives/'.$id);
-                          }
-                        }else{
-                          $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
-                          redirect('cooperatives/'.$id);
-                        }
-                      }else{
-                        $this->session->set_flashdata('redirect_message', 'Please complete first your article of cooperation additional information.');
-                        redirect('cooperatives/'.$id);
-                      }
-                    }else{
-                      $this->session->set_flashdata('redirect_message', 'Please complete first your cooperative&apos;s purpose .');
-                      redirect('cooperatives/'.$id);
-                    }
-                  }else{
-                    if($data['coop_info']->grouping == 'Federation'){
-                            $complete = 'Affiliators';
-                        } else {
-                            $complete = 'Cooperators';
-                        }
-                        $this->session->set_flashdata('redirect_message', 'Please complete first your list of '.$complete.'');
-                    redirect('cooperatives/'.$id);
-                  }
-              }else{
-                $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
-                redirect('cooperatives/'.$id);
-              }
-            }else{
-              redirect('cooperatives/'.$id);
-            }
-          }else{
-            $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-            redirect('cooperatives');
-          }
-        }else{
-          if($this->session->userdata('access_level')==5){
-            redirect('admins/login');
-          }else{
-            $this->session->set_flashdata('redirect_message', 'Unauthorized!!.');
-            redirect('cooperatives/'.$id);
-          }
-        }
-      }else{
-        show_404();
-      }
-    }
-  }
-  function upload_document_three($id = null){
-    if(!$this->session->userdata('logged_in')){
-      redirect('users/login');
-    }else{
-      $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
-      $user_id = $this->session->userdata('user_id');
-      $data['is_client'] = $this->session->userdata('client');
-      if(is_numeric($decoded_id) && $decoded_id!=0){
-        if($this->session->userdata('client')){
-          if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
-            if(!$this->cooperatives_model->check_expired_reservation($decoded_id,$user_id)){
-              $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
-              $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
-              if($data['bylaw_complete']){
-                $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                    $capitalization_info = $data['capitalization_info'];
-                  if($data['coop_info']->grouping == 'Federation'){
-                        $model = 'affiliators_model';
-                        $ids = $user_id;
-                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else if($data['coop_info']->grouping == 'Union'){
-                        $model = 'unioncoop_model';
-                        $ids = $user_id;
-                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else {
-                        $model = 'cooperator_model';
-                        $ids = $decoded_id;
-                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
-                    }
-                    
-                    
-                  if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
-                    $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
-                    if($data['purposes_complete']){
-                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                      if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
-                        if($data['coop_info']->grouping == 'Federation'){
-                            $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
-                        } else if($data['coop_info']->grouping == 'Union'){
-                            $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
-                        } else {
-                            $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
-                        }
-                      if($data['gad_count']>0){
-                          $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
-                            $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                            if($data['staff_complete']){
-                              if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
-                                $data['client_info'] = $this->user_model->get_user_info($user_id);
-                                $data['title'] = 'Upload Document';
-                                $data['header'] = 'Upload Document';
-                                $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
-                                $data['encrypted_id'] = $id;
-                                $data['encrypted_uid'] = encrypt_custom($this->encryption->encrypt($user_id));
-                                $data['uid'] = $user_id;
-                                $data['coopid'] = $decoded_id;
-                                $this->load->view('./template/header', $data);
-                                $this->load->view('cooperative/upload_form/upload_document_three', $data);
                                 $this->load->view('./template/footer');
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
@@ -3299,15 +3116,15 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                   $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                   $capitalization_info = $data['capitalization_info'];
                   $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
-                  if($data['cooperator_complete'] || $data['coop_info']->grouping == 'Union'){
+                  if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                      if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                      if($data['article_complete']){
                         $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                         if($data['committees_complete']){
                           $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                          if($data['economic_survey_complete']){
                             $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                             if($data['staff_complete']){
                               if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
@@ -3951,14 +3768,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
            $random_ = random_string('alnum',5);
             $config['upload_path'] = UPLOAD_DIR;
-            if($data['coop_info']->grouping == 'Federation'){
-              $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_feasibility_study.pdf';
-            } else if ($data['coop_info']->grouping == 'Union'){
-              $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_development_plan.pdf';
-            } else {
-              $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_surety_bond.pdf';
-            }
-            
+            $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_surety_bond.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
             $this->load->library('upload', $config);
@@ -4079,14 +3889,7 @@ function do_upload_two_(){
           if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){  
             $random_ = random_string('alnum',5);
             $config['upload_path'] = UPLOAD_DIR;
-            if($data['coop_info']->grouping == 'Federation'){
-              $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_ga_resolution.pdf';
-            } else if ($data['coop_info']->grouping == 'Union'){
-              $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_ga_resolution.pdf';
-            } else {
-              $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_pre_registration.pdf';
-            }
-            
+            $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_pre_registration.pdf';
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
             $this->load->library('upload', $config);
@@ -4125,62 +3928,6 @@ function do_upload_two_(){
     }
   }
   //end modify
-
-  function do_upload_three_(){
-    if(!$this->session->userdata('logged_in')){
-      redirect('users/login');
-    }else{
-      if($this->input->post('uploadOtherDocumentTwoBtn')){
-        if($this->session->userdata('access_level') && $this->session->userdata('access_level')==5){
-          redirect('admins/login');
-        }else if($this->session->userdata('access_level') && $this->session->userdata('access_level')<5){
-          redirect('cooperatives');
-        }else{
-          $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
-          $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
-          $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($decoded_uid,$decoded_id);
-          if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){  
-            $random_ = random_string('alnum',5);
-            $config['upload_path'] = UPLOAD_DIR;
-            $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_bod_resolution.pdf';
-            $config['allowed_types'] = 'pdf';
-            $config['overwrite'] = true;
-            $this->load->library('upload', $config);
-            $this->upload->initialize($config);
-            if(!($this->upload->do_upload('file2'))){
-              $this->session->set_flashdata('document_two_error', $this->upload->display_errors('<p>', '</p>'));
-              redirect('cooperatives/'.$this->input->post('cooperativesID').'/documents');
-            }else{
-                if($this->input->post('status')==11){
-                    $status = 2;
-                } else {
-                    $status = 1;
-                }
-              if($this->uploaded_document_model->add_document_info_(0,$decoded_id,3,$this->upload->data('file_name'),$status)){
-                $this->session->set_flashdata('document_two_success', 'Successfully uploaded PRS.');
-                redirect('cooperatives/'.$this->input->post('cooperativesID').'/documents');
-              }else{
-                $file = $config['upload_path'].$config['file_name'];
-                if(is_readable($file) && unlink($file)){
-                  $this->session->set_flashdata('document_one_error', 'Please reupload document one.');
-                  redirect('cooperatives/'.$this->input->post('cooperativesID').'/documents');
-                }else{
-                  $this->session->set_flashdata('document_one_error', 'Please reupload document one.');
-                  redirect('cooperatives/'.$this->input->post('cooperativesID').'/documents');
-                }
-              }
-            }
-          }else{
-            $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
-            redirect('cooperatives/'.$this->input->post('cooperativesID'));
-          }
-        }
-      }else{
-        redirect('cooperatives');
-      }
-    }
-  }
   
   function do_upload_two(){
     if(!$this->session->userdata('logged_in')){
@@ -4455,34 +4202,15 @@ function do_upload_two_(){
                               $data['in_chartered_cities']=true;
                               $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                               }
+                              //$this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
 
+                              $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data, TRUE);
                               $f = new pdf();
                               $f->set_option("isPhpEnabled", true);
-                              $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data, TRUE);
-                             
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
                               $f->render();
-                              
-                              $this->load->library('session');
-                              $path = 'articles_of_cooperation_primary.pdf';
-                              $getTotalPages = $f->get_canvas()->get_page_count();
-                              $user_data = array(
-                                // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
-                                'pagecount' => $getTotalPages
-                              );
-
-                              $this->session->set_userdata($user_data);
                               $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
-                              //$this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
-
-                              // $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data, TRUE);
-                              // $f = new pdf();
-                              // $f->set_option("isPhpEnabled", true);
-                              // $f->setPaper('folio', 'portrait');
-                              // $f->load_html($html2);
-                              // $f->render();
-                              // $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
                               
                             // }else{
                             //   $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');

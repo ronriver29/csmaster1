@@ -91,7 +91,7 @@ $route['branches/(:any)/registration'] = 'registration/branch/$1';
 $route['branches/get_cooperative_info'] = 'branches/get_cooperative_info';
 $route['branches/(:any)/forpaymentbranches'] = 'forpaymentbranches/index/$1';
 
-$route['laboratories/coop_info/(:any)'] = 'laboratories/coop_info/$1';
+
 $route['laboratories/approve_laboratories_2'] ='Laboratories/approve_laboratories_2'; //modify
 $route['laboratories/payment'] = 'Laboratories/payment'; //modify by
 $route['laboratories/deny_laboratory'] = 'laboratories/deny_laboratory';//modify by json
@@ -101,7 +101,6 @@ $route['laboratories/get_cooperative_info'] = 'laboratories/get_cooperative_info
 $route['laboratories/(:any)'] = 'laboratories/view/$1';
 $route['laboratories/(:any)/laboratories_cooperators'] = 'laboratories_cooperators/index/$1';
 $route['laboratories/(:any)/laboratories_cooperators/add'] = 'laboratories_cooperators/add/$1';
-$route['laboratories/(:any)/laboratories_cooperators/coop_info/(:any)'] = 'laboratories_cooperators/coop_info/$1/$2';
 $route['laboratories_cooperators/(:any)/api/regions'] ='api/regions/index';
 $route['laboratories_cooperators/(:any)/api/provinces'] ='api/provinces/index';
 $route['laboratories/(:any)/api/provinces'] ='api/provinces/index';
@@ -169,10 +168,8 @@ $route['cooperatives/sp'] = 'cooperatives/sp';
 //modiy by json
 $route['cooperatives/(:any)/documents/view_document_one/(:any)/(:any)'] = 'documents/view_document_one/$1/$2/$3';
 $route['cooperatives/(:any)/documents/view_document_two/(:any)'] = 'documents/view_document_two/$1/$2';
-$route['cooperatives/(:any)/documents/view_document_three/(:any)'] = 'documents/view_document_three/$1/$2';
 $route['cooperatives/(:any)/documents/upload_document_one'] = 'documents/upload_document_one/$1';
 $route['cooperatives/(:any)/documents/upload_document_two'] = 'documents/upload_document_two/$1';
-$route['cooperatives/(:any)/documents/upload_document_three'] = 'documents/upload_document_three/$1';
 $route['cooperatives/(:any)/documents/upload_document_others/(:any)'] = 'documents/upload_document_others/$1/$2';
 $route['cooperatives/(:any)/documents/economic_survey'] = 'documents/economic_survey/$1';
 $route['cooperatives/(:any)/documents/affidavit_primary'] = 'documents/affidavit_primary/$1';
@@ -186,7 +183,6 @@ $route['cooperatives/(:any)/documents'] = 'documents/index/$1';
 $route['documents/list_upload_pdf'] = 'documents/list_upload_pdf/$1/$2'; //modify by jason
 
 $route['cooperatives/(:any)/registration'] = 'registration/index/$1';
-$route['cooperatives/(:any)/assign_inspector'] = 'assign_inspector/index/$1';
 $route['cooperatives/(:any)/forpayment'] = 'forpayment/index/$1';
 
 $route['cooperatives/(:any)/staff/(:any)/edit'] = 'staff/edit/$1/$2';
@@ -208,7 +204,6 @@ $route['cooperatives/(:any)/unioncoop'] = 'unioncoop/index/$1';
 $route['cooperatives/(:any)/affiliators'] = 'affiliators/index/$1';
 $route['cooperatives/(:any)/affiliators/add_affiliators'] = 'affiliators/add_affiliators/$1';
 $route['cooperatives/(:any)/affiliators/edit_affiliators'] = 'affiliators/edit_affiliators/$1';
-$route['cooperatives/(:any)/affiliators/edit_unioncoop'] = 'affiliators/edit_unioncoop/$1';
 $route['cooperatives/(:any)/cooperators/get_cooperative_info'] ='cooperatives/get_cooperative_info';
 $route['cooperatives/(:any)/rupdate']  =  'cooperatives/rupdate/$1';
 
@@ -226,7 +221,6 @@ $route['cooperatives/composition'] = 'cooperatives/composition';
 $route['cooperatives/(:any)/composition'] = 'cooperatives/composition';
 $route['cooperatives/deny_cooperative'] = 'cooperatives/deny_cooperative';
 $route['cooperatives/defer_cooperative'] = 'cooperatives/defer_cooperative';
-$route['cooperatives/revert_cooperative'] = 'cooperatives/revert_cooperative';
 $route['cooperatives/approve_cooperative'] = 'cooperatives/approve_cooperative';
 $route['cooperatives/delete_cooperative'] = 'cooperatives/delete_cooperative';
 $route['cooperatives/delete_branches'] = 'cooperatives/delete_branches';
@@ -368,7 +362,6 @@ $route['users/logout'] = 'users/logout';
 
 $route['users/manual/(:any)'] = 'users/users_manual/$1'; //modify
 $route['admins/(:any)/edit'] = 'admins/edit/$1';
-$route['admins/(:any)/edit_signatory'] = 'admins/edit_signatory/$1';
 $route['admins/add'] = 'admins/add';
 $route['admins/check_username_not_exists'] = 'admins/check_username_not_exists';
 $route['admins/add_admin'] = 'admins/add_admin';

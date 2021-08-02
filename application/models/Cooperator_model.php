@@ -776,28 +776,9 @@ $this->last_query = $this->db->last_query();
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $cooperatives_id = join(',',$cooperatives_id);  
     $this->db->select('*');
-    $this->db->from('affiliators');
-    $this->db->where('user_id ='.$user_id);
-    $this->db->order_by('representative','asc');
-    $query=$this->db->get();
-    $this->last_query = $this->db->last_query();
-    $data = $query->result_array();
-    return $data;
-    
-//    $cooperatives_id = join(',',$cooperatives_id);  
-//    $this->db->order_by('full_name','asc');
-//    $query = $this->db->get_where('cooperators','cooperatives_id IN ('.$cooperatives_id.') AND position != "Chairperson" AND type_of_member != "Associate"');
-//    $data = $query->result_array();
-//    return $data;
-  }
-
-  public function get_all_cooperator_of_coop_for_committee_union($cooperatives_id,$user_id){
-    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
-    $cooperatives_id = join(',',$cooperatives_id);  
-    $this->db->select('*');
-    $this->db->from('unioncoop');
-    $this->db->where('user_id ='.$user_id);
-    $this->db->order_by('representative','asc');
+    $this->db->from('cooperators');
+    $this->db->where('cooperatives_id IN ('.$cooperatives_id.') AND position != "Chairperson" AND type_of_member != "Associate" AND id NOT IN (SELECT cooperators_id FROM committees_federation WHERE user_id ='.$user_id.')');
+    $this->db->order_by('full_name','asc');
     $query=$this->db->get();
     $this->last_query = $this->db->last_query();
     $data = $query->result_array();
@@ -1128,7 +1109,7 @@ $this->last_query = $this->db->last_query();
     $this->db->where_in('position', $position);
     $this->db->from('cooperators');
     $count = $this->db->count_all_results();
-    if($count>14){
+    if($count<15){
       return true;
     }else{
       return false;

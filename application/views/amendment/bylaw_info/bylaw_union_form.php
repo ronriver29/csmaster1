@@ -20,7 +20,7 @@
                 <select class="custom-select validate[required]" name="kindsOfMember" id="kindsOfMember">
                   <option value="" selected>--</option>
                   <option value="1">Regular Member Only</option>
-                  <!-- <option value="2">Regular And Associate Member</option> -->
+                  <option value="2">Regular And Associate Member</option>
                 </select>
               </div>
           </div>
