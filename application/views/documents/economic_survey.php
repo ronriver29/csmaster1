@@ -45,7 +45,19 @@
             $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);;     
         }
 </script>
-<div class="container-fluid text-monospace">
+<style type="text/css">
+  #printPage
+{
+  margin-left: 450px;
+  padding: 0px;
+  width: 670px; / width: 7in; /
+  height: 900px; / or height: 9.5in; /
+  clear: both;
+  page-break-after: always;
+}
+</style>
+<a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+<div class="container-fluid text-monospace" id="printPage">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
         <p class="font-weight-bold">ECONOMIC SURVEY<br>of<br><?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?></p>
@@ -615,7 +627,7 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($cooperators_list_bods as $cooperator) :?>
-              <?=$count++;?>
+              <?php $count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
                 <td><?=$cooperator['proof_of_identity']?>-<?=$cooperator['proof_of_identity_number']?></td>
