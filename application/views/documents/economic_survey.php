@@ -14,7 +14,7 @@
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
     <?php 
-if($coop_info->status == 12){
+if($coop_info->status == 12 && $is_client){
 ?>
    body{
       /*font-family: 'Bookman Old Style'; font-size: 12px; */
@@ -49,7 +49,7 @@ if($coop_info->status == 12){
         }
 </script>
 <?php 
-if($coop_info->status != 12){
+if($coop_info->status != 12 || !$is_client){
 ?>
 <style type="text/css">
   #printPage

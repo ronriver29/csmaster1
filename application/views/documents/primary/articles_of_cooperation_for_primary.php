@@ -20,7 +20,7 @@
     border-collapse: collapse;
   }
 <?php 
-if($coop_info->status == 12){
+if($coop_info->status == 12 && $is_client){
 ?>
   body{
         font-family: 'Bookman Old Style',arial !important;font-size:12px;
@@ -48,7 +48,7 @@ if($coop_info->status == 12){
 
 </script>
 <?php 
-if($coop_info->status != 12){
+if($coop_info->status != 12 || !$is_client){
 ?>
 <style type="text/css">
   #printPage
