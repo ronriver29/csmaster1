@@ -13,11 +13,14 @@
   <!-- <link rel="stylesheet" href="<?=base_url();?>assets/icons/fontawesome-free-5.5.0-web/css/all.css"> -->
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
+    <?php 
+if($coop_info->status == 12){
+?>
    body{
       /*font-family: 'Bookman Old Style'; font-size: 12px; */
        font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
-
+<?php } ?>
   @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   /* table, th, td {
@@ -45,6 +48,9 @@
             $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);;     
         }
 </script>
+<?php 
+if($coop_info->status != 12){
+?>
 <style type="text/css">
   #printPage
 {
@@ -57,6 +63,7 @@
 }
 </style>
 <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+<?php } ?>
 <div class="container-fluid text-monospace" id="printPage">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
@@ -407,7 +414,11 @@
   <div class="row mb-2" >
     <div class="col-sm-12 col-md-12">
       <div class="table-responsive">
+        <?php if($coop_info->status == 12){?>
         <table class="table table-bordered table-sm" style="margin-left:-60px">
+        <?php } else {?>
+          <table class="table table-bordered table-sm">
+        <?php } ?>
           <thead>
             <tr>
               <th>Position</th>

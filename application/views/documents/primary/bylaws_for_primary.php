@@ -46,6 +46,7 @@
             
         }
 </script>
+<?php if($coop_info->status != 12){?>
 <style type="text/css">
   #printPage
 {
@@ -58,6 +59,8 @@
 }
 </style>
 <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+<?php } ?>
+
 <div class="container-fluid text-monospace" id="printPage">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
