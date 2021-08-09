@@ -48,7 +48,7 @@ if($coop_info->status == 12 && $is_client){
 
 </script>
 <?php 
-if($coop_info->status != 12 || !$is_client){
+if($coop_info->status != 12){
 ?>
 <style type="text/css">
   #printPage
