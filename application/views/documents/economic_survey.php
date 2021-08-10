@@ -14,7 +14,7 @@
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
     <?php 
-if($coop_info->status == 12 && $is_client){
+if($coop_info->status == 12){
 ?>
    body{
       /*font-family: 'Bookman Old Style'; font-size: 12px; */

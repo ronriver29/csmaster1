@@ -20,7 +20,7 @@
     border-collapse: collapse;
   }
 <?php 
-if($coop_info->status == 12 && $is_client){
+if($coop_info->status == 12){
 ?>
   body{
         font-family: 'Bookman Old Style',arial !important;font-size:12px;
