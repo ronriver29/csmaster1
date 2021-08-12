@@ -249,24 +249,24 @@ class Documents extends CI_Controller{
                                   $this->load->view('cooperative/evaluation/deny_modal_cooperative');
                                   $this->load->view('cooperative/evaluation/defer_modal_cooperative');
                                   $this->load->view('templates/admin_footer');
-                                }else{echo"dito";
-                                  // $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
-                                  // redirect('cooperatives/'.$id);
+                                }else{
+                                  $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
+                                  redirect('cooperatives/'.$id);
                                 }
-                              }else{ echo"hear";
-                                // $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
-                                // redirect('cooperatives/'.$id);
+                              }else{ 
+                                $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
+                                redirect('cooperatives/'.$id);
                               }
                             }
                             else
-                            {echo"ddd";
-                              echo $this->db->last_query();
-                              // $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
-                              // redirect('cooperatives/'.$id);
+                            {
+                              // echo $this->db->last_query();
+                              $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
+                              redirect('cooperatives/'.$id);
                             }
-                          }else{ echo"dddddf";
-                            // $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
-                            // redirect('cooperatives/'.$id);
+                          }else{
+                            $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
+                            redirect('cooperatives/'.$id);
                           }
                         }else{
                           $this->session->set_flashdata('redirect_message', 'Please complete first the cooperative&apos;s purpose .');
