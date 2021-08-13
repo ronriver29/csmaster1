@@ -163,62 +163,68 @@
           $user_id = $this->session->userdata('user_id');
           $data['is_client'] = $this->session->userdata('client');
           if($this->session->userdata('client')){
-              $data['title'] = 'Reservation Details';
-              $data['client_info'] = $this->user_model->get_user_info($user_id);
-              $data['header'] = 'Reservation';
-              $data['regions_list'] = $this->region_model->get_regions();
-              $data['composition'] = $this->cooperatives_model->get_composition();
-              if ($this->form_validation->run() == FALSE){
-                $this->load->view('./template/header', $data);
-                $this->load->view('cooperative/reservation_detail', $data);
-               // $this->load->view('cooperative/terms_and_condition');
-                $this->load->view('./template/footer');
-              }else{
-                $subclass_array = $this->input->post('subClass');
-                $major_industry = $this->input->post('majorIndustry');
-                $members_composition = $this->input->post('compositionOfMembers');
-                if ($this->input->post('categoryOfCooperative')=='Primary'){
-                  $category ='Primary';
-                  $group='';
+            $coop_exist2 = $this->db->where(array('users_id'=>$user_id))->get('cooperatives');
+              if($coop_exist2->num_rows()==0){
+                $data['title'] = 'Reservation Details';
+                $data['client_info'] = $this->user_model->get_user_info($user_id);
+                $data['header'] = 'Reservation';
+                $data['regions_list'] = $this->region_model->get_regions();
+                $data['composition'] = $this->cooperatives_model->get_composition();
+                if ($this->form_validation->run() == FALSE){
+                  $this->load->view('./template/header', $data);
+                  $this->load->view('cooperative/reservation_detail', $data);
+                 // $this->load->view('cooperative/terms_and_condition');
+                  $this->load->view('./template/footer');
                 }else{
-                  $category = substr($this->input->post('categoryOfCooperative'),0,strpos($this->input->post('categoryOfCooperative'),'-')-1);
-                  $group = substr($this->input->post('categoryOfCooperative'), strpos($this->input->post('categoryOfCooperative'),'-')+2 , strlen($this->input->post('categoryOfCooperative')) - strpos($this->input->post('categoryOfCooperative'),'-')-2);
-                }
-                if($this->input->post('commonBondOfMembership')=="Institutional"){
-                    $name_of_ins_assoc = $this->input->post('name_institution');
-                    $name_of_ins_assoc = implode(", ",$this->input->post('name_institution'));
-                } else {
-                    $name_of_ins_assoc = $this->input->post('name_associational');
-                    $name_of_ins_assoc = implode(", ",$this->input->post('name_associational'));
-                }
-                $field_data = array(
-                  'users_id' => $this->session->userdata('user_id'),
-                  'category_of_cooperative' => $category,
-                  'proposed_name' => $this->input->post('proposedName'),
-                  'acronym_name' => $this->input->post('acronym_name'),
-                  'type_of_cooperative' => $this->input->post('typeOfCooperative'),
-                  'grouping' => $group,
-                  'common_bond_of_membership' => $this->input->post('commonBondOfMembership'),
-                  'field_of_membership' => $this->input->post('field_membership'),
-                  'name_of_ins_assoc' => $name_of_ins_assoc,
-                  'area_of_operation' => $this->input->post('areaOfOperation'),
-                  'refbrgy_brgyCode' => $this->input->post('barangay'),
-                  'street' => $this->input->post('streetName'),
-                  'house_blk_no' => $this->input->post('blkNo'),
-                  'status' => '1',
-                  'created_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
-                  'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
-                  'expire_at' =>  date('Y-m-d h:i:s',(now('Asia/Manila')+(4*24*60*60)))
-                );
+                  $subclass_array = $this->input->post('subClass');
+                  $major_industry = $this->input->post('majorIndustry');
+                  $members_composition = $this->input->post('compositionOfMembers');
+                  if ($this->input->post('categoryOfCooperative')=='Primary'){
+                    $category ='Primary';
+                    $group='';
+                  }else{
+                    $category = substr($this->input->post('categoryOfCooperative'),0,strpos($this->input->post('categoryOfCooperative'),'-')-1);
+                    $group = substr($this->input->post('categoryOfCooperative'), strpos($this->input->post('categoryOfCooperative'),'-')+2 , strlen($this->input->post('categoryOfCooperative')) - strpos($this->input->post('categoryOfCooperative'),'-')-2);
+                  }
+                  if($this->input->post('commonBondOfMembership')=="Institutional"){
+                      $name_of_ins_assoc = $this->input->post('name_institution');
+                      $name_of_ins_assoc = implode(", ",$this->input->post('name_institution'));
+                  } else {
+                      $name_of_ins_assoc = $this->input->post('name_associational');
+                      $name_of_ins_assoc = implode(", ",$this->input->post('name_associational'));
+                  }
+                  $field_data = array(
+                    'users_id' => $this->session->userdata('user_id'),
+                    'category_of_cooperative' => $category,
+                    'proposed_name' => $this->input->post('proposedName'),
+                    'acronym_name' => $this->input->post('acronym_name'),
+                    'type_of_cooperative' => $this->input->post('typeOfCooperative'),
+                    'grouping' => $group,
+                    'common_bond_of_membership' => $this->input->post('commonBondOfMembership'),
+                    'field_of_membership' => $this->input->post('field_membership'),
+                    'name_of_ins_assoc' => $name_of_ins_assoc,
+                    'area_of_operation' => $this->input->post('areaOfOperation'),
+                    'refbrgy_brgyCode' => $this->input->post('barangay'),
+                    'street' => $this->input->post('streetName'),
+                    'house_blk_no' => $this->input->post('blkNo'),
+                    'status' => '1',
+                    'created_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
+                    'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
+                    'expire_at' =>  date('Y-m-d h:i:s',(now('Asia/Manila')+(4*24*60*60)))
+                  );
 
-                if($this->cooperatives_model->add_cooperative($field_data,$major_industry,$subclass_array,$members_composition)){
-                  $this->session->set_flashdata('list_success_message', 'Your reservation is confirmed.');
-                  redirect('cooperatives');
-                }else{
-                  $this->session->set_flashdata('list_error_message', 'Unable to reserve cooperative name.');
-                  redirect('cooperatives');
+                  if($this->cooperatives_model->add_cooperative($field_data,$major_industry,$subclass_array,$members_composition)){
+                    $this->session->set_flashdata('list_success_message', 'Your reservation is confirmed.');
+                    redirect('cooperatives');
+                  }else{
+                    $this->session->set_flashdata('list_error_message', 'Unable to reserve cooperative name.');
+                    redirect('cooperatives');
+                  }
                 }
-              }
+            } else {
+              $this->session->set_flashdata('list_error_message', 'This User has already 1 Cooperative.');
+                  redirect('cooperatives');
+            }
           }else{
             if($this->session->userdata('access_level')==5){
               redirect('admins/login');

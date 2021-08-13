@@ -42,7 +42,7 @@
 <?php if($this->session->flashdata('list_error_message')): ?>
 <div class="row">
   <div class="col-sm-12 col-md-12">
-    <div class="alert alert-success text-center" role="alert">
+    <div class="alert alert-danger text-center" role="alert">
       <?php echo $this->session->flashdata('list_error_message'); ?>
     </div>
   </div>
