@@ -222,7 +222,7 @@
                   }
                 }
             } else {
-              $this->session->set_flashdata('list_error_message', 'This User has already 1 Cooperative.');
+              $this->session->set_flashdata('list_error_message', 'Only 1 Cooperative is allowed! If you wish to create another cooperative, please consider to create new account.');
                   redirect('cooperatives');
             }
           }else{
