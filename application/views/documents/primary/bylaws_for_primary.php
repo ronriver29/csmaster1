@@ -94,7 +94,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Kinds of Membership.</i> This Cooperative shall have <?php  echo ($bylaw_info->kinds_of_members == 1)? "regular members only" : "regulars and associate members";?>.</p>
+      <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Kinds of Membership.</i> This Cooperative shall have <?php  echo ($bylaw_info->kinds_of_members == 1)? "regular members only" : "regular and associate members";?>.</p>
       <p class="text-justify" style="text-indent: 50px;">Regular Members are those who have complied with all the membership requirements and are entitled to all the rights and privileges of membership.</p>
       <?php if($bylaw_info->kinds_of_members == 2) :?>
       <p class="text-justify" style="text-indent: 50px;">Associate Members are those who have no right to vote nor be voted upon and are entitled only to limited rights, privileges and membership duration as provided in the By-laws of the Cooperative, the Philippine Cooperative Code of 2008, and its Implementing Rules and Regulation.</p>
