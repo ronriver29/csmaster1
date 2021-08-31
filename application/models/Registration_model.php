@@ -155,7 +155,7 @@ class registration_model extends CI_Model{
   }
 
   public function get_coop_info($coop){
-    $this->db->select('registeredcoop.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,payment.date_of_or as dateofor,cooperatives.type_of_cooperative,payment.date_of_or');
+    $this->db->select('registeredcoop.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,payment.date_of_or as dateofor,cooperatives.type_of_cooperative,payment.date_of_or,cooperatives.third_evaluated_by');
     $this->db->from('registeredcoop');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -246,17 +246,17 @@ class registration_model extends CI_Model{
 
       return $query->row();
   }
-  public function get_director($region_code){
+  public function get_director($evaluator){
       
       // $query = $this->db->query('select * from admin where access_level=3 and region_code=(select region_code from admin where id ='.$id.')');
-    $query = $this->db->get_where('admin',array('region_code'=>$region_code,'access_level'=>3,'ord'=>1));
+    $query = $this->db->get_where('admin',array('id'=>$evaluator,'access_level'=>3,'ord'=>1));
     if($query->num_rows()>0)
     {
       return $query->row(); 
     }
     else
     {
-      $query2 = $this->db->get_where('admin',array('access_level'=>3,'access_name'=>"Acting Regional Director",'region_code'=>$region_code));
+      $query2 = $this->db->get_where('admin',array('access_level'=>3,'access_name'=>"Acting Regional Director",'id'=>$evaluator));
       if($query2->num_rows()>0)
       {
          return $query2->row();

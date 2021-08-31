@@ -115,7 +115,7 @@ class registration extends CI_Controller{
       if($this->db->count_all_results()>0){
         $data1['director']=$this->registration_model->get_director("00");
       } else {
-        $data1['director']=$this->registration_model->get_director($data1['coop_info']->rCode);
+        $data1['director']=$this->registration_model->get_director($data1['coop_info']->third_evaluated_by);
       }
           set_time_limit(0);
 
