@@ -48,6 +48,7 @@
               $('#reserveUpdateForm #name_institution').prop("required",true);
               $('#reserveUpdateForm #composition_of_members_label').hide();
               $('#reserveUpdateForm #compositionOfMembers1').hide();
+              $('#reserveUpdateForm .compositionRemoveBtn').hide();
           } else if($(this).val()=="Associational"){
               $('#reserveUpdateForm select[name="compositionOfMembers[]"').hide();
               $('#reserveUpdateForm #addMoreComBtn').hide();
@@ -66,6 +67,7 @@
               $('#reserveUpdateForm #name_associational').prop("required",true);
               $('#reserveUpdateForm #composition_of_members_label').hide();
               $('#reserveUpdateForm #compositionOfMembers1').hide();
+              $('#reserveUpdateForm .compositionRemoveBtn').hide();
           } else if($(this).val()=="Residential"){
               $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
               $('#reserveUpdateForm #field_membership').hide();
@@ -84,6 +86,7 @@
               $('#reserveUpdateForm #name_institution').prop("required",false);
               $('#reserveUpdateForm #field_membership').prop("required",false);
               $('#reserveUpdateForm #name_associational').prop("required",false);
+              $('#reserveUpdateForm .compositionRemoveBtn').hide();
           } else {
               $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
               $('#reserveUpdateForm #field_membership').hide();
@@ -102,6 +105,7 @@
               $('#reserveUpdateForm #name_institution').prop("required",false);
               $('#reserveUpdateForm #field_membership').prop("required",false);
               $('#reserveUpdateForm #name_associational').prop("required",false);
+              $('#reserveUpdateForm .compositionRemoveBtn').show();
           }
       });
 
@@ -157,7 +161,7 @@
               $('#reserveUpdateForm #addMoreInsBtn').hide();
               $('#reserveUpdateForm #name_associational_label').hide();
               $('#reserveUpdateForm #compositionOfMembers1').show();
-              $('#reserveUpdateForm .compositionRemoveBtn').hide();
+              // $('#reserveUpdateForm .compositionRemoveBtn').hide();
               $('#reserveUpdateForm #addMoreComBtn').show();
               $('#reserveUpdateForm select[name="compositionOfMembers[]"').show();
           } else {

@@ -211,6 +211,16 @@ class Cooperators extends CI_Controller{
                       $data['regions_list'] = $this->region_model->get_regions();
                       $data['barangays_list'] = $this->barangay_model->all_barangays();
                       
+                      $id_query = $this->db->get('id_list');
+                      if($id_query->num_rows()>0)
+                      {
+                        $data['list_id'] = $id_query->result_array();
+                      }
+                      else
+                      {
+                        $data['list_id'] = NULL;
+                      }
+
                       $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                       $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                       $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
@@ -261,6 +271,15 @@ class Cooperators extends CI_Controller{
                         $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                         $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                         $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
+                        $id_query = $this->db->get('id_list');
+                        if($id_query->num_rows()>0)
+                        {
+                          $data['list_id'] = $id_query->result_array();
+                        }
+                        else
+                        {
+                          $data['list_id'] = NULL;
+                        }
                         $this->load->view('./templates/admin_header', $data);
                         $this->load->view('cooperators/add_form_cooperator', $data);
                         $this->load->view('./templates/admin_footer');
@@ -372,6 +391,17 @@ class Cooperators extends CI_Controller{
                           $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                           $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($decoded_cooperator_id);
                           $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
+
+                          $id_query = $this->db->get('id_list');
+                          if($id_query->num_rows()>0)
+                          {
+                            $data['list_id'] = $id_query->result_array();
+                          }
+                          else
+                          {
+                            $data['list_id'] = NULL;
+                          }
+
                           $this->load->view('./template/header', $data);
                           $this->load->view('cooperators/edit_form_cooperator', $data);
                           $this->load->view('./template/footer');
@@ -462,6 +492,17 @@ class Cooperators extends CI_Controller{
                               $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                               $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($decoded_cooperator_id);
                               $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
+
+                              $id_query = $this->db->get('id_list');
+                              if($id_query->num_rows()>0)
+                              {
+                                $data['list_id'] = $id_query->result_array();
+                              }
+                              else
+                              {
+                                $data['list_id'] = NULL;
+                              }
+
                               $this->load->view('./templates/admin_header', $data);
                               $this->load->view('cooperators/edit_form_cooperator', $data);
                               $this->load->view('./templates/admin_footer');

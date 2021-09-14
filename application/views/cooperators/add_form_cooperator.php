@@ -223,7 +223,11 @@
             <div class="form-group">
               <label for="validIdType">Proof of Identity: </label>
               <select class="custom-select validate[required,funcall[validateSeniorAgeCustom]]" onclick="validateSeniorAgeCustom()" id="validIdType" name="validIdType">
-                <option selected>--</option>
+                <option value="">-----------</option>
+                <?php foreach($list_id as $row): ?>
+                  <option value="<?=$row['id_name']?>"><?php echo $row['id_name']; ?></option>
+                <?php endforeach; ?>
+                <!-- <option selected>--</option>
                 <option value="Digitized Postal ID">Digitized Postal ID</option>
                 <option value="Driver's License">Driver's License</option>
                 <option value="GSIS E-Card">GSIS E-Card</option>
@@ -239,7 +243,7 @@
                 <option value="OFW">OFW</option>
                 <option value="Single Parent">Single Parent</option>
                 <option value="PWD">PWD</option>
-                <option value="pag-ibig">Pag-IBIG</option>
+                <option value="pag-ibig">Pag-IBIG</option> -->
               </select>
             </div>
           </div>

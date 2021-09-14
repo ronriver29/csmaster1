@@ -297,7 +297,11 @@
             <div class="form-group">
               <label for="validIdType">Proof of Identity: </label>
               <select class="custom-select validate[required]" id="validIdType" name="validIdType">
-                <option value ="" selected></option>
+                <option value="">-----------</option>
+                      <?php foreach($list_id as $row): ?>
+                        <option value="<?=$row['id_name']?>" <?php if($cooperator_info->proof_of_identity == $row['id_name']) echo "selected"; ?>><?=$row['id_name']?></option>
+                      <?php endforeach; ?>
+                <!-- <option value ="" selected></option>
                 <option value="Digitized Postal ID" <?php if($cooperator_info->proof_of_identity == "Digitized Postal ID") echo "selected"; ?>>Digitized Postal ID</option>
                 <option value="Driver's License" <?php if($cooperator_info->proof_of_identity == "Driver's License") echo "selected"; ?>>Driver's License</option>
                 <option value="GSIS E-Card" <?php if($cooperator_info->proof_of_identity == "GSIS E-Card") echo "selected"; ?>>GSIS E-Card</option>
@@ -313,7 +317,7 @@
                 <option value="OFW" <?php if($cooperator_info->proof_of_identity == "OFW") echo "selected"; ?>>OFW</option>
                 <option value="Single Parent" <?php if($cooperator_info->proof_of_identity == "Single Parent") echo "selected"; ?>>Single Parent</option>
                 <option value="PWD" <?php if($cooperator_info->proof_of_identity == "PWD") echo "selected"; ?>>PWD</option>
-                  <option value="pag-ibig" <?php if($cooperator_info->proof_of_identity == "pag-ibig") echo "selected"; ?>>Pag-IBIG</option>
+                  <option value="pag-ibig" <?php if($cooperator_info->proof_of_identity == "pag-ibig") echo "selected"; ?>>Pag-IBIG</option> -->
               </select>
             </div>
           </div>
