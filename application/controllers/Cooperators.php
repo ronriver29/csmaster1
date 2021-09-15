@@ -211,7 +211,10 @@ class Cooperators extends CI_Controller{
                       $data['regions_list'] = $this->region_model->get_regions();
                       $data['barangays_list'] = $this->barangay_model->all_barangays();
                       
-                      $id_query = $this->db->get('id_list');
+                      $this->db->select('*');
+                      $this->db->from('id_list');
+                      $this->db->order_by('id_name','ASC');
+                      $id_query = $this->db->get();
                       if($id_query->num_rows()>0)
                       {
                         $data['list_id'] = $id_query->result_array();
@@ -271,7 +274,10 @@ class Cooperators extends CI_Controller{
                         $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                         $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                         $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
-                        $id_query = $this->db->get('id_list');
+                        $this->db->select('*');
+                        $this->db->from('id_list');
+                        $this->db->order_by('id_name','ASC');
+                        $id_query = $this->db->get();
                         if($id_query->num_rows()>0)
                         {
                           $data['list_id'] = $id_query->result_array();
@@ -392,7 +398,10 @@ class Cooperators extends CI_Controller{
                           $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($decoded_cooperator_id);
                           $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
 
-                          $id_query = $this->db->get('id_list');
+                          $this->db->select('*');
+                          $this->db->from('id_list');
+                          $this->db->order_by('id_name','ASC');
+                          $id_query = $this->db->get();
                           if($id_query->num_rows()>0)
                           {
                             $data['list_id'] = $id_query->result_array();
@@ -493,7 +502,10 @@ class Cooperators extends CI_Controller{
                               $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($decoded_cooperator_id);
                               $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
 
-                              $id_query = $this->db->get('id_list');
+                              $this->db->select('*');
+                              $this->db->from('id_list');
+                              $this->db->order_by('id_name','ASC');
+                              $id_query = $this->db->get();
                               if($id_query->num_rows()>0)
                               {
                                 $data['list_id'] = $id_query->result_array();
