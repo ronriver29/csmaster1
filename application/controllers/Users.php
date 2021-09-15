@@ -60,7 +60,10 @@ class Users extends CI_Controller{
       $data['header'] = '';
       // if ($this->form_validation->run() == FALSE){
         //get id list
-        $id_query = $this->db->get('id_list');
+        $this->db->select('*');
+        $this->db->from('id_list');
+        $this->db->order_by('id_name','ASC');
+        $id_query = $this->db->get();
         if($id_query->num_rows()>0)
         {
           $data['list_id'] = $id_query->result_array();
