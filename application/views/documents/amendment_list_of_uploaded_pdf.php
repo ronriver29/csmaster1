@@ -49,23 +49,21 @@
                 <th>FileName</th>
                 <th>Date</th>
                 <!-- <th>status</th> -->
-             	<th></th>
-              	
+              <th></th>
+                
               </tr>
             </thead>
             <tbody>
-            <?php if(isset($uploaded_list_pdf)) :?>	
-        	<?php $a=1;foreach($uploaded_list_pdf as $row): ?>
+            <?php if(isset($uploaded_list_pdf)) :?> 
+          <?php $a=1;foreach($uploaded_list_pdf as $row): ?>
               <tr>
                 <td> <?=$a++;?></td>
                 <td><?=$row['filename']?></td>
-                <td><?=date('F-d-Y',strtotime($row['created_at']))?></td>
-              <!--   <td><?=$row['status']?></td> -->
-               
+                <td><?=date('F-d-Y h:i:s',strtotime($row['created_at']))?></td>
                 <td>
-                	 
+                   
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                  	<a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
+                    <a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_num?>">View</a>
                     <?php $array_status = array(1,11); ?>
                     <?php if(($is_client) && in_array($coop_info->status,$array_status)): ?>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePDFModal_amendment" data-doctypess="<?=$row['document_num']?>" data-amendmentid="<?= $encrypted_id ?>" data-comname="<?=$row['filename']?>" data-fname="<?=$row['filename']?>" data-pdfid="<?= encrypt_custom($this->encryption->encrypt($row['id']))?>"><i class='fas fa-trash'></i> Delete</button>
@@ -75,7 +73,7 @@
              
               </tr>
           <?php endforeach; ?>
-      <?php else: echo"<tr><td>No Documents found</td></td>"; ?>
+      <?php else: echo"<tr><td colspan='4'>No Documents found</td></td>"; ?>
           <?php endif; ?>
             </tbody>
           </table>
@@ -86,9 +84,6 @@
 </div>
 <br>
 
-<?php if($is_client) : 
-
-else :?>
 <h3>New Upload</h3>
 <div class="row">
   <div class="col-sm-12 col-md-12">
@@ -102,24 +97,22 @@ else :?>
                 <th>FileName</th>
                 <th>Date</th>
                 <!-- <th>status</th> -->
-             	<th></th>
-              	
+              <th></th>
+                
               </tr>
             </thead>
             <tbody>
-            <?php if(isset($defered_uploaded_list_pdf)) :?>	
-        	<?php $a=1;foreach($defered_uploaded_list_pdf as $row): ?>
+            <?php if(isset($defered_uploaded_list_pdf)) :?> 
+          <?php $a=1;foreach($defered_uploaded_list_pdf as $row): ?>
               <tr>
                 <td> <?=$a++;?></td>
                 <td><?=$row['filename']?></td>
-                <td><?=date('F-d-Y',strtotime($row['created_at']))?></td>
-              <!--   <td><?=$row['status']?></td> -->
-               
+                <td><?=date('F-d-Y h:i:s',strtotime($row['created_at']))?></td>
                 <td>
-                	 
+                   
 
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                  	<a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
+                    <a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
                     <?php if($is_client):?>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePDFModal" data-doctypess="<?=$row['document_num']?>" data-coopid="<?= $encrypted_id ?>" data-comname="<?=$row['filename']?>" data-fname="" data-pdfid="<?= encrypt_custom($this->encryption->encrypt($row['id']))?>"><i class='fas fa-trash'></i> Delete</button>
                      <?php endif;?>   
@@ -128,7 +121,7 @@ else :?>
              
               </tr>
           <?php endforeach; ?>
-      <?php else: echo"<tr><td>No Documents found</td></td>"; ?>
+      <?php else: echo"<tr><td colspan='4'>No Documents found</td></td>"; ?>
           <?php endif; ?>
             </tbody>
           </table>
@@ -137,4 +130,3 @@ else :?>
     </div>
   </div>
 </div>
-<?php endif; ?>

@@ -43,6 +43,46 @@
         }
 
 </script>
+<?php
+// function stringToNumber($string) {
+//     // return 0 if the string contains no number at all or is not a string:
+//           if (!is_string($string) || !preg_match('/\d/', $string)) {
+//               return 0;
+//           } 
+
+//           // Replace all ',' with '.':
+//           $workingString = str_replace(',', '.', $string);
+
+//           // Keep only number and '.':
+//           $workingString = preg_replace("/[^0-9.]+/", "", $workingString);
+
+//           // Split the integer part and the decimal part,
+//           // (and eventually a third part if there are more 
+//           //     than 1 decimal delimiter in the string):
+//           $explodedString = explode('.', $workingString, 3);
+
+//           if ($explodedString[0] === '') {
+//               // No number was present before the first decimal delimiter, 
+//               // so we assume it was meant to be a 0:
+//               $explodedString[0] = '0';
+//           } 
+
+//           if (sizeof($explodedString) === 1) {
+//               // No decimal delimiter was present in the string,
+//               // create a string representing an integer:
+//               $workingString = $explodedString[0];
+//           } else {
+//               // A decimal delimiter was present,
+//               // create a string representing a float:
+//               $workingString = $explodedString[0] . '.' .  $explodedString[1];
+//           }
+
+//           // Create a number from this now non-ambiguous string:
+//           $number_ = $workingString * 1;
+
+//           return $number_;
+//       }
+?>
 <div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
@@ -59,26 +99,36 @@
            $coop_type = explode(',',$coop_info->type_of_cooperative);
           if(count($coop_type)>1)
           {
-            $proposedName = $coop_info->proposed_name.' Multipurpose  Cooperative '.$coop_info->grouping.' '.$acronym_;
+            $proposedName = ltrim(rtrim($coop_info->proposed_name)).' Multipurpose  Cooperative '.$acronym_;
           } 
           else
           {
-              $proposedName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping.' '.$acronym_;
+            $proposedName = ltrim(rtrim($coop_info->proposed_name)).' '.$coop_info->type_of_cooperative.' Cooperative '.$acronym_;
           }
-             $proposedName2= $proposedName;
-          if(strlen($coop_info_orig->acronym_name)>0)
-          {
-            $acronymOrig_ = '('.$coop_info_orig->acronym_name.')';
-          }
-          else
-          {
-            $acronymOrig_='';
-          }
-          $proposedName_original = $coop_info_orig->proposed_name.' '.$coop_info_orig->type_of_cooperative  .' Cooperative '.$coop_info_orig->grouping.' '.$acronymOrig_;  
+           
+              if($nextAmendment)
+              {
+                $proposedName_original = $orig_proposedName_formated;
+              }
+              else
+              {
+                $proposedName_original = $orig_proposedName_formated;
+              }
 
           //end cooperative
-          $proposedName2 =$proposedName;
-          if($proposedName!=$proposedName_original)
+            
+          // $proposedName2 =$proposedName;
+        
+         $proposedName_original = trim(preg_replace('/\s\s+/', ' ', $proposedName_original));
+          $proposedName = trim(preg_replace('/\s\s+/', ' ', $proposedName));
+          //   var_dump($proposedName);
+          // var_dump($proposedName_original);
+          // echo strcmp($proposedName_original,trim($proposedName)); //"prints" 0
+          if(trim($proposedName) === trim($proposedName_original))
+          {
+              
+          }
+          else
           {
             $proposedName ='<strong>'.$proposedName .'</strong>';
           }
@@ -86,7 +136,7 @@
 
           //end amendment
       ?>
-        <p class="font-weight-bold">ARTICLES OF COOPERATION<br>of<br><?= $proposedName2?></p>
+        <p class="font-weight-bold">ARTICLES OF COOPERATION<br>of<br></p><p><?= $proposedName?></p>
     </div>
   </div>
   <div class="row mb-2">
@@ -96,7 +146,18 @@
   </div>
   <div class="row mb-2 ">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify font-weight-normal" style="text-indent: 50px;">We, the undersigned Filipino citizens, of legal age and residents of the Philippines, with a firm collective intent, have come together to organize voluntarily an <?= $coop_info->type_of_cooperative?> Cooperative to advance what we believe is our inherent right, under the laws of the Republic of the Philippines.</p>
+      <?php
+
+      if(count(explode(',',$coop_info->type_of_cooperative))>1)
+      {
+        $type_of_coop ='Multipurpose';
+      }
+      else
+      {
+        $type_of_coop =$coop_info->type_of_cooperative; 
+      }
+      ?>
+      <p class="text-justify font-weight-normal" style="text-indent: 50px;">We, the undersigned Filipino citizens, of legal age and residents of the Philippines, with a firm collective intent, have come together to organize voluntarily an <?=$type_of_coop?> Cooperative to advance what we believe is our inherent right, under the laws of the Republic of the Philippines.</p>
     </div>
   </div>
   <div class="row mb-4">
@@ -126,50 +187,74 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
-        <ol class="text-justify" type="1">
-
-    			<?php foreach($purposes_list as $key => $purpose) :
-            // if(empty($purposes_list_orig[$key]))
-            // {
-            //   $purposes_list_orig[$key]=;
-
-            // }
-           
-          ?>
-
-          <?php if(isset($purposes_list_orig[$key])){
-               $purpose_orig =$purposes_list_orig[$key];
-           ?>
-
-                <li type="I" style="margin-top: 20px;"><?= ($purpose['cooperative_type']!==$purpose_orig['cooperative_type']?'<strong>'.$purpose['cooperative_type'].'</strong>': $purpose['cooperative_type'])?></li> 
-         <?php }else{ ?>
-          <li type="I" style="margin-top: 20px;"></strong><?=$purpose['cooperative_type']?></li> 
-
-         <?php } ?>                    
-                 <div> <ol>
-                <?php               
-                 $content = explode(';',$purpose['content']);
-                 $content_orig = explode(';',$purpose_orig['content']);
-                 //  echo'<pre>';print_r($content);echo'</pre>';
-                 // echo'<pre>';print_r($content_orig);echo'</pre>';
-                  foreach($content as $keys => $contents)
+    <ol class="text-justify" type="1">
+      <?php
+      $new_purposes = array();
+     
+       // echo'<pre>';print_r($purposes_list);echo'<pre>';
+      foreach($purposes_list as $key => $purpose)
+        {
+           $content_array = array_reverse(explode(';',$purpose['content']));
+          if(isset($purposes_list_orig[$key]))
+          {
+            $content_array_orign = array_reverse(explode(';',$purposes_list_orig[$key]['content']));
+            if(strcasecmp($purposes_list_orig[$key]['cooperative_type'],$purpose['cooperative_type'])!=0)
+            {
+              $purpose['cooperative_type'] ='<b>'.$purpose['cooperative_type'].'</b>';
+            }
+             $new_content = array();
+            foreach($content_array as $keys => $content_)
+            {
+              if(isset($content_array_orign[$keys]))
+              {
+                // echo $content_array_orign[$keys].'<br> '.$content_.'<br>';
+                 if(strcasecmp($content_array_orign[$keys],$content_)!=0)
                   {
-                    if(empty($content_orig[$keys]))
-                    {
-                      $content_orig[$keys] =0;
-                    }
-                    $contents_orig =  $content_orig[$keys];
-                    if( $contents_orig!==$contents)
-                    {
-                       $contents = '<strong>'. $contents.'</strong>';
-                    }
-                    echo '<li>'.$contents.'</li>';
+                    array_push($new_content,'<b>'.$content_.'</b>');
                   }
-                ?> 
-                  </ol></div>
-            
-          <?php endforeach; ?>
-    		</ol>
+                  else
+                  {
+                     array_push($new_content,$content_);
+                  }  
+              }
+              else
+              {
+                  array_push($new_content,'<b>'.$content_.'</b>');
+              }   
+            }
+            $new_content = array_reverse($new_content);
+            array_push($new_purposes,array('type'=>$purpose['cooperative_type'],'content'=>$new_content));
+          }
+          else
+          { 
+            $new_content =array(); // reset content array 
+             $new_purposes = array(); //reset array so it wont repear the previous index
+            foreach($content_array as $keys => $content_)
+            {
+               array_push($new_content,'<b>'.$content_.'</b>');
+            }
+            $new_content = array_reverse($new_content);
+             array_push($new_purposes,array('type'=>'<b>'.$purpose['cooperative_type'].'</b>','content'=>$new_content));
+          }  
+        }
+
+        foreach($new_purposes as $final_purpose)
+          {
+          ?>  
+            <li type="I" style="margin-top: 20px;"><?=$final_purpose['type']?></li>
+          <?php
+            echo'<ol><div>';     
+              foreach($final_purpose['content'] as $row_content)
+              {
+                echo '<li>'.$row_content.'</li>';
+              }
+            echo'</div></ol>';  
+          }
+
+          // echo'<pre>';print_r($new_purposes);echo'<pre>';
+           // echo'<pre>';print_r($new_content);echo'<pre>';
+      ?>
+    </ol>  
     </div>
   </div>
   <div class="row mb-2">
@@ -197,7 +282,7 @@
             <li> To adopt such other plans as may help foster the welfare of the members, their families and the community;</li>
             <li> To advance the competitiveness and innovativeness of the industry;</li>
             <li> To coordinate with other Cooperatives on learning exchanges, coop trade, and information exchanges in fostering sustainable development;</li>
-            <li> To advocate legal framework and enabling policies appropriate for the development of credit Cooperatives; and</li>
+            <li> To advocate legal framework and enabling policies appropriate for the development of <?=$type_of_coop?> Cooperatives; and</li>
             <li> To be the voice and the institution of the poor and the excluded in resisting the growth-centered development aggression and instead promote people-centered development.</li>
           </ol>
     </div>
@@ -232,31 +317,35 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article V<br>Term of Existence</p>
+        <p class="font-weight-bold">Article V<br>Term of years_of_existence</p>
     </div>
   </div>
   <div class="row mb-4">
     <?php
-     $years_of_existence = '';
-      $years_of_existence2='';
+    $years_of_existence = $article_info->years_of_existence;
+    $years_of_existence2=ucwords(num_format_custom($article_info->years_of_existence));
+
     if($article_info_orig->years_of_existence!=$article_info->years_of_existence)
     {
-      $years_of_existence='<strong>'.ucwords(num_format_custom($article_info->years_of_existence)).'</strong>';
-       $years_of_existence2='<strong>'.$article_info->years_of_existence.'</strong>';
+      $years_of_existence='<strong>'.$years_of_existence.'</strong>';
+       $years_of_existence2='<strong>'. $years_of_existence2.'</strong>';
     }
+  
     ?>
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">The term for which this Cooperative shall exist is <?=  $years_of_existence?> (<?= $years_of_existence2?>) years from the date of its registration with the Cooperative Development Authority.</p>
+      <p class="text-justify" style="text-indent: 50px;">The term for which this Cooperative shall exist is <?=  $years_of_existence2?> (<?= $years_of_existence?>) years from the date of its registration with the Cooperative Development Authority.</p>
     </div>
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
         <p class="font-weight-bold">Article VI<br>Common Bond and Field  of Membership</p>
     </div>
+   
   </div>
   <div class="row mb-4">
     <?php
-      if($coop_info_orig->common_bond_of_membership!=$coop_info->common_bond_of_membership)
+      
+      if(strcasecmp($coop_info_orig->common_bond_of_membership,$coop_info->common_bond_of_membership)!=0)
       {
         $coop_info->common_bond_of_membership  ='<strong>'.$coop_info->common_bond_of_membership.'</strong>';
       }
@@ -266,8 +355,7 @@
       and the field of membership shall be open to all 
       <?php 
       echo $commonBond_;
-     
-        ?> 
+      ?> 
         who are natural persons, Filipino citizens, of legal age, with the capacity to contract and possess all the qualifications and none of the disqualifications provided for in the By-laws and this Articles of Cooperation.</p>
     </div>
   </div>
@@ -276,38 +364,129 @@
         <p class="font-weight-bold">Article VII<br>Area of Operation</p>
     </div>
   </div>
+   <?php $area_of_operation_orig ='';?>
+       <?php if($coop_info_orig->area_of_operation=="Barangay"){ ?>
+        <?php
+         if($in_chartered_cities_orig)
+          {
+            $area_of_operation_orig= $coop_info_orig->brgy.' '.$chartered_cities_orig.' '.$coop_info_orig->region;
+          }
+          else
+          {
+            $area_of_operation_orig =$coop_info_orig->brgy.' '.$coop_info_orig->city.' '.$coop_info_orig->province.' '.$coop_info_orig->region;
+          }
+        ?>
+       <?php }else if($coop_info_orig->area_of_operation=="Municipality/City"){ ?>
+         <?php
+         if($in_chartered_cities)
+         {
+            $area_of_operation_orig = $chartered_cities.' '.$coop_info_orig->region;
+         }
+         else
+         {
+            $area_of_operation_orig =$coop_info_orig->city.' '.$coop_info_orig->province.' '.$coop_info_orig->region;
+         }
+         ?>
+      <?php }else if($coop_info_orig->area_of_operation=="Provincial"){
+         $area_of_operation_orig=$coop_info_orig->province.' '.$coop_info_orig->region;
+       }else if($coop_info_orig->area_of_operation=="Regional"){
+         $area_of_operation_orig= $coop_info_orig->region;
+       }else{
+         $area_of_operation_orig= "Philippines";
+       }
+       ?>
+       <?php if($coop_info->area_of_operation=="Barangay"){ ?>
+        <?php
+          if($in_chartered_cities)
+          {
+            $area_of_operation_ =  $coop_info->brgy.' '.$chartered_cities.' '.$coop_info->region;
+          }
+          else
+          {
+            $area_of_operation_ =$coop_info->brgy.' '.$coop_info->city.' '.$coop_info->province.' '.$coop_info->region;
+          }  
+          ?>
+       <?php }else if($coop_info->area_of_operation=="Municipality/City"){ ?>
+         <?php
+         if($in_chartered_cities)
+         {
+            $area_of_operation_ = $chartered_cities.' '.$coop_info->region;
+         }
+         else
+         {
+           $area_of_operation_ = $coop_info->city.' '.$coop_info->province.' '.$coop_info->region;
+         }
+        ?>
+      <?php }else if($coop_info->area_of_operation=="Provincial"){
+           $area_of_operation_= $coop_info->province.' '.$coop_info->region;
+       }else if($coop_info->area_of_operation=="Regional"){
+          $area_of_operation_= $coop_info->region;
+       }else if($coop_info->area_of_operation=="Interregional"){
+         $regions_array  = array();
+          foreach ($regions_island_list as $region_island_list)
+          {
+            array_push($regions_array, $region_island_list['regDesc']);
+          }
+          $last  = array_slice($regions_array, -1);
+          $first = join(', ', array_slice($regions_array, 0, -1));
+          $both  = array_filter(array_merge(array($first), $last), 'strlen');
+          $area_of_operation_= join(' and ', $both);
+ 
+       }
+       else{
+         $area_of_operation_= "Philippines";
+       }
+
+         if(strcasecmp($area_of_operation_, $area_of_operation_orig)!=0)
+         {
+          $area_of_operation_= '<b>'.$area_of_operation_.'</b>';
+         }
+        
+      if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
+       ?>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">That the membership of this Cooperative shall come from
-       <!-- <?php if($coop_info->area_of_operation=="Barangay"){
-         echo $coop_info->brgy.' '.$coop_info->city.' '.$coop_info->province.' '.$coop_info->region;
-       }else if($coop_info->area_of_operation=="Municipality/City"){
-         echo $coop_info->city.' '.$coop_info->province.' '.$coop_info->region;
-       }else if($coop_info->area_of_operation=="Provincial"){
-         echo $coop_info->province.' '.$coop_info->region;
-       }else if($coop_info->area_of_operation=="Regional"){ 
-         echo $coop_info->region;
-       }else{
-         echo "Philippines";
-       }
-       ?> -->
-       <?php if($coop_info->area_of_operation=="Barangay"){ ?>
-        <?= ($in_chartered_cities ? $coop_info->brgy.' '.$chartered_cities.' '.$coop_info->region : $coop_info->brgy.' '.$coop_info->city.' '.$coop_info->province.' '.$coop_info->region)?>
-       <?php }else if($coop_info->area_of_operation=="Municipality/City"){ ?>
-         <?=($in_chartered_cities ? $chartered_cities.' '.$coop_info->region : $coop_info->city.' '.$coop_info->province.' '.$coop_info->region)?>
-      <?php }else if($coop_info->area_of_operation=="Provincial"){
-         echo $coop_info->province.' '.$coop_info->region;
-       }else if($coop_info->area_of_operation=="Regional"){
-         echo $coop_info->region;
-       }else{
-         echo "Philippines";
-       }
-       ?>.Its principal office shall be located at <strong><?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?><?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?> <?=$coop_info->region?>.</strong></p>
+      <p class="text-justify" style="text-indent: 50px;">That the membership of this Cooperative shall come from <?=$area_of_operation_?><?php 
+       $address = $coop_info->house_blk_no.' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.' '.($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province).' '.$coop_info->region;
+      $address_orig = $coop_info_orig->house_blk_no.' '.ucwords($coop_info_orig->street).$x.' '.$coop_info_orig->brgy.' '.($in_chartered_cities_orig ? $chartered_cities_orig : $coop_info_orig->city.', '.$coop_info_orig->province).' '.$coop_info_orig->region;
+       ?>. Its principal office shall be located at <?=(strcasecmp($address, $address_orig)!=0 ? '<b>'.$address.'</b>' : $address)?>.</p>
+       <?php //strcasecmp($address, $address_orig);?>
     </div>
   </div>
+   <?php 
+  // if($coop_info->type_of_cooperative =='Transport' && $new_reg_coop){
+   $array_type_coop = explode(',',$coop_info->type_of_cooperative);
+  if(in_array('Transport',$array_type_coop)){
+    $article8 = 'IX';
+    $article9 = 'X';
+    $article10 = 'XI';
+    $article11 = 'XII';
+    $article12 ='XIII';
+  ?>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article VIII<br>Name and Address of Cooperators</p>
+        <p class="font-weight-bold">Article VIII<br>Business Operation</p>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-sm-12 col-md-12 text-left">
+      <p class="text-justify">That the business operation of the transport cooperative shall be based on the routes or whatever stated in the duly approved franchise/Certificate of Public Convenience and Necessity, issued by the concerned government agency.</p>
+    </div>
+  </div>
+  <?php 
+  }
+  else
+  {
+    $article8 = 'VIII';
+    $article9 = 'IX';
+    $article10 = 'X';
+    $article11 = 'XI';
+    $article12 ='XII';
+  }
+  ?>
+  <div class="row mb-2">
+    <div class="col-sm-12 col-md-12 text-center">
+        <p class="font-weight-bold">Article <?=$article8?><br>Name and Address of Cooperators</p>
     </div>
   </div>
   <div class="row ">
@@ -326,20 +505,17 @@
             </tr>
           </thead>
           <tbody>
-            <?php $count=0; foreach($cooperators_list_board as $key => $cooperator) :?>
+            <?php /*$count=0; foreach($cooperators_list_board as $key => $cooperator) :?>
               <tr>
               <?=$count++;?>
               <?php
-              var_dump($cooperator['brgy']);
+              // var_dump($cooperator['brgy']);
               $in_chartered_cities_cptr =false;
               if($this->charter_model->in_charter_city($cooperator['cCode']))
               {
                 $in_chartered_cities_cptr=true;
                 $chartered_cities_cptr =$this->charter_model->get_charter_city($cooperator['cCode']);
               }
-
-             
-
               ?>                
 
               <?php
@@ -353,9 +529,9 @@
                     $in_chartered_cities_cptr_orig =$this->charter_model->get_charter_city($cooperator_orig['cCode']);
                   }
 
-                  if($cooperator_orig['full_name']!=$cooperator['full_name'])
+                  if(strcasecmp($cooperator_orig['full_name'],$cooperator['full_name'])!=0)
                   {
-                    $cooperator_orig['full_name'] ='<strong>'.$cooperator_orig['full_name'].'</strong>';
+                    $cooperator['full_name'] ='<strong>'.$cooperator['full_name'].'</strong>';
                   }
                   if($cooperator['house_blk_no']==null && $cooperator['streetName']==null)
                   {
@@ -401,9 +577,9 @@
               }
               else
               {
-                  if($cooperator_orig['full_name']!=$cooperator['full_name'])
+                  if(strcasecmp($cooperator_orig['full_name'],$cooperator['full_name'])!=0)
                   {
-                    $cooperator_orig['full_name'] ='<strong>'.$cooperator_orig['full_name'].'</strong>';
+                    $cooperator['full_name'] ='<strong>'.$cooperator['full_name'].'</strong>';
                   }
                   if($cooperator['house_blk_no']==null && $cooperator['streetName']==null)
                   {
@@ -424,7 +600,49 @@
               }
           ?>      
               
+            <?php endforeach; */?>
+           
+            <?php $count=0; foreach($cooperators_list_board as $key => $cooperator) :?>
+              <tr>
+              <?=$count++;?>
+                       
+
+              <?php
+                   $in_chartered_cities_cptr =false;
+                  if($this->charter_model->in_charter_city($cooperator['cCode']))
+                  {
+                    $in_chartered_cities_cptr=true;
+                    $chartered_cities_cptr =$this->charter_model->get_charter_city($cooperator['cCode']);
+                  }
+                  
+                  if($cooperator['house_blk_no']==null && $cooperator['streetName']==null)
+                  {
+                     $x='';
+                  }
+                  else
+                  {
+                   $x=', '; 
+                  }
+                  $charter_cptr = '';
+                  if($in_chartered_cities_cptr)
+                  {
+                    $charter_cptr =$cooperator['city'];
+                  }
+                  else
+                  {
+                    $charter_cptr=$cooperator['city'].', '.$cooperator['province'];
+                  }
+              
+
+                  $address = $cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', '.$charter_cptr;
+                  ?>
+                 
+                    <td><?=$count.'. '.$cooperator['full_name']?></td>
+                    <td><?= $address ?></td> 
+            
+              
             <?php endforeach;?>
+
           </tbody>
         </table>
       </div>
@@ -433,7 +651,7 @@
 
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article IX<br>Board of Directors</p>
+        <p class="font-weight-bold">Article <?=$article9?><br>Board of Directors</p>
     </div>
   </div>
   <div class="row ">
@@ -451,11 +669,51 @@
             </tr>
           </thead>
           <tbody>
-            <?php $count=0; foreach($directors_list as $director) :?>
+            <?php /* $count=0; foreach($directors_list as $keys => $director) :?>
               <?=$count++;?>
-            <tr>
-              <td><?=$count.'. '.$director['full_name']?></td>
-            </tr>
+              <?php
+              // var_dump($directors_list_orig);  
+              if(isset($directors_list_orig[$keys]))
+              {
+                $director_orig = $directors_list_orig[$keys];
+              ?>
+                <tr>
+              <td>
+                <?php
+                if(strcasecmp($director_orig['full_name'],$director['full_name'])!=0)
+                {
+                  $director['full_name'] = "<b>".$director['full_name']."</b>";
+                }
+                echo $count.'. '.$director['full_name']?>
+                </td>
+             </tr> 
+              <?php
+              }
+              else
+              {
+              ?>
+                 <tr>
+              <td>
+                <?php
+               
+                echo $count.'. <b>'.$director['full_name'].'</b>'?>
+                </td>
+             </tr> 
+              <?php
+              } */
+              ?>
+           <?php  $count=0; foreach($directors_list as $keys => $director) :?>
+              <?=$count++;?>
+              <?php
+            
+              ?>
+                <tr>
+              <td>
+                <?php echo $count.'. '.$director['full_name']?>
+                </td>
+             </tr> 
+             
+           
           <?php endforeach;?>
           </tbody>
         </table>
@@ -464,8 +722,8 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article X<br>Capitalization</p>
-    </div>
+        <p class="font-weight-bold">Article <?=$article10?><br>Capitalization</p>
+    </div> 
   </div>
   <div class="row ">
     <?php
@@ -501,11 +759,11 @@
     {
       $preferred_share = '<strong>'. ucwords(num_format_custom($capitalization_info->preferred_share)).'</strong>';
         $preferred_share2 = '<strong>'.$capitalization_info->preferred_share.'</strong>';
-        $preferred_share3 = '<strong>'.number_format($capitalization_info->preferred_share,2).'</strong>';
+        $preferred_share3 = '<strong>'.number_format($capitalization_info->preferred_share).'</strong>';
     }
     else
     {
-      $preferred_share3 = number_format($capitalization_info->preferred_share,2);
+      $preferred_share3 = number_format($capitalization_info->preferred_share);
       $preferred_share = ucwords(num_format_custom($capitalization_info->preferred_share));
         $preferred_share2 = $capitalization_info->preferred_share;
     }
@@ -513,7 +771,7 @@
     if($capitalization_info_orig->par_value!=$capitalization_info->par_value)
     {
       $par_value_preferred='<strong>'.ucwords(num_format_custom($capitalization_info->par_value)).'</strong>';
-       $par_value_preferred2='<strong>'.number_format($capitalization_info->par_value).'</strong>';
+       $par_value_preferred2='<strong>'.$capitalization_info->par_value.'</strong>';
     }
     else
     {
@@ -526,34 +784,36 @@
       <p class="text-justify" style="text-indent: 50px;">That the Authorized Share Capital of this Cooperative is <?= $authorized_share_capital?> Pesos (Php <?= $authorized_share_capital2?>), divided into:</p>
     </div>
   </div>
-  <div class="row mb-4">
+  <div class="row mb-4"> 
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        <li> <?= ucwords(num_format_custom($capitalization_info->common_share))?> (<?= number_format($capitalization_info->common_share)?>) common shares with a par value of <?= ucwords(num_format_custom($capitalization_info->par_value))?> Pesos (Php <?=number_format($capitalization_info->par_value,2)?> ) per share;</li>
+        <li> <?= (strcasecmp($capitalization_info->common_share,$capitalization_info_orig->common_share)!=0 ? '<b>'.ucwords(num_format_custom($capitalization_info->common_share)).'</b>' : ucwords(num_format_custom($capitalization_info->common_share)))?>  (<?= (strcasecmp($capitalization_info->common_share, $capitalization_info_orig->common_share)!=0 ? '<b>'.number_format($capitalization_info->common_share).'</b>' : number_format($capitalization_info->common_share))?>) common shares with a par value of <?= ucwords(num_format_custom($capitalization_info->par_value))?> Pesos (Php <?=number_format($capitalization_info->par_value,2)?> ) per share;</li>
         <?php if($bylaw_info->kinds_of_members == 2) :?>
-        <li> <?= $preferred_share?> Pesos (<?= $preferred_share3?>) preferred shares with a par value of <?= $par_value_preferred?> Pesos (Php <?=number_format($capitalization_info->par_value,2)?> ) per share.</li>
+        <li> <?= $preferred_share?> (<?= $preferred_share3?>) preferred shares with a par value of <?= number_format($capitalization_info->par_value,2)?> Pesos (Php <?=number_format($capitalization_info->par_value,2)?> ) per share.</li>
         <?php endif;?>
       </ol>
     </div>
   </div> 
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article XI<br>Subscribed and Paid-up Share Capital</p>
+        <p class="font-weight-bold">Article <?=$article11?><br>Subscribed and Paid-up Share Capital</p>
     </div>
   </div>
   <div class="row ">
     <?php
       $totalRegular =  $total_regular['total_subscribed'] * $capitalization_info->par_value;
-        $total_regular_words='';
+      $total_regular_words=$total_regular['total_subscribed'] * $capitalization_info->par_value;
       $totalRegular_orig = $total_regular_orig['total_subscribed'] * $capitalization_info_orig->par_value;
-      if($totalRegular_orig != $totalRegular)
+      if(strcasecmp($totalRegular_orig,$totalRegular)!=0)
       {
         $totalRegular='<strong>'.number_format($totalRegular,2).'</strong>';
-         $total_regular_words = '<b>'.num_format_custom($totalRegular).'</b>';
+         $total_regular_words = '<b>'.ucwords(num_format_custom( $total_regular_words)).'</b>';
       }
       else
       {
-          $total_regular_words = num_format_custom($totalRegular);
+         $totalRegular=number_format($totalRegular,2);
+          $total_regular_words = ucwords(num_format_custom($totalRegular));
+
       }
 
       $regular_total_subscibed = $total_regular['total_subscribed'] * $capitalization_info->par_value + ($total_associate['total_subscribed'] * $capitalization_info->par_value);
@@ -562,14 +822,19 @@
           $regular_total_subscibed2= num_format_custom($regular_total_subscibed);
       if($regular_total_subscibed_orig!=$regular_total_subscibed)
       {   
-          $regular_total_subscibed2 = '<strong>'.num_format_custom($regular_total_subscibed).'</strong>';
+          $regular_total_subscibed2 = '<strong>'.ucwords(num_format_custom($regular_total_subscibed)).'</strong>';
         $regular_total_subscibed = '<strong>'.number_format($regular_total_subscibed,2).'</strong>';
       
+      }
+      else
+      {
+          $regular_total_subscibed2 =ucwords(num_format_custom($regular_total_subscibed));
+        $regular_total_subscibed = number_format($regular_total_subscibed,2);
       }
       
       // echo $total_regular['total_subscribed'].'a' .$capitalization_info->par_value .'b'.$total_associate['total_subscribed'] .'c'. $preferred_share2;
       $totalRegular2 =($total_regular['total_subscribed'] * $capitalization_info->par_value) + ($total_associate['total_subscribed'] * $capitalization_info->preferred_share);
-      $totalRegular2_orig =($total_regular_orig['total_subscribed'] *$capitalization_info->par_value) + ($total_associate_orig['total_subscribed'] *$capitalization_info->par_value);
+      $totalRegular2_orig =($total_regular_orig['total_subscribed'] * $capitalization_info->par_value) + ($total_associate_orig['total_subscribed'] *$capitalization_info->par_value);
 
       //else
       if(  $totalRegular2_orig!=  $totalRegular2)
@@ -581,22 +846,22 @@
       if($paidUp_orig!=$paidUp)
       {
            $paidUpsss = '<strong>'.number_format($paidUp,2).'</strong>';
-        $paidUp = '<strong>'.num_format_custom($paidUp).'</strong>';
+        $paidUp = '<strong>'.ucfirst(num_format_custom($paidUp)).'</strong>';
        
       }
       else
       {
            $paidUpsss = number_format($paidUp,2);
-        $paidUp = num_format_custom($paidUp);
+        $paidUp = ucfirst(num_format_custom($paidUp));
       }
 
     ?>
-    <div class="col-sm-12 col-md-12 text-left">
+    <div class="col-sm-12 col-md-12 text-left"> 
       <p class="text-justify" style="text-indent: 50px;">That of the authorized share capital, the amount of
         <?php echo ($bylaw_info->kinds_of_members == 1) ? $total_regular_words : $regular_total_subscibed2 ;?> Pesos
         (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular : ($regular_total_subscibed);?>) has been subscribed, and
         <!-- <?php echo ($bylaw_info->kinds_of_members == 1) ? $totalRegular2 :   $paidUp;?> -->
-        <?=$paidUp?> Pesos
+        <?=ucwords($paidUp)?> Pesos
         (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? $paidUpsss : $paidUpsss ;?>) of the total subscription has been paid by the following members-subscribers:</p>
     </div>
   </div>
@@ -619,7 +884,7 @@
             </tr>
           </thead>
           <tbody>
-            <?php $count=0; foreach($regular_cooperator_list as $key => $regular) : ?>
+            <?php /* $count=0; foreach($regular_cooperator_list as $key => $regular) : ?>
               <tr>
               <?php $count++; ?>
               <?php 
@@ -628,10 +893,11 @@
                   $regular_orig = $regular_cooperator_list_orig[$key];
               ?>
                   <td><?=$count.'. '. $regular['full_name']?></td>
-                  <td style="text-align: center;"><?= ($regular['number_of_subscribed_shares']!=$regular_orig['number_of_subscribed_shares'] ? '<strong>'.$regular['number_of_subscribed_shares'].'</strong>' : $regular['number_of_subscribed_shares'])?></td>
-                  <td style="text-align: right;"><?= number_format(($regular['number_of_subscribed_shares'] * $capitalization_info->par_value),2)?></td>
+                  <td style="text-align: center;">
+                    <?= ($regular['number_of_subscribed_shares']!=$regular_orig['number_of_subscribed_shares'] ? '<strong>'.$regular['number_of_subscribed_shares'].'</strong>' : $regular['number_of_subscribed_shares'])?></td>
+                  <td style="text-align: right;"><?= number_format(($regular['number_of_subscribed_shares'] * stringToNumbers_($capitalization_info->par_value)),2)?></td>
                   <td style="text-align: center;"><?= ($regular['number_of_paid_up_shares']!=$regular_orig['number_of_paid_up_shares'] ? '<strong>'.$regular['number_of_paid_up_shares'].'</strong>' : $regular['number_of_paid_up_shares'])?></td>
-                  <td style="text-align: right;"><?= number_format(($regular['number_of_paid_up_shares'] * $capitalization_info->par_value),2)?></td>
+                  <td style="text-align: right;"><?= number_format(($regular['number_of_paid_up_shares'] * stringToNumbers_($capitalization_info->par_value)),2)?></td>
               <?php
               }
               else
@@ -639,36 +905,51 @@
               ?>
                     <td><?=$count.'. '. $regular['full_name']?></td>
                   <td style="text-align: center;"><?= '<strong>'.$regular['number_of_subscribed_shares'].'</strong>'?></td>
-                  <td style="text-align: right;"><?= number_format(($regular['number_of_subscribed_shares'] * $capitalization_info->par_value),2)?></td>
+                  <td style="text-align: right;"><?= number_format(($regular['number_of_subscribed_shares'] * stringToNumbers_($capitalization_info->par_value)),2)?></td>
                   <td style="text-align: center;"><?= '<strong>'.$regular['number_of_paid_up_shares'].'</strong>'?></td>
-                  <td style="text-align: right;"><?= number_format(($regular['number_of_paid_up_shares'] * $capitalization_info->par_value),2)?></td>
+                  <td style="text-align: right;"><?= number_format(($regular['number_of_paid_up_shares'] * stringToNumbers_($capitalization_info->par_value)),2)?></td>
               <?php  
               }
-              ?>    
+              */?>
+               <?php
+               $count=0; 
+               foreach($regular_cooperator_list_new as $key => $regular) : ?>
+              <tr>
+              <?php $count++; ?>
+
+                  <td><?=$count?> <?=($regular['full_name']!=$regular['orig_full_name'] ? "<b>".$regular['full_name']."</b>" : $regular['full_name'])?></td>
+                  <td style="text-align: center;">
+                    <?= ($regular['number_of_subscribed_shares']!=$regular['orig_number_of_subscribed_shares'] ? '<strong>'.$regular['number_of_subscribed_shares'].'</strong>' : $regular['number_of_subscribed_shares'])?></td>
+                  <td style="text-align: right;"><?= number_format(($regular['number_of_subscribed_shares'] * $capitalization_info->par_value),2)?></td>
+                  <td style="text-align: center;"><?= ($regular['number_of_paid_up_shares']!=$regular['orig_number_of_paid_up_shares'] ? '<strong>'.$regular['number_of_paid_up_shares'].'</strong>' : $regular['number_of_paid_up_shares'])?></td>
+                  <td style="text-align: right;"><?= number_format(($regular['number_of_paid_up_shares'] * $capitalization_info->par_value),2)?></td>
+            
+                
             </tr>
           <?php endforeach; ?>
+          
           </tbody>
           <tfoot>
             <tr>
               <td>Sub Total</td>
-              <td style="text-align: center;"><?= ($total_regular['total_subscribed']!=$total_regular_orig['total_subscribed'] ? "<b>".$total_regular['total_subscribed']."</b>" : $total_regular['total_subscribed'])?></td>
+              <td style="text-align: center;"><?= (strcasecmp($total_regular['total_subscribed'],$total_regular_orig['total_subscribed'])!=0 ? "<b>".$total_regular['total_subscribed']."</b>" : $total_regular['total_subscribed'])?></td>
 
               <?php
               $sub =number_format(($total_regular['total_subscribed'] * $capitalization_info->par_value),2);
               $sub_orig= number_format(($total_regular_orig['total_subscribed'] * $capitalization_info_orig->par_value),2);
-              if($sub_orig!= $sub)
+              if(strcasecmp($sub_orig, $sub)!=0)
               {
                 $sub = "<b>".$sub."</b>";
               }
               ?>
               <td style="text-align: right;"><?=$sub?></td>
 
-              <td style="text-align: center;"><?= ($total_regular['total_paid']!=$total_regular_orig['total_paid'] ? '<b>'.$total_regular['total_paid'].'</b>' : $total_regular['total_paid']) ?></td>
+              <td style="text-align: center;"><?= (strcasecmp($total_regular['total_paid'],$total_regular_orig['total_paid'])!=0 ? '<b>'.$total_regular['total_paid'].'</b>' : $total_regular['total_paid']) ?></td>
 
               <?php
              $subs1 = number_format(($total_regular['total_paid'] * $capitalization_info->par_value),2);
               $subs1_orig = number_format(($total_regular_orig['total_paid'] * $capitalization_info_orig->par_value),2);
-              if($subs1_orig!= $subs1)
+              if(strcasecmp($subs1_orig,$subs1)!=0)
               {
                 $subs1 = '<b>'.$subs1.'</b>';
               }
@@ -678,6 +959,7 @@
             </tr>
           </tfoot>
         </table>
+
       </div>
     </div>
   </div>
@@ -703,22 +985,15 @@
           <tbody>
             <?php $count=0; foreach($associate_cooperator_list as $key => $associate) : ?>
               <?=$count++;?>
-
-              <?php 
-              // if(empty($associate_cooperator_list_orig[$key]))
-              //   {
-              //     $associate_cooperator_list_orig[$key]=0;
-              //   }
-             // $associate_orig = $associate_cooperator_list_orig [$key];?> 
             <tr>
               <?php
                 if(isset($associate_cooperator_list_orig[$key]))
                 {
                   $associate_orig = $associate_cooperator_list_orig [$key];?>
                   ?>
-                    <td><?=($associate['full_name']!=$associate_orig['full_name'] ? '<b>'.$count.'. '. $associate['full_name'].'</b>' : $count.'. '. $associate['full_name'])?></td>
+                    <td><?=($associate['full_name']!=$associate_orig['full_name'] ? '<b>'.$count.'. '.$associate['full_name'].'</b>' : $count.'. '. $associate['full_name'])?></td>
 
-                     <td><?=($associate['full_name']!=$associate_orig['full_name'] ? '<b>'.$count.'. '. $associate['full_name'].'</b>' : $count.'. '. $associate['full_name'])?></td>
+                    <!--  <td><?=($associate['full_name']!=$associate_orig['full_name'] ? '<b>'.$count.'. '. $associate['full_name'].'</b>' : $count.'. '. $associate['full_name'])?></td> -->
                     <td style="text-align: center;"><?= ($associate['number_of_subscribed_shares']!=$associate_orig['number_of_subscribed_shares'] ? '<strong>'.$associate['number_of_subscribed_shares'].'</strong>' : $associate['number_of_subscribed_shares'])?></td>
                     <td style="text-align: right;"><?= number_format(($associate['number_of_subscribed_shares'] * $capitalization_info->par_value),2)?></td>
 
@@ -731,10 +1006,10 @@
                 else
                 {
                 ?>
-                     <td><?='<b>'.$count.'. '. $associate['full_name'].'</b>'?></td>
+                     <!-- <td><?='<b>'.$count.'. '. $associate['full_name'].'</b>'?></td> -->
                       <td><?='<b>'.$count.'. '. $associate['full_name'].'</b>' ?></td>
                       <td style="text-align: center;"><?= '<strong>'.$associate['number_of_subscribed_shares'].'</strong>'?></td>
-                      <td style="text-align: right;"><?= number_format(($associate['number_of_subscribed_shares'] * $capitalization_info->par_value),2)?></td>
+                      <td style="text-align: right;"><?= number_format(($associate['number_of_subscribed_shares'] *$capitalization_info->par_value),2)?></td>
 
                       <td style="text-align: center;"><?= '<strong>'.$associate['number_of_paid_up_shares'].'</strong>'?></td>
 
@@ -764,7 +1039,7 @@
               ?></td>
               <td style="text-align: right;"><?= number_format((($total_regular['total_subscribed'] * $capitalization_info->par_value) + ($total_associate['total_subscribed'] * $capitalization_info->par_value)),2)?></td>
               <td style="text-align: center;"><?= $total_regular['total_paid'] + $total_associate['total_paid']?></td>
-              <td style="text-align: right;"><?= number_format((($total_regular['total_paid'] * $capitalization_info->par_value ) + ($total_associate['total_paid'] *  $capitalization_info->par_value)),2)?></td>
+              <td style="text-align: right;"><?= number_format((($total_regular['total_paid'] * $capitalization_info->par_value) + ($total_associate['total_paid'] *  $capitalization_info->par_value)),2)?></td>
             </tr>
           </tfoot>
         </table>
@@ -774,7 +1049,7 @@
   <?php endif;?>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article XII<br>Arbitral Clause</p>
+        <p class="font-weight-bold">Article <?=$article12?><br>Arbitral Clause</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -789,7 +1064,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;"> <b><?=$treasurer_of_coop->full_name?></b> has been elected as Treasurer of this Cooperative to act as such until her/his successor shall have been duly appointed and qualified in accordance with the By-laws. As such Treasurer, he/she is authorized to receive payments and issue receipts for membership fees, share capital subscriptions and other revenues, and to pay obligations for and in the name of this Cooperative.</p>
+      <p class="text-justify" style="text-indent: 50px;"> <?=$treasurer_of_coop->full_name?> has been elected as Treasurer of this Cooperative to act as such until her/his successor shall have been duly appointed and qualified in accordance with the By-laws. As such Treasurer, he/she is authorized to receive payments and issue receipts for membership fees, share capital subscriptions and other revenues, and to pay obligations for and in the name of this Cooperative.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -813,13 +1088,36 @@
             </tr>
           </thead>
           <tbody>
-            <?php  $count=0;foreach($regular_cooperator_list as $cooperator) :?>
+            <?php /* $count=0;foreach($regular_cooperator_list as $key => $cooperator) :?>
+              <?=$count++;?>
+              <?php  if(isset($regular_cooperator_list_orig[$key]))
+                {
+                // echo"<pre>";print_r($regular_cooperator_list_orig[$key]['full_name']).' : '.($cooperator['full_name']);echo"<pre>";
+                //   var_dump($regular_cooperator_list_orig[$key]['full_name']);var_dump($cooperator['full_name']);
+                  if(strcasecmp($regular_cooperator_list_orig[$key]['full_name'],$cooperator['full_name'])!=0)
+                  {
+                    $cooperator['full_name'] = '<b>'.$cooperator['full_name'].'</b>';
+                  }
+                }
+                else
+                {
+                   $cooperator['full_name'] = '<b>'.$cooperator['full_name'].'</b>';
+                }
+                ?>
+              <tr>
+                <td><?=$count.'. '.$cooperator['full_name']?></td>
+                <td></td>
+              </tr>
+            <?php endforeach; */?>
+
+             <?php  $count=0;foreach($regular_cooperator_list_coop as $key => $cooperator) :?>
               <?=$count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
                 <td></td>
               </tr>
             <?php endforeach;?>
+
           </tbody>
         </table>
       </div>
@@ -855,6 +1153,77 @@
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
       <div class="table-responsive">
+        <?php /*
+        $coop_list_regular_fullname[]= array();
+       
+          foreach($regular_cooperator_list as $key => $cooperator)
+          {
+             if(isset($regular_cooperator_list_orig[$key]))
+              {
+                 $cooperator_orig =$regular_cooperator_list_orig[$key];
+              }
+              else
+              {
+                $regular_cooperator_list_orig[$key] =null;
+                  $cooperator_orig =$regular_cooperator_list_orig[$key];
+                  $cooperator_orig['full_name']=null;
+              }
+               $cooperator['full_name']  = trim(preg_replace('/\s\s+/', ' ', $cooperator['full_name'] ));
+               $cooperator_orig['full_name'] = trim(preg_replace('/\s\s+/', ' ', $cooperator_orig['full_name']));
+              if($cooperator['full_name'] !== $cooperator_orig['full_name'])
+              {
+                array_push($coop_list_regular_fullname,
+                  array("fullname"=>"<b>".$cooperator['full_name']."</b>",
+                        "proof_of_identity"=>"<b>".$cooperator['proof_of_identity']."</b>",
+                         "proof_of_identity_number"=>"<b>".$cooperator['proof_of_identity_number']."</b>",
+                        "proof_date_issued" => "<b>".$cooperator['proof_date_issued']."</b>",
+                        "place_of_issuance" => "<b>".$cooperator['place_of_issuance']."</b>"
+                      )
+                );
+              }
+              else
+              {
+                 array_push($coop_list_regular_fullname,
+                  array("fullname"=>$cooperator['full_name'],
+                        "proof_of_identity"=>$cooperator['proof_of_identity'],
+                        "proof_of_identity_number"=>$cooperator['proof_of_identity_number'],
+                        "proof_date_issued" => $cooperator['proof_date_issued'],
+                        "place_of_issuance" => $cooperator['place_of_issuance']
+                      )
+                );
+              }
+          }
+           
+            sort($coop_list_regular_fullname);
+            array_filter($coop_list_regular_fullname);
+            // echo"<pre>";print_r($coop_list_regular_fullname);echo"</pre>";
+            // echo"<pre>";print_r($regular_cooperator_list);echo"</pre>";
+        */?>
+        <!-- <table class="table table-sm">
+          <thead>
+            <tr>
+              <th>Name of Cooperators</th>
+              <th>Proof of Identity (IN ACCORDANCE WITH NOTARIAL LAW)</th>
+              <th>Date issued</th>
+              <th>Place of Issuance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php $count=0; foreach(array_filter($coop_list_regular_fullname) as $key => $cooperator) :?>
+            <tr>
+              <?=$count++;?>
+
+                <td><?=$count.'. '.$cooperator['fullname']?></td>
+                <td>
+                 <?=$cooperator['proof_of_identity']?>-<?=$cooperator['proof_of_identity_number']?>
+                </td>
+                <td><?=$cooperator['proof_date_issued']?></td>
+                <td><?=$cooperator['place_of_issuance']?></td>
+              </tr>
+            <?php endforeach;?>
+          </tbody>
+        </table> -->
+
         <table class="table table-sm">
           <thead>
             <tr>
@@ -865,53 +1234,16 @@
             </tr>
           </thead>
           <tbody>
-            <?php $count=0; foreach($regular_cooperator_list as $key => $cooperator) :?>
+            <?php  $count=0; foreach($regular_cooperator_list_coop as $key => $cooperator) :?>
             <tr>
               <?=$count++;?>
-              <?php 
-              if(isset($regular_cooperator_list_orig[$key]))
-              {
-                 $cooperator_orig =$regular_cooperator_list_orig[$key];
-              ?>
-                  <td><?=$count.'. '.($cooperator['full_name']!=$cooperator_orig['full_name'] ? '<strong>'.$cooperator['full_name'].'</strong>' : $cooperator['full_name'])?></td>
-                <td>
-                  <?php 
-                  $proof_identity = $cooperator['proof_of_identity'].'-'.$cooperator['proof_of_identity_number'];
-                  $proof_identity_orig = $cooperator_orig['proof_of_identity'].'-'.$cooperator_orig['proof_of_identity_number'];
-                  if($proof_identity!=$proof_identity_orig)
-                  {
-                    $proof_identity ='<strong>'.$proof_identity.'</strong>';
-                  }
-                  ?>
-                  <?= $proof_identity?>
-                    
-                </td>
-                <td><?=($cooperator['proof_date_issued']!=$cooperator_orig['proof_date_issued'] ? '<strong>'.$cooperator['proof_date_issued'].'</strong>' : $cooperator['proof_date_issued'])?></td>
-                <td><?=($cooperator['place_of_issuance']!=$cooperator_orig['place_of_issuance'] ? '<strong>'.$cooperator['place_of_issuance'].'</strong>': $cooperator['place_of_issuance'])?></td>
 
-              <?php   
-              }
-              else
-              {
-              ?>
-                 <td><?=$count.'. '.'<strong>'.$cooperator['full_name'].'</strong>'?></td>
+                <td><?=$count.'. '.$cooperator['full_name']?></td>
                 <td>
-                  <?php 
-                  $proof_identity = $cooperator['proof_of_identity'].'-'.$cooperator['proof_of_identity_number'];
-                 
-                    $proof_identity ='<strong>'.$proof_identity.'</strong>';
-                 
-                  ?>
-                  <?= $proof_identity?>
-                    
+                 <?=$cooperator['proof_of_identity']?>-<?=$cooperator['proof_of_identity_number']?>
                 </td>
-                <td><?='<strong>'.$cooperator['proof_date_issued'].'</strong>'?></td>
-                <td><?='<strong>'.$cooperator['place_of_issuance'].'</strong>'?></td>
-              <?php  
-              }             
-              ?>
-              
-                
+                <td><?=$cooperator['proof_date_issued']?></td>
+                <td><?=$cooperator['place_of_issuance']?></td>
               </tr>
             <?php endforeach;?>
           </tbody>
@@ -926,7 +1258,7 @@
   </div>
   <div class="row mb-3">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>, consists of <u><?=$this->session->userdata('pagecount')?></u> pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>
+      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?=$type_of_coop?> Cooperative <?php if(strlen($coop_info->acronym)>0){ echo '('.$coop_info->acronym.')';}?>, consists of <u><?=$this->session->userdata('pagecount')?></u> pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>
     </div>
   </div>
 
@@ -954,3 +1286,4 @@
 </body>
 
 </html>
+ 

@@ -12,19 +12,40 @@
   <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css">
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
-  @page{margin: 80px 90px;}
+  @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
-  table, th, td {
+  .table-cooperator, .table-cooperator th, .table-cooperator td {
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
+}
   }
+  body{
+      /*font-family: 'Bookman Old Style'; font-size: 12px; */
+       font-family: 'Bookman Old Style',arial !important;font-size:12px;
+    }
   </style>
 </head>
-<body>
+<body style="font-size:12">
+<script type="text/php">
+        if (isset($pdf) ) {
+            $x = 570; 
+            $y=900;
+            $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
+            $font = $fontMetrics->get_font("BOOKOS");
+            
+            $size = 12;
+            $color = array(0,0,0);
+            $word_space = 0.0;  //  default
+            $char_space = 0.0;  //  default
+            $angle = 0.0;   //  default
+            $pdf->page_text($x, $y, $text,$font , $size, $color, $word_space, $char_space, $angle);
+            
+        }
+</script>
 <div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">BY-LAWS<br>OF<br>___________________</p>
+        <p class="font-weight-bold">BY-LAWS<br>OF<br><?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?></p>
     </div>
   </div>
   <div class="row mb-2">
@@ -34,7 +55,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify font-weight-normal" style="text-indent: 50px;">We, the undersigned duly authorized representative(s) of our respective cooperatives, all of legal age and Filipino citizens, have on this day voluntarily organized a (Secondary/Tertiary) Cooperative Union, do hereby adopt the following By-laws.</p>
+      <p class="text-justify font-weight-normal" style="text-indent: 50px;">We, the undersigned duly authorized representative(s) of our respective cooperatives, all of legal age and Filipino citizens, have on this day voluntarily organized a Union Cooperative Union, do hereby adopt the following By-laws.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -54,35 +75,38 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Membership.</i> This Cooperative Union shall have ______________ members.</p>
+        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Membership.</i> This Cooperative Union shall have <?php  echo ($bylaw_info->kinds_of_members == 1)? "regular members" : "regulars and associate members";?>.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 2. <i class="font-weight-bold">Qualification for Membership.</i> The membership of this Cooperative Union is open to any registered ________________, within the common bond of membership.</p>
+        <p class="text-justify font-weight-regular">Section 2. <i class="font-weight-bold">Qualification for Membership.</i> The membership of this Cooperative Union is open to any registered primary cooperative and/or federations of cooperatives.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 3. <i class="font-weight-bold">Requirements for Membership.</i> A member must have complied with the following requirements: </p>
+        <p class="text-justify font-weight-regular">Section 3. <i class="font-weight-bold">Requirements for Membership.</i> A member must comply with the following requirements: </p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Approved application for membership;</li>
-        <li>General Assembly Resolution</li>
-        <li>Board of Director Resolution on authorized representative;</li>
-        <li>Certification of line of business activities engaged in; </li>
-        <li>Subscribed and paid the required minimum share capital and membership fee; and</li>
-        <li>___________________________________________________________ </li>
+        <li>General Assembly Resolution stating that the General Assembly has approved their membership and the amount of dues to the Cooperative Union;</li>
+        <li>Resolution of the Board of Directors designating an authorized representative;</li>
+        <li>Subscribed and paid the required minimum share capital and  membership fee; and </li>
+        <?php if(strlen($bylaw_info->additional_requirements_for_membership)>0) :?>
+          <?php foreach($members_additional_requirements as $requirement) : ?>
+            <li><?= $requirement ?></li>
+          <?php endforeach; ?>
+        <?php endif; ?>
       </ol>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12">
-        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Application for Membership.</i> An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within _________ (_____) days from the date of filing. The Board of Directors shall devise a form for the purpose which shall, aside from the profile of the applicant cooperative, include the duties of an affiliate to participate in all programs including but not limited to capital build-up, patronizing the businesses and services and savings mobilization of the federation and, such other information as may be deemed necessary. </p>
-        <p class="text-justify" style="text-indent: 50px;">The application form for membership shall include an undertaking to uphold the By-laws, policies, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly. No application for membership shall be given due course if not accompanied with a membership fee of _____________ (Php _____), which shall be refunded to the applicant cooperative in case of rejection.</p>
+        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Application for Membership.</i> An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within <?= ucwords(num_format_custom($bylaw_info->act_upon_membership_days));?> (<?= $bylaw_info->act_upon_membership_days?>) days from the date of filing. The Board of Directors shall devise a form for the purpose which shall, aside from the profile of the applicant cooperative, include the duties of an member to participate in all programs including but not limited to capital build-up, patronizing the businesses and services and savings mobilization of the federation and, such other information as may be deemed necessary. </p>
+        <p class="text-justify" style="text-indent: 50px;">The application form for membership shall include an undertaking to uphold the By-laws, policies, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly. No application for membership shall be given due course if not accompanied with a membership fee of <?= ucwords(num_format_custom(str_replace(',','',$bylaw_info->membership_fee))). ' Pesos';?> (Php <?= number_format(str_replace(',','',$bylaw_info->membership_fee),2)?>), which shall be refunded to the applicant cooperative in case of rejection.</p>
     </div>
   </div>
   <div class="row">
@@ -92,7 +116,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Duties and Responsibilities of Affiliates.</i> Every affiliate shall have the following duties:</p>
+        <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Duties and Responsibilities of Members.</i> Every members shall have the following duties:</p>
     </div>
   </div>
   <div class="row">
@@ -104,13 +128,13 @@
 				<li>Attend and participate in the deliberation of all matters taken during General Assembly meetings; </li>
 				<li>Observe and obey all lawful orders, decisions, rules and regulations adopted by the Board of Directors and the General Assembly;</li>
 				<li>Remit the Cooperative Education and Training Fund (CETF) due to the Federation/Union; and</li>
-				<li>Promote the purposes and goals of the Cooperative Union, the success of its operations, the welfare of its affiliates and the cooperative movement in general.</li>
+				<li>Promote the purposes and goals of the Cooperative Union, the success of its operations, the welfare of its member and the cooperative movement in general.</li>
 			</ol>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 7. <i class="font-weight-bold">Rights and Privileges of Affiliates.</i> An affiliate shall have the following rights and privileges:</p>
+        <p class="text-justify font-weight-regular">Section 7. <i class="font-weight-bold">Rights and Privileges of Members.</i> A member shall have the following rights and privileges:</p>
     </div>
   </div>
   <div class="row">
@@ -119,14 +143,14 @@
         <li>Attend through authorized representative during General Assembly meetings;</li>
   			<li>Avail the services of the Cooperative Union, subject to certain conditions as may be prescribed by the Board of Directors;</li>
   			<li>Inspect and examine the books of accounts, the minutes books, the share register, and other records of the Cooperative Union during reasonable office hours;</li>
-  			<li>Secure copies of Cooperative Union’s records/documents pertaining to the account information of the concerned affiliate; and</li>
+  			<li>Secure copies of Cooperative Union’s records/documents pertaining to the account information of the concerned member; and</li>
   			<li>Such other rights and privileges as may be granted by the General Assembly.</li>
   		</ol>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 8. <i class="font-weight-bold">Affiliate Entitled to Vote.</i> Any regular member who meets the following conditions is a member entitled to vote:</p>
+        <p class="text-justify font-weight-regular">Section 8. <i class="font-weight-bold">Members Entitled to Vote.</i> Any regular member who meets the following conditions is a member entitled to vote:</p>
     </div>
   </div>
   <div class="row">
@@ -136,7 +160,7 @@
   			<li>Not delinquent in the payment of its contribution, dues, fees and other accounts or obligations;</li>
   			<li>Not violated any provision of cooperative laws, CDA administrative issuances,  Articles of Cooperation and this By-laws, the terms and conditions of the subscription agreement; and the decisions, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly;</li>
   			<li>Completed the continuing education program prescribed by the Board of Directors;</li>
-  			<li>Remitted the Cooperative Education and Training Fund (CETF) due to the Federation/Union; and</li>
+  			<li>Remitted the Cooperative Education and Training Fund (CETF) due to the Union; and</li>
   			<li>Participated in the affairs of the Cooperative Union and patronized its services in accordance with the policies and guidelines.</li>
   		</ol>
     </div>
@@ -144,7 +168,7 @@
   <div class="row ">
     <div class="col-sm-12 col-md-12">
       <p class="text-justify" style="text-indent: 50px;">Failure of the member to meet any of the above conditions shall mean suspension of voting rights subject to the declaration of the Board of Directors until the same has been lifted upon the determination of the latter.</p>
-      <p class="text-justify" style="text-indent: 50px;">Consequently, an affiliate entitled to vote shall have the following additional rights:</p>
+      <p class="text-justify" style="text-indent: 50px;">Consequently, an member entitled to vote shall have the following additional rights:</p>
     </div>
   </div>
   <div class="row">
@@ -164,9 +188,9 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        <li><strong>Automatic Termination of Membership.</strong> The dissolution or the insolvency of an affiliate shall be considered an automatic termination of its membership in the Cooperative Union</li>
-				<li><strong>Voluntary Termination.</strong> An affiliate may, for any valid reason, withdraw his membership from the Cooperative Union by giving a sixty (60) day notice to the Board of Directors.</li>
-				<li><strong>Involuntary Termination.</strong> An affiliate may be terminated by a vote of the majority of all the members of the Board of Directors for any of the following causes:
+        <li><strong>Automatic Termination of Membership.</strong> The dissolution or the insolvency of an member shall be considered an automatic termination of its membership in the Cooperative Union</li>
+				<li><strong>Voluntary Termination.</strong> An member may, for any valid reason, withdraw his membership from the Cooperative Union by giving a sixty (60) day notice to the Board of Directors.</li>
+				<li><strong>Involuntary Termination.</strong> An member may be terminated by a vote of the majority of all the members of the Board of Directors for any of the following causes:
 						<ol class="text-justify" type="i">
 						<li>Has not patronized the services of the Cooperative Union as provided for in its policies ; </li>
 						<li>Has continuously failed to comply with its obligations as provided for in the policies of the Cooperative Union; </li>
@@ -179,7 +203,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 10. <i class="font-weight-bold">Manner of Involuntary Termination.</i> The Board of Directors shall notify in writing the affiliate which is being considered for termination and shall give them the opportunity to be heard.</p>
+        <p class="text-justify font-weight-regular">Section 10. <i class="font-weight-bold">Manner of Involuntary Termination.</i> The Board of Directors shall notify in writing the member which is being considered for termination and shall give them the opportunity to be heard.</p>
         <p class="text-justify" style="text-indent: 50px;">The decision of the Board of Directors shall be in writing and shall be communicated in person or by registered mail to said member and shall be appealable within thirty (30) days from receipt thereof to the General Assembly whose decision shall be final.</p>
     </div>
   </div>
@@ -206,10 +230,12 @@
 				<li>To approve developmental plans of the cooperative; and </li>
 				<li> To delegate the following power/s to a smaller body of the Cooperative Union: </li>
 					<ol class="text-justify" type="i">
-					<li>___________________________________________ </li>
-					<li>___________________________________________ </li>
-					</ol>
-				</ol>
+            <?php if(strlen($bylaw_info->delegate_powers)>0) :?>
+                <?php foreach($delegate_powers as $requirement) : ?>
+                  <li><?= $requirement ?></li>
+                <?php endforeach; ?>
+              <?php endif; ?>
+          </ol>
     </div>
   </div>
   <div class="row">
@@ -224,13 +250,13 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 5. <i class="font-weight-bold">Special General Assembly Meeting.</i> The Board of Directors may,by a majority vote of all its affiliates, call a Special General Assembly meeting at any time to consider urgent matters requiring immediate membership decision. The Board of Directors must likewise call a Special General Assembly meeting within one (1) month from receipt of a written request from:</p>
+        <p class="text-justify font-weight-regular">Section 5. <i class="font-weight-bold">Special General Assembly Meeting.</i> The Board of Directors may,by a majority vote of all its members, call a Special General Assembly meeting at any time to consider urgent matters requiring immediate membership decision. The Board of Directors must likewise call a Special General Assembly meeting within one (1) month from receipt of a written request from:</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        <li> at least ten percent (10%) of the total number of affiliates entitled to vote,</li>
+        <li> at least ten percent (10%) of the total number of members entitled to vote,</li>
         <li> the Audit Committee, or</li>
         <li> upon Order of the Cooperative Development Authority;</li>
       </ol>
@@ -244,9 +270,9 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-          <li> Regular General Assembly Meeting.  Notice of the annual regular General Assembly meeting shall be served by the Secretary, personally or his duly authorized representative, by registered mail, or by electronic means to all affiliates of record at its last known postal address, or by posting or publication, or through other electronic means, at least one (1) week before the said meeting.  It shall be accompanied with an agenda, minutes of meeting of the last General Assembly meeting, consolidated reports of the Board of Directors and Committees, audited financial statements, and other papers which may assist the members to intelligently participate in the proceedings.</li>
+          <li> Regular General Assembly Meeting.  Notice of the annual regular General Assembly meeting shall be served by the Secretary, personally or his duly authorized representative, by registered mail, or by electronic means to all members of record at its last known postal address, or by posting or publication, or through other electronic means, at least one (1) week before the said meeting.  It shall be accompanied with an agenda, minutes of meeting of the last General Assembly meeting, consolidated reports of the Board of Directors and Committees, audited financial statements, and other papers which may assist the members to intelligently participate in the proceedings.</li>
 					<li>Special General Assembly Meeting.  Notice of any Special General Assembly meeting shall be served by the Secretary personally or his duly authorized representative, by registered mail, or by electronic means upon each members who are entitled to vote at his last known postal address, or by posting or publication, or through other electronic means, at least one (1) week before the said meeting.  It shall state the purpose and, except for related issues, no other business shall be considered during the meeting. </li>
-					<li>Waiver of Notice.  Notice of any meeting may be waived, expressly or impliedly, by the affiliate concerned. </li>
+					<li>Waiver of Notice.  Notice of any meeting may be waived, expressly or impliedly, by the member concerned. </li>
       </ol>
     </div>
   </div>
@@ -278,12 +304,12 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 8. <i class="font-weight-bold">Quorum for General Assembly Meeting.</i> During regular or special general assembly meeting, at least ____________ percent (_______%) of the total number of affiliates entitled to vote shall constitute a quorum. </p>
+        <p class="text-justify font-weight-regular">Section 8. <i class="font-weight-bold">Quorum for General Assembly Meeting.</i> During regular or special general assembly meeting, at least <?= num_format_custom($bylaw_info->members_percent_quorom)?> percent (<?= $bylaw_info->members_percent_quorom?>%) of the total number of members entitled to vote shall constitute a quorum. </p>
     </div>
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 9. <i class="font-weight-bold">Voting System.</i> Only affiliates entitled to vote shall be qualified to participate and vote in any general assembly meeting. The votes cast by the representative/delegate duly authorized shall be deemed as votes cast by the affiliates.</p>
+        <p class="text-justify font-weight-regular">Section 9. <i class="font-weight-bold">Voting System.</i> Only members entitled to vote shall be qualified to participate and vote in any general assembly meeting. The votes cast by the representative/delegate duly authorized shall be deemed as votes cast by the members.</p>
         <p class="text-justify" style="text-indent: 50px;">Election of Directors and Committee members shall be by secret ballot. Action on all matters shall be in any manner that will truly and correctly reflect the will of the membership.</p>
     </div>
   </div>
@@ -294,7 +320,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Composition of the Board of Directors (BOD).</i> The Board of Directors shall be composed of _________ ( ) members.</p>
+        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Composition of the Board of Directors (BOD).</i> The Board of Directors shall be composed of <?= num_format_custom($no_of_directors)?> (<?= $no_of_directors?>) members.</p>
     </div>
   </div>
   <div class="row">
@@ -320,7 +346,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 3. <i class="font-weight-bold">Qualifications.</i> Any affiliate who is entitled to vote and has the following qualifications can be elected or continue as member of the Board of Directors:</p>
+        <p class="text-justify font-weight-regular">Section 3. <i class="font-weight-bold">Qualifications.</i> Any member who is entitled to vote and has the following qualifications can be elected or continue as member of the Board of Directors:</p>
     </div>
   </div>
   <div class="row">
@@ -329,7 +355,7 @@
         <li>Has paid the minimum capital requirement; </li>
     		<li>Has no delinquent account with the Cooperative Union; </li>
     		<li>Have continuously patronized the Cooperative Union’s services;</li>
-    		<li>An affiliate in good standing for the last two (2) years;</li>
+    		<li>An member in good standing for the last two (2) years;</li>
     		<li>Completed or willingness to complete within the prescribed period the required education and training whichever is applicable; and </li>
     		<li>Other qualifications prescribed in the rules and regulations of the Authority. </li>
     	</ol>
@@ -337,7 +363,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Disqualifications.</i> Any affiliate representative under any of the following circumstances shall be disqualified to be elected as a member of the Board of Directors or any committee, or to continue as such:</p>
+        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Disqualifications.</i> Any member representative under any of the following circumstances shall be disqualified to be elected as a member of the Board of Directors or any committee, or to continue as such:</p>
     </div>
   </div>
   <div class="row">
@@ -354,13 +380,13 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 5. <i class="font-weight-bold">Election of Directors.</i> The members of the Board of Directors shall be elected, by secret ballot, by the affiliates, who are duly authorized representatives, who are entitled to vote during the annual regular General Assembly meeting or special general assembly meeting called for the  purpose. Unless earlier removed for cause, or have resigned or become incapacitated, they shall hold office for a term of _________ ( ) years or until their successors shall have been elected and qualified; Provided, that majority of the elected directors obtaining the highest number of votes during the first election after registration shall serve for two (2) years, and the remaining directors for one (1) year. Thereafter, all directors shall serve for a term of ____________ ( ) years; The term of the cooperating directors shall expire upon the election of their successors in the first regular general assembly after registration.</p>
+        <p class="text-justify font-weight-regular">Section 5. <i class="font-weight-bold">Election of Directors.</i> The members of the Board of Directors shall be elected, by secret ballot, by the members, who are duly authorized representatives, who are entitled to vote during the annual regular General Assembly meeting or special general assembly meeting called for the  purpose. Unless earlier removed for cause, or have resigned or become incapacitated, they shall hold office for a term of <?=num_format_custom($bylaw_info->director_hold_term) ?> (<?=$bylaw_info->director_hold_term?>) years or until their successors shall have been elected and qualified; Provided, that majority of the elected directors obtaining the highest number of votes during the first election after registration shall serve for two (2) years, and the remaining directors for one (1) year. Thereafter, all directors shall serve for a term of <?=num_format_custom($bylaw_info->directors_term) ?> (<?=$bylaw_info->directors_term?>) years; The term of the cooperating directors shall expire upon the election of their successors in the first regular general assembly after registration.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
         <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Election of Officer within the Board of Directors.</i> The Board of Directors shall convene within ten (10) days after the General Assembly meeting to elect by secret ballot from among themselves the Chairperson and the Vice-Chairperson, appoint the Secretary and to elect Treasurer from outside of the Board.</p>
-        <p class="text-justify" style="text-indent: 50px;">For committees elected by the General Assembly and/or appointed by the BOD, procedural process of electing the Chairperson, Vice-Chairperson or other positions among themselves should be in accordance with the process mentioned above.</p>
+        <p class="text-justify" style="text-indent: 50px;">For committees to be elected by the General Assembly and/or appointed by the BOD, the same procedural process of electing the Chairperson, Vice-Chairperson or other positions among themselves should be followed.</p>
     </div>
   </div>
   <div class="row">
@@ -379,7 +405,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
         <p class=text-justify "font-weight-regular">Section 9. <i class="font-weight-bold">Removal of Members of the Board of Directors and Committee Members.</i> All complaints for the removal of any elected officer shall be filed with the Board of Directors and such officer shall be given the opportunity to be heard. Majority of the Board of Directors may place the officer concerned under preventive suspension pending the resolution of the investigation. Upon finding of a prima facie evidence of guilt, the Board of Directors shall present its recommendation for removal to the General Assembly. An elective officer may be removed by three-fourths (¾) of the regular members present and constituting a quorum, in a regular or special general assembly meeting called for the purpose. The officer concerned shall be given the opportunity to be heard at said Assembly. For this purpose, the Board of Directors shall provide policy on suspension.</p>
-        <p class="text-justify" style="text-indent: 50px;">In cases where the officers sought to be removed consist of the majority of the BOD, at least 10% of the affiliates with voting rights may file a petition with the CDA, upon failure of the BOD to call an assembly meeting for the purpose to commence the proceeding for their removal within thirty (30) days from notice. The decision of the GA on the matter is final and executory.</p>
+        <p class="text-justify" style="text-indent: 50px;">In cases where the officers sought to be removed consist of the majority of the BOD, at least 10% of the members with voting rights may file a petition with the CDA, upon failure of the BOD to call an assembly meeting for the purpose to commence the proceeding for their removal within thirty (30) days from notice. The decision of the GA on the matter is final and executory.</p>
         <p class="text-justify" style="text-indent: 50px;">An officer appointed by the Board of Directors may be removed from office for cause by a majority vote of all the members of the Board of Directors.</p>
     </div>
   </div>
@@ -395,7 +421,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Audit Committee.</i> An Audit Committee is hereby created and shall be composed of ______ ( ) members to be elected during a General Assembly meeting and shall hold office for a term of one (1) year or until their successors shall have been elected and qualified. Within ten (10) days after their election, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary. No member of the committee shall hold any other position within the Cooperative Union during his term of office. The Committee shall provide internal audit service, maintain a complete record of its examination and inventory, and submit audit report quarterly or as may be required by the Board and the General Assembly.</p>
+        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Audit Committee.</i> An Audit Committee is hereby created and shall be composed of three (3) members to be elected during a General Assembly meeting and shall hold office for a term of one (1) year or until their successors shall have been elected and qualified. Within ten (10) days after their election, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary. No member of the committee shall hold any other position within the Cooperative Union during his term of office. The Committee shall provide internal audit service, maintain a complete record of its examination and inventory, and submit audit report quarterly or as may be required by the Board and the General Assembly.</p>
         <p class="text-justify" style="text-indent: 50px;">The audit committee shall be directly accountable and responsible to the General Assembly. It shall have the power and duty to continuously monitor the adequacy and effectiveness of the Cooperative management control system and audit the performance of the Cooperative Union and its various responsibility centers.</p>
     </div>
   </div>
@@ -418,7 +444,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 3. <i class="font-weight-bold">Election Committee.</i> An Election Committee is hereby created and shall be composed of _____ ( ) members to be elected during a General Assembly meeting and shall hold office for a term of one (1) year or until their successors shall have been elected and qualified. Within ten (10) days after their election they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary. No member of the committee shall hold any other position within the Cooperative Union during his term of office.</p>
+        <p class="text-justify font-weight-regular">Section 3. <i class="font-weight-bold">Election Committee.</i> An Election Committee is hereby created and shall be composed of three (3) members to be elected during a General Assembly meeting and shall hold office for a term of one (1) year or until their successors shall have been elected and qualified. Within ten (10) days after their election they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary. No member of the committee shall hold any other position within the Cooperative Union during his term of office.</p>
     </div>
   </div>
   <div class="row">
@@ -442,7 +468,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 5. <i class="font-weight-bold">Education and Training Committee.</i> An Education and Training Committee is hereby created and shall be composed of ________ ( ) members to be appointed by the Board of Directors and shall serve for a term of one (1) year, without prejudice to their reappointment. Within ten (10) days after their appointment, they shall elect from among themselves a Vice-Chairperson and a Secretary. The Vice-Chairperson of the Board of Directors shall act as the Chairperson of the Committee.</p>
+        <p class="text-justify font-weight-regular">Section 5. <i class="font-weight-bold">Education and Training Committee.</i> An Education and Training Committee is hereby created and shall be composed of three (3) members to be appointed by the Board of Directors and shall serve for a term of one (1) year, without prejudice to their reappointment. Within ten (10) days after their appointment, they shall elect from among themselves a Vice-Chairperson and a Secretary. The Vice-Chairperson of the Board of Directors shall act as the Chairperson of the Committee.</p>
         <p class="text-justify" style="text-indent: 50px;">The committee shall be responsible for the planning and implementation of the information, educational and human resource development programs of the Cooperative Union for its members, officers and the communities within its area of operation.</p>
     </div>
   </div>
@@ -464,7 +490,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 7. <i class="font-weight-bold">Mediation and Conciliation Committee.</i> A Mediation and Conciliation Committee is hereby created and shall be composed of ______( ) members to be appointed by the Board of Directors. Within ten (10) days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until successors shall have been appointed and qualified. No member of the Committee shall hold any other position in the Cooperative Union during his term of office.</p>
+        <p class="text-justify font-weight-regular">Section 7. <i class="font-weight-bold">Mediation and Conciliation Committee.</i> A Mediation and Conciliation Committee is hereby created and shall be composed of three (3) members to be appointed by the Board of Directors. Within ten (10) days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until successors shall have been appointed and qualified. No member of the Committee shall hold any other position in the Cooperative Union during his term of office.</p>
     </div>
   </div>
   <div class="row">
@@ -489,7 +515,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 9. <i class="font-weight-bold">Ethics Committee.</i> An Ethics Committee is hereby created and shall be composed of _____( ) members to be appointed by the Board of Directors. Within ten (10)days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until successors shall have been appointed and qualified. No member of the Committee shall hold any other position in the Cooperative Union during his term of office</p>
+        <p class="text-justify font-weight-regular">Section 9. <i class="font-weight-bold">Ethics Committee.</i> An Ethics Committee is hereby created and shall be composed of three (3) members to be appointed by the Board of Directors. Within ten (10)days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until successors shall have been appointed and qualified. No member of the Committee shall hold any other position in the Cooperative Union during his term of office</p>
     </div>
   </div>
   <div class="row">
@@ -500,7 +526,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        <li>Develop Code of Governance and Ethical Standard to be observed by the affiliates, officers and employees of the Cooperative Union subject to the approval of the BOD and ratification of the GA; </li>
+        <li>Develop Code of Governance and Ethical Standard to be observed by the members, officers and employees of the Cooperative Union subject to the approval of the BOD and ratification of the GA; </li>
     		<li>Disseminate, promote and implement the approved Code of Governance and Ethical Standards; </li>
     		<li>Monitor compliance with the Code of Governance and Ethical Standards and recommend to the BOD measures to address the gap, if any; </li>
     		<li>Conduct initial investigation or inquiry upon receipt of a complaint involving Code of Governance and Ethical Standards and submit report to the BOD together with the appropriate sanctions in accordance with the Guidelines issued by the CDA, Art. 137 of  Republic Act 9520 and its Implementing Rules and Regulations; Alternative Dispute Resolution Act of 1994 and its suppletory laws and circulars issued by the Cooperative Development Authority; </li>
@@ -509,9 +535,34 @@
     	</ol>
     </div>
   </div>
+  <?php $section_=10; ?>
+  <?php
+    if(is_array($committees_others))
+    {
+      $count_row = $section_;
+      foreach($committees_others as $rowCom)
+      {
+       $couting = $count_row++;
+  ?>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 text-left">
+            <p class="text-justify font-weight-regular">Section <?=$count_row++?>. <i class="font-weight-bold"><?=$rowCom['name']?></i> A <?=$rowCom['name']?> Committee shall be composed of three (3) members to be appointed by the Board of Directors.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 col-md-12 text-left">
+            <p class="text-justify font-weight-regular">Section <?=$count_row++?>. <i class="font-weight-bold">Functions and Responsibilities.</i> <?=$rowCom['func_and_respons']?>.</p>
+        </div>
+      </div>  
+      
+  <?php
+      }//end foreach
+    }
+  ?>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 11. <i class="font-weight-bold">Others Committee.</i> By a majority vote of all its affiliates, the Board of Directors may form such other committees as may be deemed necessary for the operation of the Cooperative Union.</p>
+        <p class="text-justify font-weight-regular">Section <?php echo $count_row++;?>. <i class="font-weight-bold">Others Committee.</i> By a majority vote of all its members, the Board of Directors may form such other committees as may be deemed necessary for the operation of the Cooperative Union.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -555,10 +606,10 @@
         </li>
       	<li><i class="font-weight-bold">Secretary</i> – The Secretary shall:
       		<ol type="i">
-      			<li> Keep an updated and complete registry of all affiliates</li>
+      			<li> Keep an updated and complete registry of all members</li>
       			<li> Prepare and maintain records of minutes of all meetings of the BOD & the GA; </li>
       			<li> Ensure that necessary BODs’ actions and decisions are transmitted to the management for compliance and implementation; </li>
-      			<li> Issue and certify the list of affiliates who are in good standing and entitled to vote as determined by the BOD;</li>
+      			<li> Issue and certify the list of members who are in good standing and entitled to vote as determined by the BOD;</li>
       			<li> Prepare and issue Capital Contribution Certificates; </li>
       			<li> Serve notice of all meetings called and certify the presence of quorum of all meetings of the BOD and GA; </li>
       			<li> Keep copy of the Treasurer’s report & other reports; </li
@@ -661,7 +712,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        <li>Affiliates’ share capital contribution; </li>
+        <li>Members’ share capital contribution; </li>
     		<li>Membership dues;</li>
     		<li> Loans and borrowings;  </li>
     		<li>Subsidies, grants, legacies, aids, donation and such other assistance from any local or foreign institution, public or private; and</li>
@@ -688,15 +739,18 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li> Engage in:
-    			<ol type="i">
-    				<li>____________________________________________________ </li>
-    				<li>____________________________________________________ </li>
-    				<li>____________________________________________________ </li>
-    			</ol>
+    			<ol class="text-justify"style="list-style-type:none;">
+            <?php if(strlen($bylaw_info->primary_consideration)>0) :?>
+                <?php $count=1;?>
+                <?php foreach($primary_consideration as $requirement) : ?>
+                    <li>a.<?php echo $count++; echo ' '.$requirement;?></li>
+                <?php endforeach; ?>
+            <?php endif; ?>
+          </ol>
         </li>
     		<li>Adopt and implement plans and programs with the end view of establishing other needed services for the members and the public; </li>
-    		<li>Formulate and implement studies and/or programs that will address the needs of affiliate; and </li>
-    		<li>Collect CETF and other dues from its affiliates</li>
+    		<li>Formulate and implement studies and/or programs that will address the needs of member; and </li>
+    		<li>Collect CETF and other dues from its members</li>
     	</ol>
     </div>
   </div>
@@ -731,7 +785,7 @@
         <li>Shares or debentures or securities; </li>
     		<li>Any reputable bank in the locality or any tertiary federation of which it is a member and cooperative banks; </li>
     		<li> Securities issued or guaranteed by Government; </li>
-    		<li>Real Estate primarily for the use of the Cooperative Union or its affiliates; or </li>
+    		<li>Real Estate primarily for the use of the Cooperative Union or its members; or </li>
     		<li>In any other manner approved by the General Assembly. </li>
     	</ol>
     </div>
@@ -768,7 +822,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article XI<br>Ammendments</p>
+        <p class="font-weight-bold">Article XI<br>Amendments</p>
     </div>
   </div>
   <div class="row mb-4">
@@ -784,87 +838,20 @@
         <table class="table table-bordered table-sm">
           <thead>
             <tr>
-              <th>Name of Affiliate</th>
+              <th>Name of Member</th>
               <th>Name of Representatives</th>
               <th>Signature</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
+            <?php $count=0; foreach($cooperators_list as $cooperator) :?>
+              <?=$count++;?>
+              <tr>
+                <td><?=$count.'. '.$cooperator['coopName']?></td>
+                <td><?=$cooperator['representative']?></td>
+                <td></td>
+              </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>
@@ -872,28 +859,111 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify mb-4" style="text-indent: 50px;">We, constituting the majority of the Board of Directors of the ______________________________________________________ do hereby certify that the foregoing instrument is the Code of By-laws of this Cooperative Union.</p>
+        <p class="text-justify mb-4" style="text-indent: 50px;">We, constituting the majority of the Board of Directors of the <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> do hereby certify that the foregoing instrument is the Code of By-laws of this Cooperative Union.</p>
         <p class="text-justify" style="text-indent: 50px;">Signed this _______ of __________, ___________, in ____________.</p>
     </div>
   </div>
-    <div class="row mb-4">
-      <div class="col-xs-12 text-center">
-        <p>____________________       ____________________</p>
-        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Chairpeson &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Vice-Chairperson</p>
+    <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="table-responsive text-center">
+        <table class="table table-borderless table-sm table-director">
+          <tbody>
+            <tr>
+              <td><b><?=$cooperator_chairperson->representative?></b><br>Chairperson</td>
+              <td><b><?=$cooperator_vicechairperson->representative?></b><br>Vice-Chairperson</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <div class="row mb-4">
-      <div class="col-xs-12 text-center">
-        <p>____________________ ____________________ ____________________</p>
-        <p>      Director &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Director &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Director</p>
+  </div>
+  <?php if(sizeof($cooperator_directors) >=3) :?>
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <div class="table-responsive text-center">
+          <table class="table table-borderless table-sm table-director">
+              <tr>
+                <td><b><?=$cooperator_directors[0]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[1]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[2]['representative']?></b><br>Director</td>
+              </tr>
+          </table>
+        </div>
       </div>
     </div>
-    <div class="row mb-4">
-      <div class="col-xs-12 text-center">
-        <p>____________________ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;____________________</p>
-        <p>      Director &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Director</p>
+  <?php endif;?>
+  <?php if(sizeof($cooperator_directors) >=5) :?>
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <div class="table-responsive text-center">
+          <table class="table table-borderless table-sm table-director">
+              <tr>
+                <td><b><?=$cooperator_directors[3]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[4]['representative']?></b><br>Director</td>
+              </tr>
+          </table>
+        </div>
       </div>
     </div>
+  <?php endif;?>
+  <?php if(sizeof($cooperator_directors) >=8) :?>
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <div class="table-responsive text-center">
+          <table class="table table-borderless table-sm table-director">
+              <tr>
+                <td><b><?=$cooperator_directors[5]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[6]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[7]['representative']?></b><br>Director</td>
+              </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  <?php endif;?>
+  <?php if(sizeof($cooperator_directors) >=10) :?>
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <div class="table-responsive text-center">
+          <table class="table table-borderless table-sm table-director">
+              <tr>
+                <td><b><?=$cooperator_directors[8]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[9]['representative']?></b><br>Director</td>
+              </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  <?php endif;?>
+  <?php if(sizeof($cooperator_directors) >=13) :?>
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <div class="table-responsive text-center">
+          <table class="table table-borderless table-sm table-director">
+              <tr>
+                <td><b><?=$cooperator_directors[10]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[11]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[12]['representative']?></b><br>Director</td>
+              </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  <?php endif;?>
+  <?php if(sizeof($cooperator_directors) >=15) :?>
+    <div class="row">
+      <div class="col-sm-12 col-md-12">
+        <div class="table-responsive text-center">
+          <table class="table table-borderless table-sm table-director">
+              <tr>
+                <td><b><?=$cooperator_directors[13]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[14]['representative']?></b><br>Director</td>
+              </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  <?php endif;?>
 </div>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

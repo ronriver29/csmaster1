@@ -10,8 +10,8 @@
   <div class="col-sm-12 col-md-12">
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_cooperators" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
     <h5 class="text-primary text-right">Add Cooperator</h5>
-  </div>
-</div>
+  </div> 
+</div> 
 <div class="row mt-3">
   <div class="col-sm-12 col-md-12"> 
     <div class="alert alert-info" role="alert">
@@ -32,7 +32,7 @@
       <div class="card-body">
         <div class="row">
           <input type="hidden" class="form-control" id="amd_id" name="amd_id" value="<?=$encrypted_id ?>">
-          <input type="hidden" class=="form-control" value="<?=$encrypted_coop_id?>" id="cooperative_id" name="cooperative_id"/>
+          <input type="hidden" class="form-control" value="<?=$encrypted_coop_id?>" id="cooperative_id" name="cooperative_id"/>
           <input type="hidden" class="form-control validate[required]" id="userID" name="userID" value="<?= $encrypted_user_id ?>">
           <input type='hidden' id='available_subscribed_capital' value="<?=isset($capitalization_info->total_no_of_subscribed_capital) ? $capitalization_info->total_no_of_subscribed_capital - $total_subscribed: ''?>" />
           <input type='hidden' id='available_paid_up_capital' value="<?=isset($capitalization_info->total_no_of_paid_up_capital) ? $capitalization_info->total_no_of_paid_up_capital - $total_paid: ''?>" />
@@ -123,12 +123,19 @@
                   <input type="text" class="form-control" name="streetName" id="streetName" placeholder="">
                 </div>
               </div>
-            <?php if($coop_info->area_of_operation == 'Barangay'){ ?>
+            <?php //if($coop_info->area_of_operation == 'Barangay'){ ?>
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="barangay">Barangay</label>
-                  <select class="custom-select validate[required]" disabled>
-                      <option value ="<?=$coop_info->bCode;?>"><?=$coop_info->brgy?></option>
+                  <select class="custom-select validate[required]" id="barangay" disabled>
+                       <?php
+                    foreach($list_of_brgys as $brgy_list)
+                    {
+                      ?>
+                      <option value="<?=$brgy_list['brgyCode']?>" <?=($brgy_list['brgyCode'] == $coop_info->bCode ? 'selected' :'')?>> <?=($brgy_list['brgyDesc'])?></option>
+                      <?php
+                    }
+                    ?>
                   </select>
                   <input type="hidden" class="form-control validate[required]" name="barangay" value="<?=$coop_info->bCode;?>">
                 </div>
@@ -136,22 +143,45 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
-                  <input class="form-control validate[required]" name="city" value="<?=$coop_info->city?>" disabled>
+                  <select class="custom-select validate[required]" name="city" id="city" disabled>
+                    <?php
+                    foreach($list_of_cities as $city_list)
+                    {
+                      ?>
+                      <option value="<?=$city_list['citymunCode']?>" <?=($city_list['citymunCode'] == $coop_info->cCode ?'selected' :'')?>><?=$city_list['citymunDesc']?></option>
+                      <?php
+                    }
+                    ?>
+                  </select>
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="province">Province</label>
-                  <input class="form-control validate[required]" name="province" value="<?=$coop_info->province?>" disabled>
+                   <select class="custom-select validate[required]" name="province" id="province" disabled>
+                    <?php
+                    foreach($list_of_provinces as $province_list)
+                    {
+                    ?>
+                     <option value="<?=$province_list['provCode']?>" <?=($province_list['provCode']== $coop_info->pCode? 'selected' : '')?>><?=$province_list['provDesc']?></option>
+                    <?php
+                    }
+                    ?>
+                  </select>
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="region">Region</label>
-                  <input class="form-control validate[required]" name="region" value="<?=$coop_info->region?>" disabled>
+                  <select class="custom-select validate[required]" name="region" id="region">
+                    <option value="" selected></option>
+                    <?php foreach ($regions_list as $region_list) : ?>
+                      <option value ="<?php echo $region_list['regCode'];?>" <?=($coop_info->rCode == $region_list['regCode'] ? 'selected' :'')?> ><?php echo $region_list['regDesc']?></option>
+                    <?php endforeach; ?>
+                  </select>
                 </div>
               </div>
-            <?php } elseif($coop_info->area_of_operation == 'Municipality/City') {?>
+            <?php /*} elseif($coop_info->area_of_operation == 'Municipality/City') {?>
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="barangay">Barangay</label>
@@ -217,7 +247,7 @@
                   </select>
                 </div>
               </div>
-            <?php } ?>
+            <?php } */?>
             </div>
           </div>
 

@@ -3,7 +3,7 @@
     <div class="modal fade" id="denyCooperativeModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="denyCooperativeModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <?php echo form_open('cooperatives/deny_cooperative',array('id'=>'denyCooperativeForm','name'=>'denyCooperativeForm')); ?>
+          <?php echo form_open('amendment/deny_cooperative',array('id'=>'denyCooperativeForm','name'=>'denyCooperativeForm')); ?>
             <div class="modal-header">
               <h4 class="modal-title" id="denyMemberModalLabel">Are you sure you want to deny this application?</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -16,11 +16,78 @@
                 Cooperative Name:<br>
                 <strong class="cooperative-name-text">test</strong> <strong></strong>
               </div>
-              <div class="form-group">
-                <label for="comment">State the reason/s:</label>
-                <pre><textarea class="form-control validate[required]" style="resize: none;" id="comment" name="comment" placeholder=""rows="8"><?php 
-                foreach($cds_comment as $cds){echo $cds['comment'].PHP_EOL;}foreach($senior_comment as $senior){echo $senior['comment'].PHP_EOL;}?></textarea></pre>
-              </div>
+              
+             <label class="font-weight-bold">Tools Additional Comments:</label>
+              <?php if($coop_info->status == 9)
+               {
+               ?>
+
+                <pre><textarea class="form-control" rows="4" style="resize: none;text-align: left;padding:0px;margin-bottom:40px;" name="tool_findings"><?php echo $tool_findings; ?></textarea></pre>
+               <?php
+               }
+               else
+               {
+                ?>
+                  <pre><textarea class="form-control" rows="4" style="resize: none;text-align: left;padding:0px;margin-bottom:40px;" name= "tool_findings"><?php if(strlen($coop_info->tool_findings)>0){echo $coop_info->tool_findings;}?></textarea></pre>
+                <?php
+               }
+               ?>
+             
+              <table class="table"  with="100%">
+                <thead>
+                  <tr>
+                    <th style="border:1px solid black;">Documents</th>
+                    <th style="border:1px solid black;">Findings</th>
+                    <th style="border:1px solid black;">Recommended Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="border:1px solid black;padding-top:5px;">
+                     
+                      <div class="form-group">
+                              <pre><textarea class="form-control " style="resize: none;" id="comment" name="documents" placeholder=""rows="8"><?php
+                              if($coop_info->status!=3)
+                              {
+                                if(is_array($senior_comment) && count($senior_comment)>0):
+                                foreach($senior_comment as $cc) :echo $cc['documents']."\n";  endforeach;       
+                                endif;
+                              }    
+                          ?> </textarea></pre>
+                        </div>
+                    </td>
+                    <td style="border:1px solid black;padding-top:5px;">
+                        <div class="form-group">
+                              <pre><textarea class="form-control " style="resize: none;" id="comment" name="comment" placeholder=""rows="8"><?php
+                              if($coop_info->status!=3)
+                              {
+                                if(is_array($senior_comment) && count($senior_comment)>0):
+                                // echo'CDS COMMENT :'.PHP_EOL;
+                                foreach($senior_comment as $cc) :
+                                  echo $cc['comment']."\n";  
+                                endforeach;       
+                                endif;
+                              } 
+                               
+                          ?> </textarea></pre>
+                        </div>
+                    </td>
+                    <td style="border:1px solid black;padding-top:5px;">
+                        <div class="form-group">
+                              <pre><textarea class="form-control " style="resize: none;" id="comment" name="recomended_action" placeholder=""rows="8"><?php
+                                if(is_array($senior_comment) && count($senior_comment)>0):
+                                // echo'CDS COMMENT :'.PHP_EOL;
+                                foreach($senior_comment as $cc) :
+                                  echo $cc['rec_action'].PHP_EOL;  
+                                endforeach;  
+                                  endif;                           
+                          ?>  
+                                </textarea></pre>
+                        </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
             <div class="modal-footer denyCooperativeFooter">
               <input class="btn btn-color-blue" type="submit" id="denyCooperativeBtn" name="denyCooperativeBtn" value="Deny">

@@ -15,6 +15,12 @@ class Bylaw_model extends CI_Model{
     return $query->row();
   }
 
+  public function get_bylaw_by_coop_id_amend($coop_id){
+    $data = $this->security->xss_clean($coop_id);
+    $query = $this->db->get_where('amendment_bylaws',array('amendment_id'=>$data));
+    return $query->row();
+  }
+
   public function update_bylaw_primary($bylaw_coop_id,$bylaw_info){
     $bylaw_coop_id = $this->security->xss_clean($bylaw_coop_id);
     $bylaw_info = $this->security->xss_clean($bylaw_info);
@@ -43,6 +49,28 @@ class Bylaw_model extends CI_Model{
         return false;
       }
     }else{
+      if($counter<=13){
+        return true;
+      }else{
+        return false;
+      }
+    }
+  }
+
+  public function check_bylaw_primary_complete_amend($bylaw_coop_id){
+    $counter = 0;
+    $query = $this->db->get_where('amendment_bylaws',array('amendment_id'=>$bylaw_coop_id));
+    $data = $query->row();
+    foreach ($data as $key => $value){
+      if(empty($value)) $counter++;
+    }
+    if($data->kinds_of_members==1){
+      if($counter<=13){
+        return true;
+      }else{
+        return false;
+      }
+    }else{
       if($counter<=11){
         return true;
       }else{
@@ -59,13 +87,13 @@ class Bylaw_model extends CI_Model{
       if(empty($value)) $counter++;
     }
     if($data->kinds_of_members==1){
-      if($counter<=22){
+      if($counter<=25){
         return true;
       }else{
         return false;
       }
     }else{
-      if($counter<=22){
+      if($counter<=23){
         return true;
       }else{
         return false;

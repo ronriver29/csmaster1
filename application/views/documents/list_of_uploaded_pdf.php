@@ -64,7 +64,7 @@
                 <td>
                 	 
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                  	<a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>laboratories/<?=$encrypted_id?>/laboratories_documents/view_document_one_lab/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
+                  	<a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
                     <?php $array_status = array(1,11); ?>
                     <?php if(($is_client) && in_array($coop_info->status,$array_status)): ?>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePDFModal" data-doctypess="<?=$row['document_num']?>" data-coopid="<?= $encrypted_id ?>" data-comname="<?=$row['filename']?>" data-fname="<?=$row['filename']?>" data-pdfid="<?= encrypt_custom($this->encryption->encrypt($row['id']))?>"><i class='fas fa-trash'></i> Delete</button>

@@ -25,7 +25,7 @@ class Bylaws extends CI_Controller{
               if($data['coop_info']->grouping =="Federation"){
                 redirect('cooperatives/'.$id.'/bylaws_federation');
               }else 
-                  if($data['coop_info']->grouping =="Union"){
+                  if($data['coop_info']->grouping =="Union" && $data['coop_info']->type_of_cooperative == 'Union'){
                 redirect('cooperatives/'.$id.'/bylaws_union');
               }else{
                 redirect('cooperatives/'.$id.'/bylaws_primary');
@@ -40,14 +40,16 @@ class Bylaws extends CI_Controller{
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
-          }else if($this->session->userdata('access_level')!=1){
-            redirect('cooperatives');
-          }else{
+          }
+          // else if($this->session->userdata('access_level')!=1){
+          //   redirect('cooperatives');
+          // }
+          else{
             if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
               if($data['coop_info']->grouping =="Federation"){
                 redirect('cooperatives/'.$id.'/bylaws_federation');
-              }else if($data['coop_info']->grouping =="Union"){
+              }else if($data['coop_info']->grouping =="Union" && $data['coop_info']->type_of_cooperative == 'Union'){
                 redirect('cooperatives/'.$id.'/bylaws_union');
               }else{
                 redirect('cooperatives/'.$id.'/bylaws_primary');
@@ -84,6 +86,9 @@ class Bylaws extends CI_Controller{
                   $data['encrypted_id'] = $id;
                   $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
                   $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                  $data['add_membership'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->additional_requirements_for_membership);
+                  $data['delegate_power'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->delegate_powers);
+                  $data['primary_consideration'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->primary_consideration);
                   $data['reg_qualifications'] = explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->regular_qualifications);
                   $data['asc_qualifications'] = explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->associate_qualifications);
                   $this->load->view('template/header', $data);
@@ -130,11 +135,11 @@ class Bylaws extends CI_Controller{
                       $additionaldelegatePowers = substr_replace($additionaldelegatePowers, "", -1);
                     }
                     
-                    if($this->input->post('primaryConsideration')){
-                      $regQualificationsLength = sizeof($this->input->post('primaryConsideration'));
+                    if($this->input->post('additionalPrimaryConsideration')){
+                      $regQualificationsLength = sizeof($this->input->post('additionalPrimaryConsideration'));
                       $primaryConsideration = '';
                       for($i = 0; $i< $regQualificationsLength;$i++){
-                        $primaryConsideration .=  $this->input->post('additionalRequirementsForMembership')[$i].';';
+                        $primaryConsideration .=  $this->input->post('additionalPrimaryConsideration')[$i].';';
                         }
                       $primaryConsideration = substr_replace($primaryConsideration, "", -1);
                     }
@@ -171,12 +176,12 @@ class Bylaws extends CI_Controller{
 //                      'non_member_patron_years'=> $this->input->post('nonMemberPatronYears'),
 //                      'amendment_votes_members_with'=> $this->input->post('amendmentMembersWith'),
                     );
-                    if($this->bylaw_model->update_bylaw_primary($bylaw_coop_id,$data)){
+                    if($this->bylaw_model->update_bylaw_primary($decoded_id,$data)){
                       $this->session->set_flashdata('bylaw_success', 'Successfully Updated');
-                      redirect('cooperatives/'.$this->input->post('bylaw_coop_id').'/bylaws_union');
+                      redirect('cooperatives/'.$id.'/bylaws_union');
                     }else{
                       $this->session->set_flashdata('bylaw_error', 'Unable to update bylaws');
-                      redirect('cooperatives/'.$this->input->post('bylaw_coop_id').'/bylaws_union');
+                      redirect('cooperatives/'.$id.'/bylaws_union');
                     }
                   }else{
                     $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
@@ -196,11 +201,9 @@ class Bylaws extends CI_Controller{
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
-          }else if($this->session->userdata('access_level')!=1){
-            redirect('cooperatives');
           }else{
             if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
-              if($this->cooperatives_model->get_cooperative_info_by_admin($decoded_id)->category_of_cooperative =="Primary"){
+              // if($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->grouping == "Union"){
                 if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                   if($this->form_validation->run() == FALSE){
                     $data['title'] = 'By Laws';
@@ -211,6 +214,9 @@ class Bylaws extends CI_Controller{
                     $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                     $data['reg_qualifications'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->regular_qualifications);
                     $data['asc_qualifications'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->associate_qualifications);
+                    $data['add_membership'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->additional_requirements_for_membership);
+                    $data['delegate_power'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->delegate_powers);
+                    $data['primary_consideration'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->primary_consideration);
                     $this->load->view('templates/admin_header', $data);
                     $this->load->view('cooperative/bylaw_info/bylaw_union_form.php', $data);
                     $this->load->view('templates/admin_footer');
@@ -270,10 +276,10 @@ class Bylaws extends CI_Controller{
                       );
                       if($this->bylaw_model->update_bylaw_primary($bylaw_coop_id,$data)){
                         $this->session->set_flashdata('bylaw_success', 'Successfully Updated');
-                        redirect('cooperatives/'.$this->input->post('bylaw_coop_id').'/bylaws_union');
+                        redirect('cooperatives/'.$this->input->post('bylaw_coop_id').'/union');
                       }else{
                         $this->session->set_flashdata('bylaw_error', 'Unable to update bylaws');
-                        redirect('cooperatives/'.$this->input->post('bylaw_coop_id').'/bylaws_union');
+                        redirect('cooperatives/'.$this->input->post('bylaw_coop_id').'/union');
                       }
                     }
                   }
@@ -281,9 +287,9 @@ class Bylaws extends CI_Controller{
                   $this->session->set_flashdata('redirect_applications_message', 'Viewing and editing the bylaws of the cooperative are not avaiable because it is not yet submitted for evaluation.');
                   redirect('cooperatives');
                 }
-              }else{
-                redirect('cooperatives/'.$id.'/bylaws');
-              }
+              // }else{
+              //   redirect('cooperatives/'.$id.'/bylaws');
+              // }
             }else{
               $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
               redirect('cooperatives');
@@ -451,8 +457,6 @@ class Bylaws extends CI_Controller{
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
-          }else if($this->session->userdata('access_level')!=1){
-            redirect('cooperatives');
           }else{
             if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
               if($this->cooperatives_model->get_cooperative_info_by_admin($decoded_id)->grouping =="Federation"){
@@ -567,7 +571,7 @@ class Bylaws extends CI_Controller{
         if($this->session->userdata('client')){
           if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
             if(!$this->cooperatives_model->check_expired_reservation($decoded_id,$user_id)){
-              if($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Primary"){
+              if($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Primary" || ($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->grouping == "Union" && $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->type_of_cooperative != "Union")){
                 $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                 if($this->form_validation->run() == FALSE){
                   $data['title'] = 'By Laws';
@@ -723,9 +727,11 @@ class Bylaws extends CI_Controller{
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
-          }else if($this->session->userdata('access_level')!=1){
-            redirect('cooperatives');
-          }else{
+          }
+          // else if($this->session->userdata('access_level')!=1){
+          //   redirect('cooperatives');
+          // }
+          else{
             if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
               if($this->cooperatives_model->get_cooperative_info_by_admin($decoded_id)->category_of_cooperative =="Primary"){
                 if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
@@ -853,6 +859,24 @@ class Bylaws extends CI_Controller{
         );
 //        $result = $this->bylaw_model->check_minimum_regular_subscription($data);
         $result = $this->capitalization_model->check_minimum_regular_subscription($data);
+        echo json_encode($result);
+      }else{
+        show_404();
+      }
+    }
+  }
+  public function check_minimum_regular_subscription2(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('users/login');
+    }else{
+      if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('cooperativesID')){
+        $data = array(
+          'fieldId'=>$this->input->get('fieldId'),
+          'fieldValue'=>$this->input->get('fieldValue'),
+          'coop_id'=>$this->input->get('cooperativesID')
+        );
+//        $result = $this->bylaw_model->check_minimum_regular_subscription($data);
+        $result = $this->capitalization_model->check_minimum_regular_subscription2($data);
         echo json_encode($result);
       }else{
         show_404();

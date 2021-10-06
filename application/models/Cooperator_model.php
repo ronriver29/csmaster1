@@ -354,8 +354,8 @@ public $last_query = "";
     }else{
       if ($this->checkname_not_id($cooperator_id, $cooperator_info['full_name'], $data->cooperatives_id)) {
         if(strcmp($cooperator_info['position'], 'Chairperson')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name']) < 1){
-            if($this->check_directors_not_max($data->cooperatives_id)){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name']) <= 1){
+            // if($this->check_directors_not_max_edit($data->cooperatives_id <= 1)){
               $this->db->trans_begin();
               $this->db->where('id', $cooperator_id);
               $this->db->update('cooperators',$cooperator_info);
@@ -368,15 +368,15 @@ public $last_query = "";
                 $this->db->trans_commit();
                 return array('success'=>true,'message'=>'Cooperator has been successfully updated');
               }
-            }else{
-              return array('success'=>false,'message'=>'Maximum of 15 directors');
-            }
+            // }else{
+            //   return array('success'=>false,'message'=>'Maximum of 15 directors');
+            // }
           }else{
             return array('success'=>false,'message'=>'Only one Chairperson is allowed');
           }
         }else if(strcmp($cooperator_info['position'], 'Vice-Chairperson')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name']) < 1){
-            if($this->check_directors_not_max($data->cooperatives_id)){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name']) <= 1){
+            // if($this->check_directors_not_max_edit($data->cooperatives_id <= 1)){
               $this->db->trans_begin();
               $this->db->where('id', $cooperator_id);
               $this->db->update('cooperators',$cooperator_info);
@@ -389,14 +389,14 @@ public $last_query = "";
                 $this->db->trans_commit();
                 return array('success'=>true,'message'=>'Cooperator has been successfully updated');
               }
-            }else{
-              return array('success'=>false,'message'=>'Maximum of 15 directors');
-            }
+            // }else{
+            //   return array('success'=>false,'message'=>'Maximum of 15 directors');
+            // }
           }else{
             return array('success'=>false,'message'=>'Only one Vice-Chairperson is allowed');
           }
         }else if(strcmp($cooperator_info['position'],'Board of Director')===0){
-          if($this->check_directors_not_max($data->cooperatives_id) < 1){
+          if($this->check_directors_not_max_edit($data->cooperatives_id) < 1){
             $this->db->trans_begin();
             $this->db->where('id', $cooperator_id);
             $this->db->update('cooperators',$cooperator_info);
@@ -413,7 +413,7 @@ public $last_query = "";
             return array('success'=>false,'message'=>'Maximum of 15 directors');
           }
         }else if(strcmp($cooperator_info['position'], 'Treasurer')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name']) < 1){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name']) <= 1){
             $this->db->trans_begin();
             $this->db->where('id', $cooperator_id);
             $this->db->update('cooperators',$cooperator_info);
@@ -430,7 +430,7 @@ public $last_query = "";
             return array('success'=>false,'message'=>'Only one Treasurer is allowed');
           }
         }else if(strcmp($cooperator_info['position'],'Secretary')===0){
-          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name']) < 1){
+          if($this->check_position_not_exists($data->cooperatives_id,$cooperator_info['position'],$cooperator_info['full_name']) <= 1){
             $this->db->trans_begin();
             $this->db->where('id', $cooperator_id);
             $this->db->update('cooperators',$cooperator_info);
@@ -687,6 +687,22 @@ $this->last_query = $this->db->last_query();
     $data = $query->result_array();
     return $data;
   }
+
+  public function get_all_cooperator_of_coop_regular_amend($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->select('amendment_cooperators.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region');
+    $this->db->from('amendment_cooperators');
+    $this->db->join('refbrgy','refbrgy.brgycode=amendment_cooperators.addrCode','left');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','left');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','left');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','left');
+    $this->db->where('type_of_member = "Regular" AND amendment_id = '.$cooperatives_id.'');
+    $this->db->order_by('full_name','asc');
+    $query=$this->db->get();
+$this->last_query = $this->db->last_query();
+    $data = $query->result_array();
+    return $data;
+  }
   
   public function get_all_cooperator_of_coop_board($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
@@ -737,6 +753,12 @@ $this->last_query = $this->db->last_query();
     $data = $query->row();
     return $data;
   }
+  public function get_chairperson_of_coop_amend($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $query = $this->db->get_where('amendment_cooperators',array('amendment_id' => $cooperatives_id,'position'=>'Chairperson'));
+    $data = $query->row();
+    return $data;
+  }
   public function get_all_board_of_director_only($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $query = $this->db->get_where('cooperators',array('cooperatives_id' => $cooperatives_id,'position'=>'Board of Director'));
@@ -749,9 +771,21 @@ $this->last_query = $this->db->last_query();
     $data = $query->row();
     return $data;
   }
+  public function get_vicechairperson_of_coop_amend($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $query = $this->db->get_where('amendment_cooperators',array('amendment_id' => $cooperatives_id,'position'=>'Vice-Chairperson'));
+    $data = $query->row();
+    return $data;
+  }
   public function get_treasurer_of_coop($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $query = $this->db->get_where('cooperators',array('cooperatives_id' => $cooperatives_id,'position'=>'Treasurer'));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_treasurer_of_coop_amend($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $query = $this->db->get_where('amendment_cooperators',array('amendment_id' => $cooperatives_id,'position'=>'Treasurer'));
     $data = $query->row();
     return $data;
   }
@@ -776,9 +810,28 @@ $this->last_query = $this->db->last_query();
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $cooperatives_id = join(',',$cooperatives_id);  
     $this->db->select('*');
-    $this->db->from('cooperators');
-    $this->db->where('cooperatives_id IN ('.$cooperatives_id.') AND position != "Chairperson" AND type_of_member != "Associate" AND id NOT IN (SELECT cooperators_id FROM committees_federation WHERE user_id ='.$user_id.')');
-    $this->db->order_by('full_name','asc');
+    $this->db->from('affiliators');
+    $this->db->where('user_id ='.$user_id);
+    $this->db->order_by('representative','asc');
+    $query=$this->db->get();
+    $this->last_query = $this->db->last_query();
+    $data = $query->result_array();
+    return $data;
+    
+//    $cooperatives_id = join(',',$cooperatives_id);  
+//    $this->db->order_by('full_name','asc');
+//    $query = $this->db->get_where('cooperators','cooperatives_id IN ('.$cooperatives_id.') AND position != "Chairperson" AND type_of_member != "Associate"');
+//    $data = $query->result_array();
+//    return $data;
+  }
+
+  public function get_all_cooperator_of_coop_for_committee_union($cooperatives_id,$user_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $cooperatives_id = join(',',$cooperatives_id);  
+    $this->db->select('*');
+    $this->db->from('unioncoop');
+    $this->db->where('user_id ='.$user_id);
+    $this->db->order_by('representative','asc');
     $query=$this->db->get();
     $this->last_query = $this->db->last_query();
     $data = $query->result_array();
@@ -1001,6 +1054,52 @@ $this->last_query = $this->db->last_query();
     $data = $query->result_array();
     return $data;
   }
+  public function get_total_regular_amend($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->select('SUM(number_of_subscribed_shares) as total_subscribed, SUM(number_of_paid_up_shares) as total_paid');
+    $query = $this->db->get_where('amendment_cooperators',array('amendment_id' => $cooperatives_id,'type_of_member'=>'Regular'));
+    $data = $query->row();
+    //    $query2 = $this->db->get_where('articles_of_cooperation',array('cooperatives_id' => $cooperatives_id));
+//    $article = $query2->row();
+    $query2 = $this->db->get_where('amendment_capitalization',array('amendment_id' => $cooperatives_id));
+    $capitalization_info = $query2->row();
+    $capitalization_no_of_subscribed = 0;
+    $capitalization_no_of_paid = 0;
+    
+    // Jiee
+        $this->db->where(array('amendment_id' => $cooperatives_id));
+        $this->db->from('amendment_capitalization');
+        if($this->db->count_all_results()==0){
+          $capitalization_no_of_subscribed = 0;
+        $capitalization_no_of_paid = 0;
+        }else{
+          $capitalization_no_of_subscribed = $capitalization_info->total_no_of_subscribed_capital;
+        $capitalization_no_of_paid = $capitalization_info->total_no_of_paid_up_capital;
+        }
+    //
+    
+    $totalSubscribed = 0;
+    $totalPaid = 0;
+    
+    $totalPaid = ($data->total_paid==null) ? 0 : $data->total_paid;
+    $totalSubscribed = ($data->total_subscribed==null) ? 0 : $data->total_subscribed;
+//    $totalSubscribed = $data->total_subscribed;
+//    $totalPaid = $data->total_paid;
+    return array('total_subscribed' => $totalSubscribed,'total_paid'=> $totalPaid, 'capitalization_no_of_subscribed'=>$capitalization_no_of_subscribed, 'capitalization_no_of_paid'=>$capitalization_no_of_paid);
+  }
+  public function get_total_associate_amend($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->select('SUM(number_of_subscribed_shares) as total_subscribed, SUM(number_of_paid_up_shares) as total_paid');
+    $query = $this->db->get_where('amendment_cooperators',array('amendment_id' => $cooperatives_id,'type_of_member'=>'Associate'));
+    $data = $query->row();
+    $query2 = $this->db->get_where('amendment_articles_of_cooperation',array('amendment_id' => $cooperatives_id));
+    $article = $query2->row();
+    $totalSubscribed = 0;
+    $totalPaid = 0;
+    $totalSubscribed = ($data->total_subscribed==null) ? 0 : $data->total_subscribed;
+    $totalPaid = ($data->total_paid==null) ? 0 : $data->total_paid;
+    return array('total_subscribed' => $totalSubscribed,'total_paid'=> $totalPaid);
+  }
   public function get_total_regular($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $this->db->select('SUM(number_of_subscribed_shares) as total_subscribed, SUM(number_of_paid_up_shares) as total_paid');
@@ -1109,7 +1208,19 @@ $this->last_query = $this->db->last_query();
     $this->db->where_in('position', $position);
     $this->db->from('cooperators');
     $count = $this->db->count_all_results();
-    if($count<15){
+    if($count<14){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  public function check_directors_not_max_edit($cooperatives_id){
+    $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
+    $this->db->where('cooperatives_id',$cooperatives_id);
+    $this->db->where_in('position', $position);
+    $this->db->from('cooperators');
+    $count = $this->db->count_all_results();
+    if($count>14){
       return true;
     }else{
       return false;
@@ -1156,7 +1267,7 @@ $this->last_query = $this->db->last_query();
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','left');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','left');
     $this->db->where('laboratories_cooperators.laboratory_id', $laboratory_id);
-    $this->db->order_by('full_name','asc');
+    $this->db->order_by('laboratories_cooperators.created_at','ASC');
     $query=$this->db->get();
     $this->last_query = $this->db->last_query();
     $data = $query->result_array();

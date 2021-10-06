@@ -115,29 +115,6 @@
               </div>
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
-                  <label for="barangay">Barangay</label>
-                  <input type="hidden" class="custom-select validate[required]" name="barangay2" id="barangay2">
-                  <input type="hidden" class="custom-select validate[required]" name="barangay" id="barangay2">
-                  <select class="custom-select validate[required]" name="barangay" id="barangay" readonly>
-                  </select>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-4">
-                <div class="form-group">
-                  <label for="city">City/Municipality</label>
-                  <select class="custom-select validate[required]" name="city" id="city" readonly>
-                  </select>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-4">
-                <div class="form-group">
-                  <label for="province">Province</label>
-                  <select class="custom-select validate[required]" name="province" id="province" readonly>
-                  </select>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-4">
-                <div class="form-group">
                   <label for="region">Region</label>
                   <select class="custom-select validate[required]" name="region" id="region">
                     <option value="" selected></option>
@@ -150,6 +127,29 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <input type="hidden" class="custom-select validate[required]" name="region2" id="region">
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4">
+                <div class="form-group">
+                  <label for="province">Province</label>
+                  <select class="custom-select validate[required]" name="province" id="province" readonly>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4">
+                <div class="form-group">
+                  <label for="city">City/Municipality</label>
+                  <select class="custom-select validate[required]" name="city" id="city" readonly>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4">
+                <div class="form-group">
+                  <label for="barangay">Barangay</label>
+                  <input type="hidden" class="custom-select validate[required]" name="barangay2" id="barangay2">
+                  <input type="hidden" class="custom-select validate[required]" name="barangay" id="barangay2">
+                  <select class="custom-select validate[required]" name="barangay" id="barangay" readonly>
+                  </select>
                 </div>
               </div>
             </div>

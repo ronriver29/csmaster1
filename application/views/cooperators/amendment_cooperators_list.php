@@ -1,6 +1,6 @@
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
-    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back </a>
     <h5 class="text-primary text-right">
       <?php if($is_client): ?>
       Step 4
@@ -74,6 +74,7 @@
         <?php if(!$minimum_associate_pay) echo '<li>Please update all associate member whose number of paid shares not greater than or equal to <strong>'.$capitalization_info->minimum_paid_up_share_associate.'</strong></li>';?>
       <?php endif; //kinds of membership ?>
         <!-- end associate -->
+       
         <?php if(isset($capitalization_info->total_no_of_subscribed_capital) ) : ?>
             <?php if($bylaw_info->kinds_of_members ==2) : ?>
                 <li>The total subscribed shares of all cooperator should be <strong><?= $capitalization_info->total_no_of_subscribed_capital?></strong>. (Current Total Subscribed Share: <strong><?= ($total_regular['total_subscribed']+$total_associate['total_subscribed']) ?></strong>)</li>
@@ -108,10 +109,10 @@
 <?php if(($is_client && $coop_info->status<=1) || (($coop_info->status==11))): ?>
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
    <?php if(isset($capitalization_info->total_no_of_subscribed_capital) && ($capitalization_info->total_no_of_subscribed_capital > $total_subscribed) || $capitalization_info->total_no_of_paid_up_capital > $total_paid || $list_cooperators_associate_count < $capitalization_info->associate_members) : ?>
-  
+      <?php if($count_matching): ?>  
         <a class="btn btn-color-blue btn-block" role="button"href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_cooperators/add" role="button"><i class="fas fa-plus"></i> Add Cooperator
       </a>
-   
+      <?php endif;//count matching?>
 
     
    <?php endif; ?>
@@ -151,7 +152,7 @@
                   <td><?= $cooperator['number_of_paid_up_shares']?></td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                      <button type="button" class="btn btn-info" data-fname="<?=$cooperator['full_name']?>" data-placeissuance="<?= $cooperator['place_of_issuance']?>" data-dateissued="<?= $cooperator['proof_date_issued']?>" data-valididno="<?= $cooperator['proof_of_identity_number']?>" data-validid="<?= $cooperator['proof_of_identity']?>" data-paid="<?= $cooperator['number_of_paid_up_shares']?>" data-subscribed="<?= $cooperator['number_of_subscribed_shares']?>" data-membertype="<?= $cooperator['type_of_member']?>" data-pos="<?= $cooperator['position']?>" data-paddress="<?= $cooperator['addrCode']?>" data-bdate="<?=$cooperator['birth_date']?>" data-gender="<?=$cooperator['gender']?>" data-toggle="modal" data-target="#fullInfoCooperatorModal" ><i class='fas fa-eye'></i> View</button>
+                      <button type="button" class="btn btn-info" data-fname="<?=$cooperator['full_name']?>" data-placeissuance="<?= $cooperator['place_of_issuance']?>" data-dateissued="<?= $cooperator['proof_date_issued']?>" data-valididno="<?= $cooperator['proof_of_identity_number']?>" data-validid="<?= $cooperator['proof_of_identity']?>" data-paid="<?= $cooperator['number_of_paid_up_shares']?>" data-subscribed="<?= $cooperator['number_of_subscribed_shares']?>" data-membertype="<?= $cooperator['type_of_member']?>" data-pos="<?= $cooperator['position']?>" data-paddress="<?= $cooperator['house_blk_no'].' '.$cooperator['streetName'].' '.$cooperator['brgy'].', '.$cooperator['city'].' '.$cooperator['province'].' '.$cooperator['region']?>" data-bdate="<?=$cooperator['birth_date']?>" data-gender="<?=$cooperator['gender']?>" data-toggle="modal" data-target="#fullInfoCooperatorModal" ><i class='fas fa-eye'></i> View</button>
                       <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
                         <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_cooperators/<?= encrypt_custom($this->encryption->encrypt($cooperator['id'])) ?>/edit" class="btn btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCooperatorModal" data-fname="<?=$cooperator['full_name']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($cooperator['id']))?>"><i class='fas fa-trash'></i> Delete</button>
@@ -204,8 +205,8 @@
                   <td><?= $cooperator['number_of_paid_up_shares']?></td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                      <button type="button" class="btn btn-info" data-fname="<?=$cooperator['full_name']?>" data-placeissuance="<?= $cooperator['place_of_issuance']?>" data-dateissued="<?= $cooperator['proof_date_issued']?>" data-valididno="<?= $cooperator['proof_of_identity_number']?>" data-validid="<?= $cooperator['proof_of_identity']?>" data-paid="<?= $cooperator['number_of_paid_up_shares']?>" data-subscribed="<?= $cooperator['number_of_subscribed_shares']?>" data-membertype="<?= $cooperator['type_of_member']?>" data-pos="<?= $cooperator['position']?>" data-paddress="<?= $cooperator['addrCode']?>" data-bdate="<?=$cooperator['birth_date']?>" data-gender="<?=$cooperator['gender']?>" data-toggle="modal" data-target="#fullInfoCooperatorModal" ><i class='fas fa-eye'></i> View</button>
-                      <?php if(($is_client && $coop_info->status<=1) || (!$is_client &&  $coop_info->status==3) || $coop_info->status==11): ?>
+                      <button type="button" class="btn btn-info" data-fname="<?=$cooperator['full_name']?>" data-placeissuance="<?= $cooperator['place_of_issuance']?>" data-dateissued="<?= $cooperator['proof_date_issued']?>" data-valididno="<?= $cooperator['proof_of_identity_number']?>" data-validid="<?= $cooperator['proof_of_identity']?>" data-paid="<?= $cooperator['number_of_paid_up_shares']?>" data-subscribed="<?= $cooperator['number_of_subscribed_shares']?>" data-membertype="<?= $cooperator['type_of_member']?>" data-pos="<?= $cooperator['position']?>" data-paddress="<?= $cooperator['house_blk_no'].' '.$cooperator['streetName'].' '.$cooperator['brgy'].', '.$cooperator['city'].' '.$cooperator['province'].' '.$cooperator['region']?>" data-bdate="<?=$cooperator['birth_date']?>" data-gender="<?=$cooperator['gender']?>" data-toggle="modal" data-target="#fullInfoCooperatorModal" ><i class='fas fa-eye'></i> View</button>
+                      <?php if(($is_client && $coop_info->status<=1) || ($coop_info->status==11)): ?>
                         <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_cooperators/<?= encrypt_custom($this->encryption->encrypt($cooperator['id'])) ?>/edit" class="btn btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCooperatorModal" data-fname="<?=$cooperator['full_name']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($cooperator['id']))?>"><i class='fas fa-trash'></i> Delete</button>
                       <?php endif;?>

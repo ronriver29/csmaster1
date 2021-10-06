@@ -24,7 +24,7 @@
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
 			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
-			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
+			<td style="text-align: center"><b>Republic of the Philippines<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
 	</table>
@@ -48,7 +48,7 @@ if ($branch_info->type=="Branch"){
 
 ?>
 <br/><br/>
-<table width=100% style="background-image: url(<?=APPPATH?>../assets/img/cda3.png); background-repeat: no-repeat; background-position: center;">
+<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda4.png); background-repeat: no-repeat; background-position: center;opacity: 0.2;">
 	<tr>
 		<td style="text-align: right; font-size: 12pt"><b><?= $certLabel?> of Authority No: <?= $branch_info->certNo ?></b></td>
 	</tr>
@@ -85,9 +85,23 @@ if ($branch_info->type=="Branch"){
                 } else if($branch_info->area_of_operation == 'Provincial') {
                     $branch_name = $branch_info->city;
                 } else if ($branch_info->area_of_operation == 'Regional') {
-                    $branch_name = $branch_info->city.', '.$branch_info->province;
+                    if($this->charter_model->in_charter_city($branch_info->cCode)){
+                      $branch_name = $branch_info->city;
+                    } else {
+                      $branch_name = $branch_info->city.', '.$branch_info->province;
+                    } 
+                } else if ($branch_info->area_of_operation == 'Interregional') {
+                    if($this->charter_model->in_charter_city($branch_info->cCode)){
+                      $branch_name = $branch_info->city;
+                    } else {
+                      $branch_name = $branch_info->city.', '.$branch_info->province;
+                    } 
                 } else if ($branch_info->area_of_operation == 'National') {
-                    $branch_name = $branch_info->city.', '.$branch_info->province;
+                    if($this->charter_model->in_charter_city($branch_info->cCode)){
+                      $branch_name = $branch_info->city;
+                    } else {
+                      $branch_name = $branch_info->city.', '.$branch_info->province;
+                    } 
                 }
             ?>
 		<td style="text-align: center; font-size: 20pt;"><b><?=$branch_name.' '.$branch_info->branchName.$certOffice?></b></td>
@@ -103,13 +117,13 @@ if ($branch_info->type=="Branch"){
 				$branchnostreet = $branch_info->house_blk_no.' '.$branch_info->street.$x;
 			}
 		?>
-		<td style="text-align: justify;">with address at <b><?= ucwords($branch_info->noStreet)?> <?= ucwords($branch_info->st).$x?> <?= $branch_info->brg?>, <?= $branch_info->municipality?>, <?= $branch_info->provins?>, <?= $branch_info->region?></b>, to confirm the establishment of a <?=$typ ?> at <b><?=$branchnostreet?> <?= $branch_info->brgy?> <?= $branch_info->city?>, <?= $branch_info->province?>, <?= $branch_info->region?></b> were presented for approval of the Authority on <b><?=date("F d, Y", strtotime($branch_info->date_approved_director)); ?></b> and that after having complied with the requirements under MC No. <?=$mcno?> dated <?=$mcdated?> is hereby <b>APPROVED</b>.</td>
+		<td style="text-align: justify;">with address at <b><?= ucwords($branch_info->noStreet)?> <?= ucwords($branch_info->st).$x?> <?= $branch_info->brg?> <?= $branch_info->municipality?>, <?= $branch_info->provins?>, <?= $branch_info->regun?></b>, to confirm the establishment of a <?=$typ ?> at <b><?=$branchnostreet?> <?= $branch_info->brgy?> <?= $branch_info->city?>, <?= $branch_info->province?>, <?= $branch_info->region?></b> were presented for approval of the Authority on <b><?=date("F d, Y", strtotime($branch_info->date_approved_director)); ?></b> and that after having complied with the requirements under MC No. <?=$mcno?> dated <?=$mcdated?> is hereby <b>APPROVED</b>.</td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		<td style="text-align: justify; ; text-indent: 40px;">This <?=$certLabel?> is hereby issued to enable the Cooperative to operate the new <?=$typ ?> pursuant to the pertinent Circular thereto and the powers of the Authority under <b>RA 6939</b>.</td>
+		<td style="text-align: justify; ; text-indent: 40px;">This <?=$certLabel?> is hereby issued to enable the Cooperative to operate the new <?=$typ ?> pursuant to the pertinent Circular thereto and the powers of the Authority under <b>RA 11364</b>.</td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
@@ -129,19 +143,44 @@ if ($branch_info->type=="Branch"){
 	</tr>
 	<tr>
 		<td rowspan="2"></td>
-		<td style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png">
+		<!-- <td style="text-align: center;padding-left:150px;"> 	
+			<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;">
 			<div class="text" style="margin-top:-92px;">
 				<p><?= $chair ?></p>
-				<p style="margin-top:-20px;">Chairman</p></div>
-		</td>
+				<p style="margin-top:-20px;">Chairman</p>
+			</div>
+		</td> -->
 
 	</tr>
 	
 	<tr>
 		<td><i style="color:white;">....</i></td>
 	</tr>
+
+	<tr>
+		<td><i style="color:white;">....</i></td>
+	</tr>
+
+	<tr>
+		<td><i style="color:white;">....</i></td>
+	</tr>
+
+	<tr>
+		<td><i style="color:white;">....</i></td>
+	</tr>
+
+	<tr>
+		<td><i style="color:white;">....</i></td>
+	</tr>
 </table>
+
+<div style="padding-top:-130px;padding-left:425px;float:left;">
+	<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;">
+</div>
+<div class="text" style="padding-top: -80px;width:400px;padding-left:500px;float:left;">
+	<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
+	<p style="font-size:12px;margin-top:-20px;padding-left:50px">Chairman</p>
+</div>
 
 <table width="100%" style="margin-top:<?=($branch_info->type=="Branch" ? '20px' :'0px')?>;">
 	<tr>
@@ -159,13 +198,13 @@ if ($branch_info->type=="Branch"){
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
 			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
-			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
+			<td style="text-align: center"><b>Republic of the Philippines<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
 	</table>
 
 <br/><br/>
-<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda3.png); background-repeat: no-repeat; background-position: center;">
+<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda4.png); background-repeat: no-repeat; background-position: center;opacity: 0.2;">
 	<tr>
 		<td style="text-align: right; font-size: 12pt"><b><?= $certLabel?> of Authority No: <?= $branch_info->certNo ?></b></td>
 	</tr>
@@ -216,11 +255,25 @@ if ($branch_info->type=="Branch"){
             <?php if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
                     $branch_name = $branch_info->brgy;
                 } else if($branch_info->area_of_operation == 'Provincial') {
-                    $branch_name = $branch_info->brgy;
+                    $branch_name = $branch_info->city;
                 } else if ($branch_info->area_of_operation == 'Regional') {
-                    $branch_name = $branch_info->city.', '.$branch_info->province;
+                    if($this->charter_model->in_charter_city($branch_info->cCode)){
+                      $branch_name = $branch_info->city;
+                    } else {
+                      $branch_name = $branch_info->city.', '.$branch_info->province;
+                    } 
+                } else if ($branch_info->area_of_operation == 'Interregional') {
+                    if($this->charter_model->in_charter_city($branch_info->cCode)){
+                      $branch_name = $branch_info->city;
+                    } else {
+                      $branch_name = $branch_info->city.', '.$branch_info->province;
+                    } 
                 } else if ($branch_info->area_of_operation == 'National') {
-                    $branch_name = $branch_info->city.', '.$branch_info->province;
+                    if($this->charter_model->in_charter_city($branch_info->cCode)){
+                      $branch_name = $branch_info->city;
+                    } else {
+                      $branch_name = $branch_info->city.', '.$branch_info->province;
+                    } 
                 }
             ?>
 		<td style="text-align: center; font-size: 20pt;"><b><?=$branch_name.' '.$branch_info->branchName.$certOffice?></b></td>
@@ -230,13 +283,13 @@ if ($branch_info->type=="Branch"){
 	</tr>
 
 	<tr>
-		<td style="text-align: justify;">with address at <b><?= ucwords($branch_info->noStreet)?> <?= ucwords($branch_info->st).$x?> <?= $branch_info->brg?>, <?= $branch_info->municipality?>, <?= $branch_info->provins?>, <?= $branch_info->region?></b>, to confirm the establishment of a <?=$typ ?> at <b><?=$branchnostreet?> <?= $branch_info->brgy?> <?= $branch_info->city?>, <?= $branch_info->province?>, <?= $branch_info->region?></b> were presented for approval of the Authority on <b><?=date("F d, Y", strtotime($branch_info->date_approved_director)); ?></b> and that after having complied with the requirements under MC No. <?=$mcno?> dated <?=$mcdated?> is hereby <b>APPROVED</b>.</td>
+		<td style="text-align: justify;">with address at <b><?= ucwords($branch_info->noStreet)?> <?= ucwords($branch_info->st).$x?> <?= $branch_info->brg?> <?= $branch_info->municipality?>, <?= $branch_info->provins?>, <?= $branch_info->regun?></b>, to confirm the establishment of a <?=$typ ?> at <b><?=$branchnostreet?> <?= $branch_info->brgy?> <?= $branch_info->city?>, <?= $branch_info->province?>, <?= $branch_info->region?></b> were presented for approval of the Authority on <b><?=date("F d, Y", strtotime($branch_info->date_approved_director)); ?></b> and that after having complied with the requirements under MC No. <?=$mcno?> dated <?=$mcdated?> is hereby <b>APPROVED</b>.</td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		<td style="text-align: justify; ; text-indent: 40px;">This <?=$certLabel?> is hereby issued to enable the Cooperative to operate the new <?=$typ ?> pursuant to the pertinent Circular thereto and the powers of the Authority under <b>RA 6939</b>.</td>
+		<td style="text-align: justify; ; text-indent: 40px;">This <?=$certLabel?> is hereby issued to enable the Cooperative to operate the new <?=$typ ?> pursuant to the pertinent Circular thereto and the powers of the Authority under <b>RA 11364</b>.</td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
@@ -256,18 +309,42 @@ if ($branch_info->type=="Branch"){
 	</tr>
 	<tr>
 		<td rowspan="2"></td>
-		<td style="text-align: center;padding-left:150px;"> 	
+		<!-- <td style="text-align: center;padding-left:150px;"> 	
 			<img src="<?=APPPATH?>../assets/img/1.png">
 			<div class="text" style="margin-top:-92px;">
 				<p><?= $chair ?></p>
 				<p style="margin-top:-20px;">Chairman</p></div>
-		</td>
+		</td> -->
 	</tr>
 	
 	<tr>
 		<td><i style="color:white;">....</i></td>
 	</tr>
+
+	<tr>
+		<td><i style="color:white;">....</i></td>
+	</tr>
+
+	<tr>
+		<td><i style="color:white;">....</i></td>
+	</tr>
+
+	<tr>
+		<td><i style="color:white;">....</i></td>
+	</tr>
+
+	<tr>
+		<td><i style="color:white;">....</i></td>
+	</tr>
 </table>	
+
+<div style="padding-top:-130px;padding-left:425px;float:left;">
+	<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;">
+</div>
+<div class="text" style="padding-top: -80px;width:400px;padding-left:500px;float:left;">
+	<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
+	<p style="font-size:12px;margin-top:-20px;padding-left:50px">Chairman</p>
+</div>
 
 <table width="100%" style="margin-top:<?=($branch_info->type=="Branch" ? '10px':'-10px')?>;">
 	<tr>
@@ -286,12 +363,12 @@ if ($branch_info->type=="Branch"){
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
 			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
-			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
+			<td style="text-align: center"><b>Republic of the Philippines<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
 	</table>
 <br/><br/>
-<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda3.png); background-repeat: no-repeat; background-position: center;">
+<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda4.png); background-repeat: no-repeat; background-position: center;opacity: 0.2;">
 	<tr>
 		<td style="text-align: right; font-size: 12pt"><b><?= $certLabel?> of Authority No: <?= $branch_info->certNo ?></b></td>
 	</tr>
@@ -342,11 +419,25 @@ if ($branch_info->type=="Branch"){
             <?php if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
                     $branch_name = $branch_info->brgy;
                 } else if($branch_info->area_of_operation == 'Provincial') {
-                    $branch_name = $branch_info->brgy;
+                    $branch_name = $branch_info->city;
                 } else if ($branch_info->area_of_operation == 'Regional') {
-                    $branch_name = $branch_info->city.', '.$branch_info->province;
+                    if($this->charter_model->in_charter_city($branch_info->cCode)){
+                      $branch_name = $branch_info->city;
+                    } else {
+                      $branch_name = $branch_info->city.', '.$branch_info->province;
+                    } 
+                } else if ($branch_info->area_of_operation == 'Interregional') {
+                    if($this->charter_model->in_charter_city($branch_info->cCode)){
+                      $branch_name = $branch_info->city;
+                    } else {
+                      $branch_name = $branch_info->city.', '.$branch_info->province;
+                    } 
                 } else if ($branch_info->area_of_operation == 'National') {
-                    $branch_name = $branch_info->city.', '.$branch_info->province;
+                    if($this->charter_model->in_charter_city($branch_info->cCode)){
+                      $branch_name = $branch_info->city;
+                    } else {
+                      $branch_name = $branch_info->city.', '.$branch_info->province;
+                    } 
                 }
             ?>
 		<td style="text-align: center; font-size: 20pt;"><b><?=$branch_name.' '.$branch_info->branchName.$certOffice?></b></td>
@@ -355,13 +446,13 @@ if ($branch_info->type=="Branch"){
 		<td><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		<td style="text-align: justify;">with address at <b><?= ucwords($branch_info->noStreet)?> <?= ucwords($branch_info->st).$x?> <?= $branch_info->brg?>, <?= $branch_info->municipality?>, <?= $branch_info->provins?>, <?= $branch_info->region?></b>, to confirm the establishment of a <?=$typ ?> at <b><?=$branchnostreet?> <?= $branch_info->brgy?> <?= $branch_info->city?>, <?= $branch_info->province?>, <?= $branch_info->region?></b> were presented for approval of the Authority on <b><?=date("F d, Y", strtotime($branch_info->date_approved_director)); ?></b> and that after having complied with the requirements under MC No. <?=$mcno?> dated <?=$mcdated?> is hereby <b>APPROVED</b>.</td>
+		<td style="text-align: justify;">with address at <b><?= ucwords($branch_info->noStreet)?> <?= ucwords($branch_info->st).$x?> <?= $branch_info->brg?> <?= $branch_info->municipality?>, <?= $branch_info->provins?>, <?= $branch_info->regun?></b>, to confirm the establishment of a <?=$typ ?> at <b><?=$branchnostreet?> <?= $branch_info->brgy?> <?= $branch_info->city?>, <?= $branch_info->province?>, <?= $branch_info->region?></b> were presented for approval of the Authority on <b><?=date("F d, Y", strtotime($branch_info->date_approved_director)); ?></b> and that after having complied with the requirements under MC No. <?=$mcno?> dated <?=$mcdated?> is hereby <b>APPROVED</b>.</td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		<td style="text-align: justify; ; text-indent: 40px;">This <?=$certLabel?> is hereby issued to enable the Cooperative to operate the new <?=$typ ?> pursuant to the pertinent Circular thereto and the powers of the Authority under <b>RA 6939</b>.</td>
+		<td style="text-align: justify; ; text-indent: 40px;">This <?=$certLabel?> is hereby issued to enable the Cooperative to operate the new <?=$typ ?> pursuant to the pertinent Circular thereto and the powers of the Authority under <b>RA 11364</b>.</td>
 	</tr>
 	<tr>
 		<td><i style="color:white;">....</i></td>
@@ -381,23 +472,47 @@ if ($branch_info->type=="Branch"){
 	</tr>
 	<tr>
 		<td rowspan="2"></td>
-		<td style="text-align: center;padding-left:150px;"> 	
+		<!-- <td style="text-align: center;padding-left:150px;"> 	
 			<img src="<?=APPPATH?>../assets/img/1.png">
 			<div class="text" style="margin-top:-92px;">
 				<p><?= $chair ?></p>
 				<p style="margin-top:-20px;">Chairman</p></div>
-		</td>
+		</td> -->
 	</tr>
 	
 	<tr>
 		<td><i style="color:white;">....</i></td>
 	</tr>
+
+	<tr>
+		<td><i style="color:white;">....</i></td>
+	</tr>
+
+	<tr>
+		<td><i style="color:white;">....</i></td>
+	</tr>
+
+	<tr>
+		<td><i style="color:white;">....</i></td>
+	</tr>
+
+	<tr>
+		<td><i style="color:white;">....</i></td>
+	</tr>
 </table>
+
+<div style="padding-top:-130px;padding-left:425px;float:left;">
+	<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;">
+</div>
+<div class="text" style="padding-top: -80px;width:400px;padding-left:500px;float:left;">
+	<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
+	<p style="font-size:12px;margin-top:-20px;padding-left:50px">Chairman</p>
+</div>
 
 <table width="100%" style="margin-top:<?=$branch_info->type=="Branch" ? '10px':'-10px'?>;">
 	<tr>
 		<td style="text-align:right;padding-right:45px;">
-			<img src="<?=QRCODE_DIR.$branch_info->certNo?>.png" width="100" height="100" style="float-right;"/>
+			<img src="<?=QRCODE_DIR?><?= $branch_info->certNo ?>.png" width="100" height="100" style="float-right;"/>
 		</td>
 	</tr>
 </table>

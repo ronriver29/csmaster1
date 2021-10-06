@@ -13,20 +13,17 @@
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700" rel="stylesheet" type="text/css">
   <style>
-  @page{margin: 96px 96px 70px 96px;}
+  @page{margin: 26px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   table, th, td {
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
   }
-<?php 
-if($coop_info->status == 12){
-?>
+
   body{
       /*font-family: 'Bookman Old Style'; font-size: 12px; */
        font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
-  <?php } ?>
 /*
 font-face {
     font-family: new_font;
@@ -49,23 +46,7 @@ font-face {
             $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);;     
         }
 </script>
-<?php 
-if($coop_info->status != 12){
-?>
-<style type="text/css">
-  #printPage
-{
-  margin-left: 450px;
-  padding: 0px;
-  width: 670px; / width: 7in; /
-  height: 900px; / or height: 9.5in; /
-  clear: both;
-  page-break-after: always;
-}
-</style>
-<a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
-<?php } ?>
-<div class="container-fluid text-monospace" id="printPage">
+<div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center"> 
         <p class="font-weight-bold"><b>TREASURER’S AFFIDAVIT</b></p>

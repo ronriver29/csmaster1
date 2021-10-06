@@ -11,8 +11,19 @@ class Regions extends CI_Controller{
 
   function index()
   {
-    $data = $this->region_model->get_regions();
-    echo json_encode($data);
+    // $data = $this->region_model->get_regions();
+    // echo json_encode($data);
+
+    if($this->input->method(TRUE)==="GET"){
+      $data = $this->region_model->get_regions();
+      echo json_encode($data);
+    }else if($this->input->method(TRUE)==="POST"){
+      $regions = $this->input->post('regions');
+      $regions = implode(',',$regions);
+      $data = $this->region_model->get_selected_regions($regions);
+      // echo $this->db->last_query();
+      echo json_encode($data);
+    }
   }
 
 }

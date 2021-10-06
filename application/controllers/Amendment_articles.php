@@ -130,13 +130,12 @@ class Amendment_articles extends CI_Controller{
                              $capitalinfo= $qry_capital->row();
                             }
                              $data['capitalization_info'] = $capitalinfo;
-                          // $this->debug($capitalinfo);
-                             // $this->debug($data['articles_info']);
+                          
                           $this->load->view('template/header', $data);
                           $this->load->view('amendment/articles_cooperation_info/articles_primary_form.php', $data);
                           $this->load->view('template/footer');
                         }else{ //true button submit
-                          if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
+                          if(!$this->amendment_model->check_submitted_for_evaluation_client($cooperative_id,$decoded_id)){
                             $article_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('article_coop_id')));
                             // $get_record = $this->db->where("amendment_id",$decoded_id)->get("amendment_articles_of_cooperation");
                             // if($get_record->num_rows()==0) {
@@ -197,9 +196,10 @@ class Amendment_articles extends CI_Controller{
               redirect('amendment');
             }
           }else{
+            $access_array = array(1,2);
             if($this->session->userdata('access_level')==5){
               redirect('admins/login');
-            }else if($this->session->userdata('access_level')!=1){
+            }else if(!in_array($this->session->userdata('access_level'),$access_array)){
               redirect('amendment');
             }else{
               if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){
@@ -253,7 +253,7 @@ class Amendment_articles extends CI_Controller{
                           }else{
                             if($this->amendment_model->check_first_evaluated($decoded_id)){
                               $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
-                              redirect('cooperatives');
+                              // redirect('cooperatives');
                             }else{
                               $article_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('article_coop_id')));
                               $get_record = $this->db->where("cooperatives_id",$decoded_id)->get("amendment_articles_of_cooperation");

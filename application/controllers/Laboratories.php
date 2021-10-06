@@ -67,16 +67,27 @@
                   $data['title'] = 'Update laboratory Details';
                   $data['header'] = 'Update laboratory Information';
                   $data['regions_list'] = $this->region_model->get_regions();
+
                   $data['branch_info'] = $this->laboratories_model->get_branch_info($user_id,$decoded_id);
                   $cooperative_info = $this->laboratories_model->coop_dtl($data['branch_info']->cooperative_id);
 
+                  if($cooperative_info->area_of_operation == 'Interregional'){
+                    $data['regions_list'] = $this->region_model->get_selected_regions($cooperative_info->regions);
+                  } else {
+                    $data['regions_list'] = $this->region_model->get_regions();
+                  }
+
+                  $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['branch_info']->rCode);
+                  $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['branch_info']->pCode);
+                  $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['branch_info']->bCode);
+                  
                   $data['major_industries_by_coop_type'] = $this->major_industry_model->get_major_industries_by_type_name($cooperative_info->type_of_cooperative);
                   // $this->debug( $data['major_industries_by_coop_type']);
                   $data['major_industry_list'] = $this->laboratories_model->get_all_major_industry($decoded_id);
                   $data['encrypted_id'] = $id;
                   $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
 
-                   $data['regions_list'] = $this->region_model->get_regions();
+                   // $data['regions_list'] = $this->region_model->get_regions();
 
                   $decrypted_lab_id= $this->encryption->decrypt(decrypt_custom($id));
                    $data['decrypt_id'] = $decrypted_lab_id;
@@ -202,6 +213,12 @@
           $data['list_laboratories'] = $this->laboratories_model->get_all_laboratories($this->session->userdata('user_id'));
 
           $data['coopreg_info'] = $this->laboratories_model->getCoopRegNo($user_id);
+
+          if($this->branches_model->check_if_amended($data['coopreg_info']->regNo)){
+            $data['coopreg_info'] = $this->laboratories_model->getCoopRegNoAmended($user_id);
+          } 
+
+          $data['last_query'] = $this->db->last_query();
           if(empty($data['coopreg_info'])){
               $data['gc'] = '';
           } else {
@@ -234,7 +251,7 @@
             }else if($this->session->userdata('access_level')==2){
               $data['registered_laboratories'] = $this->laboratories_model->get_registered_laboratories($data['admin_info']->region_code);
               $data['list_laboratories'] = $this->laboratories_model->get_all_laboratories_by_senior($data['admin_info']->region_code);
-              
+              $data['last'] = $this->db->last_query();
               $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
 
             }
@@ -274,6 +291,17 @@
               $data['regions_list'] = $this->region_model->get_regions();             
               $data['composition'] = $this->cooperatives_model->get_composition();
               $data['coopreg_info'] = $this->laboratories_model->getCoopRegNo($user_id);
+              
+              if($data['coopreg_info']->area_of_operation == 'Interregional'){
+                $data['regions_list'] = $this->region_model->get_selected_regions($data['coopreg_info']->regions);
+              } else {
+                $data['regions_list'] = $this->region_model->get_regions();
+              }
+
+              $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coopreg_info']->rCode);
+              $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coopreg_info']->pCode);
+              $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coopreg_info']->bCode);
+
 //              if(!empty($data['coopreg_info'])){
 //                  $data['regno'] = '';
 //              } else {
@@ -415,6 +443,10 @@
           // $this->count_documents_others($Cooperative_id,25);
           $data['Manual_of_board'] = $this->docUpload( $Cooperative_id ,$decoded_id,25);
           $data['Board_of_resolution'] = $this->docUpload($Cooperative_id ,$decoded_id,26);
+          $data['Other_requirements'] = $this->docUpload($Cooperative_id ,$decoded_id,42);
+          $data['document_others_lab'] = $this->uploaded_document_model->get_document_42_info($decoded_id,$Cooperative_id);
+          $data['last_query'] = $this->db->last_query();
+
      
           $this->load->view('template/header', $data);
           $this->load->view('laboratories/upload_documents', $data);
@@ -638,11 +670,11 @@
           if($this->session->userdata('client')){
             if($this->laboratories_model->check_own_branch($decoded_id,$user_id)){
               
-                $branch_info = $this->laboratories_model->get_branch_info($user_id,$decoded_id);
-                $document_5 = $this->uploaded_document_model->get_document_5_info($decoded_id,$branch_info->application_id);
-                $document_6 = $this->uploaded_document_model->get_document_6_info($decoded_id,$branch_info->application_id);
-                $document_7 = $this->uploaded_document_model->get_document_7_info($decoded_id,$branch_info->application_id);
-                $same= ($branch_info->rCode=='0'+substr($branch_info->mainAddr, 0,2)) ? 8: 2;
+                $lab_info = $this->laboratories_model->get_branch_info($user_id,$decoded_id);
+                $document_5 = $this->uploaded_document_model->get_document_5_info($decoded_id,$lab_info->application_id);
+                $document_6 = $this->uploaded_document_model->get_document_6_info($decoded_id,$lab_info->application_id);
+                $document_7 = $this->uploaded_document_model->get_document_7_info($decoded_id,$lab_info->application_id);
+                $same= ($lab_info->rCode=='0'+substr($lab_info->mainAddr, 0,2)) ? 8: 2;
                 
 //                if($document_5 && $document_6 && $document_7){
                   // if(!$this->laboratories_model->check_submitted_for_evaluation($decoded_id)){
@@ -656,13 +688,34 @@
 //                        redirect('laboratories/'.$id);
 //                      }
 //                    if($this->laboratories_model->check_if_deferred($decoded_id)){
-                      if($this->laboratories_model->submit_for_evaluation($user_id,$decoded_id,$same,$branch_info->rCode)){
-                        $this->session->set_flashdata('branch_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
-                        redirect('laboratories/'.$id);
-                      }else{
-                        $this->session->set_flashdata('branch_error','Unable to submit your application');
-                        redirect('laboratories/'.$id);
+                      $data['client_info'] = $this->user_model->get_user_info($user_id);
+                      $lab_name = $lab_info->laboratoryName.' Laboratory Cooperative';
+
+                      if($lab_info->house_blk_no==null && $lab_info->street==null) $x=''; else $x=', ';
+
+                      $brgyforemail = ucwords($lab_info->house_blk_no).' '.ucwords($lab_info->streetName).$x.' '.$lab_info->brgy.', '.$lab_info->city.', '.$lab_info->province.', '.$lab_info->region;
+
+                      $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
+
+                      $regioncode = '0'.mb_substr($lab_info->addrCode, 0, 2);
+
+                      $senior_info = $this->admin_model->get_senior_info($regioncode);
+
+                      if($this->laboratories_model->sendEmailToSenior($lab_info->coopName,$lab_name,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info)){
+                        if($this->laboratories_model->sendEmailToClient($lab_name,$data['client_info']->email)){;
+                          if($this->laboratories_model->submit_for_evaluation($user_id,$decoded_id,$same,$lab_info->rCode)){
+                            $this->session->set_flashdata('branch_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
+                            redirect('laboratories/'.$id);
+                          }else{
+                            $this->session->set_flashdata('branch_error','Unable to submit your application');
+                            redirect('laboratories/'.$id);
+                          }
+                        } else {
+                          $this->session->set_flashdata('branch_error','Unable to submit your application');
+                            redirect('laboratories/'.$id);
+                        }
                       }
+
 //                    }
                   }else{
                     $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
@@ -762,14 +815,24 @@
                             }else{
                               if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                 // echo "ANO :" . $decoded
-                                $success = $this->laboratories_model->approve_by_director_laboratories($data['admin_info'],$decoded_id);
-                              
-                                if($success){
-                                  $this->session->set_flashdata('list_success_message', 'Laboratory has been approved.');
-                                  redirect('laboratories');
-                                }else{
+                                $lab_info = $this->laboratories_model->get_branch_info_by_admin($decoded_id);
+
+                                $coop_full_name = $lab_info->laboratoryName.' Laboratory Cooperative';
+
+                                $data['client_info'] = $this->user_model->get_user_info($lab_info->user_id);
+
+                                if($this->laboratories_model->sendEmailToClientApproved($coop_full_name,$data['client_info']->email)){
+                                  $success = $this->laboratories_model->approve_by_director_laboratories($data['admin_info'],$decoded_id);
+                                  if($success){
+                                    $this->session->set_flashdata('list_success_message', 'Laboratory has been approved.');
+                                    redirect('laboratories');
+                                  }else{
+                                    $this->session->set_flashdata('list_error_message', 'Unable to approve Laboratory.');
+                                    redirect('laboratories');
+                                  }
+                                } else {
                                   $this->session->set_flashdata('list_error_message', 'Unable to approve Laboratory.');
-                                  redirect('laboratories');
+                                    redirect('laboratories');
                                 }
                               }else{
                                 $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated by the Supervising CDS.');
@@ -815,15 +878,38 @@
                               //     $this->db->insert('laboratory_comment',$data3); // insert comment details
                               //   }
                              }
-                             
+                          $lab_info = $this->laboratories_model->get_branch_info_by_admin($decoded_id);
 
-                            $success = $this->cooperatives_model->approve_by_supervisor_laboratories($data['admin_info'],$decoded_id,$coop_full_name);
-                            if($success){
-                              $this->session->set_flashdata('list_success_message', 'Laboratories has been submitted.');
-                              redirect('laboratories');
-                            }else{
-                              $this->session->set_flashdata('list_error_message', 'Unable to approve L.');
-                              redirect('laboratories');
+                          $temp = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+
+                          $regioncode = '0'.mb_substr($lab_info->addrCode, 0, 2);
+
+                          $director_emails = $this->admin_model->get_emails_of_director_by_region($regioncode);
+
+                          $data['client_info'] = $this->user_model->get_user_info($lab_info->user_id);
+                          $lab_name = $lab_info->laboratoryName.' Laboratory Cooperative';
+
+                          if($lab_info->house_blk_no==null && $lab_info->street==null) $x=''; else $x=', ';
+
+                          $brgyforemail = ucwords($lab_info->house_blk_no).' '.ucwords($lab_info->streetName).$x.' '.$lab_info->brgy.', '.$lab_info->city.', '.$lab_info->province.', '.$lab_info->region;
+
+                          $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
+
+                          
+
+                          $senior_info = $this->admin_model->get_senior_info($regioncode);
+
+                          $coopname = $this->encryption->encrypt(encrypt_custom($lab_info->coopName));
+
+                          if($this->laboratories_model->sendEmailToDirectorFromSenior($coopname,$director_emails,$coop_full_name,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email)){
+                              $success = $this->cooperatives_model->approve_by_supervisor_laboratories($data['admin_info'],$decoded_id,$coop_full_name);
+                              if($success){
+                                $this->session->set_flashdata('list_success_message', 'Laboratories has been submitted.');
+                                redirect('laboratories');
+                              }else{
+                                $this->session->set_flashdata('list_error_message', 'Unable to approve L.');
+                                redirect('laboratories');
+                              }
                             }
                           }
 //                        }else{
@@ -875,7 +961,7 @@
      public function payment(){
       $labName = $this->encryption->decrypt(decrypt_custom($this->input->post('lab_name')));
       $coop_name = $this->encryption->decrypt(decrypt_custom($this->input->post('coop_name')));
-      $laboratory_name = $labName.'- '.$coop_name;
+      $laboratory_name = $labName.' - '.$coop_name;
       // $branch=str_replace('%20',' ',$coop);
       $data = $this->laboratories_model->get_payment_info($laboratory_name);
 
@@ -1565,16 +1651,31 @@
             $decoded_laboratory_id= $this->encryption->decrypt(decrypt_custom($this->input->post('laboratoryID')));
             $comment = $this->input->post('comment');
            // echo $user_id.' '.$decoded_laboratory_id.' '.$comment;
-            if($this->laboratories_model->deny_by_director($decoded_laboratory_id,$user_id,$access_level,$comment))
-            {
-              $this->session->set_flashdata(array('status_msg'=>'success','deny_msg'=>'Laboratory has been denied successfully.'));
-               redirect('laboratories/'.$this->input->post('laboratoryID').'/laboratories_documents');
-            }
-            else
-            {
+            $lab_info = $this->laboratories_model->get_branch_info_by_admin($decoded_laboratory_id);
+
+            $coop_full_name = $lab_info->laboratoryName.' Laboratory Cooperative';
+
+            $brgyforemail = ucwords($lab_info->house_blk_no).' '.ucwords($lab_info->streetName).$x.' '.$lab_info->brgy.', '.$lab_info->city.', '.$lab_info->province.', '.$lab_info->region;
+
+            $data['client_info'] = $this->user_model->get_user_info($lab_info->user_id);
+
+            if($lab_info->house_blk_no==null && $lab_info->street==null) $x=''; else $x=', ';
+
+            if($this->laboratories_model->sendEmailToClientDeny($coop_full_name,$brgyforemail,$comment,$data['client_info']->email)){
+              if($this->laboratories_model->deny_by_director($decoded_laboratory_id,$user_id,$access_level,$comment))
+              {
+                $this->session->set_flashdata(array('status_msg'=>'success','deny_msg'=>'Laboratory has been denied successfully.'));
+                 redirect('laboratories');
+              }
+              else
+              {
+                $this->session->set_flashdata(array('status_msg'=>"danger",'deny_msg'=>"Failed while trying to deny Laboratory."));
+                redirect('laboratories/'.$this->input->post('laboratoryID').'/laboratories_documents');
+               
+              } 
+            } else {
               $this->session->set_flashdata(array('status_msg'=>"danger",'deny_msg'=>"Failed while trying to deny Laboratory."));
               redirect('laboratories/'.$this->input->post('laboratoryID').'/laboratories_documents');
-             
             }
         }
         else
@@ -1597,16 +1698,46 @@
             $decoded_laboratory_id= $this->encryption->decrypt(decrypt_custom($this->input->post('laboratoryID')));
             $comment = $this->input->post('comment');
             // echo $decoded_laboratory_id.' '.$comment.' '.$access_level;
-            if($this->laboratories_model->defer_by_director($decoded_laboratory_id,$user_id,$access_level,$comment))
+            $lab_info = $this->laboratories_model->get_branch_info_by_admin($decoded_laboratory_id);
+
+            $coop_full_name = $lab_info->laboratoryName.' Laboratory Cooperative';
+
+            $brgyforemail = ucwords($lab_info->house_blk_no).' '.ucwords($lab_info->streetName).$x.' '.$lab_info->brgy.', '.$lab_info->city.', '.$lab_info->province.', '.$lab_info->region;
+
+            $data['client_info'] = $this->user_model->get_user_info($lab_info->user_id);
+
+            if($lab_info->house_blk_no==null && $lab_info->street==null) $x=''; else $x=', ';
+
+            $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+
+            $query3  = $this->db->get_where('regional_officials',array('region_code'=>$data['admin_info']->region_code));
+            if($query3->num_rows()>0)
             {
-              $this->session->set_flashdata(array('status_msg'=>'success','defer_msg'=>'Laboratory has been deferred successfully.'));
-               redirect('laboratories/'.$this->input->post('laboratoryID').'/laboratories_documents');
+              $reg_officials_info = $query3->row_array();
             }
             else
             {
-              $this->session->set_flashdata(array('status_msg'=>"danger",'defer_msg'=>"Failed while trying to defer Laboratory."));
-              redirect('laboratories/'.$this->input->post('laboratoryID').'/laboratories_documents');
+              $reg_officials_info = array(
+                'email' => 'head_office',
+                'contact' => '0830403430'
+              );
             }
+
+            if($this->laboratories_model->sendEmailToClientDefer($coop_full_name,$brgyforemail,$comment,$data['client_info']->email,$reg_officials_info)){
+              if($this->laboratories_model->defer_by_director($decoded_laboratory_id,$user_id,$access_level,$comment))
+              {
+                $this->session->set_flashdata(array('status_msg'=>'success','defer_msg'=>'Laboratory has been deferred successfully.'));
+                 redirect('laboratories');
+              }
+              else
+              {
+                $this->session->set_flashdata(array('status_msg'=>"danger",'defer_msg'=>"Failed while trying to defer Laboratory."));
+                redirect('laboratories/'.$this->input->post('laboratoryID').'/laboratories_documents');
+              }
+            } else {
+                $this->session->set_flashdata(array('status_msg'=>"danger",'defer_msg'=>"Failed while trying to defer Laboratory."));
+                redirect('laboratories/'.$this->input->post('laboratoryID').'/laboratories_documents');
+              }
         }
         else
         {

@@ -1,19 +1,19 @@
-<div class="row mb-2">
+  <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
-    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
-    <?php if($is_client) : ?>
-    <h5 class="text-primary text-right">
-      Step 10
-    </h5> 
-  <?php else :?>
-    <?php if ($coop_info->status !=12){?>
-    <?php if($admin_info->access_level != 3 && $admin_info->access_level != 4){
-            $submit = 'Submit';
-        } else {
-            $submit = 'Approve';
-        }?>
-    <?php if($admin_info->access_level !=5) : ?>
-      <?php
+    <?php if($coop_info->status == 11 || $coop_info->status == 10 || $coop_info->status == 9 || $coop_info->status ==2 || ($coop_info->status ==6 && $coop_info->third_evaluated_by>0))
+    {
+    ?>
+          <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php    
+    }
+    else
+    {
+    ?>
+         <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php    
+    }
+    ?>  
+     <?php
         if(strlen($coop_info->acronym)>0)
         {
             $acronym_ = '('.$coop_info->acronym .')';
@@ -32,17 +32,57 @@
            $proposedName= $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '. $acronym_;
         }
       ?>
+     <!-- FOR SENIOR  -->
+
+            <?php if(!$is_client && $admin_info->access_level == 2 && $coop_info->status ==12) {?>
+              <div class="btn-group float-right" role="group" aria-label="Basic example">
+                <!-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button> -->
+                <button type="button" class="btn btn-secondary btn-sm btn-dark" data-toggle="modal" data-target="#revert_Modal"  data-cname="<?=$proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Revert for re-evaluation</button>
+              </div>  
+            <?php }?>
+            <!-- END SENIOR -->
+
+    <?php if($is_client) : ?>
+    <h5 class="text-primary text-right">
+      Step 8
+    </h5> 
+  <?php else :?>
+    <?php $status_arrays= array(10,11,12); 
+    if (!in_array($coop_info->status, $status_arrays)){?>
+   <!--  <?php if($admin_info->access_level != 3 && $admin_info->access_level != 4){
+            $submit = 'Submit';
+        } else {
+            $submit = 'Approve';
+        }?> -->
+    <?php if($admin_info->access_level !=5) : ?>
+     
       <div class="btn-group float-right" role="group" aria-label="Basic example">
-        <a  class="btn btn-info btn-sm" href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_cooperative_tool">Tool</a>
+        <a  class="btn btn-info btn-sm" href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_cooperative_tool">Validation Tool</a>
         <!-- Supervising -->
-        <?php if($admin_info->access_level ==2 || $is_active_director || $supervising_): ?>
-        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveAmendmentModal"  data-cname="<?= $proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($amendment_id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>><?=$submit?></button>
+        <?php if($is_active_director || $supervising_): ?>
+        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveAmendmentModal"  data-cname="<?= $proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($amendment_id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>> Approve<!-- <?=$submit?> --></button>
       <?php endif; ?>
         <!-- end Supervising -->
     <?php if($admin_info->access_level == 3 && $is_active_director || $supervising_) {?>
         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button>
-        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferCooperativeModal"  data-cname="<?=$proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Defer</button>
+
+        <?php 
+        if($coop_info->status ==17)
+        {
+          ?>
+           <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#revertCooperativeModal"  data-cname="<?=$proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Defer</button>
+      <?php
+        }
+        else
+        {   
+      ?>    
+           <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferCooperativeModal"  data-cname="<?=$proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Defer</button>
+      <?php    
+        }
+       ?>  
+       
     <?php } //end Supervising?>
+           
       </div>
       <?php endif;?>
         <?php } ?>
@@ -53,27 +93,7 @@
 <?php if($is_client) : ?>
     <?php else :?>
 <?php if(strlen(($coop_info->comment_by_specialist && $admin_info->access_level==2) || $admin_info->access_level==3)) : ?>
-<!--  <?php if(strlen($have_cds_comment)>0):?>
-  <div class="row mt-3">
-    <div class="col-sm-12 col-md-12">
-      <div class="alert alert-info" role="alert">
-        <p class="font-weight-bold">CDS Comment:</p>
-        <pre><?= $have_cds_comment ?></pre>
-      </div>
-    </div>
-  </div>
-<?php endif; ?> -->
 <?php endif;?>
-<!-- <?php if(strlen($have_senior_comment && $admin_info->access_level==3 || $coop_info->status==12)) : ?>
-  <div class="row mt-3">
-    <div class="col-sm-12 col-md-12">
-      <div class="alert alert-info" role="alert">
-        <p class="font-weight-bold">Senior Comment:</p>
-        <pre><?= $have_senior_comment ?></pre>
-      </div>
-    </div>
-  </div>
-<?php endif;?> -->
 <?php if($is_client) : ?>
   <?php if(strlen(($have_director_comment && $admin_info->access_level==3) || ($coop_info->temp_evaluation_comment && $admin_info->access_level==2) && $coop_info->status == 24)) : ?>
     <div class="row mt-3">
@@ -86,49 +106,98 @@
     </div>
 <?php endif; //end if client ?>
   <?php else: ?>  
+
     <!-- START CDS -->
-    <?php if(!empty($have_senior_comment) && is_array($have_senior_comment)): ?>
-    <?php $have_cds_comment = array_filter($have_cds_comment);?>
-    <?php if(count($have_cds_comment)>0):?>
+    <?php if(!empty($cds_comment) && $cds_comment !=NULL):?>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg">* CDS Findings</button>
 
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                CDS Findings
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+              <h4 class="modal-title" id="deferMemberModalLabel">CDS Findings</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
             </div>
-            <div class="modal-body">
-                <pre><?php 
-                    if(count($cds_comment)>0):
-                    foreach($cds_comment as $cc) :
+            <div class="modal-body" style="overflow: hidden;">
+             
+                  <?php
+                  echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
+                  // echo '<p>'.nl2br($coop_info->tool_findings).'</p>';
+                  if(is_array($cds_comment) && count($cds_comment)>0):
+                     foreach($cds_comment as $cc) : 
+
+                    echo'<div class="row">';
+                    echo '<div class="col-md-12">';
+                      echo nl2br($cc['tool_findings']);
+                    echo'</div>';
+                    echo'</div>';  
+                  ?>
+               
+              
+              <table class="table"  with="100%" style="table-layout:fixed">
+                <thead>
+                  <tr>
+                    <th style="border:1px solid black;">Documents</th>
+                    <th style="border:1px solid black;">Findings</th>
+                    <th style="border:1px solid black;">Recommended Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="col-md-4" style="border:1px solid black;padding-top:5px;text-align: left;"><?php 
+                           
+                              if(strlen($cc['documents'])>0)
+                                {
+                                  echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                                    echo '<ul type="square">';
+                                    echo '<li>'.nl2br($cc['documents']).'</li>';
+                                    echo '</ul>';
+                                }
+                           
+                    ?>
+                    </td>
+                    <td class="col-md-4" style="word-break: break-all;border:1px solid black;padding-top:5px;text-align: left;"><?php 
+                            if(strlen($cc['comment'])>0)
+                            {
+                              echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                              echo '<ul type="square">';
+                                echo '<li>'.nl2br($cc['comment']).'</li>';
+                              echo '</ul>';
+                            }
+                     
+                    ?>
+                    </td>
+                  <td class="col-md-4" style="border:1px solid black;padding-top:5px;text-align: left;">
+                        <?php
+                       
                         echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
                         echo '<ul type="square">';
-                            echo '<li>'.$cc['comment'].'</li>';
+                          echo '<li>'.nl2br($cc['rec_action']).'</li>';
                         echo '</ul>';
-                    endforeach;
-                        echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
-                        echo '<p>'.$coop_info->tool_findings.'</p>';
-                    endif;    
-                ?></pre>  
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
-            </div>
-        </div>
-      </div>
+                        
+                        ?>
+                  </td>
+                </tr>
+              </tbody>
+              </table>  
+             <?php endforeach;?>
+            <?php endif;?>
+          </div> <!-- modal body -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+          </div>
+        </div> <!-- modal content -->
+      </div> <!-- modal dialog -->
     </div>
     <?php endif; //end of strlen commetn ?>
-  <?php endif;?>  
+
     <!-- END CDS -->
-   <!--  START SENIOR -->
-  
-   <?php if(!empty($have_senior_comment) && is_array($have_senior_comment)): ?>
-    <?php $have_senior_comment = array_filter($have_senior_comment); ?>
-   <?php if(strlen($senior_comment && $admin_info->access_level==3 ) || strlen($senior_comment && $admin_info->access_level==2) || strlen($senior_comment && $admin_info->access_level==4) && $coop_info->status!=15) : ?>
+   <!--  START SENIOR --> 
+   <?php if(!empty($senior_comment_array) && is_array($senior_comment_array)): ?>
+    <?php $senior_comment = array_filter($senior_comment); ?>
+   <?php if(strlen($senior_comment_array && $admin_info->access_level==3 ) || strlen($senior_comment_array && $admin_info->access_level==2) || strlen($senior_comment_array && $admin_info->access_level==4) && $coop_info->status!=15) : ?>
     <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg2">* Senior Findings</button>
 
     <div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -139,30 +208,77 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
             </div>
-            <div class="modal-body">
-                <pre><?php 
-    //            print_r($cooperatives_comments);
-                foreach($senior_comment as $cc) :
-                    echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
-                    echo '<ul type="square">';
-                        echo '<li>'.$cc['comment'].'</li>';
-                    echo '</ul>';
-                endforeach;
-            ?></pre>  
-            </div>
-            <div class="modal-footer">
+              <div class="modal-body">
+                <?php
+                foreach($senior_comment_array as $cc){
+                ?>
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <?php
+                    echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
+                    echo '<p>'.nl2br($cc['tool_findings']).'</p>';
+                    ?>
+                  </div>
+                </div>
+                <table class="table"  with="100%">
+                  <thead>
+                    <tr>
+                      <th style="border:1px solid black;">Documents</th>
+                      <th style="border:1px solid black;">Findings</th>
+                      <th style="border:1px solid black;">Recommended Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="border:1px solid black;padding-top:5px;text-align: left;">
+                        <?php
+                     
+                        echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                        echo '<ul type="square">';
+                          echo '<li>'.nl2br($cc['documents']).'</li>';
+                        echo '</ul>';
+                        
+                   
+                        ?>
+                      </td>
+                      <td style="border:1px solid black;padding-top:5px;text-align: left;">
+                        <?php
+                        echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                        echo '<ul type="square">';
+                          echo '<li>'.nl2br($cc['comment']).'</li>';
+                        echo '</ul>';
+                        ?>
+                      </td>
+                      <td style="border:1px solid black;padding-top:5px;text-align: left;">
+                        <?php
+                        echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                        echo '<ul type="square">';
+                          echo '<li>'.nl2br($cc['rec_action']).'</li>';
+                        echo '</ul>';
+                        ?>
+                      </td>
+                    </tr>
+                    
+                  </tbody>
+                </table>
+                  <?php } //end foreach?>
+              </div>
+
+              <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-    <!--            <button type="button" class="btn btn-primary">Save changes</button>-->
-            </div>
-        </div>
-      </div>
-    </div>
+                <!--            <button type="button" class="btn btn-primary">Save changes</button>-->
+              </div>
+              </div>
+              </div>
+              </div>
+             
     <?php endif;?>
-  <?php endif; //end of strlen comment ?>
-   <!--  END SENIOR -->
-   <!--  START DIRECTOR -->
-  <?php if(!empty($have_director_comment) && is_array($have_director_comment)): ?>
-  <?php if(strlen(($have_director_comment && $admin_info->access_level==3) || ($have_director_comment && $admin_info->access_level==2) || ($have_director_comment && $admin_info->access_level==4) && $coop_info->status == 6 || strlen(($have_director_comment && $admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
+    <?php endif;?>          
+   <!--  END SENIOR --> 
+      <!--  START DIRECTOR -->
+
+  <?php if(!empty($director_comment_array) && is_array($director_comment_array)): ?>
+  <?php if(strlen(($director_comment_array && $admin_info->access_level==3) || ($director_comment && $admin_info->access_level==2) || ($admin_info->access_level==4) && $coop_info->status == 6 || strlen(($admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
   <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Director Findings</button>
 
   <div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -174,15 +290,163 @@
                   <span aria-hidden="true">&times;</span>
           </div>
           <div class="modal-body" style="table-layout: fixed;">
-              <pre><?php 
-  //            print_r($cooperatives_comments);
-              foreach($director_comment as $cc) :
-                  echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
-                  echo '<ul type="square">';
-                      echo '<li>'.$cc['comment'].'</li>';
-                  echo '</ul>';
-              endforeach;
-          ?></pre>
+             <?php 
+          
+                foreach($director_comment_array as $cc) :
+                    echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
+                    echo '<p>'.nl2br($cc['tool_findings']).'</p>'; 
+                  ?>
+            <table class="table"  with="100%">
+                <thead>
+                  <tr>
+                    <th style="border:1px solid black;">Documents</th>
+                    <th style="border:1px solid black;">Findings</th>
+                    <th style="border:1px solid black;">Recommended Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr>
+                    <td style="border:1px solid black;padding-top:5px;text-align: left;">
+                       <?php
+                           
+                                  echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                                  echo '<ul type="square">';
+                                      echo '<li>'.nl2br($cc['documents']).'</li>';
+                                  echo '</ul>'; 
+                                 
+                           
+                          ?>   
+    
+                    </td>
+                    <td style="border:1px solid black;padding-top:5px;text-align: left;">
+                          <?php
+                               
+                                    echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                                    echo '<ul type="square">';
+                                        echo '<li>'.nl2br($cc['comment']).'</li>';
+                                    echo '</ul>'; 
+                                 
+                            ?>
+                    </td>
+                    <td style="border:1px solid black;padding-top:5px;">
+                         <?php
+                               
+                                  echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                                  echo '<ul type="square">';
+                                      echo '<li>'.nl2br($cc['rec_action']).'</li>';
+                                  echo '</ul>'; 
+                                 
+                              
+
+                          ?> 
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            <?php endforeach;?>
+          </div>
+
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+  
+          </div>
+      </div>
+    </div>
+  </div>
+ 
+
+  <?php endif; //end of is clien?> 
+   <?php endif; //end of is clien?> 
+
+ <?php endif; //end of is clien?> 
+<?php endif; //end strlen of director comment?>
+<!-- END DIRECTOR -->
+
+ <!--  START SUPERVISING -->
+
+  <?php if(!empty($supervising_comment) && is_array($supervising_comment)): ?>
+  <?php if(strlen(($supervising_comment && $admin_info->access_level==4) || ($supervising_comment && $admin_info->access_level==2) || ($admin_info->access_level==3) && $coop_info->status == 6 || strlen(($admin_info->access_level==2 && $coop_info->status == 12)))) : ?>
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg4">* Supervising CDS Findings</button>
+
+  <div class="modal fade bd-example-modal-lg4" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              The cooperative has been deferred because of the following reason/s:
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+          </div>
+          <div class="modal-body" style="table-layout: fixed;">
+             <?php 
+                    echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
+                    echo '<p>'.nl2br($tool_findings).'</p>'; 
+                  ?>
+            <table class="table"  with="100%">
+                <thead>
+                  <tr>
+                    <th style="border:1px solid black;">Documents</th>
+                    <th style="border:1px solid black;">Findings</th>
+                    <th style="border:1px solid black;">Recommended Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr>
+                    <td style="border:1px solid black;padding-top:5px;text-align: left;">
+                       <?php
+                           if(is_array($supervising_comment) && count($supervising_comment)>0):   
+                              foreach($supervising_comment as $cc) :
+                                if(strlen($cc['documents'])>0)
+                                {
+                                  echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                                  echo '<ul type="square">';
+                                      echo '<li>'.nl2br($cc['documents']).'</li>';
+                                  echo '</ul>'; 
+                                 
+                                }
+                              endforeach;
+                            endif;
+                          ?>   
+    
+                    </td>
+                    <td style="border:1px solid black;padding-top:5px;text-align: left;">
+                          <?php
+                                if(is_array($supervising_comment) && count($supervising_comment)>0):
+                                  foreach($supervising_comment as $cc) :
+                                    if(strlen($cc['comment'])>0)
+                                    {
+                                    echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                                    echo '<ul type="square">';
+                                        echo '<li>'.nl2br($cc['comment']).'</li>';
+                                    echo '</ul>'; 
+                                   
+                                    }
+                                  endforeach;
+                                endif;
+                            ?>
+                    </td>
+                    <td style="border:1px solid black;padding-top:5px;">
+                         <?php
+                                if(is_array($supervising_comment) && count($supervising_comment)>0):
+                                // echo'CDS COMMENT :'.PHP_EOL;
+                                foreach($supervising_comment as $cc) :
+                                  if(strlen($cc['rec_action'])>0)
+                                  {
+                                  echo 'Date: '.date("F d, Y",strtotime($cc['created_at']));
+                                  echo '<ul type="square">';
+                                      echo '<li>'.nl2br($cc['rec_action']).'</li>';
+                                  echo '</ul>'; 
+                                 
+                                  }
+                                endforeach;
+                                endif;
+
+                          ?> 
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
           </div>
           <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -191,13 +455,10 @@
       </div>
     </div>
   </div>
- 
-  <?php endif; //end if director button?>  
-  <?php endif; //end of is clien?>
 
 <?php endif; ?>
 <?php endif; //end strlen of director comment?>
-<!-- END DIRECTOR -->
+<!-- END SUPERVISING -->
 <hr>
 <?php if($this->session->flashdata('redirect_documents')): ?>
 <div class="row">
@@ -297,8 +558,8 @@
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-sm-12 col-md-4">
+ <div class="row">
+  <!--<div class="col-sm-12 col-md-4">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Economic Survey</h5>
@@ -306,35 +567,39 @@
           <a target="_blank" href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/economic_survey" class="btn btn-primary">View</a>
         </div>
       </div>
-  </div>
+  </div> -->
+  <?php $acceptedStatus= array(1,11); ?>
   <div class="col-sm-12 col-md-4">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Surety Bond of Accountable Officers</h5>
+          <h5 class="card-title">General Assembly Resolution</h5>
             <p class="card-text">
               <!-- modify by json -->
-              <?php if(isset($document_one)) : ?>
-               <!--  <a target="_blank" href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($document_one->filename))?>"> -->
-
-                 <a target="_blank" href="<?php echo base_url();?>amendment_documents/list_upload_pdf/<?=$encrypted_id?>/1">
-
+              <?php 
+              if($ga) 
+              { 
+              ?>
+                 <a target="_blank" href="<?php echo base_url();?>amendment_documents/list_upload_pdf/<?=$encrypted_id?>/19">
                   <?php if($is_client) : ?>
-                    This is your Surety Bond of Accountable Officers document.
+                    This is your General Assembly Resolution document.
                   <?php else : ?>
-                    This is the Surety Bond of Accountable Officers document.
+                   General Assembly Resolution document.
                   <?php endif;?>
                 </a>
-              <?php endif ?>
-              <?php if(!isset($document_one)) : ?>
-                Please upload your required Surety Bond of Accountable Officers document.
-              <?php endif ?>
-              <br>
+              <?php
+              }
+              else
+              {
+              ?>
+                 Please upload your required  General Assembly Resolution document.    
+              <?php   
+              }
+              ?>
+               <br>
+               <?php if($is_client && in_array($coop_info->status,$acceptedStatus)): ?>
+               <a href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/upload_document_one" class="btn btn-primary">Upload</a>
+               <?php endif; ?> 
             </p>
-
-          <?php if($is_client && $coop_info->status<=1 || $coop_info->status>=11): ?>
-            <a href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/upload_document_one" class="btn btn-primary">Upload</a>
-          <?php endif; ?>
-
         </div>
       </div>
   </div>
@@ -345,34 +610,40 @@
   <div class="col-sm-12 col-md-4">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Pre-Registration Seminar PRS Certificates</h5>
+          <h5 class="card-title">BOD and Secretary Certificate</h5>
             <p class="card-text">
-              <?php if(isset($document_two)) : ?>
-              <a target="_blank" href="<?php echo base_url();?>amendment_documents/list_upload_pdf/<?=$encrypted_id?>/2">
-
+              <?php 
+              if($bod_sec)
+              {
+              ?>
+              <a target="_blank" href="<?php echo base_url();?>amendment_documents/list_upload_pdf/<?=$encrypted_id?>/20">
                 <?php if($is_client) : ?>
-                  This is your Pre-Registration Seminar PRS Certificate document.
+                  This is your PBOD and Secretary Certificate document.
                 <?php else : ?>
-                  This is the Pre-Registration Seminar PRS Certificate document.
+                  BOD and Secretary Certificate document.
                 <?php endif;?>
                </a>
-              <?php endif ?>
-              <?php if(!isset($document_two)) : ?>
-              Please upload your required Pre-Registration PRS Certificate document
-              <?php endif ?>
-              <br>
-            </p>
-          <?php if($is_client && $coop_info->status<=1 || $coop_info->status==11): ?>
-            <a href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/upload_document_two" class="btn btn-primary">Upload</a>
-          <?php endif; ?>
+              <?php
+              }
+              else
+              {
+              ?>
+                 Please upload your required BOD and Secretary Certificate document
+            <?php  
+              }
+              ?>
+               <br>
+              <?php if($is_client && in_array($coop_info->status,$acceptedStatus)): ?>
+                 <a href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/upload_document_two" class="btn btn-primary">Upload</a>
+              <?php endif; ?>
+               </p>
         </div>
       </div>
   </div>
 
     
-</div>
-<!--ANJURY-->
-<div class="row" style="padding-top:20px;">
+<!-- </div>
+<div class="row" style="padding-top:20px;"> -->
   <?php 
   $count_coop_type = explode(',',$coop_info->cooperative_type_id); 
   if(count($count_coop_type)>1)
@@ -439,6 +710,7 @@
 
   }//end count
   ?>
+  <br />
 <?php 
 $count=0;
 
@@ -478,6 +750,44 @@ $count=0;
 
     <?php endforeach; ?>
  <?php }?>   
+
+
+
+  <div class="col-sm-12 col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Other Requirements</h5>
+            <p class="card-text">
+              <?php 
+              if($other_doc)
+              {
+              ?>
+              <a target="_blank" href="<?php echo base_url();?>amendment_documents/list_upload_pdf/<?=$encrypted_id?>/30">
+                <?php if($is_client) : ?>
+                  This is your other uploaded documents.
+                <?php else : ?>
+                  Other uploaded document.
+                <?php endif;?>
+               </a>
+              <?php
+              }
+              else
+              {
+               
+                echo 'Other uploaded document.';
+              }
+              ?>
+              <br>
+              <?php if($is_client && in_array($coop_info->status,$acceptedStatus)): ?>
+                
+                 <a href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/upload_document_other" class="btn btn-primary">Upload</a>
+             
+              <?php endif; ?>
+               </p>
+        </div>
+      </div>
+  </div>
+
 </div> <!-- end of row -->
 <!--ANJURY END-->
 

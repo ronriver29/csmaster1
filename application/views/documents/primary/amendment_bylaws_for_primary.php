@@ -62,33 +62,36 @@
            $coop_type = explode(',',$coop_info->type_of_cooperative);
           if(count($coop_type)>1)
           {
-            $proposedName = $coop_info->proposed_name.' Multipurpose  Cooperative '.$coop_info->grouping.' '.$acronym_;
+            $proposedName = $coop_info->proposed_name.' Multipurpose  Cooperative '.$acronym_;
           } 
           else
           {
-              $proposedName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping.' '.$acronym_;
+              $proposedName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronym_;
           }
           //end amendment
           
           //original cooperative dtl
-          if(strlen($coop_info_orig->acronym_name)>0)
+         
+          if($nextAmendment)
           {
-            $acronymOrig_ = '('.$coop_info_orig->acronym_name.')';
+            $proposedName_original = $orig_proposedName_formated;
           }
           else
           {
-            $acronymOrig_='';
+            $proposedName_original = $orig_proposedName_formated;
           }
-          $proposedName_original = $coop_info_orig->proposed_name.' '.$coop_info_orig->type_of_cooperative  .' Cooperative '.$coop_info_orig->grouping.' '.$acronymOrig_;  
-
-          //end cooperative
-          $proposedName2 =$proposedName;
-          if($proposedName!=$proposedName_original)
-          {
-            $proposedName ='<strong>'.$proposedName .'</strong>';
+        
+           
+         $proposedName_original = trim(preg_replace('/\s\s+/', ' ', $proposedName_original));
+          $proposedName = trim(preg_replace('/\s\s+/', ' ', $proposedName));
+        // var_dump($proposedName); var_dump($proposedName_original);
+        // echo strcasecmp($proposedName,$proposedName_original);
+          if($proposedName !== $proposedName_original)
+          { 
+            $proposedName ='<strong>'.$proposedName.'</strong>';
           }
           ?>
-          <p class="font-weight-bold">BY-LAWS<br>OF<br><strong><?= $proposedName2?></strong></p>
+          <p class="font-weight-bold">BY-LAWS<br>OF<br></p><p><?= $proposedName?></p>
           
     </div>
   </div>
@@ -315,11 +318,11 @@
   <?php
     if($capitalization_info_orig->minimum_subscribed_share_regular!=$capitalization_info->minimum_subscribed_share_regular)
     {
-      $minimum_subscribed_share_regular2='<strong>'.num_format_custom($capitalization_info->minimum_subscribed_share_regular).'</strong>';
+      $minimum_subscribed_share_regular2='<strong>'.ucwords(num_format_custom($capitalization_info->minimum_subscribed_share_regular)).'</strong>';
     }
     else
     {
-       $minimum_subscribed_share_regular2=num_format_custom($capitalization_info->minimum_subscribed_share_regular);
+       $minimum_subscribed_share_regular2=ucwords(num_format_custom($capitalization_info->minimum_subscribed_share_regular));
     }
     if($capitalization_info_orig->minimum_paid_up_share_regular!=$capitalization_info->minimum_paid_up_share_regular)
     {
@@ -333,31 +336,32 @@
     }
     if($capitalization_info_orig->minimum_subscribed_share_associate!=$capitalization_info->minimum_subscribed_share_associate)
     {
-      $minimum_subscribed_share_associate2='<strong>'.num_format_custom($capitalization_info->minimum_subscribed_share_associate).'</strong>';
+      $minimum_subscribed_share_associate2='<strong>'.ucwords(num_format_custom($capitalization_info->minimum_subscribed_share_associate)).'</strong>';
     }
     else
     {
-        $minimum_subscribed_share_associate2=num_format_custom($capitalization_info->minimum_subscribed_share_associate);
+        $minimum_subscribed_share_associate2=ucwords(num_format_custom($capitalization_info->minimum_subscribed_share_associate));
     }
 $minimum_paid_up_share_associate_3 ='';
     if($capitalization_info_orig->minimum_paid_up_share_associate!=$capitalization_info->minimum_paid_up_share_associate)
     {
       $minimum_paid_up_share_associate_='<strong>'.$capitalization_info->minimum_paid_up_share_associate.'</strong>';
-       $minimum_paid_up_share_associate_3='<strong>'.num_format_custom($capitalization_info->minimum_paid_up_share_associate).'</strong>';
+       $minimum_paid_up_share_associate_3='<strong>'.ucwords(num_format_custom($capitalization_info->minimum_paid_up_share_associate)).'</strong>';
     }
     else
     {
       $minimum_paid_up_share_associate_=$capitalization_info->minimum_paid_up_share_associate;
+       $minimum_paid_up_share_associate_3=ucwords(num_format_custom($capitalization_info->minimum_paid_up_share_associate));
     }
 
   ?>
 
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Minimum Share Capital Requirement.</i> An applicant for <strong>regular membership</strong> shall subscribe at least <?= ucwords( $minimum_subscribed_share_regular2)?> (<?= $capitalization_info->minimum_subscribed_share_regular?>) 
-        shares and pay the value of at least <?=  ucwords($minimum_paid_up_share_regular)?> (<?= $capitalization_info->minimum_paid_up_share_regular?>) shares upon approval of his/her membership.</p>
+      <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Minimum Share Capital Requirement.</i> An applicant for <strong>regular membership</strong> shall subscribe at least <?=$minimum_subscribed_share_regular2?> (<?= $capitalization_info->minimum_subscribed_share_regular?>) 
+        shares and pay the value of at least <?=  ucwords($minimum_paid_up_share_regular2)?> (<?= $capitalization_info->minimum_paid_up_share_regular?>) shares upon approval of his/her membership.</p>
       <?php if($bylaw_info->kinds_of_members == 2) :?>
       <p class="text-justify">An applicant for <strong>associate membership</strong> shall subscribe at least <?=$minimum_subscribed_share_associate2?> (<?= $capitalization_info->minimum_subscribed_share_associate?>) 
-        shares and pay the value of at least <?= ucwords($minimum_paid_up_share_associate_3)?> (<?= $minimum_paid_up_share_associate_?>) shares upon approval of his/her membership.</p>
+        shares and pay the value of at least <?=$minimum_paid_up_share_associate_3?> (<?= $minimum_paid_up_share_associate_?>) shares upon approval of his/her membership.</p>
       <?php endif;?>
       <p class="text-justify" style="text-indent: 50px;">However, no member shall own or hold more than ten percent (10%) of the total subscribed share capital of the Cooperative.</p>
   </div>
@@ -578,10 +582,10 @@ $minimum_paid_up_share_associate_3 ='';
         <li>Unfinished business; </li>
         <li>New business;
             <ol class="text-justify" type="i">
-              <li>h.1 Election of directors and committee members </li>
-              <li>h.2 Approval of Development and/or annual Plan and Budget </li>
-              <li>h.3 Hiring of External Auditor </li>
-              <li>h.4 Other related business matters </li>
+              <li><!-- h.1 --> Election of directors and committee members </li>
+              <li><!-- h.2 --> Approval of Development and/or annual Plan and Budget </li>
+              <li><!-- h.3 --> Hiring of External Auditor </li>
+              <li><!-- h.4 --> Other related business matters </li>
             </ol>
         </li>
         <li>Announcements; and </li>
@@ -631,7 +635,7 @@ $minimum_paid_up_share_associate_3 ='';
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Composition of the Board of Directors (BOD).</i> The Board of Directors shall be composed of <?= num_format_custom($no_of_directors)?> (<?= $no_of_directors?>) members.</p>
+        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Composition of the Board of Directors (BOD).</i> The Board of Directors shall be composed of <?= ucfirst(num_format_custom($no_of_directors))?> (<?= $no_of_directors?>) members.</p>
     </div>
   </div>
   <div class="row">
@@ -897,7 +901,7 @@ $minimum_paid_up_share_associate_3 ='';
     </div>
   </div>
   <?php $section_=10; ?>
-  <?php if($Agriculture_type){ ?>
+  <?php if($valid_for_credit_type || $has_credit){ ?>
     <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
         <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Credit Committee.</i> A Credit Committee shall be composed of three (3) members to be appointed by the Board of Directors. Within ten (10) days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until their successors shall have been appointed and qualified and without prejudice to their reappointment. No member of the Committee shall hold any other position in the Cooperative during his/her term of office.</p>
@@ -919,9 +923,9 @@ $minimum_paid_up_share_associate_3 ='';
     </div>
   </div>
   <?php 
-  }//end if Agriculture
+  }//end if has and multipurpose
   ?>
-  <?php if($coop_info->type_of_cooperative=="Credit"){ ?>
+  <?php /* if($coop_info->type_of_cooperative=="Credit"){ ?>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
         <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Credit Committee.</i> A Credit Committee shall be composed of three (3) members to be appointed by the Board of Directors. Within ten (10) days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until their successors shall have been appointed and qualified and without prejudice to their reappointment. No member of the Committee shall hold any other position in the Cooperative during his/her term of office.</p>
@@ -942,7 +946,7 @@ $minimum_paid_up_share_associate_3 ='';
       </ol>
     </div>
   </div>
-<?php } //end if credit ?>
+<?php } //end if credit */?>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
         <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Gender and Development (GAD) Committee.</i> A Gender and Development (GAD) Committee shall be composed of three ( 3) members to be appointed by the Board of Directors provided that at least one member shall come from the Board. The Committee shall elect from among themselves a Chairperson. The Committee members shall hold office until replaced by the Board.</p>
@@ -1004,13 +1008,13 @@ $minimum_paid_up_share_associate_3 ='';
   ?>
       <div class="row">
         <div class="col-sm-12 col-md-12 text-left">
-            <p class="text-justify font-weight-regular">Section <?=$count_row++?>. <i class="font-weight-bold"><?=$rowCom['name']?></i> A <?=$rowCom['name']?> Committee shall be composed of three (3) members to be appointed by the Board of Directors.</p>
+            <p class="text-justify font-weight-regular">Section <?=++$section_;?>. <i class="font-weight-bold"><?=$rowCom['name']?></i> A <?=$rowCom['name']?> Committee shall be composed of three (3) members to be appointed by the Board of Directors.</p>
         </div>
       </div>
 
       <div class="row">
         <div class="col-sm-12 col-md-12 text-left">
-            <p class="text-justify font-weight-regular">Section <?=$count_row++?>. <i class="font-weight-bold">Functions and Responsibilities.</i> <?=$rowCom['func_and_respons']?>.</p>
+            <p class="text-justify font-weight-regular">Section <?=++$section_;?>. <i class="font-weight-bold">Functions and Responsibilities.</i> <?=$rowCom['func_and_respons']?>.</p>
         </div>
       </div>  
       
@@ -1019,12 +1023,12 @@ $minimum_paid_up_share_associate_3 ='';
   ?>
   <div class="row">
       <div class="col-sm-12 col-md-12 text-left">
-          <p class="text-justify font-weight-regular">Section <?php echo $count_row++;?>. <i class="font-weight-bold">Others Committee.</i> By a majority vote of all its members, the Board of Directors may form such other committees as may be deemed necessary for the operation of the Cooperative.</p>
+          <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Others Committee.</i> By a majority vote of all its members, the Board of Directors may form such other committees as may be deemed necessary for the operation of the Cooperative.</p>
       </div>
     </div>
     <div class="row mb-4">
       <div class="col-sm-12 col-md-12 text-left">
-          <p class="text-justify font-weight-regular">Section <?php echo $count_row++;?>. <i class="font-weight-bold">Qualification and Disqualification of Committee Members.</i> The qualification and disqualification of the Board of Directors shall also apply to all the members of the committees</p>
+          <p class="text-justify font-weight-regular">Section <?php echo ++$section_;?>. <i class="font-weight-bold">Qualification and Disqualification of Committee Members.</i> The qualification and disqualification of the Board of Directors shall also apply to all the members of the committees</p>
       </div>
     </div>   
 
@@ -1054,7 +1058,7 @@ $minimum_paid_up_share_associate_3 ='';
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Officers and their Duties.</i> TThe officers of the cooperative shall include the Members of the Board of Directors, Members of the Different Committees, General Manager/Chief Executive Officer, Secretary and Treasurer who shall serve according to the functions and responsibilities of their respective offices as follows:</p>
+        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Officers and their Duties.</i> The officers of the cooperative shall include the Members of the Board of Directors, Members of the Different Committees, General Manager/Chief Executive Officer, Secretary and Treasurer who shall serve according to the functions and responsibilities of their respective offices as follows:</p>
     </div>
   </div>
   <div class="row">
@@ -1244,7 +1248,6 @@ $minimum_paid_up_share_associate_3 ='';
     <?php
     if($bylaw_info_orig->member_invest_per_month!=$bylaw_info->member_invest_per_month)
     {
-      // $bylaw_info->member_invest_per_month='<strong>'.$bylaw_info->member_invest_per_month.'</strong>';
        $member_invest_per_month='<strong>'.$bylaw_info->member_invest_per_month.'</strong>';
         $member_invest_per_month2='<strong>'.num_format_custom($bylaw_info->member_invest_per_month).' Pesos</strong>';
     }
@@ -1252,7 +1255,6 @@ $minimum_paid_up_share_associate_3 ='';
     {
        $member_invest_per_month=$bylaw_info->member_invest_per_month;
         $member_invest_per_month2=num_format_custom($bylaw_info->member_invest_per_month).' Pesos';
-
     }
     if($bylaw_info_orig->member_percentage_annual_interest!=$bylaw_info->member_percentage_annual_interest)
     {
@@ -1268,20 +1270,23 @@ $minimum_paid_up_share_associate_3 ='';
     $member_percentage_service2='';
     if($bylaw_info_orig->member_percentage_service!=$bylaw_info->member_percentage_service)
     {
+        $bylaw_info->member_percentage_service2='<strong>'.$bylaw_info->member_percentage_service.'%</strong>';
       $member_percentage_service='<strong>'.num_format_custom($bylaw_info->member_percentage_service).' percent</strong>';
-       $member_percentage_service2='<strong>'.$bylaw_info->member_percentage_service.'%</strong>';
+     
     }
     else
     {
+      $bylaw_info->member_percentage_service2=$bylaw_info->member_percentage_service.'%';
        $bylaw_info->member_percentage_service=num_format_custom($bylaw_info->member_percentage_service).' percent';
-       $bylaw_info->member_percentage_service2=$bylaw_info->member_percentage_service.'%';
+        $member_percentage_service = $bylaw_info->member_percentage_service;
+       
     }
     ?>
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>At least <?=ucwords($member_invest_per_month2)?> (P<?=$member_invest_per_month?>) per month; </li>
     		<li>At least <?=ucwords( $member_percentage_annual_interest2)?> (<?= $member_percentage_annual_interest?>) of his/her annual interest on capital and patronage refund; and </li>
-    		<li>At least <?=ucwords ($member_percentage_service)?>  (<?= $member_percentage_service2?>) of each good procured /service acquired from the cooperative. </li>
+    		<li>At least <?=ucwords ($member_percentage_service)?>  (<?=  $bylaw_info->member_percentage_service2?>) of each good procured /service acquired from the cooperative.</li>
   		</ol>
     </div>
   </div>
@@ -1337,9 +1342,41 @@ $minimum_paid_up_share_associate_3 ='';
     	</ol>
     </div>
   </div>
+  <?php 
+  if($coop_info->type_of_cooperative =='Transport' && $new_reg_coop){
+    $article8 = 'IX';
+    $article9 = 'X';
+    $article10 = 'XI';
+    $article11 = 'XII';
+  ?>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article VIII<br>Allocation and Distribution of Net Surplus</p>
+        <p class="font-weight-bold">Article VIII<br>Vehicle Operation and Fleet Management</p>
+    </div>
+  </div>
+   <div class="row">
+    <div class="col-sm-12 col-md-12 text-left">
+        <p class="text-justify font-weight-regular">The cooperative shall procure  Public Utility Vehicle Modernization Program (PUVMP) - compliant units or as prescribed by the concerned government agency. The said units shall be owned and managed by the cooperative, and the franchise/Certificate of Public Convenience and Necessity shall be registered under its name.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 text-left">
+        <p class="text-justify font-weight-regular">The aforementioned units shall be under the established fleet management system of the cooperative, either operated internally or by its duly authorized third party.</p>
+    </div>
+  </div>
+ <?php 
+  }
+  else
+  {
+     $article8 = 'VIII';
+    $article9 = 'IX';
+    $article10 = 'X';
+    $article11 = 'XI';
+  } 
+  ?>
+  <div class="row mb-2">
+    <div class="col-sm-12 col-md-12 text-center">
+        <p class="font-weight-bold">Article <?=$article8?><br>Allocation and Distribution of Net Surplus</p>
     </div>
   </div>
   <div class="row">
@@ -1357,6 +1394,7 @@ $minimum_paid_up_share_associate_3 ='';
     }
     else
     {
+      $percent_reserve_fund=num_format_custom($bylaw_info->percent_reserve_fund).' percent';
        $bylaw_info->percent_reserve_fund2=$bylaw_info->percent_reserve_fund.'%';
     }
 
@@ -1407,7 +1445,7 @@ $minimum_paid_up_share_associate_3 ='';
     			</ol>
         </li>
         <li><i class="font-weight-bold">Education and Training Fund.</i> 
-          <?php $percent_educ_fund = ($bylaw_info->percent_education_fund!=$bylaw_info_orig->percent_education_fund ? "<b>".ucwords(num_format_custom($bylaw_info->percent_education_fund))."</b>" : $bylaw_info->percent_education_fund); // ucwords(num_format_custom(($bylaw_info->percent_education_fund)))
+          <?php $percent_educ_fund = ($bylaw_info->percent_education_fund!=$bylaw_info_orig->percent_education_fund ? "<b>".ucwords(num_format_custom($bylaw_info->percent_education_fund))."</b>" : ucwords(num_format_custom($bylaw_info->percent_education_fund))); // ucwords(num_format_custom(($bylaw_info->percent_education_fund)))
           echo $percent_educ_fund;
           ?> 
           percent (<?=$bylaw_info->percent_education_fund2
@@ -1448,7 +1486,7 @@ $minimum_paid_up_share_associate_3 ='';
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article IX<br>Settlement of Disputes</p>
+        <p class="font-weight-bold">Article <?=$article9?><br>Settlement of Disputes</p>
     </div>
   </div>
   <div class="row">
@@ -1463,7 +1501,7 @@ $minimum_paid_up_share_associate_3 ='';
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article X<br>Miscellaneous</p>
+        <p class="font-weight-bold">Article <?=$article10?><br>Miscellaneous</p>
     </div>
   </div>
   <div class="row">
@@ -1510,7 +1548,7 @@ $minimum_paid_up_share_associate_3 ='';
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article XI<br>Amendments</p>
+        <p class="font-weight-bold">Article <?=$article11?><br>Amendments</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -1537,12 +1575,7 @@ $minimum_paid_up_share_associate_3 ='';
             </tr>
           </thead>
           <tbody>
-            <?php
-            // echo"<pre>";print_r($cooperators_list_regular);echo"</pre>";
-            // echo"<br>";
-            //  echo"<pre>";print_r( $cooperators_list_regular_orig);echo"</pre>";
-            ?>
-            <?php $count=0; foreach($cooperators_list_regular as $key=> $cooperator) :
+            <?php /* $count=1; foreach($cooperators_list_regular as $key=> $cooperator) :
                 
                 echo"<tr>";
                 if(isset($cooperators_list_regular_orig[$key]))
@@ -1564,15 +1597,26 @@ $minimum_paid_up_share_associate_3 ='';
             ?>    
               <?=$count++;?>
                 </tr>
+            <?php endforeach; */?>
+            <?php $count=1; foreach($cooperators_list_regular as $key=> $cooperator) :
+                
+                echo"<tr>";
+            ?>
+                    <td><?=$count.'. '.$cooperator['full_name']?></td>
+                     <td></td>
+            
+              <?=$count++;?>
+                </tr>
             <?php endforeach; ?>
+
           </tbody>
         </table>
       </div>
     </div>
   </div>
   <div class="row mb-4">
-    <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify mb-4" style="text-indent: 50px;">We, constituting the majority of the Board of Directors of the <?= $coop_info->proposed_name?> <?= (count($coop_type)>0?"Multipurpose Cooperative" :$coop_info->type_of_cooperative."Cooperative")?> <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> do hereby certify that the foregoing instrument is the Code of By-laws of this Cooperative.</p>
+    <div class="col-sm-12 col-md-12 text-left"> 
+        <p class="text-justify mb-4" style="text-indent: 50px;">We, constituting the majority of the Board of Directors of the <?= $coop_info->proposed_name?> <?= (count($coop_type)>1?"Multipurpose Cooperative" :$coop_info->type_of_cooperative."Cooperative")?> <?php if(strlen($coop_info->acronym)>0){ echo '('.$coop_info->acronym.')';}?> <?= $coop_info->grouping?> do hereby certify that the foregoing instrument is the Code of By-laws of this Cooperative.</p>
         <p class="text-justify" style="text-indent: 50px;">Signed this _______ of __________, ___________, in ____________.</p>
     </div>
   </div>
@@ -1589,7 +1633,7 @@ $minimum_paid_up_share_associate_3 ='';
         </table>
       </div>
     </div>
-  </div>
+  </div> 
   <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">

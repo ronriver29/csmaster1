@@ -25,11 +25,27 @@
     }
   </style>
 </head>
-<body style="font-family: 12 Bookman Old Style;">
+<body style="font-size:12">
+<script type="text/php">
+        if (isset($pdf) ) {
+            $x = 570; 
+            $y=900;
+            $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
+            $font = $fontMetrics->get_font("BOOKOS");
+            
+            $size = 12;
+            $color = array(0,0,0);
+            $word_space = 0.0;  //  default
+            $char_space = 0.0;  //  default
+            $angle = 0.0;   //  default
+            $pdf->page_text($x, $y, $text,$font , $size, $color, $word_space, $char_space, $angle);
+            
+        }
+</script>
 <div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">BY-LAWS<br>OF<br><?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?></p>
+        <p class="font-weight-bold">BY-LAWS<br>OF<br><?= $coop_info->proposed_name?> Federation of <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?></p>
     </div>
   </div>
   <div class="row mb-2">
@@ -39,7 +55,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">We, the undersigned Filipino citizens, of legal age, and residents of the Philippines, representing at least majority of the members of this <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?>, do hereby adopt this By-laws.</p>
+      <p class="text-justify" style="text-indent: 50px;">We, the undersigned duly authorized representative(s) of our  respective cooperatives, all of legal age and Filipino citizens, who on this day have   voluntarily agreed to organize a Federation of Cooperatives, do hereby adopt the following By-laws. </p>
     </div>
   </div>
   <div class="row mb-2">
@@ -49,7 +65,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
-      <p class="text-justify" style="text-indent: 50px;">The purpose/s and goals of this Cooperative are those set forth in its Articles of Cooperation.</p>
+      <p class="text-justify" style="text-indent: 50px;">The purpose/s and goal/s of this  Federation of Cooperatives are those set forth in its  Articles of Cooperation.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -59,7 +75,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Membership.</i> This Federation shall have <?php  echo ($bylaw_info->kinds_of_members == 1)? "regular members only" : "regulars and associate members";?>.</p>
+      <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Membership.</i> This Federation shall have <?php  echo ($bylaw_info->kinds_of_members == 1)? "regular members" : "regulars and associate members";?>.</p>
       <!-- <p class="text-justify" style="text-indent: 50px;">Regular Members are those who have complied with all the membership requirements and are entitled to all the rights and privileges of membership.</p>
       <?php if($bylaw_info->kinds_of_members == 2) :?>
       <p class="text-justify" style="text-indent: 50px;">Associate Members are those who have no right to vote nor be voted upon and are entitled only to limited rights, privileges and membership duration as provided in the By-laws of the Cooperative, the Philippine Cooperative Code of 2008, and its Implementing Rules and Regulation.</p>
@@ -69,12 +85,10 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 2. <i class="font-weight-bold">Qualification for Membership.</i> The membership of this Federation is open to any registered<?php foreach($regular_ar_qualifications as $reg_qualification) :?>
-              <?= $reg_qualification ?>, 
-            <?php endforeach; ?> within the common bond of membership. </p>
+        <p class="text-justify font-weight-regular">Section 2. <i class="font-weight-bold">Qualification for Membership.</i> The membership of this  Cooperative is open to any registered primary cooperatives  within the common bond of membership.</p>
     </div>
   </div>
-<!--  <div class="row">
+  <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="1">
         <li>Regular Members
@@ -84,18 +98,9 @@
             <?php endforeach; ?>
           </ol>
         </li>
-        <?php if($bylaw_info->kinds_of_members == 2) :?>
-        <li>Associate Members
-          <ol class="text-justify" type="a">
-            <?php foreach($assoc_ar_qualifications as $assoc_qualification) :?>
-              <li><?= $assoc_qualification ?></li>
-            <?php endforeach; ?>
-          </ol>
-        </li>
-      <?php endif;?>
       </ol>
     </div>
-  </div>-->
+  </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
         <p class="text-justify font-weight-regular">Section 3. <i class="font-weight-bold">Requirements for Membership.</i></p>
@@ -106,10 +111,10 @@
     <p class="text-justify font-weight-regular">A member must have complied with the following requirements:</p>
       <ol class="text-justify" type="a">
         <li>Approved application for membership;</li>
-        <li>General Assembly Resolution indicating membership and share capital contribution to this Federation;</li>
-        <li>Board of Director Resolution on authorized representative;</li>
+        <li>General Assembly Resolution indicating membership and share  capital contribution to this Federation of Cooperatives;</li>
+        <li>Board of Directors Resolution on authorized representative;</li>
         <li>Certification of line of business activities engaged in;</li>
-        <li>Subscribed and paid the required minimum share capital and membership fee; and</li>
+        <li>Subscribed and paid the required minimum share capital and  membership fee; and</li>
         <!--<li>___________________________________________________________________</li>-->
         <?php if(strlen($bylaw_info->additional_requirements_for_membership)>0) :?>
           <?php foreach($members_additional_requirements as $requirement) : ?>
@@ -121,8 +126,8 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12">
-        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Application for Membership.</i>  An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within <?= ucwords(num_format_custom($bylaw_info->act_upon_membership_days));?> (<?= $bylaw_info->act_upon_membership_days?>) ) days from the date of filing. The Board of Directors shall devise a form for the purpose which shall, aside from the profile of the applicant cooperative, include the duties of an affiliate to participate in all programs including but not limited to capital build-up, patronizing the businesses and services and savings mobilization of the federation and, such other information as may be deemed necessary. </p>
-        <p class="text-justify" style="text-indent: 50px;">The application form for membership shall include an undertaking to uphold the By-laws, policies, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly. No application for membership shall be given due course if not accompanied with a membership fee of <?= ucwords(num_format_custom(str_replace(',','',$bylaw_info->membership_fee)));?> (<b>Php <?= number_format(str_replace(',','',$bylaw_info->membership_fee),2)?></b>), which shall be refunded to the applicant cooperative in case of rejection.</p>
+        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Application for Membership.</i>  An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within <?= ucwords(num_format_custom($bylaw_info->act_upon_membership_days));?> (<?= $bylaw_info->act_upon_membership_days?>) days from the date of filing. The Board of Directors shall devise a form for the purpose which shall, aside from the profile of the applicant cooperative, include the duties of an member to participate in all programs including but not limited to capital build-up, patronizing the businesses and services and savings mobilization of the federation and, such other information as may be deemed necessary. </p>
+        <p class="text-justify" style="text-indent: 50px;">The application form for membership shall include an undertaking to uphold the By-laws, policies, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly. No application for membership shall be given due course if not accompanied with a membership fee of <?= ucwords(num_format_custom(str_replace(',','',$bylaw_info->membership_fee))). ' Pesos';?> (Php <?= number_format(str_replace(',','',$bylaw_info->membership_fee),2)?>), which shall be refunded to the applicant cooperative in case of rejection.</p>
     </div>
   </div>
   <div class="row">
@@ -132,7 +137,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Minimum Share Capital Requirement.</i> An applicant cooperative for membership shall subscribe at least <?= num_format_custom($capitalization_info->minimum_subscribed_share_regular)?> (<?= $capitalization_info->minimum_subscribed_share_regular?>) shares and pay the value of at least <?= num_format_custom($capitalization_info->minimum_paid_up_share_regular)?> (<?= $capitalization_info->minimum_paid_up_share_regular?>) shares upon approval of his/her membership. However, no affiliate shall own or hold more than Ten percent (10%) of the total subscribed share capital of the Federation.</p>
+      <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Minimum Share Capital Requirement.</i> An applicant cooperative for membership shall subscribe at least <?= num_format_custom($capitalization_info->minimum_subscribed_share_regular)?> (<?= $capitalization_info->minimum_subscribed_share_regular?>) shares and pay the value of at least <?= num_format_custom($capitalization_info->minimum_paid_up_share_regular)?> (<?= $capitalization_info->minimum_paid_up_share_regular?>) shares upon approval of his/her membership.</p>
       <?php if($bylaw_info->kinds_of_members == 2) :?>
       <p class="text-justify">An applicant for <strong>associate membership</strong> shall subscribe at least <?= num_format_custom($capitalization_info->minimum_subscribed_share_associate)?> (<?= $capitalization_info->minimum_subscribed_share_associate?>) shares and pay the value of at least <?= num_format_custom($capitalization_info->minimum_paid_up_share_associate)?> (<?= $capitalization_info->minimum_paid_up_share_associate?>) shares upon approval of his/her membership.</p>
       <?php endif;?>
@@ -152,14 +157,14 @@
 			<li>Attend and participate in the deliberation of all matters taken during general assembly meetings; </li>
 			<li>Observe and obey all lawful orders, decisions, rules and regulations adopted by the Board of Directors and the general assembly;</li>
 			<li>Remit the Cooperative Education and Training Fund (CETF) due to the Federation/Union; and</li>
-			<li>Promote the purposes and goals of the Federation, the success of its business, the welfare of its affiliates and the cooperative
+			<li>Promote the purposes and goals of the Federation, the success of its business, the welfare of its members and the cooperative
 			movement in general.</li>
 		</ol>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 8. <i class="font-weight-bold">Rights and Privileges of Affiliates.</i> An affiliate shall have the following rights and privileges:</p>
+        <p class="text-justify font-weight-regular">Section 8. <i class="font-weight-bold">Rights and Privileges of Members.</i> An member shall have the following rights and privileges:</p>
     </div>
   </div>
   <div class="row">
@@ -188,18 +193,18 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 9. <i class="font-weight-bold">Affiliate Entitled to Vote.</i> Any regular member who meets the following conditions is a member entitled to vote:</p>
+        <p class="text-justify font-weight-regular">Section 9. <i class="font-weight-bold">Member Entitled to Vote.</i> Any regular member who meets the following conditions is a member entitled to vote:</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        <li>Paid the membership fee and the value of the minimum shares required for membership;</li>
-  			<li>Not delinquent in the payment of its share capital subscriptions and other accounts or obligations;</li>
-  			<li>Not violated any provision of cooperative laws, CDA administrative issuances, Articles of Cooperation and this Bylaws, the terms and conditions of the subscription agreement; and the decisions, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly;</li>
-  			<li>Completed the continuing education program prescribed by the Board of Directors;</li>
-  			<li>Remitted the Cooperative Education and Training Fund (CETF) due to the Federation/Union and</li>
-  			<li>Participated in the affairs of the Federation and patronized its businesses in accordance with the policies and guidelines.</li>
+        <li>Has paid the membership fee and the value of the minimum shares  required for membership;</li>
+  			<li>Is not delinquent in the payment of its share capital subscriptions  and other accounts or obligations;</li>
+  			<li>Has not violated any provision of cooperative laws, CDA  administrative issuances, Articles of Cooperation and this By laws, the terms and conditions of the subscription agreement;  and the decisions, guidelines, rules and regulations promulgated  by the Board of Directors and the General Assembly;</li>
+  			<li>Has completed the continuing education program prescribed by the  Board of Directors;</li>
+  			<li>Has remitted the Cooperative Education and Training Fund (CETF)  due to the Federation/Union; and</li>
+  			<li>Has participated in the affairs of the Federation and patronized its  businesses in accordance with the policies and guidelines.</li>
         <!-- <?php if(strlen($bylaw_info->additional_conditions_to_vote)>0) :?>
           <?php foreach ($members_additional_conditions_to_vote as $condition) : ?>
             <li><?= $condition ?></li>
@@ -210,7 +215,7 @@
   </div>
   <div class="row ">
     <div class="col-sm-12 col-md-12">
-      <p class="text-justify" style="text-indent: 50px;">Failure of the member to meet any of the above conditions shall mean suspension of voting rights subject to the declaration of the board of directors until the same has been lifted upon the determination of the latter.</p>
+      <p class="text-justify" style="text-indent: 50px;">Failure of a the member to meet any of the above conditions shall mean suspension of its voting rights subject to the declaration of the board of directors until the same has been lifted upon the determination of the latter.</p>
       <p class="text-justify" style="text-indent: 50px;">Consequently, a member entitled to vote shall have the following additional rights:</p>
     </div>
   </div>
@@ -218,27 +223,27 @@
     <div class="col-sm-12 col-md-12">
         <ol class="text-justify" type="a">
           <li>Participate and vote on all matters deliberated upon during general assembly meetings;</li>
-  			  <li>Seek any elective or appointive position, subject to the provisions of this By-laws and the Philippine Cooperative Code of 2008; and</li>
+  			  <li>Qualified to seek any elective or appointive position, subject to the provisions of this By-laws and the Philippine Cooperative Code of 2008; and</li>
   			  <li>Such other rights and privileges as may be provided by the General Assembly.</li>
   		  </ol>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 11. <i class="font-weight-bold">Liability of Affiliates.</i> An affiliate shall be liable for the debts of the Federation only to the extent of his subscribed share capital.</p>
+        <p class="text-justify font-weight-regular">Section 10. <i class="font-weight-bold">Liability of Members.</i> A member shall be liable for the debts of the Cooperative only to the extent of its subscribed share capital.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 12. <i class="font-weight-bold">Termination of Membership.</i> Termination of membership may be automatic, voluntary or involuntary, which shall have the effect of extinguishing all rights of a member in the Cooperative, subject to refund of share capital contribution under Section 14 hereof.</p>
+        <p class="text-justify font-weight-regular">Section 11. <i class="font-weight-bold">Termination of Membership.</i> Termination of membership may  be automatic, voluntary or involuntary, which shall have the effect of  extinguishing all rights of a member in the Cooperative, subject to the refund of share capital contribution under Section 14 hereof.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        <li><strong>Automatic Termination of Membership.</strong> The dissolution or the insolvency of an affiliate shall be considered an automatic termination of its membership in the Federation.</li>
-				<li><strong>Voluntary Termination.</strong> An affiliate may, for any valid reason, withdraw his membership from the federation by giving a sixty (60) day notice to the Board of Directors.</li>
-				<li><strong>Involuntary Termination.</strong> An affiliate may be terminated by a vote of the majority of all the members of the Board of Directors for any of the following causes:
+        <li><strong>Automatic Termination of Membership.</strong> The dissolution or the insolvency of a member shall be considered an automatic termination of its membership in the Federation.</li>
+				<li><strong>Voluntary Termination.</strong> A member may, for any valid reason, withdraw its membership from the federation by giving a sixty- (60) day notice to the Board of Directors.</li>
+				<li><strong>Involuntary Termination.</strong> A member may be terminated by a vote of the majority of all the members of the Board of Directors for any of the following causes:
 						<ol class="text-justify" type="i">
   						<li>Has not patronized the services/businesses of the Federation as provided for in its policies ;</li>
   						<li>Has continuously failed to comply with its obligations as provided for in the policies of the Federation;</li>
@@ -251,13 +256,13 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 13. <i class="font-weight-bold">Manner of Involuntary Termination.</i> The Board of Directors shall notify in writing the member who is being considered for termination and shall give him/her the opportunity to be heard.</p>
-        <p class="text-justify" style="text-indent: 50px;">The decision of the board of directors shall be in writing and shall be communicated in person or by registered mail to said member and shall be appealable within thirty (30) days from receipt thereof to the general assembly whose decision shall be final.</p>
+        <p class="text-justify font-weight-regular">Section 12. <i class="font-weight-bold">Manner of Involuntary Termination.</i> The Board of Directors shall notify in writing the member which is being considered for termination  and shall give them the opportunity to be heard.</p>
+        <p class="text-justify" style="text-indent: 50px;">The decision of the board of directors shall be in writing and shall be  communicated in person or by registered mail to said member and shall be appealable within thirty (30) days from receipt thereof to the General Assembly whose decision shall be final.</p>
     </div>
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 14. <i class="font-weight-bold">Refund of Share Capital Contribution.</i> An affiliate member whose membership is terminated shall be entitled to a refund of its share capital contribution and all other interests in the federation. However, such refund shall not be made if upon payment the value of the assets of the Federation would be less than the aggregate amount of its debts and liabilities exclusive of its share capital contribution. In which case, the terminated affiliate shall continue to be entitled to the interest of its share capital contributions, patronage refund and the use of the services of the Federation until such time that all its interests in the Federation shall have been duly paid.</p>
+        <p class="text-justify font-weight-regular">Section 13. <i class="font-weight-bold">Refund of Share Capital Contribution.</i> A member whose membership is terminated shall be entitled to a refund of its share capital contribution and all other interests in the federation. However, such  refund shall not be made if upon payment the value of the assets of the Federation would be less than the aggregate amount of its debts and liabilities exclusive of its share capital contribution. In which case, the terminated member shall continue to be entitled to the interest of its share capital contributions, patronage refund and the use of the services of the  Federation until such time that all its interests in the Cooperative shall have been duly paid.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -267,7 +272,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">The General Assembly (GA).</i> The general assembly is composed of all the members entitled to vote, duly assembled and constituting a quorum and is the highest policy-making body of the Federation.</p>
+        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">The General Assembly (GA).</i> The General Assembly is composed of all the members entitled to vote, duly assembled and constituting a quorum and is the highest policy-making body of the Federation.</p>
     </div>
   </div>
   <div class="row">
@@ -288,12 +293,12 @@
                       <li><?= $requirement ?></li>
                     <?php endforeach; ?>
                   <?php endif; ?>
-    </ol>
+              </ol>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 3. <i class="font-weight-bold">Meetings.</i> Meetings of the general assembly, board of directors and committees may be regular or special. All proceedings and businesses undertaken at any meeting of the general assembly or Board of Directors, if within the powers or authority of the Cooperative, there being a quorum, shall be valid.</p>
+        <p class="text-justify font-weight-regular">Section 3. <i class="font-weight-bold">Meetings.</i> Meetings of the General Assembly, Board of Directors and committees may be regular or special. All proceedings and businesses  undertaken at any meeting of the General Assembly or Board of Directors, if within the powers or authority of the Cooperative, there being a quorum, shall be valid.</p>
         <!-- <p class="text-justify font-weight-regular">Regular and associate members are required to attend the meetings for the purpose of exercising all the rights and performing all the obligations pertaining to them, as provided by the Code, Articles of Cooperation and ByLaws.</p> -->
     </div>
   </div>
@@ -304,30 +309,30 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 5. <i class="font-weight-bold">Special General Assembly Meeting.</i> The Board of Directors may, by a majority vote of all its affiliates, call a special general assembly meeting at any time to consider urgent matters requiring immediate membership decision. The Board of Directors must likewise call a special general assembly meeting within one (1) month from receipt of a written request from: </p>
+        <p class="text-justify font-weight-regular">Section 5. <i class="font-weight-bold">Special General Assembly Meeting.</i> The Board of Directors may, by a majority vote of all its members, call a special general assembly meeting at any time to consider urgent matters requiring immediate membership decision. The Board of Directors must likewise call a special general assembly meeting within one (1) month from receipt of a written request from: </p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        <li>At least ten percent (10%) of the total number of affiliates entitled to vote;</li>
+        <li>At least ten percent (10%) of the total number of members entitled to vote;</li>
         <li>The Audit Committee; or</li>
-        <li>The Federation to which the Cooperative is an affiliate, or</li>
+        <li>The Federation to which the Cooperative is a members, or</li>
         <li>Upon Order of the Cooperative Development Authority.</li>
       </ol>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">All notices of meetings shall be in writing and shall include the date, time, place, and agenda thereof stated therein.</p>
+        <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Notice of Meeting.</i> All notices of meetings shall be in writing and shall include the date, time, place, and agenda.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-          <li>Regular General Assembly Meeting. Notice of the annual regular general assembly meeting shall be served by the Secretary, personally or his duly authorized representative, by registered mail, or by electronic means to all affiliates of record at his last known postal address, or by posting or publication, or through other electronic means, at least one (1) week before the said meeting. It shall be accompanied with an agenda, minutes of meeting of the last general assembly meeting, consolidated reports of the Board of Directors and Committees, audited financial statements, and other papers which may assist the members to intelligently participate in the proceedings.</li>
-		<li>Special General Assembly Meeting. Notice of any special general assembly meeting shall be served by the Secretary personally or his duly authorized representative, by registered mail, or by electronic means upon each members who are entitled to vote at his last known postal address, or by posting or publication, or through other electronic means, at least one (1) week before the said meeting. It shall state the purpose and, except for related issues, no other business shall be considered during the meeting.</li>
-		<li>Waiver of Notice. Notice of any meeting may be waived, expressly or impliedly, by the affiliate concerned.</li>
+          <li>Regular General Assembly Meeting. Notice of the annual regular General Assembly meeting shall be served by the Secretary, personally or his duly authorized representative, by registered mail, or by electronic means to all members of record at his last known postal address, or by posting or publication, or through other electronic means, at least one (1) week before the said meeting. It shall be accompanied with an agenda, minutes of meeting of the last general assembly meeting, consolidated reports of the Board of Directors and Committees, audited financial statements, and other papers which may assist the members to intelligently participate in the proceedings.</li>
+      		<li>Special General Assembly Meeting. Notice of any special general assembly meeting shall be served by the Secretary personally or his duly authorized representative, by registered mail, or by electronic means upon each members who are entitled to vote at his last known postal address, or by posting or publication, or through other electronic means, at least one (1) week before the said meeting. It shall state the purpose and, except for related issues, no other business shall be considered during the meeting.</li>
+      		<li>Waiver of Notice. Notice of any meeting may be waived, expressly or impliedly, by the member concerned.</li>
       </ol>
     </div>
   </div>
@@ -346,10 +351,10 @@
         <li>Unfinished business; </li>
         <li>New business;
             <ul class="text-justify" style="list-style-type:none;">
-              <li>h.1 Election of directors and committee members </li>
-              <li>h.2 Approval of Development and/or annual Plan and Budget </li>
-              <li>h.3 Hiring of External Auditor </li>
-              <li>h.4 Other related business matters </li>
+              <li>f.1 Election of directors and committee members </li>
+              <li>f.2 Approval of Development and/or Annual Plan and Budget </li>
+              <li>f.3 Hiring of External Auditor; And</li>
+              <li>f.4 Other related business matters </li>
             </ul>
         </li>
         <li>Announcements; and </li>
@@ -359,14 +364,14 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 8. <i class="font-weight-bold">Quorum for General Assembly Meeting.</i> During regular or special general assembly meeting, at least <?= num_format_custom($bylaw_info->members_percent_quorom)?> percent (<?= $bylaw_info->members_percent_quorom?>%) of the total number of affiliates entitled to vote shall constitute a quorum. </p>
+        <p class="text-justify font-weight-regular">Section 8. <i class="font-weight-bold">Quorum for General Assembly Meeting.</i> During regular or special general assembly meeting, at least <?= num_format_custom($bylaw_info->members_percent_quorom)?> percent (<?= $bylaw_info->members_percent_quorom?>%) of the total number of members entitled to vote shall constitute a quorum. </p>
     </div>
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 9. <i class="font-weight-bold">Voting System.</i>  Only affiliates entitled to vote shall be qualified to participate and vote in any general assembly meeting. An affiliate is entitled to one basic vote and as many incentive votes but not to exceed five (5) votes. The votes cast by the representative/delegate duly authorized shall be deemed as votes cast by the affiliates.</p>
-        <p class="text-justify" style="text-indent: 50px;">The incentive vote shall be determined by the Board of Directors and approved by the general assembly.</p>
-        <p class="text-justify" style="text-indent: 50px;">Election of Directors and Committee members shall be by secret ballot. Action on all matters shall be in any manner that will truly and correctly reflect the will of the membership.</p>
+        <p class="text-justify font-weight-regular">Section 9. <i class="font-weight-bold">Voting System.</i> Only members entitled to vote shall be qualified to participate and vote in any General Assembly meeting. A member  is  entitled to one basic vote and as many incentive votes but not to exceed five (5) votes. The votes cast by the representative/delegate duly authorized shall be deemed as votes cast by the members.</p>
+        <p class="text-justify" style="text-indent: 50px;">The incentive vote shall be determined by the Board of Directors and approved by the General Assembly.</p>
+        <p class="text-justify" style="text-indent: 50px;">Election of Directors and Committee members shall be by secret ballot. Action on all matters shall be in a manner that will truly and correctly reflect the will of the membership.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -376,7 +381,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Composition of the Board of Directors (BOD).</i> The Board of Directors shall be composed of <?= num_format_custom($bylaw_info->composition_of_bod)?> (<?= $bylaw_info->composition_of_bod?>) members.</p>
+        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Composition of the Board of Directors (BOD).</i> The Board of Directors shall be composed of <?= num_format_custom($no_of_directors)?> (<?= $no_of_directors?>) members.</p>
     </div>
   </div>
   <div class="row">
@@ -387,15 +392,15 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-    		<li>Provide general policy direction; </li>
+    		<li>Provide the general policy direction of the Federation; </li>
     		<li>Formulate the strategic development plan; </li>
     		<li>Determine and prescribe the organizational and operational structure; </li>
-    		<li>Review the Annual Plan and Budget and recommend for the approval of the GA;</li>
-    		<!--e--><li>Establish policies and procedures for the effective operation and ensure proper implementation of such; </li>
-    		<li>Evaluate the capability and qualification and recommend to the GA the engagement of the services of the External Auditor;</li>
+    		<li>Review the Annual Plan and Budget and recommend for its approval by the GA;</li>
+    		<li>Establish policies and procedures for the effective operation and ensure proper implementation; </li>
+    		<li>Evaluate the capability and qualification and recommend to the GA the engagement of the services of an External Auditor;</li>
     		<li>Appoint the members of the Mediation/ Conciliation and Ethics Committees and other Officers as specified in the Code and Federation By-laws;</li>
     		<li>Decide election related cases involving the Election Committee and its members in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act No. 9520, Memorandum Circulars issued by the Cooperative Development Authority, Alternate Dispute Resolution Act of 2004 and its suppletory laws;</li>
-    		<li>Act on the recommendation of the Ethics Committee on cases involving violations of Code of Governance and Ethical Standards in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act No. 9520, Memorandum Circulars issued by the Cooperative Development Authority, Alternate Dispute Resolution Act of 2004 and its suppletory laws; and </li>
+    		<li>Act on the recommendation of the Ethics Committee on cases involving violations of the Code of Governance and Ethical Standards in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act No. 9520, Memorandum Circulars issued by the Cooperative Development Authority, Alternate Dispute Resolution Act of 2004 and its suppletory laws; and</li>
     		<li>Perform such other functions as may be prescribed in the By-laws or authorized by the GA;</li>
       </ol>
     </div>
@@ -411,7 +416,7 @@
         <li>Has paid the minimum capital requirement; </li>
     		<li>Has no delinquent account with the Federation; </li>
     		<li>Have continuously patronized the Federation services;</li>
-    		<li>An affiliate in good standing for the last two (2) years;</li>
+    		<li>An member in good standing for the last two (2) years;</li>
     		<li>Completed or willingness to complete within the prescribed period the required education and training whichever is applicable; and </li>
     		<li>Other qualifications prescribed in the IRR of the Authority. </li>
     	</ol>
@@ -419,18 +424,18 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Disqualifications.</i> Any affiliate representative under any of the following circumstances shall be disqualified to be elected as a member of the Board of Directors or any committee, or to continue as such:</p>
+        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Disqualifications.</i> Any member-representative shall be disqualified to be elected as a member of the Board of Directors or any committee, or to continue as such under any of the following circumstances:</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Holding any elective position in the government, except that of a party list representative being an officer of a cooperative he or she represents; </li>
-    		<li>The members of the board of directors holding other position directly involved in the day-to-day operation and management of the cooperative he/she represents;</li>
+    		<li>The members of the Board of Directors holding other positions directly involved in the day-to-day operation and management of the cooperative he/she represents; </li>
     		<li>Having direct or indirect personal interest with the business of the Cooperative; </li>
-      		<li>Having been absent for <?= num_format_custom($bylaw_info->number_of_absences_disqualification) ?>(<?= $bylaw_info->number_of_absences_disqualification ?>) consecutive meetings or in more than <?=num_format_custom($bylaw_info->percent_of_absences_all_meettings) ?> percent (<?= $bylaw_info->percent_of_absences_all_meettings.'%'?>) of all meetings within the twelve (12) month period unless with valid excuse as approved by the board of directors;</li>
+    		<li>Having been absent for <?= num_format_custom($bylaw_info->number_of_absences_disqualification) ?>(<?= $bylaw_info->number_of_absences_disqualification ?>) consecutive meetings or in more than <?=num_format_custom($bylaw_info->percent_of_absences_all_meettings) ?> percent (<?= $bylaw_info->percent_of_absences_all_meettings.'%'?>) of all meetings within the twelve (12) month period unless with valid excuse as approved by the board of directors;</li>
     		<li>Being an official or employee of the Cooperative Development Authority, except in a Federation organized among themselves; </li>
-    		<li>Having been convicted in administrative proceedings or civil/criminal suits involving financial and/or property accountability; and</li>
+    		<li>Having been convicted in an administrative proceedings or civil/criminal suits involving financial and/or property accountability; and</li>
         <li>Having been disqualified by law.</li>
     	</ol>
     </div>
@@ -442,39 +447,39 @@
   </div> -->
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 5. <i class="font-weight-bold">Election of Directors.</i> The members of the Board of Directors shall be elected, by secret ballot, by the affiliates, who are duly authorized representatives, who are entitled to vote during the annual regular general assembly meeting or special general assembly meeting called for the purpose. Unless earlier removed for cause, or have resigned or become incapacitated, they shall hold office for a term of <b><?=num_format_custom($bylaw_info->director_hold_term) ?></b> (<b><?=$bylaw_info->director_hold_term?></b>) years or until their successors shall have been elected and qualified; Provided, that majority of the elected directors obtaining the highest number of votes during the first election after registration shall serve for two (2) years, and the remaining directors for one (1) year. Thereafter, all directors shall serve for a term of two (2) years. The term of the cooperators-directors shall expire upon the election of their successors in the first Regular General Assembly after registration.</p>
+        <p class="text-justify font-weight-regular">Section 5. <i class="font-weight-bold">Election of Directors.</i> The members of the Board of Directors shall be elected, by secret ballot, by the members, who are duly authorized representatives, who are entitled to vote during the annual regular general assembly meeting or special general assembly meeting called for the purpose. Unless earlier removed for cause, or have resigned or become incapacitated, they shall hold office for a term of <?=num_format_custom($bylaw_info->director_hold_term) ?> (<?=$bylaw_info->director_hold_term?>) years or until their successors shall have been elected and qualified; Provided, that majority of the elected directors obtaining the highest number of votes during the first election after registration shall serve for two (2) years, and the remaining directors for one (1) year. Thereafter, all directors shall serve for a term of two (2) years. The term of the cooperators-directors shall expire upon the election of their successors in the first Regular General Assembly after registration.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Election of Officer within the Board of Directors.</i> The Board of Directors shall convene within ten (10) days after the general assembly meeting to elect by secret ballot from among themselves the Chairperson and the Vice-Chairperson, and (to elect or) appoint the Secretary and Treasurer from outside of the Board.</p>
-        <p class="text-justify" style="text-indent: 50px;">For committees elected by the General Assembly and/or appointed by the BOD, procedural process of electing the Chairperson, Vice-Chairperson or other positions among themselves should be in accordance with the process mentioned above.</p>
+        <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Election of Officer within the Board of Directors.</i> The Board of Directors shall convene within ten (10) days after the General Assembly  meeting to elect by secret ballot from among themselves the Chairperson and the Vice-Chairperson, and (to elect or) appoint the Secretary and Treasurer from outside of the Board.</p>
+        <p class="text-justify" style="text-indent: 50px;">For committees to be elected by the General Assembly and/or appointed by  the BOD, the same procedural process of electing the Chairperson, Vice-Chairperson or other positions among themselves should be followed.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="font-weight-regular">Section 7. <i class="font-weight-bold">Meeting of the Board of Directors.</i> The regular meeting of the Board of Directors shall be held at least once a month. However, the Chairperson or majority of the directors may at any time call a special Board meeting to consider urgent matters. The call shall be addressed and delivered thru the Secretary stating the date, time and place of such meeting and the matters to be considered. Notice of regular and special meetings of the Board of Directors, unless dispensed with, shall be served by the Secretary in writing or thru electronic means to each director at least two (2) days before such meeting.</p>
+        <p class="font-weight-regular">Section 7. <i class="font-weight-bold">Meeting of the Board of Directors.</i> The regular meeting of the Board of Directors shall be held at least once a month. However, the Chairperson or majority of the directors may at any time call a special Board  meeting to consider urgent matters. The call shall be addressed and delivered through the Secretary stating the date, time and place of such meeting and the matters to be considered. Notice of regular and special meetings of the Board of Directors, unless dispensed with, shall be served by the Secretary in writing or thru electronic means to each director at least two (2) days before such meeting.</p>
         <p class="text-justify" style="text-indent: 50px;">Majority of the total number of directors constitutes a quorum to transact business. Any decision or action taken by the majority members of the Board of Directors in a meeting duly assembled shall be a valid cooperative act.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 8. <i class="font-weight-bold">Vacancies.</i> Any vacancy occurring in the Board of Directors by reason of death, incapacity, removal or resignation may be filled-up by a majority vote of the remaining directors, if still constituting a quorum; otherwise, such vacancy shall be filled by the general assembly in a regular or special meeting called for the purpose. The elected director shall serve only for the unexpired term of his predecessor in office.</p>
+        <p class="text-justify font-weight-regular">Section 8. <i class="font-weight-bold">Vacancies.</i> Any vacancy occurring in the Board of Directors by reason of death, incapacity, removal or resignation may be filled-up by a  majority vote of the remaining directors, if still constituting a quorum; otherwise, such vacancy shall be filled by the General Assembly in a regular or special meeting called for the purpose. The elected director shall serve only for the unexpired term of his predecessor in office.</p>
         <p class="text-justify" style="text-indent: 50px;">In the event that the general assembly failed to muster a quorum to fill the positions vacated by directors whose term have expired and said directors refuse to continue their functions on a hold-over capacity, the remaining members of the Board together with the members of the Audit Committee shall designate, from the qualified regular members of the general assembly, their replacements who shall serve temporarily as such until their successors shall have been elected and qualified in a regular or special general assembly meeting called for the purpose.</p>
         <p class="text-justify" style="text-indent: 50px;">If a vacancy occurs in any elective committee it shall be filled by the remaining members of the said committee, if still constituting a quorum, otherwise, the Board, in its discretion, may appoint or hold a special election to fill such vacancy.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 9. <i class="font-weight-bold">Removal of Members of the Board of Directors and Committee Members.</i> All complaints for the removal of any elected officer shall be filed with the Board of Directors and such officer shall be given the opportunity to be heard. Majority of the Board of Directors may place the officer concerned under preventive suspension pending the resolution of the investigation. Upon finding of a prima facie evidence of guilt, the Board of Directors shall present its recommendation for removal to the general assembly. An elective officer may be removed by three-fourths (¾) of the regular members present and constituting a quorum, in a regular or special general assembly meeting called for the purpose. The officer concerned shall be given the opportunity to be heard at said assembly. For this purpose, the Board of Directors shall provide policy on suspension.</p>
-        <p class="text-justify" style="text-indent: 50px;">In cases where the officers sought to be removed consist of the majority of the BOD, at least 10% of the affiliates with voting rights may file a petition with the CDA, upon failure of the BOD to call an assembly meeting for the purpose to commence the proceeding for their removal within thirty (30) days from notice. The decision of the GA on the matter is final and executory.</p>
-        <p class="text-justify" style="text-indent: 50px;">An officer appointed by the Board of Directors may be removed from office for cause by a majority vote of all the members of the Board of Directors.</p>
+        <p class="text-justify font-weight-regular">Section 9. <i class="font-weight-bold">Removal of Members of the Board of Directors and Committee Members.</i> All complaints for the removal of any elected officer shall be filed  with the Board of Directors and such officer shall be given the opportunity to be heard. Majority of the Board of Directors may place the officer concerned under preventive suspension pending the resolution of the investigation. Upon finding of a prima facie evidence of guilt, the Board of Directors shall present its recommendation for removal to the General Assembly. An elective officer may be removed by three-fourths (¾) of the regular members present and constituting a quorum, in a regular or special General Assembly meeting called for the purpose. The officer concerned shall be given the opportunity to be heard at said assembly. For this purpose, the Board of Directors shall provide a policy on suspension.</p>
+        <p class="text-justify" style="text-indent: 50px;">In cases where the officers sought to be removed consist of the  majority of the BOD, at least 10% of the members with voting rights may file a petition with the CDA, upon failure of the BOD to call an assembly meeting for the purpose to commence the proceeding for their removal within thirty (30) days from notice. The decision of the GA on the matter is final and executory.</p>
+        <p class="text-justify" style="text-indent: 50px;">An officer appointed by the Board of Directors may be removed from  office for cause by a majority vote of all the members of the Board of Directors.</p>
     </div>
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
         <p class="text-justify font-weight-regular">Section 10. <i class="font-weight-bold">Prohibitions.</i> Any member of the Board of Directors shall not hold any other position directly involved in the day-to-day operation and management of the Cooperative nor engage in any business similar to that of the Cooperative or who in any way has a conflict of interest with it</p>
-        <p class="text-justify" style="text-indent: 50px;">The extent of conflict of interest shall be clearly defined in the policy of the Cooperative.</p>
+        <!-- <p class="text-justify" style="text-indent: 50px;">The extent of conflict of interest shall be clearly defined in the policy of the Cooperative.</p> -->
     </div>
   </div>
   <div class="row mb-2">
@@ -484,7 +489,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Audit Committee.</i> is hereby created and shall be  composed of _________ ( ) members to be elected during a general assembly meeting and shall hold office for a term of one (1) year or until their successors shall have been elected and qualified. Within ten (10) days after their election, they shall elect from among themselves a Chairperson, ViceChairperson and a Secretary. No member of the committee shall hold any other position within the Federation Cooperative during his term of office. The Committee shall provide internal audit service, maintain a complete record of its examination and inventory, and submit audit report quarterly or as may be required by the Board and the general assembly.</p>
+        <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Audit Committee.</i> is hereby created and shall be  composed of three (3) members to be elected during a general assembly meeting and shall hold office for a term of one (1) year or until their successors shall have been elected and qualified. Within ten (10) days after their election, they shall elect from among themselves a Chairperson, ViceChairperson and a Secretary. No member of the committee shall hold any other position within the Federation Cooperative during his term of office. The Committee shall provide internal audit service, maintain a complete record of its examination and inventory, and submit audit report quarterly or as may be required by the Board and the general assembly.</p>
         <p class="text-justify" style="text-indent: 50px;">The audit committee shall be directly accountable and responsible to the General Assembly. It shall have the power and duty to continuously monitor the adequacy and effectiveness of the federation's management control system and audit the performance of the federation and its various responsibility centers.</p>
     </div>
   </div>
@@ -496,18 +501,18 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       	<ol class="text-justify" type="a">
-	    	<li>Monitor the adequacy and effectiveness of the federations management and control system; </li>
-	        <li>Audit the performance of the federation and its various responsibility centers; </li>
-	    	<li>Review continuously and periodically the books of account and other financial records to ensure that these are in accordance with the cooperative principles & generally accepted accounting procedures; </li>
-	    	<li>Submit reports on the results of the internal audit and recommend necessary changes on policies and other related matters on operation to the Board of Directors and GA;</li>
-	        <li>Recommend or petition to the Board of Directors conduct of special general assembly when necessary; and </li>
-	        <li>Perform such other functions as may be delegated by the BOD or authorize by the GA</li>
+	    	  <li>Monitor the adequacy and effectiveness of the cooperative's management and control system; </li>
+	        <li>Audit the performance of the Federation and its various responsibility centers; </li>
+	    	  <li>Review continuously and periodically the books of account and other financial records to ensure that these are in accordance with the cooperative principles & generally accepted accounting procedures; </li>
+	    	  <li>Submit reports to the Board of Directors and the GA on the results of the internal audit and recommend necessary changes in policies and other related matters in operation ;</li>
+	        <li>Recommend or petition to the Board of Directors for the conduct of a special General Assembly when necessary; and </li>
+	        <li>Perform such other functions as may be delegated by the BOD or authorized by the GA.</li>
       	</ol>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 3. <i class="font-weight-bold">Election Committee.</i> An Election Committee is hereby created and shall be composed of ________ ( ) members to be elected during a general assembly meeting and shall hold office for a term of one (1) year or until their successors shall have been elected and qualified. Within ten (10) days after their election they shall elect from among themselves a Chairperson, ViceChairperson and a Secretary. No member of the committee shall hold any other position within the Federation during his term of office.</p>
+        <p class="text-justify font-weight-regular">Section 3. <i class="font-weight-bold">Election Committee.</i> An Election Committee is hereby created and shall be composed of three (3) members to be elected during a general assembly meeting and shall hold office for a term of one (1) year or until their successors shall have been elected and qualified. Within ten (10) days after their election they shall elect from among themselves a Chairperson, ViceChairperson and a Secretary. No member of the committee shall hold any other position within the Federation during his term of office.</p>
     </div>
   </div>
   <div class="row">
@@ -519,19 +524,19 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         	<li>Formulate election rules and guidelines and recommend to the GA for approval;</li>
-    		<li>Implement election rules and guidelines duly approved by the GA;</li>
-    		<li>Recommend necessary amendments to the election rules and guidelines, in consultation with the Board of Directors, for approval of the GA;</li>
-    		<li>. Supervise the conduct, manner and procedure of election and other election related activities and act on the changes thereto;</li>
-    		<li>Canvass and certify the results of the election;</li>
-    		<li>Proclaim the winning candidates;</li>
-    		<li>Decide election and other related cases except those involving the Election Committee or its members in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act 9520 and its Implementing Rules and Regulations; Alternative Dispute Resolution Act of 1994 and its suppletory laws and circulars issued by the Cooperative Development Authority, and</li>
-    		<li>Perform such other functions as may be delegated by the BOD or authorized by the GA.</li>
+      		<li>Implement election rules and guidelines duly approved by the GA;</li>
+      		<li>Recommend necessary amendments to the election rules and guidelines, in consultation with the Board of Directors, for approval of the GA;</li>
+      		<li>Supervise the conduct, manner and procedure of election and other election related activities and act on the changes thereto;</li>
+      		<li>Canvass and certify the results of the election;</li>
+      		<li>Proclaim the winning candidates;</li>
+      		<li>Decide election and other related cases except those involving the Election Committee or its members in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act 9520 and its Implementing Rules and Regulations; Alternative Dispute Resolution Act of 1994 and its suppletory laws and circulars issued by the Cooperative Development Authority, and </li>
+      		<li>Perform such other functions as may be delegated by the BOD or authorized by the GA.</li>
     	</ol>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 5. <i class="font-weight-bold">Education and Training Committee.</i> An Education and Training Committee is hereby created and shall be composed of _________ ( ) members to be appointed by the Board of Directors and shall serve for a term of one (1) year, without prejudice to their reappointment. Within ten (10) days after their appointment, they shall elect from among themselves a Vice-Chairperson and a Secretary. The Vice-Chairperson of the Board of Directors shall act as the Chairperson of the Committee.</p>
+        <p class="text-justify font-weight-regular">Section 5. <i class="font-weight-bold">Education and Training Committee.</i> An Education and Training Committee is hereby created and shall be composed of three (3) members to be appointed by the Board of Directors and shall serve for a term of one (1) year, without prejudice to their reappointment. Within ten (10) days after their appointment, they shall elect from among themselves a Vice-Chairperson and a Secretary. The Vice-Chairperson of the Board of Directors shall act as the Chairperson of the Committee.</p>
         <p class="text-justify" style="text-indent: 50px;">The committee shall be responsible for the planning and implementation of the information, educational and human resource development programs of the Federation for its members, officers and the communities within its area of operation. </p>
     </div>
   </div>
@@ -553,7 +558,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 7. <i class="font-weight-bold">Mediation and Conciliation Committee.</i> A Mediation and Conciliation Committee is hereby created and shall be composed of __________( ) members to be appointed by the Board of Directors. Within ten (10) days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until successors shall have been appointed and qualified. No member of the Committee shall hold any other position in the Federation during his term of office.</p>
+        <p class="text-justify font-weight-regular">Section 7. <i class="font-weight-bold">Mediation and Conciliation Committee.</i> A Mediation and Conciliation Committee is hereby created and shall be composed of three (3) members to be appointed by the Board of Directors. Within ten (10) days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until successors shall have been appointed and qualified. No member of the Committee shall hold any other position in the Federation during his term of office.</p>
     </div>
   </div>
   <div class="row">
@@ -578,7 +583,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 9. <i class="font-weight-bold">Ethics Committee.</i> An Ethics Committee is hereby created and shall be composed of ________ ( ) members to be appointed by the Board of Directors. Within ten (10)days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until successors shall have been appointed and qualified. No member of the Committee shall hold any other position in the Federation during his term of office.</p>
+        <p class="text-justify font-weight-regular">Section 9. <i class="font-weight-bold">Ethics Committee.</i> An Ethics Committee is hereby created and shall be composed of three (3) members to be appointed by the Board of Directors. Within ten (10)days after their appointment, they shall elect from among themselves a Chairperson, Vice-Chairperson and a Secretary who shall serve for a term of one (1) year or until successors shall have been appointed and qualified. No member of the Committee shall hold any other position in the Federation during his term of office.</p>
     </div>
   </div>
   <div class="row">
@@ -589,7 +594,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        	<li>Develop Code of Governance and Ethical Standard to be observed by the affiliates, officers and employees of the Federation subject to the approval of the BOD and ratification of the GA;</li>
+        	<li>Develop Code of Governance and Ethical Standard to be observed by the members, officers and employees of the Federation subject to the approval of the BOD and ratification of the GA;</li>
     		<li>Disseminate, promote and implement the approved Code of Governance and Ethical Standards;</li>
     		<li>Monitor compliance with the Code of Governance and Ethical Standards and recommend to the BOD measures to address the gap, if any;</li>
     		<li>. Conduct initial investigation or inquiry upon receipt of a complaint involving Code of Governance and Ethical Standards and submit report to the BOD together with the appropriate sanctions in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act 9520 and its Implementing Rules and Regulations; Alternative Dispute Resolution Act of 1994 and its suppletory laws and circulars issued by the Cooperative Development Authority;</li>
@@ -598,9 +603,34 @@
     	</ol>
     </div>
   </div>
+  <?php $section_=10; ?>
+  <?php
+    if(is_array($committees_others))
+    {
+      $count_row = $section_;
+      foreach($committees_others as $rowCom)
+      {
+       $couting = $count_row++;
+  ?>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 text-left">
+            <p class="text-justify font-weight-regular">Section <?=$count_row++?>. <i class="font-weight-bold"><?=$rowCom['name']?></i> A <?=$rowCom['name']?> Committee shall be composed of three (3) members to be appointed by the Board of Directors.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12 col-md-12 text-left">
+            <p class="text-justify font-weight-regular">Section <?=$count_row++?>. <i class="font-weight-bold">Functions and Responsibilities.</i> <?=$rowCom['func_and_respons']?>.</p>
+        </div>
+      </div>  
+      
+  <?php
+      }//end foreach
+    }
+  ?>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 11. <i class="font-weight-bold">Other Committees.</i> By a majority vote of all its affiliates, the Board of Directors may form such other committees as may be deemed necessary for the operation of the Federation.</p>
+        <p class="text-justify font-weight-regular">Section <?php echo $count_row++;?>. <i class="font-weight-bold">Other Committees.</i> By a majority vote of all its members, the Board of Directors may form such other committees as may be deemed necessary for the operation of the Federation.</p>
     </div>
   </div>
   <!-- <div class="row">
@@ -720,10 +750,10 @@
         </li>
       	<li><i class="font-weight-bold">Secretary</i> – The Secretary shall:
       		<ol type="i">
-      			<li> Keep an updated and complete registry of all affiliates</li>
+      			<li> Keep an updated and complete registry of all members</li>
       			<li> Prepare and maintain records of minutes of all meetings of the BOD & the GA; </li>
       			<li> Ensure that necessary BODs’ actions and decisions are transmitted to the management for compliance and implementation;</li>
-      			<li> Issue and certify the list of affiliates who are in good standing and entitled to vote as determined by the BOD;</li>
+      			<li> Issue and certify the list of members who are in good standing and entitled to vote as determined by the BOD;</li>
       				<li> Prepare and issue Share Certificates; </li>
       			<li> Serve notice of all meetings called and certify the presence of quorum of all meetings of the BOD and GA;</li>
       			<li> Keep copy of the Treasurer’s report & other reports; </li>
@@ -859,7 +889,7 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        	<li>Affiliates’ share capital contribution; </li>
+        	<li>Member’ share capital contribution; </li>
     		<li>Loans and borrowings including deposits;</li>
     		<li>Revolving capital build-up which consist of the deferred payment of patronage refund or interest on share capital;</li>
     		<li>Subsidies, grants, legacies, aids, donation and such other assistance from any local or foreign institution, public or private; </li>
@@ -877,7 +907,7 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>At least <?=ucwords(num_format_custom($bylaw_info->member_invest_per_month))?> Pesos (P<?=$bylaw_info->member_invest_per_month?>)per annum; </li>
-    		<li>At least <?=ucwords(num_format_custom($bylaw_info->member_percentage_annual_interest))?> percent (<?=$bylaw_info->member_percentage_annual_interest?>%) of affiliate’s annual interest on capital and patronage refund; and </li>
+    		<li>At least <?=ucwords(num_format_custom($bylaw_info->member_percentage_annual_interest))?> percent (<?=$bylaw_info->member_percentage_annual_interest?>%) of member’s annual interest on capital and patronage refund; and </li>
     		<li>At least <?=ucwords(num_format_custom($bylaw_info->member_percentage_service))?> percent (<?=$bylaw_info->member_percentage_service?>%) of each good procured /service acquired from the Federation. </li>
   		</ol>
     </div>
@@ -899,7 +929,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="font-weight-regular text-justify">Section 6. <i class="font-weight-bold">Share Capital Contribution.</i> Share Capital Contribution refers to the value of capital subscribed and paid for by an affiliate in accordance with its Articles of Cooperation.</p>
+        <p class="font-weight-regular text-justify">Section 6. <i class="font-weight-bold">Share Capital Contribution.</i> Share Capital Contribution refers to the value of capital subscribed and paid for by an member in accordance with its Articles of Cooperation.</p>
     </div>
   </div>
   <div class="row">
@@ -909,7 +939,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 7. <i class="font-weight-bold">Share Capital Certificate.</i> The Board of directors shall issue a Share Capital Certificate only to an affiliate who has fully paid his subscription. The Certificate shall be serially numbered and contain the share holder’s name, the number of shares owned, the par value, and duly signed by the Chairperson and the Secretary, and bearing the official seal of the Federation. All certificates issued and/or transferred shall be registered in the Federation’s Share and Transfer Book.</p>
+        <p class="text-justify font-weight-regular">Section 7. <i class="font-weight-bold">Share Capital Certificate.</i> The Board of directors shall issue a Share Capital Certificate only to an member who has fully paid his subscription. The Certificate shall be serially numbered and contain the share holder’s name, the number of shares owned, the par value, and duly signed by the Chairperson and the Secretary, and bearing the official seal of the Federation. All certificates issued and/or transferred shall be registered in the Federation’s Share and Transfer Book.</p>
         <p class="text-justify font-weight-regular" style="text-indent: 50px;">The number of paid share required for the issuance of Share Capital Certificate shall be determined by the Board of Directors.</p>
         <p class="text-justify font-weight-regular" style="text-indent: 50px;">The shares may be purchased, owned or held only by the <b><u>primary</u></b> cooperative who are eligible for membership. Subject to existing government rules or laws, interests shall be paid only to paid-up shares which may be in cash; or credited as payment of unpaid subscriptions, outstanding accounts, or additional shares or to the revolving fund of the Federation. </p>
     </div>
@@ -922,16 +952,16 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        	<li>The Affiliate has held such shares or interests for not less than one (1) year; </li>
-    		<li>The transfer is made to an affiliate of the Federation or eligible cooperative that falls within the field of membership of the Federation; and</li>
+        	<li>The Member has held such shares or interests for not less than one (1) year; </li>
+    		<li>The transfer is made to an member of the Federation or eligible cooperative that falls within the field of membership of the Federation; and</li>
     		<li>The Board has approved such transfer.</li>
     	</ol>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify" style="text-indent: 50px;">The transfer of shares shall not be binding to the Federation until such transfer has been registered in the share and transfer book. No transfer shall be completed until the old certificate have been endorsed and surrendered to the Federation and a new certificate is issued in the name of the affiliate. The corresponding transfer fee shall be collected from the transferee as prescribed in the federation policy.</p>
-        <p class="text-justify" style="text-indent: 50px;">In case of lost or destroyed share certificate, the Board of Directors may issue a replacement after the affiliate-owner thereof executes a sworn affidavit, setting forth the following:</p>
+        <p class="text-justify" style="text-indent: 50px;">The transfer of shares shall not be binding to the Federation until such transfer has been registered in the share and transfer book. No transfer shall be completed until the old certificate have been endorsed and surrendered to the Federation and a new certificate is issued in the name of the member. The corresponding transfer fee shall be collected from the transferee as prescribed in the federation policy.</p>
+        <p class="text-justify" style="text-indent: 50px;">In case of lost or destroyed share certificate, the Board of Directors may issue a replacement after the member-owner thereof executes a sworn affidavit, setting forth the following:</p>
     </div>
   </div>
   <div class="row mb-4">
@@ -959,18 +989,18 @@
       <ol class="text-justify" type="a">
         	<li>Engage in:
         	<ol class="text-justify"style="list-style-type:none;">
-                    <?php if(strlen($bylaw_info->primary_consideration)>0) :?>
-                        <?php $count=1;?>
-                        <?php foreach($primary_consideration as $requirement) : ?>
-                            <li>a.<?php echo $count++; echo ' '.$requirement;?></li>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+            <?php if(strlen($bylaw_info->primary_consideration)>0) :?>
+                <?php $count=1;?>
+                <?php foreach($primary_consideration as $requirement) : ?>
+                    <li>a.<?php echo $count++; echo ' '.$requirement;?></li>
+                <?php endforeach; ?>
+            <?php endif; ?>
         	</ol>
         	</li>
-            <li>Formulate and implement program strategies that will provide its affiliates and the</li>
+            <li>Formulate and implement program strategies that will provide its members and the</li>
             <li>Adopt and implement plans and programs which insures the continued build-up of the Federations’ capital structure with the end view of establishing other needed services for the members and the public;</li>
-            <li>Formulate and implement studies and/or programs that will address the needs of affiliate; and</li>
-            <li>Collect CETF and other dues from its affiliates.</li>
+            <li>Formulate and implement studies and/or programs that will address the needs of member; and</li>
+            <li>Collect CETF and other dues from its members.</li>
     	</ol>
     </div>
   </div>
@@ -991,11 +1021,11 @@
     			<ol type="i">
             		<li>The reserve fund shall be used for the stability of the Federation and to meet net losses in its operations. The general assembly may decrease the amount allocated to the reserve fund when it has already exceeded the authorized share capital. Any sum recovered on items previously charged to the reserve fund shall be credited to such fund.</li>
   					<li>. The reserve fund shall not be utilized for investment, other than those allowed in the Republic Act No. 9520. Such sum of the reserve fund in excess of the authorized share capital may be used at any time for any project that would expand the operations of the Federation upon the resolution of the general assembly.</li>
-  					<li>Upon the dissolution of the Federation, the reserve fund shall not be distributed among the affiliates. However, the general assembly may resolve:
+  					<li>Upon the dissolution of the Federation, the reserve fund shall not be distributed among the members. However, the general assembly may resolve:
 
               			<ol type="a">
   							<li>To establish usufructuary fund for the benefit of any federation or union to which the Federation is affiliated; or</li>
-  							<li>To donate, contribute or otherwise dispose of the amount for the benefit of the community where the Federation operates. If the affiliate could not decide on the disposition of the reserve fund, the same shall be given to the federation or union to which the cooperative is affiliated.</li>
+  							<li>To donate, contribute or otherwise dispose of the amount for the benefit of the community where the Federation operates. If the member could not decide on the disposition of the reserve fund, the same shall be given to the federation or union to which the cooperative is affiliated.</li>
   						</ol>
             		</li>
     			</ol>
@@ -1007,22 +1037,22 @@
   			</ol>
         </li>
         <li><i class="font-weight-bold">Community Development Fund.</i> <?= ucwords(num_format_custom($bylaw_info->percent_community_fund))?> percent (<?=$bylaw_info->percent_community_fund?>%) shall be set aside for Optional Fund for land and building, and any other necessary fund. </li>
-        <li><i class="font-weight-bold">Optional Fund.</i> <?=ucwords(num_format_custom($bylaw_info->percent_optional_fund))?> percent (<?=$bylaw_info->percent_optional_fund?>%))shall be set aside for Optional Fund for land and building, and any other necessary fund.</li>
+        <li><i class="font-weight-bold">Optional Fund.</i> <?=ucwords(num_format_custom($bylaw_info->percent_optional_fund))?> percent (<?=$bylaw_info->percent_optional_fund?>%)shall be set aside for Optional Fund for land and building, and any other necessary fund.</li>
     	</ol>
     </div>
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="font-weight-regular text-justify">Section 2. <i class="font-weight-bold">Interest on Share Capital and Patronage Refund.</i> The remaining net surplus shall be made available to the affiliates in the form of interest on share capital not to exceed the normal rate of return on investment and patronage refunds. Provided, that any amount remaining after the allowable interest and the patronage refund have been deducted shall be credited to the reserved to the reserve fund. The sum allocated for patronage refund shall be made available at the same rate to all patrons of the Federation in proportion to their individual patronage, provided that:</p>
+        <p class="font-weight-regular text-justify">Section 2. <i class="font-weight-bold">Interest on Share Capital and Patronage Refund.</i> The remaining net surplus shall be made available to the members in the form of interest on share capital not to exceed the normal rate of return on investment and patronage refunds. Provided, that any amount remaining after the allowable interest and the patronage refund have been deducted shall be credited to the reserved to the reserve fund. The sum allocated for patronage refund shall be made available at the same rate to all patrons of the Federation in proportion to their individual patronage, provided that:</p>
     </div>
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        	<li>In the case of a affiliate/member patron with paid-up share capital contribution, his/her proportionate amount of patronage refund shall be paid to him unless he/she agrees to credit the amount to his/her account as additional share capital contribution; </li>
-    		<li>In the case of affiliate/member patron with unpaid share capital contribution, its/his/her proportionate amount of patronage refund shall be credited to its/his/her account until the share capital has been fully paid;</li>
-    		<li>In the case of non-affiliate/member patron, its/his/her proportionate amount of patronage refunds shall be set aside in a general fund for such patron and shall be allocated to individual non-member patron and only upon request and presentation of evidence of the amount of his/her patronage. The amount so allocated shall be credited to such patron toward payment of the minimum capital contribution for membership. When a sum equal to this amount has accumulated at any time within <?= num_format_custom($bylaw_info->non_member_patron_years)?> (<?=$bylaw_info->non_member_patron_years ?>) years, such patron shall be deemed and become an affiliate of the Federation if he so agrees or requests and complies with the provisions of the bylaws for admission to membership; and</li>
-    		<li>If within the period specified hereof, any subscriber who has not fully paid his subscribed share capital or any non-affiliate patron who has accumulated, the sum necessary for membership, but who does not request nor agree to become an affiliate or fails to comply with the provisions of this bylaws for admission to membership, the amount so accumulated or credited to their account together with any part of the general fund for non-member patron shall be credited to the reserve fund or to the education and training fund, at the option of the Federation.</li>
+        	<li>In the case of a member patron with paid-up share capital contribution, his/her proportionate amount of patronage refund shall be paid to him unless he/she agrees to credit the amount to his/her account as additional share capital contribution; </li>
+    		<li>In the case of member patron with unpaid share capital contribution, its/his/her proportionate amount of patronage refund shall be credited to its/his/her account until the share capital has been fully paid;</li>
+    		<li>In the case of non-member patron, its/his/her proportionate amount of patronage refunds shall be set aside in a general fund for such patron and shall be allocated to individual non-member patron and only upon request and presentation of evidence of the amount of his/her patronage. The amount so allocated shall be credited to such patron toward payment of the minimum capital contribution for membership. When a sum equal to this amount has accumulated at any time within <?= num_format_custom($bylaw_info->non_member_patron_years)?> (<?=$bylaw_info->non_member_patron_years ?>) years, such patron shall be deemed and become an member of the Federation if he so agrees or requests and complies with the provisions of the bylaws for admission to membership; and</li>
+    		<li>If within the period specified hereof, any subscriber who has not fully paid his subscribed share capital or any non-member patron who has accumulated, the sum necessary for membership, but who does not request nor agree to become an member or fails to comply with the provisions of this bylaws for admission to membership, the amount so accumulated or credited to their account together with any part of the general fund for non-member patron shall be credited to the reserve fund or to the education and training fund, at the option of the Federation.</li>
     	</ol>
     </div>
   </div>
@@ -1057,7 +1087,7 @@
         	<li>Shares or debentures or securities; </li>
     		<li>Any reputable bank in the locality or any tertiary federation of which it is a member and cooperative banks; </li>
     		<li>Securities issued or guaranteed by Government;</li>
-    		<li>Real Estate primarily for the use of the Federation or its affiliates; or</li>
+    		<li>Real Estate primarily for the use of the Federation or its members; or</li>
     		<li>In any other manner approved by the general assembly. </li>
     	</ol>
     </div>
@@ -1094,7 +1124,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article XII<br>Ammendments</p>
+        <p class="font-weight-bold">Article XII<br>Amendments</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -1110,7 +1140,7 @@
         <table class="table table-bordered table-sm table-cooperator">
           <thead>
             <tr>
-              <th>Names</th>
+              <th>Name of Member</th>
               <th>Name of Representative</th>
               <th>Signature</th>
             </tr>
@@ -1119,7 +1149,8 @@
             <?php $count=0; foreach($cooperators_list as $cooperator) :?>
               <?=$count++;?>
               <tr>
-                <td><?=$count.'. '.$cooperator['full_name']?></td>
+                <td><?=$count.'. '.$cooperator['coopName']?></td>
+                <td><?=$cooperator['representative']?></td>
                 <td></td>
               </tr>
             <?php endforeach; ?>
@@ -1130,7 +1161,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify mb-4" style="text-indent: 50px;">We, constituting the majority of the Board of Directors of the <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> do hereby certify that the foregoing instrument is the Code of By-laws of this Cooperative.</p>
+        <p class="text-justify mb-4" style="text-indent: 50px;">We, constituting the majority of the Board of Directors of the <?= $coop_info->proposed_name?> Federation of <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> do hereby certify that the foregoing instrument is the Code of By-laws of this Cooperative.</p>
         <p class="text-justify" style="text-indent: 50px;">Signed this _______ of __________, ___________, in ____________.</p>
     </div>
   </div>
@@ -1140,8 +1171,8 @@
         <table class="table table-borderless table-sm table-director">
           <tbody>
             <tr>
-              <td><br>Chairperson</td>
-              <td><br>Vice-Chairperson</td>
+              <td><b><?=$cooperator_chairperson->representative?></b><br>Chairperson</td>
+              <td><b><?=$cooperator_vicechairperson->representative?></b><br>Vice-Chairperson</td>
             </tr>
           </tbody>
         </table>
@@ -1154,9 +1185,9 @@
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
-                <td><b><?=$cooperator_directors[0]['full_name']?></b><br>Director</td>
-                <td><b><?=$cooperator_directors[1]['full_name']?></b><br>Director</td>
-                <td><b><?=$cooperator_directors[2]['full_name']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[0]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[1]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[2]['representative']?></b><br>Director</td>
               </tr>
           </table>
         </div>
@@ -1169,8 +1200,8 @@
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
-                <td><b><?=$cooperator_directors[3]['full_name']?></b><br>Director</td>
-                <td><b><?=$cooperator_directors[4]['full_name']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[3]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[4]['representative']?></b><br>Director</td>
               </tr>
           </table>
         </div>
@@ -1183,9 +1214,9 @@
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
-                <td><b><?=$cooperator_directors[5]['full_name']?></b><br>Director</td>
-                <td><b><?=$cooperator_directors[6]['full_name']?></b><br>Director</td>
-                <td><b><?=$cooperator_directors[7]['full_name']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[5]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[6]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[7]['representative']?></b><br>Director</td>
               </tr>
           </table>
         </div>
@@ -1198,8 +1229,8 @@
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
-                <td><b><?=$cooperator_directors[8]['full_name']?></b><br>Director</td>
-                <td><b><?=$cooperator_directors[9]['full_name']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[8]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[9]['representative']?></b><br>Director</td>
               </tr>
           </table>
         </div>
@@ -1212,9 +1243,9 @@
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
-                <td><b><?=$cooperator_directors[10]['full_name']?></b><br>Director</td>
-                <td><b><?=$cooperator_directors[11]['full_name']?></b><br>Director</td>
-                <td><b><?=$cooperator_directors[12]['full_name']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[10]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[11]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[12]['representative']?></b><br>Director</td>
               </tr>
           </table>
         </div>
@@ -1227,8 +1258,8 @@
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
-                <td><b><?=$cooperator_directors[13]['full_name']?></b><br>Director</td>
-                <td><b><?=$cooperator_directors[14]['full_name']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[13]['representative']?></b><br>Director</td>
+                <td><b><?=$cooperator_directors[14]['representative']?></b><br>Director</td>
               </tr>
           </table>
         </div>

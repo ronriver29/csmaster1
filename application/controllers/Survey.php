@@ -35,7 +35,7 @@ class Survey extends CI_Controller{
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else if($data['coop_info']->grouping == 'Union'){
+                    } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                         $model = 'unioncoop_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
@@ -53,7 +53,7 @@ class Survey extends CI_Controller{
                     if($data['article_complete']){
                         if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
-                        } else if($data['coop_info']->grouping == 'Union'){
+                        } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
@@ -197,7 +197,7 @@ class Survey extends CI_Controller{
                 }else{
                   if($data['coop_info']->grouping == 'Federation'){
                             $complete = 'Affiliators';
-                        } else if($data['coop_info']->grouping == 'Union'){
+                        } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                             $complete = 'Federations';
                         } else {
                             $complete = 'Cooperators';
@@ -219,9 +219,11 @@ class Survey extends CI_Controller{
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
-          }else if($this->session->userdata('access_level')!=1){
-            redirect('cooperatives');
-          }else{
+          }
+          // else if($this->session->userdata('access_level')!=1){
+          //   redirect('cooperatives');
+          // }
+          else{
             if($this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
               $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
               redirect('cooperatives');

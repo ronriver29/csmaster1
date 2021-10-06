@@ -15,7 +15,7 @@
               <input type="hidden" class="validate[required]" id="committeeID" name="committeeID">
               <div class="alert alert-warning" role="alert">
                 <strong><b>Warning:</b></strong>
-                <p><strong class="committee-name-text">test</strong> will be remove in <strong class="committee-cname-text">test</strong> committee. There is no way to recover this.</p>
+                <p><strong class="committee-name-text">test</strong> will be remove <?php if($coop_info->grouping != 'Federation' && $coop_info->grouping != 'Union'){?>in <strong class="committee-cname-text">test</strong> committee <?php } ?>. There is no way to recover this.</p>
               </div>
             </div>
             <div class="modal-footer deleteCommitteeFooter">

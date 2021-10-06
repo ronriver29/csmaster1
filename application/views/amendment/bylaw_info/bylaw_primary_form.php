@@ -15,7 +15,7 @@
       Whatever information you enter will appear in the by laws document.
     </div>
   </div>
-</div> 
+</div>  
 <?php endif; ?>
 <?php if($this->session->flashdata('bylaw_redirect')): ?>
 <div class="row">
@@ -33,7 +33,7 @@
        <?php echo $this->session->flashdata('bylaw_success'); ?>
       </div>
     </div>
-  </div>
+  </div> 
 <?php endif; ?>
 <?php if($this->session->flashdata('bylaw_error')): ?>
   <div class="row">
@@ -107,7 +107,8 @@
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
                 <label for="regularQualifications1">Regular member qualification 1</label>
-                <input type="text" value="" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications1" placeholder="Must be in a sentence" disabled>
+                <!-- <input type="text" value="" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications1" placeholder="Must be in a sentence" disabled> -->
+                <textarea type="text" value="" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications1" placeholder="Must be in a sentence" disabled></textarea>
               </div>
             </div>
           </div>
@@ -117,6 +118,7 @@
             </div>
           </div>
         <?php endif;?>
+       
         <?php if(strlen($bylaw_info->regular_qualifications) > 0) : ?>
           <div class="row row-regular-qualifications">
             <?php foreach($reg_qualifications as $key => $reg_qualification) : ?>
@@ -126,7 +128,8 @@
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <?php endif; ?>
                   <label for="regularQualifications<?= $key + 1?>">Regular member qualification <?= $key + 1?></label>
-                  <input type="text" value="<?= $reg_qualification?>" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications<?= $key + 1?>" disabled>
+                  <!-- <input type="text" value="<?=$reg_qualification?>" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications<?= $key + 1?>" disabled> -->
+                   <textarea type="text" value="" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications<?= $key + 1?>" disabled><?= $reg_qualification?></textarea>
                 </div>
               </div>
             <?php endforeach; ?>
@@ -149,7 +152,8 @@
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                       <label for="associateQualifications1">Associate member qualification 1</label>
-                      <input type="text" value="" class="form-control validate[required]" name="associateQualifications[]" id="associateQualifications1" disabled>
+                      <!-- <input type="text" value="" class="form-control validate[required]" name="associateQualifications[]" id="associateQualifications1" disabled> -->
+                      <textarea type="text" value="" class="form-control validate[required]" name="associateQualifications[]" id="associateQualifications1" disabled></textarea>
                     </div>
                   </div>
                 </div>
@@ -168,7 +172,8 @@
                             <a class="customDeleleBtn associateQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                           <?php endif; ?>
                           <label for="associateQualifications<?= $key + 1?>">Associate member qualification <?= $key + 1?></label>
-                          <input type="text" value="<?= $asc_qualification?>" class="form-control validate[required]" name="associateQualifications[]" id="associateQualifications<?= $key + 1?>" disabled>
+                          <!-- <input type="text" value="<?= $asc_qualification?>" class="form-control validate[required]" name="associateQualifications[]" id="associateQualifications<?= $key + 1?>" disabled> -->
+                           <textarea type="text" value="" class="form-control validate[required]" name="associateQualifications[]" id="associateQualifications<?= $key + 1?>" disabled><?= $asc_qualification?></textarea>
                         </div>
                       </div>
                     <?php endforeach; ?>
@@ -184,6 +189,7 @@
         <div class="row">
           <div class="col-sm-12 col-md-12">
             <p class="h6 font-weight-bold text-color-blue-custom">Section 3. <em>Requirements for Membership</em></p>
+            <label><i><b>Note:</b> The following are the general requirements for membership, add another requirements if necessary.</i></label>
           </div>
         </div>
         <?php if(strlen($bylaw_info->regular_qualifications) <= 0) : ?>
@@ -200,11 +206,11 @@
             </small>
               <!-- <label for="additionalRequirementsForMembership"><strong>List down any additional requirements for membership in your cooperative</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> -->
         
-              <input class="form-control " style="resize: none;" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->additional_requirements_for_membership ?>" disabled>
+              <!-- <input class="form-control " style="resize: none;" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->additional_requirements_for_membership ?>" disabled> -->
+              <textarea type="text" class="form-control" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" placeholder="Must be in a sentence" rows="2" value="" disabled><?= $bylaw_info->additional_requirements_for_membership ?></textarea>
             </div>
           </div>
         </div>
-
         <div class="row">
             <div class="col-sm-12 offset-md-8 col-md-4">
               <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreRequirementsBtn" disabled><i class="fas fa-plus"></i> Add More Requirements for Membership</button>
@@ -232,7 +238,8 @@
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <?php endif; ?>
                   <label for="regularQualifications<?= $key + 4?>">Regular member qualification <?= $key + 4?></label>
-                  <input type="text" value="<?= $add_memberships?>" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 4?>" disabled>
+                 <!--  <input type="text" value="<?= $add_memberships?>" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 4?>" disabled> -->
+                 <textarea type="text" value="" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 4?>" disabled><?= $add_memberships?></textarea>
                 </div>
               </div>
             <?php endforeach; ?>
@@ -252,7 +259,7 @@
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
             <label for="actUponMembershipDays"><strong>An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within _________ (_____) days from the date of filing.  The Board of Directors shall devise a form for the purpose which shall, aside from the personal data of the applicant, include the duties of a member to participate in all programs including but not limited to capital build-up and savings mobilization of the Cooperative and, such other information as may be deemed necessary.</strong></label>
-            <input type="number" value="30" class="form-control validate[required]" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" readonly>
+            <input type="number" value="<?=$bylaw_info->act_upon_membership_days?>" class="form-control validate[required]" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" disabled>
             <small id="emailHelp" class="form-text text-muted">Days from the date filing.</small>
            </div>
           </div>
@@ -307,7 +314,8 @@
           </div>-->
           <div class="row">
             <div class="col-sm-12 col-md-12">
-              <p class="h6 font-weight-bold text-color-blue-custom">Section 9. <em>Members Entitled to Vote</em></p>
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 9. <em>Members Entitled to Vote</em></p> 
+               <label><i><b>Note:</b> The following are the general condition for members entitled to vote, add another condition if necessary.</i></label>
             </div>
           </div>
           <?php if(strlen($bylaw_info->additional_conditions_to_vote) <= 0) : ?>
@@ -325,7 +333,8 @@
               </small>
                 <!-- <label for="additionalConditionsForVoting"><strong>List down any additional condition for members to be able to vote</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> -->
                 
-                <input class="form-control " style="resize: none;" id="additionalConditionsForVoting" name="additionalConditionsForVoting[]" placeholder="Must be in a sentence"rows="8"  value="<?= $bylaw_info->additional_conditions_to_vote ?>" disabled>
+               <!--  <input class="form-control " style="resize: none;" id="additionalConditionsForVoting" name="additionalConditionsForVoting[]" placeholder="Must be in a sentence"rows="8"  value="<?= $bylaw_info->additional_conditions_to_vote ?>" disabled> -->
+                <textarea class="form-control " style="resize: none;" id="additionalConditionsForVoting" name="additionalConditionsForVoting[]" placeholder="Must be in a sentence"rows="2"  value="" disabled><?= $bylaw_info->additional_conditions_to_vote ?></textarea>
               </div>
             </div>
           </div>
@@ -357,7 +366,8 @@
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <?php endif; ?>
                   <label for="additionalConditionsForVoting<?= $key + 5?>">Regular member qualification <?= $key + 5?></label>
-                  <input type="text" value="<?= $add_members_votes?>" class="form-control" name="additionalConditionsForVoting[]" id="additionalConditionsForVoting<?= $key + 5?>" disabled>
+                  <!-- <input type="text" value="<?= $add_members_votes?>" class="form-control" name="additionalConditionsForVoting[]" id="additionalConditionsForVoting<?= $key + 5?>" disabled> -->
+                   <textarea type="text" value="" class="form-control" name="additionalConditionsForVoting[]" id="additionalConditionsForVoting<?= $key + 5?>" disabled><?= $add_members_votes?></textarea>
                 </div>
               </div>
             <?php endforeach; ?>
@@ -403,14 +413,32 @@
             <div class="form-group"> 
             <label><strong>General Assembly Venue</strong></label>
              <input type="text" name="Annaul_ga_venue" id="" value="<?=$bylaw_info->annual_regular_meeting_day_venue?>" class="form-control validate[required]" disabled /></div>
+            <div class="form-group">
+              <label><strong>General Assembly Type</strong></label>
+              <select class="form-control validate[required]" name="type" id="type" disabled>
+                <option value="Special" <?=($bylaw_info->type =='Special' ? 'selected' :'')?>>Special</option>
+                 <option value="Regular" <?=($bylaw_info->type =='Regular' ? 'selected' :'')?>>Regular</option>
+              </select>
+            </div> 
 
              <div class="form-group"> 
             <label><strong>Assembly Date </strong></label>
-            <?php 
-            $date_annual = date("Y-m-d",strtotime($bylaw_info->annual_regular_meeting_day_date));
-           
+            <?php
+            if($bylaw_info->annual_regular_meeting_day_date !=NULL)
+            {
+                $date_annual = date("Y-m-d",strtotime($bylaw_info->annual_regular_meeting_day_date));
             ?>
-              <input type="date" name="Annaul_date_venue"  value="<?= $date_annual?>" class="form-control validate[required]" disabled /> 
+                <input type="date" name="Annaul_date_venue"  value="<?= $date_annual?>" class="form-control validate[required]" disabled /> 
+            <?php    
+            }
+            else
+            {
+            ?>
+                <input type="date" name="Annaul_date_venue"  value="" class="form-control validate[required]" disabled /> 
+            <?php  
+            } 
+            ?>
+            
            <!--   <input type="date" name="Annaul_date_venue"  value="" class="form-control validate[required]" disabled /> -->
            </div>
 

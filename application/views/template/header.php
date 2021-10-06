@@ -25,6 +25,7 @@
         box-shadow: 1px 1px;
       }
     </style>
+    <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
   </head>
   <body>
 
@@ -35,10 +36,10 @@
       <div class="sidebar-header">
         <div class="row">
           <div class="col-sm-3">
-            <img src="<?=base_url();?>assets/img/cda.png" width="50" height="50" class="d-inline-block align-top" alt="Responsive image">
+            <img src="<?=base_url();?>assets/img/cda_new.png" width="50" height="50" class="d-inline-block align-top" alt="Responsive image">
           </div>
           <div class="col-sm-8 align-self-center">
-            <p class="h3">Coop<strong>RIS</strong></p>
+            <p class="h3">E-Coop<strong>RIS</strong></p>
           </div>
         </div>
       </div>
@@ -48,7 +49,7 @@
         <li>
           <a href="<?php echo base_url();?>cooperatives"><i class="fas fa-handshake"></i> Cooperatives</a>
         </li>
-         <!--   <li>
+           <li>
           <a href="<?php echo base_url();?>branches"><i class="fas fa-handshake"></i> Branches and Satellites</a>
         </li>
         <li>   
@@ -56,7 +57,7 @@
         </li>
        <li>   
           <a href="<?php echo base_url();?>amendment"><i class="fas fa-handshake"></i> Amendment</a>
-        </li>    -->
+        </li>   
         <li> 
           <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> Settings</a>
           <ul class="collapse list-unstyled" id="pageSubmenu">

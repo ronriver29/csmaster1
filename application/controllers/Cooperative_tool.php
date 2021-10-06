@@ -31,6 +31,8 @@ class cooperative_tool extends CI_Controller{
           $data['encrypted_id'] = $id;
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
           
+          $data['cooperatives_comments_cds'] = $this->cooperatives_model->cooperatives_comments_cds($decoded_id);
+          
           if(!empty($data['coop_info']->tool_yn_answer))
             $data['ans']=$data['coop_info']->tool_yn_answer;
           else

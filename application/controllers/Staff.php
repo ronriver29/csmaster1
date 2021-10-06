@@ -30,7 +30,7 @@ class Staff extends CI_Controller{
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else if($data['coop_info']->grouping == 'Union'){
+                    } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                         $model = 'unioncoop_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
@@ -41,21 +41,21 @@ class Staff extends CI_Controller{
                     }
                     
                     
-                    if($data['cooperator_complete']){
+                    if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                        if($data['article_complete']){
+                        if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                         if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
-                        } else if($data['coop_info']->grouping == 'Union'){
+                        } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                         }
                       if($data['gad_count']>0){
                             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            if($data['economic_survey_complete']){
+                            if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                               $data['title'] = 'List of Staff';
                               $data['header'] = 'Staff';
                               $data['client_info'] = $this->user_model->get_user_info($user_id);
@@ -98,7 +98,7 @@ class Staff extends CI_Controller{
                     }else{
                       if($data['coop_info']->grouping == 'Federation'){
                             $complete = 'Affiliators';
-                        } else if($data['coop_info']->grouping == 'Union'){
+                        } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                             $complete = 'Federations';
                         } else {
                             $complete = 'Cooperators';
@@ -120,9 +120,11 @@ class Staff extends CI_Controller{
           }else{
             if($this->session->userdata('access_level')==5){
               redirect('admins/login');
-            }else if($this->session->userdata('access_level')!=1){
-              redirect('cooperatives');
-            }else{
+            }
+            // else if($this->session->userdata('access_level')!=1){
+            //   redirect('cooperatives');
+            // }
+            else{
               if($this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('cooperatives');
@@ -133,31 +135,36 @@ class Staff extends CI_Controller{
                   if($data['bylaw_complete']){
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
-                      if($data['coop_info']->grouping == 'Federation'){
+                    if($data['coop_info']->grouping == 'Federation'){
                         $model = 'affiliators_model';
                         $ids = $data['coop_info']->users_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$ids);
-                    } 
-                    else {
+                    } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
+                        $model = 'unioncoop_model';
+                        $ids = $data['coop_info']->users_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
+                    } else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
                     
                     
-                      if($data['cooperator_complete']){
+                      if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                         $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                         if($data['purposes_complete']){
                           $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                          if($data['article_complete']){
+                          if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                             if($data['coop_info']->grouping == 'Federation'){
                                 $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($data['coop_info']->users_id);
+                            } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
+                                $data['gad_count'] = $this->committee_model->get_all_gad_count_union($data['coop_info']->users_id);
                             } else {
                                 $data['gad_count'] = $this->committee_model->get_all_gad_count($data['coop_info']->users_id);
                             }
                           if($data['gad_count']>0){
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                              if($data['economic_survey_complete']){
+                              if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                                 $data['title'] = 'List of Staff';
                                 $data['header'] = 'Staff';
                                 $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
@@ -237,7 +244,7 @@ class Staff extends CI_Controller{
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else if($data['coop_info']->grouping == 'Union'){
+                    } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                         $model = 'unioncoop_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
@@ -248,21 +255,21 @@ class Staff extends CI_Controller{
                     }
                     
                     
-                    if($data['cooperator_complete']){
+                    if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                        if($data['article_complete']){
+                        if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                           if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
-                        } else if($data['coop_info']->grouping == 'Union'){
+                        } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                         }
                       if($data['gad_count']>0){
                             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            if($data['economic_survey_complete']){
+                            if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                               if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                                 if($this->form_validation->run() == FALSE){
                                   //modified by json
@@ -431,11 +438,11 @@ class Staff extends CI_Controller{
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                   if($data['bylaw_complete']){
                       $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
-                      if($data['cooperator_complete']){
+                      if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                         $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                         if($data['purposes_complete']){
                           $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                          if($data['article_complete']){
+                          if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                             $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                             if($data['committees_complete']){
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
@@ -545,15 +552,12 @@ class Staff extends CI_Controller{
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids, $assoc_);
                     }
-                    
-
-
                       
-                    if($data['cooperator_complete']){
+                    if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id,$assoc_);
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                        if($data['article_complete']){
+                        if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                           if($data['coop_info']->grouping == 'Federation'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
                         } else {
@@ -561,7 +565,7 @@ class Staff extends CI_Controller{
                         }
                       if($data['gad_count']>0){
                             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            if($data['economic_survey_complete']){
+                            if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                               $decoded_staff_id = $this->encryption->decrypt(decrypt_custom($staff_id));
                               if($this->staff_model->check_staff_in_cooperative($decoded_id,$decoded_staff_id)){ //check if staff is in cooperative
                                 if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
@@ -721,11 +725,11 @@ class Staff extends CI_Controller{
                     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                     if($data['bylaw_complete']){
                         $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
-                        if($data['cooperator_complete']){
+                        if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                           $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                           if($data['purposes_complete']){
                             $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                            if($data['article_complete']){
+                            if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                               $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                               if($data['committees_complete']){
                                 $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);

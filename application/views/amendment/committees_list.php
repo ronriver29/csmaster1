@@ -38,6 +38,7 @@
 
 <?php 
 //if($gad_count < 1 || $committees_count_member < 3):
+
 if(!$complete_position):
  ?>
 
@@ -71,6 +72,10 @@ if(!$complete_position):
               {
                 echo'<li>There must be 1 Audit member on the list</li>';
               } 
+              // if(!$credit)
+              // {
+              //   echo'<li>There must be 1 Credit member on the list</li>';
+              // }
               ?>   
            </ul>
         </div>

@@ -37,6 +37,7 @@
   </div>
 </div>
 <?php endif;  ?>
+<?php /*
 <div class="row mt-3">
   <div class="col-sm-12 col-md-12">
     <div class="alert alert-info" role="alert">
@@ -61,6 +62,7 @@
     </div>
   </div>
 </div>
+*/?>
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">
@@ -119,7 +121,7 @@
           <div class="col-sm-12 col-md-12">
       		  <div class="form-group">
         			<label for="turnOverDirectors"><strong>The Board of Directors shall serve until their successors shall have been elected and qualified within ___ days from the date of registration as provided in the By-laws.</strong></label>
-        			<input type="number" value="<?= $articles_info->years_of_existence ?>"class="form-control validate[required,min[1],custom[integer]]" min="1" step="any" name="turnOverDirectors" id="turnOverDirectors" placeholder="Days" disabled>
+        			<input type="number" value="<?= $articles_info->directors_turnover_days?>"class="form-control validate[required,min[1],custom[integer]]" min="1" step="any" name="turnOverDirectors" id="turnOverDirectors" placeholder="Days" disabled>
       		 </div>
       		</div>
         </div>
@@ -152,15 +154,13 @@
       		  <div class="form-group">
       			<label for="parValuePreferred"><strong>What is the Par value per preferred share?</strong></label>
              <input type="text"  step="any" value="<?= number_format($capitalization_info->par_value)?>" class="form-control " id="parValuePreferred" name="parValuePreferred" placeholder="&#8369;" disabled readonly="readonly">
-            <!--  
-      			 <input type="text" min="1" step="any" value="<?= number_format($articles_info->par_value_preferred)?>" class="form-control validate[required,min[100],max[1000],custom[number]]" id="parValuePreferred" name="parValuePreferred" placeholder="&#8369;" disabled readonly="readonly"> -->
+           
       		 </div>
       		</div>
         <?php endif ?>
         <div class="col-sm-12 col-md-12">
           <div class="form-group">
           <label for="authorizedShareCapital"><strong>The Authorized Share Capital of the Cooperative</strong></label>
-          <!-- <input type="number" value="<?= $articles_info->authorized_share_capital?>" class="form-control validate[required,min[1],custom[integer],<?php echo ($bylaw_info->kinds_of_members==1) ? "funcCall[validateTotalAuthorizedShareCapitalRegularCustom]" : "funcCall[validateTotalAuthorizedShareCapitalAssociateCustom]" ?>]" id="authorizedShareCapital" name="authorizedShareCapital" min="1" placeholder="&#8369;" readonly> -->
           <input type="text"  step="any" min="1" value="<?= number_format($capitalization_info->authorized_share_capital)?>"  class="form-control validate[required,min[1],custom[number]<?php if($bylaw_info->kinds_of_members==2) echo ",funcCall[validateRegularAssociateAuthorizedCapitalCustom]";?>]"  id="authorizedShareCapital" name="authorizedShareCapital" placeholder="&#8369;" readonly>
          </div>
         </div>

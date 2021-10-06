@@ -8,7 +8,7 @@ $(function(){
       if(val > available_subscribed_capital) {
           $(".subscribedSharesformError").hide().html('');
           $("#subscribed-note").show().html('Should not exceed the remaining no of subscribed share: '+available_subscribed_capital);
-      }
+      }  
       console.log(val);
       console.log(available_subscribed_capital);
   });
@@ -51,6 +51,8 @@ $(function(){
       }
       
     }else if(tempType.length > 0 && tempType=="Associate"){ 
+      // alert( $("#minimum_subscribed_share_associate").val());
+      // alert($("#membershipType").val());
         var minimum_subscribed_share_associate = $("#minimum_subscribed_share_associate").val().length>0 ? $("#minimum_subscribed_share_associate").val() : '';
         var minimum_paid_up_share_associate = $("#minimum_paid_up_share_associate").val().length>0 ? $("#minimum_paid_up_share_associate").val() : '';
       $('#addCooperatorFormAmendment #amd_subscribedShares').prop('readonly',false);
@@ -59,7 +61,7 @@ $(function(){
 //      $('#addCooperatorFormAmendment #paidShares').val(minimum_paid_up_share_associate);
       $('#addCooperatorFormAmendment #amd_subscribedShares').attr('min',minimum_subscribed_share_associate);
       $('#addCooperatorFormAmendment #amd_paidShares').attr('min',minimum_paid_up_share_associate);
-      $('#addCooperatorFormAmendment #amd_subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionAmendmentCallPhp]]'});
+      $('#addCooperatorFormAmendment #amd_subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumAssociateSubscriptionAmendmentCallPhp]]'});
       $('#addCooperatorFormAmendment #amd_paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustomAmendment],ajax[ajaxMinimumAssociatePayEditAmendmentCallPhp]]'});
       if(minimum_subscribed_share_associate > available_subscribed_capital) {
           $(".subscribedSharesformError").hide().html('');
@@ -186,22 +188,22 @@ $(function(){
       coop_ids:coop_ids
     },
     success: function(data){
-     console.log(data.area_of_operation);
-
+    console.log(data);
+    // alert(data.area_of_operation);
          if(data!=null){
-        var tempCount = 0;
-        setTimeout( function(){
-          $('#addCooperatorFormAmendment #region').val(data.rCode);
-          $('#addCooperatorFormAmendment #region').trigger('change');
-        },300);
-        setTimeout( function(){
-            $('#addCooperatorFormAmendment #province').val(data.pCode);
-            $('#addCooperatorFormAmendment #province').trigger('change');
-        },1000);
-        setTimeout(function(){
-          $('#addCooperatorFormAmendment #city').val(data.cCode);
-          $('#addCooperatorFormAmendment #city').trigger('change');
-        },2000);
+        // var tempCount = 0;
+        // setTimeout( function(){
+        //   $('#addCooperatorFormAmendment #region').val(data.rCode);
+        //   $('#addCooperatorFormAmendment #region').trigger('change');
+        // },300);
+        // setTimeout( function(){
+        //     $('#addCooperatorFormAmendment #province').val(data.pCode);
+        //     $('#addCooperatorFormAmendment #province').trigger('change');
+        // },1000);
+        // setTimeout(function(){
+        //   $('#addCooperatorFormAmendment #city').val(data.cCode);
+        //   $('#addCooperatorFormAmendment #city').trigger('change');
+        // },2000);
         setTimeout(function(){
           $('#addCooperatorFormAmendment #barangay').val(data.bCode);
           if(data.area_of_operation=='Barangay'){
@@ -215,58 +217,36 @@ $(function(){
             $('#addCooperatorFormAmendment #city').prop("disabled",true);
             $('#addCooperatorFormAmendment #province').prop("disabled",true);
             $('#addCooperatorFormAmendment #region').prop("disabled",true);
+              $('#addCooperatorFormAmendment #barangay').prop("disabled",false);
           }else if(data.area_of_operation=='Provincial'){
-            
+              // alert('fire');
             $('#addCooperatorFormAmendment #province').prop("disabled",true);
             $('#addCooperatorFormAmendment #region').prop("disabled",true);
+            $('#addCooperatorFormAmendment #barangay').prop("disabled",false);
+            $('#addCooperatorFormAmendment #city').prop("disabled",false);
           }else if(data.area_of_operation=='Regional'){
-            
             $('#addCooperatorFormAmendment #region').prop("disabled",true);
+            $('#addCooperatorFormAmendment #province').prop("disabled",false);
+            $('#addCooperatorFormAmendment #city').prop("disabled",false);
+            $('#addCooperatorFormAmendment #barangay').prop("disabled",false);
           }else if(data.area_of_operation=='National'){
-            
+           
             $('#addCooperatorFormAmendment #region').prop("disabled",false);
+            $('#addCooperatorFormAmendment #province').prop("disabled",false);
+            $('#addCooperatorFormAmendment #barangay').prop("disabled",false);
+            $('#addCooperatorFormAmendment #city').prop("disabled",false);
+          }
+          else if(data.area_of_operation == 'Interregional')
+          {
+            $('#addCooperatorFormAmendment #region').prop("disabled",false);
+            $('#addCooperatorFormAmendment #province').prop("disabled",false);
+            $('#addCooperatorFormAmendment #barangay').prop("disabled",false);
+            $('#addCooperatorFormAmendment #city').prop("disabled",false);
           }
 
-        },3500); 
+        },1100); 
       } //end if
 
-      // if(data!=null){
-      //   var tempCount = 0;
-      //   setTimeout( function(){
-      //     $('#addCooperatorFormAmendment #region').val(data.regional_code);
-      //     $('#addCooperatorFormAmendment #region').trigger('change');
-      //   },100);
-      //   setTimeout( function(){
-      //       $('#addCooperatorFormAmendment #province').val(data.province_code);
-      //       $('#addCooperatorFormAmendment #province').trigger('change');
-      //   },500);
-      //   setTimeout(function(){
-      //     $('#addCooperatorFormAmendment #city').val(data.city_code);
-      //     $('#addCooperatorFormAmendment #city').trigger('change');
-      //   },1000);
-      //   setTimeout(function(){
-      //     $('#addCooperatorFormAmendment #barangay').val(data.brgy_code);
-      //     if(data.area_of_operation=='Barangay'){
-          
-      //       $('#addCooperatorFormAmendment #barangay').prop("disabled",true);
-      //       $('#addCooperatorFormAmendment #city').prop("disabled",true);
-      //       $('#addCooperatorFormAmendment #province').prop("disabled",true);
-      //       $('#addCooperatorFormAmendment #region').prop("disabled",true);
-      //     }else if(data.area_of_operation=='Municipality/City'){
-            
-      //       $('#addCooperatorFormAmendment #city').prop("disabled",true);
-      //       $('#addCooperatorFormAmendment #province').prop("disabled",true);
-      //       $('#addCooperatorFormAmendment #region').prop("disabled",true);
-      //     }else if(data.area_of_operation=='Provincial'){
-            
-      //       $('#addCooperatorFormAmendment #province').prop("disabled",true);
-      //       $('#addCooperatorFormAmendment #region').prop("disabled",true);
-      //     }else if(data.area_of_operation=='Regional'){
-            
-      //       $('#addCooperatorFormAmendment #region').prop("disabled",true);
-      //     }
-      //   },1700); 
-      // } //end if
     }//end of success
   });//end of ajax
 });

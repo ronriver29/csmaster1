@@ -47,7 +47,6 @@
   </div>
 <?php endif; ?>
 <div class="row">
-
   <div class="col-sm-12 col-md-12">
 <?php if(!$requirements_complete): ?>
     <div class="alert alert-info text-justify" role="alert">
@@ -94,8 +93,10 @@
 <?php if(($is_client && $coop_info->status<=1) || (($coop_info->status==11))): ?>
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
    <?php if(isset($capitalization_info->total_no_of_subscribed_capital) && ($capitalization_info->total_no_of_subscribed_capital > $total_subscribed) || $capitalization_info->total_no_of_paid_up_capital > $total_paid) : ?>
-    <a class="btn btn-color-blue btn-block" role="button"href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/cooperators/add" role="button"><i class="fas fa-plus"></i> Add Cooperator
-    </a>
+    <?php if($list_cooperators_count + $list_cooperators_associate_count != $capitalization_info->regular_members + $capitalization_info->associate_members){?>
+      <a class="btn btn-color-blue btn-block" role="button"href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/cooperators/add" role="button"><i class="fas fa-plus"></i> Add Cooperator
+      </a>
+    <?php } ?>
    <?php endif; ?>
   </div>
 <?php endif; ?>

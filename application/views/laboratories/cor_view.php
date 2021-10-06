@@ -14,7 +14,7 @@
   <style>
     @page{margin: 60px 40px 30px 40px;}
   /*.page_break { page-break-before: always; }*/
-  body{font-family:Bookman Old Style !important; line-height: 18px;}
+  body{font-family:Bookman Old Style !important; line-height: 22px;}
   
   </style>
 </head>
@@ -24,13 +24,13 @@
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
 			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
-			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
+			<td style="text-align: center"><b>Republic of the Philippines<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
 	</table>
 <?php // if($coop_info->noStreet==null && $coop_info->Street==null) $x=''; else $x=', ';?>
 <br/><br/>
-<table  width="100%" height="100%" style="margin-top:-30px;background-image: url(<?=base_url();?>/assets/img/cda3.png); background-repeat: no-repeat; background-position: center;">
+<table  width="100%" height="100%" style="margin-top:-30px;background-image: url(<?=base_url();?>/assets/img/cda4.png); background-repeat: no-repeat; background-position: center;opacity: 0.2;">
 	<tr>
 
 	<td colspan="2" style="text-align: right; font-size: 12pt;"><b>Certification of Recognition No: <?=$coop_info->certNo?></b></td>
@@ -68,30 +68,29 @@
 		
 		<td colspan="2" style="text-align: center;">
 			<b><?= $coop_info->laboratoryName.' Laboratory Cooperative<br> 
-		Laboratory Coop of '.$coop_info->coopName?></b>
+		Laboratory Cooperative of '.$coop_info->coopName?></b>
 	</td>
 	</tr>
 	<tr>
 		
-		<td colspan="2" style="text-align: center; font-size: 9pt;"><?= $coop_info->house_blk_no.''.$coop_info->streetName.' '.$coop_info->brgy.' '.$coop_info->city.','.$coop_info->province.' '.$coop_info->region?></td>
+		<td colspan="2" style="text-align: center; font-size: 9pt;"><?= $coop_info->house_blk_no.' '.$coop_info->streetName.' '.$coop_info->brgy.' '.$coop_info->city.', '.$coop_info->province.' '.$coop_info->region?></td>
 	</tr>
 	<tr>
 		
 		<td colspan="2"><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-                <?php if($coop_info->house_blk_no != ""){
-                    $houseblk = $coop_info->house_blk_no.' ';
+                <?php if($guardian_add->guardian_nostreet != ""){
+                    $houseblk = $guardian_add->guardian_nostreet.' ';
                 } else {
                     $houseblk = "";
                 }
-                if($coop_info->streetName != ""){
-                    $streetName = $coop_info->streetName.' ';
+                if($guardian_add->guardian_street != ""){
+                    $streetName = $guardian_add->guardian_street.' ';
                 } else {
                     $streetName = "";
                 }?>
-		<td colspan="2"><?='is filed by <b>'.$coop_info->coopName.'</b> with address at '.$houseblk.$streetName.$coop_info->city.', '.$coop_info->province.' '.$coop_info->region.', to act as Guardian Cooperative, were presented for approval of the Authority on <b> '.date('F d, Y',strtotime($coop_info->dateRegistered)).' and that after having complied with the requirements under <b>Article 26 of Republic Act No. 9520 and Rule 6,'
-        . '     Revised Rules and Regulations Implementing Certain and Special Provisions of Republic Act No. 9520</b> is hereby <b>APPROVED.</b>'?><b></b></td>
+		<td colspan="2" style="text-align: justify;"><?='is filed by <b>'.$coop_info->coopName.'</b> with address at <b>'.$houseblk.$streetName.' '.$guardian_add->brgy.' '.$guardian_add->city.', '.$guardian_add->province.' '.$guardian_add->region.'</b>, to act as Guardian Cooperative, were presented for approval of the Authority on <b> '.date('F d, Y',strtotime($coop_info->dateApplied)).'</b> and that after having complied with the requirements under <b>Article 26 of Republic Act No. 9520 and Rule 6, Revised Rules and Regulations Implementing Certain and Special Provisions of Republic Act No. 9520</b> is hereby <b style="line-height: 25px;">APPROVED.</b>'?><b></b></td>
 	</tr>
 	<tr>
 		
@@ -99,48 +98,44 @@
 	</tr>
 	<tr>
 		
-		<td colspan="2"> &nbsp; &nbsp; &nbsp; This Certificate is hereby issued to enable the above Laboratory Cooperative to Operate as such pursuant to the pertinent Law and issuances thereto.</td>
-	</tr>
-        <tr>
-        
-		<td colspan="2"><i style="color:white;">....</i></td>
+		<td colspan="2"> &nbsp; &nbsp; &nbsp; This Certificate is hereby issued to enable the above Laboratory Cooperative to operate as such pursuant to the pertinent law and issuances thereto.</td>
 	</tr>
         <tr>
         	
-		<td colspan="2"> &nbsp; &nbsp; &nbsp; Given in Quezon City, Philippines, this <b>
+		<td colspan="2"><br> &nbsp; &nbsp; &nbsp; Given in Quezon City, Philippines, this <b>
 		 <?=$date_day_approved?> day of <?= $date_month,', '.$date_year?>.</b></td>
 	</tr>
-        <tr>	
+    <tr>	
 		<td colspan="2"><i style="color:white;">....</i></td>
 	</tr>
-	</tr>
-        <tr>	
+	<tr>	
 		<td colspan="2"><i style="color:white;">....</i></td>
 	</tr>
-	</tr>
-        <tr>	
+	<tr>	
 		<td colspan="2"><i style="color:white;">....</i></td>
+	</tr>
+	<tr>	
+		<td colspan="2"><i style="color:white;">....</i></td>
+	</tr>
 	</tr>
   
     <tr>
-        	
-
+        
 		<td rowspan="2">		
 		</td>
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
-		<td style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png">
-			<div class="text" style="margin-top:-92px;">
-				<p><?= $chair ?></p>
-				<p style="margin-top:-20px;">Chairman</p></div>
-		</td>
+		<!-- <td  style="text-align: center;"> 	
+			<img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;">
+			
+		</td> -->
 	</tr>
-
-    <tr>
-        	
-		<td colspan="2"><i style="color:white;">....</i></td>
-	</tr>
-
+			<div style="padding-top:-130px;padding-left:425px;float:left;">
+				<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;">
+			</div>
+			<div class="text" style="padding-top: -80px;width:400px;padding-left:500px;float:left;">
+				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
+				<p style="font-size:12px;margin-top:-20px;padding-left:50px">Chairman</p>
+			</div>
 	
 </table>
 
@@ -167,13 +162,13 @@
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
 			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
-			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
+			<td style="text-align: center"><b>Republic of the Philippines<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
 	</table>
 <?php // if($coop_info->noStreet==null && $coop_info->Street==null) $x=''; else $x=', ';?>
 <br/><br/>
-<table  width="100%" height="100%" style="margin-top:-30px;background-image: url(<?=base_url();?>/assets/img/cda3.png); background-repeat: no-repeat; background-position: center;">
+<table  width="100%" height="100%" style="margin-top:-30px;background-image: url(<?=base_url();?>/assets/img/cda4.png); background-repeat: no-repeat; background-position: center;opacity: 0.2;">
 	<tr>
 
 	<td colspan="2" style="text-align: right; font-size: 12pt;"><b>Certification of Recognition No: <?=$coop_info->certNo?></b></td>
@@ -211,12 +206,30 @@
 		
 		<td colspan="2" style="text-align: center;">
 			<b><?= $coop_info->laboratoryName.' Laboratory Cooperative<br> 
-		Laboratory Coop of '.$coop_info->coopName?></b>
+		Laboratory Cooperative of '.$coop_info->coopName?></b>
 	</td>
 	</tr>
 	<tr>
 		
-		<td colspan="2" style="text-align: center; font-size: 9pt;"><?= $coop_info->house_blk_no.''.$coop_info->streetName.' '.$coop_info->brgy.' '.$coop_info->city.','.$coop_info->province?></td>
+		<td colspan="2" style="text-align: center; font-size: 9pt;"><?= $coop_info->house_blk_no.' '.$coop_info->streetName.' '.$coop_info->brgy.' '.$coop_info->city.', '.$coop_info->province.' '.$coop_info->region?></td>
+	</tr>
+	<tr>
+		
+		<td colspan="2"><i style="color:white;">....</i></td>
+	</tr>
+	<tr>
+                <?php if($guardian_add->guardian_nostreet != ""){
+                    $houseblk = $guardian_add->guardian_nostreet.' ';
+                } else {
+                    $houseblk = "";
+                }
+                if($guardian_add->guardian_street != ""){
+                    $streetName = $guardian_add->guardian_street.' ';
+                } else {
+                    $streetName = "";
+                }?>
+		<td colspan="2" style="text-align: justify;"><?='is filed by <b>'.$coop_info->coopName.'</b> with address at <b>'.$houseblk.$streetName.' '.$guardian_add->brgy.' '.$guardian_add->city.', '.$guardian_add->province.' '.$guardian_add->region.'</b>, to act as Guardian Cooperative, were presented for approval of the Authority on <b> '.date('F d, Y',strtotime($coop_info->dateApplied)).'</b> and that after having complied with the requirements under <b>Article 26 of Republic Act No. 9520 and Rule 6,'
+        . '     Revised Rules and Regulations Implementing Certain and Special Provisions of Republic Act No. 9520</b> is hereby <b style="line-height: 25px;">APPROVED.</b>'?><b></b></td>
 	</tr>
 	<tr>
 		
@@ -224,57 +237,45 @@
 	</tr>
 	<tr>
 		
-		<td colspan="2"><?='is filed by <b>'.$coop_info->coopName.'</b> with address at '.$coop_info->house_blk_no.' '.$coop_info->streetName.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province
-                .' '.$coop_info->region.', to act as Guardian Cooperative, were presented for approval of the Authority on <b> '.date('F d, Y').' and that after having complied with the requirements under <b>Article 26 of Republic Act No. 9520 and Rule 6,'
-        . '     Revised Rules and Regulations Implementing Certain and Special Provisions of Republic Act No. 9520</b> is hereby <b>APPROVED.</b>'?><b></b></td>
-	</tr>
-	<tr>
-		
-		<td colspan="2"><i style="color:white;">....</i></td>
-	</tr>
-	<tr>
-		
-		<td colspan="2"> &nbsp; &nbsp; &nbsp; This Certificate is hereby issued to enable the above Laboratory Cooperative to Operate as such pursuant to the pertinent Law and issuances thereto.</td>
-	</tr>
-        <tr>
-        
-		<td colspan="2"><i style="color:white;">....</i></td>
+		<td colspan="2"> &nbsp; &nbsp; &nbsp; This Certificate is hereby issued to enable the above Laboratory Cooperative to operate as such pursuant to the pertinent law and issuances thereto.</td>
 	</tr>
         <tr>
         	
-		<td colspan="2"> &nbsp; &nbsp; &nbsp; Given in Quezon City, Philippines, this <b> <?=$date_day_approved?> day of <?= $date_month,', '.$date_year?>.</b></td>
+		<td colspan="2"><br> &nbsp; &nbsp; &nbsp; Given in Quezon City, Philippines, this <b>
+		 <?=$date_day_approved?> day of <?= $date_month,', '.$date_year?>.</b></td>
 	</tr>
-        <tr>	
+    <tr>	
+		<td colspan="2"><i style="color:white;">....</i></td>
+	</tr>
+	<tr>	
+		<td colspan="2"><i style="color:white;">....</i></td>
+	</tr>
+	<tr>	
+		<td colspan="2"><i style="color:white;">....</i></td>
+	</tr>
+	<tr>	
 		<td colspan="2"><i style="color:white;">....</i></td>
 	</tr>
 	</tr>
-        <tr>	
-		<td colspan="2"><i style="color:white;">....</i></td>
-	</tr>
-	</tr>
-        <tr>	
-		<td colspan="2"><i style="color:white;">....</i></td>
+        
 	</tr>
   
     <tr>
         	
 
-		<td rowspan="2">	
+		<td rowspan="2">		
 		</td>
 		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
-
-		<td style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png">
-			<div class="text" style="margin-top:-92px;">
-				<p><?= $chair ?></p>
-				<p style="margin-top:-20px;">Chairman</p></div>
-		</td>
+		<
 	</tr>
 
-    <!-- <tr>
-        	
-		<td colspan="2"><i style="color:white;">....</i></td>
-	</tr> -->
+	<div style="padding-top:-130px;padding-left:425px;float:left;">
+		<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;">
+	</div>
+	<div class="text" style="padding-top: -80px;width:400px;padding-left:500px;float:left;">
+		<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
+		<p style="font-size:12px;margin-top:-20px;padding-left:50px">Chairman</p>
+	</div>
 
 	
 </table>
@@ -302,13 +303,13 @@
 		<tr>
 			<td width="7%"><i style="color:white;">....</i></td>
 			<td width="15%"><img src="<?=APPPATH?>../assets/img/cda.png" width="100" height="100" ></td>
-			<td style="text-align: center"><b>Republic of the Philippines<br/>OFFICE OF THE PRESIDENT<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
+			<td style="text-align: center"><b>Republic of the Philippines<br/>COOPERATIVE DEVELOPMENT AUTHORITY</b></td>
 			<td width="18%"><i style="color:white;">....</i></td>
 		</tr>
 	</table>
 <?php // if($coop_info->noStreet==null && $coop_info->Street==null) $x=''; else $x=', ';?>
 <br/><br/>
-<table  width="100%" height="100%" style="margin-top:-30px;background-image: url(<?=APPPATH?>../assets/img/cda3.png); background-repeat: no-repeat; background-position: center;">
+<table  width="100%" height="100%" style="margin-top:-30px;background-image: url(<?=base_url();?>/assets/img/cda4.png); background-repeat: no-repeat; background-position: center;opacity: 0.2;">
 	<tr>
 
 	<td colspan="2" style="text-align: right; font-size: 12pt;"><b>Certification of Recognition No: <?=$coop_info->certNo?></b></td>
@@ -346,12 +347,30 @@
 		
 		<td colspan="2" style="text-align: center;">
 			<b><?= $coop_info->laboratoryName.' Laboratory Cooperative<br> 
-		(Laboratory Coop of '.$coop_info->coopName.')'?></b>
+		Laboratory Cooperative of '.$coop_info->coopName?></b>
 	</td>
 	</tr>
 	<tr>
 		
-		<td colspan="2" style="text-align: center; font-size: 9pt;"><?= $coop_info->house_blk_no.''.$coop_info->streetName.' '.$coop_info->brgy.' '.$coop_info->city.','.$coop_info->province?></td>
+		<td colspan="2" style="text-align: center; font-size: 9pt;"><?= $coop_info->house_blk_no.' '.$coop_info->streetName.' '.$coop_info->brgy.' '.$coop_info->city.', '.$coop_info->province.' '.$coop_info->region?></td>
+	</tr>
+	<tr>
+		
+		<td colspan="2"><i style="color:white;">....</i></td>
+	</tr>
+	<tr>
+                <?php if($guardian_add->guardian_nostreet != ""){
+                    $houseblk = $guardian_add->guardian_nostreet.' ';
+                } else {
+                    $houseblk = "";
+                }
+                if($guardian_add->guardian_street != ""){
+                    $streetName = $guardian_add->guardian_street.' ';
+                } else {
+                    $streetName = "";
+                }?>
+		<td colspan="2" style="text-align: justify;"><?='is filed by <b>'.$coop_info->coopName.'</b> with address at <b>'.$houseblk.$streetName.' '.$guardian_add->brgy.' '.$guardian_add->city.', '.$guardian_add->province.' '.$guardian_add->region.'</b>, to act as Guardian Cooperative, were presented for approval of the Authority on <b> '.date('F d, Y',strtotime($coop_info->dateApplied)).'</b> and that after having complied with the requirements under <b>Article 26 of Republic Act No. 9520 and Rule 6,'
+        . '     Revised Rules and Regulations Implementing Certain and Special Provisions of Republic Act No. 9520</b> is hereby <b style="line-height: 25px;">APPROVED.</b>'?><b></b></td>
 	</tr>
 	<tr>
 		
@@ -359,59 +378,45 @@
 	</tr>
 	<tr>
 		
-		<td colspan="2"><?='is filed by <b>'.$coop_info->coopName.'</b> with address at '.$coop_info->house_blk_no.' '.$coop_info->streetName.' '.$coop_info->brgy.' '.$coop_info->city.', '.$coop_info->province
-                .' '.$coop_info->region.', to act as Guardian Cooperative, were presented for approval of the Authority on <b> '.date('F d, Y').' and that after having complied with the requirements under <b>Article 26 of Republic Act No. 9520 and Rule 6,'
-        . '     Revised Rules and Regulations Implementing Certain and Special Provisions of Republic Act No. 9520</b> is hereby <b>APPROVED.</b>'?><b></b></td>
-	</tr>
-	<tr>
-		
-		<td colspan="2"><i style="color:white;">....</i></td>
-	</tr>
-	<tr>
-		
-		<td colspan="2"> &nbsp; &nbsp; &nbsp; This Certificate is hereby issued to enable the above Laboratory Cooperative to Operate as such pursuant to the pertinent Law and issuances thereto.</td>
-	</tr>
-        <tr>
-        
-		<td colspan="2"><i style="color:white;">....</i></td>
+		<td colspan="2"> &nbsp; &nbsp; &nbsp; This Certificate is hereby issued to enable the above Laboratory Cooperative to operate as such pursuant to the pertinent law and issuances thereto.</td>
 	</tr>
         <tr>
         	
-		<td colspan="2"> &nbsp; &nbsp; &nbsp; Given in Quezon City, Philippines, this <b> <?=$date_day_approved?> day of <?= $date_month,', '.$date_year?>.</b></td>
+		<td colspan="2"><br> &nbsp; &nbsp; &nbsp; Given in Quezon City, Philippines, this <b>
+		 <?=$date_day_approved?> day of <?= $date_month,', '.$date_year?>.</b></td>
 	</tr>
-        <tr>	
+    <tr>	
+		<td colspan="2"><i style="color:white;">....</i></td>
+	</tr>
+	<tr>	
+		<td colspan="2"><i style="color:white;">....</i></td>
+	</tr>
+	<tr>	
+		<td colspan="2"><i style="color:white;">....</i></td>
+	</tr>
+	<tr>	
 		<td colspan="2"><i style="color:white;">....</i></td>
 	</tr>
 	</tr>
-        <tr>	
-		<td colspan="2"><i style="color:white;">....</i></td>
-	</tr>
-	</tr>
-        <tr>	
-		<td colspan="2"><i style="color:white;">....</i></td>
+        
 	</tr>
   
     <tr>
         	
 
-		<td rowspan="2">	
+		<td rowspan="2">		
 		</td>
-		
-
-		<td style="text-align: center;padding-left:150px;"> 	
-			<img src="<?=APPPATH?>../assets/img/1.png">
-			<div class="text" style="margin-top:-92px;">
-				<p><?= $chair ?></p>
-				<p style="margin-top:-20px;">Chairman</p></div>
-		</td>
-
-		
+		<!-- <td style="background-image: url(<?=base_url();?>/assets/img/1.png); background-repeat: no-repeat; background-position: center top; text-align: center;"><br><?= $chair ?><br>Chairman</td> -->
+		<
 	</tr>
 
-    <!-- <tr>
-        	
-		<td colspan="2"><i style="color:white;">....</i></td>
-	</tr> -->
+	<div style="padding-top:-130px;padding-left:425px;float:left;">
+		<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;">
+	</div>
+	<div class="text" style="padding-top: -80px;width:400px;padding-left:500px;float:left;">
+		<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
+		<p style="font-size:12px;margin-top:-20px;padding-left:50px">Chairman</p>
+	</div>
 
 	
 </table>

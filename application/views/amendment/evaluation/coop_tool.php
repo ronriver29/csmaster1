@@ -33,7 +33,7 @@
             <tr>
               <td colspan="4"><b>a. General Assembly Resolution</b></td>
             </tr>
-            <tr>
+            <tr> 
               <td width="40%" style="padding-left: 30px">a.1. The General Assembly Resolution submitted is consistent  with the minutes of the General Assembly meeting as to the proposed amendments (Means of verification: GA Minutes of  Meeting)</td>
               <?php if ($ans==null){
                       echo '<td width="5%"><input type="radio" class="form-control validate[required]" name="ans[0]" value="1"></td>';
@@ -49,7 +49,7 @@
                     } 
               ?>
               <?php if(empty($rem[0])){$rem[0]=null;}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[0]" value="<?=$rem[0]?>"></td>
+              <td width="50%"><textarea rows="5" class="form-control" name ="sagot[0]"><?=$rem[0]?></textarea><!-- <input type="text" class="form-control" name ="sagot[0]" value="<?=$rem[0]?>"> --></td>
             </tr>
             <tr>
               <td style="padding-left: 30px">a.2.The proposed amendment was  approved by two thirds (2/3) votes of all members with voting rights (Means of verification: attendance sheet, list of members entitled to vote certified by the BOD, GA Minutes, latest approved Bylaws)</td>
@@ -67,7 +67,7 @@
                     } 
               ?>
               <?php if(empty($rem[1])){$rem[1]=null;}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[1]" value="<?=$rem[1]?>"></td>
+              <td width="50%"><textarea rows="5" class="form-control" name ="sagot[1]"><?=$rem[1]?></textarea><!-- <input type="text" class="form-control" name ="sagot[1]" value="<?=$rem[1]?>"> --></td>
             </tr>
             <tr>
               <td colspan="4"><b>Amended Provision:</b></td>
@@ -91,7 +91,7 @@
                     } 
               ?>
               <?php if(empty($rem[2])){$rem[2]=null;}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[2]" value="<?=$rem[2]?>"></td>
+              <td width="50%"><textarea rows="5" class="form-control" name ="sagot[2]"><?=$rem[2]?></textarea><!-- <input type="text" class="form-control" name ="sagot[2]" value="<?=$rem[2]?>"> --></td>
             </tr>
             <tr>
               <td colspan="4"><b>c. Area of Operation</b></td>
@@ -112,7 +112,7 @@
                     } 
               ?>
               <?php if(empty($rem[3])){$rem[3]=null;}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[3]" value="<?=$rem[3]?>"></td>
+              <td width="50%"><textarea rows="5" class="form-control" name ="sagot[3]"><?=$rem[3]?></textarea><!-- <input type="text" class="form-control" name ="sagot[3]" value="<?=$rem[3]?>"> --></td>
             </tr>
             <tr>
               <td style="padding-left: 30px"> c.2 Presence of potential/existing members in the proposed area of operation (Means of verification: Voting population vs.  list of members in the area, survey if available)</td>
@@ -130,7 +130,7 @@
                     } 
               ?>
                  <?php if(empty($rem[4])){$rem[4]=null;} ?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[4]" value="<?=$rem[4]?>"></td>
+              <td width="50%"><textarea rows="5" class="form-control" name ="sagot[4]"><?=$rem[4]?></textarea><!-- <input type="text" class="form-control" name ="sagot[4]" value="<?=$rem[4]?>"> --></td>
             </tr>
             
             <tr>
@@ -152,7 +152,7 @@
                     } 
               ?>
                  <?php if(empty($rem[5])){$rem[5]=null;}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[5]" value="<?=$rem[5]?>"></td>
+              <td width="50%"><textarea rows="5" class="form-control" name ="sagot[5]"><?=$rem[5]?></textarea><!-- <input type="text" class="form-control" name ="sagot[5]" value="<?=$rem[5]?>"> --></td>
             </tr>
             
             <tr>
@@ -174,7 +174,7 @@
                     } 
               ?>
                  <?php if(empty($rem[6])){$rem[6]=null;}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[6]" value="<?=$rem[6]?>"></td>
+              <td width="50%"><textarea rows="5" class="form-control" name ="sagot[6]"><?=$rem[6]?></textarea><!-- <input type="text" class="form-control" name ="sagot[6]" value="<?=$rem[6]?>"> --></td>
             </tr>
             <tr>
               <td style="padding-left: 30px">e.2. The projected revenue and expenses show positive result.( Means of verification:  feasibility study)</td>
@@ -192,7 +192,7 @@
                     } 
               ?>
                  <?php if(empty($rem[7])){$rem[7]=null;}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[7]" value="<?=$rem[7]?>"></td>
+              <td width="50%"><textarea rows="5" class="form-control" name ="sagot[7]"></textarea><!-- <input type="text" class="form-control" name ="sagot[7]" value="<?=$rem[7]?>"> --></td>
             </tr>
             <tr>
               <td style="padding-left: 30px">e.3. The proposed additional business responds to members' needs (Means of verification: interview, survey if applicable) </td>
@@ -210,7 +210,7 @@
                     } 
               ?>
                  <?php if(empty($rem[8])){$rem[8]=null;}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[8]" value="<?=$rem[8]?>"></td>
+              <td width="50%"><textarea rows="5" class="form-control" name ="sagot[8]"><?=$rem[8]?></textarea><!-- <input type="text" class="form-control" name ="sagot[8]" value="<?=$rem[8]?>"> --></td>
             </tr>
             
           </table>
@@ -234,8 +234,8 @@
       <div class="card-footer">
         <div class="row">
           <?php if($coop_info->status==3): ?>
-          <div class="col-sm-12 offset-md-8 col-md-2 align-self-center order-xs-2 order-sm-2 order-1 col-signup-btn">
-              <input class="btn btn-block btn-color-blue" type="submit" id="coopBtn" name="coopBtn" value="Submit">
+          <div class="col-sm-12 offset-md-8 col-md-3 align-self-center order-xs-2 order-sm-2 order-1 col-signup-btn">
+              <input class="btn btn-block btn-color-blue" type="submit" id="coopBtn" name="coopBtn" value="Submit Validation Report">
           </div>
         <?php endif;?>
         </div>

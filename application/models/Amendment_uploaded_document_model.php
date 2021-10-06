@@ -89,6 +89,32 @@ class Amendment_uploaded_document_model extends CI_Model{
     }
   }
   
+  public function check_is_uploaded($amendment_id,$doc_num)
+  {
+     $query = $this->db->get_where('amendment_uploaded_documents',array('amendment_id'=>$amendment_id,'document_num'=>$doc_num));
+     if($query->num_rows() >= 1)
+     {
+      return true;
+     }
+     else
+     {
+      return false;
+     }
+  }
+
+  public function get_document_info($amendment_id,$doc_num)
+  {
+    $data =NULL;
+    $query = $this->db->get_where('amendment_uploaded_documents',array('amendment_id'=>$amendment_id,'document_num'=>$doc_num));
+    if($query->num_rows()>0)
+    {
+      foreach($query->result_array() as $row)
+      {
+        $data[] = $row;
+      }
+    }
+    return $data;
+  }
   public function get_document_one_info($amendment_id){
     $amendment_id= $this->security->xss_clean($amendment_id);
     $query = $this->db->get_where('amendment_uploaded_documents',array('amendment_id'=>$amendment_id,'document_num'=>1));

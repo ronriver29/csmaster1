@@ -50,6 +50,7 @@
 <div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
+
       <?php
         if(strlen($coop_info->acronym)>0)
         {
@@ -122,7 +123,7 @@
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-left">
       <ol type="A">
-        <li>Type of Cooperatives model</li>
+        <li>Type of Cooperatives model <?php var_dump($in_chartered_cities_orig);?></li>
           <table class="table table-borderless table-sm">
             <tbody>
               <tr>
@@ -152,7 +153,7 @@
               } 
 
               if($in_chartered_cities_orig){
-                $chartered_orig = $chartered_cities;
+                $chartered_orig = $chartered_cities_orig;
               }
               else
               {
@@ -301,32 +302,27 @@
 
             </tr>
             <tr>
-              <td>Paid-up Capital :</td>
-              <!-- <td><u><?php echo($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_paid'] * $article_info->par_value_common),2) : number_format((($total_regular['total_paid'] * $article_info->par_value_common) + ($total_associate['total_paid'] * $article_info->par_value_preferred)),2);?></u></td> -->
-
+              <td>Paid-up Capital :
+              </td>
               <?php
-
                 $tot_reg_paid =($total_regular['total_paid'] * $capitalization_info->par_value);
                 $tot_reg_paid_orig =($total_regular_orig['total_paid'] * $capitalization_info_orig->par_value);
-                if( $tot_reg_paid != $tot_reg_paid_orig)
+                if($tot_reg_paid != $tot_reg_paid_orig)
                 {
                    $tot_reg_paid ='<b>'.number_format($tot_reg_paid,2).'</b>';
                 }
                 $tot_reg_paid2 = ($total_regular['total_paid'] * $capitalization_info->par_value) + ($total_associate['total_paid'] * $capitalization_info->par_value);
-                 // $tot_reg_paid2 = number_format( $tot_reg_paid2,2);
+                
                 $tot_reg_paid2_orig = ($total_regular_orig['total_paid'] * $capitalization_info->par_value) + ($total_associate_orig['total_paid'] * $capitalization_info->par_value);
-                if( $tot_reg_paid2!= $tot_reg_paid2_orig)
+                if($tot_reg_paid2!= $tot_reg_paid2_orig)
                 {
-                   $tot_reg_paid2_ = '<b>'.number_format($tot_reg_paid2,2).'</b>';
+                   $tot_reg_paid2 = '<b>'.number_format($tot_reg_paid2,2).'</b>';
                 }
               ?>
-              <td><u><?php echo (($bylaw_info->kinds_of_members == 1) ?  number_format($tot_reg_paid,2) : $tot_reg_paid2_);?></u></td>
-              
-
+              <td><u><?php echo (($bylaw_info->kinds_of_members == 1) ?  $tot_reg_paid :  number_format($tot_reg_paid2,2));?></u></td>   
             </tr>
-            <tr>
-              
-              <td>Par value :  </td>
+            <tr> 
+              <td>Par value :</td>
               <!-- <td><u><?php echo(($bylaw_info->kinds_of_members == 1) ? number_format($article_info->par_value_common,2) : number_format(($article_info->par_value_common + $article_info->par_value_preferred),2));?></u></td> -->
               <?php
                 $par_val = ($capitalization_info->par_value!=$capitalization_info_orig->par_value ? '<b>'.number_format($capitalization_info->par_value,2).'</b>' : number_format($capitalization_info->par_value,2));

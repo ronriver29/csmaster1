@@ -33,9 +33,9 @@ $(function(){
       $('#deleteCooperatorForm #paidShares').prop('readonly',false);
 //      $('#deleteCooperatorForm #subscribedShares').val(minimum_subscribed_share_regular);
 //      $('#deleteCooperatorForm #paidShares').val(minimum_paid_up_share_regular);
-      $('#deleteCooperatorForm #subscri bedShares').attr('min',minimum_subscribed_share_regular);
+      $('#deleteCooperatorForm #subscribedShares').attr('min',minimum_subscribed_share_regular);
       $('#deleteCooperatorForm #paidShares').attr('min',minimum_paid_up_share_regular);
-      $('#deleteCooperatorForm #subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionCallPhp]]'});
+      $('#deleteCooperatorForm #subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscription2CallPhp]]'});
       $('#deleteCooperatorForm #paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumRegularPayCallPhp]]'});
       if(minimum_subscribed_share_regular > available_subscribed_capital) {
           $(".subscribedSharesformError").hide().html('');
@@ -153,3 +153,4 @@ $(function(){
     }
   });
 });
+

@@ -16,6 +16,7 @@
           <input type="hidden" class="form-control" name="coop_ids" id="coopids" value="<?=$encrypted_coop_id?>"/>
           <input type="hidden" class="form-control" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_coop_id ?>">
           <input type="hidden" class="form-control validate[required]" id="userID" name="userID" value="<?= $encrypted_user_id ?>" />
+          <input type="hidden" class="form-control validate[required]" id="regNo" name="regNo" value="<?= $regno ?>" />
 
           <div class="col-sm-12 col-md-2">
             <div class="form-group">
@@ -75,7 +76,8 @@
               <br>
               <select id="edb" name="edb" class="form-control">
                 <option value="college" selected>College</option>
-                <option value="highschool">High School</option>
+                 <option value="seniorhigh">Senior High</option>
+                <option value="juniorhigh">Junior High</option>
                 <option value="gradeschool">Grade School</option>
                 <option value="outofschoolyouth">Out of School Youth</option>
               </select>
@@ -153,15 +155,15 @@
                 </div>
               </div>
           
-    
+      <?php //echo $coop_info->region?>
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="region">Region</label>
                   <select class="custom-select validate[required]" name="region" id="region">
-                    <option value="<?=$coop_info->rCode?>" selected><?=$coop_info->region; ?></option>
-                    <!-- <?php foreach ($regions_list as $region_list) : ?>
-                      <option value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
-                    <?php endforeach; ?> -->
+                    <option value="" selected></option>
+                    <?php foreach ($regions_list as $region_list) : ?>
+                      <option value ="<?php echo $region_list['regCode'];?>" <?=($coop_info->rCode == $region_list['regCode'] ? 'selected' : '')?>><?php echo $region_list['regDesc']?></option>
+                    <?php endforeach; ?>
                   </select>
                 </div>
               </div>
@@ -170,8 +172,15 @@
                 <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="province">Province</label>
-                  <select class="custom-select validate[required]" name="province" id="province" disabled>
-                    <option value="<?=$coop_info->rCode?>" selected><?=$coop_info->province; ?></option>
+                  <select class="custom-select validate[required]" name="province" id="province">
+                    <?php 
+                      foreach($list_of_provinces as $province_list)
+                      {
+                        ?>
+                        <option value="<?=$province_list['provCode']?>" <?=($province_list['provCode']== $coop_info->pCode? 'selected' : '')?>><?=$province_list['provDesc']?></option>
+                        <?php
+                      }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -180,7 +189,14 @@
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
                   <select class="custom-select validate[required]" name="city" id="city" disabled>
-                    <option value="<?=$coop_info->rCode?>" selected><?=$coop_info->city; ?></option>
+                    <?php
+                    foreach($list_of_cities as $city_list)
+                    {
+                      ?>
+                      <option value="<?=$city_list['citymunCode']?>" <?=($city_list['citymunCode'] == $coop_info->cCode ?'selected' :'')?>><?=$city_list['citymunDesc']?></option>
+                      <?php
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -189,6 +205,14 @@
                 <div class="form-group">
                   <label for="barangay">Barangay</label>
                   <select class="custom-select validate[required]" name="barangay" id="barangay" disabled>
+                    <?php
+                    foreach($list_of_brgys as $brgy_list)
+                    {
+                      ?>
+                      <option value="<?=$brgy_list['brgyCode']?>" <?=($brgy_list['brgyCode'] == $coop_info->bCode ? 'selected' :'')?>> <?=($brgy_list['brgyDesc'])?></option>
+                      <?php
+                    }
+                    ?>
                   </select>
                 </div>
               </div>

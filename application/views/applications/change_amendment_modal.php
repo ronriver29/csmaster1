@@ -37,6 +37,7 @@
                         <option value="13">Waiting For O.R</option>
                         <option value="14">For Printing</option>
                         <option value="16">For Payment</option>
+                        <option value="17">Revert for re-evalaution</option>
 
                        <!--  else if($cooperative['status']==1) echo "PENDING";
                         else if($cooperative['status']>=2 && $cooperative['status']<=9) echo "ON VALIDATION";

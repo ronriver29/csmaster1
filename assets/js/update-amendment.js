@@ -12,7 +12,7 @@ $(function(){
   });
 
 
- 
+  
  
   // load type coop modified
   if($("#reserveUpdateForm #typeOfCooperatives1").val().length>0)
@@ -40,7 +40,7 @@ $(function(){
     success: function(data){ 
     var business_activities = data.business_activities;
      var cbom = data.common_bond_of_membership;
-        
+ 
           if(cbom=='Institutional'){
               $('#reserveUpdateForm #fieldmembershipname').show();
               $('#reserveUpdateForm #field_membership').show();
@@ -69,6 +69,7 @@ $(function(){
               $('#reserveUpdateForm #compositionOfMembers').hide();
               $('#reserveUpdateForm #compositionOfMembers1').hide();
               $('#reserveUpdateForm .compositionRemoveBtn').hide();
+              $('#reserveUpdateForm .occupation-wrapper').hide();
           } else if (cbom=="Occupational"){
               $('#reserveUpdateForm #fieldmembershipname').hide();
               $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
@@ -101,6 +102,7 @@ $(function(){
 
         //commond bond
           $('#reserveUpdateForm #commonBondOfMembership').on('change',function(){
+            
             if($(this).val()=="Institutional"){
                 $('#reserveUpdateForm select[name="compositionOfMembers[]"').hide();
                 $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
@@ -120,9 +122,10 @@ $(function(){
                 $('#reserveUpdateForm #composition_of_members_label').hide();
                 $('#reserveUpdateForm #compositionOfMembers1').hide();
                 $("#reserveUpdateForm .compositionRemoveBtn").hide();
-                // $('#reserveUpdateForm .ins-div').show();
+                $('#reserveUpdateForm .occupation-wrapper').hide();
                  $("#reserveUpdateForm .insti_div").show();
             } else if($(this).val()=="Associational"){
+             
                 $('#reserveUpdateForm select[name="compositionOfMembers[]"').hide();
                 $('#reserveUpdateForm #addMoreComBtn').hide();
                 $('#reserveUpdateForm #commonbondname').hide();
@@ -141,8 +144,9 @@ $(function(){
                 $('#reserveUpdateForm #composition_of_members_label').hide();
                 $('#reserveUpdateForm #compositionOfMembers1').hide();
                 $("#reserveUpdateForm .compositionRemoveBtn").hide();
-                // $('#reserveUpdateForm .ins-div').show();
+                $('#reserveUpdateForm .occupation-wrapper').hide();
                  $("#reserveUpdateForm .insti_div").show();
+                 $("#compositionOfMembers2").hide();
             } else if($(this).val()=="Residential"){
                 $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
                 $('#reserveUpdateForm #field_membership').hide();
@@ -164,6 +168,7 @@ $(function(){
                 $("#reserveUpdateForm .compositionRemoveBtn").hide();
                 $("#reserveUpdateForm .div-ins-assoc-occu").hide();
                  $("#reserveUpdateForm .insti_div").hide();
+                $("#reserveUpdateForm .occupation-wrapper").hide(); 
             } else {
                 $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
                 $('#reserveUpdateForm #field_membership').hide();
@@ -183,7 +188,7 @@ $(function(){
                 $('#reserveUpdateForm #field_membership').prop("required",false);
                 $('#reserveUpdateForm #name_associational').prop("required",false);
                 $("#reserveUpdateForm .institutionRemoveBtn").hide();
-                // $("#reserveUpdateForm .ins-div").hide();
+                $("#reserveUpdateForm .occupation-wrapper").show();
                 $("#reserveUpdateForm .insti_div").show();
                 $("#reserveUpdateForm .compositionRemoveBtn").show();
                 $("reserveUpdateForm #occupation-div").show();
@@ -195,21 +200,21 @@ $(function(){
 
       if(data!=null){
         var tempCount = 0;
-        setTimeout( function(){
-          $('#reserveUpdateForm #region').val(data.rCode);
-          $('#reserveUpdateForm #region').trigger('change');
-        },300);
-        setTimeout( function(){
-            $('#reserveUpdateForm #province').val(data.pCode);
-            $('#reserveUpdateForm #province').trigger('change');
-        },900);
-        setTimeout(function(){
-          $('#reserveUpdateForm #city').val(data.cCode);
-          $('#reserveUpdateForm #city').trigger('change');
-        },1500);
-        setTimeout(function(){
-          $('#reserveUpdateForm #barangay').val(data.bCode);
-        },2500);
+        // setTimeout( function(){
+        //   $('#reserveUpdateForm #region').val(data.rCode); 
+        //   $('#reserveUpdateForm #region').trigger('change');
+        // },300);
+        // setTimeout( function(){
+        //     $('#reserveUpdateForm #province').val(data.pCode);
+        //     $('#reserveUpdateForm #province').trigger('change');
+        // },900);
+        // setTimeout(function(){
+        //   $('#reserveUpdateForm #city').val(data.cCode);
+        //   $('#reserveUpdateForm #city').trigger('change');
+        // },1500);
+        // setTimeout(function(){
+        //   $('#reserveUpdateForm #barangay').val(data.bCode);
+        // },2500);
         
         $('#reserveUpdateForm #streetName').val(data.street);
         $('#reserveUpdateForm #blkNo').val(data.house_blk_no);
@@ -218,6 +223,366 @@ $(function(){
         // $('#reserveUpdateForm select[name="proposedBusinessActivity[]"').trigger('change');
         $('#reserveUpdateForm #commonBondOfMembership').val(data.common_bond_of_membership);
         $('#reserveUpdateForm #areaOfOperation').val(data.area_of_operation);
+        
+          var AreaOperation =  $('#reserveUpdateForm #areaOfOperation').val();
+          if( AreaOperation == "Interregional"){
+                $('.opt').each(function() {
+                      if(!this.selected) {
+                          $(this).attr('disabled', true);
+                      }
+                  });
+            $('#reserveUpdateForm #allisland').show();
+            $('#reserveUpdateForm #allregions').show();
+            $('#reserveUpdateForm #interregional').show();
+            $('#reserveUpdateForm #regions').show();
+            $('#reserveUpdateForm #selectisland').show();
+            $('#reserveUpdateForm #selectregion').show();
+
+            $("#reserveUpdateForm #region").prop("disabled",false);
+            $("#reserveUpdateForm #province").prop("disabled",false);
+            $("#reserveUpdateForm #city").prop("disabled",false);
+            $("#reserveUpdateForm #barangay").prop("disabled",false);
+
+            $(".select-island").each(function(){
+                $(this).select2({
+                      template: "bootstrap",
+                      multiple: true,
+                      tagging: true,
+                      allowClear: true,
+                      placeholder: "Select island"
+                  });
+                });
+              $(".select-region").each(function(){
+                $(this).select2({
+                    template: "bootstrap",
+                    multiple: true,
+                    tagging: true,
+                    allowClear: true,
+                    placeholder: "Select region"
+                });
+            });
+          }
+          else if(AreaOperation == "National")
+          {
+            $('#reserveUpdateForm #allisland').hide();
+            $('#reserveUpdateForm #allregions').hide();
+            $('#reserveUpdateForm #interregional').hide();
+            $('#reserveUpdateForm #regions').hide();
+            $('#reserveUpdateForm #selectisland').hide();
+            $('#reserveUpdateForm #selectregion').hide();
+
+            $("#reserveUpdateForm #region").prop("disabled",false);
+            $("#reserveUpdateForm #province").prop("disabled",false);
+            $("#reserveUpdateForm #city").prop("disabled",false);
+            $("#reserveUpdateForm #barangay").prop("disabled",false);
+
+          }
+          else if(AreaOperation == "Regional")
+          {
+            $('#reserveUpdateForm #allisland').hide();
+            $('#reserveUpdateForm #allregions').hide();
+            $('#reserveUpdateForm #interregional').hide();
+            $('#reserveUpdateForm #regions').hide();
+            $('#reserveUpdateForm #selectisland').hide();
+            $('#reserveUpdateForm #selectregion').hide();
+
+            $("#reserveUpdateForm #region").prop("disabled",true);
+            $("#reserveUpdateForm #province").prop("disabled",false);
+            $("#reserveUpdateForm #city").prop("disabled",false);
+            $("#reserveUpdateForm #barangay").prop("disabled",false);
+
+          }
+          else if(AreaOperation == "Provincial")
+          {
+            $('#reserveUpdateForm #allisland').hide();
+            $('#reserveUpdateForm #allregions').hide();
+            $('#reserveUpdateForm #interregional').hide();
+            $('#reserveUpdateForm #regions').hide();
+            $('#reserveUpdateForm #selectisland').hide();
+            $('#reserveUpdateForm #selectregion').hide();
+
+            $("#reserveUpdateForm #province").prop("disabled",true);
+            $("#reserveUpdateForm #region").prop("disabled",true);
+            $("#reserveUpdateForm #city").prop("disabled",false);
+            $("#reserveUpdateForm #barangay").prop("disabled",false);
+
+          }
+          else if(AreaOperation == "Municipality/City")
+          {
+            $('#reserveUpdateForm #allisland').hide();
+            $('#reserveUpdateForm #allregions').hide();
+            $('#reserveUpdateForm #interregional').hide();
+            $('#reserveUpdateForm #regions').hide();
+            $('#reserveUpdateForm #selectisland').hide();
+            $('#reserveUpdateForm #selectregion').hide();
+
+            $("#reserveUpdateForm #province").prop("disabled",true);
+            $("#reserveUpdateForm #region").prop("disabled",true);
+            $("#reserveUpdateForm #city").prop("disabled",true);
+            $("#reserveUpdateForm #barangay").prop("disabled",false);
+
+          }
+          else
+          {
+            $('#reserveUpdateForm #allisland').hide();
+            $('#reserveUpdateForm #allregions').hide();
+            $('#reserveUpdateForm #interregional').hide();
+            $('#reserveUpdateForm #regions').hide();
+            $('#reserveUpdateForm #selectisland').hide();
+            $('#reserveUpdateForm #selectregion').hide();
+
+            $("#reserveUpdateForm #province").prop("disabled",true);
+            $("#reserveUpdateForm #region").prop("disabled",true);
+            $("#reserveUpdateForm #city").prop("disabled",true);
+            $("#reserveUpdateForm #barangay").prop("disabled",true);
+
+          } 
+
+       $('#reserveUpdateForm #areaOfOperation').on('change',function(){
+      $('#reserveUpdateForm #regions').empty();
+      var areaOfOperation = $(this).val();
+      if(areaOfOperation == "Interregional"){
+        
+        $('#reserveUpdateForm #region').empty();
+        $('#reserveUpdateForm #allisland').show();
+        $('#reserveUpdateForm #allregions').show();
+        $('#reserveUpdateForm #interregional').show();
+        $('#reserveUpdateForm #regions').show();
+        $('#reserveUpdateForm #selectisland').show();
+        $('#reserveUpdateForm #selectregion').show();
+
+        $(".select-island").each(function(){
+          $(this).select2({
+                template: "bootstrap",
+                multiple: true,
+                tagging: true,
+                allowClear: true,
+                placeholder: "Select island"
+            });
+          });
+        $(".select-region").each(function(){
+            $(this).select2({
+                template: "bootstrap",
+                multiple: true,
+                tagging: true,
+                allowClear: true,
+                placeholder: "Select region"
+            });
+        });
+
+         $('#reserveUpdateForm #regions').on('change',function(){
+          // alert($(this).val());
+          $('#reserveUpdateForm #region').empty();
+           $('#reserveUpdateForm #region').prop("disabled",false);
+          $("#reserveUpdateForm #province").prop("disabled",true);
+          $('#reserveUpdateForm #city').empty();
+          $("#reserveUpdateForm #city").prop("disabled",true);
+          $('#reserveUpdateForm #barangay').empty();
+          $("#reserveUpdateForm #barangay").prop("disabled",true);
+          if($(this).val() && ($(this).val()).length > 0){
+            $("#reserveUpdateForm #province").prop("disabled",false);
+            var regions = $(this).val();
+              $.ajax({
+              type : "POST",
+              url  : "../api/regions",
+              dataType: "json",
+              data : {
+                regions: regions
+              },
+              success: function(data){
+                $('#reserveUpdateForm #region').append($('<option></option>').attr('value',"").text(""));
+                $.each(data, function(key,value){
+                  $('#reserveUpdateForm #region').append($('<option></option>').attr('value',value.regCode).text(value.regDesc));
+                });
+              }
+            });
+          }
+        });
+
+      }
+      else if(areaOfOperation == "National")
+      {
+      $('#reserveUpdateForm #allisland').hide();
+      $('#reserveUpdateForm #allregions').hide();
+      $('#reserveUpdateForm #interregional').hide();
+      $('#reserveUpdateForm #regions').hide();
+      $('#reserveUpdateForm #selectisland').hide();
+      $('#reserveUpdateForm #selectregion').hide();
+      $("#reserveUpdateForm #region").prop("disabled",false);
+      $("#reserveUpdateForm #province").prop("disabled",false);
+      $("#reserveUpdateForm #city").prop("disabled",false);
+      $("#reserveUpdateForm #barangay").prop("disabled",false);
+      }
+      else if(areaOfOperation == "Regional")
+      {
+      $('#reserveUpdateForm #allisland').hide();
+      $('#reserveUpdateForm #allregions').hide();
+      $('#reserveUpdateForm #interregional').hide();
+      $('#reserveUpdateForm #regions').hide();
+      $('#reserveUpdateForm #selectisland').hide();
+      $('#reserveUpdateForm #selectregion').hide();
+      $("#reserveUpdateForm #region").prop("disabled",false);
+      $("#reserveUpdateForm #province").prop("disabled",false);
+      $("#reserveUpdateForm #city").prop("disabled",false);
+      $("#reserveUpdateForm #barangay").prop("disabled",false);
+      }
+      else if(areaOfOperation == "Provincial")
+      {
+      $('#reserveUpdateForm #allisland').hide();
+      $('#reserveUpdateForm #allregions').hide();
+      $('#reserveUpdateForm #interregional').hide();
+      $('#reserveUpdateForm #regions').hide();
+      $('#reserveUpdateForm #selectisland').hide();
+      $('#reserveUpdateForm #selectregion').hide();
+      $("#reserveUpdateForm #province").prop("disabled",false);
+      $("#reserveUpdateForm #region").prop("disabled",true);
+      $("#reserveUpdateForm #city").prop("disabled",false);
+      $("#reserveUpdateForm #barangay").prop("disabled",false);
+      }
+      else if(areaOfOperation == "Municipality/City")
+      {
+      $('#reserveUpdateForm #allisland').hide();
+      $('#reserveUpdateForm #allregions').hide();
+      $('#reserveUpdateForm #interregional').hide();
+      $('#reserveUpdateForm #regions').hide();
+      $('#reserveUpdateForm #selectisland').hide();
+      $('#reserveUpdateForm #selectregion').hide();
+      $("#reserveUpdateForm #province").prop("disabled",true);
+      $("#reserveUpdateForm #region").prop("disabled",true);
+      $("#reserveUpdateForm #city").prop("disabled",false);
+      $("#reserveUpdateForm #barangay").prop("disabled",false);
+      }
+      else
+      {
+      $('#reserveUpdateForm #allisland').hide();
+      $('#reserveUpdateForm #allregions').hide();
+      $('#reserveUpdateForm #interregional').hide();
+      $('#reserveUpdateForm #regions').hide();
+      $('#reserveUpdateForm #selectisland').hide();
+      $('#reserveUpdateForm #selectregion').hide();
+      $("#reserveUpdateForm #province").prop("disabled",true);
+      $("#reserveUpdateForm #region").prop("disabled",true);
+      $("#reserveUpdateForm #city").prop("disabled",true);
+      $("#reserveUpdateForm #barangay").prop("disabled",false);
+      }
+    });
+
+    $('#reserveUpdateForm #interregional').on('change',function(){
+      
+      if($(this).val().length <= 2){
+        // alert($(this).val());
+          if($(this).val().length != 2){
+            $('.opt').each(function() {
+                if(!this.selected) {
+                    $(this).attr('disabled', false);
+                }
+            });
+          } else {
+            $('.opt').each(function() {
+              if(!this.selected) {
+                  $(this).attr('disabled', true);
+              }
+            });
+          }
+        $('#reserveUpdateForm #region').empty();
+        $('#reserveUpdateForm #regions').empty();
+        $('#reserveUpdateForm #province').empty();
+        $("#reserveUpdateForm #province").prop("disabled",true);
+        $('#reserveUpdateForm #city').empty();
+        $("#reserveUpdateForm #city").prop("disabled",true);
+        $('#reserveUpdateForm #barangay').empty();
+        $("#reserveUpdateForm #barangay").prop("disabled",true);
+        if($(this).val() && ($(this).val()).length > 0){
+          $("#reserveUpdateForm #province").prop("disabled",false);
+          var interregional = $(this).val();
+            $.ajax({
+            type : "POST",
+            url  : "../../api/islands",
+            dataType: "json",
+            data : {
+              interregional: interregional
+            },
+            success: function(data){
+              // $('#reserveAddForm #regions').append($('<option></option>').attr('value',"").text(""));
+              $.each(data, function(key,value){
+                $('#reserveUpdateForm #regions').append($('<option></option>').attr('value',value.region_code).text(value.regDesc));
+              });
+            }
+          });
+        }
+      } else {
+        // $('#reserveUpdateForm #interregional').removeAttr("selected");;
+        // alert("Maximum of 2 Island.");
+        $('.opt').each(function() {
+            if(!this.selected) {
+                $(this).attr('disabled', true);
+            }
+        });
+      }
+    });
+
+    $('#reserveUpdateForm #regions').on('change',function(){
+      // alert($(this).val());
+      $('#reserveUpdateForm #region').empty();
+      $("#reserveUpdateForm #province").prop("disabled",true);
+      $('#reserveUpdateForm #city').empty();
+      $("#reserveUpdateForm #city").prop("disabled",true);
+      $('#reserveUpdateForm #barangay').empty();
+      $("#reserveUpdateForm #barangay").prop("disabled",true);
+      if($(this).val() && ($(this).val()).length > 0){
+        $("#reserveUpdateForm #province").prop("disabled",false);
+        var regions = $(this).val();
+          $.ajax({
+          type : "POST",
+          url  : "../../api/regions",
+          dataType: "json",
+          data : {
+            regions: regions
+          },
+          success: function(data){
+            $('#reserveUpdateForm #region').append($('<option></option>').attr('value',"").text(""));
+            $.each(data, function(key,value){
+              $('#reserveUpdateForm #region').append($('<option></option>').attr('value',value.regCode).text(value.regDesc));
+            });
+          }
+        });
+      }
+    });
+
+    $('#reserveUpdateForm #city').on('change',function(){
+      $('#reserveUpdateForm #barangay').empty(); 
+      $('#reserveUpdateForm #barangay_').empty(); 
+      $("#reserveUpdateForm #barangay").prop("disabled",true);
+      if($(this).val() && ($(this).val()).length > 0){
+        $("#reserveUpdateForm #barangay").prop("disabled",false);
+        var cities = $(this).val();
+          $.ajax({
+          type : "POST",
+          url  : "../api/barangays",
+          dataType: "json",
+          data : {
+            cities: cities
+          },
+          success: function(data){
+            $('#reserveUpdateForm #barangay').append($('<option></option>').attr('value',"").text(""));
+            $.each(data, function(key,value){
+              $('#reserveUpdateForm #barangay').append($('<option></option>').attr('value',value.brgyCode).text(value.brgyDesc));
+            });
+          }
+        });
+           $('#v #barangay_').val($('#reserveUpdateForm #barangay').val()); 
+      }
+    });
+
+    $('#reserveUpdateForm #barangay').on('change',function(){
+      $('#reserveUpdateForm #barangay_').empty(); 
+      
+      if($(this).val() && ($(this).val()).length > 0){
+        $('#reserveUpdateForm #barangay_').val($(this).val());
+      }
+    });
+
+
         if(data.composition_of_members =="Others"){
           $('#reserveUpdateForm #compositionOfMembers').val(data.composition_of_members);
           $('#reserveUpdateForm #compositionOfMembers').trigger('change');
@@ -292,8 +657,15 @@ $(function(){
           $(divFormGroupMajorIndustry).append(divColMajorIndustry,labelMajorIndustry,selectMajorIndustry);
           $(divFormGroupSubclass).append(divColSubclass,labelSubClass,selectSubClass);
            
+          if(data.business_activities.length>1)
+          {
+             $(htmls).append(divFormGroupMajorIndustry,divFormGroupSubclass,deleteSpan);
+          }
+          else
+          {
+             $(htmls).append(divFormGroupMajorIndustry,divFormGroupSubclass);
+          }
          
-          $(htmls).append(divFormGroupMajorIndustry,divFormGroupSubclass,deleteSpan);
           
           $('.row-cis').append(htmls);
            $(selectMajorIndustry).append($('<option selected></option>').attr('value',business_activy['bactivity_id']).text(business_activy['bactivity_name']));
@@ -302,7 +674,7 @@ $(function(){
         }); //end each loop
        
           //end business
-        $("#reserveUpdateForm #proposedName").focus();
+        $("#reserveUpdateForm #newNamess").focus();
         
       }//end if data null
 
@@ -412,7 +784,7 @@ $(function(){
     
 
       $(divFormGroup).append("<table width='100%'><tr><td width='90%'>",selectComposition,"</td><td width='10%'>",deleteSpan,"</td></tr></table>");
-      $("#reserveUpdateForm .col-com").append(divFormGroup);
+      $("#reserveUpdateForm .occupation-wrapper").append(divFormGroup);
     });
     //end  composition of membersip btn
 
@@ -430,7 +802,7 @@ function load_composition($select_class)
     dataType: "json",
     success: function(data){
     // $('#compositionOfMembersa').append($('<option></option>').attr('value',"").text(""));
-    $.each(data, function(key,value){
+    $.each(data, function(key,value){ 
 
     $select_class.append($('<option></option>').attr('value',value.id).text(value.composition));
     // $("#compositionOfMembersa option[value='"+data.comp_of_membership+"']").attr("selected", "selected");
@@ -484,29 +856,38 @@ function get_specific_subclass_desc(id)
 //end specifi subclass
 
   //name
-    $("#reserveUpdateForm #proposedName").bind("keyup change",function(){
-      // alert('a');
+    $("#reserveUpdateForm #newNamess").bind("keyup change",function(){
+     // alert($("#reserveUpdateForm #acronym_name").val());
       var val = $(this).val();
       var count_coop_type =$('#reserveUpdateForm select[name="typeOfCooperative[]"').length;
-      if(count_coop_type>1)
+       var type_coop_text = ($("#typeOfCooperative1").find("option:selected").text());
+      var acro ='';
+      if($("#reserveUpdateForm #acronym_name").length>0)
       {
-        $("#type_of_coop").html(val+' Multipurpose Cooperative');
+        acro ='('+$("#reserveUpdateForm #acronym_name").val()+')';
+      }
+      if(count_coop_type>1)
+      { 
+        // $("#type_of_coop").html(val+' Multipurpose Cooperative');
+          $("#type_of_coop").html('Proposed Name Preview: '+val +type_coop_text+' Multipurpose Cooperative '+acro);
         $("#proposed_name_msg").html('* Do not include the word Multipurpose Cooperative in proposed name');
         
       }
       else
-      {
-         $("#type_of_coop").html(val);
+      {   
+       
+      
+          $("#type_of_coop").html('Proposed Name Preview: '+val+' '+type_coop_text+' Cooperative '+acro);
            $("#proposed_name_msg").html('* Do not include the word Cooperative in proposed name');
       }
         if($(this).val() && ($(this).val()).length > 0)
         {
         $("#reserveUpdateForm #addMoreSubclassBtn").prop("disabled",false);
-          document.getElementById("proposedName").maxLength = "61";
+          document.getElementById("newNamess").maxLength = "61";
 
-          $('#reserveUpdateForm #proposedName').on('change',function(){
+          $('#reserveUpdateForm #newNamess').on('change',function(){
             document.getElementById('acronym_name').value = '';
-            var value = document.getElementById("proposedName").value;
+            var value = document.getElementById("newNamess").value;
             var totalval = 61 - value.length; 
             // alert(value.length);
             if(totalval == 0){ 
@@ -526,12 +907,13 @@ function get_specific_subclass_desc(id)
 //add coop type dynamically modified
   var count_text_input =1;
   $('#reserveUpdateForm #addCoop').on('click', function(e){ 
-    var name_origin =  $("#newName2").val();
+    var name_origin =  $("#newName2").val(); 
+    var category = $("#categoryOfCooperative").val();
     count_text_input++;
     $('#count_type').text(count_text_input );
     if(count_text_input>1)
     {
-      var proposeName = $("#proposedName").val();
+      var proposeName = $("#newNamess").val();
       $("#type_of_coop").html(proposeName+' Multipurpose Cooperative');
     }else{
 
@@ -543,76 +925,69 @@ function get_specific_subclass_desc(id)
     var divFormGroup= $('<div></div>').attr({'class':'form-group'});
     var selectCoop = $('<select></select>').attr({'class': 'custom-select coop-type form-control validate[required]','name': 'typeOfCooperative[]', 'id': 'typeOfCooperatives' + (intLastCount + 1)}).prop("disabled",false);
     var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn float-right text-danger'}).click(function(e){
-    
-        $(this).parent().remove();
-        // count_text_input--;
-        // less_count_updateName(count_text_input);
-      
-      });
-          list_cooperative_type(selectCoop);
-    
+    $(this).parent().remove();
+    }); //end function delete
+         
+            $('.major-ins').empty();
+            $('.subclass-in').empty();
+            $('.subclass-in').prop("disabled",true);
+            var typeCoop_arrays=[]; 
+            $('select[name="typeOfCooperative[]"] option:selected').each(function() {
+              typeCoop_arrays.push($(this).val()); 
+              // $('#typeOfCooperative_value').val(typeCoop_arrays);
+            });
+                $('#reserveUpdateForm .major-ins').append($('<option></option').attr({'selected':true}).val(""));
+                $.ajax({
+                 type : "POST",
+                 url  : "../../api/major_industries_amendment",
+                 dataType: "json",
+                 data: {cooptype_:typeCoop_arrays},
+                 success: function(responsetxt){
+                  $.each(responsetxt,function(a,major_industry){
+                   // console.log(major_industry);
+                     $('.major-ins').append($('<option></option>').attr('value',major_industry['major_industry_id']).text(major_industry['description']));
+                  });
+                 }
+                }); //end ajax
+
+
          
       $(divFormGroup).append("<table><tr><td>",selectCoop,"</td><td>",deleteSpan,"</td></tr></table>");
       $("#reserveUpdateForm .coop-col").append(divFormGroup);
+   
+       list_cooperative_type(selectCoop,category);
+    
 
-//modified by json
-      $(".coop-type").on('change',function(){
-        var cooptype_value = this.value;
-
-
-     var typeCoop_arrays=[]; 
-     $('select[name="typeOfCooperative[]"] option:selected').each(function() {
-     typeCoop_arrays.push($(this).val());
-      console.log(typeCoop_arrays);
-      $('#typeOfCooperative_value').val(typeCoop_arrays); 
-     });
-  
-        // alert(cooptype_value);
-            $.ajax({
-             type : "POST",
-             url  : "get_major_industry_ajax",
-             dataType: "json",
-             data: {cooptype_:cooptype_value},
-             success: function(responsetxt){
-               // alert("success");
-              $.each(responsetxt,function(a,major_industry){
-                // console.log(major_industry['description']);
-                 // $('.major-industry').append($('<option></option>').attr('value',major_industry['id']).text(major_industry['description']));
-                  $('.major-ins').append($('<option></option>').attr('value',major_industry['id']).text(major_industry['description']));
-
-                 // $('.select-major').append($('<option></option>').attr('value',major_industry['description']).text(major_industry['description']));
-
-              });
-             }
-            }); //end ajax
-        }); 
       e.preventDefault();
     });
 
 
 //modified by json
-$(".coop-type").on('change',function(){
+   $(document).on('change','.coop-type',function(){
         var cooptype_value = this.value;
-        var typeCoop_arraysa=[]; 
-           $('select[name="typeOfCooperative[]"] option:selected').each(function() {
-               typeCoop_arraysa.push($(this).val());
-              $('#typeOfCooperative_value').val(typeCoop_arraysa);
-           });
+        var typeCoop_arrays=[]; 
+          $('select[name="typeOfCooperative[]"] option:selected').each(function() {
+              typeCoop_arrays.push($(this).val());
+              $('#typeOfCooperative_value').val(typeCoop_arrays);
+          });      
+           // alert(typeCoop_arrays);
+            $('#reserveUpdateForm .major-ins').empty();
+            $('#reserveUpdateForm .subclass-in').empty();
+            $('#reserveUpdateForm .subclass-in').prop('disable',true);
+            $('#reserveUpdateForm .major-ins').append($('<option></option').attr({'selected':true}).val(""));
+           $.ajax({
+                 type : "POST",
+                 url  : "../../api/major_industries_amendment",
+                 dataType: "json",
+                 data: {cooptype_:typeCoop_arrays},
+                 success: function(responsetxt){
+                  $.each(responsetxt,function(a,major_industry){
+                     $('.major-ins').append($('<option></option>').attr('value',major_industry['major_industry_id']).text(major_industry['description']));
+                  });
 
-            $.ajax({
-             type : "POST",
-             url  : "get_major_industry_ajax",
-             dataType: "json",
-             data: {cooptype_:cooptype_value},
-             success: function(responsetxt){
-              
-              $.each(responsetxt,function(a,major_industry){ console.log(major_industry['major_industry_id']);
-                 $('.major-ins').append($('<option></option>').attr('value',major_industry['major_industry_id']).text(major_industry['description']));
-
-              });
-             }
-            }); 
-        }); 
+                 }
+                }); //end ajax    
+    }); 
 
   //major
   $(document).on('change','.major-ins',function(){
@@ -621,34 +996,29 @@ $(".coop-type").on('change',function(){
       $('#reserveUpdateForm #subClass'+(intLastCount)).empty();
       $('#reserveUpdateForm #subClass'+(intLastCount)).prop("disabled",true);
           if($(this).val() && ($(this).val()).length > 0){
-            var subClassTemp =   $('#reserveUpdateForm #subClass'+(intLastCount));
+            var subClassTemp =   $('#reserveUpdateForm #subClass'+(intLastCount)); 
             $(subClassTemp).prop("disabled",false);
             var major_industry = $(this).val();
-            var typeCoop_arrays=[]; 
-            $('select[name="typeOfCooperative[]"] option:selected').each(function() {
-            typeCoop_arrays.push($(this).val());
-            $('#typeOfCooperative_value').val(typeCoop_arrays);
-              $.each(typeCoop_arrays , function(n,type_coop_id){
+ 
+            // if(coop_type.length > 0 ){ 
+                $.ajax({
+                type : "POST",
+                url  : "../../api/subClass",
+                // url  : "../api/SubClass",
+                dataType: "json",
+                data : {
+                  major_industry: major_industry
+                },
+                success: function(data){
+                    
 
-                if(type_coop_id.length > 0 ){
-                    $.ajax({
-                    type : "POST",
-                    url  : "../../api/industry_subclasses",
-                    dataType: "json",
-                    data : {
-                      coop_type: type_coop_id,
-                      major_industry: major_industry
-                    },
-                    success: function(dataa){
-                        $(subClassTemp).append($('<option></option>').attr('value',"").text(""));
-                        $.each(dataa, function(key,value){ console.log(value);
-                          $(subClassTemp).append($('<option></option>').attr('value',value.id).text(value.description));
-                        });
-                    }
-                  });
+                    $(subClassTemp).append($('<option></option').attr({'selected':true}).val(""));
+                    $.each(data, function(key,value){
+                      $(subClassTemp).append($('<option></option>').attr('value',value.id).text(value.description));
+                    });
                 }
-              });  
-            });    
+              });
+            // }
           }
 
      });
@@ -694,7 +1064,7 @@ $(".coop-type").on('change',function(){
 //modified add major industry dynamically
   let count_major_industry=parseInt($('.major-industry').length);
   $('#reserveUpdateForm #addMoreSubclassBtn').on('click', function(){
-
+  
      var origin_name =  $("#newName2").val();
      // var start_counting_major = ++count_major_industry;
      // // alert(start_counting_major);
@@ -741,47 +1111,34 @@ $(".coop-type").on('change',function(){
       var divFormGroupMajorIndustry = $('<div></div>').attr({'class':'form-group'});
       var divColMajorIndustry = $('<div></div>').attr({'class':'col-sm-12 col-md-12'});
       var labelMajorIndustry = $('<label></label>').attr({'for': 'majorIndustry'+(intLastCount + 1)}).text("Major Industry Classification No. " + (intLastCount+1));
-      var selectMajorIndustry = $('<select></select>').attr({'class': 'custom-select form-control validate[required]','name': 'majorIndustry[]', 'id': 'majorIndustry' + (intLastCount + 1)}).change(function(){
+      var selectMajorIndustry = $('<select></select>').attr({'class': 'custom-select major-ins form-control validate[required]','name': 'majorIndustry[]', 'id': 'majorIndustry' + (intLastCount + 1)}).change(function(){
       
         $(selectSubClass).empty();
         $(selectSubClass).prop("disabled",true);
-        if($(this).val() && ($(this).val()).length > 0){
-          $(selectSubClass).prop("disabled",false);
-          var major_industry = $(this).val(); 
-          // var coop_type_val = $('#reserveUpdateForm #typeOfCooperatives1').val();
-              $.ajax({
-              type : "POST",
-              url  : "../../api/industry_subclasses",
-              dataType: "json",
-              data : {
-                coop_type: coop_types,
-                major_industry: major_industry
-              },
-              success: function(data){
-                  $(selectSubClass).append($('<option></option>').attr('value',"").text(""));
-                  $.each(data, function(key,value){
-                    $(selectSubClass).append($('<option></option>').attr('value',value.id).text(value.description));
-                  });
-              }
-            });
-        }
-      });
+        
+      }); //end delete
 
       var divInnerRow = $('<div></div>').attr({'class':'row'});
-      var coop_type_val = $('#reserveUpdateForm #typeOfCooperatives1').val();
+      var typeCoop_arrays=[]; 
+          $('select[name="typeOfCooperative[]"] option:selected').each(function() {
+              typeCoop_arrays.push($(this).val()); 
+              // $('#typeOfCooperative_value').val(typeCoop_arrays);
+          });      
+           // alert(typeCoop_arrays);
+            $(selectMajorIndustry).empty();
+            $(selectMajorIndustry).append($('<option></option').attr({'selected':true}).val(""));
+
       $.ajax({
           type : "POST",
-          url  : "../../api/major_industries",
+          url  : "../../api/major_industries_amendment",
           dataType: "json",
-          data : {
-            coop_type: coop_types
-          },
+          data: {cooptype_:typeCoop_arrays},
           success: function(data){
-              $(selectMajorIndustry).append($('<option></option>').attr('value',"").text(""));
+             // alert('fire');
               $.each(data, function(key,value){
-                $(selectMajorIndustry).append($('<option></option>').attr('value',value.id).text(value.description));
+                $(selectMajorIndustry).append($('<option></option>').attr('value',value.major_industry_id).text(value.description));
               });
-              $(divFormGroupSubclass).append(labelSubClass,selectSubClass);
+              $(divFormGroupSubclass).append(labelSubClass,selectSubClass,deleteSpanss);
               $(divColSubclass).append(divFormGroupSubclass);
               $(divFormGroupMajorIndustry).append(labelMajorIndustry,selectMajorIndustry);
               $(divColMajorIndustry).append(divFormGroupMajorIndustry);
@@ -833,58 +1190,31 @@ $(".coop-type").on('change',function(){
   //end major
 
   //cooperative type list
-function list_cooperative_type($select_id)
+function list_cooperative_type($select_id,$category)
 {
- 
-            $.ajax({
-             type : "POST",
-             url  : "../cooperative_type_ajax",
-             dataType: "json",
-             success: function(responsetxt){
-              // console.log(responsetxt);
-              $.each(responsetxt,function(a,coop_type){
-                 $($select_id).append($('<option></option>').attr('value',coop_type['id']).text(coop_type['name']));
+  $($select_id).append($('<option></option').attr({'selected':true}).val(""));
+                $.ajax({
+                  async:false,
+                  type : "POST",
+                 url  : "../cooperative_type_ajax",
+                 dataType: "json",
+                 data:{category:$category},
+                 success: function(responsetxt){
+                  // console.log(responsetxt);
+                  $.each(responsetxt,function(a,coop_type){
+                     $($select_id).append($('<option></option>').attr('value',coop_type['id']).text(coop_type['name']));
 
-              });
-             }
-            }); 
+                  });
+                 }
+                }); 
 }
  //end cooperative type list
 
  //delete cooptype
 $('.customDeleleBtn').on('click', function(){
-  $(this).parent().remove();
+  $(this).parent().remove(); 
 });
- //end delete coop type
-
-   //modify occupational
-$('#reserveUpdateForm #addMoreComBtne').on('click', function(){ 
-
-var htmlFielda = '<div class="com-div"> <select class="custom-select composition-of-members" name="compositionOfMembersa[]" id="compositionOfMembersa required="required" ></select><a class="customDeleleBtn compositionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a></div> ';
-              
-    $.ajax({
-      type : "POST",
-      url  : "composition",
-      dataType: "json",
-      success: function(data){
-           $('#compositionOfMembersa').append($('<option></option>').attr('value',"").text(""));
-          $.each(data, function(key,value){
-              
-            $('.composition-of-members').append($('<option></option>').attr('value',value.id).text(value.composition));
-           
-          });
-        
-      }
-
-    });
-
-      $("#reserveUpdateForm .occupational-div").append(htmlFielda);   
-            $('.compositionRemoveBtn').on('click',function(){
-              $(this).closest('.com-div').remove();//$("#con-wrapper").children().last().remove(); // $(this).parent().remove();// $(this).closest(".tbl").remove();
-            });
-  });
-//end modify
-
+ //end delete coop typ
 
   //start
  $('#reserveUpdateForm #addMoreInsBtn_insti').on('click', function(){
@@ -896,6 +1226,64 @@ var htmlFielda = '<div class="com-div"> <select class="custom-select composition
     
   });
   //end 
+  function loadCoopType($select_id,$selcted_id,$category)
+  {
+    $(document).ready(function(){
+        $.ajax({
+            type : "POST",
+            url  : "../cooperative_type_ajax",
+            dataType: "json",
+            data : {
+                category: $category,
+            },
+            success: function(responsetxt){
+              $.each(responsetxt,function(a,coop_type){
+                var selected="";
+                $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
+                if($selected_id == coop_type['id'] )
+                {
+                  var val = coop_type['id'];
+                  var c_name = coop_type['name'];
+                  $selected ="selected";
+                  $($select_id).val(val).prop('selected', true);
+                    $($select_id).append($('<option selected></option>').attr('value',val).text(c_name));
+                    $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
+                }  
+              });
+            }
+        }); //end ajax
+    }); //end document ready        
+  }
+
+   function loadCoopType2($select_id,$category)
+  {
+    $(document).ready(function(){
+         $($select_id).append($('<option></option').attr({'selected':true}).val(""));
+                $.ajax({
+                  async:false,
+                  type : "POST",
+                 url  : "../cooperative_type_ajax",
+                 dataType: "json",
+                 data: {category:$category},
+                 success: function(responsetxt){
+                  // console.log(responsetxt);
+                  $.each(responsetxt,function(a,coop_type){
+                     $($select_id).append($('<option></option>').attr('value',coop_type['id']).text(coop_type['name']));
+                  });
+                 }
+                }); 
+    }); //end document ready        
+  }
+  $("#reserveUpdateForm #categoryOfCooperative").on('change',function(){
+    // alert($(this).val());
+      $('.coop-type').empty();
+      $('.coop-type').prop("disabled",true);
+      loadCoopType2('.coop-type',$(this).val());
+       $('.coop-type').prop("disabled",false);
+
+  });
+
+
 
 
 

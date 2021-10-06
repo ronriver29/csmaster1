@@ -12,6 +12,12 @@ class Amendment_forpayment extends CI_Controller{
   function index($id = null)
   {
     $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+    $this->db->delete('payment',array('amendment_id'=>$decoded_id));
+    $data_payment = array(
+            'date' => date('Y-m-d h:i:s',now('Asia/Manila')),
+            'amendment_id' => $decoded_id
+    );
+    $this->db->insert('payment',$data_payment);
     $items['status'] = '16';
     if($this->db->where("id",$decoded_id)->update("amend_coop",$items)) {
     
@@ -25,13 +31,13 @@ class Amendment_forpayment extends CI_Controller{
     $name = $ret->proposed_name;
     
 
-    $from = "Amendment_forpayment.php";    //senders email address
+    // $from = "Amendment_forpayment.php";    //senders email address
 
-    $from = "ecoopris@cda.gov.ph";    //senders email address
+    // $from = "ecoopris@cda.gov.ph";    //senders email address
 
-    $from = "ecoopris@cda.gov.ph";    //senders email address
+    // $from = "ecoopris@cda.gov.ph";    //senders email address
 
-    $from = "ecoopris@cda.gov.ph";    //senders email address
+    // $from = "ecoopris@cda.gov.ph";    //senders email address
 
     $from = "ecoopris@cda.gov.ph";    //senders email address
 
@@ -43,9 +49,11 @@ class Amendment_forpayment extends CI_Controller{
 
     $message="<pre><b>Congratulations!</b> Your application status is <b>FOR PAYMENT</b>.
 
-You may opt to pay thru the available online facilities listed in your CoopRIS account or at CDA Cashier. 
+Please Print the system generated Order of payment in your account and present the same to the CDA Cashier or you may opt to pay thru the available online facilities encoding the details in the Order of Payment. 
 
-Once payment has been settled the client may now claim the Certificate of Registration. </pre>";
+Once payment has been settled the client may now claim the Certificate of Amendment by presenting the Official Receipt or incase of online payment the successful transaction receipt to CDA Registration Division/Section having jurisdiction over your area.
+
+Thank you. </pre>";
 
 
    $this->email->from($from,'ecoopris CDA (No Reply)');
@@ -53,7 +61,7 @@ Once payment has been settled the client may now claim the Certificate of Regist
    $this->email->subject($subject);
    $this->email->message($message);
    if($this->email->send()){
-       redirect('amendment/'.$id);
+       redirect('amendment');
    }else{
        return false;
    }
@@ -61,7 +69,7 @@ Once payment has been settled the client may now claim the Certificate of Regist
         redirect('amendment');
     } else {
         $this->session->set_flashdata('cooperative_error', 'Successfully updated basic information.');
-       redirect('amendment/'.$this->input->post('cooperativeID'));
+       redirect('amendment');
     }
   }
 

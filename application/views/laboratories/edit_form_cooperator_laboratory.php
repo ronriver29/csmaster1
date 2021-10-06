@@ -80,7 +80,8 @@
               <br>
               <select id="edb" name="item[educational_bg]" class="form-control">
                 <option value="college"<?=($cooperator_info->educational_bg=='college' ?'selected':'') ?>>College</option>
-                <option value="highschool"  <?=($cooperator_info->educational_bg=='highschool' ?'selected':'') ?>>High School</option>
+                <option value="seniorhigh"  <?=($cooperator_info->educational_bg=='seniorhigh' ?'selected':'') ?>>Senior High</option>
+                <option value="juniorhigh"  <?=($cooperator_info->educational_bg=='juniorhigh' ?'selected':'') ?>>Junior High</option>
                 <option value="gradeschool" <?=($cooperator_info->educational_bg=='gradeschool' ?'selected':'')?> >Grade School</option>
                 <option value="outofschoolyouth"<?=($cooperator_info->educational_bg=='outofschoolyouth' ?'selected':'') ?>>Out of School Youth</option>
               </select>
@@ -117,13 +118,9 @@
                   <label for="region">Regions</label>
                   <select class="custom-select validate[required]" name="region" id="region">
                     <option value="" selected></option>
-                   
-
-
                     <?php foreach ($regions_list as $region_list) : ?>
-                      <option value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
+                      <option value ="<?php echo $region_list['regCode'];?>" <?=($coop_info->rCode == $region_list['regCode'] ? 'selected' : '')?>><?php echo $region_list['regDesc']?></option>
                     <?php endforeach; ?>
-
                   </select>
                 </div>
               </div>
@@ -132,6 +129,14 @@
                 <div class="form-group">
                   <label for="province">Province</label>
                   <select class="custom-select validate[required]" name="province" id="province" >
+                    <?php 
+                      foreach($list_of_provinces as $province_list)
+                      {
+                        ?>
+                        <option value="<?=$province_list['provCode']?>" <?=($province_list['provCode']== $coop_info->pCode? 'selected' : '')?>><?=$province_list['provDesc']?></option>
+                        <?php
+                      }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -140,7 +145,15 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
-                  <select class="custom-select validate[required]" name="city" id="city" disabled>
+                  <select class="custom-select validate[required]" name="city" id="city">
+                    <?php
+                    foreach($list_of_cities as $city_list)
+                    {
+                      ?>
+                      <option value="<?=$city_list['citymunCode']?>" <?=($city_list['citymunCode'] == $coop_info->cCode ?'selected' :'')?>><?=$city_list['citymunDesc']?></option>
+                      <?php
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -148,7 +161,15 @@
                 <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="barangay">Barangay</label>
-                  <select class="custom-select validate[required]" name="item[addrCode]" id="barangay" disabled>
+                  <select class="custom-select validate[required]" name="item[addrCode]" id="barangay">
+                    <?php
+                    foreach($list_of_brgys as $brgy_list)
+                    {
+                      ?>
+                      <option value="<?=$brgy_list['brgyCode']?>" <?=($brgy_list['brgyCode'] == $coop_info->bCode ? 'selected' :'')?>> <?=($brgy_list['brgyDesc'])?></option>
+                      <?php
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -188,21 +209,21 @@
     success: function(data){
       if(data!=null){
         var tempCount = 0;
-        setTimeout( function(){
-          $('#editCooperatorForm #region').val(data.regional_code);
-          $('#editCooperatorForm #region').trigger('change');
-        },300);
-        setTimeout( function(){
-            $('#editCooperatorForm #province').val(data.province_code);
-            $('#editCooperatorForm #province').trigger('change');
-        },900);
-        setTimeout(function(){
-          $('#editCooperatorForm #city').val(data.city_code);
-          $('#editCooperatorForm #city').trigger('change');
-        },1500);
-        setTimeout(function(){
-          $('#editCooperatorForm #barangay').val(data.brgy_code);
-        },2500);
+        // setTimeout( function(){
+        //   $('#editCooperatorForm #region').val(data.regional_code);
+        //   $('#editCooperatorForm #region').trigger('change');
+        // },300);
+        // setTimeout( function(){
+        //     $('#editCooperatorForm #province').val(data.province_code);
+        //     $('#editCooperatorForm #province').trigger('change');
+        // },900);
+        // setTimeout(function(){
+        //   $('#editCooperatorForm #city').val(data.city_code);
+        //   $('#editCooperatorForm #city').trigger('change');
+        // },1500);
+        // setTimeout(function(){
+        //   $('#editCooperatorForm #barangay').val(data.brgy_code);
+        // },2500);
         
         $('#editCooperatorForm #streetName').val(data.street);
         $('#editCooperatorForm #blkNo').val(data.house_blk_no);

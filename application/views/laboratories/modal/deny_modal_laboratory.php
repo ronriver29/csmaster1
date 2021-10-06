@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="modal fade" id="denyLaboratoryModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();" tabindex="-1" role="dialog" aria-labelledby="denyLaboratoryModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-xl" role="document" style="width:90% !important;max-width:1360px;">
         <div class="modal-content">
           <?php echo form_open('laboratories/deny_laboratory',array('id'=>'denyLaboratoryForm','name'=>'denyLaboratoryForm')); ?>
             <div class="modal-header">
@@ -18,7 +18,7 @@
               </div>
               <div class="form-group">
                 <label for="comment">State the reason/s:</label>
-                <textarea class="form-control validate[required]" style="resize: none;" id="comment" name="comment" placeholder="" rows="8"><?php foreach($senior_comment as $srn_comment){echo $srn_comment['comment'].PHP_EOL;}?> </textarea>
+                <textarea class="form-control validate[required]" style="resize: none;" id="comment" name="comment" placeholder="" rows="8"><?php foreach($senior_comment_limit1 as $srn_comment){echo $srn_comment['comment'].PHP_EOL;}?> </textarea>
               </div>
             </div>
             <div class="modal-footer denyCooperativeFooter">

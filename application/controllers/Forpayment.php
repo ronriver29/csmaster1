@@ -13,6 +13,21 @@ class Forpayment extends CI_Controller{
   {
     $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
     $items['status'] = '16';
+
+    $dateforpayment_exist = $this->db->where(array('id'=>$decoded_id))->get('cooperatives');
+
+    $this->db->select('*');
+    $this->db->from('cooperatives');
+    $this->db->where('id',$decoded_id);
+    $query = $this->db->get();
+    $querydos = $query->row();
+
+    if($querydos->date_for_payment == NULL){
+        $items['date_for_payment'] = date("Y-m-d");
+    } else {
+        $items['date_for_payment'] = $querydos->date_for_payment;
+    }
+    
     if($this->db->where("id",$decoded_id)->update("cooperatives",$items)) {
     
     $query_payment = $this->db->select("cooperatives.*,users.*")
@@ -33,9 +48,11 @@ class Forpayment extends CI_Controller{
 
     $message="<pre><b>Congratulations!</b> Your application status is <b>FOR PAYMENT</b>.
 
-You may opt to pay thru the available online facilities listed in your CoopRIS account or at CDA Cashier. 
+Please Print the system generated Order of payment in your account and present the same to the CDA Cashier or you may opt to pay thru the available online facilities encoding the details in the Order of Payment.
 
-Once payment has been settled the client may now claim the Certificate of Registration. </pre>";
+Once payment has been settled the client may now claim the Certificate of Registration by presenting the Official Receipt or incase of online payment the successful transaction receipt to CDA Registration Division/Section having jurisdiction over your area.
+
+Thank you. </pre>";
 
 
     $this->email->from($from,'ecoopris CDA (No Reply)');
@@ -43,12 +60,12 @@ Once payment has been settled the client may now claim the Certificate of Regist
     $this->email->subject($subject);
     $this->email->message($message);
     if($this->email->send()){
-        redirect('cooperatives/'.$id);
+        redirect('cooperatives');
     }else{
         return false;
     }
         
-        redirect('cooperatives/'.$id);
+        redirect('cooperatives');
     } else {
         $this->session->set_flashdata('cooperative_error', 'Successfully updated basic information.');
 //        redirect('cooperatives/'.$this->input->post('cooperativeID'));

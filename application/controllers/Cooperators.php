@@ -78,9 +78,11 @@ class Cooperators extends CI_Controller{
           }else{
             if($this->session->userdata('access_level')==5){
               redirect('admins/login');
-            }else if($this->session->userdata('access_level')!=1){
-              redirect('cooperatives');
-            }else{
+            }
+            // else if($this->session->userdata('access_level')!=1){
+            //   redirect('cooperatives');
+            // }
+            else{
               if($this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('cooperatives');
@@ -208,9 +210,11 @@ class Cooperators extends CI_Controller{
                       $data['header'] = 'Cooperators';
                       $data['encrypted_id'] = $id;
                       $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
-                      $data['regions_list'] = $this->region_model->get_regions();
-                      $data['barangays_list'] = $this->barangay_model->all_barangays();
-                      
+                      if($data['coop_info']->area_of_operation == 'Interregional'){
+                        $data['regions_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
+                      } else {
+                        $data['regions_list'] = $this->region_model->get_regions();
+                      }
                       $this->db->select('*');
                       $this->db->from('id_list');
                       $this->db->order_by('id_name','ASC');
@@ -223,7 +227,11 @@ class Cooperators extends CI_Controller{
                       {
                         $data['list_id'] = NULL;
                       }
-
+                      $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coop_info']->rCode);
+                      $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coop_info']->pCode);
+                      $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coop_info']->bCode);
+                      // $data['barangays_list'] = $this->barangay_model->all_barangays();
+                      
                       $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                       $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                       $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
@@ -274,6 +282,7 @@ class Cooperators extends CI_Controller{
                         $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                         $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                         $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
+                        
                         $this->db->select('*');
                         $this->db->from('id_list');
                         $this->db->order_by('id_name','ASC');
@@ -391,12 +400,12 @@ class Cooperators extends CI_Controller{
                           $data['encrypted_id'] = $id;
 
                           $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
-                          $data['regions_list'] = $this->region_model->get_regions();
-                          $data['encrypted_cooperator_id'] = $cooperator_id;
-                          $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                          $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                          $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($decoded_cooperator_id);
-                          $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
+                          
+                          if($data['coop_info']->area_of_operation == 'Interregional'){
+                            $data['regions_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
+                          } else {
+                            $data['regions_list'] = $this->region_model->get_regions();
+                          }
 
                           $this->db->select('*');
                           $this->db->from('id_list');
@@ -410,7 +419,16 @@ class Cooperators extends CI_Controller{
                           {
                             $data['list_id'] = NULL;
                           }
+                          
+                          $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coop_info']->rCode);
+                          $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coop_info']->pCode);
+                          $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coop_info']->bCode);
 
+                          $data['encrypted_cooperator_id'] = $cooperator_id;
+                          $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                          $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                          $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($decoded_cooperator_id);
+                          $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
                           $this->load->view('./template/header', $data);
                           $this->load->view('cooperators/edit_form_cooperator', $data);
                           $this->load->view('./template/footer');
@@ -425,6 +443,43 @@ class Cooperators extends CI_Controller{
                           {
                             $dateIssued_  = $this->input->post('dateIssued_chk');
                           }
+
+                          // Get Count Committee
+
+                          // echo $decoded_post_cooperator_id;
+                            $this->db->where(array('cooperators_id'=>$decoded_post_cooperator_id));
+                            $this->db->from('committees');
+                          
+                            // echo $this->db->count_all_results();
+                          if($this->db->count_all_results()>0){
+
+                            $this->db->trans_begin();
+                            $this->db->delete('committees',array('cooperators_id'=>$decoded_post_cooperator_id));
+                            if($this->db->trans_status() === FALSE){
+                              $this->db->trans_rollback();
+                              // return false;
+                            }else{
+                              $this->db->trans_commit();
+                              // return true;
+                            }
+                            // $committee_info = array(
+                            //   'name' => ''
+                            // );
+
+                            // $this->db->where('cooperators_id', $decoded_post_cooperator_id);
+                            // $this->db->update('committees',$committee_info);
+                            // if($this->db->trans_status() === FALSE){
+                            //   // echo $this->db->last_query();
+                            //   $this->db->trans_rollback();
+                            //   // return array('success'=>false,'message'=>'Unable to updated committee');
+                            // }else{
+                            //   $this->db->trans_commit();
+                            //   // return array('success'=>true,'message'=>'Committee has been successfully updated');
+                            // }
+                          }
+
+                          // End Get Committee
+
                           $data = array(
                             'full_name' => $this->input->post('fName'),
                             'gender' => $this->input->post('gender'),
@@ -501,20 +556,6 @@ class Cooperators extends CI_Controller{
                               $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                               $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($decoded_cooperator_id);
                               $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
-
-                              $this->db->select('*');
-                              $this->db->from('id_list');
-                              $this->db->order_by('id_name','ASC');
-                              $id_query = $this->db->get();
-                              if($id_query->num_rows()>0)
-                              {
-                                $data['list_id'] = $id_query->result_array();
-                              }
-                              else
-                              {
-                                $data['list_id'] = NULL;
-                              }
-
                               $this->load->view('./templates/admin_header', $data);
                               $this->load->view('cooperators/edit_form_cooperator', $data);
                               $this->load->view('./templates/admin_footer');

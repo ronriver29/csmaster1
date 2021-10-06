@@ -98,6 +98,7 @@ class Laboratories_registration extends CI_Controller{
         // $this->registration_model->register_coop($decoded_id,$lab_info->addrCode);
         $this->registration_model->update_laboratory_($decoded_id);
       }//if status      
+        $data1['signature'] = "../assets/img/AsecJoy.png"; 
         $data1['chair'] = $this->registration_model->get_chairman()->chairman;
         // $data1['coop_info']=$lab_details;
         // $data1['director']=$this->registration_model->get_director($user_id)->full_name;
@@ -105,6 +106,9 @@ class Laboratories_registration extends CI_Controller{
         //get again after update qr and cert
         $laboratory_registered= $this->registration_model->get_cooperative_info_laboratories($reg_no,$decoded_id);
         $data1['coop_info']= $laboratory_registered;
+
+        $lab_guardian_address= $this->registration_model->get_cooperative_info_coop_address($reg_no,$decoded_id);
+        $data1['guardian_add']= $lab_guardian_address;
       // echo"<pre>";print_r( $data1['coop_info']); echo "<pre>";
          // $this->load->view('laboratories/cor_view', $data1);
         $html2 = $this->load->view('laboratories/cor_view', $data1, TRUE);

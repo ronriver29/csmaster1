@@ -3,6 +3,63 @@ $(function(){
     $('#termsAndConditionModal').modal('show');
   }
 
+  $('#reserveBranchUpdateForm #regNo').ready(function(){
+
+    var coopName = $('#coopName').val();
+    var regNo = $('#regNo').val();
+
+    $("#reserveBranchUpdateForm .-row-your-boat").remove();
+
+
+    var divRow1 = $('<div></div>').attr({'class':'row -row-your-boat'});
+
+     
+
+    $.ajax({
+      type : "POST",
+      url  : "business_activity/"+regNo ,
+      dataType: "json",
+      data : {
+        regNo: regNo
+      },
+      success: function(data){
+        if (data!=null) {
+         
+          $.each(data, function(index,value) { 
+            var divColMajor = $('<div></div>').attr({'class':'col-sm-12 col-md-12 '+(index+1)});
+            var divFormMajor = $('<div></div>').attr({'class':'form-group '+(index+1)});
+            var divFormSub = $('<div></div>').attr({'class':'form-group'+(index+1)});
+            var deleteSpan = $().attr({'class':'customDeleleBtn businessRemoveBtn float-right text-danger'}).click(function(){
+              $(this).parent().remove();
+              $('#reserveBranchUpdateForm input[name="MI[]"').each(function(index){
+                $(this).siblings('label').text("Major Industry Classification No. " + (index+1));
+              });
+              $('#reserveBranchUpdateForm input[name="SC[]"').each(function(index){
+                $(this).siblings('label').text("Major Industry Classification No. " + (index+1) +' Subclass');
+              });
+            });
+            // alert(value.mdesc);
+            var hiddenBAC =$('<input type="hidden" class="form-control" name="BAC[]"/>').attr('value',value.BAC_id);
+            var inputMajor=$('<input type="text" class="form-control" name="MI[]" readonly/>').attr('value',value.mdesc);
+            var inputSub=  $('<input type="text" class="form-control" name="SC[]" readonly/>').attr('value',value.sdesc);
+            var labelMajor=$('<label>Major Industry Classification No. '+(index+1)+'</label>');
+            var labelSub=  $('<label>Major Industry Classification No. '+(index+1)+' Subclass</label>');
+
+            $(divFormMajor).append(labelMajor,inputMajor);
+            $(divFormSub).append(labelSub,inputSub);
+            $(divColMajor).append(deleteSpan,hiddenBAC,divFormMajor,divFormSub);
+            $(divRow1).append(divColMajor);
+          });
+            
+            $("#reserveBranchUpdateForm .col-industry-subclass").append(divRow1);
+//            $("#branchAddForm .col-industry-subclass").prop("disabled",true);
+            
+
+        }
+      }
+    });
+  });
+
   var id = $("#reserveBranchUpdateForm #cooperativeID").val();
   var userid = $("#reserveBranchUpdateForm #userID").val();
   $.ajax({
@@ -16,21 +73,22 @@ $(function(){
     success: function(data){
       if(data!=null){
         var tempCount = 0;
-        setTimeout( function(){
-          $('#reserveBranchUpdateForm #region').val(data.rCode);
-          $('#reserveBranchUpdateForm #region').trigger('change');
-        },500);
-        setTimeout( function(){
-            $('#reserveBranchUpdateForm #province').val(data.pCode);
-            $('#reserveBranchUpdateForm #province').trigger('change');
-        },1500);
-        setTimeout(function(){
-          $('#reserveBranchUpdateForm #city').val(data.cCode);
-          $('#reserveBranchUpdateForm #city').trigger('change');
-        },2500);
-        setTimeout(function(){
-          $('#reserveBranchUpdateForm #barangay').val(data.bCode);
-        },3500);
+        // setTimeout( function(){
+        //   $('#reserveBranchUpdateForm #region').val(data.rCode);
+        //   $('#reserveBranchUpdateForm #region2').val(data.rCode);
+        //   $('#reserveBranchUpdateForm #region').trigger('change');
+        // },500);
+        // setTimeout( function(){
+        //     $('#reserveBranchUpdateForm #province').val(data.pCode);
+        //     $('#reserveBranchUpdateForm #province').trigger('change');
+        // },1500);
+        // setTimeout(function(){
+        //   $('#reserveBranchUpdateForm #city').val(data.cCode);
+        //   $('#reserveBranchUpdateForm #city').trigger('change');
+        // },2500);
+        // setTimeout(function(){
+        //   $('#reserveBranchUpdateForm #barangay').val(data.bCode);
+        // },3500);
         
         $('#reserveBranchUpdateForm #streetName').val(data.street);
         $('#reserveBranchUpdateForm #blkNo').val(data.house_blk_no);
@@ -110,6 +168,23 @@ $(function(){
 
   //end cooperative Update reservation validation
 });
+
+// Anj
+$('#reserveBranchUpdateForm #region').on('change',function(){
+  $('#reserveBranchUpdateForm #province').empty();
+  $('#reserveBranchUpdateForm #city').empty();
+  $('#reserveBranchUpdateForm #barangay').empty();
+});
+
+$('#reserveBranchUpdateForm #province').on('change',function(){
+  $('#reserveBranchUpdateForm #city').empty();
+  $('#reserveBranchUpdateForm #barangay').empty();
+});
+
+$('#reserveBranchUpdateForm #city').on('change',function(){
+  $('#reserveBranchUpdateForm #barangay').empty();
+});
+// End Anj
 
 $('#reserveBranchUpdateForm #addMoreComBtn').on('click', function(){
     var lastCountOfcom = $('select[name="compositionOfMembers[]"').last().attr('id');

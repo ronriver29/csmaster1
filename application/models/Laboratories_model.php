@@ -394,13 +394,14 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
     and laboratories.status in (2)
 UNION
 select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories 
-  inner join refbrgy on refbrgy.brgyCode = laboratories.addrCode
+inner join registeredcoop on registeredcoop.application_id=laboratories.cooperative_id
+  inner join refbrgy on refbrgy.brgyCode = registeredcoop.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
-    inner join registeredcoop on registeredcoop.application_id=laboratories.cooperative_id
+    
     where refregion.regCode like "'.$regcode.'%"
-    and laboratories.status in (8,10,11,12,18,19,20,24)');
+    and laboratories.status in (8,10,11,18,19,20,24)');
     $data = $query->result_array();
     return $data;
   }
@@ -417,11 +418,12 @@ select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city,
     and laboratories.status in (5)
 UNION
 select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories 
-  inner join refbrgy on refbrgy.brgyCode = laboratories.addrCode
+inner join registeredcoop on registeredcoop.application_id=laboratories.cooperative_id
+  inner join refbrgy on refbrgy.brgyCode = registeredcoop.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
-    inner join registeredcoop on registeredcoop.application_id=laboratories.cooperative_id
+    
     where refregion.regCode like "'.$regcode.'%"
     and laboratories.status in (12,13,14,15,24)');
     $data = $query->result_array();
@@ -492,13 +494,13 @@ select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city,
     return $query->row();
   }
   public function get_branch_info_by_admin($branch_id){
-    $this->db->select('laboratories.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region, cooperatives.category_of_cooperative, cooperatives.type_of_cooperative, cooperatives.grouping, registeredcoop.application_id,registeredcoop.addrCode as mainAddr, registeredcoop.noStreet, registeredcoop.street as st, x.brgyDesc as brg, y.citymunDesc as municipality, z.provDesc as provins, w.regDesc as regun');
+    $this->db->select('laboratories.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region, cooperatives.category_of_cooperative, cooperatives.type_of_cooperative, cooperatives.grouping, registeredcoop.application_id,registeredcoop.addrCode as mainAddr, registeredcoop.noStreet, registeredcoop.street as st, x.brgyDesc as brg, y.citymunDesc as municipality, z.provDesc as provins, w.regDesc as regun,registeredcoop.coopName');
     $this->db->from('laboratories');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = laboratories.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->join('registeredcoop','registeredcoop.regNo=laboratories.regNo','inner');
+    $this->db->join('registeredcoop','registeredcoop.regNo=laboratories.coop_id','inner');
     $this->db->join('cooperatives','cooperatives.id=registeredcoop.application_id','inner');
     $this->db->join('refbrgy as x' , 'x.brgyCode = registeredcoop.addrCode','inner');
     $this->db->join('refcitymun as y', 'y.citymunCode = x.citymunCode','inner');
@@ -1190,7 +1192,7 @@ public function check_expired_reservation($coop_id,$user_id){
   }
 }
 public function get_cooperative_info($user_id,$coop_id){
-  $this->db->select('laboratories.*,cooperatives.area_of_operation as area_of_operation, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+  $this->db->select('laboratories.*,cooperatives.area_of_operation as area_of_operation, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,cooperatives.regions');
   $this->db->from('laboratories');
   $this->db->join('refbrgy' , 'refbrgy.brgyCode = laboratories.addrCode','inner');
   $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -1278,19 +1280,19 @@ public function get_cooperative_info_by_admin($coop_id){
     inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
     where x.regCode like "'.$regcode.'%"
     and laboratories.status in (21)
-UNION
-select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories 
-  inner join refbrgy on refbrgy.brgyCode = laboratories.addrCode
-    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
-    inner join refprovince on refprovince.provCode = refcitymun.provCode
-    inner join refregion on refregion.regCode = refprovince.regCode
-    inner join registeredcoop on laboratories.coop_id = registeredcoop.regNo
-    where refregion.regCode like "'.$regcode.'%"
-    and laboratories.status in (21)');
+');
     $data = $query->result_array();
     return $data;
   }
-
+// UNION
+// select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories 
+//   inner join refbrgy on refbrgy.brgyCode = laboratories.addrCode
+//     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+//     inner join refprovince on refprovince.provCode = refcitymun.provCode
+//     inner join refregion on refregion.regCode = refprovince.regCode
+//     inner join registeredcoop on laboratories.coop_id = registeredcoop.regNo
+//     where refregion.regCode like "'.$regcode.'%"
+//     and laboratories.status in (21)
   //modify by json
   // public function labratory_comment($laboratory_id)
   // {
@@ -1351,7 +1353,7 @@ public function deny_by_director($id,$user_id,$user_access_level,$comment)
                 return json_encode("failed to updated existing denied laboratory commit");
               }
 
-              $this->sendEmailToClientDenyLaboratory($email,$coopname,$labname,$comment);
+              // $this->sendEmailToClientDenyLaboratory($email,$coopname,$labname,$comment);
               $this->db->trans_commit();
               return true;  
           }
@@ -1373,7 +1375,7 @@ public function deny_by_director($id,$user_id,$user_access_level,$comment)
               );
               $this->db->update('laboratories',$lab_data,array('id'=>$id));
               $this->db->insert('laboratory_comment',$comment_data); 
-              $this->sendEmailToClientDenyLaboratory($email,$coopname,$labname,$comment);//send email to client 
+              // $this->sendEmailToClientDenyLaboratory($email,$coopname,$labname,$comment);//send email to client 
               $this->db->trans_commit();
               return true;    
               }//end if status 25
@@ -1508,14 +1510,96 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
     }
   }
   public function getCoopRegNo($user_id){
-    $this->db->select('registeredcoop.regNo as regNo, articles_of_cooperation.guardian_cooperative as gc');
+    $this->db->select('registeredcoop.regNo as regNo, articles_of_cooperation.guardian_cooperative as gc,cooperatives.area_of_operation,cooperatives.regions, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
     $this->db->from('registeredcoop');
     $this->db->join('cooperatives','registeredcoop.application_id = cooperatives.id','inner');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->join('articles_of_cooperation','cooperatives.id = articles_of_cooperation.cooperatives_id','inner');
     $this->db->where(array('cooperatives.users_id'=> $user_id));
     $query = $this->db->get();
     return $query->row();
   }
+
+  public function getCoopRegNoAmended($user_id){
+    $this->db->select('registeredcoop.regNo as regNo, amendment_articles_of_cooperation.guardian_cooperative as gc,amend_coop.area_of_operation,amend_coop.regions, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+    $this->db->from('registeredcoop');
+    $this->db->join('amend_coop','registeredcoop.regNo = amend_coop.regNo','inner');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->join('amendment_articles_of_cooperation','amend_coop.id = amendment_articles_of_cooperation.amendment_id','inner');
+    $this->db->where(array('amend_coop.users_id'=> $user_id));
+    $query = $this->db->get();
+    return $query->row();
+  }
+
+  public function admin_comment_limit1($laboratory_id,$user_level)
+  {
+    
+   if($user_level==2)
+   {
+  
+      $qry = $this->db->order_by('id', 'DESC')->get_where('laboratory_comment',array('laboratory_id'=>$laboratory_id,'user_access_level'=>$user_level),1);
+          if($qry->num_rows()>0)
+          {
+                foreach($qry->result_array() as $row)
+                {
+                  $row['comment_by']='Senior Comment';
+                  $data[]=$row;
+                }
+              
+          }
+          else
+          {
+            $data= NULL;
+          }
+          return $data;
+   }
+   else
+   {
+      $check_query = $this->db->order_by('id', 'DESC')->get_where('laboratory_comment',array('laboratory_id'=>$laboratory_id,'user_access_level'=>3),1);
+      if($check_query->num_rows()>0)
+      {
+        foreach($check_query->result_array() as $row)
+        {
+          $row['comment_by']='Director Comment';  
+          $data[]=$row;
+        }
+
+         // $qry = $this->db->get_where('laboratory_comment',array('laboratory_id'=>$laboratory_id));
+         // if($qry->num_rows()>0)
+         //  {
+         //    foreach($qry->result_array() as $row)
+         //    {
+         //      if($row['user_access_level']==2)
+         //      {
+         //        $row['comment_by']='Senior Comment';
+         //      }
+         //      if($row['user_access_level']==3)
+         //      {
+         //        $row['comment_by']='Director Comment';  
+         //      }
+              
+         //      $data[]=$row;
+         //    }
+         //  }
+         //  else
+         //  {
+         //    $data =  NULL;
+         //  }
+        return $data;
+      }
+      else
+      {
+        $data =NULL;
+      }
+     return $data;
+   }
+ }
 
   public function admin_comment($laboratory_id,$user_level)
   {
@@ -1642,5 +1726,247 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
     print_r($array);
     echo"</pre>";
   }
-  
+
+  public function sendEmailToClient($proposedname,$email){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = "Successfully submitted your application. Please wait for an email of either payment procedure or the list of documents for compliance.<p>";
+    $this->email->from($from,'ecoopris CDA (No Reply)');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+
+  public function sendEmailToSenior($coopname,$proposedname,$brgy,$fullname,$contactnumber,$clientemail,$senioremail){
+    if(sizeof($senioremail)>0){
+      $receiver = "";
+      if(sizeof($senioremail)>1){
+        $tempEmail = array();
+        foreach($senioremail as $email){
+          array_push($tempEmail, $email['email']);
+        }
+        $receiver = implode(", ",$tempEmail);
+      }else{
+        $receiver = $senioremail[0]['email'];
+      }
+        $from = "ecoopris@cda.gov.ph";    //senders email address
+        $subject = $proposedname.' Application';  //email subject
+        $burl = base_url();
+        //sending confirmEmail($receiver) function calling link to the user, inside message body
+        $message = "Good day! An application for establishment of Laboratory with the following details has been submitted:<p>
+
+        <ol type='a'> 
+          <b><li> Name of Cooperative:</b>".$coopname."</li>
+          <b><li> Name of Proposed of Laboratory:</b>".$proposedname."</li>
+          <b><li> Address of Proposed Laboratory:</b>".$brgy."</li>
+          <b><li> Contact Person:</b> ".$fullname."</li>
+          <b><li> Contact Number: </b>".$contactnumber."</li>
+          <b><li> Email Address: </b>".$clientemail."</li>
+        </ol>";
+        $this->email->from($from,'ecoopris CDA (No Reply)');
+        $this->email->to($receiver);
+        $this->email->subject($subject);
+        $this->email->message($message);
+        if($this->email->send()){
+            return true;
+        }else{
+            return false;
+        }
+    }else{
+        return false;
+    }
+  }
+
+  public function sendEmailToDirectorFromSenior($coopname,$emails,$coop_full_name,$brgyforemail,$fullnameforemail,$contact_number,$clientemail){
+    $coopname = $this->encryption->decrypt(decrypt_custom($coopname));
+
+    if(sizeof($emails)>0){
+      $receiver = "";
+      if(sizeof($emails)>1){
+        $tempEmail = array();
+        foreach($emails as $email){
+          array_push($tempEmail, $email['email']);
+        }
+        $receiver = implode(", ",$tempEmail);
+      }else{
+        $receiver = $emails[0]['email'];
+      }
+      $from = "ecoopris@cda.gov.ph";    //senders email address
+      $subject = $coop_full_name.' Evaluation Result';  //email subject
+      $burl = base_url();
+      $now = date('F d, Y');
+
+      if($status == NULL || $status == 0){
+        $evaluated = 'evaluated';
+      } else {
+        $evaluated = 're-evaluated';
+      }
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+      // $message = $coop_full_name." has been submitted by "". You can now evaluate this application.";
+      $message = "Senior CDS ".$evaluated." application for establishment of Laboratory with the following details has been submitted for your evaluation and approval/denial/deferment:<p>
+
+      <ol type='a'>
+        <b><li>Sr. CDS evaluation date:</b> ".date('F d, Y H:i:s')."</li>
+        <b><li>Name of Cooperative:</b> ".$coopname."</li>
+        <b><li>Name of proposed Laboratory:</b> ".$coop_full_name."</li>
+        <b><li>Address of proposed Laboratory:</b> ".$brgyforemail."</li>
+        <b><li>Contact Person:</b> ".$fullnameforemail."</li>
+        <b><li>Contact Number:</b> ".$contact_number."</li>
+        <b><li>Email address:</b> ".$clientemail."</li>
+      </ol>";
+
+      $this->email->from($from,'ecoopris CDA (No Reply)');
+      $this->email->to($receiver);
+      $this->email->subject($subject);
+      $this->email->message($message);
+      if($this->email->send()){
+          return true;
+      }else{
+          return true;
+      }
+    }else{
+      return true;
+    }
+  }
+
+  public function sendEmailToClientDeny($coop_full_name,$brgyforemail,$reason_commment,$email){
+    //$step_str = (($step==1) ? "First" : (($step==2) ? "Second" : "Third"));
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $coop_full_name.' Evaluation Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+    // $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> failed the evaluation. This cooperative has been denied because of the following reason/s:<br><pre>".$comment."</pre>";
+
+    $message = "".date('F d, Y')."<br><br>
+
+    Proposed Name of Laboratory: ".$coop_full_name."<br>
+    Proposed Address of Laboratory: ".$brgyforemail."<br><br>
+
+    Good Day! <br><br>
+
+    This refers to the application for laboratory of the proposed ".$coop_full_name.".<br><br>
+
+    Based on the evaluation of the submitted application documents for registration, we regret to inform you that the application is denied due to:<p> <br>
+    
+    ".trim(preg_replace('/\s\s+/', '<br>', $reason_commment))."";
+
+    $this->email->from($from,'ecoopris CDA (No Reply)');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+
+  public function sendEmailToClientDefer($coop_full_name,$brgyforemail,$comment,$email,$reg_officials_info){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $coop_full_name.' Evaluation Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+    // $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> failed the evaluation. This cooperative has been denied because of the following reason/s:<br><pre>".$comment."</pre>";
+
+    $message = "".date('F d, Y')."<br><br>
+
+    Proposed Name of Laboratory: ".$coop_full_name."<br>
+    Proposed Address of Laboratory: ".$brgyforemail."<br><br>
+
+    Good Day! <br><br>
+
+    This refers to the application for laboratory of the proposed ".$coop_full_name.".<br><br>
+
+    Upon review of the documents submitted online the following are our findings:<p> <br>
+    
+    ".trim(preg_replace('/\s\s+/', '<br>', $comment))."
+
+
+    Please comply immediately with the above-mentioned findings within 15 days. 
+
+    Should you need further information or clarification, please feel free to contact Registration Division/Section at telephone numbers ".$reg_officials_info['contact']." or email us at ".$reg_officials_info['email'].".<br><br>
+
+    Very truly yours,<br><br>
+
+    Regional Director<br>
+    Region";
+
+    $this->email->from($from,'ecoopris CDA (No Reply)');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+
+  public function sendEmailToClientApproved($coop_full_name,$email){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $coop_full_name.' Evaluation Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+    // $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> failed the evaluation. This cooperative has been denied because of the following reason/s:<br><pre>".$comment."</pre>";
+
+    $message = '<b>Congratulations!</b> Your application status is <b>FOR PRINTING AND SUBMISSION</b>.<br><br>
+
+You may now print the following documents in three (3) copies:<br><br>
+
+a.  Articles of Cooperation<br>
+b.  Manual of Operation<br>
+c.  Board Resolution<br><br>
+
+The above documents shall be printed in legal size bond paper or 8.5" x 13" or 8.5" x 14" size paper.<br><br>
+
+The client shall submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).
+';
+
+    $this->email->from($from,'ecoopris CDA (No Reply)');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+
+  public function sendEmailToClientOkforpayment($coop_full_name,$email){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $coop_full_name.' Evaluation Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+    // $message = "Sorry. ".$full_name.". Your application <b>".$name."</b> failed the evaluation. This cooperative has been denied because of the following reason/s:<br><pre>".$comment."</pre>";
+
+    $message = '<pre><b>Congratulations!</b> Your application status is <b> FOR PAYMENT</b>.
+
+
+You may opt to pay thru the available online facilities listed in your CoopRIS account or
+at CDA Cashier. If opted to pay at the latter, kindly print this notice and present to the
+concerned CDA Office where your proposed cooperative will be registered.
+
+Once the said documents had been found complete and in order, the client may now
+claim the Certificate of Recognition within the day.</pre>
+';
+
+    $this->email->from($from,'ecoopris CDA (No Reply)');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
 }

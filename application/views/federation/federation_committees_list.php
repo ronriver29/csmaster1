@@ -38,7 +38,7 @@
 <?php
 
 // if($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture'){ 
-if($coop_info->type_of_cooperative == 'Credit'){ 
+if($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture'){ 
     $credit = $credit_count == 0;
 } else {
     $credit = '';
@@ -50,12 +50,12 @@ if($gad_count == 0 || $audit_count == 0 || $election_count == 0 || $medcon_count
         <div class="alert alert-info text-justify" role="alert">
            Note:
            <ul>
-              <?php if($gad_count == 0) echo '<li>There must be 1 GAD member on the list</li>';?>
+              <?php if($gad_count == 0) echo '<li>There must be 1 Gender and Development member on the list</li>';?>
               <?php if($audit_count == 0) echo '<li>There must be 1 Audit member on the list</li>';?>
               <?php if($election_count == 0) echo '<li>There must be 1 Election member on the list</li>';?>
               <?php if($medcon_count == 0) echo '<li>There must be 1 Mediation and Conciliation member on the list</li>';?>
               <?php if($ethics_count == 0) echo '<li>There must be 1 Ethics member on the list</li>';?>
-              <?php if($coop_info->type_of_cooperative == 'Credit'){
+              <?php if($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture'){
                   if($credit_count == 0) echo '<li>There must be 1 Credit member on the list</li>';
               }?>
            </ul>
@@ -77,9 +77,9 @@ if($gad_count == 0 || $audit_count == 0 || $election_count == 0 || $medcon_count
             <thead>
               <tr>
                 <th>Committee</th>
-                <th>Full Name</th>
-                <th>Gender</th>
-                <th>Birth Date</th>
+                <!-- <th>Full Name</th> -->
+                <!-- <th>Gender</th> -->
+                <!-- <th>Birth Date</th> -->
                 <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
                 <th>Action</th>
               <?php endif;?>
@@ -96,14 +96,16 @@ if($gad_count == 0 || $audit_count == 0 || $election_count == 0 || $medcon_count
             <?php foreach($committees_federation as $committee) : ?>
               <tr>
                 <td><?= $committee['name']?></td>
-                <td><?= $committee['full_name']?></td>
-                <td><?= $committee['gender']?></td>
-                <td><?= $committee['birth_date']?></td>
+                <!-- <td><?= $committee['representative']?></td> -->
+                <!-- <td><?= $committee['gender']?></td> -->
+                <!-- <td><?= $committee['birth_date']?></td> -->
                 <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
                 <td>
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/committees/<?= encrypt_custom($this->encryption->encrypt($committee['comid'])) ?>/edit" class="btn btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCommitteeModal" data-comname="<?= $committee['name'] ?>" data-fname="<?=$committee['full_name']?>" data-coopid="<?= $encrypted_id ?>" data-committeeid="<?= encrypt_custom($this->encryption->encrypt($committee['comid']))?>"><i class='fas fa-trash'></i> Delete</button>
+                    <!-- <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/committees/<?= encrypt_custom($this->encryption->encrypt($committee['id'])) ?>/edit" class="btn btn-warning text-white"><i class="fas fa-edit"></i> Edit</a> -->
+                    <?php if($committee['name'] != 'Audit' && $committee['name'] != 'Education and Training' && $committee['name'] != 'Election' && $committee['name'] != 'Ethics' && $committee['name'] != 'Gender and Development' && $committee['name'] != 'Mediation and Conciliation' && $committee['name'] != 'Credit'){?>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCommitteeModal" data-comname="<?= $committee['name'] ?>" data-fname="<?=$committee['name']?>" data-coopid="<?= $encrypted_id ?>" data-committeeid="<?= encrypt_custom($this->encryption->encrypt($committee['id']))?>"><i class='fas fa-trash'></i> Delete</button>
+                    <?php } ?>
                   </div>
                 </td>
                 <?php endif;?>

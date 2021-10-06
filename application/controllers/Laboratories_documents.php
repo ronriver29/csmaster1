@@ -202,11 +202,13 @@ class Laboratories_documents extends CI_Controller{
      
                                  //senior comment
                                 $data['senior_comment'] = $this->laboratories_model->admin_comment($decoded_id,2);
+                                $data['senior_comment_limit1'] = $this->laboratories_model->admin_comment_limit1($decoded_id,2);
                                 // $this->laboratories_model->debug($data['senior_comment']);
                                  //end senior comment
 
                                  //director comment
                                 $data['director_comment'] = $this->laboratories_model->admin_comment($decoded_id,3);
+                                $data['director_comment_limit1'] = $this->laboratories_model->admin_comment_limit1($decoded_id,3);
                                 // $this->debug(  $data['director_comment']);
                                  // $this->laboratories_model->debug($data['director_comment']);
                                  //end director comment
@@ -444,6 +446,7 @@ class Laboratories_documents extends CI_Controller{
                                 $data['document_two'] = $this->count_documents($cooperativeID,2);
                               
                                 $data['comment_list_director'] = $this->get_comment($decoded_id,3,25);
+                                // $data['last_query'] = $this->db->last_query();
                                $data['comment_list_senior'] = $this->get_comment($decoded_id,2,12);
 
                                 $data['comment_list_defer_director'] = $this->get_comment($decoded_id,3,24);
@@ -783,6 +786,9 @@ class Laboratories_documents extends CI_Controller{
                                 $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                                 }
 
+                                if($data['coop_info']->area_of_operation == 'Interregional'){
+                                  $data['regions_island_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
+                                }
                                 $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
                                 $f = new pdf();
                                 $f->setPaper('folio', 'portrait');

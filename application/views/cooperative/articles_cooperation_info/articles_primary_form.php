@@ -39,6 +39,11 @@
 <?php endif;  ?>
 <div class="row mt-3">
   <div class="col-sm-12 col-md-12">
+    <?php 
+      if($coop_info->grouping == 'Federation' || $coop_info->grouping == 'Union'){
+
+      } else {
+    ?>
     <div class="alert alert-info" role="alert">
       <strong>Reminder:</strong>
        <ul>
@@ -68,6 +73,7 @@
         <?php endif; ?>
        </ul>-->
     </div>
+    <?php } ?>
   </div>
 </div>
 <div class="row">
@@ -108,7 +114,7 @@
           <div class="col-sm-12 col-md-12">
       		  <div class="form-group">
         			<label for="cooperativeExistence"><strong>How many years does the Cooperative should exist?</strong></label>
-        			<input type="number" value="<?= $articles_info->years_of_existence ?>"class="form-control validate[required,min[1],max[50],custom[integer]]" min="1" max="50" name="cooperativeExistence" id="cooperativeExistence" placeholder="Years" disabled>
+        			<input type="number" value="<?= $articles_info->years_of_existence ?>" class="form-control validate[required,min[1],max[50],custom[integer]]" min="1" max="50" name="cooperativeExistence" id="cooperativeExistence" placeholder="Years" disabled>
         			<small id="emailHelp" class="form-text text-muted">Start from the date of registration </small>
       		 </div>
       		</div>

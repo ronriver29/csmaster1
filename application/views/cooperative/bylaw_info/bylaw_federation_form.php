@@ -87,7 +87,7 @@
                 <label for="kindsOfMember"><strong>Define Membership:</strong></label>
                 <select class="custom-select validate[required]" name="kindsOfMember" id="kindsOfMember" disabled>
                   <option value="1" <?php if($bylaw_info->kinds_of_members == 1) echo "selected"; ?>>Regular Member Only</option>
-                  <option value="2" <?php if($bylaw_info->kinds_of_members == 2) echo "selected"; ?>>Regular And Associate Member</option>
+                  <!-- <option value="2" <?php if($bylaw_info->kinds_of_members == 2) echo "selected"; ?>>Regular And Associate Member</option> -->
                 </select>
               </div>
           </div>
@@ -107,7 +107,7 @@
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
                 <label for="regularQualifications1">Regular member qualification 1</label>
-                <input type="text" value="" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications1" placeholder="Must be in a sentence" disabled>
+                <textarea type="text" value="" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications1" placeholder="Must be in a sentence" disabled></textarea>
               </div>
             </div>
           </div>
@@ -126,7 +126,7 @@
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <?php endif; ?>
                   <label for="regularQualifications<?= $key + 1?>">Regular member qualification <?= $key + 1?></label>
-                  <input type="text" value="<?= $reg_qualification?>" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications<?= $key + 1?>" disabled>
+                  <textarea type="text" value="" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications<?= $key + 1?>" disabled><?= $reg_qualification?></textarea>
                 </div>
               </div>
             <?php endforeach; ?>
@@ -193,16 +193,16 @@
               <small>
                 A member must have complied with the following requirements:
               <ol type="a">
-                <li>Approved application for membership;</li>
-                <li>General Assembly Resolution indicating membership and share capital contribution to this Federation;</li>
-                <li>Board of Director Resolution on authorized representative;</li>
-                <li>Certification of line of business activities engaged in;</li>
-                <li>Subscribed and paid the required minimum share capital and membership fee; and</li>
+                <li> Approved application for membership; </li>
+                <li> General Assembly Resolution indicating membership and share capital contribution to this Federation of Cooperatives; </li>
+                <li> Board of Directors Resolution on authorized representative; </li>
+                <li> Certification of line of business activities engaged in; </li>
+                <li> Subscribed and paid the required minimum share capital and membership fee; and </li>
               </ol>
             </small>
               <!-- <label for="additionalRequirementsForMembership"><strong>List down any additional requirements for membership in your cooperative</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> -->
         
-              <input class="form-control " style="resize: none;" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->additional_requirements_for_membership ?>" disabled>
+              <textarea class="form-control " style="resize: none;" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->additional_requirements_for_membership ?>" disabled></textarea>
             </div>
           </div>
         </div>
@@ -220,9 +220,11 @@
                 <small>
                   This is the general requirements for membership.
                 <ol type="1">
-                  <li>Approved application for membership;</li>
-                  <li>Certificate of completion of the prescribed Pre-Membership Education Seminar (PMES);</li>
-                  <li>Subscribed and paid the required minimum share capital and membership fee;</li>
+                  <li> Approved application for membership; </li>
+                  <li> General Assembly Resolution indicating membership and share capital contribution to this Federation of Cooperatives; </li>
+                  <li> Board of Directors Resolution on authorized representative; </li>
+                  <li> Certification of line of business activities engaged in; </li>
+                  <li> Subscribed and paid the required minimum share capital and membership fee; and </li>
                 </ol>
               </small>
               </div>
@@ -233,8 +235,8 @@
                   <?php if($key>=1) :?>
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <?php endif; ?>
-                  <label for="regularQualifications<?= $key + 4?>">Regular member qualification <?= $key + 4?></label>
-                  <input type="text" value="<?= $add_memberships?>" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 4?>" disabled>
+                  <label for="regularQualifications<?= $key + 4?>">Requirements for membership <?= $key + 6?></label>
+                  <textarea type="text" value="" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 4?>" disabled><?= $add_memberships?></textarea>
                 </div>
               </div>
             <?php endforeach; ?>
@@ -254,7 +256,7 @@
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
             <label for="actUponMembershipDays"><strong>An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within _________ (_____) days from the date of filing.  The Board of Directors shall devise a form for the purpose which shall, aside from the personal data of the applicant, include the duties of a member to participate in all programs including but not limited to capital build-up and savings mobilization of the Cooperative and, such other information as may be deemed necessary.</strong></label>
-            <input type="number" value="30" class="form-control validate[required]" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" readonly>
+            <input type="number" value="30" class="form-control validate[required]" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" disabled>
             <small id="emailHelp" class="form-text text-muted">Days from the date filing.</small>
            </div>
           </div>
@@ -319,18 +321,17 @@
                 <small>
                   This is the general conditions for members to vote.
                 <ol type="a">
-                  <li>Paid the membership fee and the value of the minimum shares required for membership;</li>
-                  <li>Not delinquent in the payment of his/her share capital subscriptions and other accounts or obligations;</li>
-                  <li>Not violated any provision of cooperative laws, CDA administrative issuances, Articles of Cooperation and this By-laws, the terms and conditions of the subscription agreement;
-                      and the decisions, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly;</li>
-                  <li>Completed the continuing education program prescribed by the Board of Directors;</li>
-                  <li>Remitted the Cooperative Education and Training Fund (CETF) due to the Federation/Union and</li>
-                  <li>Participated in the affairs of the Federation and patronized its business in accordance with the policies and guidelines.</li>
+                  <li> Has paid the membership fee and the value of the minimum shares required for membership; </li>
+                  <li> Is not delinquent in the payment of its share capital subscriptions and other accounts or obligations; </li>
+                  <li> Has not violated any provision of cooperative laws, CDA administrative issuances, Articles of Cooperation and this By laws, the terms and conditions of the subscription agreement;  and the decisions, guidelines, rules and regulations promulgated by the Board of Directors and the General Assembly; </li>
+                  <li> Has completed the continuing education program prescribed by the Board of Directors; </li>
+                  <li> Has remitted the Cooperative Education and Training Fund (CETF)  due to the Federation/Union; and</li>
+                  <li> Has participated in the affairs of the Federation and patronized its businesses in accordance with the policies and guidelines.</li>
                 </ol>
               </small>
                 <!-- <label for="additionalConditionsForVoting"><strong>List down any additional condition for members to be able to vote</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> -->
                 
-                <input class="form-control " style="resize: none;" id="additionalConditionsForVoting" name="additionalConditionsForVoting[]" placeholder="Must be in a sentence"rows="8"  value="<?= $bylaw_info->additional_conditions_to_vote ?>" disabled>
+                <textarea class="form-control " style="resize: none;" id="additionalConditionsForVoting" name="additionalConditionsForVoting[]" placeholder="Must be in a sentence"rows="8"  value="" disabled><?= $bylaw_info->additional_conditions_to_vote ?></textarea>
               </div>
             </div>
           </div>
@@ -346,11 +347,13 @@
                 <div class="form-group">
                   <small>
                     This is the general conditions for members to vote.
-                  <ol type="1">
-                    <li>Paid the membership fee and the value of the minimum shares required for membership;</li>
-                    <li>Not delinquent in the payment of his/her share capital subscriptions and other accounts or obligations;</li>
-                    <li>Has completed the continuing education program prescribed by the Board of Directors; </li>
-                    <li>Has participated in the affairs of the Cooperative and patronized its businesses in accordance with cooperative’s policies and guidelines;</li>
+                  <ol type="a">
+                    <li> Has paid the membership fee and the value of the minimum shares required for membership; </li>
+                  <li> Is not delinquent in the payment of its share capital subscriptions and other accounts or obligations; </li>
+                  <li> Has not violated any provision of cooperative laws, CDA administrative issuances, Articles of Cooperation and this By laws, the terms and conditions of the subscription agreement;  and the decisions, guidelines, rules and regulations promulgated by the Board of Directors and the General Assembly; </li>
+                  <li> Has completed the continuing education program prescribed by the Board of Directors; </li>
+                  <li> Has remitted the Cooperative Education and Training Fund (CETF)  due to the Federation/Union; and</li>
+                  <li> Has participated in the affairs of the Federation and patronized its businesses in accordance with the policies and guidelines.</li>
                   </ol>
                 </small>
                 </div>
@@ -361,8 +364,8 @@
                   <?php if($key>=1) :?>
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <?php endif; ?>
-                  <label for="additionalConditionsForVoting<?= $key + 5?>">Regular member qualification <?= $key + 5?></label>
-                  <input type="text" value="<?= $add_members_votes?>" class="form-control" name="additionalConditionsForVoting[]" id="additionalConditionsForVoting<?= $key + 5?>" disabled>
+                  <label for="additionalConditionsForVoting<?= $key + 5?>">Entitled to vote <?= $key + 7?></label>
+                  <textarea type="text" value="" class="form-control" name="additionalConditionsForVoting[]" id="additionalConditionsForVoting<?= $key + 5?>" disabled><?= $add_members_votes?></textarea>
                 </div>
               </div>
             <?php endforeach; ?>
@@ -387,12 +390,12 @@
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                   <small>
-                    This is the general conditions for members to vote.
-                  <ol type="1">
-                    <li>Paid the membership fee and the value of the minimum shares required for membership;</li>
-                    <li>Not delinquent in the payment of his/her share capital subscriptions and other accounts or obligations;</li>
-                    <li>Has completed the continuing education program prescribed by the Board of Directors; </li>
-                    <li>Has participated in the affairs of the Cooperative and patronized its businesses in accordance with cooperative’s policies and guidelines;</li>
+                    This is the general conditions for Powers of General Assembly.
+                  <ol type="a">
+                    <li>To determine and approve amendments to the cooperative Articles of Cooperation and By-laws;</li>
+                    <li>To elect or appoint the members of the board of directors, and to remove them for cause;</li>
+                    <li>To approve developmental plans of the cooperative; and </li>
+                    <li>To delegate the following power/s to a smaller body of the Federation:</li>
                   </ol>
                 </small>
                 </div>
@@ -404,7 +407,7 @@
                       <a class="customDeleleBtn delegatePowersRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                     <?php endif; ?>
                     <label for="additionaldelegatePowers<?= $key + 5?>">General Assembly</label>
-                    <input type="text" value="<?= $add_members_votes?>" class="form-control" name="additionaldelegatePowers[]" id="additionaldelegatePowers<?= $key + 5?>" disabled>
+                    <textarea type="text" value="" class="form-control" name="additionaldelegatePowers[]" id="additionaldelegatePowers<?= $key + 5?>" disabled><?= $add_members_votes?></textarea>
                   </div>
                 </div>
                 <?php endforeach; ?>
@@ -500,7 +503,7 @@
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12">
-              <p class="h6 font-weight-bold text-color-blue-custom">Section 6. <em>Election of Directors</em></p>
+              <p class="h6 font-weight-bold text-color-blue-custom">Section 5. <em>Election of Directors</em></p>
             </div>
           </div>
           <div class="row">
@@ -525,7 +528,7 @@
           <div class="row">
             <div class="col-sm-12 col-md-12">
         		  <div class="form-group">
-        			<label for="investPerMonth"><strong>At least how much a member should invest monthly?</strong></label>
+        			<label for="investPerMonth"><strong>At least how much a member should invest per annum?</strong></label>
         			 <input type="text" value="<?=number_format($bylaw_info->member_invest_per_month,2)?>" class="form-control validate[custom[number]]" min="1" id="investPerMonth" name="investPerMonth" placeholder="" disabled>
         		 </div>
         		</div>
@@ -571,14 +574,14 @@
                       <a class="customDeleleBtn delegatePowersRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                     <?php endif; ?>
                     <label for="additionalPrimaryConsideration<?= $key + 5?>">a.<?=$key+1?></label>
-                    <input type="text" value="<?= $add_members_votes?>" class="form-control" name="additionalPrimaryConsideration[]" id="additionalPrimaryConsideration<?= $key + 5?>" disabled>
+                    <textarea type="text" value="" class="form-control" name="additionalPrimaryConsideration[]" id="additionalPrimaryConsideration<?= $key + 1?>" disabled><?= $add_members_votes?></textarea>
                   </div>
                 </div>
                 <?php endforeach; ?>
           </div>
           <div class="row">
             <div class="col-sm-12 offset-md-8 col-md-4">
-              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMorePrimaryConsiderationBtn" disabled><i class="fas fa-plus"></i> Add More General Assembly</button>
+              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMorePrimaryConsiderationBtn" disabled><i class="fas fa-plus"></i> Add More Primary Consideration</button>
             </div>
           </div><br>
 

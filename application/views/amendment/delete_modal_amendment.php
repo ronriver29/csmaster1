@@ -16,6 +16,8 @@
                 <strong><b>Warning:</b></strong>
                 <p>All <strong class="cooperative-name-text">test</strong> Cooperative's data will be deleted. There is no way to recover this.</p>
               </div>
+               <label for="increaseFirst"><strong>Enter Password to Delete:</strong></label>
+                <input type="password" placeholder="Password" value="" class="form-control validate[required]" id="password" name="password">
             </div>
             <div class="modal-footer deleteCooperativeFooter">
               <input class="btn btn-color-blue" type="submit" id="deleteAmendmentBtn" name="deleteAmendmentBtn" value="Delete">

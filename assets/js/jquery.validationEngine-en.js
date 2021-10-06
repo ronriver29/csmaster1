@@ -204,7 +204,15 @@
                 "ajaxAmendmentNameCallPhp": {
                     "url": "check_amendment_name_exists",
                     // you may want to pass extra data on the ajax call
-                    "extraDataDynamic":['#typeOfCooperative_value','#cooperative_idss'],
+                    "extraDataDynamic":['#regNo','#newNamess','#acronym_names','#typeOfCooperative_value'],
+                    "alertText": "* This  Cooperative name is not available",
+                    "alertTextOk": "* This  Cooperative name is available",
+                    "alertTextLoad": "* Validating, please wait"
+                },
+                "ajaxAmendmentNameCallPhpcoop": {
+                    "url": "check_amendment_name_exists_coop_table",
+                    // you may want to pass extra data on the ajax call
+                    "extraDataDynamic":['#regNo','#newNamess','#acronym_names','#typeOfCooperative_value'],
                     "alertText": "* This  Cooperative name is not available",
                     "alertTextOk": "* This  Cooperative name is available",
                     "alertTextLoad": "* Validating, please wait"
@@ -236,11 +244,19 @@
                     "alertTextLoad": "* Validating, please wait"
                 },
                 "ajaxCooperatorPositionCallPhp": {
-                    "url": "../../laboratories_cooperators/check_position_not_exist",
                     "url": "../../amendment_cooperators/check_position_not_exist",
                     "url": "../../cooperators/check_position_not_exist",
+                    // "url": "../../affiliators/check_position_not_exist",
                     // you may want to pass extra data on the ajax call
                     "extraDataDynamic": ['#cooperativesID'],
+                    "alertText": "* This position is already occupied.",
+                    "alertTextOk": "",
+                    "alertTextLoad": "* Validating, please wait"
+                },
+                "ajaxAffiliatesPositionCallPhp": {
+                    "url": "../../affiliators/check_position_not_exist",
+                    // you may want to pass extra data on the ajax call
+                    "extraDataDynamic": ['#userid'],
                     "alertText": "* This position is already occupied.",
                     "alertTextOk": "",
                     "alertTextLoad": "* Validating, please wait"
@@ -271,7 +287,7 @@
                     "alertTextLoad": "* Validating, please wait"
                 },
                 "ajaxEditCooperatorPosition": {
-                    "url": "../../laboratories_cooperators/check_edit_position_not_exist",
+                    "url": "../../affiliators/check_edit_position_not_exist",
 //                    "url": "../../amendment_cooperators/check_edit_position_not_exist",
                     "url": "../../cooperators/check_edit_position_not_exist",
                     // you may want to pass extra data on the ajax call
@@ -353,6 +369,15 @@
                     "alertTextLoad": "* Validating, please wait"
                 },
                  "ajaxMinimumAssociateSubscriptionAmendmentCallPhp": {
+                    "url": "../amendmentbylaws/check_minimum_associate_subscription",
+                     // "url": "../../bylaws/check_minimum_associate_subscription_amendment",
+                    // you may want to pass extra data on the ajax call
+                    "extraDataDynamic": ['#cooperatorID,#cooperative_id,#amd_id'],
+                    "alertText": "* Must be greater than or equal to the minimum associate subscription indicated in the bylaws and Must not be greater than 10% of your Total no of paid-up capital",
+                    "alertTextOk": "* This is greater than or equal to the minimum associate subscription indicated in the bylaws",
+                    "alertTextLoad": "* Validating, please wait"
+                },
+                "ajaxMinimumEditAssociateSubscriptionAmendmentCallPhp": {
                     "url": "../../amendmentbylaws/check_minimum_associate_subscription",
                      // "url": "../../bylaws/check_minimum_associate_subscription_amendment",
                     // you may want to pass extra data on the ajax call
@@ -370,6 +395,7 @@
                     "alertTextOk": "* This is greater than or equal to the minimum associate pay subscription indicated in the bylaws",
                     "alertTextLoad": "* Validating, please wait"
                 },
+
                 "ajaxMinimumAssociatePayCallPhp": {
                     "url": "../../bylaws/check_minimum_associate_pay",
                     // you may want to pass extra data on the ajax call

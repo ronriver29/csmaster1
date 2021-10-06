@@ -459,8 +459,43 @@ $count=0;
         </div>
       </div>
   </div>
+<br>
+<!-- OTHERS -->
+  <div class="col-sm-12 col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Other Requirements</h5>
+            <p class="card-text">
+              <!-- modify by json -->
+              <?php if(isset($document_others_lab)) : ?>
+               <!--  <a target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($document_one->filename))?>"> -->
 
+                 <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf_laboratory/<?=$encrypted_id?>/42">
 
+                  <?php if($is_client) : ?>
+                    This is your Others document.
+                  <?php else : ?>
+                    This is the Others document.
+                  <?php endif;?>
+                </a>
+              <?php endif ?>
+              <?php if(!isset($document_others_lab)) : ?>
+                Please upload your others document.
+              <?php endif ?>
+              <br>
+            </p>
+
+            <?php if($is_client) : ?>
+                <a href="<?php echo base_url();?>laboratories/<?=$encrypted_id?>/documents/upload_document_others_lab" class="btn btn-primary">Upload</a>
+                <!-- <a href="<?php echo base_url();?>branches/<?=$encrypted_id?>/documents/upload_document_others_bns" class="btn btn-primary">Upload</a> -->
+            <?php endif;?>
+
+        </div>
+      </div>
+  </div>
+  <!-- OTHERS END --> 
 </div>
+
+
 
 </div> <!-- end of row -->

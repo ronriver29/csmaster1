@@ -21,35 +21,42 @@ class Laboratories_forpayment extends CI_Controller{
                      ->where("laboratories.id = $decoded_id")
                      ->get();
     $ret = $query_payment->row();
+
+//     echo $this->db->last_query();
     $email = $ret->email;
     $name = $ret->laboratoryName;
 
-    $from = "ecoopris@cda.gov.ph";    //senders email address
-    $subject =$name.' Laboratory Result';  //email subject
-     $message="<pre><b>Congratulations!</b> Your application status is <b> FOR PAYMENT</b>.
+//     $from = "ecoopris@cda.gov.ph";    //senders email address
+//     $subject =$name.' Laboratory Result';  //email subject
+//      $message="<pre><b>Congratulations!</b> Your application status is <b> FOR PAYMENT</b>.
 
 
-You may opt to pay thru the available online facilities listed in your CoopRIS account or
-at CDA Cashier. If opted to pay at the latter, kindly print this notice and present to the
-concerned CDA Office where your proposed cooperative will be registered.
+// You may opt to pay thru the available online facilities listed in your CoopRIS account or
+// at CDA Cashier. If opted to pay at the latter, kindly print this notice and present to the
+// concerned CDA Office where your proposed cooperative will be registered.
 
-Once the said documents had been found complete and in order, the client may now
-claim the Certificate of Recognition within the day.</pre>";
+// Once the said documents had been found complete and in order, the client may now
+// claim the Certificate of Recognition within the day.</pre>";
 
 
-            $this->email->from($from,'ecoopris CDA (No Reply)');
-            $this->email->to($email);
-            $this->email->subject($subject);
-            $this->email->message($message);
-            if($this->email->send()){
-                // $this->session->set_flashdata('Email_success', 'Success');
-                // redirect('cooperatives');
-            }else{
-                return false;
-            }
-     
-       $this->session->set_flashdata('success_message', 'Successfully submitted.');
+//             $this->email->from($from,'ecoopris CDA (No Reply)');
+//             $this->email->to($email);
+//             $this->email->subject($subject);
+//             $this->email->message($message);
+//             if($this->email->send()){
+//                 // $this->session->set_flashdata('Email_success', 'Success');
+//                 // redirect('cooperatives');
+//               return true;
+//             }else{
+//                 return false;
+//             }
+        if($this->laboratories_model->sendEmailToClientOkforpayment($name,$email)){
+          $this->session->set_flashdata('success_message', 'Successfully submitted.');
           redirect('laboratories/');   
+        } else {
+          $this->session->set_flashdata('error_message', 'Failed to submit ok for payment');
+          redirect('laboratories/');
+        }
     } else {
         $this->session->set_flashdata('error_message', 'Failed to submit ok for payment');
           redirect('laboratories/');

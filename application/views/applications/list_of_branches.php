@@ -7,6 +7,15 @@
   </div>
 </div>
 <?php endif; ?>
+<?php if($this->session->flashdata('branches_error')): ?>
+<div class="row">
+  <div class="col-sm-12 col-md-12">
+    <div class="alert alert-danger text-center" role="error">
+     <?php echo $this->session->flashdata('branches_error'); ?>
+    </div>
+  </div>
+</div>
+<?php endif; ?>
 <?php 
 $plus = date('Y-m-d',strtotime($date2)); 
 $tomorrow = date('Y-m-d',strtotime($plus . "+3 year"));
@@ -97,7 +106,7 @@ if($tomorrow>=$now){
   <?php if(!$is_client && $admin_info->access_level == 3) : ?>
     <?php if($admin_info->is_director_active == 1) : ?>
     <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
-      <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#grantSupervisorModal"><i class='fas fa-user-plus'></i> Grant All Privileges to Supervisor</button>
+      <button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#grantSupervisorModal"><i class='fas fa-user-plus'></i> Grant All Authority to Supervisor</button>
     </div>
     <?php else : ?>
       <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
@@ -140,7 +149,13 @@ if($tomorrow>=$now){
                       } else {
                         $brancharea = $branch['city'].', '.$branch['province'];
                       }
-                  } else if ($branch['area_of_operation'] == 'National') {
+                  } else if ($branch['area_of_operation'] == 'Interregional') {
+                      if($this->charter_model->in_charter_city($branch['cCode'])){
+                        $brancharea = $branch['city'];
+                      } else {
+                        $brancharea = $branch['city'].', '.$branch['province'];
+                      }
+                  }else if ($branch['area_of_operation'] == 'National') {
                       if($this->charter_model->in_charter_city($branch['cCode'])){
                         $brancharea = $branch['city'];
                       } else {
@@ -166,18 +181,24 @@ if($tomorrow>=$now){
                       <?php if($is_client) : ?>
                         <?php if($branch['status']==0) echo "EXPIRED"; ?>
                         <?php if($branch['status']==1) echo "PENDING"; ?>
-                        <?php if($branch['status']>=2 && $branch['status']<=15) echo "ON VALIDATION"; ?>
+                        <?php if($branch['status']>=3 && $branch['status']<=15 && ($branch['evaluator5']==0 || $branch['evaluator5']==NULL) && $branch['status'] != 8 && $branch['status'] != 9) echo "FOR EVALUATION"; ?>
+                        <?php if($branch['status']==8 || $branch['status']==9) echo "FOR VALIDATION"; ?>
+                        <?php if($branch['status']==2 && $branch['evaluator5']==NULL) echo "ON VALIDATION"; ?>
+                        <?php if($branch['status']==2 && $branch['evaluator5']!=NULL) echo "FOR RE-EVALUATION"; ?>
+                        <?php if($branch['status']==12 && ($branch['evaluator5']!=0 || $branch['evaluator5']!=NULL)) echo "FOR RE-EVALUATION"; ?>
+                        <?php if($branch['status']==15 && ($branch['evaluator5']!=0 || $branch['evaluator5']!=NULL)) echo "FOR RE-EVALUATION"; ?>
                         <?php if($branch['status']==16) echo "DENIED"; ?>
                         <?php if($branch['status']==17) echo "DEFERRED"; ?>
-                        <?php if($branch['status']==18) echo "WAITING FOR PAYMENT"; ?>
+                        <?php if($branch['status']==18) echo "FOR PRINT & SUBMIT"; ?>
                         <?php if($branch['status']==19) echo "PAY AT CDA"; ?>
                         <?php if($branch['status']==20) echo "GET YOUR CERTIFICATE"; ?>
                         <?php if($branch['status']==21) echo "REGISTERED"; ?>
                         <?php if($branch['status']==22) echo "FOR PAYMENT"; ?>
-                        <?php if($branch['status']==23) echo "SUBMITTED BY SENIOR CDS"; ?>
-                        <?php if($branch['status']==24) echo "ON VALIDATION"; ?>
+                        <?php if($branch['status']==23) echo "FOR EVALUATION"; ?>
+                        <?php if($branch['status']==24) echo "FOR VALIDATION"; ?>
                       <?php else : ?>
-                        <?php if($branch['status']==2) echo "FOR VALIDATION";
+                        <?php if($branch['status']==2 && $branch['evaluator5']==NULL) echo "FOR VALIDATION";
+                        else if($branch['status']==2 && $branch['evaluator5']!=NULL) echo "FOR RE-EVALUATION";
                         else if($branch['status']==3) echo "DENIED BY SENIOR CDS";
                         else if($branch['status']==4) echo "DEFERRED BY SENIOR CDS";
                         else if($branch['status']==5) echo "SUBMITTED BY SENIOR CDS";
@@ -192,10 +213,11 @@ if($tomorrow>=$now){
                         else if($branch['status']==14) echo "DEFERRED BY SENIOR CDS";
                         else if($branch['status']==15 && !$is_acting_director && $admin_info->access_level==3) echo "DELEGATED BY DIRECTOR";
                         else if($branch['status']==15 && $supervising_ && $admin_info->access_level==4) echo "DELEGATED BY DIRECTOR";
-                        else if($branch['status']==15) echo "SUBMITTED BY SENIOR CDS";
+                        else if($branch['status']==15 && ($branch['evaluator5']==0 || $branch['evaluator5']==NULL)) echo "SUBMITTED BY SENIOR CDS";
+                        else if($branch['status']==15 && ($branch['evaluator5']!=0 || $branch['evaluator5']!=NULL)) echo "FOR RE-EVALUATION";
                         else if($branch['status']==16) echo "DENIED BY DIRECTOR";
                         else if($branch['status']==17) echo "DEFERRED BY DIRECTOR";
-                        else if($branch['status']==18) echo "FOR PAYMENT";
+                        else if($branch['status']==18) echo "FOR PRINT & SUBMIT";
                         else if($branch['status']==19) echo "WAITING FOR O.R.";
                         else if($branch['status']==20) echo "FOR PRINTING";
                         else if($branch['status']==21) echo "REGISTERED";
@@ -265,6 +287,12 @@ if($tomorrow>=$now){
                                 } else {
                                   $branch_name = $branch['city'].', '.$branch['province'];
                                 }
+                            } else if ($branch['area_of_operation'] == 'Interregional') {
+                                if($this->charter_model->in_charter_city($branch['cCode'])){
+                                  $branch_name = $branch['city'];
+                                } else {
+                                  $branch_name = $branch['city'].', '.$branch['province'];
+                                }
                             } else if ($branch['area_of_operation'] == 'National') {
                                 if($this->charter_model->in_charter_city($branch['cCode'])){
                                   $branch_name = $branch['city'];
@@ -327,10 +355,19 @@ if($tomorrow>=$now){
                                   $brancharea = $outside_the_region['city'];
                                 } else {
                                   $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
+                                } 
+                            } else if ($outside_the_region['area_of_operation'] == 'Interregional') {
+                                if($this->charter_model->in_charter_city($outside_the_region['cCode'])){
+                                  $brancharea = $outside_the_region['city'];
+                                } else {
+                                  $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
                                 }
-                                
                             } else if ($outside_the_region['area_of_operation'] == 'National') {
-                                $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
+                                if($this->charter_model->in_charter_city($outside_the_region['cCode'])){
+                                  $brancharea = $outside_the_region['city'];
+                                } else {
+                                  $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
+                                }
                             }
                         ?>
                   <td><?php echo $brancharea.' '.$outside_the_region['branchName']?></td>
@@ -339,7 +376,7 @@ if($tomorrow>=$now){
                     <?=$outside_the_region['house_blk_no']?> <?=$outside_the_region['street'].$x?> <?=$outside_the_region['brgy']?>, <?=$outside_the_region['city']?>, <?= $outside_the_region['province']?> <?=$outside_the_region['region']?>
                   </td>
                   <td>
-                      <span class="badge badge-secondary">FOR VALIDATION</span>
+                      <span class="badge badge-secondary">SUBMITTED BY SENIOR CDS</span>
                   </td>
                   <td>
                       <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($outside_the_region['id'])) ?>/documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
@@ -355,9 +392,23 @@ if($tomorrow>=$now){
                             } else if($outside_the_region['area_of_operation'] == 'Provincial') {
                                 $brancharea = $outside_the_region['city'];
                             } else if ($outside_the_region['area_of_operation'] == 'Regional') {
-                                $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
+                                if($this->charter_model->in_charter_city($outside_the_region['cCode'])){
+                                  $brancharea = $outside_the_region['city'];
+                                } else {
+                                  $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
+                                } 
+                            } else if ($outside_the_region['area_of_operation'] == 'Interregional') {
+                                if($this->charter_model->in_charter_city($outside_the_region['cCode'])){
+                                  $brancharea = $outside_the_region['city'];
+                                } else {
+                                  $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
+                                } 
                             } else if ($outside_the_region['area_of_operation'] == 'National') {
-                                $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
+                                if($this->charter_model->in_charter_city($outside_the_region['cCode'])){
+                                  $brancharea = $outside_the_region['city'];
+                                } else {
+                                  $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
+                                } 
                             }
                         ?>
                   <td><?php echo $brancharea.' '.$outside_the_region['branchName']?></td>
@@ -453,6 +504,10 @@ if($tomorrow>=$now){
 
               <table width="100%" class="bord">
                 <tr>
+                  <td class="bord">Order of Payment No.</td>
+                  <td class="bord" colspan="3"><b id="refNo"></b></td>
+                </tr>
+                <tr>
                   <td class="bord">Date</td>
                   <td class="bord" colspan="3"><b id="tDate"></b></td>
                 </tr>
@@ -462,12 +517,12 @@ if($tomorrow>=$now){
                 </tr>
                 <tr>
                   <td class="bord">Date O.R</td>
-                  <td class="bord"><input class="form-control validate[required,custom[date]]" type="date" id="orDate" name="orDate" class="form-control" placeholder="Click here..."></td>
+                  <td class="bord"><input class="form-control validate[required,custom[date]]" type="date" id="orDate" name="orDate" class="form-control" placeholder="Click here..."><span id="msgdate" style="font-size:11px;margin-left:100px;color:red;font-style: italic;"></span></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                   <td class="bord">Transaction No.</td>
                   <td class="bord" colspan="3"><b id="tNo"></b></td>
-                </tr>
+                </tr> -->
                 <tr>
                   <td class="bord">Payor</td>
                   <td class="bord" colspan="3"><b id="payor"></b></td>
@@ -515,6 +570,41 @@ if($tomorrow>=$now){
 <script src="<?=base_url();?>assets/js/toword.js"></script>
 
 <script type="text/javascript">
+  $(document).ready(function(){
+  function GetNow()
+  {
+    var currentdate = new Date(); 
+    var month = currentdate.getMonth() + 1;
+    var day = currentdate.getDate();
+    var date1 = (currentdate.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '')  + day);
+    return date1;
+  }
+  $('#orDate').on('change',function(){
+    var selectedDate = $(this).val();
+    var now = GetNow();
+    // alert(now+selectedDate);
+    if(selectedDate > now)
+    {
+      $(this).val(now);
+       $("#msgdate").text("Date of O.R. should not be future date");
+      setTimeout(function(){
+          $("#msgdate").text("");
+      },5000);    
+    }
+    else if(selectedDate == now)
+    {
+      $("#msgdate").text("");
+    }
+    else
+    {
+      $("#msgdate").text("");
+    }
+  
+  });
+});
+</script>
+
+<script type="text/javascript">
 
   function showPayment(coop_id,coop_name) {
     //save_method = 'add';
@@ -522,15 +612,20 @@ if($tomorrow>=$now){
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty();
     $.ajax({
-        url : "<?php echo base_url('branches/payment')?>/" + coop_name,
+        url : "<?php echo base_url('branches/payment')?>/" + coop_id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
         {
-            
+            var currentdate = new Date(data.date);
+            var month = currentdate.getMonth() + 1;
+            var day = currentdate.getDate();
+            var formated_date = ( (('' + day).length < 2 ? '0' : '')  + day + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' +currentdate.getFullYear());
+
             var s=convert(data.total);
             $('#payment_id').val(data.id);
-            $('#tDate').text(data.date);
+            $('#refNo').text(data.refNo);
+            $('#tDate').text(formated_date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
             $('#branch_ID').val(coop_id);   

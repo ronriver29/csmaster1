@@ -174,6 +174,64 @@ class Amendment_committee_model extends CI_Model{
     return $data;
   }
 
+  public function get_all_required_count_credit($user_id){
+    if($this->get_all_gad_count($user_id) != 0){ //ok
+        if($this->get_all_audit_count($user_id) != 0){ //ok
+            if($this->get_all_election_count($user_id) != 0){ //ok
+                if($this->get_all_medcon_count($user_id) != 0){ //ok
+                    if($this->get_all_ethics_count($user_id) != 0){ //ok 
+                        if($this->get_all_credit_count($user_id) != 0){
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+  } 
+   public function get_all_audit_count($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Audit" AND user_id ='.$user_id.'');
+    $this->db->from('amendment_committees');
+    return $this->db->count_all_results();
+  }
+
+  public function get_all_election_count($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Election" AND user_id ='.$user_id.'');
+    $this->db->from('amendment_committees');
+    return $this->db->count_all_results();
+  }
+  public function get_all_medcon_count($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Mediation and Conciliation" AND user_id ='.$user_id.'');
+    $this->db->from('amendment_committees');
+    return $this->db->count_all_results();
+  }
+  public function get_all_ethics_count($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Ethics" AND user_id ='.$user_id.'');
+    $this->db->from('amendment_committees');
+    return $this->db->count_all_results();
+  }
+   public function get_all_credit_count($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->where('name = "Credit" AND user_id ='.$user_id.'');
+    $this->db->from('amendment_committees');
+    return $this->db->count_all_results();
+  }
   public function get_all_committees_of_coop($amendment_id){
     $data = array();
     // $this->db->select('amendment_committees.id as comid, amendment_committees.* ,amendment_cooperators.*');
@@ -413,15 +471,21 @@ class Amendment_committee_model extends CI_Model{
   }
   public function check_credit_committe_in_agriculture($amendment_id)
   {
-    $query =$this->db->query("select type_of_cooperative from cooperatives where id='$amendment_id'");
+    $query =$this->db->query("select type_of_cooperative from amend_coop where id='$amendment_id'");
     if($query->num_rows()>0)
     {
       foreach($query->result_array() as $row)
       {
-        if($row['type_of_cooperative'] =='Agriculture')
+        $typeCoop = explode(',',$row['type_of_cooperative']);
+        if(count($typeCoop)>1)
         {
-          $query2 = $this->db->get_where('amendment_committees',array('amendment_id'=>$amendment_id,'name'=>"Credit"));
-          if($query2->num_rows()>0)
+          //valid for credit
+          return true;
+        }
+        else
+        {
+          $array_type = array('Agriculture','Agrarian Reform');
+          if(in_array($typeCoop,$array_type))
           {
             return true;
           }
@@ -430,11 +494,19 @@ class Amendment_committee_model extends CI_Model{
             return false;
           }
         }
-        else
-        {
-          return false;
-        }
       }
+    }
+    else
+    {
+      return false;
+    }
+  }
+  public function check_if_has_credit($amendment_id)
+  {
+    $query = $this->db->query("select name from amendment_committees where amendment_id ='$amendment_id' and name='Credit'");
+    if($query->num_rows()>0)
+    {
+      return true;
     }
     else
     {

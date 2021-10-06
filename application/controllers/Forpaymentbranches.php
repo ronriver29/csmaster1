@@ -13,6 +13,7 @@ class Forpaymentbranches extends CI_Controller{
   {
     $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
     $items['status'] = '22';
+    $items['date_for_payment'] = date('Y-m-d');
     if($this->db->where("id",$decoded_id)->update("branches",$items)) {
     
     $query_payment = $this->db->select("branches.*,users.*")

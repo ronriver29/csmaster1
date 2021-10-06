@@ -253,4 +253,74 @@ BARANGAY MAGSAYSAY, QUEZON CITY 1105',
       echo"regional_officials table has been updated successfully";
     }
   }
+
+  public function update_migrations($version)
+  {
+    if($this->db->update('migrations',array('version'=>$version)))
+    {
+      echo "success";
+    }
+    else
+    {
+      echo"failed";
+    }
+  }
+
+  public function change_coop_type()
+  {
+    $this->db->set('name', 'Multipurpose');
+    $this->db->where('id', 6);
+    if($this->db->update('cooperative_type'))
+    {
+      echo"Multi-purpose to Multipurpose successfully changed.";
+    }
+    else
+    {
+      echo"failed to change Multi-purpose to Multipurpose.";
+    } 
+  }
+
+  public function update_migration_application_id()
+  {
+    $this->db->query("select @i := 0;");
+    // echo $this->db->last_query();
+    $this->db->set('application_id', '(select @i := @i + 1)',FALSE);
+    $this->db->where('application_id', 0);
+    if($this->db->update('registeredcoop'))
+    {
+      echo"Update Migration successfully changed.";
+    }
+    else
+    {
+      echo"Failed to change Update Migration";
+    } 
+  }
+
+  public function registeredtable()
+  {
+    $this->db->select('*');
+    $this->db->from('registeredcoop');
+    $this->db->where('dateRegistered LIKE "%/%"');
+    $query = $this->db->get();
+    $data = $query->result_array();
+
+    foreach($data as $row){
+      // echo date('m-d-Y',strtotime($row['dateRegistered'])).' - '.$row['dateRegistered'].' - '.$row['id'].'<br>';
+
+      $data = array(
+        'dateRegistered' => date('Y-m-d',strtotime($row['dateRegistered']))
+      );
+
+      $this->db->where(array('id'=>$row['id']));
+      $this->db->update('registeredcoop',$data);
+
+      if($this->db->trans_status() === FALSE){
+        $this->db->trans_rollback();
+        echo 'failed';
+      }else{
+        $this->db->trans_commit();
+        echo 'success<br>';
+      }
+    }
+  }
 }

@@ -12,19 +12,39 @@
   <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css">
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
-  @page{margin: 80px 90px;}
+  @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   table, th, td {
-    border: 0.5px solid #000 !important;
+    border: 0.5px solid #000 !important; 
     border-collapse: collapse;
   }
+  body{
+        font-family: 'Bookman Old Style',arial !important;font-size:12px;
+    }
   </style>
 </head>
-<body>
+<body style="font-size:12">
+  <script type="text/php">
+        if ( isset($pdf) ) {
+
+            $x = 570; 
+            $y=900;
+            $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
+            $font = '';
+            $size = 12;
+            $color = array(0,0,0);
+            $word_space = 0.0;  //  default
+            $char_space = 0.0;  //  default
+            $angle = 0.0;   //  default
+            $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+            
+        }
+
+</script>
 <div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">ARTICLES OF COOPERATION<br>of<br>Test Credit Cooperative</p>
+        <p class="font-weight-bold">ARTICLES OF COOPERATION<br>of<br><?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?></p>
     </div>
   </div>
   <div class="row mb-2">
@@ -34,7 +54,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify font-weight-normal" style="text-indent: 50px;">We, the undersigned duly authorized representative(s) of our respective cooperatives, all of legal age and Filipino citizens, have on this day voluntarily agreed to organize <u>(Secondary/Tertiary) Union</u> of cooperatives, under the laws if the Republic of the Philippines, herein after referred to as the Cooperative Union.</p>
+      <p class="text-justify font-weight-normal" style="text-indent: 50px;">We, the undersigned duly authorized representative(s) of our respective cooperatives, all of legal age and Filipino citizens, have on this day voluntarily agreed to organize <u>Union</u> of cooperatives, under the laws if the Republic of the Philippines, herein after referred to as the Cooperative Union.</p>
     </div>
   </div>
   <div class="row mb-4">
@@ -49,7 +69,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
-      <p class="text-justify" style="text-indent: 50px;">That the name of this Cooperative Union shall be <strong>Test Credit Cooperative</strong></p>
+      <p class="text-justify" style="text-indent: 50px;">That the name of this Cooperative Union shall be <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?></p>
     </div>
   </div>
   <div class="row mb-2">
@@ -64,11 +84,11 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
-        <ol class="text-justify" type="a">
-    			<li>______________________________________________________</li>
-    			<li>______________________________________________________</li>
-    			<li>______________________________________________________</li>
-    		</ol>
+        <ol class="text-justify" type="1">
+          <?php foreach($purposes_list as $purpose) :?>
+            <li><?=$purpose?></li>
+          <?php endforeach; ?>
+        </ol>
     </div>
   </div>
   <div class="row mb-2">
@@ -127,7 +147,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">The term for which this Cooperative Union shall exist is _______ ( ) years from the date of its registration with the Cooperative Development Authority.</p>
+      <p class="text-justify" style="text-indent: 50px;">The term for which this Cooperative Union shall exist is <?= ucwords(num_format_custom($article_info->years_of_existence))?> (<?= $article_info->years_of_existence?>) years from the date of its registration with the Cooperative Development Authority.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -137,7 +157,32 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">That the membership of this Cooperative Union shall come from __________________________________________. Its principal office shall be located at _____________________________________________________________.</p>
+      <p class="text-justify" style="text-indent: 50px;">That the membership of this Cooperative Union shall come from <?php if($coop_info->area_of_operation=="Barangay"){ ?>
+
+         <?= ($in_chartered_cities ? $coop_info->brgy.' '.$chartered_cities.' '.$coop_info->region : $coop_info->brgy.' '.$coop_info->city.' '.$coop_info->province.' '.$coop_info->region)?>
+       <?php }else if($coop_info->area_of_operation=="Municipality/City"){ ?>
+         <?=($in_chartered_cities ? $chartered_cities.' '.$coop_info->region : $coop_info->city.' '.$coop_info->province.' '.$coop_info->region)?>
+      <?php }else if($coop_info->area_of_operation=="Provincial"){
+         echo $coop_info->province.' '.$coop_info->region;
+       }else if($coop_info->area_of_operation=="Regional"){
+         echo $coop_info->region;
+       }else{
+        if($coop_info->area_of_operation=="Interregional"){
+          $region_array = array();
+
+          foreach ($regions_island_list as $region_island_list){
+            array_push($region_array, $region_island_list['regDesc']);
+          }
+          // echo implode(", ", $region_array);
+          $last  = array_slice($region_array, -1);
+          $first = join(', ', array_slice($region_array, 0, -1));
+          $both  = array_filter(array_merge(array($first), $last), 'strlen');
+          echo join(' and ', $both);
+        } else {
+         echo "Philippines";
+        }
+       }
+       ?>. Its principal office shall be located at <?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?><?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?> <?=$coop_info->region?>.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -162,11 +207,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
+            <?php $count=0; foreach($members_list as $members) :?>
+              <?=$count++;?>
+                          
+              <tr>
+                <td><?=$count.'. '.$members['coopName']?></td>
+                <td><?php if($members['noStreet']==null && $members['Street']==null) $x=''; else $x=', '; ?><?=$members['noStreet'].' '.$members['Street'].$x.$members['brgy'].', ';?><?= $members['city'].', '.$members['province']?></td>
+                <td><?=$members['representative']?></td>
+              </tr>
+            <?php endforeach;?>
           </tbody>
         </table>
       </div>
@@ -179,7 +228,7 @@
   </div>
   <div class="row ">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">That the number of Directors of this Cooperative Union shall be ________( ) and the name and address of the Board of Directors who are to serve until their successors shall have been elected and qualified as provided in this by-laws are:</p>
+      <p class="text-justify" style="text-indent: 50px;">That the number of Directors of this Cooperative Union shall be <?=num_format_custom($no_of_directors)?>(<?= $no_of_directors?>) and the name and address of the Board of Directors who are to serve until their successors shall have been elected and qualified as provided in this by-laws are:</p>
     </div>
   </div>
   <div class="row mb-4">
@@ -192,9 +241,12 @@
             </tr>
           </thead>
           <tbody>
+            <?php $count=0; foreach($directors_list as $director) :?>
+              <?=$count++;?>
             <tr>
-              <td>test</td>
+              <td><?=$count.'. '.$director['representative']?></td>
             </tr>
+          <?php endforeach;?>
           </tbody>
         </table>
       </div>
@@ -207,7 +259,7 @@
   </div>
   <div class="row ">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">That the capital contribution of the Cooperative Union shall be ___________________________________________________Pesos (Php_____.00). That the amount of capital contribution of affiliates is, as follows:</p>
+      <p class="text-justify" style="text-indent: 50px;">That the capital contribution of the Cooperative Union shall be <?= ucwords(num_format_custom($coop_info->capital_contribution))?> Pesos (Php <?=number_format($coop_info->capital_contribution,2)?>). That the amount of capital contribution of affiliates is, as follows:</p>
     </div>
   </div>
   <div class="row mb-4">
@@ -221,15 +273,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-            </tr>
+            <?php $sumofcc=array(); $count=0; foreach($members_list as $members) :?>
+              <?=$count++;?>
+                          
+              <tr>
+                <td><?=$count.'. '.$members['coopName']?></td>
+                <td><?=$members['cc']?></td>
+              </tr>
+            <?php $sumofcc[] = $members['cc']; endforeach;?>
           </tbody>
           <tfoot>
             <tr>
               <th><strong>Total</strong></th>
-              <th>-</th>
+              <th><?=array_sum($sumofcc);?></th>
             </tr>
           </tfoot>
         </table>
@@ -253,7 +309,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">__________________________ has been elected as Treasurer of this Cooperative Union to act as such until her/his successor shall have been duly appointed and qualified in accordance with the by-laws. As such Treasurer, he/she is authorized to receive payments and issue receipts for membership fees, capital contribution and other revenues, and to pay obligations for and in the name of this Cooperative Union.</p>
+      <p class="text-justify" style="text-indent: 50px;"><b><?=$treasurer_of_coop->representative?></b> has been elected as Treasurer of this Cooperative Union to act as such until her/his successor shall have been duly appointed and qualified in accordance with the by-laws. As such Treasurer, he/she is authorized to receive payments and issue receipts for membership fees, capital contribution and other revenues, and to pay obligations for and in the name of this Cooperative Union.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -278,11 +334,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
+            <?php  $count=0;foreach($members_list as $cooperator) :?>
+              <?=$count++;?>
+              <tr>
+                <td><?=$count.'. '.$cooperator['coopName']?></td>
+                <td><?=$cooperator['representative']?></td>
+                <td></td>
+              </tr>
+            <?php endforeach;?>
           </tbody>
         </table>
       </div>
@@ -321,17 +380,27 @@
         <table class="table table-sm">
           <thead>
             <tr>
-              <th>Name of Cooperative Affiliate and its representative</th>
-              <th>Proof of Identity </th>
-              <th>Date and Place of Issuance</th>
+              <th>Name of Member-Cooperative and its representative</th>
+              <th>Proof of Identity (IN ACCORDANCE WITH NOTARIAL LAW)</th>
+              <th>Date Issued</th>
+              <th>Place of Issuance</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>test</td>
-              <td>test</td>
-              <td>test</td>
-            </tr>
+            <?php $count=0; foreach($members_list as $cooperator) :?>
+              <?=$count++;?>
+              <tr>
+                <td><?=$count.'. '.$cooperator['coopName'].' - '.$cooperator['representative']?></td>
+                <td><?=$cooperator['proof_of_identity']?>-<?=$cooperator['valid_id']?></td>
+                <td><?php if($cooperator['date_issued'] == NULL){
+                  echo 'N/A';
+                } else {
+                  echo $cooperator['date_issued'];
+                }?>
+                </td>
+                <td><?=$cooperator['place_of_issuance']?></td>
+              </tr>
+            <?php endforeach;?>
           </tbody>
         </table>
       </div>
@@ -344,7 +413,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of ___________________________, consists of ______ pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof. WITNESS my hand and seal this day and place first above mentioned.</p>
+      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>, consists of <u><?=$this->session->userdata('pagecount')?></u> pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof. WITNESS my hand and seal this day and place first above mentioned.</p>
     </div>
   </div>
   <div class="row">

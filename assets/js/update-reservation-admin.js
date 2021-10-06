@@ -118,7 +118,13 @@ $('#reserveUpdateForm #categoryOfCooperative').on('change', function(){
     },
     success: function(data){
         var cbom = data.common_bond_of_membership;
-        
+        if(data.grouping =='Federation' || (data.grouping == 'Union' && data.type_of_cooperative == 'Union')){
+          $('#reserveUpdateForm .col-industry-subclass').hide();
+          $('#reserveUpdateForm #addMoreSubclassBtn').hide();
+        } else {
+          $('#reserveUpdateForm .col-industry-subclass').show();
+          $('#reserveUpdateForm #addMoreSubclassBtn').show();
+        }
         if(cbom=='Institutional'){
             $('#reserveUpdateForm #fieldmembershipname').show();
             $('#reserveUpdateForm #field_membership').show();
@@ -177,7 +183,7 @@ $('#reserveUpdateForm #categoryOfCooperative').on('change', function(){
         }
       if(data!=null){
         var tempCount = 0;
-        $('#reserveUpdateForm #categoryOfCooperative').val(data.category_of_cooperative);
+        // $('#reserveUpdateForm #categoryOfCooperative').val(data.category_of_cooperative);
         // $('#reserveUpdateForm #majorIndustry').trigger('change');
         // $('#reserveUpdateForm select[name="proposedBusinessActivity[]"').trigger('change');
         $('#reserveUpdateForm #commonBondOfMembership').val(data.common_bond_of_membership);
@@ -189,22 +195,22 @@ $('#reserveUpdateForm #categoryOfCooperative').on('change', function(){
         }else{
           $('#reserveUpdateForm #compositionOfMembers').val(data.composition_of_members);
         }
-        setTimeout( function(){
-          $('#reserveUpdateForm #region').val(data.rCode);
-          $('#reserveUpdateForm #region').trigger('change');
-        },300);
-        setTimeout( function(){
-            $('#reserveUpdateForm #province').val(data.pCode);
-            $('#reserveUpdateForm #province').trigger('change');
-        },700);
-        setTimeout(function(){
-          $('#reserveUpdateForm #city').val(data.cCode);
-          $('#reserveUpdateForm #city').trigger('change');
-        },1000);
-        setTimeout(function(){
-          $('#reserveUpdateForm #barangay').val(data.bCode);
-          $('#reserveUpdateForm #barangay').trigger('change');
-        },1400);
+        // setTimeout( function(){
+        //   $('#reserveUpdateForm #region').val(data.rCode);
+        //   $('#reserveUpdateForm #region').trigger('change');
+        // },300);
+        // setTimeout( function(){
+        //     $('#reserveUpdateForm #province').val(data.pCode);
+        //     $('#reserveUpdateForm #province').trigger('change');
+        // },700);
+        // setTimeout(function(){
+        //   $('#reserveUpdateForm #city').val(data.cCode);
+        //   $('#reserveUpdateForm #city').trigger('change');
+        // },1000);
+        // setTimeout(function(){
+        //   $('#reserveUpdateForm #barangay').val(data.bCode);
+        //   $('#reserveUpdateForm #barangay').trigger('change');
+        // },1400);
         $('#reserveUpdateForm #streetName').val(data.street);
         $('#reserveUpdateForm #blkNo').val(data.house_blk_no);
 
@@ -314,3 +320,152 @@ $('#reserveUpdateForm #categoryOfCooperative').on('change', function(){
 //   });
 //   //end cooperative Update reservation validation
 // });
+
+// Jiee
+    var areaOfOperation = $("#reserveUpdateForm #areaOfOperation2").val();
+    // alert(areaOfOperation);
+    if(areaOfOperation == 'Interregional'){
+      $('#reserveUpdateForm #interregional').show();
+      $('#reserveUpdateForm #regions').show();
+      $('#reserveUpdateForm #selectisland').show();
+      $('#reserveUpdateForm #selectregion').show();
+      $(".select-island").each(function(){
+          $(this).select2({
+                template: "bootstrap",
+                multiple: true,
+                tagging: true,
+                allowClear: true,
+                placeholder: "Select island"
+            });
+          });
+      $(".select-region").each(function(){
+          $(this).select2({
+              template: "bootstrap",
+              multiple: true,
+              tagging: true,
+              allowClear: true,
+              placeholder: "Select region"
+          });
+      });
+    } else {
+      $('#reserveUpdateForm #interregional').hide();
+      $('#reserveUpdateForm #regions').hide();
+      $('#reserveUpdateForm #selectisland').hide();
+      $('#reserveUpdateForm #selectregion').hide();
+    }
+    
+
+    $('#reserveUpdateForm #areaOfOperation').on('change',function(){
+      $('#reserveUpdateForm #region').empty();
+      $('#reserveUpdateForm #regions').empty();
+      var areaOfOperation = $(this).val();
+      if(areaOfOperation == "Interregional"){
+        $('#reserveUpdateForm #region').empty();
+        $('#reserveUpdateForm #interregional').show();
+        $('#reserveUpdateForm #regions').show();
+        $('#reserveUpdateForm #selectisland').show();
+        $('#reserveUpdateForm #selectregion').show();
+        $(".select-island").each(function(){
+          $(this).select2({
+                template: "bootstrap",
+                multiple: true,
+                tagging: true,
+                allowClear: true,
+                placeholder: "Select island"
+            });
+          });
+        $(".select-region").each(function(){
+          $(this).select2({
+              template: "bootstrap",
+              multiple: true,
+              tagging: true,
+              allowClear: true,
+              placeholder: "Select region"
+          });
+      });
+      } else {
+        $('#reserveUpdateForm #region').empty();
+        $('#reserveUpdateForm #interregional').hide();
+        $('#reserveUpdateForm #regions').hide();
+        $('#reserveUpdateForm #selectisland').hide();
+        $('#reserveUpdateForm #selectregion').hide();
+
+        $.ajax({
+              type : "GET",
+              url  : "../../api/regions",
+              dataType: "json",
+              success: function(data){
+                $('#reserveUpdateForm #region').append($('<option></option>').attr('value',"").text(""));
+                $.each(data, function(key,value){
+                  $('#reserveUpdateForm #region').append($('<option></option>').attr('value',value.regCode).text(value.regDesc));
+                });
+            }
+          });
+      }
+    });
+
+    $('#reserveUpdateForm #interregional').on('change',function(){
+      // alert($(this).val().length);
+      if($(this).val().length <= 2){
+        // alert($(this).val());
+        $('#reserveUpdateForm #region').empty();
+        $('#reserveUpdateForm #regions').empty();
+        $('#reserveUpdateForm #province').empty();
+        $("#reserveUpdateForm #province").prop("disabled",true);
+        $('#reserveUpdateForm #city').empty();
+        $("#reserveUpdateForm #city").prop("disabled",true);
+        $('#reserveUpdateForm #barangay').empty();
+        $("#reserveUpdateForm #barangay").prop("disabled",true);
+        if($(this).val() && ($(this).val()).length > 0){
+          $("#reserveUpdateForm #province").prop("disabled",false);
+          var interregional = $(this).val();
+            $.ajax({
+            type : "POST",
+            url  : "../../api/islands",
+            dataType: "json",
+            data : {
+              interregional: interregional
+            },
+            success: function(data){
+              // $('#reserveAddForm #regions').append($('<option></option>').attr('value',"").text(""));
+              $.each(data, function(key,value){
+                $('#reserveUpdateForm #regions').append($('<option></option>').attr('value',value.region_code).text(value.regDesc));
+              });
+            }
+          });
+        }
+      } else {
+        $('#reserveUpdateForm #interregional').removeAttr("selected");;
+        alert("Maximum of 2 Island.");
+      }
+    });
+
+    $('#reserveUpdateForm #regions').on('change',function(){
+      // alert($(this).val());
+      $('#reserveUpdateForm #region').empty();
+      $("#reserveUpdateForm #province").prop("disabled",true);
+      $('#reserveUpdateForm #city').empty();
+      $("#reserveUpdateForm #city").prop("disabled",true);
+      $('#reserveUpdateForm #barangay').empty();
+      $("#reserveUpdateForm #barangay").prop("disabled",true);
+      if($(this).val() && ($(this).val()).length > 0){
+        $("#reserveUpdateForm #province").prop("disabled",false);
+        var regions = $(this).val();
+          $.ajax({
+          type : "POST",
+          url  : "../../api/regions",
+          dataType: "json",
+          data : {
+            regions: regions
+          },
+          success: function(data){
+            $('#reserveUpdateForm #region').append($('<option></option>').attr('value',"").text(""));
+            $.each(data, function(key,value){
+              $('#reserveUpdateForm #region').append($('<option></option>').attr('value',value.regCode).text(value.regDesc));
+            });
+          }
+        });
+      }
+    });
+  // End Jiee
+

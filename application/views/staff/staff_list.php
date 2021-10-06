@@ -3,7 +3,13 @@
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
     <h5 class="text-primary text-right">
       <?php if($is_client): ?>
-      Step 9
+      <?php if($coop_info->grouping == 'Federation') {
+          echo 'Step 9';
+        } else if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative=='Union'){
+          echo 'Step 7';
+        } else {
+          echo 'Step 9';
+        }?>
       <?php endif; ?>
     </h5>
   </div>

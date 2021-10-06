@@ -25,4 +25,16 @@ class Region_model extends CI_Model{
    
   }
 
+  public function get_selected_regions($data){
+      // $query= $this->db->get_where('islands', array('island_id' => $data));
+      $query = $this->db->query("SELECT * FROM refregion WHERE regCode IN (".$data.") ORDER BY regDesc ASC");
+      return $query->result_array();
+  }
+
+  public function get_selected_islands($data){
+      // $query= $this->db->get_where('islands', array('island_id' => $data));
+      $query = $this->db->query("SELECT * FROM islands WHERE island_id IN (".$data.") ORDER BY regDesc ASC");
+      return $query->result_array();
+  }
+
 }

@@ -23,27 +23,54 @@ class registration extends CI_Controller{
 
       //add to registered cooop
       $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+
       if ($coop_info->category_of_cooperative =='Primary')
           $pst="1";
       else if ($coop_info->category_of_cooperative =='Secondary')  
         $pst="2";
       else
         $pst="3";
-      if(!empty($coop_info->acronym_name)){ 
-          $acronymname = '('.$coop_info->acronym_name.')';
+      if($coop_info->grouping == 'Union'){
+        if(!empty($coop_info->acronym_name)){ 
+            $acronymname = '('.$coop_info->acronym_name.') ';
+        } else {
+            $acronymname = '';
+        }
       } else {
-          $acronymname = '';
+        if(!empty($coop_info->acronym_name)){ 
+            $acronymname = '('.$coop_info->acronym_name.')';
+        } else {
+            $acronymname = '';
+        }
       }
       // $this->debug($coop_info);
       if ($coop_info->status==14){
         if(!$this->registration_model->register_coop($decoded_id,$coop_info,$pst,$acronymname))
         {
-            echo "Failed to print registration detials";
+            echo "Failed to print registration details";
             exit;
         }
       }
-      $cName=rtrim($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' '.$coop_info->grouping);
-      $coop_details = $this->registration_model->get_coop_info($cName);
+      if($coop_info->grouping == 'Federation'){
+        $cName=rtrim($coop_info->proposed_name.' Federation of '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname);
+      } if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){
+        $cName=rtrim($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname);
+      } else {
+        $cName=rtrim($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' '.$coop_info->grouping);
+      }
+      // echo $coop_info->id;
+      // $cName = $coop_info->id;
+      if($coop_info->grouping == 'Union'){
+        $coop_details = $this->registration_model->get_coop_info_union($coop_info->id);
+      } else if($coop_info->grouping == 'Federation'){
+        $coop_details = $this->registration_model->get_coop_info_federation($coop_info->id);
+      }else {
+        $coop_details = $this->registration_model->get_coop_info($cName);
+      }
+      
+
+      // echo $coop_details;
+      // echo print_r($coop_details);
       // $this->debug($coop_details);
       // echo $this->db->last_query();
 //      if ($coop_details->qr_code==null || ($coop_details->qr_code=='')){
@@ -115,7 +142,7 @@ class registration extends CI_Controller{
       if($this->db->count_all_results()>0){
         $data1['director']=$this->registration_model->get_director("00");
       } else {
-        $data1['director']=$this->registration_model->get_director($data1['coop_info']->third_evaluated_by);
+        $data1['director']=$this->registration_model->get_director($data1['coop_info']->rCode);
       }
           set_time_limit(0);
 
@@ -137,6 +164,7 @@ class registration extends CI_Controller{
           $data1['in_chartered_cities']=true;
           $data1['chartered_cities'] =$this->charter_model->get_charter_city($data1['coop_info']->cCode);
         }
+        $data1['memory_usage'] = memory_get_usage();
        
          // $html2 = $this->load->view('cooperative/cor_view', $data1);
          $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);
@@ -250,6 +278,7 @@ class registration extends CI_Controller{
           $this->registration_model->save_branch_qr_code($branch_details->certNo, $image_name);
         }
         
+        $data1['signature'] = "../assets/img/AsecJoy.png"; 
         $data1['chair'] = $this->registration_model->get_chairman()->chairman;
         $data1['effectivity_date'] = $this->registration_model->get_chairman()->effectivity_date;
         $data1['branch_info']=$branch_details;

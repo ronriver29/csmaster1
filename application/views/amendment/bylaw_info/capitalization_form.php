@@ -111,7 +111,9 @@
                     <tr>
                         <td>Associate</td>
                         <td>
-                            <input type="number" name="item[associate_members]" id="associate_members" class="form-control" value="<?=$associate_members;?>"/>
+                            <input type="number" name="item[associate_members]" id="associate_members" class="form-control" value="<?=$associate_members;?>" required>
+                            <span id="associate_members_note" class="err-message-note"></span>
+                           
                         </td>
                     </tr>
                     <?php endif; ?>
@@ -127,7 +129,7 @@
                         </td>
                         <td>Par Value</td>
                         <td>
-                            <input type="number" name="item[par_value]" id="par_value" class="form-control" value="<?=$par_value;?>"/>
+                            <input type="number" name="item[par_value]" id="par_value" class="form-control" value="<?=$par_value;?>" disabled/>
                         </td>
                     </tr>
                     <tr>
@@ -369,6 +371,18 @@ function computeCapital() {
             $("#regular_members_note").addClass("err-message-note-error");
         }
         $("#total_members").val(total_members);
+    }
+    // alert($("#associate_members").val()=='');
+    if($("#associate_members").val()=='')
+    {
+        $("#associate_members_note").html("Should be at least 0 value");
+        $("#associate_members_note").addClass("err-message-note-error");
+        $("#capitalizationPrimaryBtn").attr('disabled', true);
+
+    }
+    else
+    {
+         $("#capitalizationPrimaryBtn").removeAttr('disabled');
     }
     /*get subscribed and paid-up capital*/
     if($("#total_amount_of_subscribed_capital").val().length>0) {

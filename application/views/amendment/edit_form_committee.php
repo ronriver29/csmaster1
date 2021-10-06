@@ -25,7 +25,7 @@
           <input type="hidden" class="form-control" id="committeeID" name="committeeID" value="<?=$encrypted_committee_id?>">
            <div class="col-md-4">
 
-              <div class="form-group">
+              <div class="form-group"> 
                 <label for="cooperatorID">Name of Cooperator:</label>
                 <input type="text" value="<?= $cooperator_info->full_name?>" class="form-control validate[required]" id="cooperatorName" name="cooperatorName" disabled>
               </div>
@@ -34,6 +34,11 @@
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="committeeName">Name of Committee:</label>
+              <?php 
+               $count_type='';
+                $count_type = count(explode(',',$coop_info->type_of_cooperative));
+
+              ?>
              <!--  <?= $cooperator_info->position?> -->
               <select class="custom-select validate[required]" name="committeeName" id="committeeName">
                 <option value="" <?php if($committee_info->name=="") echo "selected";?> <?=($committee_info->type =='others' ? "disabled" : " ")?>>--</option>
@@ -103,7 +108,7 @@
                 ?>
               
                
-               <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture'){?>
+               <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture' || $coop_info->type =='Multipurpose' || $coop_info->type_of_cooperative == 'Advocacy' || $coop_info->type_of_cooperative =='Agrarian Reform' || $count_type>1){?>
                   <option id="A" value="Credit">Credit</option>
                 <?php } ?>
 

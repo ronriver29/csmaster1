@@ -79,10 +79,10 @@ class Amendment_capitalization extends CI_Controller{
               $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
               redirect('amendment');
             }
-          }else{
+          }else{ $access_array = array(1,2);
             if($this->session->userdata('access_level')==5){
               redirect('admins/login');
-            }else if($this->session->userdata('access_level')!=1){
+            }else if(!in_array($this->session->userdata('access_level'),$access_array)){
               redirect('amendment');
             }else{
               if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){

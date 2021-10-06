@@ -121,46 +121,14 @@
                   <input type="text" class="form-control" name="streetName" id="streetName" placeholder="">
                 </div>
               </div>
-            <?php if($coop_info->area_of_operation == 'Barangay'){ ?>
-              <div class="col-sm-12 col-md-4">
-                <div class="form-group">
-                  <label for="barangay">Barangay</label>
-                  <select class="custom-select validate[required]" disabled>
-                      <option value ="<?=$coop_info->bCode;?>"><?=$coop_info->brgy?></option>
-                  </select>
-                  <input type="hidden" class="form-control validate[required]" name="barangay" value="<?=$coop_info->bCode;?>">
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-4">
-                <div class="form-group">
-                  <label for="city">City/Municipality</label>
-                  <input class="form-control validate[required]" name="city" value="<?=$coop_info->city?>" disabled>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-4">
-                <div class="form-group">
-                  <label for="province">Province</label>
-                  <input class="form-control validate[required]" name="province" value="<?=$coop_info->province?>" disabled>
-                </div>
-              </div>
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="region">Region</label>
-                  <input class="form-control validate[required]" name="region" value="<?=$coop_info->region?>" disabled>
-                </div>
-              </div>
-            <?php } elseif($coop_info->area_of_operation == 'Municipality/City') {?>
-              <div class="col-sm-12 col-md-4">
-                <div class="form-group">
-                  <label for="barangay">Barangay</label>
-                  <select class="custom-select validate[required]" name="barangay" id="barangay">
-                  </select>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-4">
-                <div class="form-group">
-                  <label for="city">City/Municipality</label>
-                  <select class="custom-select validate[required]" name="city" id="city" disabled>
+                  <select class="custom-select validate[required]" name="region" id="region">
+                    <option value="" selected></option>
+                    <?php foreach ($regions_list as $region_list) : ?>
+                      <option value ="<?php echo $region_list['regCode'];?>" <?=($coop_info->rCode == $region_list['regCode'] ? 'selected' : '')?>><?php echo $region_list['regDesc']?></option>
+                    <?php endforeach; ?>
                   </select>
                 </div>
               </div>
@@ -168,54 +136,53 @@
                 <div class="form-group">
                   <label for="province">Province</label>
                   <select class="custom-select validate[required]" name="province" id="province" disabled>
+                    <?php 
+                    foreach($list_of_provinces as $province_list)
+                    {
+                      ?>
+                      <option value="<?=$province_list['provCode']?>" <?=($province_list['provCode']== $coop_info->pCode? 'selected' : '')?>><?=$province_list['provDesc']?></option>
+                      <?php
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
-                  <label for="region">Region</label>
-                  <select class="custom-select validate[required]" name="region" id="region">
-                    <option value="" selected></option>
-                    <?php foreach ($regions_list as $region_list) : ?>
-                      <option value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
-                    <?php endforeach; ?>
+                  <label for="city">City/Municipality</label>
+                  <select class="custom-select validate[required]" name="city" id="city" disabled>
+                    <?php
+                    foreach($list_of_cities as $city_list)
+                    {
+                      ?>
+                      <option value="<?=$city_list['citymunCode']?>" <?=($city_list['citymunCode'] == $coop_info->cCode ?'selected' :'')?>><?=$city_list['citymunDesc']?></option>
+                      <?php
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
-            <?php } else {?>
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="barangay">Barangay</label>
                   <select class="custom-select validate[required]" name="barangay" id="barangay" disabled>
+                    <?php
+                    foreach($list_of_brgys as $brgy_list)
+                    {
+                      ?>
+                      <option value="<?=$brgy_list['brgyCode']?>" <?=($brgy_list['brgyCode'] == $coop_info->bCode ? 'selected' :'')?>> <?=($brgy_list['brgyDesc'])?></option>
+                      <?php
+                    }
+                    ?>
                   </select>
                 </div>
+                <?php
+                  if($coop_info->area_of_operation == "Barangay"){ ?>
+                    <input type="hidden" class="form-control validate[required]" name="barangay" value="<?=$coop_info->bCode;?>">
+                  <?php }
+                ?>
+                
               </div>
-              <div class="col-sm-12 col-md-4">
-                <div class="form-group">
-                  <label for="city">City/Municipality</label>
-                  <select class="custom-select validate[required]" name="city" id="city" disabled>
-                  </select>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-4">
-                <div class="form-group">
-                  <label for="province">Province</label>
-                  <select class="custom-select validate[required]" name="province" id="province" disabled>
-                  </select>
-                </div>
-              </div>
-              <div class="col-sm-12 col-md-4">
-                <div class="form-group">
-                  <label for="region">Region</label>
-                  <select class="custom-select validate[required]" name="region" id="region">
-                    <option value="" selected></option>
-                    <?php foreach ($regions_list as $region_list) : ?>
-                      <option value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-              </div>
-            <?php } ?>
             </div>
           </div>
 

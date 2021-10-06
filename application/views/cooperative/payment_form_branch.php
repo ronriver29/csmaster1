@@ -50,7 +50,7 @@
       <div class="card-header">
         <div class="row d-flex">
           <div class="col-sm-12 col-md-12 col-btn-action-payment">
-            <h4 class="float-left"ORDER OF PAYMENT:</h4>
+            <h4 class="float-left">ORDER OF PAYMENT:</h4>
           </div>
         </div>
       </div>
@@ -58,22 +58,69 @@
         <div class="row">
           <table class="bord" width="65%">
             <tr>
-              <td class="bord">Date</td>
-              <td class="bord" colspan="3"><b><?= date('Y-m-d h:i:s',now('Asia/Manila')); ?></b></td>
-            </tr>       
-        
-            <tr>
-              <td class="bord">Payor</td>
+              <td class="bord">Order of Payment No.</td>
               <?php if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
                     $branch_name = $branch_info->brgy;
                 } else if($branch_info->area_of_operation == 'Provincial') {
                     $branch_name = $branch_info->city;
                 } else if ($branch_info->area_of_operation == 'Regional') {
-                    $branch_name = $branch_info->city.', '.$branch_info->province;
+                    if($this->charter_model->in_charter_city($branch_info->cCode))
+                    {
+                      $branch_name = $branch_info->city;
+                    } else {
+                      $branch_name = $branch_info->city.', '.$branch_info->province;
+                    }
+                } else if ($branch_info->area_of_operation == 'Interregional') {
+                    if($this->charter_model->in_charter_city($branch_info->cCode))
+                    {
+                      $branch_name = $branch_info->city;
+                    } else {
+                      $branch_name = $branch_info->city.', '.$branch_info->province;
+                    }
                 } else if ($branch_info->area_of_operation == 'National') {
-                    $branch_name = $branch_info->city.', '.$branch_info->province;
+                    if($this->charter_model->in_charter_city($branch_info->cCode))
+                    {
+                      $branch_name = $branch_info->city;
+                    } else {
+                      $branch_name = $branch_info->city.', '.$branch_info->province;
+                    }
                 }
             ?>
+              <?php
+              if($branch_info->type=='Branch'){
+                $bns_type = 'BranchRegistration';
+              } else {
+                $bns_type = 'SatelliteRegistration';
+              }
+              $report_exist = $this->db->where(array('bns_id'=>ucwords($branch_info->id)))->get('payment');
+
+                // echo $report_exist->num_rows();
+                if($report_exist->num_rows()==0){
+                  if($branch_info->date_for_payment == NULL){
+                      $datee = date('d-m-Y',now('Asia/Manila'));
+                      $datee2 = date('Y-m-d',now('Asia/Manila'));
+                    } else {
+                      $datee = date('d-m-Y',strtotime($branch_info->date_for_payment));
+                      $datee2 = date('Y-m-d',strtotime($branch_info->date_for_payment));
+                    }
+                    $series = substr($branch_info->addrCode,0,2).'-'.date('Y-m',strtotime($datee)).'-'.$series;
+                } else {
+                  foreach($report_exist->result_array() as $row){
+                    $series = $row['refNo'];
+                    $datee = date('d-m-Y',strtotime($row['date']));
+                    $datee2 = date('Y-m-d',strtotime($row['date']));
+                  }
+                }
+              ?>
+              <td class="bord" colspan="3"><b><?=$series?></b></td>
+            </tr>
+            <tr>
+              <td class="bord">Date</td>
+              <td class="bord" colspan="3"><b><?= $datee; ?></b></td>
+            </tr>       
+        
+            <tr>
+              <td class="bord">Payor</td>
               <td class="bord" colspan="3"><b><?= ucwords($branch_info->coopName.' - '.$branch_name.' '.$branch_info->branchName)?></b></td>
             </tr>
             <tr>
@@ -98,14 +145,16 @@
             </tr>
             <tr>
               <td class="bord" colspan="2">Total </td>
-              <td class="pera" width="5%">Php </td>
-              <td class="pera" align="right" width="13%"><b><?=number_format($branching_fee,2)?></b></td>
+              <td class="taas" width="5%">Php </td>
+              <td class="taas" align="right" width="13%"><b><?=number_format($branching_fee,2)?></b></td>
             </tr>
           </table>
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=encrypt_custom($this->encryption->encrypt($branch_info->application_id)) ?>">
            <input type="hidden" class="form-control" id="branchID" name="branchID" value="<?=$encrypted_id ?>">
            <input type="hidden" class="form-control" id="payor" name="payor" value="<?= ucwords($branch_info->coopName.' - '.$branch_name.' '.$branch_info->branchName)?>">
-          <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
+           <input type="hidden" class="form-control" id="bns_id" name="bns_id" value="<?=$branch_info->id?>">
+          <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=$datee2?>">
+          <input type="hidden" class="form-control" id="refNo" name="refNo" value="<?=$series?>">
           <input type="hidden" class="form-control" id="nature" name="nature" value="<?=$last?>Registration">
           <input type="hidden" class="form-control" id="particulars" name="particulars" value="Processing Fee">
           <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($branching_fee,2)?>">

@@ -318,7 +318,7 @@
           <div class="col-sm-12 col-md-12">
               <div class="form-group">
                 <label for="strategyCapitalBuildUp"><strong>Strategies for internal capital build-up:</strong></label>
-            		<input type="text" class="form-control validate[required]" name="strategyCapitalBuildUp" id="strategyCapitalBuildUp" disabled value="<?= $survey_info->strategy_capital_build_up?>">
+            		<textarea type="text" class="form-control validate[required]" name="strategyCapitalBuildUp" id="strategyCapitalBuildUp" disabled value=""><?= $survey_info->strategy_capital_build_up?></textarea>
               </div>
           </div>
         </div>
@@ -641,19 +641,19 @@
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
               <label for="educationProgramMembers"><strong>Members</strong></label>
-            	<input type="text" class="form-control validate[required]" name="educationProgramMembers" id="educationProgramMembers" disabled value="<?= $survey_info->education_programs_members?>">
+            	<textarea type="text" class="form-control validate[required]" name="educationProgramMembers" id="educationProgramMembers" disabled value=""><?= $survey_info->education_programs_members?></textarea>
             </div>
           </div>
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
               <label for="educationProgramOfficers"><strong>Officers</strong></label>
-            	<input type="text" class="form-control validate[required]" name="educationProgramOfficers" id="educationProgramOfficers" disabled value="<?= $survey_info->education_programs_officers?>">
+            	<textarea type="text" class="form-control validate[required]" name="educationProgramOfficers" id="educationProgramOfficers" disabled value=""><?= $survey_info->education_programs_officers?></textarea>
             </div>
           </div>
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
               <label for="educationProgramStaff"><strong>Staff</strong></label>
-              <input type="text" class="form-control validate[required]" name="educationProgramStaff" id="educationProgramStaff" disabled value="<?= $survey_info->education_programs_staff?>">
+              <textarea type="text" class="form-control validate[required]" name="educationProgramStaff" id="educationProgramStaff" disabled value=""><?= $survey_info->education_programs_staff?></textarea>
             </div>
           </div>
         </div>

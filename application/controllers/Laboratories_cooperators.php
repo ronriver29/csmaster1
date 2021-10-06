@@ -144,6 +144,11 @@ class Laboratories_cooperators extends CI_Controller{
               if(!$this->laboratories_model->check_expired_reservation($decoded_id,$user_id)){
                 $data['coop_info'] = $this->laboratories_model->get_cooperative_info($user_id,$decoded_id);
                   // if(!$this->laboratories_model->check_submitted_for_evaluation($decoded_id)){
+
+                $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coop_info']->rCode);
+                $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coop_info']->pCode);
+                $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coop_info']->bCode);
+
                 if($this->laboratories_model->check_submitted_for_evaluation_2($decoded_id)){
                   if(isset($_POST['addCooperatorBtn'])){
                       $temp = TRUE;
@@ -225,15 +230,22 @@ class Laboratories_cooperators extends CI_Controller{
                       $data['header'] = 'Members/Cooperators';
                       $data['encrypted_id'] = $id;
                       $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
-                      $data['regions_list'] = $this->region_model->get_regions();
+                      $data['provinces_list'] = $this->province_model->all_provinces();
 
                       $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
 
-                       $user_id = $this->session->userdata('user_id');
-                     $CoopInfo = $this->laboratories_model->get_cooperative_info($user_id,$decoded_id);
+                      $user_id = $this->session->userdata('user_id');
+                      $CoopInfo = $this->laboratories_model->get_cooperative_info($user_id,$decoded_id);
+
+                      if($CoopInfo->area_of_operation == 'Interregional'){
+                        $data['regions_list'] = $this->region_model->get_selected_regions($CoopInfo->regions);
+                      } else {
+                        $data['regions_list'] = $this->region_model->get_regions();
+                      }
 
                      //cooperative id
                       $data['encrypted_coop_id']=encrypt_custom($this->encryption->encrypt($CoopInfo->cooperative_id)); 
+                      $data['regno']=$CoopInfo->coop_id; 
 
                         // echo"<pre>";
                         // print_r($data['coop_info']);
@@ -408,7 +420,7 @@ class Laboratories_cooperators extends CI_Controller{
 	        $row['first_status']='';
 	        if(strcasecmp($row['input_firstname'],$row['full_name'])==0 && strcasecmp($row['input_lastname'],$row['last_name'])==0 && strcasecmp($row['input_middlename'],$row['middle_name'])==0)
 	        {
-	            $row['first_status']='false';
+	            $row['first_status']='true';
 	        }
 	        elseif(strcasecmp($row['input_firstname'],$row['full_name'])==0 && strlen($row['input_middlename'])<1 && strlen($row['input_lastname'])<1)
 	        {
@@ -476,8 +488,17 @@ class Laboratories_cooperators extends CI_Controller{
                           $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info_laboratories($decoded_cooperator_id);
                            $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
 
-                            $data['regions_list'] = $this->region_model->get_regions(); //modify jayson
+                            // $data['regions_list'] = $this->region_model->get_regions(); //modify jayson
+                           if($data['coop_info']->area_of_operation == 'Interregional'){
+                            $data['regions_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
+                          } else {
+                            $data['regions_list'] = $this->region_model->get_regions();
+                          }
 
+                          $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coop_info']->rCode);
+                          $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coop_info']->pCode);
+                          $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coop_info']->bCode);
+                
                           $this->load->view('./template/header', $data);
                           $this->load->view('laboratories/edit_form_cooperator_laboratory', $data);
                           $this->load->view('./template/footer');
@@ -849,7 +870,7 @@ class Laboratories_cooperators extends CI_Controller{
           if($this->input->post('id') && $this->input->post('user_id')){
             $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('id')));
             $decoded_user_id = $this->encryption->decrypt(decrypt_custom($this->input->post('user_id')));
-           $decoded_coop_id= $this->encryption->decrypt(decrypt_custom($this->input->post('coop_ids')));
+            $decoded_coop_id= $this->encryption->decrypt(decrypt_custom($this->input->post('coop_ids')));
             $result = $this->laboratories_cooperator_model->get_cooperative_details($decoded_user_id,$decoded_coop_id);
             // echo json_encode($this->db->last_query());
              echo json_encode($result);
@@ -889,5 +910,11 @@ class Laboratories_cooperators extends CI_Controller{
    
 
    }
+
+  public function coop_info($regNo){
+      // $regno = $this->encryption->decrypt(decrypt_custom($regNo));
+      $data = $this->laboratories_model->get_coop($regNo);
+      echo $this->db->last_query();
+    }
 
 }//end of class

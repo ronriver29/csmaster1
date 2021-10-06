@@ -104,7 +104,8 @@
                         else if($amendment['status']==13) echo "PAY AT CDA";
                         else if($amendment['status']==14) echo "GET YOUR CERTIFICATE";
                         else if($amendment['status']==15) echo "REGISTERED";
-                        else if($amendment['status']==16) echo "FOR PAYMENT"; ?>
+                        else if($amendment['status']==16) echo "FOR PAYMENT"; 
+                        else if($amendment['status']==17) echo "REVERT FOR RE-EVALUATION";?>
                       <?php else : ?>
                         <?php
                         if($amendment['status']==2 || $amendment['status']==3)echo "FOR VALIDATION"; 
@@ -123,7 +124,8 @@
                         else if($amendment['status']==13) echo "WAITING FOR O.R.";
                         else if($amendment['status']==14) echo "FOR PRINTING";
                         else if($amendment['status']==15) echo "REGISTERED"; 
-                        else if($amendment['status']==16) echo "FOR PAYMENT"; ?>
+                        else if($amendment['status']==16) echo "FOR PAYMENT";
+                        else if($amendment['status']==17) echo "REVERT FOR RE-EVALUATION"; ?>
                       <?php endif ?>
 
                       </span>

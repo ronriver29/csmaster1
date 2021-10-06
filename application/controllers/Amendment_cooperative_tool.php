@@ -93,9 +93,21 @@ class Amendment_cooperative_tool extends CI_Controller{
             );   
             
             $data1 = $this->security->xss_clean($data1);
+            // $data_tool_findings = array(
+            //     'amendment_id' => $decoded_id,
+            //     'access_level' => $this->session->userdata('access_level'),
+            //     'status' => 3,
+            //     'tool_findings' => $this->input->post('findings'),
+            //     'other_findings' => $this->input->post('comments'),
+            //     'author' => $user_id
+            // );
 
             if($this->coop_tool_model->edit_data_amendment($data1,$decoded_id)){
-              redirect('amendment/'.$this->input->post('id'));    
+              // if($this->amendment_model->insert_tool_findings($data_tool_findings))
+              // {
+                redirect('amendment/'.$this->input->post('id')); 
+              // }
+                 
             }else{
               echo 'server error';
             }

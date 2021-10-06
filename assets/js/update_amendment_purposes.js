@@ -26,78 +26,44 @@ $(function(){
     //   $(this).siblings('label').html("<strong>Purpose No. " + (index+1) + "</strong>");
     // });
   });
-
-
+ 
+ 
   $("#editPurposesForm #addMorePurposeBtn").on('click',function(){
-    var data_selector = $(this).data("id");
+    var data_selector = $(this).data("id");  
     // if(data_selector ==1)
     // {
-      var html_lable = '#editPurposesForm textarea[name="purposes[]"';
+      var html_lable = '#editPurposesForm textarea[name="items['+data_selector+'][content][]purposes[]"';
       var array_name = 'purposes_add[]';
       // var name =$('textarea[name="purposes1[]"');
-      var division = '#type_count1';
+      var division = '#type_count'+data_selector;
       var textarea_id = 'purposes1';
-    // }
-    // else if(data_selector ==2)
-    // {
-    //   var html_lable = '#editPurposesForm textarea[name="purposes2[]"';
-    //   var array_name = 'purposes2[]';
-    //   var name =$('textarea[name="purposes2[]"');
-    //   var division = '#type_count2';
-    //   var textarea_id = 'purposes2';
-    // }
-    // else if(data_selector ==3)
-    // {
-    //   var html_lable = '#editPurposesForm textarea[name="purposes3[]"';
-    //   var array_name = 'purposes3[]';
-    //   var name =$('textarea[name="purposes3[]"');
-    //   var division = '#type_count3';
-    //   var textarea_id = 'purposes3';
-    // }
-    // else
-    // {
-    //   var html_lable = '#editPurposesForm textarea[name="purposes4[]"';
-    //   var array_name = 'purposes3[]';
-    //   var name =$('textarea[name="purposes4[]"');
-    //   var division = '#type_count4';
-    //   var textarea_id = 'purposes4';
-    // }
-  var name =$('textarea[name="purposes[]"');
-    var lastCountOfPurposes = name.first().attr('id');
-    var intLastCount = parseInt(lastCountOfPurposes.substr(-1));
-    // var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn purposeRemoveBtn float-left text-danger'}).click(function(){
-      // $(this).parent().parent().remove();
-   
 
-    // var divFormGroupPurpose = $('<div></div>').attr({'class':'form-group'});
-    // var divColPurpose = $('<div></div>').attr({'class':'col-sm-12 col-md-12 col-purpose'});
-    // var labelPurpose = $('<label></label>').attr({'for': 'purpose'+(intLastCount + 1)}).html('<strong>Purpose No. 1 </strong>');
-    // var textareaPurpose = $('<textarea></textarea>').attr({'class':'form-control validate[required] textarea-purpose','placeholder':'Must be in sentence','rows':'2','name':'purposes[]','id':'purpose'+(intLastCount+1)});
-    // $(divFormGroupPurpose).append(deleteSpan,labelPurpose,textareaPurpose);
-    // $(divColPurpose).append(divFormGroupPurpose);
-    // var rowPurpose = $('#editPurposesForm .row-purposes');
-
-    var htmlfield ='<div class="purposes_wrapper"><div class="form-group"><a id="btn-remove" class="customDeleleBtn purposeRemoveBtn float-left text-danger"><i class="fas fa-minus-circle btn-delete"></i></a><label for="'+ textarea_id+'"><strong>Purpose No.</strong></label><textarea name="purposes[]" id="'+textarea_id+'" style="display:none;"></textarea><textarea class="form-control validate[required] textarea-purpose" id="'+textarea_id+'" name="'+array_name+'" placeholder="Must be in sentence" rows="2"></textarea></div></div>';
+     var name =$('textarea[name="items['+data_selector+'][content][]purposes[]"');
+     var lastCountOfPurposes = name.first().attr('id');
+     var intLastCount = parseInt(lastCountOfPurposes.substr(-1));
+     var htmlfield ='<div class="purposes_wrapper"><div class="form-group"><a id="btn-remove" class="customDeleleBtn purposeRemoveBtn float-left text-danger"><i class="fas fa-minus-circle btn-delete"></i></a><label for="'+ textarea_id+'"><strong>Purpose No.</strong></label></textarea><textarea class="form-control validate[required] textarea-purpose" id="'+textarea_id+'" name="items['+data_selector+'][content][]purposes[]" placeholder="Must be in sentence" rows="2"></textarea></div></div>';
     $(division).prepend(htmlfield);
 
-    $('#editPurposesForm textarea[name="purposes[]"').each(function(index){
-      // alert(index);
+    $('#editPurposesForm textarea[name="items['+data_selector+'][content][]purposes[]"').each(function(index){
       $(this).siblings('label').html("<strong>Purpose No. " + (index+1) + "</strong>");
     });
-    // $( ".col-purpose:nth-child(2)").find('.form-group').prepend(deleteSpan);
-    // $(html_lable).each(function(index){
-    //   $(this).siblings('label').html("<strong>Purpose No. " + (index+1) + "</strong>");
-    // });
-
-     $(".purposeRemoveBtn").on('click',function(){
-      // $(this).parent().parent().remove();
    
+    
+  });
+
+
+     $("#editPurposesForm .purposeRemoveBtns").on('click',function(){ 
+      // $(this).parent().parent().remove();
       $(this).closest('div').remove();
+       // $('#editPurposesForm textarea[name="items['+data_selector+'][content][]purposes[]"').each(function(index){
+       //   $(this).siblings('label').html("<strong>Purpose No. " + (index+1) + "</strong>");
+       var data_selector = $(this).data("id");
+       var html_lable = '#editPurposesForm textarea[name="items['+data_selector+'][content][]purposes[]"';
       $(html_lable).each(function(index){
       $(this).siblings('label').html("<strong>Purpose No. " + (index+1) + "</strong>");
-      });
+       });
     }); //end delete
 
 
-  });
+
 });

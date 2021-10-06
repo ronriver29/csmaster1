@@ -44,7 +44,7 @@
                     } 
               ?>
               <? if(empty($rem[0])){$rem[0]='';}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[0]" value="<?=$rem[0]?>"></td>
+              <td width="50%"><textarea type="text" class="form-control" name ="sagot[0]" value=""><?=$rem[0]?></textarea></td>
             </tr>
             <tr>
                 <td style="padding-left: 30px">a.2. The proposed location of the branch is not within 500-meter radius of a cooperative engaged in the same line of business with that of the proposed branch (<i>Means of verification :ocular inspection</i>)
@@ -65,7 +65,7 @@
                     } 
               ?>
               <? if(empty($rem[1])){$rem[1]='';}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[1]" value="<?=$rem[1]?>"></td>
+              <td width="50%"><textarea type="text" class="form-control" name ="sagot[1]" value=""><?=$rem[1]?></textarea></td>
             </tr>
             <tr>
               <td colspan="4"><b>b. Membership</b></td>
@@ -86,7 +86,7 @@
                     } 
               ?>
               <? if(empty($rem[2])){$rem[2]='';}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[2]" value="<?=$rem[2]?>"></td>
+              <td width="50%"><textarea type="text" class="form-control" name ="sagot[2]" value=""><?=$rem[2]?></textarea></td>
             </tr>
             <tr>
               <td style="padding-left: 30px">b.2. Members are within the common bond of membership</td>
@@ -104,7 +104,7 @@
                     } 
               ?>
               <? if(empty($rem[3])){$rem[3]='';}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[3]" value="<?=$rem[3]?>"></td>
+              <td width="50%"><textarea type="text" class="form-control" name ="sagot[3]" value=""><?=$rem[3]?></textarea></td>
             </tr>
             <tr>
                 <td style="padding-left: 30px">b.3 The business responds to members' needs <br>(<i>Means of verification: interview, survey if applicable</i>) </td>
@@ -122,7 +122,7 @@
                     } 
               ?>
               <? if(empty($rem[4])){$rem[4]='';}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[4]" value="<?=$rem[4]?>"></td>
+              <td width="50%"><textarea type="text" class="form-control" name ="sagot[4]" value=""><?=$rem[4]?></textarea></td>
             </tr>
             <tr>
               <td colspan="4"><b>c. Business Viability</b></td>
@@ -143,7 +143,7 @@
                     } 
               ?>
               <? if(empty($rem[5])){$rem[5]='';}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[5]" value="<?=$rem[5]?>"></td>
+              <td width="50%"><textarea type="text" class="form-control" name ="sagot[5]" value=""><?=$rem[5]?></textarea></td>
             </tr>
             
             <tr>
@@ -162,7 +162,7 @@
                     } 
               ?>
               <? if(empty($rem[6])){$rem[6]='';}?>
-              <td width="50%"><input type="text" class="form-control" name ="sagot[6]" value="<?=$rem[6]?>"></td>
+              <td width="50%"><textarea type="text" class="form-control" name ="sagot[6]" value=""><?=$rem[6]?></textarea></td>
             </tr>
           </table>
           <table width="100%">
@@ -185,8 +185,8 @@
       <div class="card-footer">
         <div class="row">
           <?php if($branch_info->status==9): ?>
-          <div class="col-sm-12 offset-md-8 col-md-2 align-self-center order-xs-2 order-sm-2 order-1 col-signup-btn">
-              <input class="btn btn-block btn-color-blue" type="submit" id="branchBtn" name="branchBtn" value="Submit">
+          <div class="col-sm-12 offset-md-8 col-md-4 align-self-center order-xs-2 order-sm-2 order-1 col-signup-btn">
+              <input class="btn btn-block btn-color-blue" type="submit" id="branchBtn" name="branchBtn" value="Submit Validation Report">
           </div>
         <?php endif;?>
         </div>

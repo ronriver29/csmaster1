@@ -28,12 +28,29 @@ class Payments_branch extends CI_Controller{
                     if($this->branches_model->check_evaluator4($decoded_id)){
 //                      if($this->branches_model->check_evaluator5($decoded_id)){
                         $data['client_info'] = $this->user_model->get_user_info($user_id);
+
+
+
                         $data['title'] = 'Payment Details';
                         $data['header'] = 'Order of Payment';
                         $data['encrypted_id'] = $id;
                         $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
                         $branch_info = $this->branches_model->get_branch_info($user_id,$decoded_id);
                         $data['branch_info'] = $branch_info;
+
+                        if($branch_info->type=='Branch'){
+                          $bns_type = 'BranchRegistration';
+                        } else {
+                          $bns_type = 'SatelliteRegistration';
+                        }
+                        // Payment Series
+                          $current_year = date('Y');
+                          $this->db->select('*');
+                          $this->db->from('payment');
+                          $this->db->where("(refNo IS NOT NULL OR refNo != '' AND nature = '".$bns_type."') AND YEAR(date) = '".$current_year."'");
+                          $series = $this->db->count_all_results();
+                          $data['series'] = $series + 1;
+                        // End
                         if ($branch_info->category_of_cooperative=='Primary' && substr($branch_info->branchName,-7)=='Branch '){
                           $data['branching_fee']=500.00;
                           $data['last']=substr($branch_info->branchName,-7);
@@ -113,6 +130,8 @@ class Payments_branch extends CI_Controller{
       $data=array(
         'payor' => $this->input->post('payor'),
         'date'    => $this->input->post('tDate'),
+        'bns_id'    => $this->input->post('bns_id'),
+        'refNo'    => $this->input->post('refNo'),
         'nature'  => $this->input->post('nature'),
         'particulars'  => $this->input->post('particulars'),
         'amount'  => $this->input->post('amount'),
@@ -121,6 +140,16 @@ class Payments_branch extends CI_Controller{
         'status' => 0
       );
 
+      // Payment Series
+        // $current_year = date('Y');
+        // $this->db->select('*');
+        // $this->db->from('payment');
+        // $this->db->where("(refNo IS NOT NULL OR refNo != '' AND nature = '".$this->input->post('nature')."') AND YEAR(date) = '".$current_year."'");
+        // $series = $this->db->count_all_results();
+        // $data['series'] = $series + 1;
+      
+      $data1['series'] = $this->input->post('refNo');
+      // End
       if ($this->Payment_branch_model->check_payment_not_exist($data))
         $this->Payment_branch_model->save_payment($data,$this->input->post('rCode'));
       

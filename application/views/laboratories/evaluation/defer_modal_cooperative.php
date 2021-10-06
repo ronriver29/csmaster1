@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="modal fade" id="deferCooperativeModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="deferCooperativeModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-xl" role="document" style="width:90% !important;max-width:1360px;">
         <div class="modal-content">
           <?php echo form_open('cooperatives/defer_cooperative',array('id'=>'deferCooperativeForm','name'=>'deferCooperativeForm')); ?>
             <div class="modal-header">

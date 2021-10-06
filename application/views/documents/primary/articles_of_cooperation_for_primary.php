@@ -19,13 +19,9 @@
     border: 0.5px solid #000 !important; 
     border-collapse: collapse;
   }
-<?php 
-if($coop_info->status == 12){
-?>
   body{
         font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
-  <?php } ?>
   </style>
 
 </head>
@@ -47,23 +43,8 @@ if($coop_info->status == 12){
         }
 
 </script>
-<?php 
-if($coop_info->status != 12){
-?>
-<style type="text/css">
-  #printPage
-{
-  margin-left: 450px;
-  padding: 0px;
-  width: 670px; / width: 7in; /
-  height: 900px; / or height: 9.5in; /
-  clear: both;
-  page-break-after: always;
-}
-</style>
-<a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
-<?php } ?>
-<div class="container-fluid text-monospace" id="printPage">
+
+<div class="container-fluid text-monospace">
 
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center"> 
@@ -214,14 +195,43 @@ if($coop_info->status != 12){
        }else if($coop_info->area_of_operation=="Regional"){
          echo $coop_info->region;
        }else{
+        if($coop_info->area_of_operation=="Interregional"){
+          $region_array = array();
+
+          foreach ($regions_island_list as $region_island_list){
+            array_push($region_array, $region_island_list['regDesc']);
+          }
+          // echo implode(", ", $region_array);
+          $last  = array_slice($region_array, -1);
+          $first = join(', ', array_slice($region_array, 0, -1));
+          $both  = array_filter(array_merge(array($first), $last), 'strlen');
+          echo join(' and ', $both);
+        } else {
          echo "Philippines";
+        }
        }
        ?>. Its principal office shall be located at <?php if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';?><?=$coop_info->house_blk_no?> <?=ucwords($coop_info->street).$x?> <?=$coop_info->brgy?> <?=($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province)?> <?=$coop_info->region?>.</p>
     </div>
   </div>
+  <?php 
+    $created_at = date('Y-m-d',strtotime($coop_info->created_at));
+    $effectivity_date = date('2021-03-01');
+
+    if($coop_info->type_of_cooperative == 'Transport' && $created_at >= $effectivity_date){?>
+    <div class="row mb-2">
+    <div class="col-sm-12 col-md-12 text-center">
+        <p class="font-weight-bold">Article VIII<br>Business Operation</p>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-sm-12 col-md-12 text-left">
+      <p class="text-justify" style="text-indent: 50px;">That the business operation of the transport cooperative shall be based on the routes or whatever stated in the duly approved franchise/Certificate of Public Convenience and Necessity, issued by the concerned government agency.</p>
+    </div>
+  </div>
+  <?php } ?>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article VIII<br>Name and Address of Cooperators</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport' && $created_at >= $effectivity_date){ echo 'Article IX'; } else { echo 'Article VIII'; }?><br>Name and Address of Cooperators</p>
     </div>
   </div>
   <div class="row ">
@@ -241,7 +251,7 @@ if($coop_info->status != 12){
           </thead>
           <tbody>
             <?php $count=0; foreach($cooperators_list_board as $cooperator) :?>
-              <?php $count++;?>
+              <?=$count++;?>
               <?php
               $in_chartered_cities_cptr =false;
                               if($this->charter_model->in_charter_city($cooperator['cCode']))
@@ -262,7 +272,7 @@ if($coop_info->status != 12){
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article IX<br>Board of Directors</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport' && $created_at >= $effectivity_date){ echo 'Article X'; } else { echo 'Article IX'; }?><br>Board of Directors</p>
     </div>
   </div>
   <div class="row ">
@@ -281,7 +291,7 @@ if($coop_info->status != 12){
           </thead>
           <tbody>
             <?php $count=0; foreach($directors_list as $director) :?>
-              <?php $count++;?>
+              <?=$count++;?>
             <tr>
               <td><?=$count.'. '.$director['full_name']?></td>
             </tr>
@@ -293,7 +303,7 @@ if($coop_info->status != 12){
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article X<br>Capitalization</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport' && $created_at >= $effectivity_date){ echo 'Article XI'; } else { echo 'Article X'; }?><br>Capitalization</p>
     </div>
   </div>
   <div class="row ">
@@ -313,7 +323,7 @@ if($coop_info->status != 12){
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article XI<br>Subscribed and Paid-up Share Capital</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport' && $created_at >= $effectivity_date){ echo 'Article XII'; } else { echo 'Article XI'; }?><br>Subscribed and Paid-up Share Capital</p>
     </div>
   </div>
   <div class="row ">
@@ -422,7 +432,7 @@ if($coop_info->status != 12){
   <?php endif;?>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article XII<br>Arbitral Clause</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport' && $created_at >= $effectivity_date){ echo 'Article XIII'; } else { echo 'Article XII'; }?><br>Arbitral Clause</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -462,7 +472,7 @@ if($coop_info->status != 12){
           </thead>
           <tbody>
             <?php  $count=0;foreach($cooperators_list_regular as $cooperator) :?>
-              <?php $count++;?>
+              <?=$count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
                 <td></td>
@@ -514,7 +524,7 @@ if($coop_info->status != 12){
           </thead>
           <tbody>
             <?php $count=0; foreach($cooperators_list_regular as $cooperator) :?>
-              <?php $count++;?>
+              <?=$count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
                 <td><?=$cooperator['proof_of_identity']?>-<?=$cooperator['proof_of_identity_number']?></td>
@@ -555,7 +565,7 @@ if($coop_info->status != 12){
       Book No.: ____________________<br>
       Series of ____________________
       </p>
-
+      <?php // echo "Memory usage: " . round(memory_get_usage(false) / 1024)."kb"; ?>
     </div>
   </div>
 </div>

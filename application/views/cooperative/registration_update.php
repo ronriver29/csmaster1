@@ -54,6 +54,7 @@
                     <input type="hidden" class="form-control validate[required]" id="status" name="status" value="<?= encrypt_custom($this->encryption->encrypt($branch_info->status))?>">
                     <?php if($is_client) : ?>
                     <input type="hidden" class="form-control validate[required]" id="userID" name="userID" value="<?= $encrypted_user_id ?>">
+                    <input type="hidden" class="form-control validate[required]" name="regNo" id="regNo" value="<?=$branch_info->regNo;?>" readonly>
                     <?php endif; ?>
                   </div>
               </div>
@@ -133,8 +134,15 @@
                    
                     <?php }else{?>
                           <option value="">--</option>
-                          <option value="Branch" <?=($branch_info->type =="Branch" ? "selected" :"")?> <?=$disabledtype?>>Branch</option>
-                          <option value="Satellite" <?php ($branch_info->type =="Satellite" ? "selected" :"") ?> <?=$disabledtype?>>Satellite</option>
+                          <?php if($branch_info->type =="Branch"){?> 
+                          <option value="Branch" selected <?=$disabledtype?>>Branch</option>
+                          <?php } ?>
+
+                          <?php if($branch_info->type =="Satellite"){?>
+                          <option value="Satellite" selected <?=$disabledtype?> >Satellite</option>
+                         <?php }?>
+                          <!-- <option value="Branch" <?=($branch_info->type =="Branch" ? "selected" :"")?> <?=$disabledtype?>>Branch</option>
+                          <option value="Satellite" <?php ($branch_info->type =="Satellite" ? "selected" :"") ?> <?=$disabledtype?>>Satellite</option> -->
                     <?php } //end if == 17?>
 
                   </select>
@@ -142,6 +150,11 @@
               </div>
             </div>
             <div class="row">
+              <div class="col-sm-12 col-md-12 col-industry-subclass">
+                
+              </div>
+            </div><br>
+            <!-- <div class="row">
               <div class="col-sm-12 col-md-12 col-industry-subclass">
                 <?php foreach($major_industry_list as $key => $major_industry) : ?>
                 <div class="row">
@@ -173,7 +186,7 @@
                 </div>
                 <?php endforeach; ?>
               </div>
-            </div>
+            </div> -->
 <!--            <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
@@ -225,17 +238,25 @@
                   <select class="custom-select validate[required]" name="region" id="region">
                     <option value="" selected></option>
                     <?php foreach ($regions_list as $region_list) : ?>
-                      <option value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
+                      <option value ="<?php echo $region_list['regCode'];?>" <?=($branch_info->rCode == $region_list['regCode'] ? 'selected' : '')?>><?php echo $region_list['regDesc']?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
               </div>
-                <input type="hidden" class="custom-select validate[required]" name="region2" id="region">
+                <input type="hidden" class="custom-select validate[required]" name="region2" id="region2">
                 
              <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="province">Province</label>
                   <select class="custom-select" name="province" id="province">
+                    <?php 
+                    foreach($list_of_provinces as $province_list)
+                    {
+                      ?>
+                      <option value="<?=$province_list['provCode']?>" <?=($province_list['provCode']== $branch_info->pCode? 'selected' : '')?>><?=$province_list['provDesc']?></option>
+                      <?php
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -244,6 +265,14 @@
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
                   <select class="custom-select" name="city" id="city">
+                    <?php
+                    foreach($list_of_cities as $city_list)
+                    {
+                      ?>
+                      <option value="<?=$city_list['citymunCode']?>" <?=($city_list['citymunCode'] == $branch_info->cCode ?'selected' :'')?>><?=$city_list['citymunDesc']?></option>
+                      <?php
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -254,6 +283,14 @@
                         <input type="hidden" class="custom-select validate[required]" name="barangay2" id="barangay2">
                         <input type="hidden" class="custom-select validate[required]" name="barangay" id="barangay2">
                         <select class="custom-select" name="barangay" id="barangay">
+                          <?php
+                            foreach($list_of_brgys as $brgy_list)
+                            {
+                              ?>
+                              <option value="<?=$brgy_list['brgyCode']?>" <?=($brgy_list['brgyCode'] == $branch_info->bCode ? 'selected' :'')?>> <?=($brgy_list['brgyDesc'])?></option>
+                              <?php
+                            }
+                          ?>
                   </select>
                 </div>
               </div>

@@ -1,7 +1,15 @@
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
-    <h5 class="text-primary text-right">Upload Pre-Registration PRS Certificate</h5>
+    <?php
+      if($coop_info->grouping == 'Federation'){
+        echo '<h5 class="text-primary text-right">GA Resolution of each member-cooperative</h5>';
+      } else if ($coop_info->grouping == 'Union'){
+        echo '<h5 class="text-primary text-right">GA Resolution of each member-cooperative</h5>';
+      } else {
+        echo '<h5 class="text-primary text-right">Upload Pre-Registration PRS Certificate</h5>';
+      }
+    ?>
   </div>
 </div>
 <div class="row">

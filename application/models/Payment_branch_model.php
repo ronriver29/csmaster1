@@ -33,6 +33,7 @@ class Payment_branch_model extends CI_Model{
     $this->db->where('payor',$data['payor']);
     $this->db->where('nature',$data['nature']);
     $this->db->where('amount',$data['amount']);
+    $this->db->where('bns_id',$data['bns_id']);
     
     $query = $this->db->get();
 

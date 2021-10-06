@@ -46,22 +46,7 @@
             
         }
 </script>
-<?php if($coop_info->status != 12){?>
-<style type="text/css">
-  #printPage
-{
-  margin-left: 450px;
-  padding: 0px;
-  width: 670px; / width: 7in; /
-  height: 900px; / or height: 9.5in; /
-  clear: both;
-  page-break-after: always;
-}
-</style>
-<a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
-<?php } ?>
-
-<div class="container-fluid text-monospace" id="printPage">
+<div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
         <p class="font-weight-bold">BY-LAWS<br>OF<br><?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?></p>
@@ -94,7 +79,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Kinds of Membership.</i> This Cooperative shall have <?php  echo ($bylaw_info->kinds_of_members == 1)? "regular members only" : "regular and associate members";?>.</p>
+      <p class="text-justify font-weight-regular">Section 1. <i class="font-weight-bold">Kinds of Membership.</i> This Cooperative shall have <?php  echo ($bylaw_info->kinds_of_members == 1)? "regular members only" : "regulars and associate members";?>.</p>
       <p class="text-justify" style="text-indent: 50px;">Regular Members are those who have complied with all the membership requirements and are entitled to all the rights and privileges of membership.</p>
       <?php if($bylaw_info->kinds_of_members == 2) :?>
       <p class="text-justify" style="text-indent: 50px;">Associate Members are those who have no right to vote nor be voted upon and are entitled only to limited rights, privileges and membership duration as provided in the By-laws of the Cooperative, the Philippine Cooperative Code of 2008, and its Implementing Rules and Regulation.</p>
@@ -1055,9 +1040,26 @@
     	</ol>
     </div>
   </div>
+  <?php 
+  $created_at = date('Y-m-d',strtotime($coop_info->created_at));
+  $effectivity_date = date('2021-03-01');
+
+  // echo strtotime($created_at).'-'.strtotime($effectivity_date);
+   if($coop_info->type_of_cooperative == 'Transport' && $created_at >= $effectivity_date) {?>
+  	<div class="row mb-2">
+    <div class="col-sm-12 col-md-12 text-center">
+        <p class="font-weight-bold">Article VIII<br>Vehicle Operation and Fleet Management</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 text-left">
+        <p class="font-weight-regular text-justify">The cooperative shall procure  Public Utility Vehicle Modernization Program (PUVMP) - compliant units or as prescribed by the concerned government agency. The said units shall be owned and managed by the cooperative, and the franchise/Certificate of Public Convenience and Necessity shall be registered under its name. <br><br> The aforementioned units shall be under the established fleet management system of the cooperative, either operated internally or by its duly authorized third party.</p>
+    </div>
+  </div>
+  <?php } ?>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article VIII<br>Allocation and Distribution of Net Surplus</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport' && $created_at >= $effectivity_date){ echo 'Article IX'; } else { echo 'Article VIII'; }?><br>Allocation and Distribution of Net Surplus</p>
     </div>
   </div>
   <div class="row">
@@ -1108,7 +1110,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article IX<br>Settlement of Disputes</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport' && $created_at >= $effectivity_date){ echo 'Article X'; } else { echo 'Article IX'; }?><br>Settlement of Disputes</p>
     </div>
   </div>
   <div class="row">
@@ -1123,7 +1125,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article X<br>Miscellaneous</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport' && $created_at >= $effectivity_date){ echo 'Article XI'; } else { echo 'Article X'; }?><br>Miscellaneous</p>
     </div>
   </div>
   <div class="row">
@@ -1170,7 +1172,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">Article XI<br>Amendments</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport' && $created_at >= $effectivity_date){ echo 'Article XII'; } else { echo 'Article XI'; }?><br>Amendments</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -1192,7 +1194,7 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($cooperators_list_regular as $cooperator) :?>
-              <?php $count++;?>
+              <?=$count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
                 <td></td>

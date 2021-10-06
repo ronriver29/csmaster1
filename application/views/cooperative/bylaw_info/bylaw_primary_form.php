@@ -107,7 +107,7 @@
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
                 <label for="regularQualifications1">Regular member qualification 1</label>
-                <input type="text" value="" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications1" placeholder="Must be in a sentence" disabled>
+                <textarea type="text" value="" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications1" placeholder="Must be in a sentence" disabled></textarea>
               </div>
             </div>
           </div>
@@ -126,7 +126,7 @@
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <?php endif; ?>
                   <label for="regularQualifications<?= $key + 1?>">Regular member qualification <?= $key + 1?></label>
-                  <input type="text" value="<?= $reg_qualification?>" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications<?= $key + 1?>" disabled>
+                  <textarea type="text" value="" class="form-control validate[required]" name="regularQualifications[]" id="regularQualifications<?= $key + 1?>" disabled><?= $reg_qualification?></textarea>
                 </div>
               </div>
             <?php endforeach; ?>
@@ -149,7 +149,7 @@
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                       <label for="associateQualifications1">Associate member qualification 1</label>
-                      <input type="text" value="" class="form-control validate[required]" name="associateQualifications[]" id="associateQualifications1" disabled>
+                      <textarea type="text" value="" class="form-control validate[required]" name="associateQualifications[]" id="associateQualifications1" disabled></textarea>
                     </div>
                   </div>
                 </div>
@@ -168,7 +168,7 @@
                             <a class="customDeleleBtn associateQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                           <?php endif; ?>
                           <label for="associateQualifications<?= $key + 1?>">Associate member qualification <?= $key + 1?></label>
-                          <input type="text" value="<?= $asc_qualification?>" class="form-control validate[required]" name="associateQualifications[]" id="associateQualifications<?= $key + 1?>" disabled>
+                          <textarea type="text" value="" class="form-control validate[required]" name="associateQualifications[]" id="associateQualifications<?= $key + 1?>" disabled><?= $asc_qualification?></textarea>
                         </div>
                       </div>
                     <?php endforeach; ?>
@@ -184,6 +184,7 @@
         <div class="row">
           <div class="col-sm-12 col-md-12">
             <p class="h6 font-weight-bold text-color-blue-custom">Section 3. <em>Requirements for Membership</em></p>
+            <label><i><b>Note:</b> The following are the general requirements for membership, add another requirements if necessary.</i></label>
           </div>
         </div>
         <?php if(strlen($bylaw_info->regular_qualifications) <= 0) : ?>
@@ -200,7 +201,7 @@
             </small>
               <!-- <label for="additionalRequirementsForMembership"><strong>List down any additional requirements for membership in your cooperative</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> -->
         
-              <input class="form-control " style="resize: none;" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->additional_requirements_for_membership ?>" disabled>
+              <textarea type="text" class="form-control" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" placeholder="Must be in a sentence" rows="2" value="" disabled><?= $bylaw_info->additional_requirements_for_membership ?></textarea>
             </div>
           </div>
         </div>
@@ -231,8 +232,8 @@
                   <?php if($key>=1) :?>
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <?php endif; ?>
-                  <label for="regularQualifications<?= $key + 4?>">Regular member qualification <?= $key + 4?></label>
-                  <input type="text" value="<?= $add_memberships?>" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 4?>" disabled>
+                  <label for="regularQualifications<?= $key + 4?>">Requirements for membership <?= $key + 4?></label>
+                  <textarea type="text" value="" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 4?>" disabled><?= $add_memberships?></textarea>
                 </div>
               </div>
             <?php endforeach; ?>
@@ -308,6 +309,7 @@
           <div class="row">
             <div class="col-sm-12 col-md-12">
               <p class="h6 font-weight-bold text-color-blue-custom">Section 9. <em>Members Entitled to Vote</em></p>
+              <label><i><b>Note:</b> The following are the general condition for members entitled to vote, add another condition if necessary.</i></label>
             </div>
           </div>
           <?php if(strlen($bylaw_info->additional_conditions_to_vote) <= 0) : ?>
@@ -325,7 +327,7 @@
               </small>
                 <!-- <label for="additionalConditionsForVoting"><strong>List down any additional condition for members to be able to vote</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> --> 
                 
-                <input class="form-control " style="resize: none;" id="additionalConditionsForVoting" name="additionalConditionsForVoting[]" placeholder="Must be in a sentence"rows="8"  value="<?= $bylaw_info->additional_conditions_to_vote ?>" disabled>
+                <textarea class="form-control " style="resize: none;" id="additionalConditionsForVoting" name="additionalConditionsForVoting[]" placeholder="Must be in a sentence"rows="2"  value="" disabled><?= $bylaw_info->additional_conditions_to_vote ?></textarea>
               </div>
             </div>
           </div>
@@ -357,7 +359,7 @@
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <?php endif; ?>
                   <label for="additionalConditionsForVoting<?= $key + 5?>">Regular member qualification <?= $key + 5?></label>
-                  <input type="text" value="<?= $add_members_votes?>" class="form-control" name="additionalConditionsForVoting[]" id="additionalConditionsForVoting<?= $key + 5?>" disabled>
+                  <textarea type="text" value="" class="form-control" name="additionalConditionsForVoting[]" id="additionalConditionsForVoting<?= $key + 5?>" disabled><?= $add_members_votes?></textarea>
                 </div>
               </div>
             <?php endforeach; ?>

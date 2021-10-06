@@ -22,7 +22,7 @@
       Step 9
     </h5>
   <?php else :?>
-    <?php if($admin_info->access_level !=5) : ?>
+    <?php if($admin_info->access_level !=5 && $lab_info->status !=24) : ?>
       <div class="btn-group float-right" role="group" aria-label="Basic example">
         <!--<a  class="btn btn-info btn-sm" href="<?php echo base_url();?>laboratories/<?= $encrypted_id ?>/laboratories_cooperative_tool">Tool</a>-->
 
@@ -95,16 +95,16 @@
   </div>
 <?php } //end of button ?>
 <div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl" style="width:90% !important;max-width:1360px;">
     <div class="modal-content">
         <div class="modal-header">
             Senior Findings
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
         </div>
-        <div class="modal-body">
+        <div class="modal-body form">
           <strong>Senior Comment : </strong>
-            <pre><?php 
+            <?php 
       // print_r($senior_comment);
             if(isset($senior_comment)){
               foreach($senior_comment as $sc){
@@ -116,7 +116,7 @@
                  // echo $sc['comment'].'<br>';
             }
           }//end if
-        ?></pre>  
+        ?> 
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -127,16 +127,16 @@
 </div>
 
 <div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl" role="document" style="width:90% !important;max-width:1360px;">
     <div class="modal-content">
         <div class="modal-header">
             Director Findings
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
         </div>
-        <div class="modal-body">
+        <div class="modal-body form">
           <strong>Director Comment :</strong>
-            <pre><?php 
+            <?php 
             if(isset($director_comment)){
               foreach($director_comment as $dc){
                 // echo'<strong>'.$dc['comment_by'].' :</strong><br><br>';
@@ -147,7 +147,7 @@
                 echo '</ul>';
               }  
           }//end if
-        ?></pre>  
+        ?> 
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -240,36 +240,33 @@
             </div>-->
             
           </div>
-  
-
-          <?php if($cooperator_list !=NULL): ?>
+          
+<?php if($cooperator_list !=NULL): ?>
           
           
-
+          <div class="row">
            <div class="col-sm-12 col-md-12" style="margin-bottom:40px;">
              <strong>List of Members/Cooperators</strong><br />
             <div class="row">
              
                  
         
-              <?php foreach($cooperator_list as $row): ?>
-                <div class="col-md-4">
-                 <li> <?php echo ucfirst($row['full_name']).' '.ucfirst($row['middle_name']).' '.ucfirst($row['last_name']); ?></li>
+              <?php $count=1; foreach($cooperator_list as $row): ?>
+                <div class="col-sm-12 col-md-4">
+                 <?php echo $count.'. '.ucfirst($row['full_name']).' '.ucfirst($row['middle_name']).' '.ucfirst($row['last_name']); ?>
                 
                 </div>
 
-                   <?php endforeach; ?>
+                   <?php $count++; endforeach; ?>
 
             </div>
           </div>
         <?php endif; ?>
-        <br />
-
           <div class="col-sm-12 col-md-12">
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
-                  <strong>Proposed Address</strong>
+                  <strong>Address of Laboratory Cooperative</strong>
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
@@ -310,6 +307,7 @@
               </div>
             </div>
           </div>
+        </div>
 <!--          <div class="col-sm-12 offset-md-1 col-md-10 align-self-end">
             <div class="form-group">
               <div class="custom-control custom-checkbox text-center mt-2">
@@ -328,7 +326,7 @@
         </div>
       </div>-->
     </div>
-</div>
+
 
 <div class="row mb-2">
 
@@ -549,7 +547,6 @@ $count=0;
     foreach ($coop_type as $coop) : 
   
 ?>
-  <!--   <?php $count++;?> -->
     <div class="col-sm-12 col-md-4" style="margin-top:10px;">
         <div class="card">
             <div class="card-body">
@@ -557,7 +554,7 @@ $count=0;
                 <p class="card-text">
 
 
-                  <?php
+                  <?php $countcert = 1;
                             foreach($coop['link'] as $row_link)
                             {
                             
@@ -569,11 +566,12 @@ $count=0;
                                   <?php if($is_client) : ?>
                                     This is your <?=$coop['coop_title']?> document.
                                   <?php else : ?>
-                                    This is the <?=$coop['coop_title']?> document.
+                                    <?php if($countcert == 1){
+                                  ?>This is the <?=$coop['coop_title']?> document.<?php } ?><br><ul> Filename: <li><?=$row_link['filename']?></li></ul>
                                   <?php endif;?>
                              </a>
 
-                             <?php
+                             <?php $countcert++;
                             }
                           ?> 
 

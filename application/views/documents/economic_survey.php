@@ -13,14 +13,11 @@
   <!-- <link rel="stylesheet" href="<?=base_url();?>assets/icons/fontawesome-free-5.5.0-web/css/all.css"> -->
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
-    <?php 
-if($coop_info->status == 12){
-?>
    body{
       /*font-family: 'Bookman Old Style'; font-size: 12px; */
        font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
-<?php } ?>
+
   @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
   /* table, th, td {
@@ -48,23 +45,7 @@ if($coop_info->status == 12){
             $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);;     
         }
 </script>
-<?php 
-if($coop_info->status != 12){
-?>
-<style type="text/css">
-  #printPage
-{
-  margin-left: 450px;
-  padding: 0px;
-  width: 670px; / width: 7in; /
-  height: 900px; / or height: 9.5in; /
-  clear: both;
-  page-break-after: always;
-}
-</style>
-<a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
-<?php } ?>
-<div class="container-fluid text-monospace" id="printPage">
+<div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
         <p class="font-weight-bold">ECONOMIC SURVEY<br>of<br><?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?></p>
@@ -414,11 +395,7 @@ if($coop_info->status != 12){
   <div class="row mb-2" >
     <div class="col-sm-12 col-md-12">
       <div class="table-responsive">
-        <?php if($coop_info->status == 12){?>
         <table class="table table-bordered table-sm" style="margin-left:-60px">
-        <?php } else {?>
-          <table class="table table-bordered table-sm">
-        <?php } ?>
           <thead>
             <tr>
               <th>Position</th>
@@ -638,7 +615,7 @@ if($coop_info->status != 12){
           </thead>
           <tbody>
             <?php $count=0; foreach($cooperators_list_bods as $cooperator) :?>
-              <?php $count++;?>
+              <?=$count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
                 <td><?=$cooperator['proof_of_identity']?>-<?=$cooperator['proof_of_identity_number']?></td>

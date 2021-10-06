@@ -281,7 +281,7 @@ $(function(){
                 $(this).siblings('label').text("Major Industry Classification No. " + (index+1) +' Subclass');
               });
             });
-
+            // alert(value.mdesc);
             var hiddenBAC =$('<input type="hidden" class="form-control" name="BAC[]"/>').attr('value',value.BAC_id);
             var inputMajor=$('<input type="text" class="form-control" name="MI[]" readonly/>').attr('value',value.mdesc);
             var inputSub=  $('<input type="text" class="form-control" name="SC[]" readonly/>').attr('value',value.sdesc);
@@ -310,37 +310,37 @@ $(function(){
         regNo: regNo
       },
       success: function(data){
-       
         $('#branchAddForm #blkNo').val(data.noStreet);
         $('#branchAddForm #streetName').val(data.Street);
         $('#branchAddForm #coopName').val(data.coopName);
-        setTimeout( function(){
-          $('#branchAddForm #region').val(data.rCode);
-          $('#branchAddForm #region').trigger('change');
-        },300);
-        setTimeout( function(){
-            $('#branchAddForm #province').val(data.pCode);
-            $('#branchAddForm #province').trigger('change');
-//if(data.areaOfOperation=='Provincial'){
-//	$("#branchAddForm #region").prop("disabled",true);
-//} else {
-//	$("#branchAddForm #province").prop("disabled",true);
-//$("#branchAddForm #region").prop("disabled",true);
-//}
-        },900);
-        setTimeout(function(){
-          $('#branchAddForm #city').val(data.cCode);
-          $('#branchAddForm #city').trigger('change');
-        },1500);
-        setTimeout(function(){
-          $('#branchAddForm #barangay').val(data.bCode);
+//         setTimeout( function(){
+//           $('#branchAddForm #region').val(data.rCode);
+//           $('#branchAddForm #region2').val(data.rCode);
+//           $('#branchAddForm #region').trigger('change');
+//         },300);
+//         setTimeout( function(){
+//             $('#branchAddForm #province').val(data.pCode);
+//             $('#branchAddForm #province').trigger('change');
+// //if(data.areaOfOperation=='Provincial'){
+// //	$("#branchAddForm #region").prop("disabled",true);
+// //} else {
+// //	$("#branchAddForm #province").prop("disabled",true);
+// //$("#branchAddForm #region").prop("disabled",true);
+// //}
+//         },900);
+//         setTimeout(function(){
+//           $('#branchAddForm #city').val(data.cCode);
+//           $('#branchAddForm #city').trigger('change');
+//         },1500);
+//         setTimeout(function(){
+          // $('#branchAddForm #barangay').val(data.bCode);
           $('#branchAddForm #barangay2').val(data.bCode);
           $('#branchAddForm #areaOfOperation').empty();  
-        if(data.areaOfOperation=='Barangay'){
+        if(data.areaOfOperation=='Barangay'){ 
           $('#branchAddForm #areaOfOperation').val(data.areaOfOperation);
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Barangay").text("Barangay"));
           $("#branchAddForm #barangay").prop("disabled",true);
-          $("#branchAddForm #barangay2").prop("disabled",false);
+          $("#branchAddForm #barangay").prop("disabled",false);
           $("#branchAddForm #city").prop("disabled",true);
           $("#branchAddForm #province").prop("disabled",true);
           $("#branchAddForm #region").prop("disabled",true);
@@ -373,14 +373,14 @@ $(function(){
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Regional").text("Regional"));
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"National").text("National"));
         }
-        },2500);
+        // },2500);
       }
     });
   });
 
   $('#branchAddForm #areaOfOperation').on('change', function(){
     area=$('#areaOfOperation').val();
-    if(area=='Barangay'){
+    if(area=='Barangay'){ 
       $("#branchAddForm #barangay").prop("disabled",true);
       $("#branchAddForm #city").prop("disabled",true);
       $("#branchAddForm #province").prop("disabled",true);

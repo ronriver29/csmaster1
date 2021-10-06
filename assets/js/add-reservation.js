@@ -152,17 +152,228 @@ $(function(){
   //   }
   // });
   $('#reserveAddForm #acronymnameerr').hide();
-  
+  $('#reserveAddForm #typeOfCooperative').find('option:contains(Federation)').hide();
+
   $('#reserveAddForm #categoryOfCooperative').on('change', function(){
         var categorycoop = $(this).val();
-//      alert(categorycoop);
+
+        $('#reserveAddForm #typeOfCooperative').val('');
+        $("#proposed_name_msg").html('');
+     // alert(categorycoop);
         if(categorycoop=="Primary"){
-            $('#reserveAddForm #coopbank').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Insurance)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Union)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Federation)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Advocacy)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Agrarian Reform)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Agriculture)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Consumers)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Credit)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Dairy)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Electric)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Financial Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Fishermen)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Health Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Housing)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Labor Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Marketing)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Producers)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Professionals)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Small Scale Mining)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Transport)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Water Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Workers)').show();
+        } else if(categorycoop=="Secondary - Federation"){
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Insurance)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Union)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Federation)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Advocacy)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Agrarian Reform)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Agriculture)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Consumers)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Credit)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Dairy)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Electric)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Financial Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Fishermen)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Health Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Housing)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Labor Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Marketing)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Producers)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Professionals)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Small Scale Mining)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Transport)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Water Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Workers)').show();
+            // $('#reserveAddForm #coopbank').hide();
+        } else if(categorycoop=="Tertiary - Federation"){
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Insurance)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Union)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Federation)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Advocacy)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Agrarian Reform)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Agriculture)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Consumers)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Credit)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Dairy)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Electric)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Financial Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Fishermen)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Health Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Housing)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Labor Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Marketing)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Producers)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Professionals)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Small Scale Mining)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Transport)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Water Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Workers)').show();
+            // $('#reserveAddForm #coopbank').hide();
+        } else if(categorycoop=="Secondary - Union"){
+            // $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Insurance)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Union)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Federation)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Advocacy)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Agrarian Reform)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Agriculture)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Consumers)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Credit)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Dairy)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Electric)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Education)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Financial Service)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Fishermen)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Health Service)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Housing)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Labor Service)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Marketing)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Producers)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Professionals)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Service)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Small Scale Mining)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Transport)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Water Service)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Workers)').hide();
         } else {
-            $('#reserveAddForm #coopbank').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Insurance)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Union)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Federation)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Advocacy)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Agrarian Reform)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Agriculture)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Bank)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Consumers)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Cooperative Bank)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Credit)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Dairy)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Electric)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Financial Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Fishermen)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Health Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Housing)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Labor Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Marketing)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Producers)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Professionals)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Small Scale Mining)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Transport)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Water Service)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Workers)').show();
         }
   });
+  
   $('#reserveAddForm #typeOfCooperative').on('change', function(){
+      var typeofcoop = $(this).val();
+      // alert(typeofcoop);
+      if(typeofcoop == 16 || typeofcoop == 26 || typeofcoop == 9){
+        var categoryofcoop = $( "#reserveAddForm #categoryOfCooperative option:selected").text();
+        // alert('wow');
+        if(categoryofcoop == 'Primary' || categoryofcoop == 'Secondary' || categoryofcoop == 'Tertiary'){
+          $('#reserveAddForm #typeOfCooperative').val('');
+        } 
+      } else {
+        var categoryofcoop = $( "#reserveAddForm #categoryOfCooperative option:selected").text();
+        
+        if(categoryofcoop == 'Others'){
+          $('#reserveAddForm #typeOfCooperative').val('');
+        } 
+      }
+    });
+
+  $("#reserveAddForm #proposedName").bind("keyup change",function(){
+      var val = $(this).val();
+      var typeofcoop = $( "#reserveAddForm #typeOfCooperative option:selected").text();
+      var categoryofcoop = $( "#reserveAddForm #categoryOfCooperative option:selected").text();
+
+      // var count_coop_type =$('#reserveAddForm select[name="typeOfCooperative[]"').length;
+      // if(count_coop_type>1)
+      // {
+        // $("#typeOfCooperative").html(val+' Multipurpose Cooperative');
+      if(categoryofcoop == 'Secondary' || categoryofcoop == 'Tertiary'){
+        $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+val+' Federation of '+typeofcoop);
+      } else {
+        $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+val+' '+typeofcoop+' Cooperative');
+      }
+    });
+
+  $("#reserveAddForm #acronymname").bind("keyup change",function(){
+      var val = $(this).val();
+      var typeofcoop = $( "#reserveAddForm #typeOfCooperative option:selected").text();
+      var categoryofcoop = $( "#reserveAddForm #categoryOfCooperative option:selected").text();
+      var proposenameinput = $( "#reserveAddForm #proposedName").val();
+
+      // var count_coop_type =$('#reserveAddForm select[name="typeOfCooperative[]"').length;
+      // if(count_coop_type>1)
+      // {
+        // $("#typeOfCooperative").html(val+' Multipurpose Cooperative');
+      if(categoryofcoop == 'Secondary' || categoryofcoop == 'Tertiary'){
+        $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+proposenameinput+' Federation of '+typeofcoop);
+      } else {
+        $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+proposenameinput+' '+typeofcoop+' Cooperative ('+val+')');
+      }
+    });
+
+
+  $('#reserveAddForm #categoryOfCooperative').on('change', function(){
+    var val = $("#reserveAddForm #categoryOfCooperative option:selected").text();
+
+    // alert(val);
+    if(val == 'Secondary' || val == 'Tertiary' || val == 'Others'){
+      $('#reserveAddForm #majorIndustry1').hide();
+      $('#reserveAddForm #subClass1').hide();
+      $('#reserveAddForm #addMoreSubclassBtn').hide();
+      $('#reserveAddForm #majorlabel').hide();
+      $('#reserveAddForm #subclasslabel').hide();
+    } else {
+      $('#reserveAddForm #majorIndustry1').show();
+      $('#reserveAddForm #subClass1').show();
+      $('#reserveAddForm #addMoreSubclassBtn').show();
+      $('#reserveAddForm #majorlabel').show();
+      $('#reserveAddForm #subclasslabel').show();
+    }
+  });
+
+  $('#reserveAddForm #typeOfCooperative').on('change', function(){
+    var val = $("#reserveAddForm #typeOfCooperative option:selected").text();
     $('#reserveAddForm #addMoreSubclassBtn').prop("disabled",true);
     $("#reserveAddForm #proposedName").prop("disabled",true);
     $('#reserveAddForm select[name="majorIndustry[]"').each(function(index){
@@ -504,7 +715,150 @@ $(function(){
             $('#reserveAddForm #name_associational').prop("required",false);
         }
     });
-  
+    
+    // Jiee
+    $('#reserveAddForm #interregional').hide();
+    $('#reserveAddForm #regions').hide();
+    $('#reserveAddForm #selectisland').hide();
+    $('#reserveAddForm #selectregion').hide();
+
+    $('#reserveAddForm #areaOfOperation').on('change',function(){
+        $('#reserveAddForm #region').empty();
+        $('#reserveAddForm #regions').empty();
+        var areaOfOperation = $(this).val();
+        if(areaOfOperation == "Interregional"){
+        $('#reserveAddForm #allisland').show();
+        $('#reserveAddForm #allregions').show();
+            $('#reserveAddForm #region').empty();
+            $('#reserveAddForm #interregional').show();
+            $('#reserveAddForm #regions').show();
+            $('#reserveAddForm #selectisland').show();
+            $(".select-island").each(function(){
+                $(this).select2({
+                    template: "bootstrap",
+                    multiple: true,
+                    tagging: true,
+                    allowClear: true,
+                    placeholder: "Select island"
+                });
+            });
+            $('#reserveAddForm #selectregion').show();
+           $(".select-region").each(function(){
+                            $(this).select2({
+                                template: "bootstrap",
+                                multiple: true,
+                                tagging: true,
+                                allowClear: true,
+                                placeholder: "Select region"
+                            });
+                        });
+
+            $('#reserveAddForm #interregional').on('change',function(){
+                // alert($(this).val().length);
+                if($(this).val().length != 2){
+                  $('.opt').each(function() {
+                      if(!this.selected) {
+                          $(this).attr('disabled', false);
+                      }
+                  });
+                } else {
+                  $('.opt').each(function() {
+                    if(!this.selected) {
+                        $(this).attr('disabled', true);
+                    }
+                  });
+                }
+                // if($(this).val().length != 2){
+                  // alert($(this).val());
+                  $('#reserveAddForm #regions').empty();
+                  $('#reserveAddForm #province').empty();
+                  $("#reserveAddForm #province").prop("disabled",true);
+                  $('#reserveAddForm #city').empty();
+                  $("#reserveAddForm #city").prop("disabled",true);
+                  $('#reserveAddForm #barangay').empty();
+                  $("#reserveAddForm #barangay").prop("disabled",true);
+                  if($(this).val() && ($(this).val()).length > 0){
+                    $("#reserveAddForm #province").prop("disabled",false);
+                    var interregional = $(this).val();
+                      $.ajax({
+                      type : "POST",
+                      url  : "../api/islands",
+                      dataType: "json",
+                      data : {
+                        interregional: interregional
+                      },
+                      success: function(data){
+                        $('#reserveAddForm #regions').append($('<option></option>').attr('value',"").text(""));
+                        $.each(data, function(key,value){
+                          $('#reserveAddForm #regions').append($('<option></option>').attr('value',value.region_code).text(value.regDesc));
+                        });
+                         
+                      }
+                    });
+                  }
+                // } else {
+                //     // $('#reserveAddForm #interregional').empty();
+                //     // alert("Maximum of 2 Island.");
+                //     $('.opt').each(function() {
+                //         if(!this.selected) {
+                //             $(this).attr('disabled', true);
+                //         }
+                //     });
+                // }
+            });
+
+            $('#reserveAddForm #regions').on('change',function(){
+              // alert($(this).val());
+              $('#reserveAddForm #region').empty();
+              $("#reserveAddForm #province").prop("disabled",true);
+              $('#reserveAddForm #city').empty();
+              $("#reserveAddForm #city").prop("disabled",true);
+              $('#reserveAddForm #barangay').empty();
+              $("#reserveAddForm #barangay").prop("disabled",true);
+              if($(this).val() && ($(this).val()).length > 0){
+                $("#reserveAddForm #province").prop("disabled",false);
+                var regions = $(this).val();
+                  $.ajax({
+                  type : "POST",
+                  url  : "../api/regions",
+                  dataType: "json",
+                  data : {
+                    regions: regions
+                  },
+                  success: function(data){
+                    $('#reserveAddForm #region').append($('<option></option>').attr('value',"").text(""));
+                    $.each(data, function(key,value){
+                      $('#reserveAddForm #region').append($('<option></option>').attr('value',value.regCode).text(value.regDesc));
+                    });
+                  }
+                });
+              }
+            });
+
+        } else {
+        $('#reserveAddForm #allisland').hide();
+        $('#reserveAddForm #allregions').hide();
+            $('#reserveAddForm #region').empty();
+            $('#reserveAddForm #interregional').hide();
+            $('#reserveAddForm #regions').hide();
+            $('#reserveAddForm #selectisland').hide();
+            $('#reserveAddForm #selectregion').hide();
+
+            $.ajax({
+                  type : "GET",
+                  url  : "../api/regions",
+                  dataType: "json",
+                  success: function(data){
+                    $('#reserveAddForm #region').append($('<option></option>').attr('value',"").text(""));
+                    $.each(data, function(key,value){
+                      $('#reserveAddForm #region').append($('<option></option>').attr('value',value.regCode).text(value.regDesc));
+                    });
+              }
+            });
+        }
+    });
+  // End Jiee
+
     $('#reserveAddForm #region').on('change',function(){
       $('#reserveAddForm #province').empty();
       $("#reserveAddForm #province").prop("disabled",true);

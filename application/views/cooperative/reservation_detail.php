@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="<?=base_url('assets/plugins/select2/css/select2.css')?>" type="text/css"/>
+<link rel="stylesheet" href="<?=base_url('assets/plugins/bootstrap-select/bootstrap-select.min.css')?>" type="text/css"/>
 <div class="row mb-2">
   <div class="col-sm-12 col-md-2">
     <a class="btn btn-secondary btn-sm btn-block"  href="<?php echo base_url();?>cooperatives" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
@@ -48,10 +50,10 @@
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
                     <option value="">--</option>
                     <option value="Primary">Primary</option>
-                    <!--  <option value="Secondary - Union">Union</option> 
-                     <option value="Tertiary - Union">Tertiary - Union</option> 
+                     <!-- <option value="Tertiary - Union">Tertiary - Union</option>  -->
                     <option value="Secondary - Federation">Secondary</option>
-                    <option value="Tertiary - Federation">Tertiary</option>   -->
+                    <option value="Tertiary - Federation">Tertiary</option>  
+                    <option value="Secondary - Union">Others</option> 
                   </select>
                 </div>
               </div>
@@ -67,11 +69,12 @@
                     <option value="24">Agriculture</option>
                     <option value="9">Bank</option>
                     <option value="4">Consumers</option>
-                    <option value="27" id="coopbank">Cooperative Bank</option>
+                    <!-- <option value="27" id="coopbank">Cooperative Bank</option> -->
                     <option value="1">Credit</option>
                     <option value="10">Dairy</option>
                     <option value="11">Education</option>
                     <option value="12">Electric</option>
+                    <!-- <option value="25">Federation</option> -->
                     <option value="13">Financial Service</option>
                     <option value="14">Fishermen</option>
                     <option value="15">Health Service</option>
@@ -84,6 +87,7 @@
                     <option value="3">Service</option>
                     <option value="23">Small Scale Mining</option>
                     <option value="17">Transport</option>
+                    <option value="26">Union</option>
                     <option value="18">Water Service</option>
                     <option value="19">Workers</option>
                   </select>
@@ -95,7 +99,7 @@
                 <div class="row">
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
-                      <label for="majorIndustry1">Major Industry Classification No. 1</label>
+                      <label for="majorIndustry1" id="majorlabel">Major Industry Classification No. 1</label>
                       <select class="custom-select form-control  validate[required]" name="majorIndustry[]" id="majorIndustry1">
                       
                       </select>
@@ -103,7 +107,7 @@
                   </div>
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
-                      <label for="subClass1">Major Industry Classification No. 1 Subclass</label>
+                      <label for="subClass1" id="subclasslabel">Major Industry Classification No. 1 Subclass</label>
                       <select class="custom-select form-control validate[required]" name="subClass[]" id="subClass1" disabled>
                         
                       </select>
@@ -123,9 +127,13 @@
                   <label for="proposedName"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
                   <input type="text" class="form-control validate[required,funcCall[validateActivityNotNullAddCustom],funcCall[validateActivityInNameAddCustom],funcCall[validateCooperativeWordInNameCustom],ajax[ajaxCoopNameCallPhp]]" name="proposedName" id="proposedName" placeholder="" disabled>
+                  <div style="margin-bottom:20px;"> <small><span id="type_of_coop" style="margin-top:-20px;"></span></small> </div>
+                   <div style="margin-bottom:20px;"><small>
+                  <span id="proposed_name_msg" style="margin-top:-20px;font-style:italic;"></span></small></div>
                 </div>
               </div>
             </div>
+
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
@@ -158,8 +166,38 @@
                     <option value="Municipality/City">Municipality/City</option>
                     <option value="Provincial">Provincial</option>
                     <option value="Regional">Regional</option>
+                    <option value="Interregional">Inter-Regional</option>
                     <option value="National">National</option>
                   </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-4">
+                <div class="form-group" id="allisland">
+                  <label for="selectisland" id="selectisland">Select a Island</label>
+                  <select name="interregional[]" id="interregional" class="form-control validate[required] select2 select-island" multiple="">
+                    <option class="opt" value="1">Luzon</option>
+                    <option class="opt" value="2">Visayas</option>
+                    <option class="opt" value="3">Mindanao</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-8">
+                <div class="form-group"  id="allregions">
+                  <label for="selectregion" id="selectregion">Select a Regions</label>
+                  <select class="form-control validate[required] select2 select-region" name="regions[]" id="regions" multiple="">
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-10">
+                <div class="form-group">
+                  <!-- <label for="areaOfOperation">Select a Island </label>
+                  <select name="interregional[]" class="form-control" multiple="">
+                    <option value="1">Luzon</option>
+                    <option value="2">Visayas</option>
+                    <option value="3">Mindanao</option>
+                  </select> -->
                 </div>
               </div>
             </div>
@@ -279,3 +317,7 @@
   </div>
 </div>
 <style type="text/css">input{border:1px solid red;}</style>
+<script src="<?=base_url('assets/plugins/select2/js/select2.full.min.js')?>"></script>
+<script>
+ 
+</script>

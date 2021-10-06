@@ -34,6 +34,10 @@
   <br><br>
 
   <table width="100%" class="bord">
+     <tr>
+      <td class="bord" >Order of Payment No.</td>
+      <td class="bord" colspan="3" ><b><?=$refNo?></b></td>
+    </tr>
     <tr>
       <td class="bord">Date</td>
       <td class="bord" colspan="3"><b><?=$tDate?></b></td>
@@ -42,34 +46,84 @@
       if ($nature=='Amendment'){ 
         $rf=0;
         $basic_reservation_fee =300; //fixed amount
+        $name_reservation_fee =0;
+        $acronym ='';
+        if(strlen($coop_info->acronym)>0)
+                 {
+                  $acronym = '('.$coop_info->acronym.')';
+                 
+                 }
+                
+                
+                if(count(explode(',',$coop_info->type_of_cooperative))>1)
+                {
+                  $proposeName = rtrim($coop_info->proposed_name).' Multipurpose Cooperative '.$acronym;
+                }
+                else
+                {
+
+                    $proposeName = rtrim($coop_info->proposed_name).' '.$coop_info->type_of_cooperative.' Cooperative '.$acronym;
+                }
+                
+                 $orig_proposedName_formated = trim(preg_replace('/\s\s+/', ' ', $orig_proposedName_formated));
+                 $proposeName = trim(preg_replace('/\s\s+/', ' ', $proposeName));
+                 var_dump($orig_proposedName_formated);var_dump($proposeName);
+                $name_comparison = strcasecmp($orig_proposedName_formated,$proposeName);
+                 if($name_comparison!=0)
+                {
+                
+                  $name_reservation_fee = 100;
+                }
+
+        $rf=0;
+        $percentage_amount = 0;
+        $total_amendment_fee = 0;
         $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_capitalization->total_amount_of_paid_up_capital;
         //amendment paid up is greater than coop total paid up
         if($diff_amount>0)
         {
-          $percentage_of_onepercent= $diff_amount * 0.01; //x 1%
-          $pecentage_of_ten_percent = $percentage_of_onepercent *0.1; //10% of one percent 
-          $total_reservation_fee = $pecentage_of_ten_percent+ $basic_reservation_fee;
+          $percentage_amount= $diff_amount * 0.001; // 1 over 10 of 1% 
+          $total_reservation_fee = $percentage_amount+ $basic_reservation_fee;
           $rf = $total_reservation_fee;
         }
         else
         {
           $rf =  $basic_reservation_fee;
         }
-        // $lrf=(($rf+$name_reservation_fee)*.01>10) ?($rf+$name_reservation_fee)*.01 : 10;
-               $lrf=$rf*0.01;
-                 if($lrf<10)
-                 {
-                  $lrf=10;
-                 }
-         if(count(explode(',',$coop_info->type_of_cooperative))>1)
-                {
-                  $proposeName = $coop_info->proposed_name.' Multipurpose Cooperative'.$coop_info->grouping;
-                }
-                else
-                {
-                    $proposeName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.'  Cooperative '.$coop_info->grouping;
-                }
+        
+        $lrf=$rf*0.01;
+        if($lrf<10)
+        {
+        $lrf=10;
+
+        }
+               
+        
+          if($percentage_amount>0)
+          {
+          $total_amendment_fee   = $percentage_amount +$basic_reservation_fee;
+
+          }
+          else
+          {
+          $total_amendment_fee   = 300;
+          }
+
+          $amount_in_words=0;
+          $amount_in_words = ($total_amendment_fee+$lrf+$name_reservation_fee);
+         
+          ini_set('precision', 17);
+          $total_ = number_format($amount_in_words,2);
+          // $total_amount_in_words = ($pos = strpos($amount_in_words,'.')) ? substr( $amount_in_words,0,$pos + 3) : number_format( $amount_in_words);
+          $peso_cents = '';
+          if(substr($total_,-3)=='.00')
+          {
+          $peso_cents ='Pesos';
+          }
+          $w = new Numbertowords();
+
     echo '
+    
     <tr>
       <td class="bord">Payor</td>
       <td class="bord" colspan="3"><b>'.ucwords($proposeName).'</b></td>
@@ -80,44 +134,50 @@
     </tr>
     <tr>
       <td class="bord">Amount in Words</td>
-      <td class="bord" colspan="3"><b>'.ucwords(num_format_custom($rf+$lrf+$name_reservation_fee)).' Pesos</b></td>
-    </tr>
-    <tr>
-      <td class="bord" colspan="4" align="center">Particulars</td>
-    </tr>';
+      <td class="bord" colspan="3"><b>'.$w->convert_number($amount_in_words).' '.$peso_cents.'</b></td>
+  </tr>
+  <tr>
+    <td class="bord" colspan="4" align="center">Particulars</td>
+  </tr>'; 
 
-     if($original_coop_name!=$proposeName)
-      {
-        echo' 
-        <tr>
-        <td width="23%"></td>
-        <td class="pera"width=""><b>Name Reservation Fee</b></td>
-        <td class="pera"width="5%">Php </td>
-        <td class="pera" align="right" width="13%"><b>'.number_format($name_reservation_fee,2).'</b></td>
-       </tr>';     
-      }
-   echo'
-    <tr>
-      <td width="23%"></td>
-      <td class="pera"width=""><b>Amendment Fee</b></td>
-      <td class="pera"width="5%"> </td>
-      <td class="pera" align="right" width="13%"><b>'.number_format($rf,2).'</b></td>
-    </tr>
-    <tr>
-    <td width="23%"></td>
-      <td class="pera"width=""><b>Legal and Research Fund Fee</b></td>
-      <td class="pera"width="5%"> </td>
-      <td class="pera" align="right" width="13%"><b>'.number_format($lrf,2).'</b></td>
-    </tr>
-    <tr>
-      <td colspan="4"></td>
-    </tr>
-    <tr>
-      <td class="bord" colspan="2">Total </td>
-      <td class="taas"  width="5%">Php </td>
-      <td class="taas" align="right" width="13%"><b>'.number_format($rf+$lrf+$name_reservation_fee,2).'</b></td>
-    </tr>';
+  if($name_comparison!=0)
+                {
+                  echo'
+                
+                <tr>
+                  <td width="23%"></td>
+                  <td class="pera" width=""><b>Name Reservation Fee</b></td>
+                  <td class="pera" width="5%"> </td>
+                  <td class="pera" align="right" width="13%"><b>'.number_format($name_reservation_fee,2).'</b></td>
+                </tr>';
+                }
+                echo'
+                <tr> 
+                <td></td>
+                <td colspan="3"><b>Amendment Fee</b></td>
+                </tr>
+                <tr>
+                <td></td>
+                <td><p style="font-style:italic;font-size:11pt;">(1/10 of 1% of Php '.number_format($diff_amount,2).' increased in paid up capital amounted to Php '.number_format($percentage_amount,2).' plus Php 300.00 basic fee)<p></td>
+                <td class="pera" width="5%"> </td>
+                <td class="pera" align="right"><b>'.number_format($total_amendment_fee,2).'</b></td>
+                </tr>
+                  <tr>
+                <td width="23%"></td>
+                  <td class="pera" width=""><b>Legal and Research Fund Fee</b></td>
+                  <td class="pera" width="5%"> </td>
+                  <td class="pera" align="right" width="13%"><b>'.number_format($lrf,2).'</b></td>
+                </tr>
+                <tr>
+                  <td colspan="4"</td>
+                </tr>
+                <tr>
+                  <td class="bord" colspan="2">Total </td>
+                  <td class="taas" width="5%">Php </td>
+                  <td class="taas" align="right" width="13%"><b>'. $total_.'</b></td>
+                </tr>';
     }
+
     ?>
     <div>
     <u>Payment of Fees</u>

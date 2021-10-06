@@ -58,12 +58,41 @@
         <div class="row">
           <table class="bord" width="65%" style="table-layout: fixed;word-wrap: break-word;">
             <tr>
-              <td class="bord">Date</td>
+              <td class="bord">Order of Payment No.</td>
               <td class="bord" colspan="3">
-                <b><?= date('Y-m-d h:i:s',now('Asia/Manila')); ?></b>  
+                <b><?php
+
+                $report_exist = $this->db->where(array('payor'=>ucwords($branch_info->laboratoryName.' - '.$branch_info->labName)))->get('payment');
+
+                // echo $report_exist->num_rows();
+                if($report_exist->num_rows()==0){
+                  
+                  // if($coop_info->date_for_payment == NULL){
+                  //   $datee = date('d-m-Y',now('Asia/Manila'));
+                  //   $datee2 = date('Y-m-d',now('Asia/Manila'));
+                  // } else {
+                    // $datee = date('d-m-Y',strtotime($coop_info->date_for_payment));
+                    // $datee2 = date('Y-m-d',strtotime($coop_info->date_for_payment));
+                    $datee = date('d-m-Y',now('Asia/Manila'));
+                    $datee2 = date('Y-m-d',now('Asia/Manila'));
+                  // }
+                  $series = substr($branch_info->addrCode,0,2).'-'.date('Y-m',strtotime($datee)).'-'.$series;
+                } else {
+                  foreach($report_exist->result_array() as $row){
+                    $series = $row['refNo'];
+                    $datee = date('d-m-Y',strtotime($row['date']));
+                    $datee2 = date('Y-m-d',now('Asia/Manila'));
+                  }
+
+                  // $series = 
+                }
+                ?><?=$series?></b>  
               </td>
-            </tr>       
-        
+            </tr>
+            <tr>       
+              <td class="bord">Date</td>
+              <td class="bord" colspan="3"><b><?=$datee?></b></td>
+            </tr>   
             <tr>
               <td class="bord">Payor</td>
               <td class="bord" colspan="3"><b><?= ucwords($branch_info->laboratoryName.' - '.$branch_info->labName)?></b></td>
@@ -100,9 +129,10 @@
           </table>
 
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=encrypt_custom($this->encryption->encrypt($branch_info->application_id)) ?>">
+          <input type="hidden" class="form-control" id="refno" name="refno" value="<?=$series ?>">
            <input type="hidden" class="form-control" id="branchID" name="branchID" value="<?=$encrypted_id ?>">
-           <input type="hidden" class="form-control" id="payor" name="payor" value="<?=ucwords($branch_info->laboratoryName.'- '.$branch_info->labName)?>">
-          <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>">
+           <input type="hidden" class="form-control" id="payor" name="payor" value="<?=ucwords($branch_info->laboratoryName.' - '.$branch_info->labName)?>">
+          <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=$datee2 ?>">
           <input type="hidden" class="form-control" id="nature" name="nature" value="Laboratory Registration">
           <input type="hidden" class="form-control" id="particulars" name="particulars" value="Processing Fee">
           <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($lab_fee,2)?>">

@@ -33,7 +33,7 @@ $(function(){
       $('#addCooperatorForm #paidShares').prop('readonly',false);
 //      $('#addCooperatorForm #subscribedShares').val(minimum_subscribed_share_regular);
 //      $('#addCooperatorForm #paidShares').val(minimum_paid_up_share_regular);
-      $('#addCooperatorForm #subscri bedShares').attr('min',minimum_subscribed_share_regular);
+      $('#addCooperatorForm #subscribedShares').attr('min',minimum_subscribed_share_regular);
       $('#addCooperatorForm #paidShares').attr('min',minimum_paid_up_share_regular);
       $('#addCooperatorForm #subscribedShares').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscriptionCallPhp]]'});
       $('#addCooperatorForm #paidShares').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumRegularPayCallPhp]]'});
@@ -170,47 +170,52 @@ $(function(){
     },
     success: function(data){
      // console.log(data.area_of_operation);
-
+     // alert(data.area_of_operation);
          if(data!=null){
         var tempCount = 0;
-        setTimeout( function(){
-          $('#addCooperatorForm #region').val(data.rCode);
-          $('#addCooperatorForm #region').trigger('change');
-        },300);
-        setTimeout( function(){
-            $('#addCooperatorForm #province').val(data.pCode);
-            $('#addCooperatorForm #province').trigger('change');
-        },1000);
-        setTimeout(function(){
-          $('#addCooperatorForm #city').val(data.cCode);
-          $('#addCooperatorForm #city').trigger('change');
-        },2000);
-        setTimeout(function(){
+        // setTimeout( function(){
+        //   $('#addCooperatorForm #region').val(data.rCode);
+        //   $('#addCooperatorForm #region').trigger('change');
+        // },300);
+        // setTimeout( function(){
+        //     $('#addCooperatorForm #province').val(data.pCode);
+        //     $('#addCooperatorForm #province').trigger('change');
+        // },1000);
+        // setTimeout(function(){
+        //   $('#addCooperatorForm #city').val(data.cCode);
+        //   $('#addCooperatorForm #city').trigger('change');
+        // },2000);
+        // setTimeout(function(){
           $('#addCooperatorForm #barangay').val(data.bCode);
+          // alert(data.area_of_operation);
           if(data.area_of_operation=='Barangay'){
-          
             $('#addCooperatorForm #barangay').prop("disabled",true);
             $('#addCooperatorForm #city').prop("disabled",true);
             $('#addCooperatorForm #province').prop("disabled",true);
             $('#addCooperatorForm #region').prop("disabled",true);
           }else if(data.area_of_operation=='Municipality/City'){
-            
+            $('#addCooperatorForm #barangay').prop("disabled",false);
             $('#addCooperatorForm #city').prop("disabled",true);
             $('#addCooperatorForm #province').prop("disabled",true);
             $('#addCooperatorForm #region').prop("disabled",true);
           }else if(data.area_of_operation=='Provincial'){
-            
             $('#addCooperatorForm #province').prop("disabled",true);
             $('#addCooperatorForm #region').prop("disabled",true);
+            $('#addCooperatorForm #barangay').prop("disabled",false);
+            $('#addCooperatorForm #city').prop("disabled",false);
           }else if(data.area_of_operation=='Regional'){
-            
             $('#addCooperatorForm #region').prop("disabled",true);
-          }else if(data.area_of_operation=='National'){
-            
+            $('#addCooperatorForm #barangay').prop("disabled",false);
+            $('#addCooperatorForm #city').prop("disabled",false);
+            $('#addCooperatorForm #province').prop("disabled",false);
+          }else if(data.area_of_operation=='National' || data.area_of_operation=='Interregional'){
+            $('#addCooperatorForm #barangay').prop("disabled",false);
+            $('#addCooperatorForm #city').prop("disabled",false);
+            $('#addCooperatorForm #province').prop("disabled",false);
             $('#addCooperatorForm #region').prop("disabled",false);
           }
 
-        },3500); 
+        // },100); 
       } //end if
 
       // if(data!=null){

@@ -3,7 +3,14 @@
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
     <h5 class="text-primary text-right">
       <?php if($is_client): ?>
-      Step 5
+        <?php if($coop_info->grouping == 'Federation') {
+          echo 'Step 5';
+        } else if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative=='Union'){
+          echo 'Step 4';
+        } else {
+          echo 'Step 5';
+        }?>
+      
       <?php endif; ?>
     </h5>
   </div>
@@ -50,7 +57,11 @@
       <div class="card-header">
         <div class="row d-flex">
           <div class="col-sm-12 col-md-12 col-btn-action-purposes">
-            <h4>That the purposes for which this Cooperative is organized are to engage in:</h4>
+            <?php if($coop_info->type_of_cooperative == "Bank"){
+              echo '<h4>That the purposes and scope of business for which the Coperative Bank is formed are:</h4>';
+            } else {
+              echo '<h4>That the purposes for which this Cooperative is organized are to engage in:</h4>';
+            }?>
           </div>
         </div>
       </div>

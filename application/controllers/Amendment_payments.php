@@ -3,7 +3,6 @@ use Dompdf\Options;
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Amendment_payments extends CI_Controller{
-
   public function __construct()
   {
     parent::__construct();
@@ -38,12 +37,12 @@ class Amendment_payments extends CI_Controller{
                         if(!$data['economic_survey_complete']){
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
                       }
-                      if($data['economic_survey_complete']){
-                        $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                        if($data['staff_complete']){
+                      // if($data['economic_survey_complete']){
+                        // $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
+                        // if($data['staff_complete']){
                           $data['document_one'] = $this->amendment_uploaded_document_model->get_document_one_info($decoded_id);
                           $data['document_two'] = $this->amendment_uploaded_document_model->get_document_two_info($decoded_id);
-                          if($data['document_one'] && $data['document_two']){
+                          // if($data['document_one'] && $data['document_two']){
                             if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                               if($this->amendment_model->check_first_evaluated($decoded_id)){
                                 if($this->amendment_model->check_second_evaluated($decoded_id)){
@@ -61,40 +60,48 @@ class Amendment_payments extends CI_Controller{
                                     $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
                                     $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                                     $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-                                    $data['name_reservation_fee']=100.00;
+                                    // $data['name_reservation_fee']=100.00;
                                     $data['pay_from']='reservation';
-
+                                    $data['ref_no'] = $this->Payment_model->orderPaymentNo($decoded_id);
+                                    // echo $data['ref_no'];
                                     $data['coop_capitalization']=$this->coop_capitalization($cooperative_id);
                                     $data['amendment_capitalization']= $this->amendment_capitalization($decoded_id);
-                                    if($this->amendment_model->if_had_amendment($cooperative_id))
+
+                                    if($this->amendment_model->if_had_amendment($data['coop_info']->regNo,$decoded_id))
                                     {
-                                     $data['coop_info_orig']= $this->amendment_model->get_last_amendment_info($cooperative_id);
-                                      if(strlen($data['coop_info_orig']->acronym)>0)
-                                       {
-                                         $acronym =' ('.$data['coop_info_orig']->acronym.')';
-                                       }
-                                       else
-                                       {
-                                        $acronym = ''; 
-                                       }
+                                     $data['coop_info_orig']= $this->amendment_model->get_last_amendment_info($cooperative_id,$decoded_id);
+                                     $coop_info_orig = $data['coop_info_orig'];
+                                       $acronym='';
+                                        if(strlen($coop_info_orig->acronym)>0)
+                                        {
+                                          $acronym='('.$coop_info_orig->acronym.')';
+                                        }
+                                        if(count(explode(',',$coop_info_orig->type_of_cooperative))>1)
+                                        {
+                                          $data['orig_proposedName_formated'] = ltrim(rtrim($coop_info_orig->proposed_name)).' Multipurpose Cooperative '.$acronym;
+                                        }
+                                        else
+                                        {
+                                          $data['orig_proposedName_formated'] = ltrim(rtrim($coop_info_orig->proposed_name)).' '.$coop_info_orig->type_of_cooperative.' Cooperative '.$acronym;
+                                        }
                                     }
                                     else
                                     {
                                       $data['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
-                                      if(strlen($data['coop_info_orig']->acronym_name)>0)
-                                       {
-                                         $acronym =' ('.$data['coop_info_orig']->acronym_name.')';
-                                       }
-                                       else
-                                       {
-                                        $acronym = ''; 
-                                       }
+                                       $coop_info_orig = $data['coop_info_orig'];
+                                      $acronym='';
+                                    if(strlen($coop_info_orig->acronym_name)>0)
+                                    {
+                                      $acronym=' ('.$coop_info_orig->acronym_name.')';
                                     }
-                                     // $this->debug($data['coop_info_orig']);
+                                    $data['orig_proposedName_formated'] = ltrim(rtrim($coop_info_orig->proposed_name)).' '.$coop_info_orig->type_of_cooperative.' Cooperative'.$acronym;
+                                    }
+                                     
                                      
                                     $coop_orig_name = $data['coop_info_orig']->proposed_name;
-                                    $data['original_coop_name']= $coop_orig_name.$acronym;
-                                 
+                                    $data['original_coop_name']= rtrim($coop_orig_name).' '.$data['coop_info_orig']->type_of_cooperative.' Cooperative '.$acronym;
+                                    $data['date_ok_for_payment'] = $this->Payment_model->get_payment_info_amendment($decoded_id)->date;
+                                   
                                     $this->load->view('./template/header', $data);
                                     $this->load->view('amendment/payment_form', $data);
                                     $this->load->view('./template/footer', $data);
@@ -113,24 +120,24 @@ class Amendment_payments extends CI_Controller{
                             }else{
                               echo 'asd';
                             }
-                          }else if(!$data['document_one'] && !$data['document_two']){
-                            $this->session->set_flashdata('redirect_message', 'Please upload first your two other documents.');
-                            redirect('amendment/'.$id);
-                          }else if(!$data['document_one']){
-                            $this->session->set_flashdata('redirect_message', 'Please upload first your document one.');
-                            redirect('amendment/'.$id);
-                          }else{
-                            $this->session->set_flashdata('redirect_message', 'Please upload first your document two.');
-                            redirect('amendment/'.$id);
-                          }
-                        }else{
-                          $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                          redirect('amendment/'.$id);
-                        }
-                      }else{
-                        $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                        redirect('amendment/'.$id);
-                      }
+                          // }else if(!$data['document_one'] && !$data['document_two']){
+                          //   $this->session->set_flashdata('redirect_message', 'Please upload first your two other documents.');
+                          //   redirect('amendment/'.$id);
+                          // }else if(!$data['document_one']){
+                          //   $this->session->set_flashdata('redirect_message', 'Please upload first your document one.');
+                          //   redirect('amendment/'.$id);
+                          // }else{
+                          //   $this->session->set_flashdata('redirect_message', 'Please upload first your document two.');
+                          //   redirect('amendment/'.$id);
+                          // }
+                      //   }else{
+                      //     $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
+                      //     redirect('amendment/'.$id);
+                      //   }
+                      // }else{
+                      //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
+                      //   redirect('amendment/'.$id);
+                      // }
                     }else{
                       $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
                       redirect('amendment/'.$id);
@@ -202,35 +209,33 @@ class Amendment_payments extends CI_Controller{
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
       $cooperative_id = $this->amendment_model->coop_dtl($decoded_id);
       $this->Payment_model->pay_offline_amendment($decoded_id);
-      $data=array(
+     
+      // // $this->debug($amendment_info);
+      // $ref_no  = $this->orderPaymentNo($decoded_id);
+       $data=array(
+        'refNo' => $this->input->post('ref_no'),
         'payor' => $this->input->post('payor'),
-        'date'    => $this->input->post('tDate'),
+        // 'date'    => $this->input->post('tDate'),
         'nature'  => $this->input->post('nature'),
         'particulars'  => $this->input->post('particulars'),
         'amount'  => $this->input->post('amount'),
         'total'  => $this->input->post('total'),
         'payment_option'=> 'offline',
         'status' => 0,
-        'amendment_id'=> $decoded_id
-      );
+        // 'amendment_id'=> $decoded_id,
+        );
       // $this->debug($data);
     
-      if ($this->Payment_model->check_payment_not_exist_amendment($data))
+      if ($this->Payment_model->check_payment_not_exist_amendment($decoded_id))
        {
 
-       
-        if(!$this->Payment_model->save_payment($data,$this->input->post('rCode')))
-        {
-             $this->session->set_flashdata('redirect_applications_message', 'Error Saving payment details');
-              redirect('amendment');
-        }
-        else
-        {
-         
+      
+        $this->Payment_model->update_payment_amendment($data,$this->input->post('rCode'),$decoded_id);
+
           $user_id = $this->session->userdata('user_id');
-          $data1['tDate'] = $this->Payment_model->get_payment_info_amendment($data)->date;
-          // echo $this->db->last_query();
-          $data1['nature'] = $this->Payment_model->get_payment_info_amendment($data)->nature;
+          $data1['tDate'] = date("d-m-Y", strtotime($this->Payment_model->get_payment_info_amendment($decoded_id)->date));
+          $data1['refNo'] = $this->Payment_model->get_payment_info_amendment($decoded_id)->refNo;
+          $data1['nature'] = $this->Payment_model->get_payment_info_amendment($decoded_id)->nature;
 
           $data1['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
           $data1['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
@@ -241,18 +246,37 @@ class Amendment_payments extends CI_Controller{
           $data1['coop_capitalization']=$this->coop_capitalization($cooperative_id);
           $data1['amendment_capitalization']= $this->amendment_capitalization($decoded_id);
 
-          $data1['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
-          if(strlen($data1['coop_info_orig']->acronym_name)>0)
-          {
-          $acronym =' ('.$data1['coop_info_orig']->acronym_name.')';
-          }
-          else
-          {
-          $acronym = '';
-          }
-          $coop_orig_name = $data1['coop_info_orig']->proposed_name;
-          $data1['original_coop_name']= $coop_orig_name.$acronym;
-          // $this->debug( $data1['original_coop_name']);
+              if($this->amendment_model->if_had_amendment($data1['coop_info']->regNo,$decoded_id))
+              { //next amendment
+                $data1['coop_info_orig']= $this->amendment_model->get_last_amendment_info($cooperative_id,$decoded_id);
+                $coop_info_orig = $data1['coop_info_orig'];
+                $acronym='';
+                if(strlen($coop_info_orig->acronym)>0)
+                {
+                $acronym='('.$coop_info_orig->acronym.')';
+                }
+                if(count(explode(',',$coop_info_orig->type_of_cooperative))>1)
+                {
+                $data1['orig_proposedName_formated'] = ltrim(rtrim($coop_info_orig->proposed_name)).' Multipurpose Cooperative '.$acronym;
+                }
+                else
+                {
+                $data1['orig_proposedName_formated'] = ltrim(rtrim($coop_info_orig->proposed_name)).' '.$coop_info_orig->type_of_cooperative.' Cooperative '.$acronym;
+                }
+              }
+              else
+              { //first amendment
+                $data1['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
+                $coop_info_orig = $data1['coop_info_orig'];
+                $acronym='';
+                if(strlen($coop_info_orig->acronym_name)>0)
+                {
+                $acronym='('.$coop_info_orig->acronym_name.')';
+                }
+                $data1['orig_proposedName_formated'] = ltrim(rtrim($coop_info_orig->proposed_name)).' '.$coop_info_orig->type_of_cooperative.' Cooperative '.$acronym;
+              }
+             
+          // $this->debug( $data1['orig_proposedName_formated']);
          // $this->load->view('amendment\order_of_payment', $data1);
           $html2 = $this->load->view('amendment/order_of_payment', $data1, TRUE);
           $J = new pdf();
@@ -260,44 +284,44 @@ class Amendment_payments extends CI_Controller{
           $J->load_html($html2);
           $J->render();
           $J->stream("order_of_payment.pdf", array("Attachment"=>1));
-        }//end payment save
+        
       }
-      else{
-          $user_id = $this->session->userdata('user_id');
-          $data1['tDate'] = $this->Payment_model->get_payment_info_amendment($data)->date;
-          // echo $this->db->last_query();
-          $data1['nature'] = $this->Payment_model->get_payment_info_amendment($data)->nature;
+      // else{
+      //     $user_id = $this->session->userdata('user_id');
+      //     $data1['tDate'] = $this->Payment_model->get_payment_info_amendment($decoded_id)->date;
+      //     $data1['refNo'] = $this->Payment_model->get_payment_info_amendment($decoded_id)->refNo;
+      //     $data1['nature'] = $this->Payment_model->get_payment_info_amendment($decoded_id)->nature;
 
-          $data1['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
-          $data1['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
-          $data1['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
-          // $data1['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
-          // $data1['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-          $data1['name_reservation_fee']=100.00;
-          $data1['coop_capitalization']=$this->coop_capitalization($cooperative_id);
-          $data1['amendment_capitalization']= $this->amendment_capitalization($decoded_id);
+      //     $data1['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
+      //     $data1['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
+      //     $data1['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
+      //     // $data1['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+      //     // $data1['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
+      //     $data1['name_reservation_fee']=100.00;
+      //     $data1['coop_capitalization']=$this->coop_capitalization($cooperative_id);
+      //     $data1['amendment_capitalization']= $this->amendment_capitalization($decoded_id);
 
-          $data1['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
-          if(strlen($data1['coop_info_orig']->acronym_name)>0)
-          {
-          $acronym =' ('.$data1['coop_info_orig']->acronym_name.')';
-          }
-          else
-          {
-          $acronym = '';
-          }
-          $coop_orig_name = $data1['coop_info_orig']->proposed_name;
-          $data1['original_coop_name']= $coop_orig_name.$acronym;
-          // $this->debug( $data1['original_coop_name']);
-         // $this->load->view('amendment\order_of_payment', $data1);
-          $html2 = $this->load->view('amendment/order_of_payment', $data1, TRUE);
-          $J = new pdf();
-          $J->setPaper('folio', 'portrait');
-          $J->load_html($html2);
-          $J->render();
-          $J->stream("order_of_payment.pdf", array("Attachment"=>1));
+      //     $data1['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
+      //     if(strlen($data1['coop_info_orig']->acronym_name)>0)
+      //     {
+      //     $acronym =' ('.$data1['coop_info_orig']->acronym_name.')';
+      //     }
+      //     else
+      //     {
+      //     $acronym = '';
+      //     }
+      //     $coop_orig_name = $data1['coop_info_orig']->proposed_name;
+      //     $data1['original_coop_name']= $coop_orig_name.$acronym;
+      //     // $this->debug( $data1['original_coop_name']);
+      //    // $this->load->view('amendment\order_of_payment', $data1);
+      //     $html2 = $this->load->view('amendment/order_of_payment', $data1, TRUE);
+      //     $J = new pdf();
+      //     $J->setPaper('folio', 'portrait');
+      //     $J->load_html($html2);
+      //     $J->render();
+      //     $J->stream("order_of_payment.pdf", array("Attachment"=>1));
 
-      } //end check paymet exist
+      // } //end check paymet exist
     }
      else if ($this->input->post('onlineBtn')){
       //change status GET YOUR CERTIFICATE
@@ -310,6 +334,7 @@ class Amendment_payments extends CI_Controller{
      redirect('amendment');
     }
   }
+  
   public function debug($array)
     {
         echo"<pre>";

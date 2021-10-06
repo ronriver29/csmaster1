@@ -100,6 +100,24 @@ class Uploaded_Document_model extends CI_Model{
     $data = $query->row();
     return $data;
   }
+  public function get_document_three_info($coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coopid,'document_num'=>3));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_four_info($coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coopid,'document_num'=>41));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_others_unifed_info($coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coopid,'document_num'=>42));
+    $data = $query->row();
+    return $data;
+  }
   public function get_document_others1_info($coopid,$document_num){
     $coopid = $this->security->xss_clean($coopid);
     $query = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coopid,'document_num'=>$document_num));
@@ -139,6 +157,18 @@ class Uploaded_Document_model extends CI_Model{
   public function get_document_9_info($branchID,$coopid){
     $coopid = $this->security->xss_clean($coopid);
     $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>9));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_40_info($branchID,$coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>40));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_42_info($branchID,$coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'cooperatives_id'=>$coopid,'document_num'=>42));
     $data = $query->row();
     return $data;
   }

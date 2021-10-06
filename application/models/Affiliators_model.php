@@ -70,7 +70,101 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','right');
-        $this->db->where('registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND cooperatives.status IS NULL OR cooperatives.status = 15');
+        $this->db->where('registeredcoop.type LIKE "%'.$type_of_cooperative.'%" AND (cooperatives.status IS NULL OR cooperatives.status = 15)');
+        // $this->db->limit('10');
+        $query = $this->db->get();
+        $data = $query->result_array();
+        return $data;
+        }
+        else if($area_of_operation == 'Interregional'){
+        $this->db->select('registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+        $this->db->from('cooperatives');
+        $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','right');
+        $this->db->where('registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND (cooperatives.status IS NULL OR cooperatives.status = 15)');
+        // $this->db->limit('10');
+        $query = $this->db->get();
+        $data = $query->result_array();
+        return $data;
+        }
+    }
+
+    public function get_all_cooperator_of_coop($cooperatives_id){
+        $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+        $this->db->select('affiliators.*');
+        $this->db->from('affiliators');
+        $this->db->where('user_id', $cooperatives_id);
+        $this->db->order_by('representative','asc');
+        $query=$this->db->get();
+        $this->last_query = $this->db->last_query();
+        $data = $query->result_array();
+        return $data;
+      }
+
+    public function get_registered_coop_secondary($area_of_operation,$addresscode,$type_of_cooperative){
+    if($area_of_operation == 'Barangay'){
+        $this->db->select('registeredcoop.*, registeredcoop.id as registered_id,cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+        $this->db->from('cooperatives');
+        $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
+        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.category = "Secondary" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
+        $query = $this->db->get();
+        $data = $query->result_array();
+        return $data;
+    } else if($area_of_operation == 'Municipality/City'){
+        $addresscode = substr($addresscode, 0, 6);
+        $this->db->select('registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+        $this->db->from('cooperatives');
+        $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
+        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.category = "Secondary" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
+        $query = $this->db->get();
+        $data = $query->result_array();
+        return $data;
+    } else if($area_of_operation == 'Provincial'){
+        $addresscode = substr($addresscode, 0, 4);
+        $this->db->select('registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+        $this->db->from('cooperatives');
+        $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
+        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.category = "Secondary" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
+        $query = $this->db->get();
+        $data = $query->result_array();
+        return $data;
+    } else if($area_of_operation == 'Regional'){
+        $addresscode = substr($addresscode, 0, 2);
+        $this->db->select('registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+        $this->db->from('cooperatives');
+        $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
+        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.category = "Secondary" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
+        $query = $this->db->get();
+        $data = $query->result_array();
+        return $data;
+    } else if($area_of_operation == 'National'){
+        $this->db->select('registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+        $this->db->from('cooperatives');
+        $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','right');
+        $this->db->where('registeredcoop.category = "Secondary" AND (cooperatives.status IS NULL OR cooperatives.status = 15) AND registeredcoop.type != "Union"');
         // $this->db->limit('10');
         $query = $this->db->get();
         $data = $query->result_array();
@@ -128,13 +222,95 @@ class Affiliators_model extends CI_Model{
     }
     
     public function is_requirements_complete($decoded_id,$user_id){
-        if($this->check_all_minimum_regular_subscription($decoded_id,$user_id) && $this->check_all_minimum_regular_pay($decoded_id,$user_id) && $this->check_regular_total_shares_paid_is_correct($this->get_total_regular($user_id,$decoded_id))){
-            return true;
+        if($this->check_no_of_directors($user_id) && $this->check_chairperson($user_id) && $this->check_vicechairperson($user_id) && $this->check_treasurer($user_id) && $this->check_secretary($user_id) && $this->check_directors_odd_number($user_id)){
+            if($this->check_all_minimum_regular_subscription($decoded_id,$user_id) && $this->check_all_minimum_regular_pay($decoded_id,$user_id) && $this->check_regular_total_shares_paid_is_correct($this->get_total_regular($user_id,$decoded_id))){
+                return true;
+            }else{
+              return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    public function check_no_of_directors($cooperatives_id){
+        $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
+        $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+        $this->db->where('user_id',$cooperatives_id);
+        $this->db->where_in('position', $position);
+        $this->db->from('affiliators');
+        if($this->db->count_all_results()>=5 && $this->db->count_all_results()<=15){
+          return true;
         }else{
           return false;
         }
     }
-    
+
+    public function check_directors_odd_number($cooperatives_id){
+        $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
+        $this->db->where('user_id',$cooperatives_id);
+        $this->db->where_in('position', $position);
+        $this->db->from('affiliators');
+        $count = $this->db->count_all_results();
+        if($count%2==1){
+          return true;
+        }else{
+          return false;
+        }
+    }
+
+    public function check_chairperson($cooperatives_id){
+        $position = array('Chairperson');
+        $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+        $this->db->where('user_id',$cooperatives_id);
+        $this->db->where_in('position', $position);
+        $this->db->from('affiliators');
+        if($this->db->count_all_results()==1){
+          return true;
+        }else{
+          return false;
+        }
+    }
+
+    public function check_vicechairperson($cooperatives_id){
+        $position = array('Vice-Chairperson');
+        $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+        $this->db->where('user_id',$cooperatives_id);
+        $this->db->where_in('position', $position);
+        $this->db->from('affiliators');
+        if($this->db->count_all_results()==1){
+          return true;
+        }else{
+          return false;
+        }
+    }
+
+    public function check_treasurer($cooperatives_id){
+        $position = array('Treasurer');
+        $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+        $this->db->where('user_id',$cooperatives_id);
+        $this->db->where_in('position', $position);
+        $this->db->from('affiliators');
+        if($this->db->count_all_results()==1){
+          return true;
+        }else{
+          return false;
+        }
+    }
+
+    public function check_secretary($cooperatives_id){
+        $position = array('Secretary');
+        $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+        $this->db->where('user_id',$cooperatives_id);
+        $this->db->where_in('position', $position);
+        $this->db->from('affiliators');
+        if($this->db->count_all_results()==1){
+          return true;
+        }else{
+          return false;
+        }
+    }
+
     public function check_all_minimum_regular_subscription($decoded_id,$user_id){
         $decoded_id = $this->security->xss_clean($decoded_id);
         $user_id = $this->security->xss_clean($user_id);
@@ -259,5 +435,113 @@ $this->last_query = $this->db->last_query();
 //    $totalSubscribed = $data->total_subscribed;
 //    $totalPaid = $data->total_paid;
     return array('total_subscribed' => $totalSubscribed,'total_paid'=> $totalPaid, 'capitalization_no_of_subscribed'=>$capitalization_no_of_subscribed, 'capitalization_no_of_paid'=>$capitalization_no_of_paid);
+  }
+
+  public function get_list_of_directors($cooperatives_id){
+    $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->where('user_id',$cooperatives_id);
+    $this->db->where_in('position', $position);
+    $query = $this->db->get('affiliators');
+    $data = $query->result_array();
+    return $data;
+  }
+
+  public function no_of_directors($cooperatives_id){
+    $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->where('user_id',$cooperatives_id);
+    $this->db->where_in('position', $position);
+    $this->db->from('affiliators');
+    return $this->db->count_all_results();
+  }
+
+  public function get_all_regular_cooperator_of_coop($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->order_by('representative','asc');
+    $query = $this->db->get_where('affiliators',array('user_id' => $cooperatives_id));
+    $data = $query->result_array();
+    return $data;
+  }
+
+  public function get_treasurer_of_coop($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $query = $this->db->get_where('affiliators',array('user_id' => $cooperatives_id,'position'=>'Treasurer'));
+    $data = $query->row();
+    return $data;
+  }
+
+  public function get_all_cooperator_of_coop_regular($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->select('affiliators.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region');
+    $this->db->from('affiliators');
+    $this->db->join('refbrgy','refbrgy.brgycode=cooperators.addrCode','left');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','left');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','left');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','left');
+    $this->db->where('type_of_member = "Regular" AND cooperatives_id = '.$cooperatives_id.'');
+    $this->db->order_by('full_name','asc');
+    $query=$this->db->get();
+    // $this->last_query = $this->db->last_query();
+    $data = $query->result_array();
+    return $data;
+  }
+
+  public function is_position_available($ajax){
+    $decoded_id = $this->encryption->decrypt(decrypt_custom($ajax['cooperativesID']));
+    $this->db->where('cooperatives_id',$decoded_id);
+    $this->db->where('position', $ajax['fieldValue']);
+    $this->db->where_in('position',array('Chairperson','Vice-Chairperson','Treasurer','Secretary'));
+    $this->db->from('affiliators');
+    $count = $this->db->count_all_results();
+    if($count==0){
+      return array($ajax['fieldId'],true);
+    }else{
+      return array($ajax['fieldId'],false);
+    }
+  }
+
+  public function edit_is_position_available($ajax){
+    $decoded_id = $this->encryption->decrypt(decrypt_custom($ajax['cooperativesID']));
+    $cooperator_id = $this->encryption->decrypt(decrypt_custom($ajax['cooperatorID']));
+    $this->db->where('cooperatives_id',$decoded_id);
+    $this->db->where('id !=',$cooperator_id);
+    $this->db->where('position', $ajax['fieldValue']);
+    $this->db->where_in('position',array('Chairperson','Vice-Chairperson','Treasurer','Secretary'));
+    $this->db->from('affiliators');
+    $count = $this->db->count_all_results();
+    if($count==0){
+      return array($ajax['fieldId'],true);
+    }else{
+      return array($ajax['fieldId'],false);
+    }
+  }
+
+  public function get_total_number_of_cooperators($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->where('user_id',$cooperatives_id);
+    $this->db->from('affiliators');
+    return $this->db->count_all_results();
+  }
+
+  public function get_all_board_of_director_only($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $query = $this->db->get_where('affiliators',array('user_id' => $cooperatives_id,'position'=>'Board of Director'));
+    $data = $query->result_array();
+    return  $data;
+  }
+
+  public function get_chairperson_of_coop($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $query = $this->db->get_where('affiliators',array('user_id' => $cooperatives_id,'position'=>'Chairperson'));
+    $data = $query->row();
+    return $data;
+  }
+
+  public function get_vicechairperson_of_coop($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $query = $this->db->get_where('affiliators',array('user_id' => $cooperatives_id,'position'=>'Vice-Chairperson'));
+    $data = $query->row();
+    return $data;
   }
 }

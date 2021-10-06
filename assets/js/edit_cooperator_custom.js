@@ -3,6 +3,28 @@ $(function(){
   var userid = $("#editCooperatorForm #userID").val();
   var coop_ids = $("#editCooperatorForm #coopids").val();
   
+  var aoo = $("#editCooperatorForm #aoo").val();
+
+  // alert(aoo);
+
+  if(aoo=='Barangay'){
+    $('#editCooperatorForm #barangay').prop("disabled",true);
+    $('#editCooperatorForm #city').prop("disabled",true);
+    $('#editCooperatorForm #province').prop("disabled",true);
+    $('#editCooperatorForm #region').prop("disabled",true);
+  }else if(aoo=='Municipality/City'){
+    $('#editCooperatorForm #city').prop("disabled",true);
+    $('#editCooperatorForm #province').prop("disabled",true);
+    $('#editCooperatorForm #region').prop("disabled",true);
+  }else if(aoo=='Provincial'){
+    $('#editCooperatorForm #province').prop("disabled",true);
+    $('#editCooperatorForm #region').prop("disabled",true);
+  }else if(aoo=='Regional'){
+    $('#editCooperatorForm #region').prop("disabled",true);
+  }else if(aoo=='National'){
+    $('#editCooperatorForm #region').prop("disabled",false);
+  }
+          
   $.ajax({
 
     type : "POST",
@@ -15,8 +37,8 @@ $(function(){
       coop_ids:coop_ids
     },
     success: function(data){
-      console.log(data);
-     alert(data.area_of_operation);
+    console.log(data);
+    alert(data.area_of_operation);
 
          if(data!=null){
         var tempCount = 0;
@@ -131,32 +153,32 @@ $(function(){
     }
   });
   var w=$('#editCooperatorForm #regCode').val();
-  setTimeout( function(){
-    $('#editCooperatorForm #region').val(w);
-    $('#editCooperatorForm #region').trigger('change');
-  },300);
-  var x=$('#editCooperatorForm #provCode').val();
-  setTimeout( function(){
-    $('#editCooperatorForm #province').val(x);
-    $('#editCooperatorForm #province').trigger('change');
-  },1000);
-  var y=$('#editCooperatorForm #cityCode').val();
-  setTimeout( function(){
-    $('#editCooperatorForm #city').val(y);
-    $('#editCooperatorForm #city').trigger('change');
-  },2000);
-  var z=$('#editCooperatorForm #brgyCode').val();
-  setTimeout( function(){
-    $('#editCooperatorForm #barangay').val(z);
-    $('#editCooperatorForm #barangay').trigger('change');
-  },3000);
+  // setTimeout( function(){
+  //   $('#editCooperatorForm #region').val(w);
+  //   $('#editCooperatorForm #region').trigger('change');
+  // },300);
+  // var x=$('#editCooperatorForm #provCode').val();
+  // setTimeout( function(){
+  //   $('#editCooperatorForm #province').val(x);
+  //   $('#editCooperatorForm #province').trigger('change');
+  // },1000);
+  // var y=$('#editCooperatorForm #cityCode').val();
+  // setTimeout( function(){
+  //   $('#editCooperatorForm #city').val(y);
+  //   $('#editCooperatorForm #city').trigger('change');
+  // },2000);
+  // var z=$('#editCooperatorForm #brgyCode').val();
+  // setTimeout( function(){
+  //   $('#editCooperatorForm #barangay').val(z);
+  //   $('#editCooperatorForm #barangay').trigger('change');
+  // },3000);
 
   $('#editCooperatorForm #region').on('change',function(){
-    // $('#editCooperatorForm #province').empty();
+    $('#editCooperatorForm #province').empty();
     // $("#editCooperatorForm #province").prop("disabled",true);
-    // $('#editCooperatorForm #city').empty();
+    $('#editCooperatorForm #city').empty();
     // $("#editCooperatorForm #city").prop("disabled",true);
-    // $('#editCooperatorForm #barangay').empty();
+    $('#editCooperatorForm #barangay').empty();
     // $("#editCooperatorForm #barangay").prop("disabled",true);
     if($(this).val() && ($(this).val()).length > 0){
       // $("#editCooperatorForm #province").prop("disabled",false);

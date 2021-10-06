@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="modal fade" id="deferBranchModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="deferBranchModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+      <div class="modal-dialog modal-xl" role="document" style="width:90% !important;max-width:1360px;">
         <div class="modal-content">
           <?php echo form_open('branches/defer_branch',array('id'=>'deferBranchForm','name'=>'deferBranchForm')); ?>
             <div class="modal-header">
@@ -13,12 +13,12 @@
             <div class="modal-body">
               <input type="hidden" id="branchID" name="branchID" readonly>
               <div class="alert alert-info" role="alert">
-                Branch Name:<br>
+                <?=$branch_info->type?> Name:<br>
                 <strong class="branch-name-text">test</strong>
               </div>
               <div class="form-group">
                 <label for="comment">State the reason/s:</label>
-                <textarea class="form-control validate[required]" style="resize: none;" id="branch-comment-text" name="comment" rows="8"></textarea>
+                <textarea class="form-control validate[required]" style="resize: none;" id="comment" name="comment" rows="8"><?php foreach($branches_comments_snr_limit as $cc) : echo $cc['comment']."\n";endforeach; ?></textarea>
               </div>
             </div>
             <div class="modal-footer deferBranchFooter">

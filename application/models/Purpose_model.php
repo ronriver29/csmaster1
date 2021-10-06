@@ -15,28 +15,24 @@ class Purpose_model extends CI_Model{
     return $data;
   }
   public function get_all_purposes2($cooperatives_id){
+    $data=NULL;
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
-    $query = $this->db->get_where('purposes',array('cooperatives_id'=>$cooperatives_id));
-   foreach($query->result_array() as $row)
-   {
-    $row['cooperative_type'] = $this->get_cooperative_type_name($cooperatives_id);
-    $data[] = $row;
-   }
+   //  $query = $this->db->get_where('purposes',array('cooperatives_id'=>$cooperatives_id));
+   // foreach($query->result_array() as $row)
+   // {
+   //  $row['cooperative_type'] = $this->get_cooperative_type_name($cooperatives_id);
+   //  $data[] = $row;
+   // }
+   //  return $data;
+    $query = $this->db->query("select content from purposes where cooperatives_id = '$cooperatives_id'");
+    if($query->num_rows()>0)
+    {
+      $data = $query->row();
+    }
     return $data;
   }
 
-  public function get_cooperative_type_name($cooperatives_id)
-  {
-    $qry = $this->db->query("select type_of_cooperative from cooperatives where id='$cooperatives_id'");
-    if($qry->num_rows()>0)
-    {
-      foreach($qry->result_array() as $row)
-      {
-        $data =$row['type_of_cooperative'];
-      }
-      return $data;
-    }
-  }
+  
   public function edit_purposes($coop_id,$data){
     $data = $this->security->xss_clean($data);
     $this->db->trans_begin();

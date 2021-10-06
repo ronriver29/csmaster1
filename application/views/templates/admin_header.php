@@ -10,7 +10,7 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-    <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css" media="all">
     <link rel="stylesheet" href="<?=base_url();?>assets/css/validationEngine.jquery.css" type="text/css"/>
     <link rel="stylesheet" href="<?=base_url();?>assets/icons/fontawesome-free-5.5.0-web/css/all.css">
     <link rel="icon" href="<?=base_url();?>/assets/img/cda.png" type="image/png">
@@ -25,6 +25,7 @@
         box-shadow: 1px 1px;
       }
     </style>
+    <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
   </head>
   <body>
   <div class="wrapper">
@@ -34,10 +35,10 @@
       <div class="sidebar-header">
         <div class="row">
           <div class="col-sm-3">
-            <img src="<?=base_url();?>assets/img/cda.png" width="50" height="50" class="d-inline-block align-top" alt="Responsive image">
+            <img src="<?=base_url();?>assets/img/cda_new.png" width="50" height="50" class="d-inline-block align-top" alt="Responsive image">
           </div>
-          <div class="col-sm-8 align-self-center">
-            <p class="h3">Coop<strong>RIS</strong></p>
+          <div class="col-sm-9 align-self-center" >
+            <p class="h4">E-Coop<strong>RIS</strong></p>
           </div>
         </div>
         <div class="row">
@@ -75,14 +76,68 @@
             <a href="<?php echo base_url();?>admins/all_user"><i class="fas fa-user-tie"></i> Users</a>
           </li>
           <li>   
+            <a href="<?php echo base_url();?>admins/all_signatory"><i class="fas fa-handshake"></i> COC Signatory</a>
+          </li>  
+          <li>   
             <a href="<?php echo base_url();?>admins/cooperatives_list"><i class="fas fa-handshake"></i> All Cooperatives List</a>
           </li>
-            <!--  <li>   
+             <li>   
             <a href="<?php echo base_url();?>admins/amendment_list"><i class="fas fa-handshake"></i> All Amendments List</a>
-          </li> -->
-          <!--  <li>   
+          </li>
+           <li>   
             <a href="<?php echo base_url();?>admins/branches_list"><i class="fas fa-handshake"></i> All Branches List</a>
-          </li>   -->
+          </li> 
+          <li>
+          <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> SMS Settings</a>
+          <ul class="collapse list-unstyled" id="pageSubmenu2">
+            <li>
+              <a href="<?php echo base_url();?>api_settings"><i class="fas fa-cog"></i> API Settings</a>
+            </li>
+
+            <li>
+                <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> SMS Allowed Actions</a>
+
+              <ul class="collapse list-unstyled" id="pageSubmenu3">
+                <li>
+                    <a href="<?php echo base_url();?>api_settings/primary"><i class="fas fa-cog" style="padding-left:15%;"></i> PRIMARY</a>
+                </li>
+                <li>
+                  <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog" style="padding-left:15%;"></i> B&S</a>
+                  <ul class="collapse list-unstyled" id="pageSubmenu4">
+                    <li>
+                      <a href="<?php echo base_url();?>api_settings/bns_inside"><i class="fas fa-cog" style="padding-left:25%;"></i> INSIDE</a>
+                    </li>
+                    <li>
+                      <a href="<?php echo base_url();?>api_settings/bns_outside"><i class="fas fa-cog" style="padding-left:25%;"></i> OUTSIDE</a>
+                    </li>
+                  </ul>
+                </li>
+                <!-- <li>
+                    <a href="<?php echo base_url();?>api_settings/bns"><i class="fas fa-cog" style="padding-left:15%;"></i> BRANCH AND SATELLITE</a>
+                </li> -->
+                <li>
+                    <a href="<?php echo base_url();?>api_settings/laboratories"><i class="fas fa-cog" style="padding-left:15%;"></i> LABORATORIES</a>
+                </li>
+                <li>
+                    <a href="<?php echo base_url();?>api_settings/amendment"><i class="fas fa-cog" style="padding-left:15%;"></i> AMENDMENT</a>
+                </li>
+            </ul>
+            </li>
+            
+            <!-- <li>
+              <a href="<?php echo base_url();?>admins/change_passwd"><i class="fas fa-cog"></i> SMS Messages Page</a>
+            </li> -->
+
+            <li>
+              <a href="<?php echo base_url();?>api_settings/blocked_no"><i class="fas fa-cog"></i> SMS Block Nos.</a>
+            </li>
+
+          </ul>
+        </li>
+
+        <li>   
+          <a href="<?php echo base_url();?>api_settings/messages_list"><i class="fas fa-cog"></i> SMS Messages</a>
+        </li>
         <?php endif; ?>
       
         <?php if($admin_info->access_level < 5) : ?>
@@ -90,7 +145,7 @@
             <a href="<?php echo base_url();?>cooperatives"><i class="fas fa-handshake"></i> Cooperatives</a>
           </li>
          
-          <!--  <li>   
+           <li>   
 
             <a href="<?php echo base_url();?>branches"><i class="fas fa-handshake"></i> Branches and Satellites</a>
           </li>
@@ -99,11 +154,11 @@
           </li>
           <li>   
             <a href="<?php echo base_url();?>amendment"><i class="fas fa-handshake"></i> Amendment</a>
-          </li>   -->
+          </li>  
           <?php if($admin_info->access_level == 2) : ?>
-         <!--  <li>   
+          <li>   
             <a href="<?php echo base_url();?>account_approval"><i class="fas fa-handshake"></i> Account Approval</a>
-          </li>  -->
+          </li> 
           <?php endif; ?>
         <?php endif; ?>
         <li>

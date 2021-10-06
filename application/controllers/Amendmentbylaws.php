@@ -517,7 +517,7 @@ class Amendmentbylaws extends CI_Controller{
                   $this->load->view('amendment/bylaw_info/bylaw_primary_form.php', $data);
                   $this->load->view('template/footer');
                 } else {
-                  if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
+                  if(!$this->amendment_model->check_submitted_for_evaluation_client($cooperative_id,$decoded_id)){
                     $bylaw_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('bylaw_coop_id')));
                     if($this->input->post('regularQualifications')){
                       $regQualificationsLength = sizeof($this->input->post('regularQualifications'));
@@ -575,7 +575,8 @@ class Amendmentbylaws extends CI_Controller{
                       'percent_community_fund'=> $this->input->post('communityFund'),
                       'percent_optional_fund'=> $this->input->post('othersFund'),
                       'non_member_patron_years'=> $this->input->post('nonMemberPatronYears'),
-                      'amendment_votes_members_with'=> $this->input->post('amendmentMembersWith'),
+                      'amendment_votes_members_with'=> $this->input->post('amendmentMembersWith'), 
+                      'type' => $this->input->post('type')
                     );
                     // echo $bylaw_coop_id;
                     // $this->debug($data);
@@ -602,9 +603,10 @@ class Amendmentbylaws extends CI_Controller{
             redirect('amendment');
           }
         }else{
+          $access_array = array(1,2);
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
-          }else if($this->session->userdata('access_level')!=1){
+          }else if(!in_array($this->session->userdata('access_level'),$access_array)){
             redirect('amendment');
           }else{
             if(!$this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){
@@ -617,8 +619,19 @@ class Amendmentbylaws extends CI_Controller{
                     $data['encrypted_id'] = $id;
                     $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
                     $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
-                    $data['reg_qualifications'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id)->regular_qualifications);
-                    $data['asc_qualifications'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id)->associate_qualifications);
+                 
+                    if (isset($this->amendment_bylaw_model->get_bylaw_by_coop_id( $cooperative_id,$decoded_id)->regular_qualifications)) {
+                        // use $obj->foo
+                        $data['reg_qualifications'] =  explode(";",$this->amendment_bylaw_model->get_bylaw_by_coop_id( $cooperative_id,$decoded_id)->regular_qualifications);
+                    } else {
+                    $data['reg_qualifications'] =  explode(";",$this->amendmen_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id)->regular_qualifications);
+                    }
+
+                    if(isset($this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id)->associate_qualifications)) {
+                    $data['asc_qualifications'] =  explode(";",$this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id)->associate_qualifications);
+                   }else{
+                    $data['asc_qualifications'] =  explode(";",$this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id)->associate_qualifications);
+                   }
                     $data['add_membership'] =  explode(";",$this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id)->additional_requirements_for_membership);
                   $data['add_members_vote'] =  explode(";",$this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id)->additional_conditions_to_vote);
                     $this->load->view('templates/admin_header', $data);
@@ -738,9 +751,9 @@ class Amendmentbylaws extends CI_Controller{
     }
   }
   public function check_minimum_associate_subscription(){
-    // if(!$this->session->userdata('logged_in')){
-    //   redirect('users/login');
-    // }else{
+    if(!$this->session->userdata('logged_in')){
+      redirect('users/login');
+    }else{
       if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('amd_id')){
         $data = array(
           'fieldId'=>$this->input->get('fieldId'),
@@ -754,7 +767,7 @@ class Amendmentbylaws extends CI_Controller{
         // echo'show_404()';
         echo"Ajax error";
       }
-    // }
+    }
   }
   //paid up share associate
   public function check_minimum_associate_pay_amendment(){

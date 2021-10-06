@@ -32,7 +32,6 @@ class Cooperatives_model extends CI_Model{
     $this->db->where('nature','Registration');
     $this->db->order_by('id','DESC');
     $query = $this->db->get();
-
     return $query->row();
   }
   // start modify
@@ -158,7 +157,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->select('users.*,users.id as usersid,registeredcoop.*');
     $this->db->from('users');
     $this->db->join('registeredcoop' , 'users.regNo = registeredcoop.regNo','inner');
-    $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = users.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
@@ -182,7 +181,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->select('users.*,users.id as usersid,registeredcoop.*');
     $this->db->from('users');
     $this->db->join('registeredcoop' , 'users.regNo = registeredcoop.regNo','inner');
-    $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = users.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
@@ -212,7 +211,57 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status IN ("2","3","4","5","16") OR (status = 6 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 12 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 13 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 14 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%")');
+    $this->db->where('status IN ("2","3","4","5","6","16") OR (status = 6 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 12 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 13 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 14 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%")');
+    // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_cooperatives_by_senior_defer_deny($regcode){
+    // Get Coop Type for HO
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
+
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+    // End Get Coop Type for HO
+    $this->db->select('cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->from('cooperatives');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
+    $this->db->like('refregion.regCode', $regcode);
+    $this->db->where('status IN ("11",10) AND third_evaluated_by > 0');
+    // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_cooperatives_by_ho_senior_defer_deny($regcode){
+    // Get Coop Type for HO
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
+
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+    // End Get Coop Type for HO
+    $this->db->select('cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->from('cooperatives');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
+    // $this->db->like('refregion.regCode', $regcode);
+    $this->db->where('status IN ("11",10) AND third_evaluated_by > 0 AND type_of_cooperative IN ('.$typeofcoopimp.')');
     // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
     $query = $this->db->get();
     $data = $query->result_array();
@@ -262,7 +311,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     // $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status IN ("9") AND type_of_cooperative IN ('.$typeofcoopimp.')');
+    $this->db->where('status IN ("9,17") AND type_of_cooperative IN ('.$typeofcoopimp.')');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
@@ -286,7 +335,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status IN ("7","8") OR (status = 9 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%")');
+    $this->db->where('status IN ("7","8") OR (status = 9 OR status = 17 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%")');
     // $this->db->where_in('status',array('7','8','9'));
     $query = $this->db->get();
     $data = $query->result_array();
@@ -409,7 +458,15 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     // $this->db->from('cooperatives_comment');
     // $this->db->where(array('cooperatives_id'=>$coop_id,'user_level'=>3));
      // $query = $this->db->get();
-    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and status=11 and user_level IN(3,4)");
+    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and status IN (11,17) and user_level IN(3,4) ORDER BY id DESC");
+    return $query->result_array();
+  }
+  public function cooperatives_comments_director($coop_id){
+    // $this->db->select('*');
+    // $this->db->from('cooperatives_comment');
+    // $this->db->where(array('cooperatives_id'=>$coop_id,'user_level'=>3));
+     // $query = $this->db->get();
+    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and status=11 and user_level IN(3,4) AND status = 11");
     return $query->result_array();
   }
   public function supervising_cds_comments($coop_id){
@@ -420,15 +477,43 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and status=11 and user_level=4 ");
     return $query->result_array();
   }
-  public function admin_supervising_cds_comments($coop_id){
-    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and user_level=4 ");
+  public function admin_supervising_cds_comments_revert($coop_id){
+    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and user_level=4 and status = 17");
+    if($query->num_rows()>0){
+       return $query->result_array();
+    }
+   
+  }
+   public function admin_supervising_cds_comments($coop_id){
+    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and user_level=4 and status IS NULL");
     if($query->num_rows()>0){
        return $query->result_array();
     }
    
   }
   public function director_comments($coop_id){
-    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and status=11 and user_level=3 ");
+    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and status=11 and (user_level=3 or user_level=4) order by id desc");
+    if($query->num_rows()>0){
+      return $query->result_array();
+    }
+    
+  }
+  public function director_comments_defer($coop_id){
+    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and status=11 and (user_level=3 or user_level=4) order by id desc limit 1");
+    if($query->num_rows()>0){
+      return $query->result_array();
+    }
+    
+  }
+  public function director_comments_defer_revert($coop_id){
+    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and status=17 and (user_level=3 or user_level=4) order by id desc limit 1");
+    if($query->num_rows()>0){
+      return $query->result_array();
+    }
+    
+  }
+  public function director_comments_revert($coop_id){
+    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and status=17 and (user_level=3) order by id desc limit 1");
     if($query->num_rows()>0){
       return $query->result_array();
     }
@@ -436,7 +521,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
   }
   //json
   public function denied_comments($coop_id){
-    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and user_level IN(3,4) and status=10");
+    $query = $this->db->query("select * from cooperatives_comment where cooperatives_id='$coop_id' and user_level IN(3,4,2) AND status = 10");
     return $query->result_array();
   }
   public function cooperatives_comments_cds($coop_id){
@@ -449,7 +534,34 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
   public function cooperatives_comments_snr($coop_id){
     $this->db->select('*');
     $this->db->from('cooperatives_comment');
-    $this->db->where(array('cooperatives_id'=>$coop_id,'user_level'=>2));
+    $this->db->where(array('user_level = 2 AND (status != 17 OR status IS NULL) AND cooperatives_id ='=>$coop_id));
+    $this->db->order_by('id','desc');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function cooperatives_comments_snr_defer($coop_id){
+    $this->db->select('*');
+    $this->db->from('cooperatives_comment');
+    $this->db->where(array('user_level = 2 AND (status != 17 OR status IS NULL) AND cooperatives_id ='=>$coop_id));
+    $this->db->order_by('id','desc');
+    $this->db->limit('1');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function cooperatives_comments_snr_revert($coop_id){
+    $this->db->select('*');
+    $this->db->from('cooperatives_comment');
+    $this->db->where(array('cooperatives_id'=>$coop_id,'user_level'=>2,'status'=>17));
+    $this->db->order_by('id','desc');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function cooperatives_comments_snr_revert_defer($coop_id){
+    $this->db->select('*');
+    $this->db->from('cooperatives_comment');
+    $this->db->where(array('cooperatives_id'=>$coop_id,'user_level'=>2,'status'=>17));
+    $this->db->order_by('id','desc');
+    $this->db->limit('1');
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -469,6 +581,42 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->join('branches', 'cooperatives.users_id = branches.user_id','inner');
     $this->db->where(array('cooperatives.users_id'=>$user_id,'branches.user_id'=>$user_id));
+    $query = $this->db->get();
+    return $query->row();
+  }
+  public function get_common_bond($amendment_info)
+  {
+    $cooperative_id = $this->amendment_model->amendment_dtl($amendment_info->id);
+    $openTag ='';
+    $closeTag ='';
+    $data = '';
+    $members_composition = $this->amendment_model->get_coop_composition($amendment_info->id);
+    if($amendment_info->common_bond_of_membership == 'Associational')
+    {
+      $name_ins_assoc = explode(',',$amendment_info->name_of_ins_assoc);
+          $data .= $amendment_info->field_of_membership; 
+          $data .= ' of ';
+          $count= count($name_ins_assoc) -1;
+          foreach($name_ins_assoc as $key => $ins_assoc)
+          {
+           
+             $data .= $ins_assoc;
+             if($key<$count)
+             {
+              $data .= ', ';
+             }
+          } 
+    }
+  }
+  public function get_cooperative_info_branch_amend($user_id,$coop_id){
+    $this->db->select('amend_coop.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+    $this->db->from('amend_coop');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->join('branches', 'amend_coop.users_id = branches.user_id','inner');
+    $this->db->where(array('amend_coop.users_id'=>$user_id,'branches.user_id'=>$user_id,'amend_coop.status'=>15));
     $query = $this->db->get();
     return $query->row();
   }
@@ -551,14 +699,52 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->insert('cooperatives',$data);
     $id = $this->db->insert_id();
 
-    foreach($industry_subclasses_id_array as $industry_subclasses_id){
-      array_push($batch_subtype, array(
-        'cooperatives_id'=> $id,
-        'industry_subclass_by_coop_type_id'=>$industry_subclasses_id['id'])
-      );
-    }
-    $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
+    if($data['type_of_cooperative'] == 'Union' && $data['grouping'] == 'Union'){
+      $audit = array('name'=> 'Audit','user_id' => $data['users_id']);
+      $gad = array('name'=> 'Gender and Development','user_id' => $data['users_id']);
+      $election = array('name'=> 'Election','user_id' => $data['users_id']);
+      $mac = array('name'=> 'Mediation and Conciliation','user_id' => $data['users_id']);
+      $ethics = array('name'=> 'Ethics','user_id' => $data['users_id']);
 
+      $this->db->insert('committees_union',$audit);
+      $this->db->insert('committees_union',$gad);
+      $this->db->insert('committees_union',$election);
+      $this->db->insert('committees_union',$mac);
+      $this->db->insert('committees_union',$ethics);
+
+      // return $return;
+    } else if($data['grouping'] == 'Federation'){
+      $audit = array('name'=> 'Audit','user_id' => $data['users_id']);
+      $gad = array('name'=> 'Gender and Development','user_id' => $data['users_id']);
+      $election = array('name'=> 'Election','user_id' => $data['users_id']);
+      $mac = array('name'=> 'Mediation and Conciliation','user_id' => $data['users_id']);
+      $ethics = array('name'=> 'Ethics','user_id' => $data['users_id']);
+
+      $this->db->insert('committees_federation',$audit);
+      $this->db->insert('committees_federation',$gad);
+      $this->db->insert('committees_federation',$election);
+      $this->db->insert('committees_federation',$mac);
+      $this->db->insert('committees_federation',$ethics);
+
+    }
+
+    if(count($industry_subclasses_id_array)!=0){
+      foreach($industry_subclasses_id_array as $industry_subclasses_id){
+        array_push($batch_subtype, array(
+          'cooperatives_id'=> $id,
+          'industry_subclass_by_coop_type_id'=>$industry_subclasses_id['id'])
+        );
+      }
+      $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
+    } else {
+      // foreach($industry_subclasses_id_array as $industry_subclasses_id){
+        array_push($batch_subtype, array(
+          'cooperatives_id'=> $id,
+          'industry_subclass_by_coop_type_id'=>1)
+        );
+      // }
+      $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
+    }
 
     $this->db->select('id');
     $this->db->where_in('composition',$members_composition);
@@ -578,7 +764,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     }
     $temp_purpose = array(
         'cooperatives_id' => $id,
-        'content'  => $this->get_purpose_content($coop_type->name)
+        'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
       );
     $this->db->insert('purposes',$temp_purpose);
     $this->db->insert('bylaws', array('cooperatives_id'=>$id));
@@ -618,7 +804,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $query2 = $this->db->get();
     $coop_type = $query2->row();
 
-    $this->db->select('type_of_cooperative');
+    $this->db->select('type_of_cooperative,category_of_cooperative');
     $this->db->where('id',$coop_id);
     $this->db->from('cooperatives');
     $query3 = $this->db->get();
@@ -629,20 +815,29 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->update('cooperatives',$data);
     
     $this->db->delete('business_activities_cooperative',array('cooperatives_id'=>$coop_id));
-    
-    foreach($industry_subclasses_id_array as $industry_subclasses_id){
-      array_push($batch_subtype, array(
-        'cooperatives_id'=> $coop_id,
-        'industry_subclass_by_coop_type_id'=>$industry_subclasses_id['id'])
-      );
+
+    if(count($industry_subclasses_id_array)!=0){
+      foreach($industry_subclasses_id_array as $industry_subclasses_id){
+        array_push($batch_subtype, array(
+          'cooperatives_id'=> $coop_id,
+          'industry_subclass_by_coop_type_id'=>$industry_subclasses_id['id'])
+        );
+      }
+      $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
+    }  else {
+      // foreach($industry_subclasses_id_array as $industry_subclasses_id){
+        array_push($batch_subtype, array(
+          'cooperatives_id'=> $coop_id,
+          'industry_subclass_by_coop_type_id'=>1)
+        );
+      // }
+      $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
     }
-    $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
-    
 
 
     $temp_purpose = array(
         'cooperatives_id' => $coop_id,
-        'content'  => $this->get_purpose_content($coop_type->name)
+        'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
       );
     
     $this->db->select('id');
@@ -662,10 +857,10 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
         $this->db->insert_batch('members_composition_of_cooperative', $batch_composition);
     }
 
-    if($coop_type_of_coop->type_of_cooperative != $coop_type->name){
+    if($coop_type_of_coop->type_of_cooperative != $coop_type->name || $coop_type_of_coop->category_of_cooperative != $data['category_of_cooperative']){
       $temp_purpose = array(
           'cooperatives_id' => $coop_id,
-          'content'  => $this->get_purpose_content($coop_type->name)
+          'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
         );
       $this->db->where('cooperatives_id',$coop_id);
       $this->db->update('purposes',$temp_purpose);
@@ -694,7 +889,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $query = $this->db->get();
     $industry_subclasses_id_array = $query->result_array();
 
-    $this->db->select('type_of_cooperative');
+    $this->db->select('type_of_cooperative,category_of_cooperative');
     $this->db->where('id',$coop_id);
     $this->db->from('cooperatives');
     $query3 = $this->db->get();
@@ -717,10 +912,10 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     }
     $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
 
-    if($coop_type_of_coop->type_of_cooperative != $coop_type->name){
+    if($coop_type_of_coop->type_of_cooperative != $coop_type->name || $coop_type_of_coop->category_of_cooperative != $data['category_of_cooperative']){
       $temp_purpose = array(
           'cooperatives_id' => $coop_id,
-          'content'  => $this->get_purpose_content($coop_type->name)
+          'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
         );
       $this->db->where('cooperatives_id',$coop_id);
       $this->db->update('purposes',$temp_purpose);
@@ -868,18 +1063,89 @@ public function delete_cooperative($coop_id,$status,$user_id){
   }                      
 }
 public function delete_cooperative_federation($coop_id,$status,$user_id){
-  // return "a";
-  $this->db->trans_begin();
-  $this->db->delete('cooperatives',array('id' => $coop_id));
-  $this->db->delete('affiliators',array('user_id' => $user_id));
-  $this->db->delete('committees_federation',array('user_id' => $user_id));
-  if($this->db->trans_status() === FALSE){
-    $this->db->trans_rollback();
-    return false;
-  }else{
-    $this->db->trans_commit();
-    return true;
-  }
+
+  if($this->remove_file($coop_id))
+ {
+    $this->db->trans_begin();
+    if($this->db->delete('committees_federation',array('user_id'=>$user_id)))
+    {
+      if($this->db->delete('capitalization',array('cooperatives_id'=>$coop_id)))
+      {
+        if($this->db->delete('bylaws',array('cooperatives_id'=>$coop_id)))
+        {
+          if($this->db->delete('affiliators',array('user_id'=>$user_id)))
+          {
+            if($this->db->delete('purposes',array('cooperatives_id'=>$coop_id)))
+            {
+              // if($this->db->delete('articles_of_cooperation',array('cooperatives_id'=>$coop_id)))
+              // {
+                // if($this->db->delete('economic_survey',array('cooperatives_id'=>$coop_id)))
+                // {
+                  if($this->db->delete('staff',array('cooperatives_id'=>$coop_id)))
+                  {
+                    if($this->db->delete('uploaded_documents',array('cooperatives_id'=>$coop_id)))
+                    {
+                      $this->db->delete('cooperatives',array('id' => $coop_id));
+                    }  
+                  }  
+                // }     
+              // }  
+            }  
+          }    
+        } 
+      }   
+    }
+      if($this->db->trans_status() === FALSE){
+        $this->db->trans_rollback();
+        return false;
+      }else{
+        $this->db->trans_commit();
+        return true;
+      }
+  }     
+}
+
+public function delete_cooperative_union($coop_id,$status,$user_id){
+
+  if($this->remove_file($coop_id))
+ {
+    $this->db->trans_begin();
+    if($this->db->delete('committees_union',array('user_id'=>$user_id)))
+    {
+      // if($this->db->delete('capitalization',array('cooperatives_id'=>$coop_id)))
+      // {
+        if($this->db->delete('bylaws',array('cooperatives_id'=>$coop_id)))
+        {
+          if($this->db->delete('unioncoop',array('user_id'=>$user_id)))
+          {
+            if($this->db->delete('purposes',array('cooperatives_id'=>$coop_id)))
+            {
+              // if($this->db->delete('articles_of_cooperation',array('cooperatives_id'=>$coop_id)))
+              // {
+                // if($this->db->delete('economic_survey',array('cooperatives_id'=>$coop_id)))
+                // {
+                  if($this->db->delete('staff',array('cooperatives_id'=>$coop_id)))
+                  {
+                    if($this->db->delete('uploaded_documents',array('cooperatives_id'=>$coop_id)))
+                    {
+                      $this->db->delete('cooperatives',array('id' => $coop_id));
+                    }  
+                  }  
+                // }     
+              // }  
+            }  
+          }    
+        } 
+      // }   
+    }
+      if($this->db->trans_status() === FALSE){
+        $this->db->trans_rollback();
+        return false;
+      }else{
+        $this->db->trans_commit();
+        return true;
+      }
+  }     
 }
 
 public function delete_committees($user_id){
@@ -1128,6 +1394,42 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step){
     }
   }
 }
+
+public function revert_by_senior($admin_id,$coop_id,$reason_commment,$step){
+  
+  $this->db->trans_begin();
+  $this->db->where('id',$coop_id);
+  if ($step==1)
+    $this->db->update('cooperatives',array('evaluated_by'=>$admin_id,'status'=>5,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment,'temp_evaluation_comment'=>$reason_commment));
+  else if($step==2)
+    $this->db->update('cooperatives',array('second_evaluated_by'=>$admin_id,'status'=>8,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment,'temp_evaluation_comment'=>$reason_commment));
+  else 
+    $this->db->update('cooperatives',array('third_evaluated_by'=>$admin_id,'status'=>17,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment,'temp_evaluation_comment'=>$reason_commment));
+  if($this->db->trans_status() === FALSE){
+    $this->db->trans_rollback();
+    return false;
+  }else{
+    if ($step==3){
+      $this->db->select('cooperatives.proposed_name, cooperatives.type_of_cooperative, cooperatives.grouping, users.*');
+      $this->db->from('cooperatives');
+      $this->db->join('users' , 'users.id = cooperatives.users_id','inner');
+      $this->db->where('cooperatives.id', $coop_id);
+      $query = $this->db->get();
+      $client_info = $query->row();
+      $full_name= $client_info->first_name.' '.$client_info->last_name; // modified by json
+      // if($this->admin_model->sendEmailToClientDefer($full_name, $client_info->proposed_name.' '.$client_info->type_of_cooperative.' Cooperative '.$client_info->grouping ,$client_info->email, $reason_commment)){
+        $this->db->trans_commit();
+        return true;
+      // }else{
+      //   $this->db->trans_rollback();
+      //   return false;
+      // }
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
+}
 public function check_own_cooperative($coop_id,$user_id){
     $query2 = $this->db->get_where('cooperatives', array('users_id' => $user_id,'id'=> $coop_id));
     return $query2->num_rows() > 0 ? true : false;
@@ -1171,11 +1473,20 @@ public function check_submitted_for_evaluation($coop_id){
   $data = $query->row();
   $coop_status = $data->status;
   // if($coop_status > 1 && $coop_status <11){
-  if($coop_status > 1 && $coop_status <16 && $coop_status != 11){ //modify by json
+  if($coop_status > 1 && $coop_status <=16 && $coop_status != 11 || $coop_status == 17 ){ //modify by json
     return true;
   }else if($coop_status == 11){
     return false;
   } else {
+    return false;
+  }
+}
+public function check_if_revert($coop_id){
+  $query = $this->db->get_where('cooperatives_comment',array('cooperatives_id'=>$coop_id,'status'=>17));
+  $data = $query->num_rows();
+  if($data != 0){
+    return true;
+  }else{
     return false;
   }
 }
@@ -1202,7 +1513,7 @@ public function check_first_evaluated($coop_id){
   $query = $this->db->get_where('cooperatives',array('id'=>$coop_id));
   $data = $query->row();
   $coop_status = $data->status;
-  if($coop_status>=4){
+  if($coop_status>=4 || $coop_status==17){
     return true;
   }else{
     return false;
@@ -1222,7 +1533,17 @@ public function check_last_evaluated($coop_id){
   $query = $this->db->get_where('cooperatives',array('id'=>$coop_id));
   $data = $query->row();
   $coop_status = $data->status;
-  if($coop_status>=10){
+  if($coop_status>=10 || $coop_status == 17){
+    return true;
+  }else{
+    return false;
+  }
+}
+public function check_last_evaluated_revert($coop_id){
+  $query = $this->db->get_where('cooperatives',array('id'=>$coop_id));
+  $data = $query->row();
+  $coop_status = $data->status;
+  if($coop_status>=13){
     return true;
   }else{
     return false;
@@ -1306,7 +1627,31 @@ public function check_if_denied($coop_id){
     return $token;
   }
 
-  public function get_purpose_content($coop_type){
+  public function get_purpose_content($coop_type,$grouping){
+    if($grouping == 'Federation'){
+      $data = array('Advocacy' => '_________________________________________________________________________________________________',
+        'Agrarian Reform' => '_________________________________________________________________________________________________',
+        'Agriculture' => '_________________________________________________________________________________________________',
+        'Consumers' => '_________________________________________________________________________________________________',
+        'Credit' => '_________________________________________________________________________________________________',
+        'Dairy' => '_________________________________________________________________________________________________',
+        'Education' => '_________________________________________________________________________________________________',
+        'Electric' => '_________________________________________________________________________________________________',
+        'Financial Service' => '_________________________________________________________________________________________________',
+        'Fishermen' => '_________________________________________________________________________________________________',
+        'Health Service' => '_________________________________________________________________________________________________',
+        'Housing' => '_________________________________________________________________________________________________',
+        'Labor Service' => '_________________________________________________________________________________________________',
+        'Marketing' => '_________________________________________________________________________________________________',
+        'Producers' => '_________________________________________________________________________________________________',
+        'Professionals' => '_________________________________________________________________________________________________',
+        'Service' => '_________________________________________________________________________________________________',
+        'Small Scale Mining' => '_________________________________________________________________________________________________',
+        'Transport' => '_________________________________________________________________________________________________',
+        'Water Service' => '_________________________________________________________________________________________________',
+        'Workers' => '_________________________________________________________________________________________________'
+      );
+    } else {
     $data = array(
       'Advocacy'=> 'Promoting and advocating cooperativism among its members and the public through socially oriented projects, education and training, research and communication and other similar activities to reach out to its intended beneficiaries;'.
         'Promoting and advancing the economic and social status of the members;'.
@@ -1340,11 +1685,12 @@ public function check_if_denied($coop_id){
         'Ensuring the viability of Cooperatives through the utilization of new technologies;'.
         'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation;'.
         'Promoting the maintenance of sustainable farming and ecological  balance in the agrarian reform community.',
-      'Bank' => 'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+      // 'Bank' => '___________________________________________________________;',
+        // 'Promoting and advancing the economic and social status of the members;'.
+        // 'Coordinating and facilitating the activities of cooperatives;'.
+        // 'Advocating for the cause of the cooperative movements;'.
+        // 'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+        // 'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
       'Consumers' => 'Procurement and distribution of commodities to members and nonmembers such as (retail, wholesale, restaurant/canteen operation, water refilling and etc.),_____________ and other basic commodities;'.
         'Promoting and advancing the economic and social status of the members;'.
         'Coordinating and facilitating the activities of cooperatives;'.
@@ -1501,15 +1847,21 @@ public function check_if_denied($coop_id){
         'Coordinating and facilitating the activities of cooperatives;'.
         'Advocating for the cause of the cooperative movements;'.
         'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.'
+        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+      'Union' => '___________________________________________________________;',
+      'Federation' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+        '_________________________________________________________________________________________________',
+      'Bank' => 'To provide a wide range of financial services primarily to cooperative organizations and their members, and to the general public; and'.
+        'To Perform any or all transactions and banking services offered by other types of banks subject to applicable laws, rules and regulations'
     );
+  }
       return $data[$coop_type];
   }
 public function check_second_evaluated_laboratories($coop_id){
   $query = $this->db->get_where('laboratories',array('id'=>$coop_id));
   $data = $query->row();
   $coop_status = $data->status;
-  if($coop_status>=7){
+  if($coop_status>=7 || $coop_status==17){
     return true;
   }else{
     return false;
@@ -1634,6 +1986,26 @@ public function approve_by_director_laboratories($admin_info,$coop_id){
             $this->db->trans_commit();
             return true;
         }
+  }
+  
+  public function get_provinces($regCode){
+    $this->db->select('provDesc,provCode,regCode');
+    $this->db->where(array('regCode'=>$regCode));
+    $query = $this->db->get('refprovince');
+    return $query->result_array();
+  }
+  public function get_cities($provCode){
+    $this->db->select('citymunDesc,citymunCode,provCode,regCode');
+    $this->db->where(array('provCode'=>$provCode));
+    $query = $this->db->get('refcitymun');
+    return $query->result_array();
+  }
+   public function get_brgys($cityCode){
+    $this->db->select('brgyCode,brgyDesc,citymunCode,provCode');
+     // $this->db->select('brgyCode,brgyDesc');
+    $this->db->where(array('brgyCode'=>$cityCode));
+    $query = $this->db->get('refbrgy');
+    return $query->result_array();
   }
 // ANJURY END
 }

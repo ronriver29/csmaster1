@@ -593,8 +593,8 @@
       <div class="card-footer">
         <div class="row">
           <?php if($coop_info->status==3): ?>
-          <div class="col-sm-12 offset-md-8 col-md-2 align-self-center order-xs-2 order-sm-2 order-1 col-signup-btn">
-              <input class="btn btn-block btn-color-blue" type="submit" id="coopBtn" name="coopBtn" value="Submit">
+          <div class="col-sm-12 offset-md-8 col-md-4 align-self-center order-xs-4 order-sm-2 order-1 col-signup-btn">
+              <input class="btn btn-block btn-color-blue" type="submit" id="coopBtn" name="coopBtn" value="Submit Validation Report">
           </div>
         <?php endif;?>
         </div>

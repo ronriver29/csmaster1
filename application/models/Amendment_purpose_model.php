@@ -36,6 +36,31 @@ class Amendment_purpose_model extends CI_Model{
       return true;
     }
   }
+  public function get_all_purposes2($cooperatives_id){
+    $data=array();
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $query = $this->db->get_where('purposes',array('cooperatives_id'=>$cooperatives_id));
+   foreach($query->result_array() as $row)
+   {
+    $row['cooperative_type'] = $this->get_cooperative_type_name($cooperatives_id);
+    $data[] = $row;
+   }
+    return $data;
+   
+  }
+
+  public function get_cooperative_type_name($cooperatives_id)
+  {
+    $qry = $this->db->query("select type_of_cooperative from cooperatives where id='$cooperatives_id'");
+    if($qry->num_rows()>0)
+    {
+      foreach($qry->result_array() as $row)
+      {
+        $data =$row['type_of_cooperative'];
+      }
+      return $data;
+    }
+  }
   public function check_not_null($cooperatives_id,$amendment_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $amendment_id = $this->security->xss_clean($amendment_id );
@@ -77,6 +102,18 @@ class Amendment_purpose_model extends CI_Model{
     }else{
       return false;
     }
+  }
+
+  public function get_purposes($amendment_id)
+  {
+    $query = $this->db->query("select content from amendment_purposes where amendment_id ='$amendment_id'");
+    return $query->row();
+  }
+
+   public function get_purposes2($cooperative_id)
+  {
+    $query = $this->db->query("select content from purposes where cooperatives_id ='$cooperative_id'");
+    return $query->row();
   }
   public function get_purpose_content($coop_type){
     $data = array(

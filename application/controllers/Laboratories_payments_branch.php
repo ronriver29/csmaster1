@@ -60,6 +60,15 @@ class Laboratories_payments_branch extends CI_Controller{
 //                          $data['last']=substr($branch_info->branchName,-10);
 //                        }
 
+                        // Payment Series
+                          $current_year = date('Y');
+                          $this->db->select('*');
+                          $this->db->from('payment');
+                          $this->db->where("(refNo IS NOT NULL OR refNo != '') AND YEAR(date) = '".$current_year."'");
+                          $series = $this->db->count_all_results();
+                          $data['series'] = $series + 1;
+                        // End
+
                         $data['pay_from']='branching';
                         $this->load->view('./template/header', $data);
                         $this->load->view('laboratories/payment_form_laboratories', $data);
@@ -114,6 +123,7 @@ class Laboratories_payments_branch extends CI_Controller{
       $app_code_type='L-'.$decoded_id;//(L-7) L is laboratory + -laboratoryID
       $data=array(
         'payor' => $this->input->post('payor'),
+        'refNo' => $this->input->post('refno'),
         'date'    => $this->input->post('tDate'),
         'nature'  => $this->input->post('nature'),
         'particulars'  => $this->input->post('particulars'),
@@ -124,7 +134,7 @@ class Laboratories_payments_branch extends CI_Controller{
         'status' => 0
       );
         // $this->debug($data);
-      if ($this->Payment_branch_model->check_payment_not_exist($data))
+      if ($this->Payment_branch_model->check_payment_not_exist_laboratories($data))
       { 
         $this->Payment_branch_model->save_payment($data,$this->input->post('rCode'));
         // echo $this->db->last_query();
@@ -136,20 +146,21 @@ class Laboratories_payments_branch extends CI_Controller{
 
         $user_id = $this->session->userdata('user_id');
         $data1['payment'] = $this->Payment_branch_model->get_payment_info($data);
-
+        $data1['last_query'] = $this->db->last_query();
+        $data1['series'] = $this->input->post('refno');
      
 
           set_time_limit(0);
          // $this->debug($data1);
          // $this->load->view('cooperative/order_of_payment_branch', $data1);
-          $html2 = $this->load->view('cooperative/order_of_payment_branch', $data1, TRUE);
+          $html2 = $this->load->view('cooperative/order_of_payment_lab', $data1, TRUE);
           $J = new pdf();
           $J->setPaper('folio', 'portrait');
           $J->load_html($html2);
           $J->render();
           $J->stream("Order_Of_Payment.pdf", array("Attachment"=>1));
 
-      // $this->session->set_flashdata('redirect_applications_message', 'Payment request has been submitted');
+      $this->session->set_flashdata('redirect_applications_message', 'Payment request has been submitted');
       // redirect('laboratories');
     }
      else if ($this->input->post('onlineBtn')){

@@ -68,19 +68,32 @@ class Amendment_committees extends CI_Controller{
                         $data['ethics'] = $this->committee_model->check_position($decoded_id,"Ethics");
                         $data['media_concil'] = $this->committee_model->check_position($decoded_id,"Mediation and Conciliation");
                         $gender_dev = $this->committee_model->check_position($decoded_id,"Gender and Development");
-
                         $data['audit'] = $this->committee_model->check_position($decoded_id,"Audit");
-
+                       
                         $data['gender_dev'] = $gender_dev;
+             
+                        $type_coop_array_ = explode(',',$data['coop_info']->type_of_cooperative);
+                        $count_type ='';
+                        $count_type = count($type_coop_array_);
 
-                        if($data['election'] && $data['ethics'] && $data['media_concil'] && $gender_dev && $data['audit'])
-                        {
-                          $data['complete_position']=true;
-                        }
-                        else
-                        {
-                          $data["complete_position"]=false;
-                        }
+                        $data['complete_position']=false;
+                        // if(in_array('Credit', $type_coop_array_) || in_array('Agriculture', $type_coop_array_) || $data['coop_info']->type=='Multipurpose' ||   $count_type >1)
+                        // {
+                        //    $data['credit'] = $this->committee_model->check_position($decoded_id,"Credit");
+                        //   if($data['credit'] && $data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])
+                        //   {
+                        //     $data['complete_position']=true;
+                        //   }
+                        // }
+                        // else
+                        // {
+                        //    $data['credit'] = true;
+                          if($data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])
+                          {
+                            $data['complete_position']=true;
+                          }
+                        // }
+                        
                         
                         //end position
                         $this->load->view('./template/header', $data);
@@ -111,9 +124,10 @@ class Amendment_committees extends CI_Controller{
               redirect('amendment');
             }
           }else{
+            $access_array = array(1,2);
             if($this->session->userdata('access_level')==5){
               redirect('admins/login');
-            }else if($this->session->userdata('access_level')!=1){
+            }else if(!in_array($this->session->userdata('access_level'),$access_array)){
               redirect('amendment');
             }else{
               if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){
@@ -226,7 +240,7 @@ class Amendment_committees extends CI_Controller{
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($cooperative_id,$decoded_id) : true;
                       }
                       if($data['article_complete']){
-                        if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
+                        if(!$this->amendment_model->check_submitted_for_evaluation_client($cooperative_id,$decoded_id)){
                             if(isset($_POST['addCommitteeBtn'])){
                                 $temp = TRUE;
                             } else {
@@ -243,7 +257,7 @@ class Amendment_committees extends CI_Controller{
                             $data['custom_committees'] = $this->amendment_committee_model->get_all_custom_committee_names_of_coop($decoded_id);
                             // $this->debug($data['custom_committees']);
                             $this->load->view('./template/header', $data);
-                            $this->load->view('amendment/add_form_committee', $data);
+                            $this->load->view('amendment/add_form_committee', $data); 
                             $this->load->view('./template/footer');
                           }else{
                             $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
@@ -268,10 +282,10 @@ class Amendment_committees extends CI_Controller{
                               // $this->debug($success);
                               if($success['success']){
                                 $this->session->set_flashdata('committee_success', $success['message']);
-                                redirect('amendment/'.$this->input->post('amendmentID').'/committees');
+                                redirect('amendment/'.$this->input->post('amendmentID').'/amendment_committees');
                               }else{
                                 $this->session->set_flashdata('committee_error', $success['message']);
-                                redirect('amendment/'.$this->input->post('amendmentID').'/committees');
+                                redirect('amendment/'.$this->input->post('amendmentID').'/amendment_committees');
                               }
                             }
                           }
@@ -420,7 +434,7 @@ class Amendment_committees extends CI_Controller{
                       if($data['article_complete']){
                         
                         if($this->amendment_committee_model->check_committee_in_cooperative($decoded_committee_id,$decoded_id)){ //check if committee is in cooperative
-                          if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
+                          if(!$this->amendment_model->check_submitted_for_evaluation_client($cooperative_id,$decoded_id)){
                             if($this->form_validation->run() == FALSE){
                               $data['client_info'] = $this->user_model->get_user_info($user_id);
                               $data['title'] = 'List of Committees';
@@ -599,7 +613,7 @@ class Amendment_committees extends CI_Controller{
             if($this->amendment_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
               $decoded_post_committee_id = $this->encryption->decrypt(decrypt_custom($this->input->post('committeeID',TRUE)));
               //if($this->cooperator_model->check_cooperator_in_cooperative($decoded_id,$decoded_post_committee_id)){
-                if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
+                if(!$this->amendment_model->check_submitted_for_evaluation_client($cooperative_id,$decoded_id)){
                   $success = $this->amendment_committee_model->delete_committee($decoded_post_committee_id);
 
                   if($success){

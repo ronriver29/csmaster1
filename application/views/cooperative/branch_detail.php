@@ -46,7 +46,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-xl" role="document" style="width:90% !important;max-width:1360px;">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">The cooperative has been deferred because of the following reason/s:</h5>
@@ -88,7 +88,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-xl" role="document" style="width:90% !important;max-width:1360px;">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title font-weight-bold" id="exampleModalLongTitle">The cooperative has been deferred because of the following reason/s:</h5>
@@ -161,7 +161,7 @@
           <?= $branch_info->coopName?>
         </p>
         <hr>
-        <strong>Branch</strong>
+        <strong><?=$branch_info->type?></strong>
         <p class="text-muted">
           <?php
             if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
@@ -169,6 +169,12 @@
             } else if($branch_info->area_of_operation == 'Provincial') {
                 $branch_name = $branch_info->city;
             } else if ($branch_info->area_of_operation == 'Regional') {
+                if($this->charter_model->in_charter_city($branch_info->cCode)){
+                $branch_name = $branch_info->city;
+              } else {
+                $branch_name = $branch_info->city.', '.$branch_info->province;
+              }
+            } else if ($branch_info->area_of_operation == 'Interregional') {
                 if($this->charter_model->in_charter_city($branch_info->cCode)){
                 $branch_name = $branch_info->city;
               } else {
@@ -186,7 +192,7 @@
           <?=$branch_name.' '?><?= $branch_info->branchName?>
         </p>
         <hr>
-        <strong>Address of the Branch</strong>
+        <strong>Address of the <?=$branch_info->type?></strong>
         <p class="text-muted">
           <?php if($branch_info->house_blk_no==null && $branch_info->street==null) $x=''; else $x=', ';?>
           <?=ucwords($branch_info->house_blk_no)?> <?=ucwords($branch_info->street).$x?> <?=$branch_info->brgy.', '?> <?=$branch_info->city.', '?> <?= $branch_info->province.', '?> <?=$branch_info->region?>
@@ -202,7 +208,13 @@
         <hr>
         <strong>Area of Operation</strong>
         <p class="text-muted">
-          <?= $branch_info->area_of_operation?>
+          <?php
+            if($branch_info->area_of_operation == 'Interregional'){
+              echo 'Inter-Regional';
+            } else {
+              echo $branch_info->area_of_operation;  
+            }
+          ?>
         </p>
         <hr>
         <?php if($is_client) : ?>
@@ -210,13 +222,22 @@
           <p class="text-muted">
             <?php if($branch_info->status==0) echo "EXPIRED"; ?>
             <?php if($branch_info->status==1) echo "PENDING"; ?>
-            <?php if($branch_info->status>=2 && $branch_info->status<=15) echo "ON EVALUATION"; ?>
+            <?php if($branch_info->status>=3 && $branch_info->status<=15 && ($branch_info->evaluator5==0 || $branch_info->evaluator5==NULL) && $branch_info->status != 8 && $branch_info->status != 9) echo "FOR EVALUATION"; ?>
+            <?php if($branch_info->status==8 || $branch_info->status==9) echo "FOR VALIDATION"; ?>
+            <?php if($branch_info->status==2 && $branch_info->evaluator5==NULL) echo "FOR VALIDATION"; ?>
+            <?php if($branch_info->status==2 && $branch_info->evaluator5!=NULL) echo "FOR RE-EVALUATION"; ?>
+            <?php if($branch_info->status==12 && ($branch_info->evaluator5!=0 || $branch_info->evaluator5!=NULL)) echo "FOR RE-EVALUATION"; ?>
+            <?php if($branch_info->status==15 && ($branch_info->evaluator5!=0 || $branch_info->evaluator5!=NULL)) echo "FOR RE-EVALUATION"; ?>
             <?php if($branch_info->status==16) echo "DENIED"; ?>
             <?php if($branch_info->status==17) echo "DEFERRED"; ?>
-            <?php if($branch_info->status==18) echo "WAITING FOR PAYMENT"; ?>
+            <?php if($branch_info->status==18) echo "FOR PRINT & SUBMIT"; ?>
 
             <?php if($branch_info->status==19 || $branch_info->status==20) echo "COMPLETED"; ?>
             <?php if($branch_info->status==21) echo "REGISTERED"; ?>
+            <?php if($branch_info->status==22) echo "FOR PAYMENT"; ?>
+            <?php if($branch_info->status==23) echo "FOR EVALUATION"; ?>
+            <?php if($branch_info->status==24) echo "FOR VALIDATION"; ?>
+
           </p>
         <?php endif; ?>
       </small>
@@ -237,10 +258,10 @@
             Articles of Cooperation, By-Laws, Treasurer's Affidavit, Audited Financial Statement and Uploaded documents
           </h5>
           <small class="text-muted">
-          <?php if($document_5 && $document_6 && $document_7): ?>
+          <?php if($document_5 && $document_6 && $document_7 && $document_40): ?>
             <span class="badge badge-success">COMPLETE</span>
           <?php endif;?>
-          <?php if(!$document_5 && !$document_6 && !$document_7): ?>
+          <?php if(!$document_5 && !$document_6 && !$document_7 && !$document_40): ?>
             <span class="badge badge-secondary">PENDING</span>
           <?php endif;?>
           </small>
@@ -263,7 +284,7 @@
               <?php endif; ?>
             </small>
           </div>
-          <?php if(($branch_info->status>=2 && $branch_info->status<=15)  && $document_5 && $document_6 && $document_7): ?>
+          <?php if(($branch_info->status>=2 && $branch_info->status<=15)  && $document_5 && $document_6 && $document_7 && $document_40): ?>
             <small class="text-muted">
               <div class="btn-group" role="group" aria-label="Basic example">
                 
@@ -295,10 +316,10 @@
             <h5 class="mb-1 font-weight-bold">Step 2</h5>
             <small class="text-muted">
                 <?php if($branch_info->type == "Branch"){ ?>
-                    <?php if($document_5 && $document_6 && $document_7): ?>
+                    <?php if($document_5 && $document_6 && $document_7 && $document_40): ?>
                       <span class="badge badge-success">COMPLETE</span>
                     <?php endif;?>
-                    <?php if(!$document_5 && !$document_6 && !$document_7): ?>
+                    <?php if(!$document_5 || !$document_6 || !$document_7 || !$document_40): ?>
                       <span class="badge badge-secondary">PENDING</span>
                     <?php endif;?>
                 <?php } if($branch_info->type == "Satellite"){ ?>
@@ -333,7 +354,7 @@
             </div>
             <p class="mb-1 font-italic">Finalize and review all the information you provide. After reviewing your application, click proceed for evaluation of your application.</p>
             <?if($branch_info->type == "Branch"){ ?>
-            <?php if(($branch_info->status == 1||$branch_info->status == 17) && $document_5 && $document_6 && $document_7): ?>
+            <?php if(($branch_info->status == 1||$branch_info->status == 17) && $document_5 && $document_6 && $document_7 && $document_40): ?>
             <small class="text-muted">
               <a href="<?php echo base_url();?>branches/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
             </small>
@@ -360,7 +381,7 @@
             </div>
             <p class="mb-1 font-italic">Wait for an e-mail notification list of documents for submission.</p>
             <?if($branch_info->type == "Branch"){ ?>
-            <?php if(($branch_info->status==22 || $branch_info->status==19) && $document_5 && $document_6 && $document_7): ?>
+            <?php if(($branch_info->status==22 || $branch_info->status==19) && $document_5 && $document_6 && $document_7 && $document_40): ?>
               <!-- <small class="text-muted">
                 <a href="<?php echo base_url();?>branches/<?= $encrypted_id ?>/Payments_branch" class="btn btn-color-blue btn-sm ">Payment</a>
               </small> -->
@@ -387,18 +408,155 @@
             </div>
             <p class="mb-1 font-italic">Wait for an e-mail notification of either the payment procedure or the list of documents for compliance. If your application has been approved, a payment button will appear and you can now proceed to payment.</p>
             <?if($branch_info->type == "Branch"){ ?>
-            <?php if(($branch_info->status==22 || $branch_info->status==19) && $document_5 && $document_6 && $document_7): ?>
+            <?php if(($branch_info->status==22) && $document_5 && $document_6 && $document_7 && $document_40): ?>
               <small class="text-muted">
                 <a href="<?php echo base_url();?>branches/<?= $encrypted_id ?>/Payments_branch" class="btn btn-color-blue btn-sm ">Payment</a>
               </small>
             <?php endif ?>
+            <?php if(($branch_info->status>=19 && $branch_info->status<=20) && $document_5 && $document_6 && $document_7 && $document_40): ?>
+              <?php echo form_open('payments_branch/add_payment',array('id'=>'paymentForm','name'=>'paymentForm')); ?>
+              <?php
+              if($branch_info->type=='Branch'){
+                $bns_type = 'BranchRegistration';
+              } else {
+                $bns_type = 'SatelliteRegistration';
+              }
+              $report_exist = $this->db->where(array('bns_id'=>ucwords($branch_info->id)))->get('payment');
+
+                // echo $report_exist->num_rows();
+                if($report_exist->num_rows()==0){
+                  if($branch_info->date_for_payment == NULL){
+                      $datee = date('d-m-Y',now('Asia/Manila'));
+                      $datee2 = date('Y-m-d',now('Asia/Manila'));
+                    } else {
+                      $datee = date('d-m-Y',strtotime($branch_info->date_for_payment));
+                      $datee2 = date('Y-m-d',strtotime($branch_info->date_for_payment));
+                    }
+                    $series = substr($branch_info->addrCode,0,2).'-'.date('Y-m',strtotime($datee)).'-'.$series;
+                } else {
+                  foreach($report_exist->result_array() as $row){
+                    $series = $row['refNo'];
+                    $datee = date('d-m-Y',strtotime($row['date']));
+                    $datee2 = date('Y-m-d',strtotime($row['date']));
+                  }
+                }
+
+                if ($branch_info->category_of_cooperative=='Primary' && substr($branch_info->branchName,-7)=='Branch '){
+                          $data['branching_fee']=500.00;
+                          $data['last']=substr($branch_info->branchName,-7);
+                        }
+                        else if ($branch_info->category_of_cooperative=='Secondary' && substr($branch_info->branchName,-7)=='Branch '){
+                          $data['branching_fee']=2000.00;
+                          $data['last']=substr($branch_info->branchName,-7);
+                        }
+                        else if ($branch_info->category_of_cooperative=='Tertiary' && substr($branch_info->branchName,-7)=='Branch '){
+                          $data['branching_fee']=3000.00;
+                          $data['last']=substr($branch_info->branchName,-7);
+                        }
+                        else if ($branch_info->category_of_cooperative=='Secondary' && substr($branch_info->branchName,-10)=='Satellite '){
+                          $data['branching_fee']=1000.00;
+                          $data['last']=substr($branch_info->branchName,-10);
+                        }
+                        else if ($branch_info->category_of_cooperative=='Tertiary' && substr($branch_info->branchName,-10)=='Satellite '){
+                          $data['branching_fee']=2000.00;
+                          $data['last']=substr($branch_info->branchName,-10);
+                        }
+                        else{
+                          $data['branching_fee']=500.00;
+                          $data['last']=substr($branch_info->branchName,-10);
+                        }
+              ?>
+
+                  <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=encrypt_custom($this->encryption->encrypt($branch_info->application_id)) ?>">
+                  <input type="hidden" class="form-control" id="branchID" name="branchID" value="<?=$encrypted_id ?>">
+                  <input type="hidden" class="form-control" id="payor" name="payor" value="<?= ucwords($branch_info->coopName.' - '.$branch_name.' '.$branch_info->branchName)?>">
+                  <input type="hidden" class="form-control" id="bns_id" name="bns_id" value="<?=$branch_info->id?>">
+                  <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=$datee2?>">
+                  <input type="hidden" class="form-control" id="refNo" name="refNo" value="<?=$series?>">
+                  <input type="hidden" class="form-control" id="nature" name="nature" value="<?=$data['last']?>Registration">
+                  <input type="hidden" class="form-control" id="particulars" name="particulars" value="Processing Fee">
+                  <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($data['branching_fee'],2)?>">
+                  <input type="hidden" class="form-control" id="total" name="total" value="<?=$data['branching_fee']?>">
+                  <input type="hidden" class="form-control" id="rCode" name="rCode" value="<?= $branch_info->rCode ?>">
+                
+                 <input style="width:20%;" class="btn btn-info btn-sm" type="submit" id="offlineBtn" name="offlineBtn" value="Download O.P">
+            <?php endif ?>
             <?php } else {?>
-            <?php if(($branch_info->status==22 || $branch_info->status==19) && $document_7 && $document_8 && $document_9): ?>
+            <?php if(($branch_info->status==22) && $document_7 && $document_8 && $document_9): ?>
             <small class="text-muted">
                 <a href="<?php echo base_url();?>branches/<?= $encrypted_id ?>/Payments_branch" class="btn btn-color-blue btn-sm ">Payment</a>
               </small>
             <?php endif ?>
+            <?php if(($branch_info->status>=19 && $branch_info->status<=20) && $document_7 && $document_8 && $document_9): ?>
+            <?php echo form_open('payments_branch/add_payment',array('id'=>'paymentForm','name'=>'paymentForm')); ?>
+            <?php
+              if($branch_info->type=='Branch'){
+                $bns_type = 'BranchRegistration';
+              } else {
+                $bns_type = 'SatelliteRegistration';
+              }
+              $report_exist = $this->db->where(array('bns_id'=>ucwords($branch_info->id)))->get('payment');
+
+                // echo $report_exist->num_rows();
+                if($report_exist->num_rows()==0){
+                  if($branch_info->date_for_payment == NULL){
+                      $datee = date('d-m-Y',now('Asia/Manila'));
+                      $datee2 = date('Y-m-d',now('Asia/Manila'));
+                    } else {
+                      $datee = date('d-m-Y',strtotime($branch_info->date_for_payment));
+                      $datee2 = date('Y-m-d',strtotime($branch_info->date_for_payment));
+                    }
+                    $series = substr($branch_info->addrCode,0,2).'-'.date('Y-m',strtotime($datee)).'-'.$series;
+                } else {
+                  foreach($report_exist->result_array() as $row){
+                    $series = $row['refNo'];
+                    $datee = date('d-m-Y',strtotime($row['date']));
+                    $datee2 = date('Y-m-d',strtotime($row['date']));
+                  }
+                }
+
+                if ($branch_info->category_of_cooperative=='Primary' && substr($branch_info->branchName,-7)=='Branch '){
+                          $data['branching_fee']=500.00;
+                          $data['last']=substr($branch_info->branchName,-7);
+                        }
+                        else if ($branch_info->category_of_cooperative=='Secondary' && substr($branch_info->branchName,-7)=='Branch '){
+                          $data['branching_fee']=2000.00;
+                          $data['last']=substr($branch_info->branchName,-7);
+                        }
+                        else if ($branch_info->category_of_cooperative=='Tertiary' && substr($branch_info->branchName,-7)=='Branch '){
+                          $data['branching_fee']=3000.00;
+                          $data['last']=substr($branch_info->branchName,-7);
+                        }
+                        else if ($branch_info->category_of_cooperative=='Secondary' && substr($branch_info->branchName,-10)=='Satellite '){
+                          $data['branching_fee']=1000.00;
+                          $data['last']=substr($branch_info->branchName,-10);
+                        }
+                        else if ($branch_info->category_of_cooperative=='Tertiary' && substr($branch_info->branchName,-10)=='Satellite '){
+                          $data['branching_fee']=2000.00;
+                          $data['last']=substr($branch_info->branchName,-10);
+                        }
+                        else{
+                          $data['branching_fee']=500.00;
+                          $data['last']=substr($branch_info->branchName,-10);
+                        }
+              ?>
+
+                  <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=encrypt_custom($this->encryption->encrypt($branch_info->application_id)) ?>">
+                  <input type="hidden" class="form-control" id="branchID" name="branchID" value="<?=$encrypted_id ?>">
+                  <input type="hidden" class="form-control" id="payor" name="payor" value="<?= ucwords($branch_info->coopName.' - '.$branch_name.' '.$branch_info->branchName)?>">
+                  <input type="hidden" class="form-control" id="bns_id" name="bns_id" value="<?=$branch_info->id?>">
+                  <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=$datee2?>">
+                  <input type="hidden" class="form-control" id="refNo" name="refNo" value="<?=$series?>">
+                  <input type="hidden" class="form-control" id="nature" name="nature" value="<?=$data['last']?>Registration">
+                  <input type="hidden" class="form-control" id="particulars" name="particulars" value="Processing Fee">
+                  <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($data['branching_fee'],2)?>">
+                  <input type="hidden" class="form-control" id="total" name="total" value="<?=$data['branching_fee']?>">
+                  <input type="hidden" class="form-control" id="rCode" name="rCode" value="<?= $branch_info->rCode ?>">
+                
+                 <input style="width:20%;" class="btn btn-info btn-sm" type="submit" id="offlineBtn" name="offlineBtn" value="Download O.P">
+            <?php endif ?>
             <?php } ?>
+
           </li>
       </ul>
     </div>

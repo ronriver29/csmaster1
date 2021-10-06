@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="<?=base_url('assets/plugins/select2/css/select2.css')?>" type="text/css"/>
+<link rel="stylesheet" href="<?=base_url('assets/plugins/bootstrap-select/bootstrap-select.min.css')?>" type="text/css"/>
 <div class="row mb-2">
   <div class="col-sm-12 col-md-2">
     <a class="btn btn-secondary btn-sm btn-block"  href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
@@ -61,13 +63,10 @@
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
                     <option value="">--</option>
                     <option value="Primary" <?php if($coop_info->category_of_cooperative=="Primary") echo "selected";?>>Primary</option>
-                    
-                     <!-- <option value="Secondary - Union" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Union") echo "selected";?>>Union</option>  -->
-
                     <!-- <option value="Tertiary - Union" <?php if($coop_info->category_of_cooperative=="Tertiary" && $coop_info->grouping=="Union") echo "selected";?>>Tertiary - Union</option> -->
-                    
-                   <!--   <option value="Secondary - Federation" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Federation") echo "selected";?>>Secondary</option>
-                    <option value="Tertiary - Federation" <?php if($coop_info->category_of_cooperative=="Tertiary" && $coop_info->grouping=="Federation") echo "selected";?>>Tertiary</option>  --> 
+                     <option value="Secondary - Federation" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Federation") echo "selected";?>>Secondary</option>
+                    <option value="Tertiary - Federation" <?php if($coop_info->category_of_cooperative=="Tertiary" && $coop_info->grouping=="Federation") echo "selected";?>>Tertiary</option>  
+                    <option value="Secondary - Union" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Union") echo "selected";?>>Others</option> 
                     
                   </select>
                 </div>
@@ -84,10 +83,12 @@
                     <option value="24" <?php if($coop_info->type_of_cooperative =="Agriculture") echo "selected"; ?>>Agriculture</option>
                     <option value="9" <?php if($coop_info->type_of_cooperative =="Bank") echo "selected"; ?>>Bank</option>
                     <option value="4" <?php if($coop_info->type_of_cooperative =="Consumers") echo "selected"; ?>>Consumers</option>
+                    <!-- <option value="27" <?php if($coop_info->type_of_cooperative =="Cooperative Bank") echo "selected"; ?>>Cooperative Bank</option> -->
                     <option value="1" <?php if($coop_info->type_of_cooperative =="Credit") echo "selected"; ?>>Credit</option>
                     <option value="10" <?php if($coop_info->type_of_cooperative =="Dairy") echo "selected"; ?>>Dairy</option>
                     <option value="11" <?php if($coop_info->type_of_cooperative =="Education") echo "selected"; ?>>Education</option>
                     <option value="12" <?php if($coop_info->type_of_cooperative =="Electric") echo "selected"; ?>>Electric</option>
+                    <!-- <option value="25" <?php if($coop_info->type_of_cooperative =="Federation") echo "selected"; ?>>Federation</option> -->
                     <option value="13" <?php if($coop_info->type_of_cooperative =="Financial Service") echo "selected"; ?>>Financial Service</option>
                     <option value="14" <?php if($coop_info->type_of_cooperative =="Fishermen") echo "selected"; ?>>Fishermen</option>
                     <option value="15" <?php if($coop_info->type_of_cooperative =="Health Service") echo "selected"; ?>>Health Service</option>
@@ -100,6 +101,7 @@
                     <option value="3" <?php if($coop_info->type_of_cooperative =="Service") echo "selected"; ?>>Service</option>
                     <option value="23" <?php if($coop_info->type_of_cooperative =="Small Scale Mining") echo "selected"; ?>>Small Scale Mining</option>
                     <option value="17" <?php if($coop_info->type_of_cooperative =="Transport") echo "selected"; ?>>Transport</option>
+                    <option value="26" <?php if($coop_info->type_of_cooperative =="Union") echo "selected"; ?>>Union</option>
                     <option value="18" <?php if($coop_info->type_of_cooperative =="Water Service") echo "selected"; ?>>Water Service</option>
                     <option value="19" <?php if($coop_info->type_of_cooperative =="Workers") echo "selected"; ?>>Workers</option>
                   </select>
@@ -116,7 +118,7 @@
                       <?php if($key>=1) :?>
                         <a class="customDeleleBtn businessActivityRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                       <?php endif; ?>
-                      <label for="majorIndustry">Major Industry Classification No. <?= ($key+1)?></label>
+                      <label for="majorIndustry" id="majorlabel">Major Industry Classification No. <?= ($key+1)?></label>
                       <select class="custom-select form-control  validate[required]" name="majorIndustry[]" id="majorIndustry<?= ($key+1)?>">
                         <option value=""></option>
                         <?php foreach($major_industries_by_coop_type as $key2 => $major_industry_single) : ?>
@@ -127,7 +129,7 @@
                   </div>
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
-                      <label for="subClass<?= ($key+1)?>">Major Industry Classification No. <?= ($key+1)?> Subclass</label>
+                      <label for="subClass<?= ($key+1)?>" id="subclasslabel">Major Industry Classification No. <?= ($key+1)?> Subclass</label>
                       <select class="custom-select form-control validate[required]" name="subClass[]" id="subClass<?= ($key+1)?>">
                       </select>
                     </div>
@@ -147,7 +149,9 @@
                   <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
                   <input type="text" class="form-control validate[required,funcCall[validateActivityNotNullUpdateCustom],funcCall[validateCooperativeWordInNameCustom], funcCall[validateActivityInNameUpdateCustom],<?php echo ($coop_info->status > 0) ? "ajax[ajaxCoopNameUpdateCallPhp]" : "ajax[ajaxCoopNameExpiredCallPhp]";?>]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= $coop_info->proposed_name;?> <?php endif;?>">
-
+                  <div style="margin-bottom:20px;"> <small><span id="type_of_coop" style="margin-top:-20px;"></span></small> </div>
+                   <div style="margin-bottom:20px;"><small>
+                  <span id="proposed_name_msg" style="margin-top:-20px;font-style:italic;"></span></small></div>
                 </div>
               </div>
             </div>
@@ -186,16 +190,77 @@
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
                   <label for="areaOfOperation">Area of Operation </label>
+                  <input type="hidden" class="form-control validate[required]" id="areaOfOperation2" name="areaOfOperation2" value="<?= $coop_info->area_of_operation ?>">
                   <select class="custom-select validate[required]" name="areaOfOperation" id="areaOfOperation">
                     <option value="" selected>--</option>
                     <option value="Barangay">Barangay</option>
                     <option value="Municipality/City">Municipality/City</option>
                     <option value="Provincial">Provincial</option>
                     <option value="Regional">Regional</option>
+                    <option value="Interregional">Inter-Regional</option>
                     <option value="National">National</option>
                   </select>
                 </div>
               </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-4">
+                <div class="form-group" id="allisland">
+                  <label for="selectisland" id="selectisland">Select a Island</label>
+                  <select name="interregional[]" id="interregional" class="form-control validate[required] select2 select-island" multiple="">
+                    <?php
+                    if(strpos($coop_info->interregional, '1') !== false) {
+                        $luzon = 'selected';
+                    } else {
+                      $luzon = '';
+                    }
+                    if(strpos($coop_info->interregional, '2') !== false) {
+                        $visayas = 'selected';
+                    } else {
+                      $visayas = '';
+                    }
+                    if(strpos($coop_info->interregional, '3') !== false) {
+                        $mindanao = 'selected';
+                    } else {
+                      $mindanao = '';
+                    }
+                    ?>
+
+                    <option class="opt" value="1" <?=$luzon?>>Luzon</option>
+                    <option class="opt" value="2" <?=$visayas?>>Visayas</option>
+                    <option class="opt" value="3" <?=$mindanao?>>Mindanao</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-8">
+                <div class="form-group" id="allregions">
+                  <label for="selectregion" id="selectregion">Select a Regions</label>
+                  <select class="form-control validate[required] select2 select-region" name="regions[]" id="regions" multiple="">
+                    <?php foreach ($regions_island_list as $region_island_list) : ?>
+
+                      <?php if(strpos($coop_info->regions, $region_island_list['region_code']) !== false){
+                        $selected = 'selected';
+                      } else {
+                        $selected = '';
+                      }
+
+                      ?>
+                      <option value ="<?php echo $region_island_list['region_code'];?>" <?=$selected?>><?php echo $region_island_list['regDesc']?></option>
+                      }
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+              <!-- <div class="col-sm-12 col-md-10">
+                <div class="form-group">
+                  <label for="areaOfOperation">Select a Island </label>
+                  <select name="interregional[]" class="form-control" multiple="">
+                    <option value="1">Luzon</option>
+                    <option value="2">Visayas</option>
+                    <option value="3">Mindanao</option>
+                  </select>
+                </div>
+              </div> -->
             </div>
             <div class="row rd-row">
               <div class="col-sm-12 col-md-10 col-com">
@@ -302,21 +367,28 @@
                 <div class="form-group">
 
                    <label for="region">Region</label>
-                  <select class="custom-select validate[required]" name="region" id="region">
+                    <select class="custom-select validate[required]" name="region" id="region">
                     <option value="" selected></option>
                     <?php foreach ($regions_list as $region_list) : ?>
-                      <option value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
+                      <option value ="<?php echo $region_list['regCode'];?>" <?=($coop_info->rCode == $region_list['regCode'] ? 'selected' : '')?>><?php echo $region_list['regDesc']?></option>
                     <?php endforeach; ?>
                   </select>
-
-                 
                 </div>
               </div>
-
                  <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="province">Province</label>
-                  <select class="custom-select validate[required]" name="province" id="province" disabled>
+                  <!-- <select class="custom-select validate[required]" name="province" id="province" disabled>
+                  </select> -->
+                  <select class="custom-select validate[required]" name="province" id="province">
+                    <?php 
+                    foreach($list_of_provinces as $province_list)
+                    {
+                      ?>
+                      <option value="<?=$province_list['provCode']?>" <?=($province_list['provCode']== $coop_info->pCode? 'selected' : '')?>><?=$province_list['provDesc']?></option>
+                      <?php
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -324,7 +396,15 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
-                  <select class="custom-select validate[required]" name="city" id="city" disabled>
+                  <select class="custom-select validate[required]" name="city" id="city">
+                    <?php
+                    foreach($list_of_cities as $city_list)
+                    {
+                      ?>
+                      <option value="<?=$city_list['citymunCode']?>" <?=($city_list['citymunCode'] == $coop_info->cCode ?'selected' :'')?>><?=$city_list['citymunDesc']?></option>
+                      <?php
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -332,7 +412,15 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                    <label for="barangay">Barangay</label>
-                  <select class="custom-select validate[required]" name="barangay" id="barangay" disabled>
+                  <select class="custom-select validate[required]" name="barangay" id="barangay">
+                     <?php
+                    foreach($list_of_brgys as $brgy_list)
+                    {
+                      ?>
+                      <option value="<?=$brgy_list['brgyCode']?>" <?=($brgy_list['brgyCode'] == $coop_info->bCode ? 'selected' :'')?>> <?=($brgy_list['brgyDesc'])?></option>
+                      <?php
+                    }
+                    ?>
                   </select>
                 </div>
               </div>
@@ -363,3 +451,5 @@
     </div>
   </div>
 </div>
+<style type="text/css">input{border:1px solid red;}</style>
+<script src="<?=base_url('assets/plugins/select2/js/select2.full.min.js')?>"></script>
