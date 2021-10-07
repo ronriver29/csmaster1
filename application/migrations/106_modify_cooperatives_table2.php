@@ -1,5 +1,5 @@
 <?php
-class Migration_modify_cooperatives_table extends CI_Migration
+class Migration_modify_cooperatives_table2 extends CI_Migration
 {
     public function up()
     {
