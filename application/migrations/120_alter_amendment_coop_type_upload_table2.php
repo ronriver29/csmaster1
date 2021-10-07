@@ -1,5 +1,5 @@
 <?php
-class Migration_alter_amendment_coop_type_upload_table extends CI_Migration
+class Migration_alter_amendment_coop_type_upload_table2 extends CI_Migration
 {
     public function up()
     {
