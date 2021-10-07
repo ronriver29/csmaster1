@@ -199,6 +199,9 @@ class Laboratories_documents extends CI_Controller{
          
                                   $data['Manual_of_board'] = $this->docUpload($data['lab_info']->cooperative_id,$decoded_id,25);
                                  $data['Board_of_resolution'] = $this->docUpload($data['lab_info']->cooperative_id,$decoded_id,26);
+                                 $data['document_others_lab'] = $this->docUpload_others($data['lab_info']->cooperative_id,$decoded_id,42);
+                                 // $data['last_query'] = $this->db->last_query();
+                                 // $data['document_others_lab'] = $this->uploaded_document_model->get_document_42_info($decoded_id,$Cooperative_id);
      
                                  //senior comment
                                 $data['senior_comment'] = $this->laboratories_model->admin_comment($decoded_id,2);
@@ -241,6 +244,20 @@ class Laboratories_documents extends CI_Controller{
   public function docUpload($coopID,$labID,$docType)
   {
     $qry = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coopID,'laboratory_id'=>$labID,'document_num'=>$docType,'status'=>1));
+    if($qry->num_rows()>0)
+    {
+        $data = $qry->row(); 
+    }
+    else
+    {
+      $data = NULL;
+    }
+    return $data;
+  }
+
+  public function docUpload_others($coopID,$labID,$docType)
+  {
+    $qry = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coopID,'branch_id'=>$labID,'document_num'=>$docType,'status'=>1));
     if($qry->num_rows()>0)
     {
         $data = $qry->row(); 
