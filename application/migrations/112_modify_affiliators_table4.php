@@ -1,5 +1,5 @@
 <?php
-class Migration_modify_affiliators_table extends CI_Migration
+class Migration_modify_affiliators_table4 extends CI_Migration
 {
     public function up()
     {
