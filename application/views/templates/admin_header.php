@@ -81,13 +81,13 @@
           <li>   
             <a href="<?php echo base_url();?>admins/cooperatives_list"><i class="fas fa-handshake"></i> All Cooperatives List</a>
           </li>
-             <li>   
+            <!--  <li>   
             <a href="<?php echo base_url();?>admins/amendment_list"><i class="fas fa-handshake"></i> All Amendments List</a>
-          </li>
+          </li> -->
            <li>   
             <a href="<?php echo base_url();?>admins/branches_list"><i class="fas fa-handshake"></i> All Branches List</a>
           </li> 
-          <li>
+         <?php /* <li>
           <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> SMS Settings</a>
           <ul class="collapse list-unstyled" id="pageSubmenu2">
             <li>
@@ -134,10 +134,11 @@
 
           </ul>
         </li>
-
         <li>   
           <a href="<?php echo base_url();?>api_settings/messages_list"><i class="fas fa-cog"></i> SMS Messages</a>
         </li>
+         */?>
+
         <?php endif; ?>
       
         <?php if($admin_info->access_level < 5) : ?>
@@ -152,13 +153,13 @@
           <li>   
             <a href="<?php echo base_url();?>laboratories"><i class="fas fa-handshake"></i> Laboratories</a>
           </li>
-          <li>   
+         <!--  <li>   
             <a href="<?php echo base_url();?>amendment"><i class="fas fa-handshake"></i> Amendment</a>
-          </li>  
+          </li>   -->
           <?php if($admin_info->access_level == 2) : ?>
-          <li>   
+        <!--   <li>   
             <a href="<?php echo base_url();?>account_approval"><i class="fas fa-handshake"></i> Account Approval</a>
-          </li> 
+          </li>  -->
           <?php endif; ?>
         <?php endif; ?>
         <li>

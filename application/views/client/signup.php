@@ -147,7 +147,7 @@
                 <a class="btn btn-link" href="<?php echo base_url();?>users/login" role="button">Sign In Instead</a>
               </div>
                <div class="col-md-6">
-                <a class="btn btn-link" data-toggle="modal" data-target="#deleteCooperativeModal" href="" role="button">Are you an existing coop?</a>
+               <!--  <a class="btn btn-link" data-toggle="modal" data-target="#deleteCooperativeModal" href="" role="button">Are you an existing coop?</a> -->
               </div> 
             </div>
           </div>
