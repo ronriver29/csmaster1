@@ -1214,7 +1214,7 @@ public function delete_pdf()
                 if($this->branches_model->check_if_amended($branch_info->regNo)){
                   $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->branch_id));
                 } else {
-                  $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
+                  $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->id));
                 }
                 $data['document_one'] = $this->uploaded_document_model->get_document_one_info($branch_info->application_id);
                 $data['document_two'] = $this->uploaded_document_model->get_document_two_info($branch_info->application_id);
@@ -1276,7 +1276,7 @@ public function delete_pdf()
                   if($this->branches_model->check_if_amended($branch_info->regNo)){
                     $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->branch_id));
                   } else {
-                    $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
+                    $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->id));
                   }
 
                   // $data['branches_comments_cds'] = $this->branches_model->branches_comments_cds($branch_info->id);
@@ -5223,7 +5223,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
 //          if(!$this->branches_model->check_submitted_for_evaluation($decoded_id)){
            $random_ = random_string('alnum',5);
             $config['upload_path'] = UPLOAD_DIR;
-            $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_others_lab.pdf';
+            $config['file_name'] = $this->input->post('file42');
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
             $this->load->library('upload', $config);
