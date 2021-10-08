@@ -159,7 +159,7 @@
     <td><i style="color:white;">....</i></td>
   </tr>
   <tr>
-    <td colspan="2" style="text-align: justify; ; text-indent: 40px;"><center class="arial">This Certificate is issued and shall be valid until <b>April 30, <?=$validity;?>.</b></center></td>
+    <td colspan="2" style="text-align: justify; ; text-indent: 40px;"><center class="arial">This Certificate is issued and shall be valid until <b>April 30, <?=$validity;?></b> unless revoked.</center></td>
   </tr>
     <tr>
     <td><i style="color:white;">....</i></td>
