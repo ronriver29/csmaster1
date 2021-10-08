@@ -136,16 +136,16 @@ $config = array(
 //            'label' => 'Region',
 //            'rules' => 'trim|required'
 //          ),
-          array(
-            'field' => 'province',
-            'label' => 'Province',
-            'rules' => 'trim|required'
-          ),
-          array(
-            'field' => 'city',
-            'label' => 'City',
-            'rules' => 'trim|required'
-          ),  
+          // array(
+          //   'field' => 'province',
+          //   'label' => 'Province',
+          //   'rules' => 'trim|required'
+          // ),
+          // array(
+          //   'field' => 'city',
+          //   'label' => 'City',
+          //   'rules' => 'trim|required'
+          // ),  
           array(
             'field' => 'barangay',
             'label' => 'Barangay',
@@ -218,16 +218,16 @@ $config = array(
                   'label' => 'Type of Cooperative',
                   'rules' => 'trim|required'
                 ),
-                array(
-                  'field' => 'majorIndustry[]',
-                  'label' => 'Major Industry',
-                  'rules' => 'trim|required'
-                ),
-                array(
-                  'field' => 'subClass[]',
-                  'label' => 'Major Industry Subclass',
-                  'rules' => 'trim|required'
-                ),
+                // array(
+                //   'field' => 'majorIndustry[]',
+                //   'label' => 'Major Industry',
+                //   'rules' => 'trim|required'
+                // ),
+                // array(
+                //   'field' => 'subClass[]',
+                //   'label' => 'Major Industry Subclass',
+                //   'rules' => 'trim|required'
+                // ),
                 array(
                   'field' => 'proposedName',
                   'label' => 'Proposed Name',
@@ -293,16 +293,16 @@ $config = array(
                   'label' => 'Type of Cooperative',
                   'rules' => 'trim|required'
                 ),
-                array(
-                  'field' => 'majorIndustry[]',
-                  'label' => 'Major Industry',
-                  'rules' => 'trim|required'
-                ),
-                array(
-                  'field' => 'subClass[]',
-                  'label' => 'Major Industry Subclass',
-                  'rules' => 'trim|required'
-                ),
+                // array(
+                //   'field' => 'majorIndustry[]',
+                //   'label' => 'Major Industry',
+                //   'rules' => 'trim|required'
+                // ),
+                // array(
+                //   'field' => 'subClass[]',
+                //   'label' => 'Major Industry Subclass',
+                //   'rules' => 'trim|required'
+                // ),
                 array(
                   'field' => 'proposedName',
                   'label' => 'Proposed Name',
@@ -694,11 +694,11 @@ $config = array(
                       'label' => 'New Election of Directors',
                       'rules' => 'trim|required'
                     ),
-                    array(
-                      'field' => 'directorsTerm',
-                      'label' => 'Term of Directors',
-                      'rules' => 'trim|required'
-                    ),
+                    // array(
+                    //   'field' => 'directorsTerm',
+                    //   'label' => 'Term of Directors',
+                    //   'rules' => 'trim|required'
+                    // ),
             ),
         'amendment_cooperators/add' => array (
                 array(
@@ -925,6 +925,13 @@ $config = array(
                   'rules' => 'trim|required'
                 ),
         ),
+        'articles/union' => array(
+                array(
+                  'field' => 'cooperativeExistence',
+                  'label' => 'Years of Existence',
+                  'rules' => 'trim|required|greater_than_equal_to[1]|less_than_equal_to[50]'
+                )
+        ),
         'committees/add' => array (
                 array(
                   'field' => 'committeeName',
@@ -936,6 +943,30 @@ $config = array(
                   'label' => 'Cooperator Name',
                   'rules' => 'trim|required'
                 )
+        ),
+        'committees/add_fed' => array (
+                array(
+                  'field' => 'committeeName',
+                  'label' => 'Committee Name',
+                  'rules' => 'trim|required'
+                ),
+                // array(
+                //   'field' => 'cooperatorID',
+                //   'label' => 'Cooperator Name',
+                //   'rules' => 'trim|required'
+                // )
+        ),
+        'committees/add_union' => array (
+                array(
+                  'field' => 'committeeName',
+                  'label' => 'Committee Name',
+                  'rules' => 'trim|required'
+                ),
+                // array(
+                //   'field' => 'cooperatorID',
+                //   'label' => 'Cooperator Name',
+                //   'rules' => 'trim|required'
+                // )
         ),
         'committees/edit' => array (
                 array(
@@ -1207,6 +1238,13 @@ $config = array(
                   'rules' => 'trim|required'
                 ),
         ),
+        'cooperatives/revert_cooperative' => array (
+                array(
+                  'field' => 'comment',
+                  'label' => 'Reason why deferred',
+                  'rules' => 'trim|required'
+                ),
+        ),
         'cooperatives/defer_cooperative' => array (
                 array(
                   'field' => 'comment',
@@ -1290,6 +1328,40 @@ $config = array(
                   'rules' => 'trim|required|matches[pword]'
                 ),
         ),
+        'admins/add_signatory' => array (
+                array(
+                  'field' => 'signatory',
+                  'label' => 'Full Name',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'region',
+                  'label' => 'Region',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'designation',
+                  'label' => 'Signatory Designation',
+                  'rules' => 'trim|required'
+                ),
+        ),
+        'admins/edit_signatory' => array (
+                array(
+                  'field' => 'signatory',
+                  'label' => 'Full Name',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'region',
+                  'label' => 'Region',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'designation',
+                  'label' => 'Signatory Designation',
+                  'rules' => 'trim|required'
+                ),
+        ),
         'admins/edit' => array (
                 array(
                   'field' => 'fName',
@@ -1312,5 +1384,107 @@ $config = array(
                   'rules' => 'trim|required'
                 ),
         ),
+        'api_settings/edit' => array (
+                array(
+                  'field' => 'url',
+                  'label' => 'API Url',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'apikey',
+                  'label' => 'API Key',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'maxchar',
+                  'label' => 'Max Character',
+                  'rules' => 'trim|required'
+                ),
+        ),
+        'api_settings/primary' => array (
+                array(
+                  'field' => 'allowed',
+                  // 'label' => 'API Url',
+                  'rules' => 'trim'
+                ),
+                array(
+                  'field' => 'message',
+                  // 'label' => 'API Key',
+                  'rules' => 'trim'
+                ),
+        ),
+        'api_settings/bns_inside' => array (
+                array(
+                  'field' => 'allowed',
+                  // 'label' => 'API Url',
+                  'rules' => 'trim'
+                ),
+                array(
+                  'field' => 'message',
+                  // 'label' => 'API Key',
+                  'rules' => 'trim'
+                ),
+        ),
+        'api_settings/bns_outside' => array (
+                array(
+                  'field' => 'allowed',
+                  // 'label' => 'API Url',
+                  'rules' => 'trim'
+                ),
+                array(
+                  'field' => 'message',
+                  // 'label' => 'API Key',
+                  'rules' => 'trim'
+                ),
+        ),
+        'api_settings/laboratories' => array (
+                array(
+                  'field' => 'allowed',
+                  // 'label' => 'API Url',
+                  'rules' => 'trim'
+                ),
+                array(
+                  'field' => 'message',
+                  // 'label' => 'API Key',
+                  'rules' => 'trim'
+                ),
+        ),
+        'api_settings/amendment' => array (
+                array(
+                  'field' => 'allowed',
+                  // 'label' => 'API Url',
+                  'rules' => 'trim'
+                ),
+                array(
+                  'field' => 'message',
+                  // 'label' => 'API Key',
+                  'rules' => 'trim'
+                ),
+        ),
+        'api_settings/add_blocked_no' => array (
+                array(
+                  'field' => 'mobile',
+                  // 'label' => 'API Url',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'reason',
+                  // 'label' => 'API Key',
+                  'rules' => 'trim'
+                ),
+        ),
+        'api_settings/edit_blocked_no' => array (
+                array(
+                  'field' => 'mobile',
+                  // 'label' => 'API Url',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'reason',
+                  // 'label' => 'API Key',
+                  'rules' => 'trim'
+                ),
+        ),
+
     );
 ?>
