@@ -272,7 +272,7 @@ if($coop_info->status != 12){
           </thead>
           <tbody>
             <?php $count=0; foreach($cooperators_list_board as $cooperator) :?>
-              <?php
+              <?php $count++;
               $in_chartered_cities_cptr =false;
                               if($this->charter_model->in_charter_city($cooperator['cCode']))
                               {
@@ -311,6 +311,7 @@ if($coop_info->status != 12){
           </thead>
           <tbody>
             <?php $count=0; foreach($directors_list as $director) :?>
+            <?php $count++; ?>
             <tr>
               <td><?=$count.'. '.$director['full_name']?></td>
             </tr>
@@ -490,6 +491,7 @@ if($coop_info->status != 12){
           </thead>
           <tbody>
             <?php  $count=0;foreach($cooperators_list_regular as $cooperator) :?>
+            <?php $count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
                 <td></td>
@@ -541,6 +543,7 @@ if($coop_info->status != 12){
           </thead>
           <tbody>
             <?php $count=0; foreach($cooperators_list_regular as $cooperator) :?>
+            <?php $count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
                 <td><?=$cooperator['proof_of_identity']?>-<?=$cooperator['proof_of_identity_number']?></td>
