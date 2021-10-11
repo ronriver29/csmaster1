@@ -1214,6 +1214,7 @@ if($coop_info->status != 12){
           </thead>
           <tbody>
             <?php $count=0; foreach($cooperators_list_regular as $cooperator) :?>
+            <?php $count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
                 <td></td>
