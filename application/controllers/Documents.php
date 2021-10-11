@@ -1140,6 +1140,7 @@ public function delete_pdf()
                                 }
                                 if($data['coop_info']->status != 12){
                                   $data['title'] = 'Articles of Cooperation';
+                                  $data['header'] = 'Articles of Cooperation';
                                   $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                                   $data['encrypted_id'] = $id;
                                   $this->load->view('templates/admin_header', $data);
@@ -1944,6 +1945,7 @@ public function delete_pdf()
                               // $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
                                 if($data['coop_info']->status != 12){
                                   $data['title'] = 'Bylaws';
+                                  $data['header'] = 'Bylaws';
                                   $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                                   $data['encrypted_id'] = $id;
                                   $this->load->view('templates/admin_header', $data);
@@ -2529,6 +2531,7 @@ public function delete_pdf()
                                 $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
                                 if($data['coop_info']->status != 12){
                                   $data['title'] = 'Treasurers Affidavit';
+                                  $data['header'] = 'Treasurers Affidavit';
                                   $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                                   $data['encrypted_id'] = $id;
                                   $this->load->view('templates/admin_header', $data);
