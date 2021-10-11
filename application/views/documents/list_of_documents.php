@@ -32,7 +32,7 @@
       <?php if($coop_info->status !=15):?>
       <div class="btn-group float-right" role="group" aria-label="Basic example">
         <a  class="btn btn-info btn-sm" href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/cooperative_tool">Validation Tool</a>
-        <?php if(($admin_info->access_level ==2 || $is_active_director || $supervising_) && $coop_info->status != 10): ?>
+        <?php if(($admin_info->access_level ==2 || $is_active_director || $supervising_) && $coop_info->status != 10 && $coop_info->status != 6): ?>
         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>><?=$submit?></button><!--  modify by Jayson change approve button to submit -->
       <?php endif; //endo fo coop info status ?>  
         <?php endif;// is director and supervising?>
