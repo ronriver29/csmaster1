@@ -213,10 +213,11 @@
           $data['list_laboratories'] = $this->laboratories_model->get_all_laboratories($this->session->userdata('user_id'));
 
           $data['coopreg_info'] = $this->laboratories_model->getCoopRegNo($user_id);
-
-          if($this->branches_model->check_if_amended($data['coopreg_info']->regNo)){
-            $data['coopreg_info'] = $this->laboratories_model->getCoopRegNoAmended($user_id);
-          } 
+          if(isset($data['coopreg_info'])){
+            if($this->branches_model->check_if_amended($data['coopreg_info']->regNo)){
+              $data['coopreg_info'] = $this->laboratories_model->getCoopRegNoAmended($user_id);
+            } 
+          }
 
           $data['last_query'] = $this->db->last_query();
           if(empty($data['coopreg_info'])){
