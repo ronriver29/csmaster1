@@ -36,7 +36,7 @@ ini_set('output_buffering', true); // no limit
 <?php if($coop_info->noStreet==null && $coop_info->Street==null) $x=''; else $x=', ';?>
 <br/><br/>
 
-<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda4.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;opacity: 0.2;">
+<table width=100% style="background-image: url(<?=base_url();?>assets/img/cda4.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;opacity: 0.2;">
 
 	<tr>
 		
@@ -153,7 +153,7 @@ ini_set('output_buffering', true); // no limit
 <?php if($coop_info->noStreet==null && $coop_info->Street==null) $x=''; else $x=', ';?>
 <br/><br/>
 
-<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda4.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;opacity: 0.2;">
+<table width=100% style="background-image: url(<?=base_url();?>assets/img/cda4.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;opacity: 0.2;">
 
 	<tr>
 		
@@ -274,7 +274,7 @@ ini_set('output_buffering', true); // no limit
 <?php if($coop_info->noStreet==null && $coop_info->Street==null) $x=''; else $x=', ';?>
 <br/><br/>
 
-<table width=100% style="background-image: url(<?=base_url();?>/assets/img/cda4.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;opacity: 0.2;">
+<table width=100% style="background-image: url(<?=base_url();?>assets/img/cda4.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;opacity: 0.2;">
 
 	<tr>
 		
