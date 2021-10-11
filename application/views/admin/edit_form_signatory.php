@@ -21,7 +21,7 @@
           <div class="col-sm-12 col-md-6">
             <div class="form-group">
               <label for="access_level">Signatory Designation</label>
-              <?php $arr = array("Chairperson","Regional","Director","Administrator","Acting Director"); ?>
+              <?php $arr = array("Chairperson","Regional Director","Administrator","Acting Director","OIC Director"); ?>
               <select name="designation" class="custom-select form-control validate[required]" id="designation">
                 <?php foreach($arr as $a) : ?>
                   <option value="<?=$a;?>" <?php if($edit_signatory_info->signatory_designation==$a) echo "selected";?>><?=$a;?></option>
