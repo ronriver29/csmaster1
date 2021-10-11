@@ -19,6 +19,12 @@ ini_set('output_buffering', true); // no limit
   /*.page_break { page-break-before: always; }*/
   	body{font-family:Bookman Old Style !important; line-height: 20px;}
 
+  	.center {
+      text-align:center;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
   </style>
 </head> 
 <body>
@@ -35,11 +41,9 @@ ini_set('output_buffering', true); // no limit
 	</table>
 <?php if($coop_info->noStreet==null && $coop_info->Street==null) $x=''; else $x=', ';?>
 <br/><br/>
-
-<table width=100% style="background-image: url(<?=base_url();?>assets/img/cda4.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;opacity: 0.2;">
-
+<img class="center" src="<?=APPPATH?>../assets/img/cda4.png" style="background-repeat: no-repeat; background-position: center;margin-left:130px;margin-top:50px;padding-bottom: 60px;opacity: 0.2;">
+<table width=100%>
 	<tr>
-		
 		<td colspan="2" style="text-align: right; font-size: 12pt;"><b>Registration No: <?= $coop_info->regNo ?></b></td>
 	</tr>
 
@@ -152,8 +156,8 @@ ini_set('output_buffering', true); // no limit
 	</table>
 <?php if($coop_info->noStreet==null && $coop_info->Street==null) $x=''; else $x=', ';?>
 <br/><br/>
-
-<table width=100% style="background-image: url(<?=base_url();?>assets/img/cda4.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;opacity: 0.2;">
+<img class="center" src="<?=APPPATH?>../assets/img/cda4.png" style="background-repeat: no-repeat; background-position: center;margin-left:130px;margin-top:50px;padding-bottom: 60px;opacity: 0.2;">
+<table width=100%>
 
 	<tr>
 		
@@ -273,8 +277,8 @@ ini_set('output_buffering', true); // no limit
 	</table>
 <?php if($coop_info->noStreet==null && $coop_info->Street==null) $x=''; else $x=', ';?>
 <br/><br/>
-
-<table width=100% style="background-image: url(<?=base_url();?>assets/img/cda4.png); background-repeat: no-repeat; background-position: center;margin-top:-30px;padding-bottom: 60px;opacity: 0.2;">
+<img class="center" src="<?=APPPATH?>../assets/img/cda4.png" style="background-repeat: no-repeat; background-position: center;margin-left:130px;margin-top:50px;padding-bottom: 60px;opacity: 0.2;">
+<table width=100%>
 
 	<tr>
 		
@@ -383,8 +387,8 @@ ini_set('output_buffering', true); // no limit
 </div>
 <!-- end page 3 -->
 
-
-<div  style="padding-top:30px;text-align: justify; font-family: Calibri,sans-serif; font-size: 12.5px; background-image: url(<?=base_url();?>/assets/img/cda2_edited.png); background-repeat: no-repeat; background-position: center;">
+<img class="center" src="<?=APPPATH?>../assets/img/cda2_edited.png" style="padding-top:30px;text-align: justify; font-family: Calibri,sans-serif; font-size: 12.5px;background-repeat: no-repeat; background-position: center;margin-left:140px;margin-top:310px;padding-bottom: 60px;">
+<div>
 <p >
 <?=date("F d, Y", strtotime( (substr($coop_info->dateRegistered,3,2).'-'.substr($coop_info->dateRegistered,0,2).'-'.substr($coop_info->dateRegistered,6,4) ) ) ); ?><br/>
 <br/>
@@ -419,11 +423,6 @@ Lastly, if you have any concern/issue about your cooperative, please feel free t
 <br/><br/>
 Very truly yours,<br/>
 <br/>
-<br/>
-<br/>
-<table>
-<tr>
-<td width="10%">
 <?php // Get Count Coop Type for HO
     $this->db->where(array('name'=>$coop_info->type_of_cooperative,'active'=>1));
     $this->db->from('head_office_coop_type');
@@ -434,11 +433,7 @@ Very truly yours,<br/>
 } else {?>
 <b><?=strtoupper($director->full_name); ?></b><br/>
 <?=strtoupper($director->access_name); ?>
-<?php } ?>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-</p>
-</td>
-</tr>
-</table>
+<?php } ?></p>
+<img class="center" src="<?=APPPATH?>../assets/img/cda2_edited.png" style="padding-top:30px;text-align: justify; font-family: Calibri,sans-serif; font-size: 12.5px;background-repeat: no-repeat; background-position: center;margin-left:70px;margin-top:80px;padding-bottom: 60px;">
 </div>
 </body>

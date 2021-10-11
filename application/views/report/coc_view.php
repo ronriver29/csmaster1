@@ -153,7 +153,7 @@
   <tr>
     <td  colspan="2" style="text-align: justify; ; text-indent: 40px;"> 
     <center class="arial">A cooperative duly registered with this Authority under Registration No. <b><?=$registered_no;?></b> issued on <b><?=$date_registered;?></b> <br> <!--<?=date_format($date_registered,"F d, Y"); ?>-->
-        for being compliant with all the requirements under Memorandum Circular No. 2016-07.</center></td>
+        for being compliant with all the requirements of the law and issuances of the Authority pertaining to required reports submission.</center></td>
   </tr>
   <tr>
     <td><i style="color:white;">....</i></td>

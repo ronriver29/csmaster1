@@ -166,7 +166,7 @@ class registration extends CI_Controller{
         }
         $data1['memory_usage'] = memory_get_usage();
        
-        //  $html2 = $this->load->view('cooperative/cor_view', $data1);
+         // $html2 = $this->load->view('cooperative/cor_view', $data1);
          $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);
            $J = new pdf();       
            $J->set_option('isRemoteEnabled',TRUE);
