@@ -1476,7 +1476,7 @@ public function check_submitted_for_evaluation($coop_id){
   if($coop_status > 1 && $coop_status <=16 && $coop_status != 11 || $coop_status == 17 ){ //modify by json
     return true;
   }else if($coop_status == 11){
-    return false;
+    return true;
   } else {
     return false;
   }

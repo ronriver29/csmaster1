@@ -453,7 +453,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                       <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Re-print Registration</a>
                     </li>
 
-                    <?php $dateRegistered = strtotime($cooperative_registered['date_of_or']); $datestr = strtotime('2021-07-16'); //echo $dateRegistered.'-'.$datestr;
+                    <?php $dateRegistered = strtotime($cooperative_registered['date_of_or']); $datestr = strtotime('2021-10-12'); //echo $dateRegistered.'-'.$datestr;
                     if($dateRegistered >= $datestr){?>
                       <li>
                         <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/coc" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print COC</a>
@@ -535,7 +535,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
                         <li>
                         <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Re-print Registration</a>
                         </li>
-                      <?php $dateRegistered = strtotime($cooperative_registered['date_of_or']); $datestr = strtotime('2021-04-18'); //echo $dateRegistered.'-'.$datestr;
+                      <?php $dateRegistered = strtotime($cooperative_registered['date_of_or']); $datestr = strtotime('2021-10-12'); //echo $dateRegistered.'-'.$datestr;
                     if($dateRegistered >= $datestr){?>
                         <li>
                           <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/coc" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print COC</a>
