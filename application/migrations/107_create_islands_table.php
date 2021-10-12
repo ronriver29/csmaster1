@@ -30,7 +30,7 @@ class Migration_create_islands_table extends CI_Migration
         );
 
         $this->dbforge->add_key('id', TRUE);
-        $this->dbforge->create_table('islands');
+        $this->dbforge->create_table('islands',TRUE);
     }
 
     public function down()
