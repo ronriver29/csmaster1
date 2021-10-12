@@ -165,7 +165,7 @@
     <td><i style="color:white;">....</i></td>
   </tr>
   <tr>
-    <td colspan="2" style="text-align: justify; ; text-indent: 40px;"><center class="arial">Issued this <b><?=date("jS",strtotime($issued)); ?> day of <?=date("F",strtotime($issued)); ?>,<?=date("Y",strtotime($issued)); ?></b></center></td> 
+    <td colspan="2" style="text-align: justify; ; text-indent: 40px;"><center class="arial">Issued this <b><?=date("jS",strtotime($issued)); ?> day of <?=date("F",strtotime($issued)); ?> <?=date("Y",strtotime($issued)); ?></b></center></td> 
   </tr>
 </table>
 
