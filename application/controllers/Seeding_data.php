@@ -323,4 +323,17 @@ BARANGAY MAGSAYSAY, QUEZON CITY 1105',
       }
     }
   }
+
+  public function coop_report_trunc()
+  {
+    $this->db->truncate('coopris_report');
+    
+    if($this->db->trans_status() === FALSE){
+        $this->db->trans_rollback();
+        echo 'failed';
+      }else{
+        $this->db->trans_commit();
+        echo 'success<br>';
+      }
+  }
 }
