@@ -236,7 +236,7 @@ if($coop_info->status != 12){
   </div>
   <?php 
     $created_at = date('Y-m-d',strtotime($coop_info->created_at));
-    $effectivity_date = date('2021-03-01');
+    $effectivity_date = date('2021-11-12');
 
     if($coop_info->type_of_cooperative == 'Transport' && $created_at >= $effectivity_date){?>
     <div class="row mb-2">

@@ -1062,7 +1062,7 @@ if($coop_info->status != 12){
   </div>
   <?php 
   $created_at = date('Y-m-d',strtotime($coop_info->created_at));
-  $effectivity_date = date('2021-03-01');
+  $effectivity_date = date('2021-10-12');
 
   // echo strtotime($created_at).'-'.strtotime($effectivity_date);
    if($coop_info->type_of_cooperative == 'Transport' && $created_at >= $effectivity_date) {?>
