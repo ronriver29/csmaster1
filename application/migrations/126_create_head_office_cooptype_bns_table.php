@@ -26,7 +26,7 @@ class Migration_create_head_office_cooptype_bns_table extends CI_Migration
         );
 
         $this->dbforge->add_key('id', TRUE);
-        $this->dbforge->create_table('head_office_coop_type_branch');
+        $this->dbforge->create_table('head_office_coop_type_branch',TRUE);
 
         $data = array(
         array(

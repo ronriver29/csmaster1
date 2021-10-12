@@ -5,7 +5,7 @@ class Migration_add_cais_findings_history extends CI_Migration
     
     public function up()
     {
-        $this->db->query("CREATE TABLE `ca_findings_history`(
+        $this->db->query("CREATE TABLE IF NOT EXISTS `ca_findings_history`(
             `id` INT(11) unsigned PRIMARY KEY AUTO_INCREMENT,
             `regNo` VARCHAR(100) NOT NULL,
             `report_year` INT(4) NOT NULL,
