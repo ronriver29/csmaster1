@@ -86,7 +86,7 @@ class coc extends CI_Controller{
             $this->db->select('*');
             $this->db->from('coopris_report');
             $series = $this->db->count_all_results();
-            $series = $series + 641;
+            $series = $series + 660;
 
             $data1['coc_number'] = $series;
 
