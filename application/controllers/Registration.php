@@ -144,6 +144,7 @@ class registration extends CI_Controller{
       } else {
         $data1['director']=$this->registration_model->get_director($data1['coop_info']->third_evaluated_by);
       }
+      $data1['last_query'] = $this->db->last_query();
           set_time_limit(0);
 
        $data1['date_year']= date('Y',strtotime($data1['coop_info']->dateofor));
