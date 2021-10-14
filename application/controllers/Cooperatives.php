@@ -607,8 +607,13 @@
                     {
                         $name_of_ins_assoc='';
                     }
-                    $interregional = implode(", ",$this->input->post('interregional'));
-                    $regions = implode(", ",$this->input->post('regions'));
+                    if(!empty($this->input->post('interregional'))){
+                      $interregional = implode(", ",$this->input->post('interregional'));
+                      $regions = implode(", ",$this->input->post('regions'));
+                    } else {
+                      $interregional = '';
+                      $regions = '';
+                    }
                     
                     $field_data = array(
                       'users_id' => $this->session->userdata('user_id'),
