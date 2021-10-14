@@ -272,7 +272,7 @@ class Committees extends CI_Controller{
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                       if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
-                        if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
+                        // if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                           if($this->form_validation->run() == FALSE){
                             $data['client_info'] = $this->user_model->get_user_info($user_id);
                             $data['title'] = 'List of Committees';
@@ -380,10 +380,10 @@ class Committees extends CI_Controller{
                                 }
                             }
                           }
-                        }else{
-                          $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
-                          redirect('cooperatives/'.$id);
-                        }
+                        // }else{
+                        //   $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
+                        //   redirect('cooperatives/'.$id);
+                        // }
                       }else{
                         $this->session->set_flashdata('redirect_message', 'Please complete first your article of cooperation additional information.');
                         redirect('cooperatives/'.$id);
