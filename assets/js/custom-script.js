@@ -2744,6 +2744,10 @@ function validateCooperativeWordInNameCustom(field, rules, i, options){
     {
       result = true;
     }
+    else if(result == 'Kabankalan' || result =='kabankalan')
+    {
+      result = true;
+    }
     else
     {
         if(result){
