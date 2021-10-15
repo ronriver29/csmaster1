@@ -328,7 +328,7 @@
               } else {
                     $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,0);
               }
-              if($data['coop_info']->type_of_cooperative == 'Credit' || $data['coop_info']->type_of_cooperative == 'Agriculture'){
+              if($data['coop_info']->type_of_cooperative == 'Credit'){ // || $data['coop_info']->type_of_cooperative == 'Agriculture'
                     if($data['coop_info']->grouping == 'Federation'){
                         $data['committees_complete'] = $this->committee_model->get_all_required_count_credit_federation($user_id);
                     } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
