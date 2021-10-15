@@ -407,7 +407,7 @@
             // }
             else{
               if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
-                if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
+                // if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                   $data['title'] = 'Cooperative Details';
                   $data['header'] = 'Cooperative Information';
                   $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
@@ -523,10 +523,10 @@
                   $this->load->view('cooperative/evaluation/defer_modal_cooperative',$data);
                   $this->load->view('cooperative/evaluation/revert_modal_cooperative');
                   $this->load->view('./templates/admin_footer');
-                }else{
-                  $this->session->set_flashdata('redirect_applications_message', 'The application you trying to view is not yet submitted for evaluation.');
-                  redirect('cooperatives');
-                }
+                // }else{
+                //   $this->session->set_flashdata('redirect_applications_message', 'The application you trying to view is not yet submitted for evaluation.');
+                //   redirect('cooperatives');
+                // }
               }else{
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('cooperatives');
