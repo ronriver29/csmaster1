@@ -63,7 +63,7 @@
         <div class="row d-flex">
           <div class="col-sm-12 col-md-12 col-btn-action-bylaws-primary">
             <h4 class="float-left">Details:</h4>
-            <?php if(($is_client && $coop_info->status<=1) || ($coop_info->status==11)): ?>
+            <?php if(($is_client && $coop_info->status<=1) || ($is_client && $coop_info->status==11)): ?>
             <a class="btn btn-primary btn-sm float-right text-white" id="btnEditBylawsPrimary"><i class="fas fa-edit"></i> Edit</a>
             <?php endif; ?>
           </div>

@@ -1775,7 +1775,7 @@ Very truly yours,<br>
   public function sendEmailToClientApproveBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type,$fullnamesupervising,$regionname){
 //    echo $name;
     $from = "ecoopris@cda.gov.ph";    //senders email address
-    $subject =$name.' Evaluation Result';  //email subject
+    $subject =$proposedname.' Evaluation Result';  //email subject
     $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
 

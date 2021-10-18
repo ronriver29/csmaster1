@@ -68,7 +68,17 @@
                   <label for="typeOfBranch">Type:</label>
                   <select class="custom-select validate[required]" name="typeOfBranch" id="typeOfBranch">
                     <option value="">--</option>
-                    <option value="Branch">Branch</option>
+                    <?php
+                      $plus = date('Y-m-d',strtotime($date2)); 
+                      $tomorrow = date('Y-m-d',strtotime($plus . "+3 year"));
+                      $now = date('Y-m-d');
+
+                      if($tomorrow>=$now){
+
+                      } else {
+                        echo '<option value="Branch">Branch</option>';
+                      }
+                    ?>
                     <option value="Satellite">Satellite</option>
                   </select>
                 </div>

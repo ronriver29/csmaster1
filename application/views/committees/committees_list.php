@@ -63,7 +63,7 @@ if($gad_count == 0 || $audit_count == 0 || $election_count == 0 || $medcon_count
        </div>
 <?php endif;?>
 <div class="row">
-  <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
+  <?php if(($is_client && $coop_info->status<=1) || ($is_client && $coop_info->status==11)): ?>
     <div class="col-sm-12 offset-md-10 col-md-2 mb-2">
       <a class="btn btn-color-blue btn-block" role="button"href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/committees/add" role="button"><i class="fas fa-plus"></i> Add Committee
       </a>
@@ -80,7 +80,7 @@ if($gad_count == 0 || $audit_count == 0 || $election_count == 0 || $medcon_count
                 <th>Full Name</th>
                 <th>Gender</th>
                 <th>Birth Date</th>
-                <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
+                <?php if(($is_client && $coop_info->status<=1) || ($is_client && $coop_info->status==11)): ?>
                 <th>Action</th>
               <?php endif;?>
               </tr>
@@ -99,7 +99,7 @@ if($gad_count == 0 || $audit_count == 0 || $election_count == 0 || $medcon_count
                 <td><?= $committee['full_name']?></td>
                 <td><?= $committee['gender']?></td>
                 <td><?= $committee['birth_date']?></td>
-                <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
+                <?php if(($is_client && $coop_info->status<=1) || ($is_client && $coop_info->status==11)): ?>
                 <td>
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                     <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/committees/<?= encrypt_custom($this->encryption->encrypt($committee['comid'])) ?>/edit" class="btn btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>

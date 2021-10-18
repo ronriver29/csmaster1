@@ -94,7 +94,7 @@ class Capitalization extends CI_Controller{
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('cooperatives');
               }else{
-                if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
+                if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id) || !$this->session->userdata('client')){
                   $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                   if($data['bylaw_complete']){
@@ -131,7 +131,7 @@ class Capitalization extends CI_Controller{
                     redirect('cooperatives/'.$id);
                   }
                 }else{
-                  $this->session->set_flashdata('redirect_applications_message', 'The cooperators of the cooperative you trying to view is not yet submitted for evaluation.');
+                  $this->session->set_flashdata('redirect_applications_message', 'The capitalization of the cooperative you trying to view is not yet submitted for evaluation.');
                   redirect('cooperatives');
                 }
               }

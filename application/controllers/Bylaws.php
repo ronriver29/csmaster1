@@ -734,7 +734,7 @@ class Bylaws extends CI_Controller{
           else{
             if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
               if($this->cooperatives_model->get_cooperative_info_by_admin($decoded_id)->category_of_cooperative =="Primary"){
-                if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
+                if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id) || !$this->session->userdata('client')){
                   if($this->form_validation->run() == FALSE){
                     $data['title'] = 'By Laws';
                     $data['header'] = 'By Laws';

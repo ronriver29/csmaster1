@@ -25,10 +25,10 @@ if($tomorrow>=$now){
     ?>
     <div class="col-sm-12 col-md-12">
         <div class="alert alert-info text-justify" role="alert">
-           <center>"Not yet allowed to register Branch or Satellite. Unless registered 3 years from the day of Coop Registration"</center>
+           <center>"Not yet allowed to register Branch. Unless registered 3 years from the day of Coop Registration"</center>
         </div>
     </div>
-<?php } else { ?>
+<?php }  //else { ?>
   <!-- <div class="col-sm-12 col-md-12">
         <div class="alert alert-info text-justify" role="alert">
            The cooperative is qualified to establish a branch office based on the following requirement;
@@ -318,7 +318,7 @@ if($tomorrow>=$now){
       </div>
     </div>
   </div>
-<?php } ?>
+<?php //} ?>
 <?php if($is_client) :?>
 <?php else : ?>
 <?php

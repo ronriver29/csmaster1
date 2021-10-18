@@ -468,7 +468,13 @@
               } else {
                 $data['regions_list'] = $this->region_model->get_regions();
               }
-
+              if(empty($data['coopreg_info'])){
+                $data['date2'] = date('m/d/Y');
+              } else {
+                $data['dateregistered'] = $data['coopreg_info']->dateRegistered;
+                $datelang = str_replace("-", "/", $data['dateregistered']);
+                $data['date2'] = $datelang;
+              }
               $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coopreg_info']->rCode);
               $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coopreg_info']->pCode);
               $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coopreg_info']->bCode);
@@ -1059,8 +1065,8 @@
 
                                    $senior_info = $this->admin_model->get_senior_info($regioncode);
                                    // echo $this->db->last_query();
-
-                                   if($branch_info->status == 23 || $branch_info->status == 15){
+                                   // echo $branch_info->regCode.'-'.$regioncode;
+                                   if(($branch_info->status == 23 || $branch_info->status == 15) && $branch_info->regCode != 0){
                                       $seniorregionname = $this->branches_model->get_region_name($branch_info->regCode);
                                     } else {
                                       $seniorregionname = $this->branches_model->get_region_name($regioncode);

@@ -56,7 +56,7 @@
       </div> 
     </div>
   <?php // endif; ?>
-  <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
+  <?php if(($is_client && $coop_info->status<=1) || ($is_client && $coop_info->status==11)): ?>
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
     <a class="btn btn-color-blue btn-block" role="button" href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/staff/add" role="button"><i class="fas fa-plus"></i> Add Staff </a>
   </div>
@@ -76,7 +76,7 @@
                 <th>Status of Appointment</th>
                 <th>Minimum Education Experience/Training</th>
                 <th>Monthly Compensation</th>
-                <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
+                <?php if(($is_client && $coop_info->status<=1) || ($is_client && $coop_info->status==11)): ?>
                   <th>Action</th>
                 <?php endif;?>
               </tr>
@@ -92,7 +92,7 @@
                   <td><?= $single_staff['status_of_appointment']?></td>
                   <td><?= $single_staff['minimum_education_experience_training']?></td>
                   <td align="right"><?= number_format($single_staff['monthly_compensation'],2)?></td>
-                  <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
+                  <?php if(($is_client && $coop_info->status<=1) || ($is_client && $coop_info->status==11)): ?>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                       <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/staff/<?= encrypt_custom($this->encryption->encrypt($single_staff['id'])) ?>/edit" class="btn btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>

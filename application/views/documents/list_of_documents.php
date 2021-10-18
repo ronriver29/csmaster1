@@ -731,7 +731,7 @@
               <?php endif ?>
               <br>
             </p>
-          <?php if($is_client && $coop_info->status<=1 || $coop_info->status==11): ?>
+          <?php if($is_client && $coop_info->status<=1 || ($is_client && $coop_info->status==11)): ?>
             <a href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/upload_document_two" class="btn btn-primary">Upload</a>
           <?php endif; ?>
         </div>
@@ -846,7 +846,7 @@ $count=0;
                         <br>
                     <?php } ?>
                 </p>
-                <?php if($is_client && $coop_info->status<=1 || $coop_info->status==11): ?>
+                <?php if($is_client && $coop_info->status<=1 || ($is_client && $coop_info->status==11)): ?>
                     <a href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/upload_document_others/<?=encrypt_custom($this->encryption->encrypt($coop['id']))?>" class="btn btn-primary">Upload</a>
                 <?php endif; ?>
             </div>
