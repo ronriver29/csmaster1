@@ -4,7 +4,7 @@ $(function(){
     STARTLIST OF DATA TABLES
   */
   $('#committeesTable').dataTable();
-  $('#committeesTable2').DataTable();
+  $('#committeesTable3').DataTable();
   $('#cooperativesTable').DataTable();
   $('#cooperativesTable2').DataTable();
   $('#cooperativesTable3').DataTable();
@@ -165,6 +165,23 @@ $("#deleteCooperativeForm").validationEngine('attach',
 
 // Anjury
 $('#deleteLabPDFModal').on('show.bs.modal', function (event) {
+  console.log("123123123");
+  var button = $(event.relatedTarget);
+  var full_name = button.data('fname');
+  var fileName = full_name.substr(13,15);
+  var cname = button.data('comname');
+  var coop_id = button.data('coopid');
+  var pdf_ID = button.data('pdfid');
+  var doc_types = button.data('doctypess');
+  var modal = $(this)
+  modal.find('.modal-body #cooperativeID').val(coop_id);
+  modal.find('.modal-body #pdfID').val(pdf_ID);
+  modal.find('.modal-body #file_name').val(cname);
+  modal.find('.modal-body .pdf-name-text').text(fileName);
+  modal.find('.modal-body .pdf-cname-text').text(cname);
+  modal.find('.modal-body #doc_type_').val(doc_types);
+});
+$('#deletePDFModalBnS').on('show.bs.modal', function (event) {
   console.log("123123123");
   var button = $(event.relatedTarget);
   var full_name = button.data('fname');
@@ -680,8 +697,8 @@ $("#deleteStaffForm").validationEngine('attach',
               $('#addCommitteeForm #cooperatorID').on('change', function(){
                 $("#addCommitteeForm .ac-info-row input,textarea").val("");
                 if($(this).val() && $(this).val().length >0){
-					       var cooperator_id = $(this).val() ;
-					// alert(cooperator_ID);
+                 var cooperator_id = $(this).val() ;
+          // alert(cooperator_ID);
                   $.ajax({
                       type : "POST",
                       url  : "../cooperators/get_post_cooperator_info",
@@ -2737,14 +2754,10 @@ function validateActivityInNameUpdateCustom(field, rules, i, options){
 function validateCooperativeWordInNameCustom(field, rules, i, options){
   let tempName = $.trim($(field).val());
   if(tempName.length >0){
-    var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa|cooperatiba|advocacy|Agrarian Reform|Agriculture| Bank|Bank |Consumers| Credit|Credit |Dairy|Education|Electric|Financial Service|Fishermen|Health Service|Housing|Insurance|Labor Service|Marketing|Producers|Professionals|Service|Small Scale Mining|Transport|Water Service|Workers|Union|federation', 'i');
+    var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa|cooperatiba|advocacy|Agrarian Reform|Agriculture|Bank|Consumers| Credit|Credit |Dairy|Education|Electric|Financial Service|Fishermen|Health Service|Housing|Insurance|Labor Service|Marketing|Producers|Professionals|Service|Small Scale Mining|Transport|Water Service|Workers|Union|federation', 'i');
     var result = checkName.test(tempName);
     // alert( result);
     if(result == 'Accredited' || result =='accredited')
-    {
-      result = true;
-    }
-    else if(result == 'Kabankalan' || result =='kabankalan')
     {
       result = true;
     }
@@ -2761,7 +2774,7 @@ function validateAmendmentWordInNameCustom(field, rules, i, options){
   let tempName = $.trim($(field).val());
   if(tempName.length >0){
     // var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa| Credit|Credit |cooperatiba|agriculture|Consumers|advocacy|Dairy|Education|Electric|multipurpose|multi-purpose', 'i');
-     var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa|cooperatiba|advocacy|Agrarian Reform|Agriculture| Bank|Bank |Consumers| Credit|Credit |Dairy|Education|Electric|Financial Service|Fishermen|Health Service|Housing|Insurance|Labor Service|Marketing|Producers|Professionals|Service|Small Scale Mining|Transport|Water Service|Workers|multipurpose|multi-purpose|Union|federation', 'i');
+     var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa|cooperatiba|advocacy|Agrarian Reform|Agriculture|Bank|Consumers| Credit|Credit |Dairy|Education|Electric|Financial Service|Fishermen|Health Service|Housing|Insurance|Labor Service|Marketing|Producers|Professionals|Service|Small Scale Mining|Transport|Water Service|Workers|multipurpose|multi-purpose|Union|federation', 'i');
     var result = checkName.test(tempName);
         if(result){
           return options.allrules.validateAmendment_proposed_name.alertText;

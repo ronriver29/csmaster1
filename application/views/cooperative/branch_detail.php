@@ -208,13 +208,22 @@
         <hr>
         <strong>Area of Operation</strong>
         <p class="text-muted">
-          <?php
-            if($branch_info->area_of_operation == 'Interregional'){
-              echo 'Inter-Regional';
-            } else {
-              echo $branch_info->area_of_operation;  
-            }
-          ?>
+          <?php if($branch_info->area_of_operation=="Interregional"){
+          $region_array = array();
+          
+          foreach ($regions_island_list as $region_island_list){
+            array_push($region_array, $region_island_list['regDesc']);
+          }
+          // echo implode(", ", $region_array);
+          $last  = array_slice($region_array, -1);
+          $first = join(', ', array_slice($region_array, 0, -1));
+          $both  = array_filter(array_merge(array($first), $last), 'strlen');
+          echo 'Inter-Regional - '. join(' and ', $both);
+
+            // echo 'Inter-Regional -';
+          } else {
+            echo $branch_info->area_of_operation;
+          }?>
         </p>
         <hr>
         <?php if($is_client) : ?>

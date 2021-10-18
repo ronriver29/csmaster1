@@ -29,6 +29,16 @@ if($tomorrow>=$now){
         </div>
     </div>
 <?php }  //else { ?>
+  <?php
+    if(!$coop_exists && $is_client){
+    
+    ?>
+    <div class="col-sm-12 col-md-12">
+        <div class="alert alert-info text-justify" role="alert">
+           <center>"A Cooperative must be registered first before you can establish/apply for Satellite"</center>
+        </div>
+    </div>
+  <?php } ?>
   <!-- <div class="col-sm-12 col-md-12">
         <div class="alert alert-info text-justify" role="alert">
            The cooperative is qualified to establish a branch office based on the following requirement;
@@ -100,7 +110,12 @@ if($tomorrow>=$now){
 <div class="row">
   <?php if($is_client) :?>
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
+    <?php
+    if($coop_exists){
+    
+    ?>
     <a class="btn btn-color-blue btn-block" href="<?php echo base_url();?>branches/registration" role="button">New Branch/Satellite Registration</a>
+  <?php } ?>
   </div>
   <?php endif; ?>
   <?php if(!$is_client && $admin_info->access_level == 3) : ?>

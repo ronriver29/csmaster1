@@ -144,18 +144,18 @@
       }
     }
     public function reservation(){
-    	$major_industries = array();
-    	$major_industry_sub_classes = array();
-    	$query_major_industry = $this->db->get("major_industry");
-    	if($query_major_industry->num_rows()>0) {
-    		$major_industries = $query_major_industry->result_array();
-    	}
-    	$data['major_industries'] = $major_industries;
-    	$query_major_industry_sub_classes = $this->db->get("subclass");
-    	if($query_major_industry_sub_classes->num_rows()>0) {
-    		$major_industry_sub_classes = $query_major_industry_sub_classes->result_array();
-    	}
-    	$data['major_industry_sub_classes'] = $major_industry_sub_classes;
+      $major_industries = array();
+      $major_industry_sub_classes = array();
+      $query_major_industry = $this->db->get("major_industry");
+      if($query_major_industry->num_rows()>0) {
+        $major_industries = $query_major_industry->result_array();
+      }
+      $data['major_industries'] = $major_industries;
+      $query_major_industry_sub_classes = $this->db->get("subclass");
+      if($query_major_industry_sub_classes->num_rows()>0) {
+        $major_industry_sub_classes = $query_major_industry_sub_classes->result_array();
+      }
+      $data['major_industry_sub_classes'] = $major_industry_sub_classes;
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{

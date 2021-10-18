@@ -1443,6 +1443,24 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     return $query->row();
   }
 
+  public function getCoopifExists($user_id){
+    $this->db->select('registeredcoop.regNo as regNo,registeredcoop.dateRegistered,cooperatives.area_of_operation,cooperatives.regions,registeredcoop.addrCode, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+    $this->db->from('registeredcoop');
+    $this->db->join('cooperatives','ON registeredcoop.application_id = cooperatives.id','inner');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->where(array('cooperatives.users_id'=> $user_id));
+    $this->db->order_by('registeredcoop.id','DESC');
+    if($this->db->count_all_results() != 0){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  
+
   public function change_status_branches($decoded_id,$status){
     $decoded_id = $this->security->xss_clean($decoded_id);
     $status = $this->security->xss_clean($status);
@@ -1793,7 +1811,7 @@ Very truly yours,<br>
 
            2. Certification as to available space and manpower to manage the office. 
 
-          Submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Electronic-Cooperative Registration Information
+          Submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Electronic-Cooperative Registration Information
           System (E-CoopRIS).</pre>";
     } else {
       $message="<pre>Proposed Name of Branch: ".$proposedbranch."
@@ -1808,7 +1826,7 @@ Very truly yours,<br>
       2. General Assembly Resolution
       3. Certification for the presence of Manual of Operation and Addresses of the branch office.
 
-      Submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Electronic-Cooperative Registration Information
+      Submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Electronic-Cooperative Registration Information
       System (E-CoopRIS).</pre>";
     }
 

@@ -85,7 +85,7 @@
             <a href="<?php echo base_url();?>admins/amendment_list"><i class="fas fa-handshake"></i> All Amendments List</a>
           </li> -->
            <li>   
-            <a href="<?php echo base_url();?>admins/branches_list"><i class="fas fa-handshake"></i> All Branches List</a>
+            <!-- <a href="<?php echo base_url();?>admins/branches_list"><i class="fas fa-handshake"></i> All Branches List</a> -->
           </li> 
          <?php /* <li>
           <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> SMS Settings</a>

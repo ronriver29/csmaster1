@@ -766,7 +766,7 @@
               <?php if(isset($document_others_unifed)) : ?>
                <!--  <a target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($document_one->filename))?>"> -->
 
-                 <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf_branch/<?=$encrypted_id?>/42">
+                 <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf_branch/<?=$encrypted_id_others?>/42">
 
                   <?php if($is_client) : ?>
                     This is your Others document.
@@ -877,7 +877,7 @@
               <?php if(isset($document_others_unifed)) : ?>
                <!--  <a target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($document_one->filename))?>"> -->
 
-                 <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf_branch/<?=$encrypted_id?>/42">
+                 <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf_branch/<?=$encrypted_id_others?>/42">
 
                   <?php if($is_client) : ?>
                     This is your Others document.

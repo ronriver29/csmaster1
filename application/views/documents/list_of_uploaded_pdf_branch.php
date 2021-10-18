@@ -49,13 +49,13 @@
                 <th>FileName</th>
                 <th>Date</th>
                 <!-- <th>status</th> -->
-             	<th></th>
-              	
+              <th></th>
+                
               </tr>
             </thead>
             <tbody>
-            <?php if(isset($uploaded_list_pdf)) :?>	
-        	<?php $a=1;foreach($uploaded_list_pdf as $row): ?>
+            <?php if(isset($uploaded_list_pdf)) :?> 
+          <?php $a=1;foreach($uploaded_list_pdf as $row): ?>
               <tr>
                 <td> <?=$a++;?></td>
                 <td><?=$row['filename']?></td>
@@ -63,11 +63,11 @@
               <!--   <td><?=$row['status']?></td> -->
                
                 <td>
-                	 
+                   
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                  	<a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>branches/<?=$encrypted_id?>/documents/view_document_one_branch/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
+                    <a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>branches/<?=$encrypted_id?>/documents/view_document_one_branch/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
                         <?php if($is_client) : ?>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePDFModal" data-doctypess="<?=$row['document_num']?>" data-coopid="<?= $encrypted_id ?>" data-comname="<?=$row['filename']?>" data-fname="" data-pdfid="<?= encrypt_custom($this->encryption->encrypt($row['id']))?>"><i class='fas fa-trash'></i> Delete</button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePDFModalBnS" data-doctypess="<?=$row['document_num']?>" data-coopid="<?= $encrypted_id ?>" data-comname="<?=$row['filename']?>" data-fname="" data-pdfid="<?= encrypt_custom($this->encryption->encrypt($row['id']))?>"><i class='fas fa-trash'></i> Delete</button>
                         <?php endif;?>
                   </div>
                 </td>
@@ -98,13 +98,13 @@
                 <th>FileName</th>
                 <th>Date</th>
                 <!-- <th>status</th> -->
-             	<th></th>
-              	
+              <th></th>
+                
               </tr>
             </thead>
             <tbody>
-            <?php if(isset($defered_uploaded_list_pdf)) :?>	
-        	<?php $a=1;foreach($defered_uploaded_list_pdf as $row): ?>
+            <?php if(isset($defered_uploaded_list_pdf)) :?> 
+          <?php $a=1;foreach($defered_uploaded_list_pdf as $row): ?>
               <tr>
                 <td> <?=$a++;?></td>
                 <td><?=$row['filename']?></td>
@@ -112,12 +112,12 @@
               <!--   <td><?=$row['status']?></td> -->
                
                 <td>
-                	 
+                   
 
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                  	<a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>branches/<?=$encrypted_id?>/documents/view_document_one_branch/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
+                    <a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>branches/<?=$encrypted_id?>/documents/view_document_one_branch/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
                         <?php if($is_client) : ?>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePDFModal" data-doctypess="<?=$row['document_num']?>" data-coopid="<?= $encrypted_id ?>" data-comname="<?=$row['filename']?>" data-fname="" data-pdfid="<?= encrypt_custom($this->encryption->encrypt($row['id']))?>"><i class='fas fa-trash'></i> Delete</button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePDFModalBnS" data-doctypess="<?=$row['document_num']?>" data-coopid="<?= $encrypted_id ?>" data-comname="<?=$row['filename']?>" data-fname="" data-pdfid="<?= encrypt_custom($this->encryption->encrypt($row['id']))?>"><i class='fas fa-trash'></i> Delete</button>
                         <?php endif;?>
                   </div>
                 </td>
@@ -150,13 +150,13 @@ else :?>
                 <th>FileName</th>
                 <th>Date</th>
                 <!-- <th>status</th> -->
-             	<th></th>
-              	
+              <th></th>
+                
               </tr>
             </thead>
             <tbody>
-            <?php if(isset($defered_uploaded_list_pdf)) :?>	
-        	<?php $a=1;foreach($defered_uploaded_list_pdf as $row): ?>
+            <?php if(isset($defered_uploaded_list_pdf)) :?> 
+          <?php $a=1;foreach($defered_uploaded_list_pdf as $row): ?>
               <tr>
                 <td> <?=$a++;?></td>
                 <td><?=$row['filename']?></td>
@@ -164,12 +164,12 @@ else :?>
               <!--   <td><?=$row['status']?></td> -->
                
                 <td>
-                	 
+                   
 
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                  	<a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>branches/<?=$encrypted_id?>/documents/view_document_one_branch/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
+                    <a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>branches/<?=$encrypted_id?>/documents/view_document_one_branch/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
                         <?php if($is_client) : ?>
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePDFModal" data-doctypess="<?=$row['document_num']?>" data-coopid="<?= $encrypted_id ?>" data-comname="<?=$row['filename']?>" data-fname="" data-pdfid="<?= encrypt_custom($this->encryption->encrypt($row['id']))?>"><i class='fas fa-trash'></i> Delete</button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePDFModalBnS" data-doctypess="<?=$row['document_num']?>" data-coopid="<?= $encrypted_id ?>" data-comname="<?=$row['filename']?>" data-fname="" data-pdfid="<?= encrypt_custom($this->encryption->encrypt($row['id']))?>"><i class='fas fa-trash'></i> Delete</button>
                         <?php endif; ?>
                   </div>
                 </td>

@@ -102,7 +102,7 @@
                       'street' => $this->input->post('streetName'),
                       'house_blk_no' => $this->input->post('blkNo')
                     );
-                    if($data['branch_info']->status < 2){
+                    if($data['branch_info']->status < 2 || $data['branch_info']->status == 17){
                       if($this->branches_model->update_not_expired_branches($user_id,$decoded_id,$field_data)){
                         // echo '<script>alert("Successfully updated basic information");';
                         // echo "window.location.href = '" . $this->input->post('branchID') . "';</script>";
@@ -379,6 +379,7 @@
             $datelang = str_replace("-", "/", $data['dateregistered']);
             $data['date2'] = $datelang;
           }
+          $data['coop_exists'] = $this->branches_model->getCoopifExists($user_id);
           // foreach($list_branches as $branch){
           //   $cCode = $branch['cCode'];
           // }
@@ -434,7 +435,7 @@
                 $data['list_branches'] = $this->branches_model->get_all_branches_by_director($data['admin_info']->region_code);
               }
             }
-
+            $data['coop_exists'] = $this->branches_model->getCoopifExists($user_id);
             $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
             $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
 
@@ -635,7 +636,10 @@
                 $data['in_chartered_cities']=true;
                 $data['chartered_cities'] = $this->charter_model->get_charter_city($data['branch_info']->cCode);
               }
-
+              
+              if($data['branch_info']->area_of_operation == 'Interregional'){
+                $data['regions_island_list'] = $this->region_model->get_selected_regions($data['branch_info']->regions);
+              }
 
               $this->load->view('./template/header', $data);
               $this->load->view('cooperative/branch_detail', $data);

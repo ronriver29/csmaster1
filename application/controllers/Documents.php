@@ -1233,7 +1233,8 @@ public function delete_pdf()
                 if($this->branches_model->check_if_amended($branch_info->regNo)){
                   $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->branch_id));
                 } else {
-                  $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->id));
+                  $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
+                  $data['encrypted_id_others'] = encrypt_custom($this->encryption->encrypt($branch_info->id));
                 }
                 $data['document_one'] = $this->uploaded_document_model->get_document_one_info($branch_info->application_id);
                 $data['document_two'] = $this->uploaded_document_model->get_document_two_info($branch_info->application_id);
@@ -1295,7 +1296,8 @@ public function delete_pdf()
                   if($this->branches_model->check_if_amended($branch_info->regNo)){
                     $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->branch_id));
                   } else {
-                    $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->id));
+                    $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
+                    $data['encrypted_id_others'] = encrypt_custom($this->encryption->encrypt($branch_info->id));
                   }
 
                   // $data['branches_comments_cds'] = $this->branches_model->branches_comments_cds($branch_info->id);

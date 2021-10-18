@@ -142,8 +142,8 @@
     <td  colspan="2" style="text-align: center; font-size: 20pt;"><b></b></td>
   </tr>
   <tr>
-    <td  colspan="2" style="text-align: center;"><b style=" font-size: 24pt;" class="calibri"><?=$coopName;?></b><br>
-    <div class="arial" style="font-size:14pt;"><?=$address;?></div></td>
+    <td  colspan="2" style="text-align: center;"><b style=" font-size: 20pt !important;" class="calibri"><?=$coopName;?></b><br>
+    <div class="arial" style="font-size:12pt;"><?=$address;?></div></td>
   </tr>
 
 
@@ -159,24 +159,20 @@
     <td><i style="color:white;">....</i></td>
   </tr>
   <tr>
-    <td colspan="2" style="text-align: justify; ; text-indent: 40px;"><center class="arial">This Certificate is issued and shall be valid until <b>April 30, <?=$validity;?></b>, unless revoked.</center></td>
+    <td colspan="2" style="text-align: justify; ;;"><center class="arial">This Certificate is issued and shall be valid until April 30, <?=$validity;?>, unless revoked.</center></td>
   </tr>
     <tr>
     <td><i style="color:white;">....</i></td>
   </tr>
   <tr>
-    <td colspan="2" style="text-align: justify; ; text-indent: 40px;"><center class="arial">Issued this <b><?=date("jS",strtotime($issued)); ?> day of <?=date("F",strtotime($issued)); ?> <?=date("Y",strtotime($issued)); ?></b></center></td> 
+    <td colspan="2" style="text-align: justify; ;"><center class="arial">Issued this <b><?=date("jS",strtotime($issued)); ?> day of <?=date("F",strtotime($issued)); ?> <?=date("Y",strtotime($issued)); ?></b></center></td> 
   </tr>
 </table>
 
-<table width="100%" style="margin-top:25px;">
-
-
-
-
+<table width="100%" style="margin-top:55px;">
   <tr>
   
-    <td style="text-align: justify;"  class="calibri"><center><b style="font-size:20pt;"><?=$full_name;?></b> <br><?=$signatory;?></center></td>
+    <td style="text-align: justify;"  class="calibri"><center><b style="font-size:16pt;"><?=$full_name;?></b> <br><?=$signatory;?></center></td>
   </tr>
   
   
