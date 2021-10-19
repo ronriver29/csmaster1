@@ -1245,7 +1245,7 @@ You may now submit the following requirements/documents:
 
 The above documents shall be printed in Legal size or ”8.5 x 13” or ”8.5 x 14” bond paper.
 
-The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
+The client shall submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be purged from the Cooperative Registration Information System (CoopRIS).</pre>";
 
 
     $this->email->from($from,'ecoopris CDA (No Reply)');
@@ -1695,7 +1695,7 @@ You may now submit the following requirements/ documents:
     responsibility and liability as Guardian of the Laboratory Cooperative.
 
 The above documents shall be printed in Legal size or ”8.5 x 13” or ”8.5 x 14” bond paper.
-The client shall submit the above required documents within 30 working days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Cooperative Registration Information
+The client shall submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Cooperative Registration Information
 System (CoopRIS).</pre>";
 
     $this->email->from($from,'ecoopris CDA (No Reply)');

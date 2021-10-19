@@ -54,7 +54,7 @@
         <div class="row d-flex">
           <div class="col-sm-12 col-md-12 col-btn-action-survey-primary">
             <h4 class="float-left">Additional Information:</h4>
-            <?php if(($is_client && $coop_info->status<=1) || ($coop_info->status ==11)): ?>
+            <?php if(($is_client && $coop_info->status<=1) || ($is_client && $coop_info->status ==11)): ?>
               <a class="btn btn-primary btn-sm float-right text-white" id="btnEditEconomicSurvey"><i class="fas fa-edit"></i> Edit</a>
             <?php endif; ?>
           </div>
@@ -96,13 +96,13 @@
           <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label for="increaseSecond"><strong>Second year</strong></label>
-            		<input type="number" value="<?=$survey_info->increase_second_year?>" class="form-control validate[required,min[1],custom[integer]]" name="increaseSecond" id="increaseSecond" min="1" disabled>
+                <input type="number" value="<?=$survey_info->increase_second_year?>" class="form-control validate[required,min[1],custom[integer]]" name="increaseSecond" id="increaseSecond" min="1" disabled>
               </div>
           </div>
           <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label for="increaseThird"><strong>Third year</strong></label>
-            		<input type="number" value="<?=$survey_info->increase_third_year?>" class="form-control validate[required,min[1],custom[integer]]" name="increaseThird" id="increaseThird" min="1" disabled>
+                <input type="number" value="<?=$survey_info->increase_third_year?>" class="form-control validate[required,min[1],custom[integer]]" name="increaseThird" id="increaseThird" min="1" disabled>
               </div>
           </div>
         </div>
@@ -247,13 +247,13 @@
           <div class="col-sm-12 col-md-12">
               <div class="form-group">
                 <label for="businessActivitySecond"><strong>Second year</strong></label>
-            		<input type="text" class="form-control validate[required]" name="businessActivitySecond" id="businessActivitySecond" disabled value="<?= $survey_info->bactivities_plans_second_year?>">
+                <input type="text" class="form-control validate[required]" name="businessActivitySecond" id="businessActivitySecond" disabled value="<?= $survey_info->bactivities_plans_second_year?>">
               </div>
           </div>
           <div class="col-sm-12 col-md-12">
               <div class="form-group">
                 <label for="businessActivityThird"><strong>Third year</strong></label>
-            		<input type="text" class="form-control validate[required]" name="businessActivityThird" id="businessActivityThird" disabled value="<?= $survey_info->bactivities_plans_third_year?>">
+                <input type="text" class="form-control validate[required]" name="businessActivityThird" id="businessActivityThird" disabled value="<?= $survey_info->bactivities_plans_third_year?>">
               </div>
           </div>
         </div>
@@ -318,7 +318,7 @@
           <div class="col-sm-12 col-md-12">
               <div class="form-group">
                 <label for="strategyCapitalBuildUp"><strong>Strategies for internal capital build-up:</strong></label>
-            		<textarea type="text" class="form-control validate[required]" name="strategyCapitalBuildUp" id="strategyCapitalBuildUp" disabled value=""><?= $survey_info->strategy_capital_build_up?></textarea>
+                <textarea type="text" class="form-control validate[required]" name="strategyCapitalBuildUp" id="strategyCapitalBuildUp" disabled value=""><?= $survey_info->strategy_capital_build_up?></textarea>
               </div>
           </div>
         </div>
@@ -339,13 +339,13 @@
           <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label for="revenueSecond"><strong>Second year</strong></label>
-            		<input type="number" class="form-control validate[required,min[1],custom[integer]]" name="revenueSecond" id="revenueSecond" min="1" disabled value="<?= $survey_info->revenue_second_year?>">
+                <input type="number" class="form-control validate[required,min[1],custom[integer]]" name="revenueSecond" id="revenueSecond" min="1" disabled value="<?= $survey_info->revenue_second_year?>">
               </div>
           </div>
           <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label for="revenueThird"><strong>Third year</strong></label>
-            		<input type="number" class="form-control validate[required,min[1],custom[integer]]" name="revenueThird" id="revenueThird" min="1" disabled value="<?= $survey_info->revenue_third_year?>">
+                <input type="number" class="form-control validate[required,min[1],custom[integer]]" name="revenueThird" id="revenueThird" min="1" disabled value="<?= $survey_info->revenue_third_year?>">
               </div>
           </div>
         </div>
@@ -366,13 +366,13 @@
           <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label for="expenditureSecond"><strong>Second year</strong></label>
-            		<input type="number" class="form-control validate[required,min[1],custom[integer]]" name="expenditureSecond" id="expenditureSecond" min="1" disabled value="<?= $survey_info->expenditure_second_year?>">
+                <input type="number" class="form-control validate[required,min[1],custom[integer]]" name="expenditureSecond" id="expenditureSecond" min="1" disabled value="<?= $survey_info->expenditure_second_year?>">
               </div>
           </div>
           <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label for="expenditureThird"><strong>Third year</strong></label>
-            		<input type="number" class="form-control validate[required,min[1],custom[integer]]" name="expenditureThird" id="expenditureThird" min="1" disabled value="<?= $survey_info->expenditure_third_year?>">
+                <input type="number" class="form-control validate[required,min[1],custom[integer]]" name="expenditureThird" id="expenditureThird" min="1" disabled value="<?= $survey_info->expenditure_third_year?>">
               </div>
           </div>
         </div>
@@ -641,13 +641,13 @@
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
               <label for="educationProgramMembers"><strong>Members</strong></label>
-            	<textarea type="text" class="form-control validate[required]" name="educationProgramMembers" id="educationProgramMembers" disabled value=""><?= $survey_info->education_programs_members?></textarea>
+              <textarea type="text" class="form-control validate[required]" name="educationProgramMembers" id="educationProgramMembers" disabled value=""><?= $survey_info->education_programs_members?></textarea>
             </div>
           </div>
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
               <label for="educationProgramOfficers"><strong>Officers</strong></label>
-            	<textarea type="text" class="form-control validate[required]" name="educationProgramOfficers" id="educationProgramOfficers" disabled value=""><?= $survey_info->education_programs_officers?></textarea>
+              <textarea type="text" class="form-control validate[required]" name="educationProgramOfficers" id="educationProgramOfficers" disabled value=""><?= $survey_info->education_programs_officers?></textarea>
             </div>
           </div>
           <div class="col-sm-12 col-md-12">
