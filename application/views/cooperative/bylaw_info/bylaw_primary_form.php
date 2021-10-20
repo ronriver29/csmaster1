@@ -107,7 +107,7 @@
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
                 <label for="regularQualifications1">Regular member qualification 1</label>
-                <textarea type="text" value="" class="form-control" name="regularQualifications[]" id="regularQualifications1" placeholder="Must be in a sentence" disabled></textarea>
+                <textarea type="text" value="" class="form-control" name="regularQualifications[]" id="regularQualifications1" placeholder="Must be in a sentence" required="" disabled></textarea>
               </div>
             </div>
           </div>
@@ -126,7 +126,7 @@
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <?php endif; ?>
                   <label for="regularQualifications<?= $key + 1?>">Regular member qualification <?= $key + 1?></label>
-                  <textarea type="text" value="" class="form-control" name="regularQualifications[]" id="regularQualifications<?= $key + 1?>" disabled><?= $reg_qualification?></textarea>
+                  <textarea type="text" value="" class="form-control" name="regularQualifications[]" id="regularQualifications<?= $key + 1?>" required="" disabled><?= $reg_qualification?></textarea>
                 </div>
               </div>
             <?php endforeach; ?>
@@ -149,7 +149,7 @@
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                       <label for="associateQualifications1">Associate member qualification 1</label>
-                      <textarea type="text" value="" class="form-control" name="associateQualifications[]" id="associateQualifications1" disabled></textarea>
+                      <textarea type="text" value="" class="form-control" name="associateQualifications[]" id="associateQualifications1" required="" disabled></textarea>
                     </div>
                   </div>
                 </div>
@@ -168,7 +168,7 @@
                             <a class="customDeleleBtn associateQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                           <?php endif; ?>
                           <label for="associateQualifications<?= $key + 1?>">Associate member qualification <?= $key + 1?></label>
-                          <textarea type="text" value="" class="form-control" name="associateQualifications[]" id="associateQualifications<?= $key + 1?>" disabled><?= $asc_qualification?></textarea>
+                          <textarea type="text" value="" class="form-control" name="associateQualifications[]" id="associateQualifications<?= $key + 1?>" required="" disabled><?= $asc_qualification?></textarea>
                         </div>
                       </div>
                     <?php endforeach; ?>
