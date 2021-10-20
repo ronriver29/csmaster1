@@ -654,12 +654,12 @@ $("#othersFund").on('change', function(){
 
   });
 
-jQuery(function ($) {
-    var $inputs = $('input[name=investPerMonth],input[name=investAnnualInterest],input[name=investService]');
+// jQuery(function ($) {
+    var $inputs = $('input[name=investPerMonth],input[name=investAnnualInterest],input[name=investService],input[name=termHoldDirector]');
     $inputs.on('input', function () {
         var total = $('input[name=investPerMonth]').val().length + $('input[name=investAnnualInterest]').val().length + $('input[name=investService]').val().length;
         $inputs.not(this).prop('required', !total);
-
+        console.log('adsadsad');
     });
-});
+// });
 </script>
