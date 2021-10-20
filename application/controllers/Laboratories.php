@@ -95,7 +95,7 @@
                   $data['access_level'] = $this->session->userdata('access_level');
                   $this->load->view('./template/header', $data);
                   $this->load->view('laboratories/registration_update', $data);
-                  //$this->load->view('cooperative/terms_and_condition');
+                  $this->load->view('cooperative/terms_and_condition');
                   $this->load->view('./template/footer', $data);
                 }else{ //else validation false
                   // echo "validation true";
@@ -317,7 +317,7 @@
               if ($temp == FALSE){
                 $this->load->view('./template/header', $data);
                 $this->load->view('laboratories/registration_detail', $data); //registration form
-//                $this->load->view('cooperative/terms_and_condition');
+               $this->load->view('cooperative/terms_and_condition');
                 $this->load->view('./template/footer');
               }else{
 
