@@ -476,7 +476,22 @@
         <hr>
         <strong>Area of Operation</strong>
         <p class="text-muted">
-          <?= $branch_info->area_of_operation?>
+          <?php if($branch_info->area_of_operation=="Interregional"){
+          $region_array = array();
+          
+          foreach ($regions_island_list as $region_island_list){
+            array_push($region_array, $region_island_list['regDesc']);
+          }
+          // echo implode(", ", $region_array);
+          $last  = array_slice($region_array, -1);
+          $first = join(', ', array_slice($region_array, 0, -1));
+          $both  = array_filter(array_merge(array($first), $last), 'strlen');
+          echo 'Inter-Regional - '. join(' and ', $both);
+
+            // echo 'Inter-Regional -';
+          } else {
+            echo $branch_info->area_of_operation;
+          }?>
         </p>
       </div>
     </div>
@@ -783,7 +798,7 @@
 
           <?php if($is_client && $branch_info->status<=1 || $branch_info->status==17): ?>
             <?php if($is_client) : ?>
-                <a href="<?php echo base_url();?>branches/<?=$encrypted_id?>/documents/upload_document_others_bns" class="btn btn-primary">Upload</a>
+                <a href="<?php echo base_url();?>branches/<?=$encrypted_id_others?>/documents/upload_document_others_bns" class="btn btn-primary">Upload</a>
             <?php endif;?>
           <?php endif; ?>
 
@@ -894,7 +909,7 @@
 
           <?php if($is_client && $branch_info->status<=1 || $branch_info->status==17): ?>
             <?php if($is_client) : ?>
-                <a href="<?php echo base_url();?>branches/<?=$encrypted_id?>/documents/upload_document_others_bns" class="btn btn-primary">Upload</a>
+                <a href="<?php echo base_url();?>branches/<?=$encrypted_id_others?>/documents/upload_document_others_bns" class="btn btn-primary">Upload</a>
             <?php endif;?>
           <?php endif; ?>
 

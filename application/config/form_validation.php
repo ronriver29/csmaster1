@@ -483,11 +483,11 @@ $config = array(
                   'label' => 'Membership Fee',
                   'rules' => 'trim|required'
                 ),
-                array(
-                  'field' => 'regularQualifications[]',
-                  'label' => 'Regular Qualifications',
-                  'rules' => 'trim|required'
-                ),
+                // array(
+                //   'field' => 'regularQualifications[]',
+                //   'label' => 'Regular Qualifications',
+                //   'rules' => 'trim|required'
+                // ),
 //                array(
 //                  'field' => 'additionalRequirementsForMembership',
 //                  'label' => 'Additional Requirements for Membership',

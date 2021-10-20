@@ -432,10 +432,22 @@ if($tomorrow>=$now){
                     <?=$outside_the_region['house_blk_no']?> <?=$outside_the_region['street'].$x?> <?=$outside_the_region['brgy']?>, <?=$outside_the_region['city']?>, <?= $outside_the_region['province']?> <?=$outside_the_region['region']?>
                   </td>
                   <td>
-                      <span class="badge badge-secondary">FOR VALIDATION</span>
+                      <span class="badge badge-secondary">
+                        <?php if($is_client) : ?>
+                        <?php if($outside_the_region['status']==17) echo "DEFERRED"; ?>
+                        <?php if($outside_the_region['status']==24) echo "FOR VALIDATION"; ?>
+                      <?php else : ?>
+                        <?php 
+                        if($outside_the_region['status']==17) echo "DEFERRED BY DIRECTOR";
+                        else if($outside_the_region['status']==24) echo "FOR VALIDATION"; ?>
+                          
+                      <?php endif ?>
+                      </span>
                   </td>
                   <td>
+                    <?php if($outside_the_region['status']==24){?>
                       <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($outside_the_region['id'])) ?>/documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
+                    <?php } ?>
                   </td>
                 </tr>
                 <?php endforeach; ?>

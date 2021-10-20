@@ -1232,6 +1232,7 @@ public function delete_pdf()
                 $data['type']=substr($branch_info->branchName, -7);
                 if($this->branches_model->check_if_amended($branch_info->regNo)){
                   $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->branch_id));
+                  $data['encrypted_id_others'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->branch_id));
                 } else {
                   $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
                   $data['encrypted_id_others'] = encrypt_custom($this->encryption->encrypt($branch_info->id));
@@ -1295,6 +1296,7 @@ public function delete_pdf()
                   // $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
                   if($this->branches_model->check_if_amended($branch_info->regNo)){
                     $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->branch_id));
+                    $data['encrypted_id_others'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->branch_id));
                   } else {
                     $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
                     $data['encrypted_id_others'] = encrypt_custom($this->encryption->encrypt($branch_info->id));
@@ -1342,7 +1344,9 @@ public function delete_pdf()
                 $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
                 $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
                 $data['business_activities'] =  $this->branches_model->get_all_business_activities($branch_info->id);
-                
+                if($data['branch_info']->area_of_operation == 'Interregional'){
+                  $data['regions_island_list'] = $this->region_model->get_selected_regions($branch_info->regions);
+                }
                   $this->load->view('templates/admin_header', $data);
                   $this->load->view('documents/list_of_documents_branch', $data);
                   $this->load->view('cooperative/evaluation/approve_modal_branch');
@@ -3028,18 +3032,27 @@ public function delete_pdf()
                               $data['in_chartered_cities']=true;
                               $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                               }
-                               // $this->load->view('documents/economic_survey', $data);
-                              $f = new pdf();
-                             $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
-                              // $f->set_option('isHtml5ParserEnabled', true);
-                              $f->set_option("isPhpEnabled", true);
-                              $f->setPaper('folio', 'portrait');
-                              // $f->set_option('defaultFont','bookman');
-                              $f->load_html($html2);
-                              $f->render();
-                             $pageCount['pageCount']=  $f->get_canvas()->get_page_count();
-                              $f->stream("economic_survey.pdf", array("Attachment"=>0));
-
+                              if($data['coop_info']->status != 12){
+                                $data['encrypted_id'] = $id;
+                                $data['title'] = 'Economic Survey';
+                                $data['client_info'] = $this->user_model->get_user_info($user_id);
+                                $data['header'] = 'Documents';
+                                $this->load->view('template/header', $data);
+                                $this->load->view('documents/economic_survey', $data); 
+                                $this->load->view('template/footer');
+                              } else {
+                                 // $this->load->view('documents/economic_survey', $data);
+                                $f = new pdf();
+                                $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
+                                // $f->set_option('isHtml5ParserEnabled', true);
+                                $f->set_option("isPhpEnabled", true);
+                                $f->setPaper('folio', 'portrait');
+                                // $f->set_option('defaultFont','bookman');
+                                $f->load_html($html2);
+                                $f->render();
+                                $pageCount['pageCount']=  $f->get_canvas()->get_page_count();
+                                $f->stream("economic_survey.pdf", array("Attachment"=>0));
+                              }
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
                               redirect('cooperatives/'.$id);
@@ -3148,13 +3161,23 @@ public function delete_pdf()
                                   $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                                   }
                                   // var_dump(  $data['in_chartered_cities']);
-                                $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
-                                $f = new pdf();
-                                 $f->set_option("isPhpEnabled", true);
-                                $f->setPaper('folio', 'portrait');
-                                $f->load_html($html2);
-                                $f->render();
-                                $f->stream("economic_survey.pdf", array("Attachment"=>0));
+                                  if($data['coop_info']->status != 12){
+                                  $data['title'] = 'Economic Survey';
+                                  $data['header'] = 'Economic Survey';
+                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                                  $data['encrypted_id'] = $id;
+                                  $this->load->view('templates/admin_header', $data);
+                                  $this->load->view('documents/economic_survey', $data);
+                                  $this->load->view('templates/admin_footer');
+                                } else {
+                                  $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
+                                  $f = new pdf();
+                                  $f->set_option("isPhpEnabled", true);
+                                  $f->setPaper('folio', 'portrait');
+                                  $f->load_html($html2);
+                                  $f->render();
+                                  $f->stream("economic_survey.pdf", array("Attachment"=>0));
+                                }
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                 redirect('cooperatives/'.$id);
@@ -5024,9 +5047,9 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                 $this->load->view('cooperative/upload_form/upload_document_others_bns', $data);
                 $this->load->view('./template/footer');
           }else{
-            // echo $decoded_id.'-'.$user_id;
-            $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-            redirect('branches');
+            echo $decoded_id.'-'.$user_id;
+            // $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!!!!.');
+            // redirect('branches');
           }
         }else{
           if($this->session->userdata('access_level')==5){
