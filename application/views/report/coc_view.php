@@ -186,7 +186,7 @@
   
 </table>
 
-<div style="width:100%;margin-top: 0px;font-style: italic;font-size: 10px !important; text-align: right;"><?=date('Y-m-d H:i:s')?></div>
+<div style="width:100%;margin-top: 0px;font-style: italic;font-size: 10px !important; text-align: right;"><?=date('d-m-Y H:i:s')?></div>
 
 </div>
 
