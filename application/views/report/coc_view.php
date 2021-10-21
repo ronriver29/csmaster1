@@ -150,7 +150,7 @@
     <td><i style="color:white;">....</i></td>
   </tr>
   <tr>
-    <td  colspan="2" style="text-align: center;"><b style=" font-size: 20pt !important;" class="calibri"><?=$coopName;?></b><br>
+    <td  colspan="2" style="text-align: center;"><b style=" font-size: 17pt !important;" class="calibri"><?=$coopName;?></b><br>
     <div class="arial" style="font-size:12pt;"><?=$address;?></div></td>
   </tr>
   <tr>
@@ -177,7 +177,7 @@
   </tr>
 </table>
 
-<table width="100%" style="margin-top:85px;">
+<table width="100%" style="margin-top:75px;">
   <tr>
   
     <td style="text-align: justify;"  class="calibri"><center><b style="font-size:16pt;"><?=$full_name;?></b> <br><?=$signatory;?></center></td>

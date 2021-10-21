@@ -46,7 +46,7 @@
 <?php endif; ?>
 <div class="row">
 <?php // if(!$requirements_complete): ?>
-<?php if(count($list_cooperators) <= 15){?>
+<?php if(count($list_cooperators) <= 14){?>
 <div class="col-sm-12 col-md-12">
     <div class="alert alert-info text-justify" role="alert">
        Note:
