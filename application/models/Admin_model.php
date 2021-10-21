@@ -12,7 +12,7 @@ class Admin_model extends CI_Model{
   }
   public function login_admin($data){
     $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('admin', array('username' => $data['username']));
+    $query= $this->db->get_where('admin', array('username' => $data['username'],'active' => 1));
     $row = $query->row();
     if(isset($row)){
       if(password_verify($data['password'], $row->password)){
