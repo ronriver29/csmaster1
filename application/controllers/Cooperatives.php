@@ -170,7 +170,7 @@
               if ($this->form_validation->run() == FALSE){
                 $this->load->view('./template/header', $data);
                 $this->load->view('cooperative/reservation_detail', $data);
-               $this->load->view('cooperative/terms_and_condition');
+               // $this->load->view('cooperative/terms_and_condition');
                 $this->load->view('./template/footer');
               }else{
                 $subclass_array = $this->input->post('subClass');
@@ -581,7 +581,7 @@
                   $this->load->view('./template/header', $data);
                   $this->load->view('cooperative/reservation_update', $data);
                   if($this->cooperatives_model->check_expired_reservation($decoded_id,$user_id)){
-                    $this->load->view('cooperative/terms_and_condition');
+                    // $this->load->view('cooperative/terms_and_condition');
                   }
                   $this->load->view('./template/footer', $data);
                 }else{
@@ -2351,7 +2351,7 @@
           'fieldId'=>"proposedName",
           'fieldValue'=>$proposedName,
           'typeOfCooperative'=> $typeOfCooperative,
-          'cooperativeID'=> $this->input->get('cooperativeID'),
+          'cooperativeID'=> $cooperativeID,
         );
         $result = $this->cooperatives_model->is_name_update_unique($data);
         if($result[1]==true){
