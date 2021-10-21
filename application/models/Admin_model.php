@@ -1561,6 +1561,12 @@ Very truly yours, <br>
       return $data;
     }
   }
+  public function get_senior_info_dir_defer($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'access_level'=>2));
+    $row = $query->row();
+    return $row;
+  }
   public function get_director_info($data){
     $data = $this->security->xss_clean($data);
     $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>3));

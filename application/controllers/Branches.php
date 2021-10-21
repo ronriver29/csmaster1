@@ -1771,7 +1771,7 @@
                                       $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
                                     }
                                     
-                                    $data['senior_info'] = $this->admin_model->get_senior_info($regioncode);
+                                    $data['senior_info'] = $this->admin_model->get_senior_info_dir_defer($regioncode);
 
                                     $brgyforemail = ucwords($data['branch_info']->house_blk_no).' '.ucwords($data['branch_info']->street).$x.' '.$data['branch_info']->brgy.', '.$data['branch_info']->city.', '.$data['branch_info']->province.', '.$data['branch_info']->region;
 
