@@ -84,7 +84,7 @@
                         $regCodeBranch = '0'.substr($data['registered_info']->addrCode, 0, 2);
                     }
 
-                    echo substr($data['registered_info']->addrCode, 0, 2).'-'.substr($this->input->post('barangay'), 0, 2);
+                    // echo substr($data['registered_info']->addrCode, 0, 2).'-'.substr($this->input->post('barangay'), 0, 2);
                     // echo  $this->input->post('typeOfbranchsatellite'); 
 
                     $field_data = array(
