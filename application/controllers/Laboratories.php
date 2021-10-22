@@ -95,7 +95,7 @@
                   $data['access_level'] = $this->session->userdata('access_level');
                   $this->load->view('./template/header', $data);
                   $this->load->view('laboratories/registration_update', $data);
-                  $this->load->view('cooperative/terms_and_condition');
+                  //$this->load->view('cooperative/terms_and_condition');
                   $this->load->view('./template/footer', $data);
                 }else{ //else validation false
                   // echo "validation true";
@@ -213,12 +213,12 @@
           $data['list_laboratories'] = $this->laboratories_model->get_all_laboratories($this->session->userdata('user_id'));
 
           $data['coopreg_info'] = $this->laboratories_model->getCoopRegNo($user_id);
+
           if(isset($data['coopreg_info'])){
             if($this->branches_model->check_if_amended($data['coopreg_info']->regNo)){
               $data['coopreg_info'] = $this->laboratories_model->getCoopRegNoAmended($user_id);
             } 
           }
-
           $data['last_query'] = $this->db->last_query();
           if(empty($data['coopreg_info'])){
               $data['gc'] = '';
@@ -317,7 +317,7 @@
               if ($temp == FALSE){
                 $this->load->view('./template/header', $data);
                 $this->load->view('laboratories/registration_detail', $data); //registration form
-               $this->load->view('cooperative/terms_and_condition');
+//                $this->load->view('cooperative/terms_and_condition');
                 $this->load->view('./template/footer');
               }else{
 
@@ -447,6 +447,7 @@
           $data['Other_requirements'] = $this->docUpload($Cooperative_id ,$decoded_id,42);
           $data['document_others_lab'] = $this->uploaded_document_model->get_document_42_info($decoded_id,$Cooperative_id);
           $data['last_query'] = $this->db->last_query();
+          $data['encrypted_ids'] =$id;
 
      
           $this->load->view('template/header', $data);
@@ -1749,9 +1750,9 @@
     }//end public
     public function debug($array)
     {
-    		echo"<pre>";
-    		print_r($array);
-    		echo"</pre>";
+        echo"<pre>";
+        print_r($array);
+        echo"</pre>";
     }
   }
  ?>

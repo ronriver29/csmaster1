@@ -459,6 +459,35 @@ public function list_upload_pdf_branch($id =null,$doc_type=null)
       
   }
 }
+  public function count_documents_laboratory($coop_id,$num)
+    {
+    $query = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coop_id, 'document_num'=>$num,'status'=>1));
+    if($query->num_rows()>0)
+    {
+      $data = $query->result_array();
+
+    }
+    else
+    {
+      $data =NULL;
+    }
+    return $data;
+
+  }
+  public function defered_count_documents_laboratory($coop_id,$num)
+  {
+    $query = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coop_id, 'document_num'=>$num,'status'=>2));
+    if($query->num_rows()>0)
+    {
+      $data = $query->result_array();
+
+    }
+    else
+    {
+      $data =NULL;
+    }
+    return $data;
+  }
   public function count_documents_branch($coop_id,$num)
   {
     $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$coop_id, 'document_num'=>$num,'status'=>1));
@@ -653,7 +682,8 @@ public function list_upload_pdf_laboratory($id =null,$doc_type=null)
     $data['cid'] = $decoded_id;
     $data['encrypted_id'] = $id;
     $data['doc_types'] = $doc_type;
-    $data['uploaded_list_pdf'] =$this->count_documents_branch($decoded_id,$doc_type);
+    $data['uploaded_list_pdf'] =$this->count_documents_laboratory($decoded_id,$doc_type);
+    // echo $this->db->last_query();
     $data['defered_uploaded_list_pdf'] =$this->defered_count_documents_branch($decoded_id,$doc_type);
     if($data['is_client'] ==1)
     {

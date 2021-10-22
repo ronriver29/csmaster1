@@ -508,7 +508,9 @@ class Laboratories_documents extends CI_Controller{
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
               $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
               if($data['bylaw_complete']){
-                  $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                  $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                  $capitalization_info = $data['capitalization_info'];
+                  $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -533,7 +535,7 @@ class Laboratories_documents extends CI_Controller{
                               $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
                               $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
                               
-                              $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
+                              $html2 = $this->load->view('documents/primary/bylaws_for_primary_laboratory', $data, TRUE);
                               $f = new pdf();
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
@@ -621,7 +623,7 @@ class Laboratories_documents extends CI_Controller{
                                 $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
                                 $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
                                   // $this->load->view('documents/primary/bylaws_for_primary', $data);
-                                $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
+                                $html2 = $this->load->view('documents/primary/bylaws_for_primary_laboratory', $data, TRUE);
                                 $f = new pdf();
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
@@ -682,7 +684,9 @@ class Laboratories_documents extends CI_Controller{
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
               $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
               if($data['bylaw_complete']){
-                  $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                  $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                  $capitalization_info = $data['capitalization_info'];
+                  $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
                   // if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     // if($data['purposes_complete']){
@@ -712,7 +716,7 @@ class Laboratories_documents extends CI_Controller{
                               //$this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
                             
                             
-                              $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
+                              $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_laboratory', $data, TRUE);
                               $f = new pdf();
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
@@ -806,7 +810,7 @@ class Laboratories_documents extends CI_Controller{
                                 if($data['coop_info']->area_of_operation == 'Interregional'){
                                   $data['regions_island_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
                                 }
-                                $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
+                                $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_laboratory', $data, TRUE);
                                 $f = new pdf();
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
@@ -867,7 +871,9 @@ class Laboratories_documents extends CI_Controller{
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
               $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
               if($data['bylaw_complete']){
-                  $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                  $capitalization_info = $data['capitalization_info'];
+                  $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
                   // if($data['cooperator_complete']){
                   //   $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                   //   if($data['purposes_complete']){
@@ -887,7 +893,7 @@ class Laboratories_documents extends CI_Controller{
                               $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                               $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                               $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
-                              $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary', $data, TRUE);
+                              $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary_laboratory', $data, TRUE);
                               $f = new pdf();
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
@@ -960,7 +966,7 @@ class Laboratories_documents extends CI_Controller{
                                 $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                                 $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
                                 $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                                $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary', $data, TRUE);
+                                $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary_laboratory', $data, TRUE);
                                 $f = new pdf();
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
@@ -1022,7 +1028,9 @@ class Laboratories_documents extends CI_Controller{
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
               $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
               if($data['bylaw_complete']){
-                  $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                  $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                  $capitalization_info = $data['capitalization_info'];
+                  $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
                   // if($data['cooperator_complete']){
                   //   $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                   //   if($data['purposes_complete']){
@@ -1050,7 +1058,7 @@ class Laboratories_documents extends CI_Controller{
                               $data['others_staff_list'] = $this->staff_model->get_all_staff_of_coop_by_other_position($decoded_id);
                               $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
                               $data['committees_list'] = $this->committee_model->get_all_committee_names_of_coop_multi($decoded_id);
-                              $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
+                              $html2 = $this->load->view('documents/economic_survey_laboratory', $data, TRUE);
                               $f = new pdf();
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
@@ -1143,7 +1151,7 @@ class Laboratories_documents extends CI_Controller{
                                 $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                                 }
 
-                                $html2 = $this->load->view('documents/economic_survey', $data, TRUE);
+                                $html2 = $this->load->view('documents/economic_survey_laboratory', $data, TRUE);
                                 $f = new pdf();
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
