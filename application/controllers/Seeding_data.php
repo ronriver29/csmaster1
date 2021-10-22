@@ -566,4 +566,19 @@ BARANGAY MAGSAYSAY, QUEZON CITY 1105',
         echo 'success<br>';
       }
   }
+
+  public function lab_coop_comment_trunc()
+  {
+    $this->db->truncate('laboratories');
+    $this->db->truncate('laboratories_cooperators');
+    $this->db->truncate('laboratory_comment');
+
+    if($this->db->trans_status() === FALSE){
+        $this->db->trans_rollback();
+        echo 'failed';
+      }else{
+        $this->db->trans_commit();
+        echo 'success<br>';
+      }
+  }
 }
