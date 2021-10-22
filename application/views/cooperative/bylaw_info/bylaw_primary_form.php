@@ -149,7 +149,7 @@
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                       <label for="associateQualifications1">Associate member qualification 1</label>
-                      <textarea type="text" value="" class="form-control" name="associateQualifications[]" id="associateQualifications1" required="" disabled></textarea>
+                      <textarea type="text" value="" class="form-control" name="associateQualifications[]" id="associateQualifications1" disabled></textarea>
                     </div>
                   </div>
                 </div>
@@ -659,7 +659,6 @@ $("#othersFund").on('change', function(){
     $inputs.on('input', function () {
         var total = $('input[name=investPerMonth]').val().length + $('input[name=investAnnualInterest]').val().length + $('input[name=investService]').val().length;
         $inputs.not(this).prop('required', !total);
-        console.log('adsadsad');
     });
 // });
 </script>
