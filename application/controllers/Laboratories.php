@@ -1703,12 +1703,11 @@
             $lab_info = $this->laboratories_model->get_branch_info_by_admin($decoded_laboratory_id);
 
             $coop_full_name = $lab_info->laboratoryName.' Laboratory Cooperative';
+            if($lab_info->house_blk_no==null && $lab_info->streetName==null) $x=''; else $x=', ';
 
             $brgyforemail = ucwords($lab_info->house_blk_no).' '.ucwords($lab_info->streetName).$x.' '.$lab_info->brgy.', '.$lab_info->city.', '.$lab_info->province.', '.$lab_info->region;
 
             $data['client_info'] = $this->user_model->get_user_info($lab_info->user_id);
-
-            if($lab_info->house_blk_no==null && $lab_info->streetName==null) $x=''; else $x=', ';
 
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
 
