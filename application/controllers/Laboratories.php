@@ -693,7 +693,7 @@
                       $data['client_info'] = $this->user_model->get_user_info($user_id);
                       $lab_name = $lab_info->laboratoryName.' Laboratory Cooperative';
 
-                      if($lab_info->house_blk_no==null && $lab_info->street==null) $x=''; else $x=', ';
+                      if($lab_info->house_blk_no==null && $lab_info->streetName==null) $x=''; else $x=', ';
 
                       $brgyforemail = ucwords($lab_info->house_blk_no).' '.ucwords($lab_info->streetName).$x.' '.$lab_info->brgy.', '.$lab_info->city.', '.$lab_info->province.', '.$lab_info->region;
 
