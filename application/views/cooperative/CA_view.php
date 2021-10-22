@@ -246,7 +246,7 @@ if ($branch_info->type=="Branch"){
 		<td><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		<td style="text-align: center; font-size: 18;"><b><?= $branch_info->coopName?></b></td>
+		<td style="text-align: center; font-size: 18;line-height: 25px;"><b><?= $branch_info->coopName?></b></td>
 	</tr>
 	<tr>
 		<td style="text-align: center; font-size: 9pt;"><?= $branch_info->regNo?></td>
@@ -410,7 +410,7 @@ if ($branch_info->type=="Branch"){
 		<td><i style="color:white;">....</i></td>
 	</tr>
 	<tr>
-		<td style="text-align: center; font-size: 18;"><b><?= $branch_info->coopName?></b></td>
+		<td style="text-align: center; font-size: 18;line-height: 25px;"><b><?= $branch_info->coopName?></b></td>
 	</tr>
 	<tr>
 		<td style="text-align: center; font-size: 9pt;"><?= $branch_info->regNo?></td>
