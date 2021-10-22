@@ -217,7 +217,7 @@
         <?php else: ?>
                 <?= base_url().'cooperatives/'.$cid.'/documents/articles_cooperation_federation';?>
         <?php endif; ?>
-        " class="btn btn-primary">View</a>
+        " class="btn btn-primary" id="btn-article">View</a>
       </div>
     </div>
   </div>
