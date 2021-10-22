@@ -177,7 +177,7 @@
   </tr>
 </table>
 
-<table width="100%" style="margin-top:75px;">
+<table width="100%" style="margin-top:55px;">
   <tr>
   
     <td style="text-align: justify;"  class="calibri"><center><b style="font-size:16pt;"><?=$full_name;?></b> <br><?=$signatory;?></center></td>
