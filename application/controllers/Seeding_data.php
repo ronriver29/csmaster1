@@ -324,233 +324,233 @@ BARANGAY MAGSAYSAY, QUEZON CITY 1105',
     }
   }
 
-  public function coop_report_trunc()
-  {
-    $this->db->truncate('coopris_report');
+  // public function coop_report_trunc()
+  // {
+  //   $this->db->truncate('coopris_report');
     
-    if($this->db->trans_status() === FALSE){
-        $this->db->trans_rollback();
-        echo 'failed';
-      }else{
-        $this->db->trans_commit();
-        echo 'success<br>';
-      }
-  }
+  //   if($this->db->trans_status() === FALSE){
+  //       $this->db->trans_rollback();
+  //       echo 'failed';
+  //     }else{
+  //       $this->db->trans_commit();
+  //       echo 'success<br>';
+  //     }
+  // }
 
-  public function seed_update_directors()
-  {
-    $this->db->trans_begin();
-          $admin = array(
-  array(
-    "id" => 231,
-    "full_name" => "Atty. Franco Bawang",
-    "username" => "dir_r14_fbawang",
-    "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
-    "email" => "",
-    "access_name" => "Director",
-    "access_level" => 3,
-    "is_director_active" => 0,
-    "region_code" => "014",
-    "created_at" => "2019-11-21 18:46:38",
-    "updated_at" => "2021-07-16 11:32:37",
-    "ord" => 0,
-    "active" => 0,
-  ),
-  array(
-    "id" => 241,
-    "full_name" => "Angelito Sacro",
-    "username" => "dir_r2_asacro",
-    "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
-    "email" => "",
-    "access_name" => "Director",
-    "access_level" => 3,
-    "is_director_active" => 0,
-    "region_code" => "002",
-    "created_at" => "2019-11-21 19:00:37",
-    "updated_at" => "2021-08-16 12:22:12",
-    "ord" => 0,
-    "active" => 0,
-  ),
-  array(
-    "id" => 263,
-    "full_name" => "Christina Villamil",
-    "username" => "dir_r4b_cvillamil",
-    "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
-    "email" => "",
-    "access_name" => "Director",
-    "access_level" => 3,
-    "is_director_active" => 0,
-    "region_code" => "017",
-    "created_at" => "2019-11-21 19:39:34",
-    "updated_at" => "2021-07-16 11:32:37",
-    "ord" => 0,
-    "active" => 0,
-  ),
-  array(
-    "id" => 287,
-    "full_name" => "Ruben Cunanan",
-    "username" => "dir_r9_rcunanan",
-    "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
-    "email" => "",
-    "access_name" => "Director",
-    "access_level" => 3,
-    "is_director_active" => 0,
-    "region_code" => "009",
-    "created_at" => "2019-11-21 20:28:48",
-    "updated_at" => "2021-07-16 11:32:37",
-    "ord" => 0,
-    "active" => 0,
-  ),
-  array(
-    "id" => 290,
-    "full_name" => "Atty. Ma. Lourdes Pacao",
-    "username" => "dir_r5_mpacao",
-    "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
-    "email" => "",
-    "access_name" => "Director",
-    "access_level" => 3,
-    "is_director_active" => 0,
-    "region_code" => "005",
-    "created_at" => "2019-11-21 20:37:40",
-    "updated_at" => "2021-07-16 11:32:37",
-    "ord" => 0,
-    "active" => 0,
-  ),
-  array(
-    "id" => 295,
-    "full_name" => "Elma Oguis",
-    "username" => "dir_r11_eoguis",
-    "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
-    "email" => "",
-    "access_name" => "Director",
-    "access_level" => 3,
-    "is_director_active" => 0,
-    "region_code" => "011",
-    "created_at" => "2019-11-21 20:44:26",
-    "updated_at" => "2021-07-16 11:32:37",
-    "ord" => 0,
-    "active" => 0,
-  ),
-  array(
-    "id" => 298,
-    "full_name" => "Marieta Hwang",
-    "username" => "dir_r3_mhwang",
-    "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
-    "email" => "",
-    "access_name" => "Director",
-    "access_level" => 3,
-    "is_director_active" => 0,
-    "region_code" => "003",
-    "created_at" => "2019-11-21 20:47:53",
-    "updated_at" => "2021-07-16 11:32:37",
-    "ord" => 0,
-    "active" => 0,
-  ),
-  array(
-    "id" => 391,
-    "full_name" => "Salvador Valeroso",
-    "username" => "dir_r4a_svaleroso",
-    "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
-    "email" => "",
-    "access_name" => "Director",
-    "access_level" => 3,
-    "is_director_active" => 0,
-    "region_code" => "004",
-    "created_at" => "2019-11-22 16:56:22",
-    "updated_at" => "2021-08-23 13:15:59",
-    "ord" => 0,
-    "active" => 0,
-  ),
-  array(
-    "id" => 433,
-    "full_name" => "Nora Patron",
-    "username" => "dir_r7_npatron",
-    "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
-    "email" => "",
-    "access_name" => "Director",
-    "access_level" => 3,
-    "is_director_active" => 0,
-    "region_code" => "007",
-    "created_at" => "2020-05-16 03:43:57",
-    "updated_at" => "2021-08-23 13:14:00",
-    "ord" => 0,
-    "active" => 0,
-  ),
-  array(
-    "id" => 441,
-    "full_name" => "Engr. Doreen Ancheta",
-    "username" => "dir_r6_dancheta",
-    "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
-    "email" => "",
-    "access_name" => "Director",
-    "access_level" => 3,
-    "is_director_active" => 0,
-    "region_code" => "006",
-    "created_at" => "2020-05-16 04:02:43",
-    "updated_at" => "2021-07-26 21:21:45",
-    "ord" => 0,
-    "active" => 0,
-  ),
-  array(
-    "id" => 446,
-    "full_name" => "Aminoden Elias",
-    "username" => "dir_r12_aelias",
-    "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
-    "email" => "",
-    "access_name" => "Director",
-    "access_level" => 3,
-    "is_director_active" => 0,
-    "region_code" => "012",
-    "created_at" => "2020-06-01 18:24:40",
-    "updated_at" => "2021-09-15 14:35:04",
-    "ord" => 0,
-    "active" => 0,
-  ),
-  array(
-    "id" => 500,
-    "full_name" => "Pedro T. Defensor, Jr",
-    "username" => "dir_r13_pdefensor",
-    "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
-    "email" => "",
-    "access_name" => "Director",
-    "access_level" => 3,
-    "is_director_active" => 0,
-    "region_code" => "013",
-    "created_at" => "2020-09-10 18:41:44",
-    "updated_at" => "2021-10-11 09:30:20",
-    "ord" => 0,
-    "active" => 0,
-  ),
-  array(
-    "id" => 604,
-    "full_name" => "Glenn S. Garcia",
-    "username" => "dir_r10_ggarcia",
-    "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
-    "email" => "",
-    "access_name" => "Director",
-    "access_level" => 3,
-    "is_director_active" => 0,
-    "region_code" => "010",
-    "created_at" => "2021-05-10 17:05:13",
-    "updated_at" => "2021-07-23 11:59:41",
-    "ord" => 0,
-    "active" => 0,
-  ),
-);
+//   public function seed_update_directors()
+//   {
+//     $this->db->trans_begin();
+//           $admin = array(
+//   array(
+//     "id" => 231,
+//     "full_name" => "Atty. Franco Bawang",
+//     "username" => "dir_r14_fbawang",
+//     "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
+//     "email" => "",
+//     "access_name" => "Director",
+//     "access_level" => 3,
+//     "is_director_active" => 0,
+//     "region_code" => "014",
+//     "created_at" => "2019-11-21 18:46:38",
+//     "updated_at" => "2021-07-16 11:32:37",
+//     "ord" => 0,
+//     "active" => 0,
+//   ),
+//   array(
+//     "id" => 241,
+//     "full_name" => "Angelito Sacro",
+//     "username" => "dir_r2_asacro",
+//     "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
+//     "email" => "",
+//     "access_name" => "Director",
+//     "access_level" => 3,
+//     "is_director_active" => 0,
+//     "region_code" => "002",
+//     "created_at" => "2019-11-21 19:00:37",
+//     "updated_at" => "2021-08-16 12:22:12",
+//     "ord" => 0,
+//     "active" => 0,
+//   ),
+//   array(
+//     "id" => 263,
+//     "full_name" => "Christina Villamil",
+//     "username" => "dir_r4b_cvillamil",
+//     "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
+//     "email" => "",
+//     "access_name" => "Director",
+//     "access_level" => 3,
+//     "is_director_active" => 0,
+//     "region_code" => "017",
+//     "created_at" => "2019-11-21 19:39:34",
+//     "updated_at" => "2021-07-16 11:32:37",
+//     "ord" => 0,
+//     "active" => 0,
+//   ),
+//   array(
+//     "id" => 287,
+//     "full_name" => "Ruben Cunanan",
+//     "username" => "dir_r9_rcunanan",
+//     "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
+//     "email" => "",
+//     "access_name" => "Director",
+//     "access_level" => 3,
+//     "is_director_active" => 0,
+//     "region_code" => "009",
+//     "created_at" => "2019-11-21 20:28:48",
+//     "updated_at" => "2021-07-16 11:32:37",
+//     "ord" => 0,
+//     "active" => 0,
+//   ),
+//   array(
+//     "id" => 290,
+//     "full_name" => "Atty. Ma. Lourdes Pacao",
+//     "username" => "dir_r5_mpacao",
+//     "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
+//     "email" => "",
+//     "access_name" => "Director",
+//     "access_level" => 3,
+//     "is_director_active" => 0,
+//     "region_code" => "005",
+//     "created_at" => "2019-11-21 20:37:40",
+//     "updated_at" => "2021-07-16 11:32:37",
+//     "ord" => 0,
+//     "active" => 0,
+//   ),
+//   array(
+//     "id" => 295,
+//     "full_name" => "Elma Oguis",
+//     "username" => "dir_r11_eoguis",
+//     "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
+//     "email" => "",
+//     "access_name" => "Director",
+//     "access_level" => 3,
+//     "is_director_active" => 0,
+//     "region_code" => "011",
+//     "created_at" => "2019-11-21 20:44:26",
+//     "updated_at" => "2021-07-16 11:32:37",
+//     "ord" => 0,
+//     "active" => 0,
+//   ),
+//   array(
+//     "id" => 298,
+//     "full_name" => "Marieta Hwang",
+//     "username" => "dir_r3_mhwang",
+//     "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
+//     "email" => "",
+//     "access_name" => "Director",
+//     "access_level" => 3,
+//     "is_director_active" => 0,
+//     "region_code" => "003",
+//     "created_at" => "2019-11-21 20:47:53",
+//     "updated_at" => "2021-07-16 11:32:37",
+//     "ord" => 0,
+//     "active" => 0,
+//   ),
+//   array(
+//     "id" => 391,
+//     "full_name" => "Salvador Valeroso",
+//     "username" => "dir_r4a_svaleroso",
+//     "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
+//     "email" => "",
+//     "access_name" => "Director",
+//     "access_level" => 3,
+//     "is_director_active" => 0,
+//     "region_code" => "004",
+//     "created_at" => "2019-11-22 16:56:22",
+//     "updated_at" => "2021-08-23 13:15:59",
+//     "ord" => 0,
+//     "active" => 0,
+//   ),
+//   array(
+//     "id" => 433,
+//     "full_name" => "Nora Patron",
+//     "username" => "dir_r7_npatron",
+//     "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
+//     "email" => "",
+//     "access_name" => "Director",
+//     "access_level" => 3,
+//     "is_director_active" => 0,
+//     "region_code" => "007",
+//     "created_at" => "2020-05-16 03:43:57",
+//     "updated_at" => "2021-08-23 13:14:00",
+//     "ord" => 0,
+//     "active" => 0,
+//   ),
+//   array(
+//     "id" => 441,
+//     "full_name" => "Engr. Doreen Ancheta",
+//     "username" => "dir_r6_dancheta",
+//     "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
+//     "email" => "",
+//     "access_name" => "Director",
+//     "access_level" => 3,
+//     "is_director_active" => 0,
+//     "region_code" => "006",
+//     "created_at" => "2020-05-16 04:02:43",
+//     "updated_at" => "2021-07-26 21:21:45",
+//     "ord" => 0,
+//     "active" => 0,
+//   ),
+//   array(
+//     "id" => 446,
+//     "full_name" => "Aminoden Elias",
+//     "username" => "dir_r12_aelias",
+//     "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
+//     "email" => "",
+//     "access_name" => "Director",
+//     "access_level" => 3,
+//     "is_director_active" => 0,
+//     "region_code" => "012",
+//     "created_at" => "2020-06-01 18:24:40",
+//     "updated_at" => "2021-09-15 14:35:04",
+//     "ord" => 0,
+//     "active" => 0,
+//   ),
+//   array(
+//     "id" => 500,
+//     "full_name" => "Pedro T. Defensor, Jr",
+//     "username" => "dir_r13_pdefensor",
+//     "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
+//     "email" => "",
+//     "access_name" => "Director",
+//     "access_level" => 3,
+//     "is_director_active" => 0,
+//     "region_code" => "013",
+//     "created_at" => "2020-09-10 18:41:44",
+//     "updated_at" => "2021-10-11 09:30:20",
+//     "ord" => 0,
+//     "active" => 0,
+//   ),
+//   array(
+//     "id" => 604,
+//     "full_name" => "Glenn S. Garcia",
+//     "username" => "dir_r10_ggarcia",
+//     "password" => '$2y$10$PC6oDnMJy26bTW/xNdBczu6DW.l7NtV1TK/2yFk.9ZS9vyXJtosGa',
+//     "email" => "",
+//     "access_name" => "Director",
+//     "access_level" => 3,
+//     "is_director_active" => 0,
+//     "region_code" => "010",
+//     "created_at" => "2021-05-10 17:05:13",
+//     "updated_at" => "2021-07-23 11:59:41",
+//     "ord" => 0,
+//     "active" => 0,
+//   ),
+// );
 
         
-        $this->db->insert_batch('admin',$admin);
+//         $this->db->insert_batch('admin',$admin);
 
-    if($this->db->trans_status() === FALSE){
-      $this->db->trans_rollback();
-      // return false;
-      echo"failed to update admin tables";
-    }else{
-      $this->db->trans_commit();
-      // return true;
-      echo"admin table has been updated successfully";
-    }
-  }
+//     if($this->db->trans_status() === FALSE){
+//       $this->db->trans_rollback();
+//       // return false;
+//       echo"failed to update admin tables";
+//     }else{
+//       $this->db->trans_commit();
+//       // return true;
+//       echo"admin table has been updated successfully";
+//     }
+//   }
 
   public function bns_ba_b_comment_trunc()
   {
