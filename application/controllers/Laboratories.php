@@ -891,7 +891,7 @@
                           $data['client_info'] = $this->user_model->get_user_info($lab_info->user_id);
                           $lab_name = $lab_info->laboratoryName.' Laboratory Cooperative';
 
-                          if($lab_info->house_blk_no==null && $lab_info->street==null) $x=''; else $x=', ';
+                          if($lab_info->house_blk_no==null && $lab_info->streetName==null) $x=''; else $x=', ';
 
                           $brgyforemail = ucwords($lab_info->house_blk_no).' '.ucwords($lab_info->streetName).$x.' '.$lab_info->brgy.', '.$lab_info->city.', '.$lab_info->province.', '.$lab_info->region;
 
@@ -1661,7 +1661,7 @@
 
             $data['client_info'] = $this->user_model->get_user_info($lab_info->user_id);
 
-            if($lab_info->house_blk_no==null && $lab_info->street==null) $x=''; else $x=', ';
+            if($lab_info->house_blk_no==null && $lab_info->streetName==null) $x=''; else $x=', ';
 
             if($this->laboratories_model->sendEmailToClientDeny($coop_full_name,$brgyforemail,$comment,$data['client_info']->email)){
               if($this->laboratories_model->deny_by_director($decoded_laboratory_id,$user_id,$access_level,$comment))
@@ -1708,7 +1708,7 @@
 
             $data['client_info'] = $this->user_model->get_user_info($lab_info->user_id);
 
-            if($lab_info->house_blk_no==null && $lab_info->street==null) $x=''; else $x=', ';
+            if($lab_info->house_blk_no==null && $lab_info->streetName==null) $x=''; else $x=', ';
 
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
 
