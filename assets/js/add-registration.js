@@ -340,7 +340,7 @@ $(function(){
           $('#branchAddForm #areaOfOperation').val(data.areaOfOperation);
           $('#branchAddForm #areaOfOperation').append($('<option></option>').attr('value',"Barangay").text("Barangay"));
           $("#branchAddForm #barangay").prop("disabled",true);
-          $("#branchAddForm #barangay").prop("disabled",false);
+          // $("#branchAddForm #barangay").prop("disabled",false);
           $("#branchAddForm #city").prop("disabled",true);
           $("#branchAddForm #province").prop("disabled",true);
           $("#branchAddForm #region").prop("disabled",true);
