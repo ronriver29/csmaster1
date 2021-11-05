@@ -116,6 +116,7 @@ $route['laboratories/(:any)/api/barangays'] = 'api/barangays/index';
 $route['laboratories/(:any)/laboratories_cooperators/get_cooperative_info'] ='laboratories_cooperators/get_cooperative_info';
 $route['laboratories/(:any)/laboratories_cooperators/get_cooperative_info_edit'] ='laboratories_cooperators/get_cooperative_info_edit'; //modify by jayson
 $route['laboratories/(:any)/laboratories_cooperators/cooperative_info_details'] ='laboratories_cooperators/cooperative_info_details'; //modify by jayson
+$route['laboratories/(:any)/laboratories_cooperators/(:any)/cooperative_info_details'] ='laboratories_cooperators/cooperative_info_details'; //modify by jayson
 
 
 $route['laboratories/(:any)/laboratories_cooperators/api/regions'] ='api/regions/index';

@@ -228,7 +228,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join refregion on refregion.regCode = refprovince.regCode
     left join registeredcoop on branches.regNo = registeredcoop.regNo
     where refregion.regCode like "'.$regcode.'%" and branches.addrCode like "'.$regcode2.'%"
-    and branches.status in (2,8,9,10,11,12,17,18,19,20,22)');
+    and branches.status in (2,8,9,10,11,12,17,18,19,20,22) AND evaluator2 IS NOT NULL');
     $data = $query->result_array();
     return $data;
   }
@@ -370,7 +370,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     return $query->row();
   }
   public function get_branch_info_by_admin($branch_id){
-    $this->db->select('branches.addrCode,branches.status,branches.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region, cooperatives.category_of_cooperative, cooperatives.type_of_cooperative, cooperatives.grouping, registeredcoop.application_id,registeredcoop.addrCode as mainAddr, registeredcoop.noStreet, registeredcoop.street as st, x.brgyDesc as brg, y.citymunDesc as municipality, z.provDesc as provins, w.regDesc as regun,registeredcoop.type as registeredtype');
+    $this->db->select('branches.addrCode,branches.status,branches.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region, cooperatives.category_of_cooperative, cooperatives.type_of_cooperative, cooperatives.grouping, registeredcoop.application_id,registeredcoop.addrCode as mainAddr, registeredcoop.noStreet, registeredcoop.street as st, x.brgyDesc as brg, y.citymunDesc as municipality, z.provDesc as provins, w.regDesc as regun,registeredcoop.type as registeredtype,cooperatives.regions');
     $this->db->from('branches');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = branches.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -1266,7 +1266,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join registeredcoop on branches.regNo = registeredcoop.regNo
     inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
     where branches.regCode like "'.$regcode.'%"
-    and branches.status in (24)
+    and branches.status in (24,17) AND evaluator5 IS NULL
 UNION
 select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refcitymun.citymunCode as cCode, refregion.regDesc as region from branches 
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
@@ -1274,7 +1274,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
     where branches.regCode like "'.$regcode.'%"
-    and branches.status in (24)');
+    and branches.status in (24,17) AND evaluator5 IS NULL');
     $data = $query->result_array();
     return $data;
   }

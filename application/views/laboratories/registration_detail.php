@@ -184,6 +184,8 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="barangay">Barangay</label>
+                  <input type="hidden" class="custom-select validate[required]" name="barangay2" id="barangay2" value="<?=$coopreg_info->bCode?>">
+                  <input type="hidden" class="custom-select validate[required]" name="barangay" id="barangay2" value="<?=$coopreg_info->bCode?>">
                   <select class="custom-select validate[required]" name="barangay" id="barangay" readonly>
                     <?php
                     foreach($list_of_brgys as $brgy_list)

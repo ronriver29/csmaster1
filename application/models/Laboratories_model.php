@@ -1803,15 +1803,15 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
       $burl = base_url();
       $now = date('F d, Y');
 
-      if($status == NULL || $status == 0){
-        $evaluated = 'evaluated';
-      } else {
-        $evaluated = 're-evaluated';
-      }
+      // if($status == NULL || $status == 0){
+      //   $evaluated = 'evaluated';
+      // } else {
+      //   $evaluated = 're-evaluated';
+      // }
       //sending confirmEmail($receiver) function calling link to the user, inside message body
 
       // $message = $coop_full_name." has been submitted by "". You can now evaluate this application.";
-      $message = "Senior CDS ".$evaluated." application for establishment of Laboratory with the following details has been submitted for your evaluation and approval/denial/deferment:<p>
+      $message = "Senior CDS evaluated application for establishment of Laboratory with the following details has been submitted for your evaluation and approval/denial/deferment:<p>
 
       <ol type='a'>
         <b><li>Sr. CDS evaluation date:</b> ".date('F d, Y H:i:s')."</li>

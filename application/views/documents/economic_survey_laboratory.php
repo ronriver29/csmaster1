@@ -20,14 +20,10 @@
     border-collapse: collapse;
 }
   }
-    <?php 
-  if($coop_info->status == 12){
-  ?>
   body{
       /*font-family: 'Bookman Old Style'; font-size: 12px; */
        font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
-  <?php } ?>
   </style>
   <?php 
 if($coop_info->status != 12){
@@ -43,7 +39,7 @@ if($coop_info->status != 12){
   page-break-after: always;
 }
 </style>
-<a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+<!-- <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a> -->
 <?php } ?>
 </head>
 <body style="font-size:12">
@@ -63,7 +59,7 @@ if($coop_info->status != 12){
             
         }
 </script>
-<div class="container-fluid text-monospace" id="printPage">
+<div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
         <p class="font-weight-bold">ECONOMIC SURVEY<br>of<br><?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?></p>

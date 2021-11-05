@@ -204,6 +204,8 @@
                   <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="barangay">Barangay</label>
+                  <input type="hidden" class="custom-select validate[required]" name="barangay2" id="barangay2" value="<?=$coop_info->bCode?>">
+                  <input type="hidden" class="custom-select validate[required]" name="barangay" id="barangay2" value="<?=$coop_info->bCode?>">
                   <select class="custom-select validate[required]" name="barangay" id="barangay" disabled>
                     <?php
                     foreach($list_of_brgys as $brgy_list)

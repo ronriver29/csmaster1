@@ -487,7 +487,7 @@
     <?php endif;?>
 <!-- END SUPERVISING -->
 <?php } ?>
-<?php if($is_client && $coop_info->status==11 || $coop_info->status==10 && count($deferred_comments) >= 1 && ($coop_info->evaluated_by > 0)) : ?>
+<?php if($coop_info->status==11 || $coop_info->status==10 && count($deferred_comments) >= 1 && ($coop_info->evaluated_by > 0)) : ?>
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Deferred Reason/s</button>
 <!-- <div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

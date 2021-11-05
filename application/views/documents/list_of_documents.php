@@ -699,7 +699,7 @@
               <br>
             </p>
 
-          <?php if($coop_info->status<=1 || $coop_info->status>=11 && $coop_info->status!=15): ?>
+          <?php if($is_client && $coop_info->status<=1 || ($is_client && $coop_info->status==11)): ?>
             <?php if($is_client) : ?>
                 <a href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/upload_document_one" class="btn btn-primary">Upload</a>
             <?php endif;?>
@@ -791,7 +791,8 @@
               <br>
             </p>
 
-          <?php if($coop_info->status<=1 || $coop_info->status>=11 && $coop_info->status!=15): ?>
+          <?php //if($coop_info->status<=1 || $coop_info->status>=11 && $coop_info->status!=15): ?>
+          <?php if($is_client && $coop_info->status<=1 || ($is_client && $coop_info->status==11)): ?>
             <?php if($is_client) : ?>
                 <a href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/upload_document_others_unifed" class="btn btn-primary">Upload</a>
             <?php endif;?>

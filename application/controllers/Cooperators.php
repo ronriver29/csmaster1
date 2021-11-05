@@ -229,7 +229,8 @@ class Cooperators extends CI_Controller{
                       }
                       $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coop_info']->rCode);
                       $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coop_info']->pCode);
-                      $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coop_info']->bCode);
+                      $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coop_info']->cCode);
+                      // $data['last_query'] = $this->db->last_query();
                       // $data['barangays_list'] = $this->barangay_model->all_barangays();
                       
                       $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
@@ -422,7 +423,7 @@ class Cooperators extends CI_Controller{
                           
                           $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coop_info']->rCode);
                           $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coop_info']->pCode);
-                          $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coop_info']->bCode);
+                          $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coop_info']->cCode);
 
                           $data['encrypted_cooperator_id'] = $cooperator_id;
                           $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);

@@ -27,13 +27,18 @@
       margin-left:320px;
       opacity:.2;
     }
-
+    
+    sup {
+      vertical-align: sup;
+      font-size: 6pt;
+      line-height: 12pt;
+    }
   </style>
 </head> 
 <body>
     <img class="center" src="<?=APPPATH?>../assets/img/logo.png" style="background-repeat: no-repeat; background-position: center;margin-top:170px;">
   <!-- <div  style="border: 10px black double; border-radius: 30px; padding: 20px"> -->
-  <div style="padding:20px;">
+  <div style="padding:0px;">
   <table width="100%">
     <tr>
 
@@ -122,7 +127,7 @@
 
   <tr>
     
-    <td colspan="2" style="text-align: right; font-size: 12pt;" class="calibri"><b>COC No: <?=$coc_number; ?> </b></td>
+    <td colspan="2" style="text-align: right; font-size: 12pt;" class="calibri"><b>COC No. <?=$coc_number; ?> </b></td>
     <!-- <td colspan="2" style="text-align: right; font-size: 12pt;" class="calibri"><b>COC No: N-<?=$region_code."-".date("Y",strtotime($date_registered))."-".$coc_number; ?> </b></td> -->
   </tr>
 
@@ -142,16 +147,19 @@
     <td  colspan="2" style="text-align: center; font-size: 20pt;"><b></b></td>
   </tr>
   <tr>
-    <td  colspan="2" style="text-align: center;"><b style=" font-size: 20pt !important;" class="calibri"><?=$coopName;?></b><br>
-    <div class="arial" style="font-size:12pt;"><?=$address;?></div></td>
-  </tr>
-
-
-  <tr>
     <td><i style="color:white;">....</i></td>
   </tr>
   <tr>
-    <td  colspan="2" style="text-align: justify; ; text-indent: 40px;"> 
+    <td  colspan="2" style="text-align: center;"><b style=" font-size: 17pt !important;" class="calibri"><?=$coopName;?></b><br>
+    <div class="arial" style="font-size:12pt;"><?=$address;?></div></td>
+  </tr>
+  <tr>
+    <td><i style="color:white;">....</i></td>
+  </tr>
+
+  
+  <tr>
+    <td  colspan="2" style="text-align: justify; "> 
     <center class="arial">A cooperative duly registered with this Authority under Registration No. <b><?=$registered_no;?></b> issued on <b><?=$date_registered;?></b> <br> <!--<?=date_format($date_registered,"F d, Y"); ?>-->
         for being compliant with all the requirements of the law and issuances of the Authority pertaining to required reports submission.</center></td>
   </tr>
@@ -165,7 +173,7 @@
     <td><i style="color:white;">....</i></td>
   </tr>
   <tr>
-    <td colspan="2" style="text-align: justify; ;"><center class="arial">Issued this <b><?=date("jS",strtotime($issued)); ?> day of <?=date("F",strtotime($issued)); ?> <?=date("Y",strtotime($issued)); ?></b></center></td> 
+    <td colspan="2" style="text-align: justify; ;"><center class="arial">Issued this <b><?=date("j",strtotime($issued)); ?><sup><?=date("S",strtotime($issued)); ?></sup> day of <?=date("F",strtotime($issued)); ?> <?=date("Y",strtotime($issued)); ?></b></center></td> 
   </tr>
 </table>
 
@@ -177,6 +185,8 @@
   
   
 </table>
+
+<div style="width:100%;margin-top: 0px;font-style: italic;font-size: 10px !important; text-align: right;"><?=date('d-m-Y H:i:s')?></div>
 
 </div>
 

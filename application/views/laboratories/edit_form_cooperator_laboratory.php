@@ -11,6 +11,7 @@
     <?php echo form_open('laboratories/'.$encrypted_id.'/laboratories_cooperators/'.$encrypted_cooperator_id.'/edit',array('id'=>'editCooperatorForm','name'=>'editCooperatorForm')); ?>
       <div class="card-body">
         <div class="row">
+          <input type="hidden" class="form-control" name="coop_ids" id="coopids" value="<?=$encrypted_coop_id?>"/>
           <input type="hidden" class="form-control" id="cooperativesID" name="item[cooperatives_id]" value="<?= $encrypted_id?>">
           <?php if($is_client) : ?>
                     <input type="hidden" class="form-control validate[required]" id="userID" name="userID" value="<?= $encrypted_user_id ?>">
@@ -64,7 +65,7 @@
               <?php endif;?>
               </select>
             </div>
-      		</div>
+          </div>
         <div class="col-sm-12 col-md-2">
             <div class="form-group">
               <label for="gender">Age:</label>
@@ -313,6 +314,121 @@
     }
   });
 
+
+  var id = $("#editCooperatorForm #cooperativesID").val();
+  var userid = $("#editCooperatorForm #userID").val();
+  var coop_ids = $("#editCooperatorForm #coopids").val();
+  
+  $.ajax({
+
+    type : "POST",
+    url  : "./cooperative_info_details",
+    dataType: "json",
+    data : {
+      id: id,
+      user_id: userid,
+      coop_ids:coop_ids
+    },
+    success: function(data){
+     console.log(data.area_of_operation);
+         if(data!=null){
+        var tempCount = 0;
+        // setTimeout(function(){
+        //   // alert(data.region);
+        //   // $('#addCooperatorForm #barangay').val(data.bCode);
+        // setTimeout( function(){
+        //   $('#addCooperatorForm #region').val(data.rCode);
+        //   $('#addCooperatorForm #region').trigger('change');
+        // },500);
+        // setTimeout( function(){
+        //     $('#addCooperatorForm #province').val(data.pCode);
+        //     $('#addCooperatorForm #province').trigger('change');
+        // },1000);
+        // setTimeout(function(){
+        //   $('#addCooperatorForm #city').val(data.cCode);
+        //   $('#addCooperatorForm #city').trigger('change');
+        // },1500);
+        // setTimeout(function(){
+        //   $('#addCooperatorForm #barangay').val(data.bCode);
+        //   // $('#addCooperatorForm #barangay').trigger('change');
+        // },2000);
+          if(data.area_of_operation=='Barangay'){
+            $('#editCooperatorForm #barangay').prop("disabled",true);
+            $('#editCooperatorForm #city').prop("disabled",true);
+            $('#editCooperatorForm #province').prop("disabled",true);
+            $('#editCooperatorForm #region').prop("disabled",true);
+
+          }else if(data.area_of_operation=='Municipality/City'){
+            $('#editCooperatorForm #barangay').prop("disabled",false);
+            $('#editCooperatorForm #city').prop("disabled",true);
+            $('#editCooperatorForm #province').prop("disabled",true);
+            $('#editCooperatorForm #region').prop("disabled",true);
+
+          }else if(data.area_of_operation=='Provincial'){
+            $('#editCooperatorForm #barangay').prop("disabled",false);
+            $('#editCooperatorForm #city').prop("disabled",false);
+            $('#editCooperatorForm #province').prop("disabled",true);
+            $('#editCooperatorForm #region').prop("disabled",true);
+
+          }else if(data.area_of_operation=='Regional'){
+            $('#editCooperatorForm #barangay').prop("disabled",false);
+            $('#editCooperatorForm #city').prop("disabled",false);
+            $('#editCooperatorForm #province').prop("disabled",false);
+            $('#editCooperatorForm #region').prop("disabled",true);
+
+          }else if(data.area_of_operation=='National'){
+            $('#editCooperatorForm #region').prop("disabled",false);
+            $('#editCooperatorForm #province').prop("disabled",false);
+            $('#editCooperatorForm #city').prop("disabled",false);
+            $('#editCooperatorForm #barangay').prop("disabled",false);
+          }else if(data.area_of_operation=='Interregional'){
+            $('#editCooperatorForm #region').prop("disabled",false);
+            $('#editCooperatorForm #province').prop("disabled",false);
+            $('#editCooperatorForm #city').prop("disabled",false);
+            $('#editCooperatorForm #barangay').prop("disabled",false);
+          }
+        // },2500);
+      } //end if
+
+      // if(data!=null){
+      //   var tempCount = 0;
+      //   setTimeout( function(){
+      //     $('#addCooperatorForm #region').val(data.regional_code);
+      //     $('#addCooperatorForm #region').trigger('change');
+      //   },100);
+      //   setTimeout( function(){
+      //       $('#addCooperatorForm #province').val(data.province_code);
+      //       $('#addCooperatorForm #province').trigger('change');
+      //   },500);
+      //   setTimeout(function(){
+      //     $('#addCooperatorForm #city').val(data.city_code);
+      //     $('#addCooperatorForm #city').trigger('change');
+      //   },1000);
+      //   setTimeout(function(){
+      //     $('#addCooperatorForm #barangay').val(data.brgy_code);
+      //     if(data.area_of_operation=='Barangay'){
+          
+      //       $('#addCooperatorForm #barangay').prop("disabled",true);
+      //       $('#addCooperatorForm #city').prop("disabled",true);
+      //       $('#addCooperatorForm #province').prop("disabled",true);
+      //       $('#addCooperatorForm #region').prop("disabled",true);
+      //     }else if(data.area_of_operation=='Municipality/City'){
+            
+      //       $('#addCooperatorForm #city').prop("disabled",true);
+      //       $('#addCooperatorForm #province').prop("disabled",true);
+      //       $('#addCooperatorForm #region').prop("disabled",true);
+      //     }else if(data.area_of_operation=='Provincial'){
+            
+      //       $('#addCooperatorForm #province').prop("disabled",true);
+      //       $('#addCooperatorForm #region').prop("disabled",true);
+      //     }else if(data.area_of_operation=='Regional'){
+            
+      //       $('#addCooperatorForm #region').prop("disabled",true);
+      //     }
+      //   },1700); 
+      // } //end if
+    }//end of success
+  });//end of ajax
  
 }); //end fo function 
 

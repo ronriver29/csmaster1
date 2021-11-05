@@ -79,7 +79,7 @@
 
                   $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['branch_info']->rCode);
                   $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['branch_info']->pCode);
-                  $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['branch_info']->bCode);
+                  $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['branch_info']->cCode);
                   
                   $data['major_industries_by_coop_type'] = $this->major_industry_model->get_major_industries_by_type_name($cooperative_info->type_of_cooperative);
                   // $this->debug( $data['major_industries_by_coop_type']);
@@ -213,12 +213,12 @@
           $data['list_laboratories'] = $this->laboratories_model->get_all_laboratories($this->session->userdata('user_id'));
 
           $data['coopreg_info'] = $this->laboratories_model->getCoopRegNo($user_id);
+
           if(isset($data['coopreg_info'])){
             if($this->branches_model->check_if_amended($data['coopreg_info']->regNo)){
               $data['coopreg_info'] = $this->laboratories_model->getCoopRegNoAmended($user_id);
             } 
           }
-
           $data['last_query'] = $this->db->last_query();
           if(empty($data['coopreg_info'])){
               $data['gc'] = '';
@@ -301,7 +301,7 @@
 
               $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coopreg_info']->rCode);
               $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coopreg_info']->pCode);
-              $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coopreg_info']->bCode);
+              $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coopreg_info']->cCode);
 
 //              if(!empty($data['coopreg_info'])){
 //                  $data['regno'] = '';
@@ -447,6 +447,7 @@
           $data['Other_requirements'] = $this->docUpload($Cooperative_id ,$decoded_id,42);
           $data['document_others_lab'] = $this->uploaded_document_model->get_document_42_info($decoded_id,$Cooperative_id);
           $data['last_query'] = $this->db->last_query();
+          $data['encrypted_ids'] =$id;
 
      
           $this->load->view('template/header', $data);
@@ -692,7 +693,7 @@
                       $data['client_info'] = $this->user_model->get_user_info($user_id);
                       $lab_name = $lab_info->laboratoryName.' Laboratory Cooperative';
 
-                      if($lab_info->house_blk_no==null && $lab_info->street==null) $x=''; else $x=', ';
+                      if($lab_info->house_blk_no==null && $lab_info->streetName==null) $x=''; else $x=', ';
 
                       $brgyforemail = ucwords($lab_info->house_blk_no).' '.ucwords($lab_info->streetName).$x.' '.$lab_info->brgy.', '.$lab_info->city.', '.$lab_info->province.', '.$lab_info->region;
 
@@ -890,7 +891,7 @@
                           $data['client_info'] = $this->user_model->get_user_info($lab_info->user_id);
                           $lab_name = $lab_info->laboratoryName.' Laboratory Cooperative';
 
-                          if($lab_info->house_blk_no==null && $lab_info->street==null) $x=''; else $x=', ';
+                          if($lab_info->house_blk_no==null && $lab_info->streetName==null) $x=''; else $x=', ';
 
                           $brgyforemail = ucwords($lab_info->house_blk_no).' '.ucwords($lab_info->streetName).$x.' '.$lab_info->brgy.', '.$lab_info->city.', '.$lab_info->province.', '.$lab_info->region;
 
@@ -1660,7 +1661,7 @@
 
             $data['client_info'] = $this->user_model->get_user_info($lab_info->user_id);
 
-            if($lab_info->house_blk_no==null && $lab_info->street==null) $x=''; else $x=', ';
+            if($lab_info->house_blk_no==null && $lab_info->streetName==null) $x=''; else $x=', ';
 
             if($this->laboratories_model->sendEmailToClientDeny($coop_full_name,$brgyforemail,$comment,$data['client_info']->email)){
               if($this->laboratories_model->deny_by_director($decoded_laboratory_id,$user_id,$access_level,$comment))
@@ -1702,12 +1703,11 @@
             $lab_info = $this->laboratories_model->get_branch_info_by_admin($decoded_laboratory_id);
 
             $coop_full_name = $lab_info->laboratoryName.' Laboratory Cooperative';
+            if($lab_info->house_blk_no==null && $lab_info->streetName==null) $x=''; else $x=', ';
 
             $brgyforemail = ucwords($lab_info->house_blk_no).' '.ucwords($lab_info->streetName).$x.' '.$lab_info->brgy.', '.$lab_info->city.', '.$lab_info->province.', '.$lab_info->region;
 
             $data['client_info'] = $this->user_model->get_user_info($lab_info->user_id);
-
-            if($lab_info->house_blk_no==null && $lab_info->street==null) $x=''; else $x=', ';
 
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
 
@@ -1749,9 +1749,9 @@
     }//end public
     public function debug($array)
     {
-    		echo"<pre>";
-    		print_r($array);
-    		echo"</pre>";
+        echo"<pre>";
+        print_r($array);
+        echo"</pre>";
     }
   }
  ?>

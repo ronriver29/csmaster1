@@ -271,15 +271,21 @@ $(function(){
             $('#addCooperatorForm #region').prop("disabled",true);
 
           }else if(data.area_of_operation=='Municipality/City'){
+            $('#addCooperatorForm #barangay').prop("disabled",false);
             $('#addCooperatorForm #city').prop("disabled",true);
             $('#addCooperatorForm #province').prop("disabled",true);
             $('#addCooperatorForm #region').prop("disabled",true);
 
           }else if(data.area_of_operation=='Provincial'){
+            $('#addCooperatorForm #barangay').prop("disabled",false);
+            $('#addCooperatorForm #city').prop("disabled",false);
             $('#addCooperatorForm #province').prop("disabled",true);
             $('#addCooperatorForm #region').prop("disabled",true);
 
           }else if(data.area_of_operation=='Regional'){
+            $('#addCooperatorForm #barangay').prop("disabled",false);
+            $('#addCooperatorForm #city').prop("disabled",false);
+            $('#addCooperatorForm #province').prop("disabled",false);
             $('#addCooperatorForm #region').prop("disabled",true);
 
           }else if(data.area_of_operation=='National'){

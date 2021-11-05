@@ -14,9 +14,6 @@
   <div class="col-sm-12 col-md-12">
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>laboratories/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
 
- 
-  
-
     <?php if($is_client) : ?>
     <h5 class="text-primary text-right" >
       Step 9
@@ -40,15 +37,8 @@
       <?php } ?>
       <?php endif;?>
   <?php endif; ?>
-
-  
-
   </div>
 </div>
-
-
-
-
 
 <?php if($admin_info->access_level==3 || $admin_info->access_level==4 || $admin_info->access_level==2){//if(($admin_info->access_level ==2)  || ($admin_info->access_level ==3)){?>
 <?php if(isset($comment_list_director) && strlen($comment_list_director->comment)>0){ ?>
@@ -433,15 +423,15 @@
   <div class="col-sm-12 col-md-4">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Article  of Cooperation</h5>
-        <p class="card-text">This is the generated Article  of Cooperation</p>
-        <a target="_blank" href="
+        <h5 class="card-title">Article of Cooperation</h5>
+        <p class="card-text">This is the generated Article of Cooperation</p>
+        <a target="_blank" id="btn-article" href="
         <?php if ($coop_info->category_of_cooperative === 'Primary'): ?>
-                <?= base_url().'laboratories/'.$encrypted_cid.'/laboratories_documents/articles_cooperation_primary';?>
+                <?= $url_ = base_url().'laboratories/'.$encrypted_cid.'/laboratories_documents/articles_cooperation_primary';?>
         <?php elseif ($coop_info->grouping === 'Union'): ?>
-                <?= base_url().'cooperatives/'.$encrypted_cid.'/documents/articles_cooperation_union';?>
+                <?= $url_ = base_url().'cooperatives/'.$encrypted_cid.'/documents/articles_cooperation_union';?>
         <?php else: ?>
-                <?= base_url().'cooperatives/'.$encrypted_cid.'/documents/articles_cooperation_federation';?>
+                <?= $url_ = base_url().'cooperatives/'.$encrypted_cid.'/documents/articles_cooperation_federation';?>
         <?php endif; ?>
         " class="btn btn-primary">View</a>
       </div>
@@ -700,3 +690,14 @@ $count=0;
   <!-- OTHERS END --> 
 
 </div> <!-- end of row -->
+<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+      $('#btn-article').on('click',function(){
+          alert("If total number of pages in Acknowledgement didn't appear, please refresh the page.");
+            window.open('<?=$url_?>');
+            return false;
+      });
+  });
+  
+</script>

@@ -65,17 +65,15 @@
                   <li style="list-style: none">  
                       Users Manual
                   </li>
-                  <li style="list-style: none"><a class="" target="_blank" href="<?=base_url()?>users/users_manual/<?=encrypt_custom($this->encryption->encrypt('CDA_ClientAccount - Coop_Registration.pdf'))?>">Cooperative
-                  </a>
-                </li>
-                <?php /*
-                    <li style="list-style: none">
-                      <a class="" target="_blank" href="<?=base_url()?>users/users_manual/<?=encrypt_custom($this->encryption->encrypt('CDA_Client_BranchRegistration.pdf'))?>">Branches & Satellite</a>
-                    </li>
-
-                      <li style="list-style: none"><a class="" target="_blank" href="<?=base_url()?>users/users_manual/<?=encrypt_custom($this->encryption->encrypt('CDA_Client_LaboratoyRegistration.pdf'))?>">Laboratory</a>
-                      </li>
-                      */?>
+                  <li style="list-style: none">
+                      <a class="" target="_blank" href="<?=base_url()?>users/users_manual/<?=encrypt_custom($this->encryption->encrypt('CDA_ClientAccount - Coop_Registration.pdf'))?>">Cooperative</a>
+                  </li>
+                  <li style="list-style: none">
+                      <a class="" target="_blank" href="<?=base_url()?>users/users_manual/<?=encrypt_custom($this->encryption->encrypt('CDA_ClientAccount - BranchSatellite_Registration_V.2.pdf'))?>">Branches & Satellite</a>
+                  </li>
+                  <li style="list-style: none">
+                      <a class="" target="_blank" href="<?=base_url()?>users/users_manual/<?=encrypt_custom($this->encryption->encrypt('CDA_Client_LaboratoyRegistration_V.2.pdf'))?>">Laboratory</a>
+                  </li>
               </ul>
             </center>
           </div>

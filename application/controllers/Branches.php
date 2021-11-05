@@ -43,7 +43,7 @@
 
                   $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['branch_info']->rCode);
                   $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['branch_info']->pCode);
-                  $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['branch_info']->bCode);
+                  $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['branch_info']->cCode);
 
                   $data['encrypted_id'] = $id;
                   $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
@@ -51,7 +51,7 @@
                   $this->load->view('./template/header', $data);
                   $this->load->view('cooperative/registration_update', $data);
 //                  if($this->branches_model->check_expired_reservation($decoded_id,$user_id)){
-//                    $this->load->view('cooperative/terms_and_condition');
+                   $this->load->view('cooperative/terms_and_condition');
 //                  }
                   $this->load->view('./template/footer', $data);
                 }else{
@@ -84,7 +84,7 @@
                         $regCodeBranch = '0'.substr($data['registered_info']->addrCode, 0, 2);
                     }
 
-                    echo substr($data['registered_info']->addrCode, 0, 2).'-'.substr($this->input->post('barangay'), 0, 2);
+                    // echo substr($data['registered_info']->addrCode, 0, 2).'-'.substr($this->input->post('barangay'), 0, 2);
                     // echo  $this->input->post('typeOfbranchsatellite'); 
 
                     $field_data = array(
@@ -478,7 +478,7 @@
               }
               $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coopreg_info']->rCode);
               $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coopreg_info']->pCode);
-              $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coopreg_info']->bCode);
+              $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coopreg_info']->cCode);
 
 //              $data['regno'] = $data['coopreg_info']->regNo;
               if(empty($data['coopreg_info'])){
@@ -490,7 +490,7 @@
               if ($this->form_validation->run() == FALSE){
                 $this->load->view('./template/header', $data);
                 $this->load->view('branches/registration_detail', $data);
-//                $this->load->view('cooperative/terms_and_condition');
+               $this->load->view('cooperative/terms_and_condition');
                 $this->load->view('./template/footer');
               }else{
 
@@ -1771,7 +1771,7 @@
                                       $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
                                     }
                                     
-                                    $data['senior_info'] = $this->admin_model->get_senior_info($regioncode);
+                                    $data['senior_info'] = $this->admin_model->get_senior_info_dir_defer($regioncode);
 
                                     $brgyforemail = ucwords($data['branch_info']->house_blk_no).' '.ucwords($data['branch_info']->street).$x.' '.$data['branch_info']->brgy.', '.$data['branch_info']->city.', '.$data['branch_info']->province.', '.$data['branch_info']->region;
 
