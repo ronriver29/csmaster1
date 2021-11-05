@@ -79,7 +79,7 @@
 
                   $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['branch_info']->rCode);
                   $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['branch_info']->pCode);
-                  $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['branch_info']->bCode);
+                  $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['branch_info']->cCode);
                   
                   $data['major_industries_by_coop_type'] = $this->major_industry_model->get_major_industries_by_type_name($cooperative_info->type_of_cooperative);
                   // $this->debug( $data['major_industries_by_coop_type']);
@@ -301,7 +301,7 @@
 
               $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coopreg_info']->rCode);
               $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coopreg_info']->pCode);
-              $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coopreg_info']->bCode);
+              $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coopreg_info']->cCode);
 
 //              if(!empty($data['coopreg_info'])){
 //                  $data['regno'] = '';

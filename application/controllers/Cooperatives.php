@@ -572,7 +572,7 @@
                   }
                   $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coop_info']->rCode);
                   $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coop_info']->pCode);
-                  $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coop_info']->bCode);
+                  $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coop_info']->cCode);
 
                   $data['encrypted_id'] = $id;
                   $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
@@ -706,7 +706,7 @@
 
                       $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coop_info']->rCode);
                       $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coop_info']->pCode);
-                      $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coop_info']->bCode);
+                      $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coop_info']->cCode);
                       $this->load->view('./templates/admin_header', $data);
                       $this->load->view('cooperative/reservation_update', $data);
                       $this->load->view('./templates/admin_footer', $data);

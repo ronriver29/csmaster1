@@ -1317,7 +1317,7 @@ public function approve_by_director($admin_info,$coop_id){
       $this->db->trans_rollback();
       return false;
     }
-	
+  
       $this->db->trans_commit();
       return true;
     
@@ -1941,7 +1941,7 @@ public function approve_by_director_laboratories($admin_info,$coop_id){
       $this->db->trans_rollback();
       return false;
     }
-	
+  
       $this->db->trans_commit();
       return true;
     
@@ -2003,7 +2003,7 @@ public function approve_by_director_laboratories($admin_info,$coop_id){
    public function get_brgys($cityCode){
     $this->db->select('brgyCode,brgyDesc,citymunCode,provCode');
      // $this->db->select('brgyCode,brgyDesc');
-    $this->db->where(array('brgyCode'=>$cityCode));
+    $this->db->where(array('citymunCode'=>$cityCode));
     $query = $this->db->get('refbrgy');
     return $query->result_array();
   }

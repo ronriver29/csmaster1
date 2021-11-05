@@ -43,7 +43,7 @@
 
                   $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['branch_info']->rCode);
                   $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['branch_info']->pCode);
-                  $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['branch_info']->bCode);
+                  $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['branch_info']->cCode);
 
                   $data['encrypted_id'] = $id;
                   $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
@@ -478,7 +478,7 @@
               }
               $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coopreg_info']->rCode);
               $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coopreg_info']->pCode);
-              $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coopreg_info']->bCode);
+              $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coopreg_info']->cCode);
 
 //              $data['regno'] = $data['coopreg_info']->regNo;
               if(empty($data['coopreg_info'])){
