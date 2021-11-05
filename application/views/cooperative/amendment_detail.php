@@ -282,7 +282,6 @@
                 <label for="compositionOfMembers1">Composition of Members </label>
               
                 <div id="wrappera" class="col-md-12 occupational-wrappera">
-                <?php if(!empty($comp_of_membership)){ ?>  
                 <?php foreach($comp_of_membership as $comRow):?>
               
                   <div class="col-md-12 list-compositions">
@@ -295,8 +294,7 @@
                       <a class="customDeleleBtn compositionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                     </div>  
                   </div>
-                <?php endforeach;?> 
-                <?php } //end if not empry?> 
+                <?php endforeach;?>  
                 </div>
               <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
             </div>  

@@ -170,16 +170,18 @@
                 <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreSubclassBtn"><i class="fas fa-plus"></i> Add More Business Activity</button>
               </div>
             </div>
+           
             <div class="row">
               <div class="col-sm-12 col-md-12">
                <!--   <input type="hidden" class="form-control" id="typeOfCooperative_value" value=""> -->
                 <div class="form-group" style="margin-bottom: 0">
+                  <input type="hidden" value="<?=$coop_info->regNo?>" id="regNo">
                    <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
                  <!--  <input type="text" class="form-control validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="proposedName" id="proposedName" placeholder="" value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>">  -->
 
                 <input type="text" class="form-control p_name validate[required,funcCall[validateAmendmentWordInNameCustom],ajax[ajaxAmendmentNameCallPhp]]" name="newNamess" id="newNamess"
-                     value="<?php if($coop_info->status > 0) : ?><?= ucwords($coop_info->proposed_name)?> <?php endif;?>"> 
+                     value="<?php if($coop_info->status > 0) : ?><?= ucwords(rtrim(ltrim($coop_info->proposed_name)))?> <?php endif;?>"> 
                 <input type="hidden" class="form-control" name="newName2" id="newName2">
                   <input type="hidden" class="form-control" id="cooperative_idss" />
                 
