@@ -10,7 +10,16 @@
  </div>
 </div>
 
-
+<?php 
+if($is_client && !$has_registered_coop):?>
+<div class="row mt-3">
+    <div class="col-sm-12 col-md-12">
+      <div class="alert alert-info" role="alert">
+       <center> <p>"A Cooperative must be registered first to open Amendment module."</p></center>
+      </div>
+    </div>
+  </div>
+<?php endif;?>
 <?php if(!$is_client && $admin_info->access_level == 3 &&  $admin_info->is_director_active == 0) : ?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
@@ -48,9 +57,11 @@
 </div>
 <?php endif; ?>
 <div class="row">
-  <?php if($is_client) :?>
+  <?php if($is_client && $has_registered_coop) : ?>
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
+    <?php if(!$check_pending): ?>
     <a class="btn btn-color-blue btn-block" href="<?php echo base_url();?>amendment/application" role="button">Amend a Cooperative</a>
+   <?php endif;?>
   </div>
   <?php endif; ?>
   <?php if(!$is_client && $admin_info->access_level == 3) : ?>
@@ -64,6 +75,8 @@
       </div>
     <?php endif; ?>
   <?php endif;?>
+
+  <?php if($has_registered_coop):?>
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue shadow-sm mb-4">
       <div class="card-body">
@@ -252,7 +265,7 @@
     </div>
   </div> 
 </div>
-    
+<?php endif; //end if has registered coop?>    
 <?php if(!$is_client && $admin_info->region_code != '00' && $admin_info->access_level==2) :?>
 <h4 style="
 padding: 15px 10px;

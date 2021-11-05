@@ -50,13 +50,18 @@ class Email_model extends CI_Model{
   }
 
   public function sendEmailToSpecialistAmendment($admin_info,$client_info,$amendment_info){
+     $acronym='';
+        if(strlen($amendment_info->acronym)>0)
+        {
+            $acronym=' ('.$amendment_info->acronym.')';
+        }  
      if(count(explode(',',$amendment_info->type_of_cooperative))>1)
       {
-       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$amendment_info->grouping;
+       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$acronym;
       }
       else
       {
-        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$amendment_info->grouping;
+        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative'.$acronym;
       }
     $address_coop = $amendment_info->house_blk_no.' '.$amendment_info->brgy.' '.$amendment_info->street.' ,'.$amendment_info->city.' ,'.$amendment_info->province.' ,'.$amendment_info->region;
     $client_full_name = $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;
@@ -92,19 +97,25 @@ class Email_model extends CI_Model{
 
   public function sendEmailDefferedtoSenior($client_info, $senior_email,$amendment_info)
   { 
+     $acronym='';
+        if(strlen($amendment_info->acronym)>0)
+        {
+            $acronym=' ('.$amendment_info->acronym.')';
+        }  
+
     if(count(explode(',',$amendment_info->type_of_cooperative))>1)
       {
-       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$amendment_info->grouping;
+       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$acronym;
       }
       else
       {
-        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$amendment_info->grouping;
+        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$acronym;
       }
     $address_coop = $amendment_info->house_blk_no.' '.$amendment_info->brgy.' '.$amendment_info->street.' ,'.$amendment_info->city.' ,'.$amendment_info->province.' ,'.$amendment_info->region;
     $client_full_name = $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;
     $from = "ecoopris@cda.gov.ph";   
     $admin_subject =$coop_full_name.'\'s Amendment Application'; 
-    $client_subject = 'Amendment Application';
+    // $client_subject = 'Amendment Application';
        
        $admin_message = "Good day! A deferred application for Amendment registration with the following details has been re-submitted for re-evaluation:<p>
                   <ol type='a'>  
@@ -115,41 +126,65 @@ class Email_model extends CI_Model{
                      <b><li> Email address: </b>". $client_info->email."</li>
                     </ol>";          
 
-      $client_message = "Successfully submitted your amendment application. Please wait for an email of either payment procedure or the list of documents for compliance.<p>";  
+      // $client_message = "Successfully submitted your amendment application. Please wait for an email of either payment procedure or the list of documents for compliance.<p>";  
      //Admin send mail                                                               ;
      $this->email->from($from,'ecoopris CDA (No Reply)');
      $this->email->to( $senior_email);
      $this->email->subject($admin_subject);
      $this->email->message($admin_message);
       if($this->email->send()){
-            // return true;
+            return true;
             // Client send email
-               $this->email->from($from,'ecoopris CDA (No Reply)');
-               $this->email->to($client_info->email);
-               $this->email->subject($client_subject);
-               $this->email->message($client_message);
-               if($this->email->send())
-               {
-                  return true;
-               }
-               else
-               {
-                  return false;
-               }
+               // $this->email->from($from,'ecoopris CDA (No Reply)');
+               // $this->email->to($client_info->email);
+               // $this->email->subject($client_subject);
+               // $this->email->message($client_message);
+               // if($this->email->send())
+               // {
+               //    return true;
+               // }
+               // else
+               // {
+               //    return false;
+               // }
         }else{
             return false;
         }
   }
 
+   public function sendEmailtoClientResubmission($client_info)
+  {
+    $from = "ecoopris@cda.gov.ph";   
+    $client_subject = 'Amendment Application';
+    $client_message = "Successfully submitted your amendment application. Please wait for an email of either payment procedure or the list of documents for compliance.<p>";
+        $this->email->from($from,'ecoopris CDA (No Reply)');
+        $this->email->to($client_info->email);
+        $this->email->subject($client_subject);
+        $this->email->message($client_message);
+        if($this->email->send())
+        {
+        return true;
+        }
+        else
+        {
+        return false;
+        }
+  }
+
   public function sendEmailfirstSubmissionAmendment($client_info,$senior_email,$amendment_info)
   {
+     $acronym='';
+        if(strlen($amendment_info->acronym)>0)
+        {
+            $acronym=' ('.$amendment_info->acronym.')';
+        }  
     if(count(explode(',',$amendment_info->type_of_cooperative))>1)
       {
-       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$amendment_info->grouping;
+       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$acronym;
       }
       else
       {
-        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$amendment_info->grouping;
+        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$acronym;
       }
     $address_coop = $amendment_info->house_blk_no.' '.$amendment_info->brgy.' '.$amendment_info->street.' ,'.$amendment_info->city.' ,'.$amendment_info->province.' ,'.$amendment_info->region;
     $client_full_name = $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;
@@ -228,13 +263,19 @@ class Email_model extends CI_Model{
   }
 
   public function sendEmailToSeniorAmendment($senior_email,$client_info,$amendment_info,$specialist_info){
+    $acronym='';
+        if(strlen($amendment_info->acronym)>0)
+        {
+            $acronym=' ('.$amendment_info->acronym.')';
+        }  
+
      if(count(explode(',',$amendment_info->type_of_cooperative))>1)
       {
-       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$amendment_info->grouping;
+       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$acronym;
       }
       else
       {
-        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$amendment_info->grouping;
+        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative'.$acronym;
       }
     $address_coop = $amendment_info->house_blk_no.' '.$amendment_info->brgy.' '.$amendment_info->street.' ,'.$amendment_info->city.' ,'.$amendment_info->province.' ,'.$amendment_info->region;
     $client_full_name = $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;
@@ -286,14 +327,19 @@ class Email_model extends CI_Model{
 
   public function sendEmailtoClientFromCds($client_info,$amendment_info)
   {
+     $acronym='';
+        if(strlen($amendment_info->acronym)>0)
+        {
+            $acronym=' ('.$amendment_info->acronym.')';
+        }  
 
     if(count(explode(',',$amendment_info->type_of_cooperative))>1)
       {
-       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$amendment_info->grouping;
+       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$acronym;
       }
       else
       {
-        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$amendment_info->grouping;
+        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$acronym;
       }
     $address_coop = $amendment_info->house_blk_no.' '.$amendment_info->brgy.' '.$amendment_info->street.' ,'.$amendment_info->city.' ,'.$amendment_info->province.' ,'.$amendment_info->region;
     $client_full_name = $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;
@@ -320,13 +366,18 @@ class Email_model extends CI_Model{
     $cds_date_findings = $this->amendment_model->get_latest_comment_date(1,$amendment_info->id);
     $sernior_date_findings = $this->amendment_model->get_latest_comment_date(2,$amendment_info->id);
 
+       $acronym='';
+        if(strlen($amendment_info->acronym)>0)
+        {
+            $acronym=' ('.$amendment_info->acronym.')';
+        }  
       if(count(explode(',',$amendment_info->type_of_cooperative))>1)
       {
-       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$amendment_info->grouping;
+       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$acronym;
       }
       else
       {
-        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$amendment_info->grouping;
+        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative'.$acronym;
       }
     $address_coop = $amendment_info->house_blk_no.' '.$amendment_info->brgy.' '.$amendment_info->street.' ,'.$amendment_info->city.' ,'.$amendment_info->province.' ,'.$amendment_info->region;
     $client_full_name = $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;

@@ -228,7 +228,7 @@
           else
           { 
             $new_content =array(); // reset content array 
-             $new_purposes = array(); //reset array so it wont repear the previous index
+            //  $new_purposes = array(); //reset array so it wont repear the previous index
             foreach($content_array as $keys => $content_)
             {
                array_push($new_content,'<b>'.$content_.'</b>');
@@ -252,7 +252,7 @@
           }
 
           // echo'<pre>';print_r($new_purposes);echo'<pre>';
-           // echo'<pre>';print_r($new_content);echo'<pre>';
+          //  echo'<pre>';print_r($new_content);echo'<pre>';
       ?>
     </ol>  
     </div>

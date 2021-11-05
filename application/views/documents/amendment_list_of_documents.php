@@ -9,7 +9,7 @@
     else
     {
     ?>
-         <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+         <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
     <?php    
     }
     ?>  

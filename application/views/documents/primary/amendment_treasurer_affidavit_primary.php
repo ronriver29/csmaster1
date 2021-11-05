@@ -43,7 +43,7 @@
 <div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold"><b>TREASURER’S AFFIDAVIT</b></p>
+        <center><p class="font-weight-bold"><b>TREASURER’S AFFIDAVIT</b></p></center>
     </div>
   </div>
   <div class="row mb-4">
@@ -77,7 +77,8 @@
   ?>
   <div class="row mb-4"> 
     <div class="col-sm-12 col-md-12">
-      <ol class="text-justify" type="1" style="line-height: 1.1;">
+      <ol class="text-justify" type="1" style="line-height: 1.1;text-align: justify;
+  text-justify: inter-word;">
         <li>That I am the duly elected Treasurer of the <?=$proposedName?> to act as such until my successor shall have been appointed and qualified in accordance with the By-laws of the Cooperative;</li>
         <li>That as such, I hereby certify that the authorized share capital of this cooperative is
          <?= ($capitalization_info->authorized_share_capital!=$capitalization_info_orig->authorized_share_capital ? "<b>".ucwords(num_format_custom($capitalization_info->authorized_share_capital))."</b>" : ucwords(num_format_custom($capitalization_info->authorized_share_capital)))?> Pesos (Php 
@@ -134,22 +135,27 @@
     </div>
   </div>
   <div class="row mb-3">
-    <div class="col-sm-12 col-md-12 text-left" style="margin-top:-25px">
+    <div class="col-sm-12 col-md-12 text-left" style="margin-top:-25px;text-align: justify;
+  text-justify: inter-word;">
       <p class="text-justify" style="text-indent: 50px;">IN WITNESS WHEREOF, I have hereunto affixed my signature this ___________ day of ______________, 20___ in ________________, Philippines.</p>
     </div>
   </div>
   <div class="row mb-3">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-regular"><?= $treasurer_of_coop->full_name?><br>Affiant</p>
+         <p class="font-weight-regular" style="text-align: right;"><?= $treasurer_of_coop->full_name?></p>
+         <span style="float:right;margin-bottom: 1.5em;margin-right: 5.5em;margin-top:-1em;">Affiant</span>
+       
     </div>
   </div>
   <div class="row mb-3">
-    <div class="col-sm-12 col-md-12 text-left">
+    <div class="col-sm-12 col-md-12 text-left" style="text-align: justify;
+  text-justify: inter-word;">
       <p class="text-justify" style="text-indent: 50px;">SUBSCRIBED AND SWORN TO before me this ________ day of ______________, 20____ in ________________, Philippines, by _______________________ who exhibited to me his/her Proof of Identity ___________ issued on ___________________, in ______________________, Philippines</p>
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-12 text-left" style="">
+    <div class="col-xs-12 text-left" style="text-align: justify;
+  text-justify: inter-word;">
       <p class="font-weight-bold" style="text-indent: 0px;float:right;">NOTARY PUBLIC</p>
       <p class="font-weight-normal">
       Doc. No. : ___________________<br>

@@ -77,22 +77,34 @@ class Amendment_committees extends CI_Controller{
                         $count_type = count($type_coop_array_);
 
                         $data['complete_position']=false;
-                        // if(in_array('Credit', $type_coop_array_) || in_array('Agriculture', $type_coop_array_) || $data['coop_info']->type=='Multipurpose' ||   $count_type >1)
-                        // {
-                        //    $data['credit'] = $this->committee_model->check_position($decoded_id,"Credit");
-                        //   if($data['credit'] && $data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])
-                        //   {
-                        //     $data['complete_position']=true;
-                        //   }
-                        // }
-                        // else
-                        // {
-                        //    $data['credit'] = true;
-                          if($data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])
-                          {
-                            $data['complete_position']=true;
-                          }
-                        // }
+                        if($count_type > 1)
+                        {
+                             if(in_array('Credit', $type_coop_array_) || in_array('Agriculture', $type_coop_array_) || in_array('Electric', $type_coop_array_))
+                            {
+                               $data['credit'] = $this->committee_model->check_position($decoded_id,"Credit");
+                              if($data['credit'] && $data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])
+                              {
+                                $data['complete_position']=true;
+                              }
+                            }
+                            else
+                            {
+                               $data['credit'] = true;
+                              if($data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])
+                              {
+                                $data['complete_position']=true;
+                              }
+                            }
+                        }
+                        else
+                        {
+                           $data['credit'] = true;
+                              if($data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])
+                              {
+                                $data['complete_position']=true;
+                              }
+                        }
+                       
                         
                         
                         //end position
@@ -263,9 +275,9 @@ class Amendment_committees extends CI_Controller{
                             $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
                             $amendment_id_ = $this->encryption->decrypt(decrypt_custom($this->input->post('amendmentID')));
                             //CHECK MUNA
-                            if ($this->committee_model->isExisting($decoded_id)){
+                            if ($this->amendment_committee_model->isExisting($decoded_id)){
                               $this->session->set_flashdata('committee_error', 'Cooperator already has committee');
-                              redirect('amendment/'.$this->input->post('cooperativesID').'/committees');
+                              redirect('amendment/'.$this->input->post('amendmentID').'/amendment_committees');
                             }else{
                               $data = array(
                                 'user_id' => $user_id,
@@ -473,10 +485,10 @@ class Amendment_committees extends CI_Controller{
                               // $this->debug($success);
                               if($success['success']){
                                 $this->session->set_flashdata('committee_success', $success['message']);
-                                redirect('amendment/'.$this->input->post('cooperativesID').'/committees');
+                                redirect('amendment/'.$this->input->post('cooperativesID').'/amendment_committees');
                               }else{
                                 $this->session->set_flashdata('committee_error', $success['message']);
-                                redirect('amendment/'.$this->input->post('cooperativesID').'/committees');
+                                redirect('amendment/'.$this->input->post('cooperativesID').'/amendment_committees');
                               }
                             }
                           }else{
@@ -485,7 +497,7 @@ class Amendment_committees extends CI_Controller{
                           }
                         }else{
                           $this->session->set_flashdata('committee_redirect', 'Unauthorized!!.');
-                          redirect('amendment/'.$id.'/committees');
+                          redirect('amendment/'.$id.'/amendment_committees');
                         }
                       }else{
                         $this->session->set_flashdata('redirect_message', 'Please complete first your article of cooperation additional information.');
@@ -618,10 +630,10 @@ class Amendment_committees extends CI_Controller{
 
                   if($success){
                     $this->session->set_flashdata('committee_success', 'Committee has been deleted.');
-                    redirect('amendment/'.$this->input->post('cooperativeID',TRUE).'/committees');
+                    redirect('amendment/'.$this->input->post('cooperativeID',TRUE).'/amendment_committees');
                   }else{
                     $this->session->set_flashdata('committee_error', 'Unable to delete committee.');
-                    redirect('amendment/'.$this->input->post('cooperativeID',TRUE).'/committees');
+                    redirect('amendment/'.$this->input->post('cooperativeID',TRUE).'/amendment_committees');
                   }
                 }else{
                   $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');

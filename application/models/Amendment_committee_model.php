@@ -145,7 +145,7 @@ class Amendment_committee_model extends CI_Model{
   }
 
   public function isExisting($co_id){
-    $query = $this->db->get_where('amendment_committees', array('cooperators_id'=>$co_id));
+    $query = $this->db->get_where('amendment_committees', array('amendment_cooperators_id'=>$co_id));
     
     if ($query->num_rows()>0)
       return true;

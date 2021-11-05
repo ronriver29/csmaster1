@@ -102,6 +102,7 @@
               </tr>
             </thead>
             <tbody>
+             
             <?php if(isset($defered_uploaded_list_pdf)) :?> 
           <?php $a=1;foreach($defered_uploaded_list_pdf as $row): ?>
               <tr>
@@ -112,7 +113,7 @@
                    
 
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
+                    <a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>amendment/<?=$encrypted_id?>/amendment_documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$row['document_num']?>">View</a>
                     <?php if($is_client):?>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deletePDFModal" data-doctypess="<?=$row['document_num']?>" data-coopid="<?= $encrypted_id ?>" data-comname="<?=$row['filename']?>" data-fname="" data-pdfid="<?= encrypt_custom($this->encryption->encrypt($row['id']))?>"><i class='fas fa-trash'></i> Delete</button>
                      <?php endif;?>   

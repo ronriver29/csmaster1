@@ -168,7 +168,8 @@ $(function(){
           regNo: regNo 
         },
         success: function(data)
-        {
+        { console.log(data);
+         
           var cooperativeID = data.application_id;
           $("#cooperative_idss").val(cooperativeID);
           $("#typeOfCooperative_value").val(data.type_id);
@@ -299,6 +300,7 @@ $(function(){
             $('#amendmentAddForm #regions').hide();
             $('#amendmentAddForm #selectisland').hide();
             $('#amendmentAddForm #selectregion').hide();
+
 
             $("#amendmentAddForm #region").prop("disabled",true);
             $("#amendmentAddForm #province").prop("disabled",false);
@@ -1448,6 +1450,36 @@ $(function(){
       $('#amendmentAddForm #regions').hide();
       $('#amendmentAddForm #selectisland').hide();
       $('#amendmentAddForm #selectregion').hide();
+      // alert('fire');
+
+      // $('#amendmentAddForm #regions').on('change',function(){
+          // alert($(this).val());
+          // $('#amendmentAddForm #region').empty();
+          // $("#amendmentAddForm #province").prop("disabled",true);
+          // $('#amendmentAddForm #city').empty();
+          // $("#amendmentAddForm #city").prop("disabled",true);
+          // $('#amendmentAddForm #barangay').empty();
+          // $("#amendmentAddForm #barangay").prop("disabled",true);
+          // // if($(this).val() && ($(this).val()).length > 0){
+          //   $("#amendmentAddForm #region").prop("disabled",false);
+          //   var regions = $(this).val();
+          //     $.ajax({
+          //     type : "GET",
+          //     url  : "../api/regions",
+          //     dataType: "json",
+          //     data : {
+          //       regions: regions
+          //     },
+          //     success: function(data){
+          //       $('#amendmentAddForm #region').append($('<option></option>').attr('value',"").text(""));
+          //       $.each(data, function(key,value){
+          //         $('#amendmentAddForm #region').append($('<option></option>').attr('value',value.regCode).text(value.regDesc));
+          //       });
+          //     }
+          //   });
+          // }
+        // });
+
 
       $("#amendmentAddForm #region").prop("disabled",true);
       $("#amendmentAddForm #province").prop("disabled",false);
@@ -1491,7 +1523,7 @@ $(function(){
       $("#amendmentAddForm #province").prop("disabled",true);
       $("#amendmentAddForm #region").prop("disabled",true);
       $("#amendmentAddForm #city").prop("disabled",true);
-      $("#amendmentAddForm #barangay").prop("disabled",false);
+      $("#amendmentAddForm #barangay").prop("disabled",true);
       }
     });
   // End Jiee

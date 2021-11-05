@@ -26,6 +26,23 @@ class amendment_model extends CI_Model{
   return $query->row();
   }
 
+  public function check_if_has_registered($user_id)
+  {
+    $query = $this->db->get_where('cooperatives',array('users_id'=>$user_id,'status'=>15));
+    if($query->num_rows() ==1)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  public function check_pending_amendment()
+  {
+
+  }
   public function get_all_cooperatives_registration($regcode){
     $this->db->select('amend_coop.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('amend_coop');
@@ -1438,7 +1455,7 @@ public function submit_for_reevaluation($user_id,$amendment_id,$region_code){
             }
       }   
       // return $process.':'.$success;
-       if($process == $success)
+       if($process == $success && $this->email_model->sendEmailtoClientResubmission($client_info))
         {
           return true;
         }
@@ -1658,7 +1675,7 @@ public function approve_by_director($admin_info,$coop_id,$comment){
 
   if(strlen($client_info->acronym)>0)
   {
-    $acronym_ = '('.$client_info->acronym.')';
+    $acronym_ = ' ('.$client_info->acronym.')';
   }
   else
   {
@@ -1666,11 +1683,11 @@ public function approve_by_director($admin_info,$coop_id,$comment){
   }
   if(count(explode(',',$client_info->type_of_cooperative))>1)
   {
-     $proposedName = $client_info->proposed_name.' Multipurpose Cooperative '.$acronym_;
+     $proposedName = $client_info->proposed_name.' Multipurpose Cooperative'.$acronym_;
   }
   else
   {
-    $proposedName =$client_info->proposed_name.' '.$client_info->type_of_cooperative. ' Cooperative '.$acronym_;
+    $proposedName =$client_info->proposed_name.' '.$client_info->type_of_cooperative. ' Cooperative'.$acronym_;
   }
  
   $regNo = $client_info->regNo;
@@ -3129,10 +3146,49 @@ on regcoop.application_id = coop.id where regcoop.regNo ='$regNo'");
     $query = $this->db->get('refbrgy');
     return $query->result_array();
   }
+
+  public function check_pending($regNo,$user_id)
+  {
+    $data =[];
+    if($regNo !=NULL)
+    {
+       $query = $this->db->query("select * from amend_coop where regNo = '$regNo' and status NOT IN(10,11,15)");
+      if($query->num_rows()>0)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+    else
+    {
+      //has registered coop already get the reg number
+       $query = $this->db->query("select coop.id as cooperative_id,registeredcoop.regNo from cooperatives as coop 
+left join registeredcoop on registeredcoop.application_id = coop.id
+where coop.users_id = '$user_id' and coop.status =15");
+        foreach($query->result_array() as $row)
+        {
+            $reg_no = $row['regNo'];
+           $query = $this->db->query("select * from amend_coop where regNo = '$reg_no' and status NOT IN(10,11,15)");
+            if($query->num_rows()>0)
+            {
+              return true;
+            }
+            else
+            {
+              return false;
+            }
+        }
+    }
+    
+  }
    public function debug($array)
     {
         echo"<pre>";
         print_r($array);
         echo"</pre>";
     }
+
 }

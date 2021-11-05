@@ -20,7 +20,7 @@
   
                
                <label class="font-weight-bold">Tools Additional Comments:</label>
-                <pre><textarea class="form-control" rows="4" style="resize: none;text-align: left;padding:0px;margin-bottom:40px;" name="tool_findings"><?php if(isset($rever_comment_array)){foreach($revert_comment_array as $cc){echo $cc['tool_findings'].PHP_EOL;}}?></textarea></pre>
+                <pre><textarea class="form-control" rows="4" style="resize: none;text-align: left;padding:0px;margin-bottom:40px;" name="tool_findings"><?php if(isset($revert_comment_array)){foreach($revert_comment_array as $cc){echo $cc['tool_findings'].PHP_EOL;}}?></textarea></pre>
               
               
              

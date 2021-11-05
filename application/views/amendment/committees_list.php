@@ -72,10 +72,10 @@ if(!$complete_position):
               {
                 echo'<li>There must be 1 Audit member on the list</li>';
               } 
-              // if(!$credit)
-              // {
-              //   echo'<li>There must be 1 Credit member on the list</li>';
-              // }
+              if(!$credit)
+              {
+                echo'<li>There must be 1 Credit member on the list</li>';
+              }
               ?>   
            </ul>
         </div>

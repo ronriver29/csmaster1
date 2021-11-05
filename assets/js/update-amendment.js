@@ -421,7 +421,7 @@ $(function(){
       $('#reserveUpdateForm #regions').hide();
       $('#reserveUpdateForm #selectisland').hide();
       $('#reserveUpdateForm #selectregion').hide();
-      $("#reserveUpdateForm #region").prop("disabled",false);
+      $("#reserveUpdateForm #region").prop("disabled",true);
       $("#reserveUpdateForm #province").prop("disabled",false);
       $("#reserveUpdateForm #city").prop("disabled",false);
       $("#reserveUpdateForm #barangay").prop("disabled",false);
@@ -434,7 +434,7 @@ $(function(){
       $('#reserveUpdateForm #regions').hide();
       $('#reserveUpdateForm #selectisland').hide();
       $('#reserveUpdateForm #selectregion').hide();
-      $("#reserveUpdateForm #province").prop("disabled",false);
+      $("#reserveUpdateForm #province").prop("disabled",true);
       $("#reserveUpdateForm #region").prop("disabled",true);
       $("#reserveUpdateForm #city").prop("disabled",false);
       $("#reserveUpdateForm #barangay").prop("disabled",false);
@@ -449,7 +449,7 @@ $(function(){
       $('#reserveUpdateForm #selectregion').hide();
       $("#reserveUpdateForm #province").prop("disabled",true);
       $("#reserveUpdateForm #region").prop("disabled",true);
-      $("#reserveUpdateForm #city").prop("disabled",false);
+      $("#reserveUpdateForm #city").prop("disabled",true);
       $("#reserveUpdateForm #barangay").prop("disabled",false);
       }
       else

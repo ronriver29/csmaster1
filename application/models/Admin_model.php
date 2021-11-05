@@ -12,7 +12,7 @@ class Admin_model extends CI_Model{
   }
   public function login_admin($data){
     $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('admin', array('username' => $data['username']));
+    $query= $this->db->get_where('admin', array('username' => $data['username'],'active' => 1));
     $row = $query->row();
     if(isset($row)){
       if(password_verify($data['password'], $row->password)){
@@ -998,7 +998,7 @@ Region";
     }
   }
   public function sendEmailToClientApprove($name,$email){
-//	  echo $name;
+//    echo $name;
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $name.' Evaluation Result';  //email subject
     $burl = base_url();
@@ -1069,11 +1069,11 @@ You shall submit the above required documents within 30 days from the date of e-
     }
     if(count(explode(',',$amendment_info->type_of_cooperative))>1)
       {
-       $coop_full_name = $amendment_info->proposed_name.$acronym.' Multipurpose Cooperative'.$amendment_info->grouping;
+       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$acronym;
       }
       else
       {
-        $coop_full_name  = $amendment_info->proposed_name.$acronym.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$amendment_info->grouping;
+        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative'.$acronym;
       }
     $address_coop = $amendment_info->house_blk_no.' '.$amendment_info->brgy.' '.$amendment_info->street.' ,'.$amendment_info->city.' ,'.$amendment_info->province.' ,'.$amendment_info->region;
     $client_full_name = $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;
@@ -1154,11 +1154,11 @@ You shall submit the above required documents within 30 days from the date of e-
     }
     if(count(explode(',',$amendment_info->type_of_cooperative))>1)
       {
-       $coop_full_name = $amendment_info->proposed_name.$acronym.' Multipurpose Cooperative'.$amendment_info->grouping;
+       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$acronym;
       }
       else
       {
-        $coop_full_name  = $amendment_info->proposed_name. $acronym.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$amendment_info->grouping;
+        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative'.$acronym;
       }
     $address_coop = $amendment_info->house_blk_no.' '.$amendment_info->brgy.' '.$amendment_info->street.' ,'.$amendment_info->city.' ,'.$amendment_info->province.' ,'.$amendment_info->region;
     // $client_full_name = $client_info->first_name.' '.$client_info->middle_name.' '.$client_info->last_name;
@@ -1195,7 +1195,7 @@ You shall submit the above required documents within 30 days from the date of e-
   }
   
   public function sendEmailToClientApproveBranch($name,$email){
-//	  echo $name;
+//    echo $name;
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject =$name.' Evaluation Result';  //email subject
     $burl = base_url();
@@ -1226,7 +1226,7 @@ System (E-CoopRIS).</pre>";
     }
   }
   public function sendEmailToClientApproveSatellite($name,$email){
-//	  echo $name;
+//    echo $name;
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject =$name.' Evaluation Result';  //email subject
     $burl = base_url();
@@ -1314,11 +1314,11 @@ The client shall submit the above required documents within 30 days from the dat
     }
     if(count(explode(',',$amendment_info->type_of_cooperative))>1)
       {
-       $coop_full_name = $amendment_info->proposed_name.$acronym.' Multipurpose Cooperative'.$amendment_info->grouping;
+       $coop_full_name = $amendment_info->proposed_name.' Multipurpose Cooperative'.$acronym;
       }
       else
       {
-        $coop_full_name  = $amendment_info->proposed_name. $acronym.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$amendment_info->grouping;
+        $coop_full_name  = $amendment_info->proposed_name.' '.$amendment_info->type_of_cooperative.'  Cooperative '.$acronym;
       }
     $address_coop = $amendment_info->house_blk_no.' '.$amendment_info->brgy.' '.$amendment_info->street.' ,'.$amendment_info->city.' ,'.$amendment_info->province.' ,'.$amendment_info->region;
 
@@ -1560,6 +1560,12 @@ Very truly yours, <br>
     }else{
       return $data;
     }
+  }
+  public function get_senior_info_dir_defer($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'access_level'=>2));
+    $row = $query->row();
+    return $row;
   }
   public function get_director_info($data){
     $data = $this->security->xss_clean($data);
