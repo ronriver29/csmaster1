@@ -21,6 +21,7 @@ $(function(){
           $("#paid-note").show().html('Should not exceed the remaining no. of paid up share: '+available_paid_up_capital);
       }
   });
+  
   $('#editCooperatorForm #membershipType').on('change', function(){ 
     var tempType  = $.trim($(this).val()); 
     var available_subscribed_capital = $("#available_subscribed_capital").val().length>0 ? parseInt($("#available_subscribed_capital").val()) : '';
@@ -206,7 +207,7 @@ $(function(){
       amd_id :amd_ids
       },
       success: function(data){
-      
+        
 
         setTimeout(function(){
 
@@ -228,7 +229,7 @@ $(function(){
             $('#editCooperatorForm  #region').prop("disabled",true);
             $('#editCooperatorForm  #city').prop("disabled",false);
             $('#editCooperatorForm  #barangay').prop("disabled",false);
-            }else if(data.area_of_operation=='Regional'){
+            }else if(data.area_of_operation=='Regional'){ 
             $('#editCooperatorForm  #region').prop("disabled",true);
             $('#editCooperatorForm  #province').prop("disabled",false);
             $('#editCooperatorForm  #city').prop("disabled",false);
@@ -246,7 +247,7 @@ $(function(){
             $('#editCooperatorForm  #city').prop("disabled",false);
             $('#editCooperatorForm  #barangay').prop("disabled",false);
           }
-        },1100);
+        },1500);
       }
       });
 

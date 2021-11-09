@@ -23,15 +23,14 @@
       <?php endif; ?>
      </ul>
     </div>
-  </div> 
+  </div>  
 </div>
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">
     <?php echo form_open('amendment/'.$encrypted_id.'/amendment_cooperators/'.$encrypted_cooperator_id.'/edit',array('id'=>'editCooperatorForm','name'=>'editCooperatorForm')); ?>
       <div class="card-body">
-        <div class="row">
-          
+        <div class="row"> 
           <input type="hidden" class="form-control" id="amd_id" name="amd_id" value="<?=$encrypted_id ?>">
           <input type="hidden" class="form-control" value="<?=$encrypted_coop_id?>" id="cooperative_id" name="cooperative_id"/>
 
@@ -127,7 +126,7 @@
                 <div class="form-group">
                   <label for="blkNo">House/Lot & Blk No.</label>
                   <?php if($check_if_orig_cptr): ?>
-                     <input type="text" class="form-control" name="blkNo"  placeholder="" value="<?= $cooperator_info->house_blk_no?>" disabled>
+                     <input type="text" class="form-control" name="blkNo"  placeholder="" value="<?= $cooperator_info->house_blk_no?>">
                   <?php else: ?>
                   <input type="text" class="form-control" name="blkNo" id="blkNo" placeholder="" value="<?= $cooperator_info->house_blk_no?>">
                   <?php endif;?>  
@@ -137,8 +136,8 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="streetName">Street Name</label>
-                  <?php if($check_if_orig_cptr): ?>
-                    <input type="text" class="form-control" name="streetName"  placeholder="" value="<?=$cooperator_info->streetName?>" disabled>
+                  <?php if($check_if_orig_cptr): ?> 
+                    <input type="text" class="form-control" name="streetName"  placeholder="" value="<?=$cooperator_info->streetName?>">
                   <?php else: ?>
                   <input type="text" class="form-control" name="streetName" id="streetName" placeholder="" value="<?=$cooperator_info->streetName?>">
                 <?php endif; ?>
@@ -148,7 +147,7 @@
                 <div class="form-group">
                   <label for="barangay">Barangay</label>
                    <?php if($check_if_orig_cptr): ?>
-                    <select class="custom-select validate[required]" disabled>
+                    <select class="custom-select validate[required]" id="barangay" disabled>
                        <?php
                     foreach($list_of_brgys as $brgy_list)
                     {
@@ -177,7 +176,7 @@
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
                    <?php if($check_if_orig_cptr): ?>
-                    <select class="custom-select validate[required]" name="city"  disabled>
+                    <select class="custom-select validate[required]" name="city" id="city" disabled>
                         <?php
                         foreach($list_of_cities as $city_list)
                         {
@@ -205,7 +204,7 @@
                 <div class="form-group">
                   <label for="province">Province</label>
                   <?php if($check_if_orig_cptr): ?>
-                     <select class="custom-select validate[required]" name="province" disabled>
+                     <select class="custom-select validate[required]" name="province" id="province" disabled>
                         <?php
                         foreach($list_of_provinces as $province_list)
                         {
@@ -233,7 +232,7 @@
                 <div class="form-group">
                   <label for="region">Region</label>
                    <?php if($check_if_orig_cptr): ?>
-                      <select class="custom-select validate[required]" name="region" disabled>
+                      <select class="custom-select validate[required]" name="region" id="region" disabled>
                         <option value="" selected></option>
                         <?php foreach ($regions_list as $region_list) : ?>
                           <option value ="<?php echo $region_list['regCode'];?>" <?=($coop_info->rCode == $region_list['regCode'] ? 'selected' :'')?> ><?php echo $region_list['regDesc']?></option>
@@ -301,7 +300,7 @@
           </div>
         </div>
       </div>
-      <div class="card-footer editCooperatorFooter">
+      <div class="col-md-12 col-xs-12 card-footer editCooperatorFooter">
         <input class="btn btn-color-blue btn-block" type="submit" id="editCooperatorBtn" name="editCooperatorBtn" value="Submit">
       </div>
     </form>
