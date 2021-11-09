@@ -1182,7 +1182,7 @@
 
             <?php }//end else */?> 
              
-               <?php if($status_document_cooptype && $ga_complete && $bod_sec_complete): ?>
+               <?php if($status_document_cooptype && $ga_complete && $bod_sec_complete && $feasibity): ?>
                 <span class="badge badge-success">COMPLETE</span>
                 <?php else: ?>
              
@@ -1197,7 +1197,7 @@
             Uploaded documents
             <?php endif;?>
           </p>
-          <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $complete_position): //&& $cooperator_complete && $committees_complete && $economic_survey_complete && $staff_complete ?>
+          <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $complete_position ): //&& $cooperator_complete && $committees_complete && $economic_survey_complete && $staff_complete ?>
             <small class="text-muted">
               <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_documents" class="btn btn-info btn-sm">View</a>
             </small>
@@ -1217,7 +1217,7 @@
               </small>
             </div>
             <p class="mb-1 font-italic">Finalize and review all the information you provide. After reviewing your application, click proceed for evaluation of your application.</p>
-              <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $status_document_cooptype && $ga_complete && $bod_sec_complete && $complete_position){ ?>
+              <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $status_document_cooptype && $ga_complete && $bod_sec_complete && $complete_position && $feasibity){ ?>
               <small class="text-muted">
                 <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
               </small>

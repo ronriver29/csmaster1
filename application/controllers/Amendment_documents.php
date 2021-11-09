@@ -132,8 +132,8 @@ class Amendment_documents extends CI_Controller{
                                 //   $data['read_upload'] = $this->count_documents($decoded_id,2);
                                 // }
                         
-                               
-
+                                
+                               $data['acbl'] = $this->amendment_model->acbl($decoded_id);
                                 $this->load->view('template/header', $data);
                                 $this->load->view('documents/amendment_list_of_documents', $data);
                                 $this->load->view('template/footer');

@@ -1096,7 +1096,7 @@ class amendment extends CI_Controller{
                                 }
                                 // $data['status_document_one'] =$this->check_is_uploaded($decoded_id,1);
                                 // $data['status_document_two'] =$this->check_is_uploaded($decoded_id,2);
-                                // $data['status_feasibility'] =$this->check_is_uploaded($decoded_id,3);
+                                $data['feasibity'] =$this->check_is_uploaded($decoded_id,3);
                                 // $data['status_books_of_account'] =$this->check_is_uploaded($decoded_id,4);
                                 $data['ga_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($decoded_id,19);
                                  $data['bod_sec_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($decoded_id,20);
@@ -1172,7 +1172,7 @@ class amendment extends CI_Controller{
                         $data['complete_position']=false;
                         if($count_type > 1)
                         {
-                             if(in_array('Credit', $type_coop_array_) || in_array('Agriculture', $type_coop_array_) || in_array('Electric', $type_coop_array_))
+                             if(in_array('Credit', $type_coop_array_) || in_array('Agriculture', $type_coop_array_))
                             {
                                $data['credit'] = $this->committee_model->check_position($decoded_id,"Credit");
                               if($data['credit'] && $data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])

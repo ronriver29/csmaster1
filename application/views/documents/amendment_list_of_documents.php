@@ -505,7 +505,9 @@
     </div>
   </div>
 <?php endif; ?>
+
 <div class="row mb-2">
+  <?php if($acbl['bylaws'] == true):?>
   <div class="col-sm-12 col-md-4">
     <div class="card">
       <div class="card-body">
@@ -523,6 +525,9 @@
       </div>
     </div>
   </div>
+<?php endif; ?>
+
+<?php if($acbl['articles']==true):?>
   <div class="col-sm-12 col-md-4">
     <div class="card">
       <div class="card-body">
@@ -540,6 +545,7 @@
       </div>
     </div>
   </div>
+<?php endif; ?>
   <div class="col-sm-12 col-md-4">
     <div class="card">
       <div class="card-body">
