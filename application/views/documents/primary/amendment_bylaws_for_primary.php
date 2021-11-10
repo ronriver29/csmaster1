@@ -90,7 +90,7 @@
             $proposedName ='<strong>'.$proposedName.'</strong>';
           }
           ?>
-          <p class="font-weight-bold">AMENDED BY-LAWS<br>OF<br></p><p><?= $proposedName?></p>
+          <p class="font-weight-bold">BY-LAWS<br>OF<br></p><p><?= $proposedName?></p>
           
     </div>
   </div>
