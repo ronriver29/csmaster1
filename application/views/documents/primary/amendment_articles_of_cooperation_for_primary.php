@@ -1113,7 +1113,7 @@
               <?=$count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
-                <td></td>
+                <td>Signed</td>
               </tr>
             <?php endforeach;?>
 
