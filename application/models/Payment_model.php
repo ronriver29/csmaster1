@@ -207,7 +207,7 @@ class Payment_model extends CI_Model{
         }
           $region_code =substr($amendment_info->rCode,1);
           $present_year =  date('Y',now('Asia/Manila'));
-          $last_ref_year =substr($refNo_last,3,-7); //2020;
+          $last_ref_year =substr($refNo_last,3,4); //2020;
           if($present_year != $last_ref_year)
           {
             $ref_no = $region_code.'-'.date('Y-m',now('Asia/Manila')).'-1';
