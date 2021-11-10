@@ -314,12 +314,10 @@ class Amendment_documents extends CI_Controller{
                                    }
                                     $data['revert_comment_array'] = $this->amendment_model->revert_comment($decoded_id);
 
-                                   
-                                   
-                                     $data['tool_findings'] = $this->amendment_model->tool_findings($decoded_id);
+                                      $data['tool_findings'] = $this->amendment_model->tool_findings($decoded_id);
                                       $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
                                       $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
-
+                                      $data['acbl'] = $this->amendment_model->acbl($decoded_id);
                                       $data['amendment_id'] = $decoded_id;
                                       $this->load->view('templates/admin_header', $data);
                                       $this->load->view('documents/amendment_list_of_documents', $data);

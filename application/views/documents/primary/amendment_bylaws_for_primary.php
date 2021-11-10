@@ -18,7 +18,6 @@
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
   }
-  
   body
   {
       /*font-family: 'Bookman Old Style'; font-size: 12px; */

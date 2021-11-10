@@ -116,7 +116,6 @@
               }
 
           //end cooperative
-            
           // $proposedName2 =$proposedName;
         
          $proposedName_original = trim(preg_replace('/\s\s+/', ' ', $proposedName_original));
