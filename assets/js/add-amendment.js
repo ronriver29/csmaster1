@@ -174,11 +174,14 @@ $(function(){
           $("#cooperative_idss").val(cooperativeID);
           $("#typeOfCooperative_value").val(data.type_id);
 
-          if (data.coopTypes=='Multipurpose'){
+          var typestr = data.type_id;
+          var ctype = typestr.split(','); 
+          // alert(ctype.length);
+          ///Multipurpose
+          if (ctype.length > 1){
               count_id=1
               // var label = $('<label></label>').attr({'for': 'typeCooperative '}).text("Type of Cooperative");
-              var typestr = data.type_id;
-              var ctype = typestr.split(',');  
+              
             $.each(ctype, function(i,row) {
               
                 var c = count_id++;
@@ -783,6 +786,7 @@ $(function(){
 
   
   $('#amendmentAddForm #typeOfCooperative1').on('change', function(){
+
     $('#amendmentAddForm #addMoreSubclassBtn').prop("disabled",true);
     $("#amendmentAddForm #newNamess").prop("disabled",true);
     $('#amendmentAddForm select[name="majorIndustry[]"').each(function(index){

@@ -444,7 +444,7 @@ class amendment_model extends CI_Model{
         $data[] = $row['composition'];
       }
     }
-    $data = implode(',',$data);
+    // $data = implode(',',$data);
     return $data;
   }
 
@@ -803,15 +803,15 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15  order by amend_coop.
     // }
 
         // if($process>0 && $success ==$process)
-        if($success ==$process)
-        {
-        // if($this->db->insert_batch('amendment_uploaded_documents',$data_file)){
-        }
-        else
-        {
-          $this->db->trans_rollback();
-          return false;
-        }
+        // if($success ==$process)
+        // {
+        // // if($this->db->insert_batch('amendment_uploaded_documents',$data_file)){
+        // }
+        // else
+        // {
+        //   $this->db->trans_rollback();
+        //   return false;
+        // }
 
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
@@ -3152,7 +3152,7 @@ on regcoop.application_id = coop.id where regcoop.regNo ='$regNo'");
     $data =[];
     if($regNo !=NULL)
     {
-       $query = $this->db->query("select * from amend_coop where regNo = '$regNo' and status NOT IN(10,11,15)");
+       $query = $this->db->query("select * from amend_coop where regNo = '$regNo' and status NOT IN(15)");
       if($query->num_rows()>0)
       {
         return true;
@@ -3171,7 +3171,7 @@ where coop.users_id = '$user_id' and coop.status =15");
         foreach($query->result_array() as $row)
         {
             $reg_no = $row['regNo'];
-           $query = $this->db->query("select * from amend_coop where regNo = '$reg_no' and status NOT IN(10,11,15)");
+           $query = $this->db->query("select * from amend_coop where regNo = '$reg_no' and status NOT IN(15)");
             if($query->num_rows()>0)
             {
               return true;
