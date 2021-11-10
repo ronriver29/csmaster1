@@ -4134,6 +4134,7 @@ public function delete_pdf()
     $doc_type =  $this->input->post("doc_type_");
     $id=  $this->encryption->decrypt(decrypt_custom($this->input->post('pdfID')));
     $decoded_id =$this->encryption->decrypt(decrypt_custom($this->input->post('amendment_id')));
+    $amendment_id = $decoded_id;
     $filename= $this->input->post('file_name');
      // echo $id.' amendment_id: '.$decoded_id.' filename: '.$filename;
     $config['upload_path'] = UPLOAD_AMD_DIR;

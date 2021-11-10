@@ -1181,7 +1181,7 @@
                 <?php endif;?>
 
             <?php }//end else */?> 
-             
+              
                <?php if($status_document_cooptype && $ga_complete && $bod_sec_complete && $feasibity): ?>
                 <span class="badge badge-success">COMPLETE</span>
                 <?php else: ?>

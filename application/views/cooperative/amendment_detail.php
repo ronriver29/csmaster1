@@ -384,6 +384,13 @@
               </div>
             </div>
           </div>
+
+          <div class="row col-sm-12">
+            <div class="form-group">
+              <!-- FOR GA -->
+            </div>
+          </div>
+
           <div class="col-sm-12 offset-md-1 col-md-10 align-self-end">
             <div class="form-group">
               <div class="custom-control custom-checkbox text-center mt-2">

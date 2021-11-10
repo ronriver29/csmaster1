@@ -91,7 +91,7 @@
             $proposedName ='<strong>'.$proposedName.'</strong>';
           }
           ?>
-          <p class="font-weight-bold">BY-LAWS<br>OF<br></p><p><?= $proposedName?></p>
+          <p class="font-weight-bold">AMENDED BY-LAWS<br>OF<br></p><p><?= $proposedName?></p>
           
     </div>
   </div>
@@ -1343,7 +1343,7 @@ $minimum_paid_up_share_associate_3 ='';
     </div>
   </div>
   <?php 
-  if($coop_info->type_of_cooperative =='Transport' && $new_reg_coop){
+  if($coop_info->type_of_cooperative =='Transport'){
     $article8 = 'IX';
     $article9 = 'X';
     $article10 = 'XI';
@@ -1603,7 +1603,7 @@ $minimum_paid_up_share_associate_3 ='';
                 echo"<tr>";
             ?>
                     <td><?=$count.'. '.$cooperator['full_name']?></td>
-                     <td></td>
+                     <td>Signed</td>
             
               <?=$count++;?>
                 </tr>

@@ -1096,7 +1096,7 @@ class amendment extends CI_Controller{
                                 }
                                 // $data['status_document_one'] =$this->check_is_uploaded($decoded_id,1);
                                 // $data['status_document_two'] =$this->check_is_uploaded($decoded_id,2);
-                                $data['feasibity'] =$this->check_is_uploaded($decoded_id,3);
+                               
                                 // $data['status_books_of_account'] =$this->check_is_uploaded($decoded_id,4);
                                 $data['ga_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($decoded_id,19);
                                  $data['bod_sec_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($decoded_id,20);
@@ -1170,8 +1170,10 @@ class amendment extends CI_Controller{
                         $type_coop_array_ = explode(',',$data['coop_info']->type_of_cooperative);
                         $count_type = count($type_coop_array_);
                         $data['complete_position']=false;
+                         $data['feasibity'] =true;
                         if($count_type > 1)
                         {
+                           $data['feasibity'] =$this->check_is_uploaded($decoded_id,3);
                              if(in_array('Credit', $type_coop_array_) || in_array('Agriculture', $type_coop_array_))
                             {
                                $data['credit'] = $this->committee_model->check_position($decoded_id,"Credit");
