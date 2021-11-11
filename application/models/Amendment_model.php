@@ -2903,7 +2903,10 @@ public function check_if_denied($coop_id){
           $purposes_=false;
           $purposes_ = $this->compare_param($purposes_orig->content,$purposes->content);
           $purposes_ = 'false';
-          $this->commitee_others($amendment_id);
+
+
+          $committee_others = $this->commitee_others($amendment_id);
+
           if(strcasecmp($address, $address_orig)!=0)
           {
             $address1 = 'true';
@@ -2945,6 +2948,7 @@ public function check_if_denied($coop_id){
                     $act_upon_membership_days,
                     $additional_conditions_to_vote,  
                     $annual_regular_meeting_day, 
+                    $committee_others,
                     // $annual_regular_meeting_day_date,
                     // $annual_regular_meeting_day_venue, 
                     $members_percent_quorom,
@@ -3099,6 +3103,10 @@ on regcoop.application_id = coop.id where regcoop.regNo ='$regNo'");
          if(in_array('true',$array_boolean))
          {
           return 'true';
+         }
+         else
+         {
+          return 'false';
          }
       }   
   }
