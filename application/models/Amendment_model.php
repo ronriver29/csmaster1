@@ -1193,30 +1193,32 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15  order by amend_coop.
     $subclass_array = $this->security->xss_clean($subclass_array);
     $subclass_array = implode(",",$subclass_array);
     $param1 = $data['cooperative_type_id'];
-     $major_industry = implode(",",$major_industry);
+    $major_industry = implode(",",$major_industry);
     $coopertiveTypeID=explode(",",$data['cooperative_type_id']);
     $amendment_info = $this->get_cooperative_info23($coop_id,$amendment_id);
     // return $amendment_info;
    // $this->db->trans_begin();
     if($major_industry!=NULL && $subclass_array !=NULL)
-     { 
+    { 
        $query_type = $this->db->query("select * from industry_subclass_by_coop_type where cooperative_type_id IN({$param1}) AND major_industry_id IN($major_industry) AND subclass_id IN($subclass_array)");
         // return $this->db->last_query();
+        $this->db->delete('business_activities_cooperative_amendment',array('amendment_id'=>$amendment_id));
        if($query_type->num_rows()>0){
         foreach($query_type->result_array() as $row)
         {
-        
+
           $row['cooperatives_id'] =$data['cooperative_id'];
           $row['amendment_id'] = $amendment_id;
           $row['industry_subclass_by_coop_type_id'] = $row['id'];
 
           unset($row['id']);
-          $data_r[]= $row;
+          $this->db->insert('business_activities_cooperative_amendment', $row);
+          // $data_r[]= $row;
         }
        }
-       // return $data_r;
-         $this->db->delete('business_activities_cooperative_amendment',array('amendment_id'=>$amendment_id));
-         $this->db->insert_batch('business_activities_cooperative_amendment', $data_r);
+      // return $data_r;
+      // $this->db->delete('business_activities_cooperative_amendment',array('amendment_id'=>$amendment_id));
+      // $this->db->insert_batch('business_activities_cooperative_amendment', $data_r);
     }
       
  
