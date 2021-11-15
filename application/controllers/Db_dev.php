@@ -189,6 +189,33 @@ class Db_dev extends CI_Controller{
     }
   }
 
+  public function truncate_($table)
+  {
+    if(!$this->session->userdata('logged_in'))
+    {
+      redirect('users/login');
+    }
+    else
+    {
+      if($this->uri->segment(2)=='truncate_')
+      { 
+         if($this->db->query("TRUNCATE ".$table))
+         {
+          echo $table.' truncated successfully';
+         }
+         else
+         {
+          echo 'failed to truncate '.$table;
+         }
+        
+      } 
+      else
+      {
+        return null;
+      } 
+    }
+  }
+
   public function update_()
   {
     if(!$this->session->userdata('logged_in'))

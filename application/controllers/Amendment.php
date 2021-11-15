@@ -29,7 +29,7 @@ class amendment extends CI_Controller{
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
-        $user_id = $this->session->userdata('user_id');
+       /* $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
         if($this->session->userdata('client')){
           $data['title'] = 'List of Cooperatives';
@@ -149,7 +149,7 @@ class amendment extends CI_Controller{
             $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code); 
             $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
             $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
-             // $this->debug($data['list_cooperatives']);
+           
               $this->load->view('templates/admin_header', $data);
               $this->load->view('applications/list_of_amendment', $data);
               $this->load->view('applications/assign_admin_modal_amendment');
@@ -157,7 +157,7 @@ class amendment extends CI_Controller{
               $this->load->view('admin/revoke_privilege_supervisor_amendment');
               $this->load->view('templates/admin_footer');
           }
-        }
+        } */
       }
     }
 
@@ -812,6 +812,7 @@ class amendment extends CI_Controller{
                         }
                     }
 
+                    // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition));
                     if($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition)){
                       $this->session->set_flashdata('cooperative_success', 'Successfully updated basic information.');
                       redirect('amendment/'.$this->input->post('Amendment_ID'));
