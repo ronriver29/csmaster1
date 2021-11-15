@@ -29,7 +29,7 @@ class amendment extends CI_Controller{
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
-       /* $user_id = $this->session->userdata('user_id');
+        $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
         if($this->session->userdata('client')){
           $data['title'] = 'List of Cooperatives';
@@ -157,7 +157,7 @@ class amendment extends CI_Controller{
               $this->load->view('admin/revoke_privilege_supervisor_amendment');
               $this->load->view('templates/admin_footer');
           }
-        } */
+        }
       }
     }
 
