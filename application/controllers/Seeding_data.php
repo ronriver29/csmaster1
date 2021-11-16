@@ -11,59 +11,59 @@ class Seeding_data extends CI_Controller{
 
   public function index()
   {
-  	$data = array(
-  				array(
-  					'name' => 'Cooperative Bank',
-  					'active' => 1
-  				),
-  				array(
-  					'name' => 'Insurance Cooperative',
-  					'active' => 1
-  				),
-  				array(
-  					'name' => 'CSF',
-  					'active' => 1
-  				),
+    $data = array(
+          array(
+            'name' => 'Cooperative Bank',
+            'active' => 1
+          ),
+          array(
+            'name' => 'Insurance Cooperative',
+            'active' => 1
+          ),
+          array(
+            'name' => 'CSF',
+            'active' => 1
+          ),
 
-  	);
+    );
 
-  	if($this->db->insert_batch('head_office_coop_type',$data))
-  	{
-  		echo"Data seeded successfully";
+    if($this->db->insert_batch('head_office_coop_type',$data))
+    {
+      echo"Data seeded successfully";
 
-  	}
-  	else
-  	{
-  		echo"failed to seed data";
-  	}
+    }
+    else
+    {
+      echo"failed to seed data";
+    }
   }
 
   public function seed_luba()
   {
-  	$data = array(
-  		'id'=>1648,
-  		'psgcCode' => 140114000,
-  		'citymunDesc' => 'Luba',
-  		'regCode' => 014,
-  		'provCode' => 1401,
-  		'citymunCode' => 140114
-  	);
-  	if($this->db->insert('refcitymun',$data))
-  	{
-  		echo" Successfully added City of Luba";
-  	}
-  	else
-  	{
-  		echo "failed to seed data";
-  	}
+    $data = array(
+      'id'=>1648,
+      'psgcCode' => 140114000,
+      'citymunDesc' => 'Luba',
+      'regCode' => 014,
+      'provCode' => 1401,
+      'citymunCode' => 140114
+    );
+    if($this->db->insert('refcitymun',$data))
+    {
+      echo" Successfully added City of Luba";
+    }
+    else
+    {
+      echo "failed to seed data";
+    }
   }
 
   public function unseed_luba()
   {
-  	if($this->db->query('delete from refcitymun where id =1648'))
-  	{
-  		echo"successfully unseeded luba";
-  	}
+    if($this->db->query('delete from refcitymun where id =1648'))
+    {
+      echo"successfully unseeded luba";
+    }
   }
   public function seed_update_reg_officials()
   {
@@ -580,5 +580,630 @@ BARANGAY MAGSAYSAY, QUEZON CITY 1105',
         $this->db->trans_commit();
         echo 'success<br>';
       }
+  }
+
+  public function seed_amendment()
+  {
+    $data_amend_coop = Array
+            (
+            // [id] => 46
+            'cooperative_id' => 46836,
+            'regNo' => '9520-100400032084',
+            'amendmentNo' => 1,
+            'counter' => 0,
+            'users_id' => 1700,
+            'category_of_cooperative' => 'Primary',
+            'type_of_cooperative' => 'Credit',
+            'cooperative_type_id' => 1,
+            'grouping' => '',
+            'proposed_name' => 'Jungle Fighter',
+            'acronym' => 'JFCC',
+            'common_bond_of_membership' => 'Residential',
+            'comp_of_membership' => '',
+            'field_of_membership' =>'', 
+            'name_of_ins_assoc' => '',
+            'type' => 'Single',
+            'area_of_operation' => 'Provincial',
+            'refbrgy_brgyCode' => '045812012',
+            'interregional' =>'', 
+            'regions' => '',
+            'street' => 'Masalat Road',
+            'house_blk_no' => 'JMNHAI Village',
+            'status' => 1,
+            'evaluated_by' => 0,
+            'second_evaluated_by' => 0,
+            'third_evaluated_by' => 0,
+            'tool_yn_answer' => '',
+            'tool_remark' => '',
+            'tool_findings' => '',
+            'tool_comment' => '',
+            'evaluation_comment' => '',
+            'comment_by_specialist' => '',
+            'comment_by_senior' => '',
+            'temp_evaluation_comment' =>'',
+            'created_at' => '2021-11-15 01:00:43',
+            'updated_at' => '2021-11-15 01:00:43',
+            'expire_at' => '2021-11-19 01:00:43',
+            'ho' => 0,
+        );
+
+      $this->db->insert('amend_coop',$data_amend_coop);
+
+
+      $data_amendment_bylaws = Array
+        (
+            // 'id' => 53
+            'cooperatives_id' => 46836,
+            'amendment_id' => 1,
+            'amendmentNo' => '',
+            'kinds_of_members' => 2,
+            'additional_requirements_for_membership' => '',
+            'regular_qualifications' => 'Residing in the province of Rizal;Working in the province of Rizal;Working for an employer based in the province of Rizal',
+            'associate_qualifications' => 'Spouse and children of regular members aged 18 years old and above, not otherwise qualified as regular members',
+            'membership_fee' => 100,
+            'act_upon_membership_days' => 30,
+            'regular_percentage_shares_subscription' => '',
+            'regular_percentage_shares_pay' => '',
+            'associate_percentage_shares_subscription' => '',
+            'associate_percentage_shares_pay' => '',
+            'additional_conditions_to_vote' =>  'Not violated any provision of this By-laws, the terms and conditions of the subscription agreement, and the decisions, guidelines, rules and regulations promulgated by the Board of Directors and the general assembly.',
+            'annual_regular_meeting_day' => 'on or before march 30',
+            'annual_regular_meeting_day_date' => '2021-08-09',
+            'annual_regular_meeting_day_venue' => 'via Zoom/Online Meeting',
+            'delegate_powers' => '',
+            'members_percent_quorom' => 25,
+            'number_of_absences_disqualification' => 3,
+            'percent_of_absences_all_meettings' => 50,
+            'director_hold_term' => 2,
+            'member_invest_per_month' => 150,
+            'member_percentage_annual_interest' => 10,
+            'member_percentage_service' => 3,
+            'percent_reserve_fund' => 10,
+            'percent_education_fund' => 10,
+            'percent_community_fund' => 3,
+            'percent_optional_fund' => 7,
+            'non_member_patron_years' => 0,
+            'amendment_votes_members_with' => 'Voting Rights',
+            'primary_consideration' => '',
+            'type' => 'Special'
+        );
+        $this->db->insert('amendment_bylaws', $data_amendment_bylaws);
+
+      $data_articles = Array
+        (
+            // 'id' => 34
+            'cooperatives_id' => 46836,
+            'amendment_id' => 1,
+            'years_of_existence' => 50,
+            'directors_turnover_days' => 10,
+            'authorized_share_capital' => 100000000,
+            'common_share' => 750000,
+            'par_value_common' => 100,
+            'preferred_share' => 250000,
+            'par_value_preferred' => 100,
+            'guardian_cooperative' => 0,
+        );
+
+         $this->db->insert('amendment_articles_of_cooperation',$data_articles);
+       
+          $cooperator_arra = Array(
+
+          Array
+          (
+          // 'id] => 76880
+          'orig_cooperator_id' => 37121,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo' => '',
+          'full_name' => 'Tianzon, Janice Padilla',
+          'gender' => 'Female',
+          'birth_date' => '1979-05-28',
+          'house_blk_no' => '17',
+          'streetName' => 'ILANG ILANG ST',
+          'addrCode' => '137504019',
+          'position' => 'Member',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares' => 25000,
+          'number_of_paid_up_shares' => 5250,
+          'proof_of_identity' => 'Driver\'s License',
+          'proof_of_identity_number' => 'N25-17-024970',
+          'proof_date_issued' => '2017-10-11',
+          'place_of_issuance' => 'NCR',
+          'created_at' => '2021-03-17 07:47:15',
+          'updated_at' =>'2021-06-02 00:32:18'
+          ),
+          Array
+          (
+          // 'id] => 76881
+          'orig_cooperator_id' => 37128,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo' => '',
+          'full_name' => 'Ilocto, April Guerra',
+          'gender' => 'Female',
+          'birth_date' => '1996-04-02',
+          'house_blk_no' => '4775',
+          'streetName' => 'SANTOLAN ROAD',
+          'addrCode' => '137504011',
+          'position' => 'Member',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares' => 25000,
+          'number_of_paid_up_shares' => 5250,
+          'proof_of_identity' => 'PRC ID',
+          'proof_of_identity_number' => '0184521',
+          'proof_date_issued' => '2017-11-23',
+          'place_of_issuance' => 'NCR',
+          'created_at' => '2021-03-17 07:53:12',
+          'updated_at' => '2021-06-02 00:23:52'
+          ),
+          Array
+          (
+          // 'id' => 76882
+          'orig_cooperator_id' => 38127,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo' => '',
+          'full_name' => 'Jurane, Marvin Magalit',
+          'gender' => 'Male',
+          'birth_date' => '1970-07-11',
+          'house_blk_no' => 'Camp General Mateo Capinpin',
+          'streetName' => '',
+          'addrCode' => '045812012',
+          'position' => 'Member',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares' => 200,
+          'number_of_paid_up_shares' => 200,
+          'proof_of_identity' => 'Driver\'s License',
+          'proof_of_identity_number' => 'N03-074-000891',
+          'proof_date_issued' => '2018-07-11',
+          'place_of_issuance' => 'TANAY, RIZAL',
+          'created_at' => '2021-03-22 03:08:10',
+          'updated_at' => '2021-06-02 00:31:20',
+          ),
+          Array
+          (
+          // [id] => 76883
+          'orig_cooperator_id' => 38129,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo' => '',
+          'full_name'=> 'Bares, Erlinda Casale',
+          'gender' => 'Female',
+          'birth_date' => '1959-10-10',
+          'house_blk_no' => 'Camp General Mateo Capinpin',
+          'streetName' => '',
+          'addrCode' => '045812012',
+          'position' => 'Member',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares' => 200,
+          'number_of_paid_up_shares' => 200,
+          'proof_of_identity' => 'Senior Citizen\'s ID',
+          'proof_of_identity_number' => 'QUI-0294',
+          'proof_date_issued' => '2019-10-14',
+          'place_of_issuance' => 'Pililla RIZAL',
+          'created_at' => '2021-03-22 03:09:30',
+          'updated_at' => '2021-06-01 10:02:30'
+          ),
+          Array
+          (
+          // 'id] => 76884
+          'orig_cooperator_id' => 38141,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo' => '',
+          'full_name'=> 'Santos, Rodelio Villagracia',
+          'gender' => 'Male',
+          'birth_date' => '1959-03-03',
+          'house_blk_no' => '',
+          'streetName' => 'SO Cabalhin',
+          'addrCode' => '045812012',
+          'position' => 'Member',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares'=> 18550,
+          'number_of_paid_up_shares' => 300,
+          'proof_of_identity' => 'Driver\'s License',
+          'proof_of_identity_number' => 'A03-85-006723',
+          'proof_date_issued' => '2018-01-06',
+          'place_of_issuance' => 'RIZAL',
+          'created_at' => '2021-03-22 03:20:47',
+          'updated_at' => '2021-06-02 00:31:59'
+          ),
+          Array
+          (
+          // [id] => 76885
+          'orig_cooperator_id'=> 38161,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo' => '',
+          'full_name' => 'Percol, Rogelio Pornasdoro',
+          'gender' => 'Male',
+          'birth_date' => '1963-05-10',
+          'house_blk_no' => '',
+          'streetName' => 'JMNHAI Village Masalat Road',
+          'addrCode' => '045812012',
+          'position' => 'Member',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares' => 18550,
+          'number_of_paid_up_shares' => 300,
+          'proof_of_identity' => 'Driver\'s License',
+          'proof_of_identity_number' => 'E09-93-001106',
+          'proof_date_issued' => '2018-05-15',
+          'place_of_issuance' => 'ANTIPOLO RIZAL',
+          'created_at' => '2021-03-22 03:42:03',
+          'updated_at' => '2021-06-02 00:31:48'
+          ),
+          Array
+          (
+          // 'id' => 76886
+          'orig_cooperator_id' => 50261,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo' => '',
+          'full_name' => 'Gonzalez, Michael Ver',
+          'gender' => 'Male',
+          'birth_date' => '1960-12-16',
+          'house_blk_no' => '',
+          'streetName' => 'Sitio Mayagay',
+          'addrCode' => '045812012',
+          'position' => 'Vice-Chairperson',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares' => 25000,
+          'number_of_paid_up_shares' => 10000,
+          'proof_of_identity' => 'Passport',
+          'proof_of_identity_number' => 'P4584666A',
+          'proof_date_issued' => 'N/A',
+          'place_of_issuance' => 'NCR',
+          'created_at' => '2021-06-01 06:54:27',
+          'updated_at' => '2021-06-02 08:55:22'
+          ),
+          Array
+          (
+          // 'id' => 76887
+          'orig_cooperator_id' => 50262,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo' => '',
+          'full_name' => 'Tello, Rommel Kong',
+          'gender' => 'Male',
+          'birth_date' => '1967-09-16',
+          'house_blk_no' => 'Camp General Mateo Capinpin',
+          'streetName' => '',
+          'addrCode' => '045812012',
+          'position' => 'Chairperson',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares' => 200,
+          'number_of_paid_up_shares' => 200,
+          'proof_of_identity' => 'Driver\'s License',
+          'proof_of_identity_number' => 'C11-90-048175',
+          'proof_date_issued' => '2017-10-24',
+          'place_of_issuance' => 'QUEZON CITY',
+          'created_at' => '2021-06-01 06:56:01',
+          'updated_at' => '2021-06-01 06:56:01'
+          ),
+          Array
+          (
+          // [id] => 76888
+          'orig_cooperator_id' => 50355,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo' => '',
+          'full_name' => 'Cabangbang, Randolph Gonzalez',
+          'gender' => 'Male',
+          'birth_date' => '1968-10-22',
+          'house_blk_no' => 'Camp General Mateo Capinpin',
+          'streetName' =>'' ,
+          'addrCode' => '045812012',
+          'position' => 'Board of Director',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares' => 200,
+          'number_of_paid_up_shares' => 200,
+          'proof_of_identity' => 'Driver\'s License',
+          'proof_of_identity_number' => 'L02-01-148978',
+          'proof_date_issued' => '2017-07-04',
+          'place_of_issuance' => 'Tanay Rizal',
+          'created_at' => '2021-06-02 00:09:28',
+          'updated_at' => '2021-06-02 00:09:28'
+          ),
+          Array
+          (
+          // 'id' => 76889
+          'orig_cooperator_id' => 50356,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo' => '',
+          'full_name' => 'Dizon, Ramon Mateo Unson',
+          'gender' => 'Male',
+          'birth_date' => '1957-08-31',
+          'house_blk_no' => 'Daraitan Rd',
+          'streetName' => 'Sitio Hinadyungan',
+          'addrCode' => '045812012',
+          'position' => 'Board of Director',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares' => 25000,
+          'number_of_paid_up_shares' => 10000,
+          'proof_of_identity' => 'Driver\'s License',
+          'proof_of_identity_number' => 'K02-75-010667',
+          'proof_date_issued' => '2018-08-13',
+          'place_of_issuance' => 'NCR',
+          'created_at' => '2021-06-02 00:13:54',
+          'updated_at' => '2021-06-02 08:53:38',
+          ),
+          Array
+          (
+          'orig_cooperator_id' => 50357,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo'=> '',
+          'full_name' => "Gan, Precious Rochelle Ocaban",
+          'gender' => 'Female',
+          'birth_date' => '1990-12-07',
+          'house_blk_no' => '',
+          'streetName' => 'Sitio Malaanonang',
+          'addrCode' => '045812012',
+          'position' => 'Secretary',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares' => 25000,
+          'number_of_paid_up_shares' => 10000,
+          'proof_of_identity' => 'Driver\'s License',
+          'proof_of_identity_number' => 'N04-08-010177',
+          'proof_date_issued' => '2016-12-21',
+          'place_of_issuance' => 'NCR',
+          'created_at' => '2021-06-02 00:16:17',
+          'updated_at'=> '2021-06-02 00:16:17'
+          ),
+          Array
+          (
+          // 'id] => 76891
+          'orig_cooperator_id' => 50358,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo' => '',
+          'full_name' => 'Gan, Romeo Gali',
+          'gender' => 'Male',
+          'birth_date' => '1960-11-10',
+          'house_blk_no' =>'',
+          'streetName' => 'Sitio Malaanonang',
+          'addrCode' => '045812012',
+          'position' => 'Board of Director',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares' => 18550,
+          'number_of_paid_up_shares' => 300,
+          'proof_of_identity' => 'Driver\'s License',
+          'proof_of_identity_number' => 'A01-84-018960',
+          'proof_date_issued' => 'N/A',
+          'place_of_issuance' => 'Quezon City',
+          'created_at' => '2021-06-02 00:19:30',
+          'updated_at' => '2021-06-02 00:19:30'
+          ),
+          Array
+          (
+          // [id] => 76892
+          'orig_cooperator_id' => 50360,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo' => '',
+          'full_name' => 'Herradura, Luisa Gemelga',
+          'gender' => 'Female',
+          'birth_date' => '1997-11-14',
+          'house_blk_no' => '475 B17 L4',
+          'streetName' => 'Kabisig Floodway',
+          'addrCode' => '045805014',
+          'position' => 'Treasurer',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares' => 25000,
+          'number_of_paid_up_shares' => 10000,
+          'proof_of_identity' => 'TIN',
+          'proof_of_identity_number' => '743926920',
+          'proof_date_issued' => '2019-05-30',
+          'place_of_issuance' => 'Taytay, Rizal',
+          'created_at' => '2021-06-02 00:22:08',
+          'updated_at' => '2021-06-02 00:22:08',
+          )
+          ,
+          Array
+          (
+          // 'id] => 76893
+          'orig_cooperator_id' => 50363,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo' => '',
+          'full_name' => 'Isleta, Danilo Chad Dumlao',
+          'gender' => 'Male',
+          'birth_date'=> '1963-03-02',
+          'house_blk_no' => '',
+          'streetName' => 'Sitio Hinadyungan',
+          'addrCode' => '045812012',
+          'position' => 'Board of Director',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares' => 25000,
+          'number_of_paid_up_shares' => 10000,
+          'proof_of_identity' => 'Driver\'s License',
+          'proof_of_identity_number' => 'N17-82-002761',
+          'proof_date_issued' => 'N/A',
+          'place_of_issuance' => 'NCR',
+          'created_at' => '2021-06-02 00:30:57',
+          'updated_at' => '2021-06-02 08:54:26'
+          ),
+          Array
+          (
+          'orig_cooperator_id' => 50366,
+          'cooperatives_id' => 46836,
+          'amendment_id' => 1,
+          'amendmentNo' => '',
+          'full_name' => 'Visaya, Ricardo Ramoran',
+          'gender' => 'Male',
+          'birth_date' => '1960-12-08',
+          'house_blk_no' => '29',
+          'streetName' => 'Jasmin St Town and Country Exec VIillage',
+          'addrCode' => '045802004',
+          'position' => 'Board of Director',
+          'type_of_member' => 'Regular',
+          'number_of_subscribed_shares' => 18550,
+          'number_of_paid_up_shares' => 300,
+          'proof_of_identity' => 'Driver\'s License',
+          'proof_of_identity_number' => 'N03-89-074503',
+          'proof_date_issued' => 'N/A',
+          'place_of_issuance' => 'Rizal',
+          'created_at' => '2021-06-02 00:34:06',
+          'updated_at' => '2021-06-02 00:34:06'
+          )
+          );
+          $this->db->insert_batch('amendment_cooperators',$cooperator_arra);
+          
+        $data_capitalization = Array
+        (
+            'cooperatives_id' => 46836,
+            'amendment_id' => 1,
+            'regular_members' => 15,
+            'associate_members' => 0,
+            'authorized_share_capital' => 100000000,
+            'par_value' => 100,
+            'common_share' => 750000,
+            'preferred_share' => 250000,
+            'total_amount_of_subscribed_capital' => 25000000,
+            'total_no_of_subscribed_capital' => 250000,
+            'total_amount_of_paid_up_capital' => 6250000,
+            'total_no_of_paid_up_capital' => 62500,
+            'minimum_subscribed_share_regular' => 200,
+            'minimum_paid_up_share_regular' => 20,
+            'minimum_subscribed_share_associate' => 10,
+            'minimum_paid_up_share_associate' => 5,
+            'amount_of_common_share_subscribed'=> 0,
+            'amount_of_common_share_subscribed_pervalue' => 0,
+            'amount_of_preferred_share_subscribed' => 0,
+            'amount_of_preferred_share_subscribed_pervalue' => 0,
+            'amount_of_common_share_paidup' => 0,
+            'amount_of_common_share_paidup_pervalue' => 0,
+            'amount_of_preferred_share_paidup' => 0,
+            'amount_of_preferred_share_paidup_pervalue' => 0
+        );
+         $this->db->insert('amendment_capitalization',$data_capitalization);
+
+         $data_business =  Array
+        (
+            // [id] => 94
+            'cooperatives_id'=> 46836,
+            'amendment_id' => 1,
+            'industry_subclass_by_coop_type_id' => 1613,
+            'cooperative_type_id' => 24,
+            'major_industry_id' => 64,
+            'subclass_id' => 64993
+        );
+        $this->db->insert('business_activities_cooperative_amendment',$data_business);
+
+        $data_purpose = Array
+        (
+            // 'id' => 21
+            'cooperatives_id' => 46836,
+            'amendment_id' => 1,
+            'cooperative_type' => 'Credit',
+            'content' => "Encouraging thriftiness and assisting members to attain financial stability through periodic savings and disciplined financing among members;Generating funds and extending credit to members for productive and providential purposes while ensuring financial and organizational stability through good 
+administration and wise management of financial, human, and other resources;Actively supporting the government, other Cooperatives and people-oriented organizations, both local and foreign, in promoting Cooperatives as a practical means towards sustainable socio-economic development under a truly just and democratic society;Developing dynamic savings mobilization and capital build-up schemes to sustain its developmental activities and long-term investments, thereby ensuring optimum economic benefits to the members, their families, and the community;Implementing policy guidelines that will ensure transparency, accountability and equitable access to its resources and services;Promoting the interests of the members;Adopting such other plans as may help foster the welfare of the members, their families, and the community."
+        );
+
+         $this->db->insert('amendment_purposes',$data_purpose);
+
+         $data_committees =Array
+                    (
+                        Array
+                            (
+                                // 'id' => 325,
+                                'orig_committee_id' => 14801,
+                                'user_id' => 1700,
+                                'name' => 'Credit',
+                                'created_at' => '2021-03-23 01:49:41',
+                                'updated_at' => '2021-03-23 01:49:41',
+                                'orig_cooperators_id' => 37121,
+                                'amendment_cooperators_id' => 1,
+                                'amendment_id'=> 1,
+                                'func_and_respons' => '',
+                                'type' => '',
+                                'cooperative_id' => 46836,
+                                'fullname' => ''
+                            ),
+                             Array
+                            (
+                                // 'id' => 326
+                                'orig_committee_id' => 14805,
+                                'user_id' => 1700,
+                                'name' => 'Audit',
+                                'created_at' => '2021-03-23 01:50:47',
+                                'updated_at' => '2021-03-23 01:50:47',
+                                'orig_cooperators_id' => 37128,
+                                'amendment_cooperators_id' => 2,
+                                'amendment_id' => 1,
+                                'func_and_respons' => '',
+                                'type' => '',
+                                'cooperative_id' => 46836,
+                                'fullname' => '',
+                            ),
+                            Array
+                            (
+                                // 'id' => 327
+                                'orig_committee_id' => 19285,
+                                'user_id' => 1700,
+                                'name' => 'Mediation and Conciliation',
+                                'created_at' => '2021-06-01 08:48:41',
+                                'updated_at' => '2021-06-01 09:04:03',
+                                'orig_cooperators_id' => 38127,
+                                'amendment_cooperators_id' => 3,
+                                'amendment_id' => 1,
+                                'func_and_respons' => '',
+                                'type' => '',
+                                'cooperative_id' => 46836,
+                                'fullname' => ''
+                            ),
+                            Array
+                            (
+                                // [id] => 328
+                                'orig_committee_id' => 19287,
+                                'user_id' => 1700,
+                                'name' => 'Ethics',
+                                'created_at' => '2021-06-01 09:05:05',
+                                'updated_at' => '2021-06-01 09:05:05',
+                                'orig_cooperators_id' => 38129,
+                                'amendment_cooperators_id' => 4,
+                                'amendment_id' => 1,
+                                'func_and_respons' => '',
+                                'type' => '',
+                                'cooperative_id' => 46836,
+                                'fullname' => '',
+                            ),
+                             Array
+                            (
+                                // 'id' => 329,
+                                'orig_committee_id' => 14807,
+                                'user_id' => 1700,
+                                'name' => 'Election',
+                                'created_at' => '2021-03-23 01:53:12',
+                                'updated_at' => '2021-03-24 05:31:02',
+                                'orig_cooperators_id' => 38161,
+                                'amendment_cooperators_id' => 6,
+                                'amendment_id' => 1,
+                                'func_and_respons' => '',
+                                'type' => '',
+                                'cooperative_id' => 46836,
+                                'fullname' => ''
+                            ),
+                             Array
+                            (
+                                // [id] => 330
+                                'orig_committee_id' => 19300,
+                                'user_id' => 1700,
+                                'name' => 'Gender and Development',
+                                'created_at' => '2021-06-02 00:35:01',
+                                'updated_at' => '2021-06-02 00:35:01',
+                                'orig_cooperators_id' => 50358,
+                                'amendment_cooperators_id' => 12,
+                                'amendment_id' => 1,
+                                'func_and_respons' => '',
+                                'type' => '',
+                                'cooperative_id' => 46836,
+                                'fullname' => ''
+                            )
+
+                    );
+
+                  $this->db->insert_batch('amendment_committees',$data_committees);
   }
 }
