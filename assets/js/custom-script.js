@@ -697,8 +697,8 @@ $("#deleteStaffForm").validationEngine('attach',
               $('#addCommitteeForm #cooperatorID').on('change', function(){
                 $("#addCommitteeForm .ac-info-row input,textarea").val("");
                 if($(this).val() && $(this).val().length >0){
-                 var cooperator_id = $(this).val() ;
-          // alert(cooperator_ID);
+					       var cooperator_id = $(this).val() ;
+					// alert(cooperator_ID);
                   $.ajax({
                       type : "POST",
                       url  : "../cooperators/get_post_cooperator_info",
@@ -2754,7 +2754,7 @@ function validateActivityInNameUpdateCustom(field, rules, i, options){
 function validateCooperativeWordInNameCustom(field, rules, i, options){
   let tempName = $.trim($(field).val());
   if(tempName.length >0){
-    var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa|cooperatiba|advocacy|Agrarian Reform|Agriculture|Bank|Consumers| Credit|Credit |Dairy|Education|Electric|Financial Service|Fishermen|Health Service|Housing|Insurance|Labor Service|Marketing|Producers|Professionals|Service|Small Scale Mining|Transport|Water Service|Workers|Union|federation', 'i');
+    var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa|cooperatiba|advocacy|Agrarian Reform|Agriculture| Bank |Consumers| Credit|Credit |Dairy|Education|Electric|Financial Service|Fishermen|Health Service|Housing|Insurance|Labor Service|Marketing|Producers|Professionals|Service|Small Scale Mining|Transport|Water Service|Workers|Union|federation', 'i');
     var result = checkName.test(tempName);
     // alert( result);
     if(result == 'Accredited' || result =='accredited')
@@ -2774,7 +2774,7 @@ function validateAmendmentWordInNameCustom(field, rules, i, options){
   let tempName = $.trim($(field).val());
   if(tempName.length >0){
     // var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa| Credit|Credit |cooperatiba|agriculture|Consumers|advocacy|Dairy|Education|Electric|multipurpose|multi-purpose', 'i');
-     var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa|cooperatiba|advocacy|Agrarian Reform|Agriculture|Bank|Consumers| Credit|Credit |Dairy|Education|Electric|Financial Service|Fishermen|Health Service|Housing|Insurance|Labor Service|Marketing|Producers|Professionals|Service|Small Scale Mining|Transport|Water Service|Workers|multipurpose|multi-purpose|Union|federation', 'i');
+     var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa|cooperatiba|advocacy|Agrarian Reform|Agriculture| Bank |Consumers| Credit|Credit |Dairy|Education|Electric|Financial Service|Fishermen|Health Service|Housing|Insurance|Labor Service|Marketing|Producers|Professionals|Service|Small Scale Mining|Transport|Water Service|Workers|multipurpose|multi-purpose|Union|federation', 'i');
     var result = checkName.test(tempName);
         if(result){
           return options.allrules.validateAmendment_proposed_name.alertText;
