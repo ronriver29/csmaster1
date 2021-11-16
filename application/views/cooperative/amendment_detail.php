@@ -81,9 +81,9 @@
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
                     <option value="">--</option>
                     <option value="Primary">Primary</option>
-                    <option value="Secondary">Secondary</option>
+                    <?php /*<option value="Secondary">Secondary</option>
                     <option value="Tertiary">Tertiary</option>
-                     <option value="Others">Others</option>
+                     <option value="Others">Others</option> */?>
                   </select>
                 </div>
               </div>
