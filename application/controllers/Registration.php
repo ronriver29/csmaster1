@@ -43,7 +43,7 @@ class registration extends CI_Controller{
             $acronymname = '';
         }
       }
-      // $this->debug($coop_info);
+     
       if ($coop_info->status==14){
         if(!$this->registration_model->register_coop($decoded_id,$coop_info,$pst,$acronymname))
         {
@@ -140,11 +140,11 @@ class registration extends CI_Controller{
         $this->db->from('head_office_coop_type');
       // End Get Count Coop Type
       if($this->db->count_all_results()>0){
-        $data1['director']=$this->registration_model->get_director("00");
+        $data1['director']=$this->registration_model->get_director($coop_info->third_evaluated_by);
       } else {
-        $data1['director']=$this->registration_model->get_director($data1['coop_info']->rCode);
-      }echo $this->db->last_query();
-      var_dump($data1['director']);
+        $data1['director']=$this->registration_model->get_director($coop_info->third_evaluated_by);
+      }
+   
           set_time_limit(0);
 
        $data1['date_year']= date('Y',strtotime($data1['coop_info']->dateofor));
@@ -169,13 +169,13 @@ class registration extends CI_Controller{
      
 
          // $html2 = $this->load->view('cooperative/cor_view', $data1);
-         // $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);
-         //   $J = new pdf();       
-         //   $J->set_option('isRemoteEnabled',TRUE);
-         //   $J->setPaper('folio', 'portrait');
-         //   $J->load_html($html2);
-         //   $J->render();
-         //   $J->stream("certificate.pdf", array("Attachment"=>0));
+         $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);
+           $J = new pdf();       
+           $J->set_option('isRemoteEnabled',TRUE);
+           $J->setPaper('folio', 'portrait');
+           $J->load_html($html2);
+           $J->render();
+           $J->stream("certificate.pdf", array("Attachment"=>0));
     }
   }
   public function OrdinalIndicator($dateRegistered)

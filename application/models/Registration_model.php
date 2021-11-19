@@ -9,6 +9,12 @@ class registration_model extends CI_Model{
     //Codeigniter : Write Less Do More
     $this->load->database();
   }
+
+  public function get_cooperative_details($coop_id)
+  {
+    $query = $this->db->get_where('cooperatives',array('id'=>$coop_id));
+    return $query->row();
+  }
   public function register_branch($type,$branch_id,$rCode,$pst,$branchsatellite,$coopName,$branchName,$subaddcode){
     $this->db->trans_begin();
     $x=$this->registered_branch_count($coopName,$branchsatellite,$subaddcode);
@@ -310,7 +316,8 @@ class registration_model extends CI_Model{
     }
     else
     {
-      $query2 = $this->db->get_where('admin',array('access_level'=>3,'access_name'=>"Acting Regional Director",'id'=>$id));
+      // $query2 = $this->db->get_where('admin',array('access_level'=>3,'access_name'=>"Acting Regional Director",'id'=>$id));
+       $query2 = $this->db->get_where('admin',array('access_level'=>3,'id'=>$id));
       if($query2->num_rows()>0)
       {
          return $query2->row();
