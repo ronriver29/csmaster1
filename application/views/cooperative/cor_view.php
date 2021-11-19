@@ -422,7 +422,7 @@ You are further enjoined to file a copy of your Cooperative Annual Performance R
 Lastly, if you have any concern/issue about your cooperative, please feel free to communicate with us. It is our pleasure to share with you our knowledge and experience.
 <br/><br/>
 Very truly yours,<br/>
-<br/> <?php var_dump($director);?>
+<br/> 
 <?php // Get Count Coop Type for HO
     $this->db->where(array('name'=>$coop_info->type_of_cooperative,'active'=>1));
     $this->db->from('head_office_coop_type');
