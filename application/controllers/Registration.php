@@ -143,7 +143,8 @@ class registration extends CI_Controller{
         $data1['director']=$this->registration_model->get_director("00");
       } else {
         $data1['director']=$this->registration_model->get_director($data1['coop_info']->rCode);
-      }
+      }echo $this->db->last_query();
+      var_dump($data1['director']);
           set_time_limit(0);
 
        $data1['date_year']= date('Y',strtotime($data1['coop_info']->dateofor));
@@ -165,8 +166,8 @@ class registration extends CI_Controller{
           $data1['chartered_cities'] =$this->charter_model->get_charter_city($data1['coop_info']->cCode);
         }
         $data1['memory_usage'] = memory_get_usage();
-       $this->debug($data1['director']);
-       echo $this->db->last_query();
+     
+
          // $html2 = $this->load->view('cooperative/cor_view', $data1);
          // $html2 = $this->load->view('cooperative/cor_view', $data1, TRUE);
          //   $J = new pdf();       
