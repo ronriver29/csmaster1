@@ -105,7 +105,7 @@ class registration extends CI_Controller{
         $codeContents .= $coop_details->regNo;
         $codeContents .= "\n";
         $codeContents .= "Date Registered:";
-        $codeContents .= $coop_details->dateRegistered;
+        $codeContents .= $coop_details->dateofor;
 
         $params['data'] = $codeContents;
         $params['level'] = 'H';
@@ -142,9 +142,8 @@ class registration extends CI_Controller{
       if($this->db->count_all_results()>0){
         $data1['director']=$this->registration_model->get_director("00");
       } else {
-        $data1['director']=$this->registration_model->get_director($data1['coop_info']->third_evaluated_by);
+        $data1['director']=$this->registration_model->get_director($data1['coop_info']->rCode);
       }
-      $data1['last_query'] = $this->db->last_query();
           set_time_limit(0);
 
        $data1['date_year']= date('Y',strtotime($data1['coop_info']->dateofor));
