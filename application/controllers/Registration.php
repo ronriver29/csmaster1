@@ -105,7 +105,7 @@ class registration extends CI_Controller{
         $codeContents .= $coop_details->regNo;
         $codeContents .= "\n";
         $codeContents .= "Date Registered:";
-        $codeContents .= $coop_details->dateofor;
+        $codeContents .=  date('d-m-Y',strtotime($coop_details->dateofor));
 
         $params['data'] = $codeContents;
         $params['level'] = 'H';

@@ -66,6 +66,7 @@ class Amendment_registration extends CI_Controller{
               'amendment_no'=>$amendment_no,
               'category'=> $coop_info->category_of_cooperative,
               'type'=> $coop_info->type_of_cooperative,
+              'date_printed'=> date('m-d-Y',now('Asia/Manila')),
               'dateRegistered'=>$coop_info->dateRegistered,
               'commonBond'=> $coop_info->common_bond_of_membership,
               'areaOfOperation'=>$coop_info->area_of_operation,
