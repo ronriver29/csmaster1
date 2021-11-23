@@ -432,7 +432,7 @@ $minimum_paid_up_share_associate_3 ='';
               $members_additional_conditions_to_vote_orig[$key]=null;
             }
             $condition_orig = $members_additional_conditions_to_vote_orig[$key];
-            if($condition_orig!=$condition)
+           if(strcasecmp(trim(preg_replace('/[\t\n\r\s]+/', ' ',$condition_orig)),trim(preg_replace('/[\t\n\r\s]+/', ' ',$condition)))!=0)
             {
               $condition='<strong>'.$condition.'</strong>';
             }

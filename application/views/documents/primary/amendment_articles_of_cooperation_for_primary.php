@@ -220,7 +220,6 @@
               {
                   array_push($new_content,'<b>'.$content_.'</b>');
               }  
-             
             }
             
             $new_content = array_reverse($new_content);
