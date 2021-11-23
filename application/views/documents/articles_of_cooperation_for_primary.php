@@ -177,7 +177,7 @@ if($coop_info->status != 12){
           $created_at_2 = date('Y-m-d',strtotime($coop_info->created_at));
           $effectivity_date_2 = date('2021-11-11');
 
-          echo $created_at_2.'>'.$effectivity_date_2;
+          // echo $created_at_2.'>'.$effectivity_date_2;
           if($created_at_2 >= $effectivity_date_2 && $article_info->guardian_cooperative == 1){
             echo '<li>To act as Guardian Cooperative and accept the responsibilities of supervising and monitoring the activities of the Laboratory Cooperative and act in its behalf in dealings with third parties when capacity to contract is required.</li>';
           } else if(($created_at_2 < $effectivity_date_2 && $article_info->guardian_cooperative == 1) || ($created_at_2 < $effectivity_date_2 && $article_info->guardian_cooperative == 0)){
