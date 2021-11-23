@@ -270,8 +270,9 @@
                 </td>
                 <td><span class="badge badge-secondary">REGISTERED</span></td>
                 <td>
-                    <?php if($laboratory1['status']==21): ?>
-                        <a href="<?php echo base_url();?>laboratories/<?= encrypt_custom($this->encryption->encrypt($laboratory1['id'])) ?>/laboratories_registration" class="btn btn-info"><i class='fas fa-print'></i> Print Registration</a>
+                    <?php if($laboratory1['status']==21): ?><center>
+                      <a href="<?php echo base_url();?>laboratories/<?= encrypt_custom($this->encryption->encrypt($laboratory1['coop_id'])) ?>/laboratory_registered" class="btn btn-warning" style="color:white;width:70%;"><i class='fas fa-eye'></i> View More </a>
+                        <a href="<?php echo base_url();?>laboratories/<?= encrypt_custom($this->encryption->encrypt($laboratory1['id'])) ?>/laboratories_registration" class="btn btn-info"><i class='fas fa-print'></i> Print Registration</a></center>
                     <?php endif; ?>
                 </td>
           </tbody>

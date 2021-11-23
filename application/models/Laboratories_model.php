@@ -32,7 +32,7 @@ class laboratories_model extends CI_Model{
     return $query->result_array();
   }
 
-	//modify by json
+  //modify by json
   public function get_coopID($reg_no)
   {
     $qry = $this->db->get_where('registeredcoop',array('regNo'=>$reg_no));
@@ -62,7 +62,7 @@ class laboratories_model extends CI_Model{
     }
     return $data;
   }
-	
+  
   //modify by json
   public function check_submitted_doc($coopID,$labID,$docType)
   {
@@ -123,6 +123,20 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->join('registeredcoop','registeredcoop.application_id=laboratories.cooperative_id','inner');
     $this->db->where('laboratories.user_id', $user_id);
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+
+  public function get_all_laboratories_registered($regno){
+    $this->db->select('laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, coopName');
+    $this->db->from('laboratories');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = laboratories.addrCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->join('registeredcoop','registeredcoop.application_id=laboratories.cooperative_id','inner');
+    $this->db->where('laboratories.coop_id', $regno);
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
@@ -1053,6 +1067,10 @@ public function check_submitted_for_evaluation($labID){
   {
       return true;
   }
+   elseif($status ==21)
+  {
+      return true;
+  }
     elseif($status ==24)
   {
       return true;
@@ -1269,7 +1287,13 @@ public function get_cooperative_info_by_admin($coop_id){
     $query = $this->db->get();
     return $query->row();
   }
-  
+  public function get_laboratory_registered_info($regno){
+    $this->db->select('*');
+    $this->db->from('laboratories');
+    $this->db->where(array('coop_id'=>$regno));
+    $query = $this->db->get();
+    return $query->row();
+  }
   public function get_registered_laboratories($regcode){
     $query = $this->db->query('select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories 
   inner join refbrgy on refbrgy.brgyCode = laboratories.addrCode
@@ -1279,7 +1303,7 @@ public function get_cooperative_info_by_admin($coop_id){
     inner join registeredcoop on laboratories.coop_id = registeredcoop.regNo
     inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
     where x.regCode like "'.$regcode.'%"
-    and laboratories.status in (21)
+    and laboratories.status in (21) GROUP BY laboratories.coop_id
 ');
     $data = $query->result_array();
     return $data;

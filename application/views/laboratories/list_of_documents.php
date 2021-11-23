@@ -12,14 +12,17 @@
 
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
-    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>laboratories/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
-
+    <?php if($lab_info->status !=21) { ?>
+      <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>laboratories/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php } else { ?>
+      <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>laboratories/<?= encrypt_custom($this->encryption->encrypt($lab_info->coop_id)) ?>/laboratory_registered" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php } ?>
     <?php if($is_client) : ?>
     <h5 class="text-primary text-right" >
       Step 9
     </h5>
   <?php else :?>
-    <?php if($admin_info->access_level !=5 && $lab_info->status !=24) : ?>
+    <?php if($admin_info->access_level !=5 && $lab_info->status !=24 && $lab_info->status !=21) : ?>
       <div class="btn-group float-right" role="group" aria-label="Basic example">
         <!--<a  class="btn btn-info btn-sm" href="<?php echo base_url();?>laboratories/<?= $encrypted_id ?>/laboratories_cooperative_tool">Tool</a>-->
 

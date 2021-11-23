@@ -391,7 +391,7 @@
               </small>
             <?php endif ?>
 
-            <?php if($branch_info->status>=20 && $branch_info->status != 24): ?>
+            <?php if($branch_info->status>=20 && $branch_info->status != 24 && $branch_info->status != 20 && $branch_info->status != 21): ?>
               <?php echo form_open('laboratories_payments_branch/add_payment',array('id'=>'paymentForm','name'=>'paymentForm')); ?>
 
               <?php
