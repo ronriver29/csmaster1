@@ -207,7 +207,7 @@
               if(isset($content_array_orign[$keys]))
               {
                 // echo $content_array_orign[$keys].'<br> '.$content_.'<br>';
-                 if(strcasecmp($content_array_orign[$keys],$content_)!=0)
+                 if(strcasecmp(trim(preg_replace('/[\t\n\r\s]+/', ' ',$content_array_orign[$keys])),trim(preg_replace('/[\t\n\r\s]+/', ' ',$content_)))!=0)
                   {
                     array_push($new_content,'<b>'.$content_.'</b>');
                   }
@@ -219,8 +219,10 @@
               else
               {
                   array_push($new_content,'<b>'.$content_.'</b>');
-              }   
+              }  
+             
             }
+            
             $new_content = array_reverse($new_content);
             array_push($new_purposes,array('type'=>$purpose['cooperative_type'],'content'=>$new_content));
           }
