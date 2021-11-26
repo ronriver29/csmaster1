@@ -71,15 +71,6 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     }
 
   }
-  public function fedpayment($payorname){
-    $this->db->select('*');
-    $this->db->from('payment');
-    $this->db->where('payor', $payorname);
-    $query = $this->db->get();
-    $data = $query->result_array();
-    return $data;
-  }
-
   public function get_registeredcoop($user_id){
     $this->db->select('*');
     $this->db->from('registeredcoop');
@@ -372,8 +363,6 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->like('refregion.regCode', $regcode);
     $this->db->where('cooperatives.status = 15 AND cooperatives.type_of_cooperative NOT IN ('.$typeofcoopimp.')');
-    $this->db->order_by('regNo', 'ASC');
-    $this->db->group_by('coopName');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
@@ -1308,12 +1297,8 @@ public function approve_by_supervisor($admin_info,$coop_id,$coop_full_name){
 }
 public function approve_by_director($admin_info,$coop_id){
   $coop_id = $this->security->xss_clean($coop_id);
-  $this->db->select('cooperatives.proposed_name, cooperatives.type_of_cooperative, cooperatives.grouping, users.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+  $this->db->select('cooperatives.proposed_name, cooperatives.type_of_cooperative, users.*');
   $this->db->from('cooperatives');
-  $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
-  $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
-  $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-  $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
   $this->db->join('users' , 'users.id = cooperatives.users_id','inner');
   $this->db->where('cooperatives.id', $coop_id);
   $query = $this->db->get();
@@ -1325,56 +1310,12 @@ public function approve_by_director($admin_info,$coop_id){
     $this->db->trans_rollback();
     return false;
   }else{
-    if($client_info['grouping'] == 'Federation'){
-      $data['admin_info'] = $this->admin_model->get_admin_info($admin_info->id);
-
-      if(!empty($client_info['acronym_name'])){ 
-          $acronym_name = '('.$client_info['acronym_name'].') ';
-      } else {
-          $acronym_name = '';
-      }
-
-      $coopname = ucwords($client_info['proposed_name'].' '.$client_info['type_of_cooperative'] .' Cooperative '.$acronym_name);
-
-      if($client_info['house_blk_no']==null && $client_info['street']==null) $x=''; else $x=', ';
-      $addresscoop = $client_info['house_blk_no'].' '.$client_info['street'].$x.' '.$client_info['brgy'].', '.$client_info['city'].', '.$client_info['province'].' '.$client_info['region'];
-
-      if($this->admin_model->sendEmailToClientApproveFederation($client_info['proposed_name'],$client_info['email'],$data['admin_info'],$coopname,$addresscoop)){
-        $this->db->trans_commit();
-        return true;
-      }else{
-        $this->db->trans_rollback();
-        return false;
-      }
-    } else if($client_info['grouping'] == 'Union'){
-      $data['admin_info'] = $this->admin_model->get_admin_info($admin_info->id);
-
-      if(!empty($client_info['acronym_name'])){ 
-          $acronym_name = '('.$client_info['acronym_name'].') ';
-      } else {
-          $acronym_name = '';
-      }
-
-      $coopname = ucwords($client_info['proposed_name'].' '.$client_info['type_of_cooperative'] .' Cooperative '.$acronym_name);
-      
-      if($client_info['house_blk_no']==null && $client_info['street']==null) $x=''; else $x=', ';
-      $addresscoop = $client_info['house_blk_no'].' '.$client_info['street'].$x.' '.$client_info['brgy'].', '.$client_info['city'].', '.$client_info['province'].' '.$client_info['region'];
-      
-      if($this->admin_model->sendEmailToClientApproveUnion($client_info['proposed_name'],$client_info['email'],$data['admin_info'],$coopname,$addresscoop)){
-        $this->db->trans_commit();
-        return true;
-      }else{
-        $this->db->trans_rollback();
-        return false;
-      }
-    } else {
-      if($this->admin_model->sendEmailToClientApprove($client_info['proposed_name'],$client_info['email'])){
-        $this->db->trans_commit();
-        return true;
-      }else{
-        $this->db->trans_rollback();
-        return false;
-      }
+    if($this->admin_model->sendEmailToClientApprove($client_info['proposed_name'],$client_info['email'])){
+      $this->db->trans_commit();
+      return true;
+    }else{
+      $this->db->trans_rollback();
+      return false;
     }
   
       $this->db->trans_commit();
