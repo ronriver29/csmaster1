@@ -390,7 +390,8 @@ ini_set('output_buffering', true); // no limit
 <img class="center" src="<?=APPPATH?>../assets/img/cda2_edited.png" style="padding-top:30px;text-align: justify; font-family: Calibri,sans-serif; font-size: 12.5px;background-repeat: no-repeat; background-position: center;margin-left:140px;margin-top:310px;padding-bottom: 60px;">
 <div>
 <p >
-<?=date("F d, Y", strtotime( (substr($coop_info->dateRegistered,3,2).'-'.substr($coop_info->dateRegistered,0,2).'-'.substr($coop_info->dateRegistered,6,4) ) ) ); ?><br/>
+<?php $dateReg = substr($coop_info->dateRegistered,5,2).'-'.substr($coop_info->dateRegistered,8,2).'-'.substr($coop_info->dateRegistered,0,4)?><br>
+<?=date("F d, Y", strtotime( (substr($dateReg,3,2).'-'.substr($dateReg,0,2).'-'.substr($dateReg,6,4) ) ) ); ?><br>
 <br/>
 <b>THE BOARD OF DIRECTORS</b><br/>
 <?=$coop_info->coopName?><br/>
