@@ -53,11 +53,11 @@ class Article_of_Cooperation_model extends CI_Model{
         return false;
       }
     }else{
-      if($counter<=1){
+      if($counter<=2){
         $temp = $this->cooperator_model->get_total_regular($article_coop_id);
         $temp2 = $this->cooperator_model->get_total_associate($article_coop_id);
         $tempGrandTotal = ($data2->common_share * $data2->par_value_common) + ($data2->preferred_share * $data2->par_value_preferred);
-        if($data2->common_share >= $temp['total_subscribed'] && $data2->preferred_share >= $temp2['total_subscribed']){
+        if($data2->common_share >= $temp['total_subscribed']){
           return true;
         }else{
           return false;
