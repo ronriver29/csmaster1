@@ -8,7 +8,7 @@ CHANGE COLUMN `dateRegistered` `date_printed` VARCHAR(10) NOT NULL");
        $this->db->query("ALTER TABLE registeredcoop ADD COLUMN dateRegistered VARCHAR(10) DEFAULT NULL AFTER date_printed");
 
         $this->db->query("UPDATE registeredcoop JOIN cooperatives ON registeredcoop.application_id = cooperatives.id SET registeredcoop.dateRegistered = cooperatives.date_of_or");
-     $this->db->query("UPDATE registeredcoop SET dateRegistered=date_printed WHERE char_length(dateRegistered) = 0 OR dateRegistered is NULL");
+     $this->db->query("UPDATE registeredcoop SET dateRegistered=date_printed WHERE char_length(dateRegistered) = 0 OR dateRegistered is NULL OR dateRegistered ='0000-00-00'");
     }
 
     public function down()
