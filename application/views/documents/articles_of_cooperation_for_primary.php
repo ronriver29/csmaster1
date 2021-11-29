@@ -175,7 +175,7 @@ if($coop_info->status != 12){
         <li>To exercise such other powers granted under RA 9520 or necessary to carry out its purposes as stated in this Articles of Cooperation. </li>
         <?php
           $created_at_2 = date('Y-m-d',strtotime($coop_info->created_at));
-          $effectivity_date_2 = date('2021-11-11');
+          $effectivity_date_2 = date('2021-11-29');
 
           // echo $created_at_2.'>'.$effectivity_date_2;
           if($created_at_2 >= $effectivity_date_2 && $article_info->guardian_cooperative == 1){
