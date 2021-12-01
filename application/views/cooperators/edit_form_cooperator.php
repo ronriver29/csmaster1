@@ -189,6 +189,7 @@
                   </select>
                 </div>
               </div>  
+              <input type="hidden" class="form-control validate[required]" name="barangay" value="<?=$coop_info->bCode?>">
             </div>
           </div>
 
