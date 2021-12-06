@@ -12,23 +12,45 @@ class Amendment_forpayment extends CI_Controller{
   function index($id = null)
   {
     $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
-    $this->db->delete('payment',array('amendment_id'=>$decoded_id));
+    // $this->db->delete('payment',array('amendment_id'=>$decoded_id));
     $data_payment = array(
             'date' => date('Y-m-d h:i:s',now('Asia/Manila')),
             'amendment_id' => $decoded_id
     );
-    $this->db->insert('payment',$data_payment);
-    $items['status'] = '16';
-    if($this->db->where("id",$decoded_id)->update("amend_coop",$items)) {
-    
-    $query_payment = $this->db->select("amend_coop.*,users.*")
-                     ->from("amend_coop")
-                     ->join("users","amend_coop.users_id = users.id")
-                     ->where("amend_coop.id = $decoded_id")
-                     ->get();
-    $ret = $query_payment->row();
-    $email = $ret->email;
-    $name = $ret->proposed_name;
+    $query_check = $this->db->get_where('payment',array('amendment_id'=>$decoded_id));
+    if($query_check->num_rows==1)
+    {
+         // $this->db->insert('payment',$data_payment);
+        $items['status'] = '16';
+        if($this->db->where("id",$decoded_id)->update("amend_coop",$items)) {
+        
+        $query_payment = $this->db->select("amend_coop.*,users.*")
+                         ->from("amend_coop")
+                         ->join("users","amend_coop.users_id = users.id")
+                         ->where("amend_coop.id = $decoded_id")
+                         ->get();
+        $ret = $query_payment->row();
+        $email = $ret->email;
+        $name = $ret->proposed_name;
+        }
+    }
+    else
+    {
+        $this->db->insert('payment',$data_payment);
+        $items['status'] = '16';
+        if($this->db->where("id",$decoded_id)->update("amend_coop",$items)) {
+        
+            $query_payment = $this->db->select("amend_coop.*,users.*")
+                             ->from("amend_coop")
+                             ->join("users","amend_coop.users_id = users.id")
+                             ->where("amend_coop.id = $decoded_id")
+                             ->get();
+            $ret = $query_payment->row();
+            $email = $ret->email;
+            $name = $ret->proposed_name;
+        }
+    }
+   
     
 
     // $from = "Amendment_forpayment.php";    //senders email address
