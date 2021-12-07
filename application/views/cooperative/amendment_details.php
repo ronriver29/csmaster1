@@ -1344,11 +1344,11 @@
                 <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$proposeName?>">
                 <input type="hidden" class="form-control" id="nature" name="nature" value="Amendment">
                 <?php if($name_reservation_fee>0):?>
-                <input type="" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Amendment Fee - Primary<br>(1/10 of 1% of Php '<?=number_format($diff_amount,2)?>' increased in paid up capital<br> amounted to Php '<?=number_format($percentage_amount,2)?>' or a minimum of<br> Php 300.00 whichever is higher)<br>Legal and Research Fund Fee">
-                 <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($total_amendment_fee,2).'<br/><br><br><br>'.number_format($lrf,2) ?>">
+                <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Amendment Fee - Primary<br>(1/10 of 1% of Php '<?=number_format($diff_amount,2)?>' increased in paid up capital<br> amounted to Php '<?=number_format($percentage_amount,2)?>' plus Php 300.00 basic fee)<br>Legal and Research Fund Fee">
+                <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br><br><br><br><br>'.number_format($total_amendment_fee,2).'<br><br>'.number_format($lrf,2) ?>">
                 <?php else: ?>
-                <input type="hidden" class="form-control" id="particulars" name="particulars" value="Amendment Fee <br/>(1/10 of 1% of Php <?=number_format($diff_amount,2)?> increased in paid up capital<br> amounted to Php <?=number_format($percentage_amount,2)?> or a minimum of<br> Php 300.00 whichever is higher)<br>Legal and Research Fund Fee">
-                <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($total_amendment_fee,2).'<br/><br><br><br>'.number_format($lrf,2) ?>">
+                <input type="hidden" class="form-control" id="particulars" name="particulars" value="<b>Amendment Fee</b> <br/>(1/10 of 1% of Php <?=number_format($diff_amount,2)?> increased in paid up capital<br> amounted to Php <?=number_format($percentage_amount,2)?> or a minimum of<br> plus Php 300.00 basic fee )<br><b>Legal and Research Fund Fee</b>">
+                <input type="hidden" class="form-control" id="amount" name="amount" value="<br><?=number_format($total_amendment_fee,2).'<br><br><br>'.number_format($lrf,2) ?>">
                 <?php endif;?>
                
                 <input type="hidden" class="form-control" id="total" name="total" value="<?=$total_amendment_fee+$lrf+$name_reservation_fee?>">
