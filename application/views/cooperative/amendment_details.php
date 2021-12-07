@@ -1350,7 +1350,6 @@
                 <input type="hidden" class="form-control" id="particulars" name="particulars" value="<b>Amendment Fee</b> <br/>(1/10 of 1% of Php <?=number_format($diff_amount,2)?> increased in paid up capital<br> amounted to Php <?=number_format($percentage_amount,2)?> or a minimum of<br> plus Php 300.00 basic fee )<br><b>Legal and Research Fund Fee</b>">
                 <input type="hidden" class="form-control" id="amount" name="amount" value="<br><?=number_format($total_amendment_fee,2).'<br><br><br>'.number_format($lrf,2) ?>">
                 <?php endif;?>
-               
                 <input type="hidden" class="form-control" id="total" name="total" value="<?=$total_amendment_fee+$lrf+$name_reservation_fee?>">
                 <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
                  <input style="width:20%;" class="btn btn-info btn-sm" type="submit" id="offlineBtn" name="offlineBtn" value="Download O.P">

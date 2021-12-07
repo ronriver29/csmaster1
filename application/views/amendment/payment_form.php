@@ -221,7 +221,6 @@
                         by the applicant.</li>
                 </ol>
         </div>
-
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=$encrypted_id ?>">
           <input type="hidden" class="form-control" id="ref_no" name="ref_no" value="<?=$ref_no?>">
          <!--  <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>"> -->

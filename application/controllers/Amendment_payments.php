@@ -228,8 +228,6 @@ class Amendment_payments extends CI_Controller{
     
       if ($this->Payment_model->check_payment_not_exist_amendment($decoded_id))
        {
-
-      
         $this->Payment_model->update_payment_amendment($data,$this->input->post('rCode'),$decoded_id);
 
           $user_id = $this->session->userdata('user_id');
