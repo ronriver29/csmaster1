@@ -2994,7 +2994,7 @@ public function check_if_denied($coop_id){
 
   public function compare_param($param1,$param2)
   {   
-    if(strcasecmp($param1,$param2)!=0)
+    if(strcasecmp(trim(preg_replace('/\s\s+/', ' ',$param1)),trim(preg_replace('/\s\s+/', ' ',$param2)))!=0)
     {
           return 'true';
     }

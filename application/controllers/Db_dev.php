@@ -407,7 +407,7 @@ class Db_dev extends CI_Controller{
   }
    public function compare_param($param1,$param2)
   {   
-    if(strcasecmp($param1,$param2)!=0)
+    if(strcasecmp(trim(preg_replace('/\s\s+/', ' ',$param1)),trim(preg_replace('/\s\s+/', ' ',$param2)))!=0)
     {
           return 'true';
     }
