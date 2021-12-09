@@ -299,7 +299,7 @@
 			<td><i style="color:white; font-size: 8pt">....</i></td>
 		</tr>
 		<tr>
-	            <td style="color: white; background-color: #003399; text-align: center; font-size: 15pt">CERTIFICATE OF REGISTRATION<br>OF<br>AMENDMENTS TO THE<br>ARTICLES OF COOPERATION AND BYLAWS</td>
+	            <td style="color: white; background-color: #003399; text-align: center; font-size: 15pt">CERTIFICATE OF REGISTRATION<br>OF<br>AMENDMENTS TO THE<br><?php if($articles){?><b>ARTICLES OF COOPERATION</b><?php }?><?=$and;?><?php if($bylaws){?><b>BY LAWS</b><?php }?></td>
 		</tr>
 		<tr>
 			<td><i style="color:white; font-size: 8pt">....</i></td>
@@ -405,7 +405,7 @@
 			<td><i style="color:white; font-size: 8pt">....</i></td>
 		</tr>
 		<tr>
-	            <td style="color: white; background-color: #003399; text-align: center; font-size: 15pt">CERTIFICATE OF REGISTRATION<br>OF<br>AMENDMENTS TO THE<br>ARTICLES OF COOPERATION AND BYLAWS</td>
+	            <td style="color: white; background-color: #003399; text-align: center; font-size: 15pt">CERTIFICATE OF REGISTRATION<br>OF<br>AMENDMENTS TO THE<br><?php if($articles){?><b>ARTICLES OF COOPERATION</b><?php }?><?=$and;?><?php if($bylaws){?><b>BY LAWS</b><?php }?></td>
 		</tr>
 		<tr>
 			<td><i style="color:white; font-size: 8pt">....</i></td>
