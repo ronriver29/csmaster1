@@ -72,7 +72,7 @@ class coc extends CI_Controller{
           $timestamp = str_replace('-', '/', $coop_info->date_of_or);
           $data1['date_registered'] = date('F d, Y',strtotime($timestamp));
 
-          $data1['validity'] = date('Y') + 1;
+          $data1['validity'] = date('Y',strtotime($coop_info->date_of_or)) + 1;
 
           $data1['full_name'] = $signatorys->signatory;
 
