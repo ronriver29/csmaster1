@@ -139,7 +139,7 @@
                   <select class="custom-select validate[required]" name="region" id="region">
                     <option value="" selected></option>
                     <?php foreach ($regions_list as $region_list) : ?>
-                      <option value ="<?php echo $region_list['regCode'];?>" <?=($coop_info->rCode == $region_list['regCode'] ? 'selected' : '')?>><?php echo $region_list['regDesc']?></option>
+                      <option value ="<?php echo $region_list['regCode'];?>" <?=($cooperator_info->rCode == $region_list['regCode'] ? 'selected' : '')?>><?php echo $region_list['regDesc']?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
@@ -152,7 +152,7 @@
                     foreach($list_of_provinces as $province_list)
                     {
                       ?>
-                      <option value="<?=$province_list['provCode']?>" <?=($province_list['provCode']== $coop_info->pCode? 'selected' : '')?>><?=$province_list['provDesc']?></option>
+                      <option value="<?=$province_list['provCode']?>" <?=($province_list['provCode']== $cooperator_info->pCode? 'selected' : '')?>><?=$province_list['provDesc']?></option>
                       <?php
                     }
                     ?>
@@ -167,7 +167,7 @@
                     foreach($list_of_cities as $city_list)
                     {
                       ?>
-                      <option value="<?=$city_list['citymunCode']?>" <?=($city_list['citymunCode'] == $coop_info->cCode ?'selected' :'')?>><?=$city_list['citymunDesc']?></option>
+                      <option value="<?=$city_list['citymunCode']?>" <?=($city_list['citymunCode'] == $cooperator_info->cCode ?'selected' :'')?>><?=$city_list['citymunDesc']?></option>
                       <?php
                     }
                     ?>
@@ -182,14 +182,17 @@
                     foreach($list_of_brgys as $brgy_list)
                     {
                       ?>
-                      <option value="<?=$brgy_list['brgyCode']?>" <?=($brgy_list['brgyCode'] == $coop_info->bCode ? 'selected' :'')?>> <?=($brgy_list['brgyDesc'])?></option>
+                      <option value="<?=$brgy_list['brgyCode']?>" <?=($brgy_list['brgyCode'] == $cooperator_info->bCode ? 'selected' :'')?>> <?=($brgy_list['brgyDesc'])?></option>
                       <?php
                     }
                     ?>
                   </select>
                 </div>
-              </div>  
-              <input type="hidden" class="form-control validate[required]" name="barangay" value="<?=$coop_info->bCode?>">
+              </div>
+              <?php
+                if($coop_info->area_of_operation == 'Barangay'){ ?>
+                  <input type="text" class="form-control validate[required]" name="barangay" value="<?=$cooperator_info->bCode?>">
+                <?php } ?>
             </div>
           </div>
 

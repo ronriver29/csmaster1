@@ -127,7 +127,7 @@
         <div class="row">
           <div class="col-sm-12 col-md-12">
       		  <div class="form-group">
-        			<label for="turnOverDirectors"><strong>The Board of Directors shall serve until their successors shall have been elected and qualified within ___ days from the date of election as provided in the By-laws.</strong></label>
+        			<label for="turnOverDirectors"><strong>The Board of Directors shall serve until their successors shall have been elected and qualified within ___ days from the date of registration as provided in the By-laws.</strong></label>
         			<input type="number" value="<?= $articles_info->directors_turnover_days ?>"class="form-control validate[required,min[1],custom[integer]]" min="1" step="any" name="turnOverDirectors" id="turnOverDirectors" placeholder="Days" disabled>
       		 </div>
       		</div>

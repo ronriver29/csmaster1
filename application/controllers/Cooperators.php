@@ -421,14 +421,16 @@ class Cooperators extends CI_Controller{
                             $data['list_id'] = NULL;
                           }
                           
-                          $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['coop_info']->rCode);
-                          $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['coop_info']->pCode);
-                          $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['coop_info']->cCode);
+                          $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($decoded_cooperator_id);
+
+                          $data['list_of_provinces'] = $this->cooperatives_model->get_provinces($data['cooperator_info']->rCode);
+                          $data['list_of_cities'] = $this->cooperatives_model->get_cities($data['cooperator_info']->pCode);
+                          $data['list_of_brgys'] = $this->cooperatives_model->get_brgys($data['cooperator_info']->cCode);
 
                           $data['encrypted_cooperator_id'] = $cooperator_id;
                           $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                           $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                          $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($decoded_cooperator_id);
+                          // $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($decoded_cooperator_id);
                           $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
                           $this->load->view('./template/header', $data);
                           $this->load->view('cooperators/edit_form_cooperator', $data);
