@@ -681,6 +681,37 @@ $("#othersFund").on('change', function(){
     
 });
 
+var submitchange =$("#kindsOfMember").val();
+
+console.log(submitchange);
+$("#bylawsPrimaryBtn2").hide();
+
+$("#kindsOfMember").on('change', function(){
+    
+    var kindsOfMemberType =$(this).val();
+
+    if(kindsOfMemberType == 1){
+      $("#associateQualifications1").prop('required',false);
+    } else if(kindsOfMemberType == 2){
+      $("#associateQualifications1").prop('required',true);
+    }
+
+    if(submitchange == 1){
+      $("#bylawsPrimaryBtn2").hide();
+      $("#bylawsPrimaryBtn3").show();
+    }
+    else if(kindsOfMemberType != submitchange){
+      $("#bylawsPrimaryBtn3").hide();
+      $("#bylawsPrimaryBtn2").show();
+      console.log('change');
+    } else {
+      $("#bylawsPrimaryBtn3").show();
+    }
+
+    console.log(submitchange); 
+    console.log(kindsOfMemberType); 
+});
+
   });
 
 // jQuery(function ($) {
