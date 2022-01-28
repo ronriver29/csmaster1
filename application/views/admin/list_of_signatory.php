@@ -148,7 +148,7 @@
                     ?>
 
                   </td>
-                  <!-- <td><?= //date('F d, Y',strtotime($admin['effectivity_date']))?></td> -->
+                  
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                       <a href="<?php echo base_url();?>admins/<?= encrypt_custom($this->encryption->encrypt($admin['id'])) ?>/edit_signatory" class="btn btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>
