@@ -219,7 +219,7 @@
                     <tr>
                         <td>Total amount of paid-up capital</td>
                         <td>
-                            <input type="number" name="item[total_amount_of_paid_up_capital]" id="total_amount_of_paid_up_capital" class="form-control" value="<?=$total_amount_of_paid_up_capital;?>"/>
+                            <input type="number" name="item[total_amount_of_paid_up_capital]" id="total_amount_of_paid_up_capital" class="form-control" value="<?=$total_amount_of_paid_up_capital;?>" required/>
                             <br/>
                             <span id="total_amount_of_paid_up_capital_note"class="err-message-note"></span>
                         </td>
