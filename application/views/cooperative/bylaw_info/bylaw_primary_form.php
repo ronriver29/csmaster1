@@ -597,6 +597,34 @@
             </div>
           </div>
       </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <div class="modal fade" id="deleteAlertModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="deleteAlertModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <?php //echo form_open('bylaws/primary',array('id'=>'deleteAlertForm','name'=>'deleteAlertForm')); ?>
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="deleteMemberModalLabel">Are you sure you want to change your Membership?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <input type="hidden" id="cooperativeID" name="cooperativeID" value="1">
+                    <div class="alert alert-warning" role="alert">
+                      <strong><b>Warning:</b></strong>
+                      <p>Saving this form will delete the existing Associate Member(s). Are you sure you want to proceed?</p>
+                    </div>
+                  </div>
+                  <div class="modal-footer deleteAlertFooter">
+                    <input class="btn btn-color-blue btn-block" type="submit" id="bylawsPrimaryBtn" name="bylawsPrimaryBtn" value="Submit">
+                  </div>
+                <!-- </form> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="card-footer bylawsPrimaryFooter" style="display: none;">
         <input class="btn btn-color-blue btn-block" type="submit" id="bylawsPrimaryBtn" name="bylawsPrimaryBtn" value="Submit">
       </div>
