@@ -626,7 +626,8 @@
         </div>
       </div>
       <div class="card-footer bylawsPrimaryFooter" style="display: none;">
-        <input class="btn btn-color-blue btn-block" type="submit" id="bylawsPrimaryBtn" name="bylawsPrimaryBtn" value="Submit">
+        <button type="button" class="btn btn-color-blue btn-block" data-toggle="modal" data-target="#deleteAlertModal" name="bylawsPrimaryBtn" id="bylawsPrimaryBtn2"></i>Submit</button>
+        <input class="btn btn-color-blue btn-block" type="submit" id="bylawsPrimaryBtn3" name="bylawsPrimaryBtn" value="Submit">
       </div>
     </form>
     </div>
