@@ -732,6 +732,7 @@ class Bylaws extends CI_Controller{
                     $data['add_membership'] =  explode(";",$this->bylaw_model->get_bylaw_by_coop_id($decoded_id)->additional_requirements_for_membership);
                     $this->load->view('templates/admin_header', $data);
                     $this->load->view('cooperative/bylaw_info/bylaw_primary_form.php', $data);
+                    $this->load->view('cooperators/delete_cooperators_alert');
                     $this->load->view('templates/admin_footer');
                   }else{
                     if($this->cooperatives_model->check_first_evaluated($decoded_id)){
