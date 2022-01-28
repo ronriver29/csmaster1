@@ -496,7 +496,7 @@
                   "alertText": "* Don't include the type of your cooperative in the proposed name"
                 },
                 "validateCooperativeWordInName": {
-                  "alertText": "* Don't include the word cooperative, union, or federation and Cooperative Type"
+                  "alertText": "* Don't include the word cooperative, union, federation, Cooperative Type and double quote"
                 },
                 "validateCooperativeParenthesesInAcronym": {
                   "alertText": "* Don't include Parentheses in Acronym Name"
