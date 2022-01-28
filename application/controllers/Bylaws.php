@@ -642,28 +642,13 @@ class Bylaws extends CI_Controller{
                     }
                     
                     if($this->input->post('kindsOfMember') == 1){
+                      $this->cooperator_model->delete_cooperator_assoc($decoded_id);
+                      echo '<script>alert('.$this->input->post('kindsOfMember').');</script>';
+                    }
+                    
+                    if($this->input->post('kindsOfMember') == 1){
                         $field_data = array(
                             'associate_members' => 0,
-//                            'regular_members' => 0,
-//                            'authorized_share_capital' => 0,
-//                            'par_value' => 0,
-//                            'common_share' => 0,
-//                            'preferred_share' => 0,
-//                            'total_amount_of_subscribed_capital' => 0,
-//                            'total_no_of_subscribed_capital' => 0,
-//                            'total_amount_of_paid_up_capital' => 0,
-//                            'total_no_of_paid_up_capital' => 0,
-//                            'minimum_paid_up_share_regular' => 0,
-//                            'minimum_subscribed_share_associate' => 0,
-//                            'minimum_paid_up_share_associate' => 0,
-//                            'amount_of_common_share_subscribed' => 0,
-//                            'amount_of_common_share_subscribed_pervalue' => 0,
-//                            'amount_of_preferred_share_subscribed' => 0,
-//                            'amount_of_preferred_share_subscribed_pervalue' => 0,
-//                            'amount_of_common_share_paidup' => 0,
-//                            'amount_of_common_share_paidup_pervalue' => 0,
-//                            'amount_of_preferred_share_paidup' => 0,
-//                            'amount_of_preferred_share_paidup_pervalue' => 0,
                           );
                         if($this->capitalization_model->update_capitalization_member($decoded_id,$field_data)){
                             $this->session->set_flashdata('cooperative_success', 'Successfully updated basic information.');
