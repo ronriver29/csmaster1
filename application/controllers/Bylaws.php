@@ -643,7 +643,6 @@ class Bylaws extends CI_Controller{
                     
                     if($this->input->post('kindsOfMember') == 1){
                       $this->cooperator_model->delete_cooperator_assoc($decoded_id);
-                      // echo '<script>alert('.$this->input->post('kindsOfMember').');</script>';
                     }
                     
                     if($this->input->post('kindsOfMember') == 1){
