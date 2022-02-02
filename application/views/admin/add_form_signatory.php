@@ -20,7 +20,7 @@
             <div class="form-group">
               <label for="access_level">Signatory Designation</label>
               <!-- <select class="custom-select validate[required]" name="designation" id="designation"> -->
-              <?php $arr = array("Chairperson","Regional Director","Administrator","Acting Director","OIC Director"); ?>
+              <?php $arr = array("Chairperson","Director II","Director III","Administrator","Executive Director","Acting Director","OIC Director"); ?>
               <select name="designation" class="custom-select form-control validate[required]" id="designation">
                 <?php foreach($arr as $a) : ?>
                 <option value="<?=$a;?>"><?=$a;?></option>
@@ -39,6 +39,12 @@
                   <option value ="<?php echo $region_list['regCode'];?>"><?php echo $region_list['regDesc']?></option>
                 <?php endforeach; ?>
               </select>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <div class="form-group form-group-fName">
+              <label for="signatory">Effectivity Date:</label>
+              <input type="date" class="form-control validate[required]" id="effectivity" name="effectivity_date">
             </div>
           </div>
         </div>

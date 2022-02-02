@@ -1,7 +1,55 @@
 $(function(){
+  $('#editpositionexists').hide();
+  $(".edit-affiliators").change(function(){
+  var position = $('.edit-affiliators').val();
+  var cooperatorid = $('#cooperatorID').val();
+  // position = CryptoJS.AES.encrypt(JSON.stringify(data), position);
+  // alert(cooperatorid);
+  // position = position.replace(/,/g, '_');
+
+  var myStr = String(position);
+  var newStr = myStr.replace(/,/g, '_');
+  
+// console.log( newStr );  // "this-is-a-test"
+//   console.log(position);
+    $.ajax({
+        url : "affiliators/check_edit_position_not_exist/" + newStr + "/" + cooperatorid,
+        type: "GET",
+        dataType: "JSON",
+        success: function(data)
+        {
+            console.log(data[1]);
+
+            if(data[1]){
+              $('#editpositionexists').show();
+              $('#aAddAffiliatorsBtn').prop( "disabled", true );
+            } else {
+              $('#editpositionexists').hide();
+              $('#aAddAffiliatorsBtn').prop( "disabled", false );
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+          $('#editpositionexists').hide();
+          $('#aAddAffiliatorsBtn').prop( "disabled", false );
+          console.log('Error get data from ajax!');
+        }
+    });
+  });
+
+  $(".select-island").each(function(){
+        $(this).select2({
+            template: "bootstrap",
+            multiple: true,
+            tagging: true,
+            allowClear: true,
+            placeholder: "Select Position"
+        });
+    });
+  
     $("#subscribed-note2").hide().html('');
     $("#paid-note2").hide().html('');
-  $('#subscribedShares2').on('change', function(){
+  $('#subscribedShares2').on('ready', function(){
       var val = parseInt($(this).val());
       var available_subscribed_capital2 = $("#available_subscribed_capital2").val().length>0 ? parseInt($("#available_subscribed_capital2").val()) : '';
       var str = $('#maxvalue_asc').val();
@@ -19,10 +67,11 @@ $(function(){
         }
       }
 
-      console.log(val);
-      console.log(available_subscribed_capital2);
-      console.log(str);
-      console.log(str2);
+      // console.log(val);
+      // console.log(available_subscribed_capital2);
+      // console.log(str);
+      // console.log(str2);
+      $('#editAffiliatorForm #subscribedShares2').attr({'class':'form-control validate[required,min[1],max['+str2+'],custom[integer],funcCall[validateAddNumberOfSubsribedGreaterCustom],ajax[ajaxMinimumRegularSubscriptionCallPhp]]'});
   });
   $('#editAffiliatorForm #paidShares2').on('change', function(){
       var val = parseInt($(this).val());
@@ -30,7 +79,7 @@ $(function(){
         var str3 = $('#maxvalue_apuc').val();
         var str4 = $('#maxvalue2').val();
       $("#paid-note2").hide().html('');
-      if(str == 0){
+      if(str3 == 0){
         if(val > str3) {
             $(".paidSharesformError2").hide().html();
             $("#paid-note2").show().html('Should not exceed the remaining no of paid up share: '+str3);
@@ -40,7 +89,9 @@ $(function(){
             $("#paid-note2").show().html('Should not exceed the remaining no of paid up share: '+available_paid_up_capital2);
           }
         }
+        $('#editAffiliatorForm #paidShares2').attr({'class':'form-control validate[required,min[1],max['+str4+'],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumRegularPayCallPhp]]'});
       }
+      console.log(str3);
   });
   // $('#editAffiliatorForm #membershipType').on('change', function(){
     
@@ -56,7 +107,7 @@ $(function(){
       $('#editAffiliatorForm #paidShares2').prop('readonly',false);
 //      $('#editAffiliatorForm #subscribedShares').val(minimum_subscribed_share_regular2);
 //      $('#editAffiliatorForm #paidShares').val(minimum_paid_up_share_regular2);
-      $('#editAffiliatorForm #subscribedShares2').attr('min',minimum_subscribed_share_regular2);
+      // $('#editAffiliatorForm #subscribedShares2').attr('min',minimum_subscribed_share_regular2);
       $('#editAffiliatorForm #paidShares2').attr('min',minimum_paid_up_share_regular2);
       $('#editAffiliatorForm #subscribedShares2').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscription2CallPhp]]'});
       $('#editAffiliatorForm #paidShares2').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumRegularPayCallPhp]]'});

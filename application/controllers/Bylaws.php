@@ -63,6 +63,7 @@ class Bylaws extends CI_Controller{
       }else{
         show_404();
       }
+      
     }
   }
 
@@ -587,7 +588,7 @@ class Bylaws extends CI_Controller{
                   // $this->debug($data['bylaw_info']);
                   $this->load->view('template/header', $data);
                   $this->load->view('cooperative/bylaw_info/bylaw_primary_form.php', $data);
-                  $this->load->view('cooperators/delete_cooperators_alert');
+                  // $this->load->view('cooperators/delete_cooperators_alert');
                   $this->load->view('template/footer');
                 }else{
                   if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
@@ -644,16 +645,18 @@ class Bylaws extends CI_Controller{
                     
                     if($this->input->post('kindsOfMember') == 1){
                       $this->cooperator_model->delete_cooperator_assoc($decoded_id);
+                      echo '<script>alert('.$this->input->post('kindsOfMember').');</script>';
                     }
-                    
+
                     if($this->input->post('kindsOfMember') == 1){
                         $field_data = array(
                             'associate_members' => 0,
                           );
+                        
                         if($this->capitalization_model->update_capitalization_member($decoded_id,$field_data)){
                             $this->session->set_flashdata('cooperative_success', 'Successfully updated basic information.');
                             // redirect('cooperatives/'.$this->input->post('cooperativeID'));
-                          }
+                        }
                     }
                     
                     $data = array(

@@ -1261,7 +1261,7 @@ public function delete_pdf()
                 $data['encrypted_branch_id'] = $id;
                 $data['type']=substr($branch_info->branchName, -7);
                 if($this->branches_model->check_if_amended($branch_info->regNo)){
-                  $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->branch_id));
+                  $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->ammend_id));
                   $data['encrypted_id_others'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->branch_id));
                 } else {
                   $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
@@ -1325,7 +1325,7 @@ public function delete_pdf()
                   $data['encrypted_branch_id'] = $id;
                   // $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
                   if($this->branches_model->check_if_amended($branch_info->regNo)){
-                    $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->branch_id));
+                    $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->ammend_id));
                     $data['encrypted_id_others'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->branch_id));
                   } else {
                     $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
@@ -1676,8 +1676,13 @@ public function delete_pdf()
 
                               $f = new pdf();
                               $f->set_option("isPhpEnabled", true);
-                              $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation', $data, TRUE);
-                             
+
+                              if($data['coop_info']->cofc == 'Tertiary'){
+                                $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation_tertiary', $data, TRUE);
+                              } else {
+                                $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation', $data, TRUE);
+                              }
+
                               $f->setPaper('folio', 'portrait');
                               $f->load_html($html2);
                               $f->render();
@@ -1781,7 +1786,12 @@ public function delete_pdf()
                                 $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                                 }
 
-                                $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation', $data, TRUE);
+                                if($data['coop_info']->cofc == 'Tertiary'){
+                                  $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation_tertiary', $data, TRUE);
+                                } else {
+                                  $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation', $data, TRUE);
+                                }
+                              
                                 $f = new pdf();
                                  $f->set_option("isPhpEnabled", true);
                                 $f->setPaper('folio', 'portrait');
@@ -2083,7 +2093,7 @@ public function delete_pdf()
                               // $this->debug($data['cooperator_directors']);
                               $data['no_of_directors'] = $this->unioncoop_model->no_of_directors($user_id);
                               $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
-                              $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id); 
+                              // $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id); 
                               $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
                               $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_union($user_id); 
                              // $this->load->view('documents/primary/bylaws_for_primary', $data); 
@@ -2286,7 +2296,13 @@ public function delete_pdf()
                               $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_fed($user_id); 
 
                               // $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data);
-                              $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data, TRUE);
+                              // $data['data_type'] = $data['coop_info']->cofc;
+                              if($data['coop_info']->cofc == 'Tertiary'){
+                                $html2 = $this->load->view('documents/federation/bylaws_for_federation_tertiary', $data, TRUE);
+                              } else {
+                                $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data, TRUE);
+                              }
+                              
                                 $f = new pdf();
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
@@ -2389,7 +2405,11 @@ public function delete_pdf()
                                 $data['primary_consideration'] = explode(";",$data['bylaw_info']->primary_consideration);
                                 $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_fed($data['coop_info']->users_id); 
                               
-                                $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data, TRUE);
+                                if($data['coop_info']->cofc == 'Tertiary'){
+                                  $html2 = $this->load->view('documents/federation/bylaws_for_federation_tertiary', $data, TRUE);
+                                } else {
+                                  $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data, TRUE);
+                                }
                                 $f = new pdf();
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
@@ -3579,8 +3599,8 @@ public function delete_pdf()
             redirect('cooperatives/'.$id.'/documents');
           }
         }else{
-          $this->session->set_flashdata('redirect_documents', 'Uploaded file not exists.');
-          redirect('cooperatives/'.$id.'/documents');
+          // $this->session->set_flashdata('redirect_documents', 'Uploaded file not exists.');
+          // redirect('cooperatives/'.$id.'/documents');
         }
       }else{
         show_404();

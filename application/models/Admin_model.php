@@ -1039,6 +1039,94 @@ You shall submit the above required documents within 30 days from the date of e-
         // echo $this->email->print_debugger();
     }
   }
+  public function sendEmailToClientApproveFederation($name,$email,$admin_info,$coopname,$addresscoop){
+//    echo $name;
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $name.' Evaluation Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+//    $message = "Congratulations ".$client_info->full_name.". Your application <b>".$client_info->proposed_name." ".$client_info->type_of_cooperative." Cooperative</b> has been approved. You can now proceed to payment. You have 10 working days to complete the payment";
+
+    $message="<pre>
+    Name of Proposed Federation: ".$coopname."
+    Address of Proposed Federation: ".$addresscoop."
+
+    <b>Congratulations!</b> Your application status is <b>FOR PRINTING AND SUBMISSION</b>.
+
+You may now print the following documents in Four (4) copies:
+
+     1.  Feasibility Study;
+     2. Duly notarized Articles of Cooperation with signatures of all member-cooperatives representatives/cooperators in every page;
+     3. By-Laws with signatures of all member-cooperatives representatives/cooperators on the adoption page;
+     4. Duly notarized Treasurer's Affidavit stating the total amount received from members' share capital contributions, membership fees, donations or subsidies;
+     5. General Assembly Resolution of each member-cooperative stating that the general assembly has approved its membership and the exact amounts of paid-up share capital contributions/dues to the federation; and
+     6. BOD Resolution on authorized representative/s of each of the member-cooperatives.
+
+Submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Electronic-Cooperative Registration Information System (E-CoopRIS).
+
+In addition to the above, please attached other required documents 1 original and 3 photocopies, if applicable.
+
+Very truly yours,
+
+".$admin_info->full_name."</pre>";
+
+
+    $this->email->from($from,'ecoopris CDA (No Reply)');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return true;
+        // echo $this->email->print_debugger();
+    }
+  }
+  public function sendEmailToClientApproveUnion($name,$email,$admin_info,$coopname,$addresscoop){
+//    echo $name;
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $name.' Evaluation Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+//    $message = "Congratulations ".$client_info->full_name.". Your application <b>".$client_info->proposed_name." ".$client_info->type_of_cooperative." Cooperative</b> has been approved. You can now proceed to payment. You have 10 working days to complete the payment";
+
+    $message="<pre>
+    Name of Proposed Federation: ".$coopname."
+    Address of Proposed Federation: ".$addresscoop."
+
+    <b>Congratulations!</b> Your application status is <b>FOR PRINTING AND SUBMISSION</b>.
+
+You may now print the following documents in Four (4) copies:
+
+     1. Developmental Plan;
+     2. Duly notarized Articles of Cooperation with signatures of all member-cooperatives representatives/cooperators in every page;
+     3. By-Laws with signatures of all member-cooperatives representatives/cooperators on the adoption page;
+     4. Duly notarized Treasurer's Affidavit stating the total amount received from members;
+     5. General Assembly Resolution of each member-cooperative stating that the general assembly has approved its membership and the amount of dues to the cooperative union; and
+     6. BOD Resolution on authorized representative/s.
+
+Submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Electronic-Cooperative Registration Information System (E-CoopRIS).
+
+In addition to the above, please attached other required documents 1 original and 3 photocopies, if applicable.
+
+Very truly yours,
+
+".$admin_info->full_name."</pre>";
+
+
+    $this->email->from($from,'ecoopris CDA (No Reply)');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return true;
+        // echo $this->email->print_debugger();
+    }
+  }
   public function sendEmailToClientDeferAmendment($client_info,$data_comment,$amendment_info,$reg_officials_info){
     $acbl = $this->amendment_model->acbl($amendment_info->id);
    

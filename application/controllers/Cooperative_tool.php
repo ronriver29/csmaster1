@@ -51,7 +51,14 @@ class cooperative_tool extends CI_Controller{
             $data['findings']=null;
 
           $this->load->view('./templates/admin_header', $data);
-          $this->load->view('cooperative/evaluation/coop_tool', $data);
+          if($data['coop_info']->grouping == 'Federation'){
+            $this->load->view('cooperative/evaluation/coop_tool_federation', $data);
+          } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
+            $this->load->view('cooperative/evaluation/coop_tool_union', $data);
+          } else {
+            $this->load->view('cooperative/evaluation/coop_tool', $data);
+          }
+          
           $this->load->view('./template/footer', $data);
         }
       }

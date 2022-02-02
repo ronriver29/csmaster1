@@ -462,10 +462,10 @@
               <td width="50%"><input type="text" class="form-control" name ="sagot[20]" value="<?=$rem[20]?>"></td>
             </tr>-->
             <tr>
-              <td colspan="4"><b>f. Viability/Feasibility (employ strict measures)</b></td>
+              <td colspan="4"><b>e. Viability/Feasibility (employ strict measures)</b></td>
             </tr>
             <tr>
-              <td style="padding-left: 30px">f.1.  The Capital is sufficient to start economic activity. If insufficient specify the strategy to be adopted. (Means of verification: interview, economic survey/feasibility study)</td>
+              <td style="padding-left: 30px">e.1.  The Capital is sufficient to start economic activity. If insufficient specify the strategy to be adopted. (Means of verification: interview, economic survey/feasibility study)</td>
               <?php if ($ans==null){
                       echo '<td width="5%"><input type="radio" class="form-control validate[required]" name="ans[14]" value="1" required></td>';
                       echo '<td width="5%"><input type="radio" class="form-control validate[required]" name="ans[14]" value="0" required></td>';
@@ -483,7 +483,7 @@
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[14]" value=""><?=$rem[14]?></textarea></td>
             </tr>
             <tr>
-              <td style="padding-left: 30px">f.2. All accountable officers are covered by adequate Surety Bond considering the initial net worth at the time of registration. (Means of verification : Surety Bond Policy/Treasurers Affidavit, (Legal Basis: MC 2015-01)</td>
+              <td style="padding-left: 30px">e.2. All accountable officers are covered by adequate Surety Bond considering the initial net worth at the time of registration. (Means of verification : Surety Bond Policy/Treasurers Affidavit, (Legal Basis: MC 2015-01)</td>
               <?php if ($ans==null){
                       echo '<td width="5%"><input type="radio" class="form-control validate[required]" name="ans[15]" value="1" required></td>';
                       echo '<td width="5%"><input type="radio" class="form-control validate[required]" name="ans[15]" value="0" required></td>';
@@ -501,7 +501,7 @@
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[15]" value=""><?=$rem[15]?></textarea></td> 
             </tr>
             <tr>
-              <td style="padding-left: 30px">f.3.The economic survey shows the potential viability if the proposed economic activity</td>
+              <td style="padding-left: 30px">e.3.The economic survey shows the potential viability if the proposed economic activity</td>
               <?php if ($ans==null){
                       echo '<td width="5%"><input type="radio" class="form-control validate[required]" name="ans[16]" value="1" required></td>';
                       echo '<td width="5%"><input type="radio" class="form-control validate[required]" name="ans[16]" value="0" required></td>';
@@ -519,7 +519,7 @@
               <td width="50%"><textarea rows="5" type="text" class="form-control" name ="sagot[16]" value=""><?=$rem[16]?></textarea></td>
             </tr>
             <tr>
-              <td style="padding-left: 30px">f.4. the proposed cooperative is being assisted by NGO/GA/LGU/etc. If yes, indicate the type of assistance.( Means of verification: interview, endorsement letter, MOU, MOA)</td>
+              <td style="padding-left: 30px">e.4. the proposed cooperative is being assisted by NGO/GA/LGU/etc. If yes, indicate the type of assistance.( Means of verification: interview, endorsement letter, MOU, MOA)</td>
               <?php if ($ans==null){
                       echo '<td width="5%"><input type="radio" class="form-control validate[required]" name="ans[17]" value="1" required></td>';
                       echo '<td width="5%"><input type="radio" class="form-control validate[required]" name="ans[17]" value="0" required></td>';

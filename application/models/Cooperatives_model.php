@@ -455,7 +455,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     return $data;
   }
   public function get_cooperative_info($user_id,$coop_id){
-    $this->db->select('cooperatives.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+    $this->db->select('cooperatives.*, cooperatives.category_of_cooperative as cofc, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
     $this->db->from('cooperatives');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -633,7 +633,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     return $query->row();
   }
   public function get_cooperative_info_by_admin($coop_id){
-    $this->db->select('cooperatives.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,cooperatives.type_of_cooperative');
+    $this->db->select('cooperatives.*, cooperatives.category_of_cooperative as cofc, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,cooperatives.type_of_cooperative');
     $this->db->from('cooperatives');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -1335,7 +1335,7 @@ public function approve_by_director($admin_info,$coop_id){
           $acronym_name = '';
       }
 
-      $coopname = ucwords($client_info['proposed_name'].' '.$client_info['type_of_cooperative'] .' Cooperative '.$acronym_name);
+      $coopname = ucwords($client_info['proposed_name'].' Federation of '.$client_info['type_of_cooperative'] .' Cooperative '.$acronym_name);
 
       if($client_info['house_blk_no']==null && $client_info['street']==null) $x=''; else $x=', ';
       $addresscoop = $client_info['house_blk_no'].' '.$client_info['street'].$x.' '.$client_info['brgy'].', '.$client_info['city'].', '.$client_info['province'].' '.$client_info['region'];

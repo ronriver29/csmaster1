@@ -1,3 +1,10 @@
+<style>
+.select2-search__field{
+  width: 100% !important;
+}
+</style>
+<link rel="stylesheet" href="<?=base_url('assets/plugins/select2/css/select2.css')?>" type="text/css"/>
+<link rel="stylesheet" href="<?=base_url('assets/plugins/bootstrap-select/bootstrap-select.min.css')?>" type="text/css"/>  
 <?php $total_subscribed = 0;?>
 <?php $total_paid = 0;?>
 <?php foreach ($list_cooperators as $cooperator) : ""?>
@@ -33,8 +40,14 @@
               // } else {
               //   $available_subscribed_capital = $affiliator_info->number_of_subscribed_shares;
               // }
+              // if($capitalization_info->total_no_of_subscribed_capital - $total_subscribed != 0){
                 $available_subscribed_capital = isset($capitalization_info->total_no_of_subscribed_capital) ? (($capitalization_info->total_no_of_subscribed_capital - $total_subscribed)>=0 ? ($capitalization_info->total_no_of_subscribed_capital - $total_subscribed) + $capitalization_info->minimum_subscribed_share_regular : '') : '';
+              // } else {
+              //   $available_subscribed_capital = '';
+              // }
                 $available_paid_up_capital = isset($capitalization_info->total_no_of_paid_up_capital) ? (($capitalization_info->total_no_of_paid_up_capital - $total_paid)>=0 ? ($capitalization_info->total_no_of_paid_up_capital - $total_paid) + $capitalization_info->minimum_paid_up_share_regular : '') : '';
+              
+              
               ?>
               <input type='hidden' id='maxvalue'/>
               <input type='hidden' id='maxvalue_asc' value="<?=$capitalization_info->total_no_of_subscribed_capital - $total_subscribed?>"/>
@@ -80,12 +93,13 @@
             </div> -->
 
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-sm-12 col-md-4">
                   <div class="form-group"> 
-                    <label for="position">Position:</label>
-                    <select class="custom-select validate[required]" id="position" name="position" required>
-                      <option value="" selected>--</option>
-                      <option value="Chairperson">Chairperson</option>
+                    <label for="position">Position:</label><br>
+                    <select class="form-control validate[required] select2 select-island edit-affiliators" id="position2" name="position[]" multiple="" required>
+                    <!-- <select class="form-control validate[required,ajax[ajaxAffiliatorsPositionCallPhp] select2" id="position2" name="position[]" multiple="" required> -->
+                      <!-- <option value="" selected>--</option> -->
+                      <option id="Chairperson" value="Chairperson">Chairperson</option>
                       <option value="Vice-Chairperson">Vice-Chairperson</option>
                       <option value="Board of Director">Board of Director</option>
                       <option value="Treasurer">Treasurer</option>
@@ -93,18 +107,21 @@
                       <option value="Member">Member</option>
                     </select>
                   </div>
+                  <label id="editpositionexists" style="color:red;font-size: 10px;"><i>* This position is already occupied.</i></label>
                 </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="subscribedShares2">No of subscribed shares:</label>
-                  <input type="number" min="1" max="<?=$available_subscribed_capital?>" class="form-control validate[required,min[1],custom[integer]]" id="subscribedShares2" name="subscribedShares2">
+                  <input type="number" min="1" max="<?=$available_subscribed_capital?>" class="form-control validate[required,min[1],custom[integer],funCall[validateAddNumberOfSubsribedGreaterCustom]]" id="subscribedShares2" name="subscribedShares2">
+                  <div style="color: red; font-size: 12px;" id="clicktoverify"><i>* Click the field to verify</i></div>
                   <div id="subscribed-note2" style="color: red; font-size: 12px;" required></div>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="paidShares2">No of paid-up Shares:</label>
-                  <input type="number" min="1" max="<?=$available_paid_up_capital?>" class="form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom]]" id="paidShares2" name="paidShares2" required>
+                  <input type="number" min="1" max="<?=$available_subscribed_capital?>" class="form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom]]" id="paidShares2" name="paidShares2" required>
+                  <div style="color: red; font-size: 12px;" id="clicktoverify2"><i>* Click the field to verify</i></div>
                   <div id="paid-note2" style="color: red; font-size:12px;"></div>
                 </div>
               </div>
@@ -185,8 +202,22 @@
 
     var str3 = $("#maxvalue_apuc").val();
 
+    if(str3 >= $("#subscribedShares2").val()){
+      $("#paidShares2").one('click',function(){
+          var str4 = $("#paidShares2").val();
+          var str4 = parseInt(str4) + parseInt(str3);
+          // $('#maxvalue2').val(str4);
+
+          $("#paidShares2").attr({
+             "max" : str4,        // substitute your own
+             "min" : 1          // values (or variables) here
+          });
+      });
+    }
+
     if(str3 == 0){
         $("#paidShares2").one('click',function(){
+          $("#clicktoverify2").hide();
             var str4 = $("#paidShares2").val();
             $('#maxvalue2').val(str4);
 
@@ -195,9 +226,14 @@
                "min" : 1          // values (or variables) here
             });
         });
+      } else {
+        $("#paidShares2").on('click',function(){
+          $("#clicktoverify2").hide();
+        });
       }
 
     $(".close").on('click',function(){
+      $("#clicktoverify2").show();
       if(str3 == 0){
         $("#paidShares2").one('click',function(){
             var str4 = $("#paidShares2").val();
@@ -215,6 +251,7 @@
 
     if(str2 == 0){
         $("#subscribedShares2").one('click',function(){
+          $("#clicktoverify").hide();
             var str = $("#subscribedShares2").val();
             $('#maxvalue').val(str);
 
@@ -222,10 +259,35 @@
                "max" : str,        // substitute your own
                "min" : 1          // values (or variables) here
             });
+
+        });
+        
+      } else {
+        $("#subscribedShares2").on('click',function(){
+          $("#clicktoverify").hide();
         });
       }
 
+    if(str3 == 0 && str2){
+      var str = $("#subscribedShares2").val();
+      $('#maxvalue').val(str);
+
+      $("#subscribedShares2").attr({
+         "max" : str,        // substitute your own
+         "min" : 1          // values (or variables) here
+      });
+
+      var str4 = $("#paidShares2").val();
+            $('#maxvalue2').val(str4);
+
+            $("#paidShares2").attr({
+               "max" : str4,        // substitute your own
+               "min" : 1          // values (or variables) here
+            });
+    }
+
     $(".close").on('click',function(){
+      $("#clicktoverify").show();
       if(str2 == 0){
         $("#subscribedShares2").one('click',function(){
             var str = $("#subscribedShares2").val();
@@ -256,3 +318,4 @@
     });
  });
 </script>
+<script src="<?=base_url();?>assets/plugins/select2/js/select2.full.min.js"></script>

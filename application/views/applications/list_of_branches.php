@@ -497,8 +497,9 @@ if($tomorrow>=$now){
                       <span class="badge badge-secondary">REGISTERED</span>
                   </td>
                   <td>
-                        <?php if($branch_registered['status']==21 || $branch_registered['status']==20): ?>
-                            <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch_registered['id'])) ?>/registration" class="btn btn-info"><i class='fas fa-print'></i> Print Registration</a>
+                        <?php if($branch_registered['status']==21 || $branch_registered['status']==20): ?><center>
+                            <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch_registered['regNo'])) ?>/branch_registered" class="btn btn-warning" style="color:white;width:70%;"><i class='fas fa-eye'></i> View More </a>
+                            <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch_registered['id'])) ?>/registration" class="btn btn-info"><i class='fas fa-print'></i> Print Registration</a></center>
                         <?php endif; ?>
                   </td>
                 </tr>
