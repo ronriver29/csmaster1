@@ -69,7 +69,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','right');
+        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->where('registeredcoop.type LIKE "%'.$type_of_cooperative.'%" AND (cooperatives.status IS NULL OR cooperatives.status = 15)');
         // $this->db->limit('10');
         $query = $this->db->get();
@@ -163,7 +163,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','right');
+        $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->where('registeredcoop.category = "Secondary" AND (cooperatives.status IS NULL OR cooperatives.status = 15) AND registeredcoop.type != "Union"');
         // $this->db->limit('10');
         $query = $this->db->get();
@@ -237,7 +237,7 @@ class Affiliators_model extends CI_Model{
         $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
         $cooperatives_id = $this->security->xss_clean($cooperatives_id);
         $this->db->where('user_id',$cooperatives_id);
-        $this->db->where_in('position', $position);
+        $this->db->where('(position LIKE "Chairperson%" OR position LIKE "Vice-Chairperson%" OR position LIKE "Board of Director%")');
         $this->db->from('affiliators');
         if($this->db->count_all_results()>=5 && $this->db->count_all_results()<=15){
           return true;
@@ -249,7 +249,7 @@ class Affiliators_model extends CI_Model{
     public function check_directors_odd_number($cooperatives_id){
         $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
         $this->db->where('user_id',$cooperatives_id);
-        $this->db->where_in('position', $position);
+        $this->db->where('(position LIKE "Chairperson%" OR position LIKE "Vice-Chairperson%" OR position LIKE "Board of Director%")');
         $this->db->from('affiliators');
         $count = $this->db->count_all_results();
         if($count%2==1){
@@ -263,7 +263,7 @@ class Affiliators_model extends CI_Model{
         $position = array('Chairperson');
         $cooperatives_id = $this->security->xss_clean($cooperatives_id);
         $this->db->where('user_id',$cooperatives_id);
-        $this->db->where_in('position', $position);
+        $this->db->where('position LIKE "Chairperson%"');
         $this->db->from('affiliators');
         if($this->db->count_all_results()==1){
           return true;
@@ -276,7 +276,7 @@ class Affiliators_model extends CI_Model{
         $position = array('Vice-Chairperson');
         $cooperatives_id = $this->security->xss_clean($cooperatives_id);
         $this->db->where('user_id',$cooperatives_id);
-        $this->db->where_in('position', $position);
+        $this->db->where('position LIKE "Vice-Chairperson%"');
         $this->db->from('affiliators');
         if($this->db->count_all_results()==1){
           return true;
@@ -289,7 +289,7 @@ class Affiliators_model extends CI_Model{
         $position = array('Treasurer');
         $cooperatives_id = $this->security->xss_clean($cooperatives_id);
         $this->db->where('user_id',$cooperatives_id);
-        $this->db->where_in('position', $position);
+        $this->db->where('(position LIKE "Treasurer%" OR position LIKE "%Treasurer")');
         $this->db->from('affiliators');
         if($this->db->count_all_results()==1){
           return true;
@@ -302,7 +302,7 @@ class Affiliators_model extends CI_Model{
         $position = array('Secretary');
         $cooperatives_id = $this->security->xss_clean($cooperatives_id);
         $this->db->where('user_id',$cooperatives_id);
-        $this->db->where_in('position', $position);
+        $this->db->where('(position LIKE "Secretary%" OR position LIKE "%Secretary")');
         $this->db->from('affiliators');
         if($this->db->count_all_results()==1){
           return true;
@@ -451,7 +451,7 @@ $this->last_query = $this->db->last_query();
     $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $this->db->where('user_id',$cooperatives_id);
-    $this->db->where_in('position', $position);
+    $this->db->where('(position LIKE "Chairperson%" OR position LIKE "Vice-Chairperson%" OR position LIKE "Board of Director%")');
     $this->db->from('affiliators');
     return $this->db->count_all_results();
   }
@@ -487,33 +487,94 @@ $this->last_query = $this->db->last_query();
     return $data;
   }
 
-  public function is_position_available($ajax){
-    $decoded_id = $this->encryption->decrypt(decrypt_custom($ajax['cooperativesID']));
+  public function is_position_available($user_id,$position){
+    $decoded_id = $this->encryption->decrypt(decrypt_custom($user_id));
+    // echo print_r($position);
+    // $count_temp = count($ajax['fieldValue']);
+    // if(is_array($position)){
+        // $position_imp = replace(', ', $position);
+        $position_imp = str_replace('_', ', ', $position);
+        $position_array = explode(', ',$position_imp);
+        $and = array();
+        if(count($position_array) > 1){
+            foreach($position_array as $row){
+                if($row == 'Treasurer'){
+                    $row = '%'.$row;
+                }
+                if($row == 'Secretary'){
+                    $row = '%'.$row;
+                }
+                $and[] = 'position LIKE "'.$row.'%" OR ';
+            }
+        } else {
+            foreach($position_array as $row){
+                if($row == 'Treasurer'){
+                    $row = '%'.$row;
+                }
+                if($row == 'Secretary'){
+                    $row = '%'.$row;
+                }
+                $and[] = 'position LIKE "'.$row.'%"';
+            }
+        }
+
+        $or = implode(' ',$and);
+        $or = rtrim($or," OR");
+
     $this->db->where('cooperatives_id',$decoded_id);
-    $this->db->where('position', $ajax['fieldValue']);
-    $this->db->where_in('position',array('Chairperson','Vice-Chairperson','Treasurer','Secretary'));
+    $this->db->where('('.$or.')');
+    $this->db->where('(position LIKE "Chairperson%" OR position LIKE "Vice-Chairperson%" OR position LIKE "Treasurer%" OR position LIKE "Secretary%")');
     $this->db->from('affiliators');
     $count = $this->db->count_all_results();
     if($count==0){
-      return array($ajax['fieldId'],true);
+      return array($count,false);
     }else{
-      return array($ajax['fieldId'],false);
+      return array($count,true);
     }
   }
 
-  public function edit_is_position_available($ajax){
-    $decoded_id = $this->encryption->decrypt(decrypt_custom($ajax['cooperativesID']));
-    $cooperator_id = $this->encryption->decrypt(decrypt_custom($ajax['cooperatorID']));
+  public function edit_is_position_available($user_id,$position,$cooperatorid){
+    $decoded_id = $this->encryption->decrypt(decrypt_custom($user_id));
+    $cooperator_id = $this->encryption->decrypt(decrypt_custom($cooperatorid));
+
+    $position_imp = str_replace('_', ', ', $position);
+        $position_array = explode(', ',$position_imp);
+        $and = array();
+        if(count($position_array) > 1){
+            foreach($position_array as $row){
+                if($row == 'Treasurer'){
+                    $row = '%'.$row;
+                }
+                if($row == 'Secretary'){
+                    $row = '%'.$row;
+                }
+                $and[] = 'position LIKE "'.$row.'%" OR ';
+            }
+        } else {
+            foreach($position_array as $row){
+                if($row == 'Treasurer'){
+                    $row = '%'.$row;
+                }
+                if($row == 'Secretary'){
+                    $row = '%'.$row;
+                }
+                $and[] = 'position LIKE "'.$row.'%"';
+            }
+        }
+
+        $or = implode(' ',$and);
+        $or = rtrim($or," OR");
+
     $this->db->where('cooperatives_id',$decoded_id);
     $this->db->where('id !=',$cooperator_id);
-    $this->db->where('position', $ajax['fieldValue']);
-    $this->db->where_in('position',array('Chairperson','Vice-Chairperson','Treasurer','Secretary'));
+    $this->db->where('('.$or.')');
+    $this->db->where('(position LIKE "Chairperson%" OR position LIKE "Vice-Chairperson%" OR position LIKE "Treasurer%" OR position LIKE "Secretary%")');
     $this->db->from('affiliators');
     $count = $this->db->count_all_results();
     if($count==0){
-      return array($ajax['fieldId'],true);
+      return array($this->db->last_query(),false);
     }else{
-      return array($ajax['fieldId'],false);
+      return array($this->db->last_query(),true);
     }
   }
 
