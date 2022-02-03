@@ -1,4 +1,51 @@
 $(function(){
+  $('#positionexists').hide();
+  $(".add-affiliators").change(function(){
+  var position = $('.add-affiliators').val();
+  // position = CryptoJS.AES.encrypt(JSON.stringify(data), position);
+  // alert(md5(position));
+  // position = position.replace(/,/g, '_');
+
+  var myStr = String(position);
+  var newStr = myStr.replace(/,/g, '_');
+  
+// console.log( newStr );  // "this-is-a-test"
+//   console.log(position);
+    $.ajax({
+        url : "affiliators/check_position_not_exist/" + newStr,
+        type: "GET",
+        dataType: "JSON",
+        success: function(data)
+        {
+            console.log(data[1]);
+
+            if(data[1]){
+              $('#positionexists').show();
+              $('#aAddAffiliatorsBtn').prop( "disabled", true );
+            } else {
+              $('#positionexists').hide();
+              $('#aAddAffiliatorsBtn').prop( "disabled", false );
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+          $('#positionexists').hide();
+          $('#aAddAffiliatorsBtn').prop( "disabled", false );
+          console.log('Error get data from ajax!');
+        }
+    });
+  });
+
+  $(".select-island").each(function(){
+      $(this).select2({
+          template: "bootstrap",
+          multiple: true,
+          tagging: true,
+          allowClear: true,
+          placeholder: "Select Position"
+      });
+  });
+
     $("#subscribed-note").hide().html('');
     $("#paid-note").hide().html('');
   $('#subscribedShares').on('change', function(){
