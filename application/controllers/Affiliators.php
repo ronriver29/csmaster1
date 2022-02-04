@@ -191,7 +191,7 @@ class Affiliators extends CI_Controller{
         // $count = $this->db->count_all_results();
         $query_aff = $this->db->get();
         $data_aff = $query_aff->result_array();
-
+        $aff_results = array();
         foreach($data_aff as $row_aff){
           $aff_results[] = $row_aff['position'];
         }
