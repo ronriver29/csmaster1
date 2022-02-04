@@ -107,6 +107,35 @@ $(function(){
   //END AMENDMENT
   //end sign up validation
 
+  $('#deleteAlertModal').on('show.bs.modal', function (event) {
+    // alert('asdsadasdasdsad');
+    var button = $(event.relatedTarget);
+    // var coop_name = button.data('cname');
+    // var coop_id = button.data('coopid');
+    var modal = $(this);
+    // modal.find('.modal-body #cooperativeID').val(coop_id);
+    // modal.find('.modal-body .cooperative-name-text').text(coop_name);
+  });
+
+  $("#deleteAlertForm").validationEngine('attach',
+    {promptPosition: 'inline',
+    scroll: false,
+    focusFirstField : false,
+    onValidationComplete: function(form,status){
+        if(status == true){
+          if($("#deleteAlertLoadingBtn").length <= 0){
+            $("#deleteAlertForm #deleteAlertBtn").hide();
+            $("#deleteAlertForm .col-delete-cooperative-btn").append($('<button></button>').attr({'id':'deleteAlertLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
+            return true;
+          }else{
+            return false;
+          }
+        }else{
+          return false;
+        }
+      }
+  });
+
   /* START DELETE COOPERATIVE*/
   $('#deleteCooperativeModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
@@ -319,6 +348,16 @@ $('#editAffiliatorModal').on('show.bs.modal', function (event) {
   var regid = button.data('reg_id');
   var repre = button.data('representative');
   var position = button.data('pos');
+  // alert(position);
+  var match = position.split(', ');
+    // console.log(match)
+    for (var a in match)
+    {
+        var variable = match[a]
+        // alert(variable);
+        
+    }
+  $("#editAffiliatorModal #position2").val(match).change();
   var proof_of_identity = button.data('proofofidentity');
   var valid_id = button.data('validid');
   var place_of_issuance = button.data('placeissuance');
@@ -378,7 +417,7 @@ $('#editAffiliatorModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #validIdNo').val(valid_id);
   modal.find('.modal-body #place_of_issuance').val(place_of_issuance);
   
-  modal.find('.modal-body #cc').val(capital_contribution);
+  modal.find('.modal-body #capitalcontri').val(capital_contribution);
 
   modal.find('.modal-body #subscribedShares2').val(subscribedShares2);
   modal.find('.modal-body #paidShares2').val(paidShares2);
@@ -2946,6 +2985,15 @@ function validateRegularAssociateAuthorizedCapitalCustom(field, rules, i, option
     return output;
   }
 }
+// function validateAddNumberOfSubsribedGreaterCustom(field,rules, i, options){ 
+//   let tempPaidUp = $.trim($(field).val());
+//   let tempSubscribed = $.trim($("#addCooperatorForm #subscribedShares").val());
+//   if(tempPaidUp.length >0 && tempPaidUp > 0){
+//     if(parseInt(tempPaidUp) > parseInt(tempSubscribed)){
+//       return options.allrules.validateNumberOfPaidUpGreater.alertText;
+//     }
+//   }
+// }
 function validateAddNumberOfPaidUpGreaterCustom(field,rules, i, options){ 
   let tempPaidUp = $.trim($(field).val());
   let tempSubscribed = $.trim($("#addCooperatorForm #subscribedShares").val());
