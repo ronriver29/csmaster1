@@ -441,7 +441,7 @@ $this->last_query = $this->db->last_query();
     $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $this->db->where('user_id',$cooperatives_id);
-    $this->db->where('(position LIKE "%Board of Director%")');
+    $this->db->where('(position LIKE "Chairperson%" OR position LIKE "Vice-Chairperson%" OR position LIKE "Board of Director%")');
     $query = $this->db->get('affiliators');
     $data = $query->result_array();
     return $data;
