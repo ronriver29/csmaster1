@@ -187,7 +187,7 @@
           <ol class="text-justify" type="a">
             <li>Attend General Assembly meetings, through an authorized representative;</li>
             <li> Avail the services of the Federation, subject to certain <center></center>onditions as may be prescribed by the Board of Directors;</li>
-            <li>Inspect and examine the books of accounts, the minutes books, the share register, and other records of the Federation during reasonable office hours;</li>
+            <li>Inspect and examine the books of accounts, the minute's books, the share register, and other records of the Federation during reasonable office hours;</li>
             <li>Secure copies of Federation records/documents pertaining to the account information of the concerned member; and</li>
             <li>Such other rights and privileges as may be granted by the General Assembly.</li>
           </ol>
@@ -613,8 +613,8 @@
         <li>Develop Code of Governance and Ethical Standard to be observed by the members, officers and employees of the Federation subject to the approval of the Board of Directors and ratification of the General Assembly;</li>
         <li>Disseminate, promote and implement the approved Code of Governance and Ethical Standards;</li>
         <li>Monitor compliance with the Code of Governance and Ethical Standards and recommend to the Board of Directors measures to address the gap, if any;</li>
-        <li>. Conduct initial investigation or inquiry upon receipt of a complaint involving Code of Governance and Ethical Standards and submit report to the Board of Directors together with the appropriate sanctions in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act 9520 and its Implementing Rules and Regulations; Alternative Dispute Resolution Act of 1994 and its suppletory laws and circulars issued by the Cooperative Development Authority;</li>
-        <li>Recommend ethical rules and policy to the Board of Directors;</li>
+        <li>Conduct initial investigation or inquiry upon receipt of a complaint involving Code of Governance and Ethical Standards and submit report to the Board of Directors together with the appropriate sanctions in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act 9520 and its Implementing Rules and Regulations; Alternative Dispute Resolution Act of 1994 and its suppletory laws and circulars issued by the Cooperative Development Authority;</li>
+        <li>Recommend ethical rules and policy to the Board of Directors; and</li>
         <li>Perform such other functions as may be delegated by the Board of Directors or authorized by the General Assembly.</li>
       </ol>
     </div>
@@ -874,7 +874,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="font-weight-regular text-justify">Section 5. <i class="font-weight-bold">Duties of Cashier.</i> The Cashier of the Federation, who is under supervision and control of the General Manager shall:</p>
+        <p class="font-weight-regular text-justify">Section 5. <i class="font-weight-bold">Duties of Cashier.</i> The Cashier of the Federation, who is under the supervision and control of the General Manager shall:</p>
     </div>
   </div>
   <div class="row">
