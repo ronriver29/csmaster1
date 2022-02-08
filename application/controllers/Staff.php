@@ -563,7 +563,7 @@ class Staff extends CI_Controller{
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                         }
-                      if($data['gad_count']>0){
+                      if($data['gad_count']>0 || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
                             if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                               $decoded_staff_id = $this->encryption->decrypt(decrypt_custom($staff_id));
