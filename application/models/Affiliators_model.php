@@ -588,21 +588,22 @@ $this->last_query = $this->db->last_query();
 
   public function get_all_board_of_director_only($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
-    $query = $this->db->get_where('affiliators',array('user_id' => $cooperatives_id,'position'=>'Board of Director'));
+    $query = $this->db->get_where('affiliators','user_id = '.$cooperatives_id.' AND (position LIKE "Board of Director%" OR position LIKE "%Board of Director")');
     $data = $query->result_array();
     return  $data;
   }
 
   public function get_chairperson_of_coop($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
-    $query = $this->db->get_where('affiliators',array('user_id' => $cooperatives_id,'position'=>'Chairperson'));
+    $query = $this->db->get_where('affiliators','user_id = '.$cooperatives_id.' AND (position LIKE "Chairperson%" OR position LIKE "%Chairperson")');
     $data = $query->row();
     return $data;
   }
 
   public function get_vicechairperson_of_coop($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
-    $query = $this->db->get_where('affiliators',array('user_id' => $cooperatives_id,'position'=>'Vice-Chairperson'));
+    $query = $this->db->get_where('affiliators','user_id = '.$cooperatives_id.' AND (position LIKE "Vice-Chairperson%" OR position LIKE "%Vice-Chairperson")');
+    // 'user_id = '.$cooperatives_id.' AND (position LIKE "Treasurer%" OR position LIKE "%Treasurer")'
     $data = $query->row();
     return $data;
   }
