@@ -96,8 +96,8 @@
           <li>To conduct mandatory training to cooperatives as an accredited training provider;</li>
           <li>To assist the national and local government units in development activities within their jurisdiction;</li>
           <li>To act as conciliator or mediator in cooperative disputes of their members;</li>
-          <li>To assist in the dissemination and monitoring of the Philippine Cooperative Medium-Term Plan;</li>
-          <li>To assist members in the submission of required reports and other compliances to the Authority and other government and regulatory bodies; and</li>
+          <li>To assist its members in the submission of required reports and other compliances to CDA and other government regulatory bodies;</li>
+          <li>To raise funds through membership fees, dues and contributions, donations, and subsidies from local and foreign sources whether private or government; and</li>
           <li>To do and perform such other non-business activities as may be necessary to attain the foregoing objectives.</li>
           <?php foreach($purposes_list as $purpose) :?>
             <li><?=$purpose?></li>
