@@ -704,7 +704,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 3. <i class="font-weight-bold">Management Staff.</i> A core management team composed of Chief Executive Officer, Cashier, Bookkeeper, Accountant, and other position as may be necessary or as provided for in their Human Resource Manual shall take charge of the day-to-day operations of the Cooperative Union. The Board of Directors shall appoint, fix their compensation and prescribe their functions and responsibilities.</p>
+        <p class="text-justify font-weight-regular">Section 3. <i class="font-weight-bold">Management Staff.</i> A core management team composed of Chief Executive Officer, Cashier, Bookkeeper, Accountant, and other position as may be necessary or as provided for in their Human Resource Manual shall take charge of the day-to-day operations of the Cooperative Union. The Board of Directors shall appoint, fix their compensation and prescribe for their functions and responsibilities.</p>
     </div>
   </div>
   <div class="row">

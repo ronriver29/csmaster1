@@ -81,7 +81,7 @@
                     <option value="7" <?php if($coop_info->type_of_cooperative =="Advocacy") echo "selected"; ?>>Advocacy</option>
                     <option value="8" <?php if($coop_info->type_of_cooperative =="Agrarian Reform") echo "selected"; ?>>Agrarian Reform</option>
                     <option value="24" <?php if($coop_info->type_of_cooperative =="Agriculture") echo "selected"; ?>>Agriculture</option>
-                    <option value="9" <?php if($coop_info->type_of_cooperative =="Bank") echo "selected"; ?>>Bank</option>
+                    <!-- <option value="9" <?php if($coop_info->type_of_cooperative =="Bank") echo "selected"; ?>>Bank</option> -->
                     <option value="4" <?php if($coop_info->type_of_cooperative =="Consumers") echo "selected"; ?>>Consumers</option>
                     <!-- <option value="27" <?php if($coop_info->type_of_cooperative =="Cooperative Bank") echo "selected"; ?>>Cooperative Bank</option> -->
                     <option value="1" <?php if($coop_info->type_of_cooperative =="Credit") echo "selected"; ?>>Credit</option>
@@ -93,7 +93,7 @@
                     <option value="14" <?php if($coop_info->type_of_cooperative =="Fishermen") echo "selected"; ?>>Fishermen</option>
                     <option value="15" <?php if($coop_info->type_of_cooperative =="Health Service") echo "selected"; ?>>Health Service</option>
                     <option value="20" <?php if($coop_info->type_of_cooperative =="Housing") echo "selected"; ?>>Housing</option>
-                    <option value="16" <?php if($coop_info->type_of_cooperative =="Insurance") echo "selected"; ?>>Insurance</option>
+                    <!-- <option value="16" <?php if($coop_info->type_of_cooperative =="Insurance") echo "selected"; ?>>Insurance</option> -->
                     <option value="21" <?php if($coop_info->type_of_cooperative =="Labor Service") echo "selected"; ?>>Labor Service</option>
                     <option value="5" <?php if($coop_info->type_of_cooperative =="Marketing") echo "selected"; ?>>Marketing</option>
                     <option value="2" <?php if($coop_info->type_of_cooperative =="Producers") echo "selected"; ?>>Producers</option>

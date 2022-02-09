@@ -9,9 +9,8 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-  <link rel="stylesheet" href="<?=APPPATH?>../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css">
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
-  <link rel="shortcut/icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
   @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
@@ -86,9 +85,7 @@
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
         <ol class="text-justify" type="a">
-          <?php // foreach($purposes_list as $purpose) :?>
-            <!-- <li><?=$purpose?></li> -->
-          <?php // endforeach; ?>
+          
           <li>To represent its member organizations;</li>
           <li>To acquire, analyze, and disseminate, economic, statistical, and other information relating to its members and all types of cooperatives within its area of operation;</li>
           <li>To sponsor studies in the economic, legal, financial, social, and other phases of cooperation, and publish the results thereof;</li>
@@ -101,6 +98,9 @@
           <li>To assist in the dissemination and monitoring of the Philippine Cooperative Medium-Term Plan;</li>
           <li>To assist members in the submission of required reports and other compliances to the Authority and other government and regulatory bodies; and</li>
           <li>To do and perform such other non-business activities as may be necessary to attain the foregoing objectives.</li>
+          <?php foreach($purposes_list as $purpose) :?>
+            <li><?=$purpose?></li>
+          <?php endforeach; ?>
         </ol>
     </div>
   </div>
