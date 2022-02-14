@@ -90,11 +90,16 @@
                   </div>
                 </div>
               </div>
+              <?php if($coop_info->capital_contribution != $cc_count->total_cc){
+                $max = $coop_info->capital_contribution - $cc_count->total_cc;
+              } else {
+                $max = '';
+              }?>
               <div class="row">
                 <div class="col-sm-12 col-md-4">
                   <div class="form-group form-group-validIdNo">
                     <label for="validIdNo">Capital Contribution</label>
-                    <input type="text" class="form-control validate[required]" id="cc" name="cc">
+                    <input type="text" class="form-control validate[required,min[1],max[<?=$max?>]]" id="cc" name="cc">
                   </div>
                 </div>
               </div>
