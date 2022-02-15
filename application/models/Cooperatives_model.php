@@ -1309,7 +1309,7 @@ public function approve_by_supervisor($admin_info,$coop_id,$coop_full_name){
 }
 public function approve_by_director($admin_info,$coop_id){
   $coop_id = $this->security->xss_clean($coop_id);
-  $this->db->select('cooperatives.proposed_name, cooperatives.type_of_cooperative, cooperatives.grouping, users.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+  $this->db->select('cooperatives.proposed_name, cooperatives.type_of_cooperative, cooperatives.grouping, cooperatives.house_blk_no, cooperatives.street, users.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
   $this->db->from('cooperatives');
   $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
   $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
