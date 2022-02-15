@@ -212,5 +212,6 @@ $autoload['model'] = array(
   'cais/sked30_model',
   'cais/sked31_model',
   'cais/sked32_model',
-  'cais/so_model'
+  'cais/so_model',
+  'cooperatives_update_model'
 );
