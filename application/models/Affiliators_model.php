@@ -185,10 +185,10 @@ class Affiliators_model extends CI_Model{
     }
     
     public function get_applied_coop($user_id){
-        $this->db->select('affiliators.*, affiliators.id AS aff_id, registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
-        $this->db->from('affiliators');
-        $this->db->join('cooperatives', 'affiliators.application_id = cooperatives.id','left');
-        $this->db->join('registeredcoop','registeredcoop.id = affiliators.registeredcoop_id','right');
+        $this->db->select('affi.*, affi.id AS aff_id, registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+        $this->db->from('affiliators affi');
+        $this->db->join('cooperatives', 'affi.application_id = cooperatives.id','left');
+        $this->db->join('registeredcoop','registeredcoop.id = affi.registeredcoop_id','right');
         $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','left');
         $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','left');
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','left');
