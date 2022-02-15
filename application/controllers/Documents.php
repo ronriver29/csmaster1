@@ -1772,7 +1772,7 @@ public function delete_pdf()
                                 $data['associate_cooperator_list'] = $this->cooperator_model->get_all_associate_cooperator_of_coop($decoded_id);
                                 $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                                 $data['treasurer_of_coop'] = $this->affiliators_model->get_treasurer_of_coop($data['coop_info']->users_id);
-                                $data['members_list'] = $this->affiliators_model->get_applied_coop($data['coop_info']->users_id);
+                                $data['members_list'] = $this->affiliators_model->get_applied_coop2($data['coop_info']->users_id);
                                 $data['last_query'] = $this->db->last_query();
 
                                 if($data['coop_info']->area_of_operation == 'Interregional'){
