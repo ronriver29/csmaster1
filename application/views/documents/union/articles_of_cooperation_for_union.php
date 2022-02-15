@@ -9,9 +9,8 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-  <link rel="stylesheet" href="<?=APPPATH?>../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?=base_url();?>assets/css/bootstrap.min.css">
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
-  <link rel="shortcut/icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
   <style>
   @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
@@ -124,11 +123,10 @@
             <li>To promote the knowledge of cooperative principles and practices;</li>
             <li>To develop the cooperative movement in their respective jurisdiction;</li>
             <li>To advise the appropriate authorities on all questions relating to cooperatives;</li>
-            <li>To conduct mandatory training to cooperatives as an accredited training provider;</li>
-            <li>To assist the national and local government units in development activities within their jurisdiction;</li>
-            <li>To act as conciliator or mediator in cooperative disputes of their members;</li>
-            <li>To assist in the dissemination and monitoring of the Philippine Cooperative Medium-Term Plan;</li>
-            <li>To assist members in the submission of required reports and other compliances to the Authority and other government and regulatory bodies; and</li>
+            <li>To assist the national and local government units in development activities within its jurisdiction;</li>
+            <li>To act as conciliator or mediator in cooperative disputes of its members;</li>
+            <li>To assist its members in the submission of required reports and other compliances to CDA and other government regulatory bodies;</li>
+            <li>To raise funds through membership fees, dues and contributions, donations, and subsidies from local and foreign sources whether private or government; and</li>
             <li>To do and perform such other non-business activities as may be necessary to attain the foregoing objectives.</li>
           </ol>
     </div>
