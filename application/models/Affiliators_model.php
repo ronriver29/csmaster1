@@ -187,12 +187,12 @@ class Affiliators_model extends CI_Model{
     public function get_applied_coop($user_id){
         $this->db->select("affiliators.*, affiliators.id AS aff_id, registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region");
         $this->db->from('affiliators');
-        $this->db->join('cooperatives', 'affiliators.application_id = cooperatives.id','INNER');
-        $this->db->join('registeredcoop','registeredcoop.id = affiliators.registeredcoop_id','INNER');
-        $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','INNER');
-        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','INNER');
-        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','INNER');
-        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','INNER');
+        $this->db->join('cooperatives', 'affiliators.application_id = cooperatives.id');
+        $this->db->join('registeredcoop','registeredcoop.id = affiliators.registeredcoop_id');
+        $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode');
+        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode');
+        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode');
+        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
         $this->db->where('affiliators.user_id ='.$user_id);
         $query = $this->db->get();
         $data = $query->result_array();
