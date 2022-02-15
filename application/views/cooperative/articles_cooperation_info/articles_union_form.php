@@ -70,17 +70,19 @@
         </div>
         <div class="row">
           <div class="col-sm-12 col-md-12">
-      		  <div class="form-group">
-      			<label for="cooperativeExistence"><strong>How many Years does the Cooperative Union should exist?</strong></label>
-      			<input type="number" class="form-control" min="1" max="50" id="cooperativeExistence" name="cooperativeExistence" placeholder="Years" value="<?= $articles_info->years_of_existence ?>">
-      			<small id="emailHelp" class="form-text text-muted">Start from the date of registration </small>
-      		 </div>
-      		</div>
+            <div class="form-group">
+            <label for="cooperativeExistence"><strong>How many Years does the Cooperative Union should exist?</strong></label>
+            <input type="number" class="form-control" min="1" max="50" id="cooperativeExistence" name="cooperativeExistence" placeholder="Years" value="<?= $articles_info->years_of_existence ?>">
+            <small id="emailHelp" class="form-text text-muted">Start from the date of registration </small>
+           </div>
+          </div>
         </div>
       </div>
-      <div class="card-footer articlesUnionFooter">
-        <input class="btn btn-color-blue btn-block" type="submit" id="articlesUnionBtn" name="articlesUnionBtn" value="Submit">
-      </div>
+      <?php if($is_client) : ?>
+        <div class="card-footer articlesUnionFooter">
+          <input class="btn btn-color-blue btn-block" type="submit" id="articlesUnionBtn" name="articlesUnionBtn" value="Submit">
+        </div>
+      <?php endif; ?>
     </form>
     </div>
   </div>
