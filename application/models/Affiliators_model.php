@@ -193,7 +193,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','left');
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','left');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','left');
-        $this->db->where('user_id ='.$user_id);
+        $this->db->where('affi.user_id ='.$user_id);
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
