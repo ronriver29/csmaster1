@@ -529,7 +529,7 @@
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
               <label for="investPerMonth"><strong>At least how much a member should invest per annum?</strong></label>
-               <input type="text" value="<?=number_format($bylaw_info->member_invest_per_month,2)?>" class="form-control validate[custom[number]]" min="1" id="investPerMonth" name="investPerMonth" placeholder="" disabled>
+               <input type="text" value="<?php if($bylaw_info->member_invest_per_month !== ''){ echo number_format($bylaw_info->member_invest_per_month,2); }?>" class="form-control validate[custom[number]]" min="1" id="investPerMonth" name="investPerMonth" placeholder="" disabled>
              </div>
             </div>
             <div class="col-sm-12 col-md-12">
