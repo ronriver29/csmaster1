@@ -1388,28 +1388,29 @@
               if(($coop_info->status ==13) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two)
               {
                 if ($pay_from=='reservation'){
-                $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
-                $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
-                if(!empty($coop_info->acronym_name)){ 
+                  $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
+                  $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                  if(!empty($coop_info->acronym_name)){ 
                     $acronym_name = '('.$coop_info->acronym_name.') ';
-                } else {
-                    $acronym_name = '';
-                }
-                if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){
-                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->grouping.' Of '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name);
-                } else {
-                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
-                }
-                $amount_in_words=0;
-                  $amount_in_words = ($rf+$lrf+$name_reservation_fee);
-                ini_set('precision', 17);
-                $total_ = number_format($amount_in_words,2);
-                // $total_amount_in_words = ($pos = strpos($amount_in_words,'.')) ? substr( $amount_in_words,0,$pos + 3) : number_format( $amount_in_words);
-                $peso_cents = '';
-                if(substr($total_,-3)=='.00')
-                {
-                  $peso_cents ='Pesos';
-                }
+                  } else {
+                      $acronym_name = '';
+                  }
+
+                  if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){
+                      $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->grouping.' Of '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name);
+                  } else {
+                      $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
+                  }
+                  $amount_in_words=0;
+                    $amount_in_words = ($rf+$lrf+$name_reservation_fee);
+                  ini_set('precision', 17);
+                  $total_ = number_format($amount_in_words,2);
+                  // $total_amount_in_words = ($pos = strpos($amount_in_words,'.')) ? substr( $amount_in_words,0,$pos + 3) : number_format( $amount_in_words);
+                  $peso_cents = '';
+                  if(substr($total_,-3)=='.00')
+                  {
+                    $peso_cents ='Pesos';
+                  }
                 $w = new Numbertowords();
                 ?>
                 <?php
@@ -1423,6 +1424,7 @@
                     $series = $this->db->count_all_results();
                     $series = $series + 1;
                     $datee = date('Y-m-d',now('Asia/Manila'));
+                    $amount = number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2).'<br/>'.number_format(100,2);
                     // End Payment Series
                   } else {
                     $this->db->select('*');
@@ -1432,6 +1434,7 @@
                     $series = $query->row();
                     $datee = $series->date;
                     $series = $series->refNo;
+                    $amount = $series->amount;
                     
                     // $string = substr($lastseries, strrpos($lastseries, '-' )+1);
                     // $series = $string; // about-us
