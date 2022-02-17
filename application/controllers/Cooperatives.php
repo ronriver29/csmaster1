@@ -57,7 +57,10 @@
           //     }
           // }
           //Notification if cooperative need to update
-          $data['is_update_cooperative'] = $this->cooperatives_update_model->check_date_registered($data['coop_info']->id);
+          if(isset($data['coop_info']->id)){
+            $data['is_update_cooperative'] = $this->cooperatives_update_model->check_date_registered($data['coop_info']->id);
+          }
+          
           if(isset($_POST['tos']))
           {
             $data['tos'] = $_POST['tos'];
