@@ -3542,7 +3542,7 @@ public function delete_pdf()
                         $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                         $capitalization_info = $data['capitalization_info'];
                         // $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
-                        if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union') || $data['coop_info']->grouping == 'Federation'){
+                        // if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union') || $data['coop_info']->grouping == 'Federation'){
                           $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                           if($data['purposes_complete']){
                             $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
@@ -3579,10 +3579,10 @@ public function delete_pdf()
                             $this->session->set_flashdata('redirect_message', 'Please complete first the cooperative&apos;s purpose .');
                             redirect('cooperatives/'.$id);
                           }
-                        }else{
-                          $this->session->set_flashdata('redirect_message', 'Please complete first the list of cooperator.');
-                          redirect('cooperatives/'.$id);
-                        }
+                        // }else{
+                        //   $this->session->set_flashdata('redirect_message', 'Please complete first the list of cooperator.');
+                        //   redirect('cooperatives/'.$id);
+                        // }
                     }else{
                       $this->session->set_flashdata('redirect_message', 'Please complete first the bylaw additional information.');
                       redirect('cooperatives/'.$id);
