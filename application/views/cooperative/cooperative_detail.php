@@ -1388,49 +1388,19 @@
               if(($coop_info->status ==13) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two)
               {
                 if ($pay_from=='reservation'){
-                  if($coop_info->category_of_cooperative == 'Tertiary'){
-                    $registrationfeename = 'Tertiary';
-                  } else if ($coop_info->category_of_cooperative == 'Secondary'){
-                    $registrationfeename = 'Secondary';
+                  $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
+                  $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                  if(!empty($coop_info->acronym_name)){ 
+                    $acronym_name = '('.$coop_info->acronym_name.') ';
                   } else {
-                    $registrationfeename = 'Primary';
-                  }
-                  if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){
-                    if($coop_info->area_of_operation == 'National'){
-                      $rf = 3000;
-                    } else if($coop_info->area_of_operation == 'Regional' || $coop_info->area_of_operation == 'Interregional'){
-                      $rf = 2000;
-                    } else {
-                      $rf = 1000;
-                    }
-                      $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
-                  } else {
-                    $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
-                    $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                      $acronym_name = '';
                   }
 
-                  if($coop_info->grouping == 'Federation' && $coop_info->category_of_cooperative == 'Secondary'){
-                    $minimum = 2000.00;
-                    if($capitalization_info->total_amount_of_paid_up_capital*0.001 >= $minimum){
-                      $rf = $capitalization_info->total_amount_of_paid_up_capital*0.001;
-                      $lrf = $rf*0.01;
-                    } else {
-                      $rf = 2000.00;
-                      $lrf = $rf*0.01;
-                    }
-                  } else if ($coop_info->grouping == 'Federation' && $coop_info->category_of_cooperative == 'Tertiary'){
-                    $minimum = 5000.00;
-                    if($capitalization_info->total_amount_of_paid_up_capital*0.001 >= $minimum){
-                      $rf = $capitalization_info->total_amount_of_paid_up_capital*0.001;
-                      $lrf = $rf*0.01;
-                    } else {
-                      $rf = 5000.00;
-                    }
+                  if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){
+                      $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->grouping.' Of '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name);
                   } else {
-                    $minimum = 500.00;
-                    // $rf = $rf;
+                      $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
                   }
-                  
                   $amount_in_words=0;
                     $amount_in_words = ($rf+$lrf+$name_reservation_fee);
                   ini_set('precision', 17);

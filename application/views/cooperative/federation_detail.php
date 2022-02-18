@@ -806,8 +806,19 @@
               if(($coop_info->status ==13) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $staff_complete && $document_two && $document_three && $document_four)
               {
                 if ($pay_from=='reservation'){
-                $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
-                $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){
+                  if($coop_info->area_of_operation == 'National'){
+                    $rf = 3000;
+                  } else if($coop_info->area_of_operation == 'Regional' || $coop_info->area_of_operation == 'Interregional'){
+                    $rf = 2000;
+                  } else {
+                    $rf = 1000;
+                  }
+                    $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                } else {
+                  $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
+                  $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                }
                 if(!empty($coop_info->acronym_name)){ 
                     $acronym_name = ' ('.$coop_info->acronym_name.') ';
                 } else {
@@ -828,6 +839,7 @@
                     $lrf = $rf*0.01;
                   } else {
                     $rf = 2000.00;
+                    $lrf = $rf*0.01;
                   }
                 } else if ($coop_info->grouping == 'Federation' && $coop_info->category_of_cooperative == 'Tertiary'){
                   $minimum = 5000.00;
