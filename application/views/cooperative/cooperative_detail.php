@@ -1456,7 +1456,7 @@
                   <input type="hidden" class="form-control" id="nature" name="nature" value="Name Registration">
                   <!-- <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee"> -->
                   <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration Fee - <?=$registrationfeename?><br><i>(1/10 of 1% of Php<?=number_format($capitalization_info->total_amount_of_paid_up_capital,2)?> paid up capital amounted to Php<?=number_format($capitalization_info->total_amount_of_paid_up_capital*0.001,2)?> or a minimum of Php500.00, whichever is higher)</i><br/>Legal and Research Fund Fee<br/>COC Fee">
-                  <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2).'<br/>'.number_format(100,2) ?>">
+                  <input type="hidden" class="form-control" id="amount" name="amount" value="<?=$amount?>">
                   <input type="hidden" class="form-control" id="total" name="total" value="<?=$rf+$lrf+$name_reservation_fee?>">
                   <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
                 
