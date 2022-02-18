@@ -1401,6 +1401,29 @@
                   } else {
                       $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
                   }
+
+                  if($coop_info->grouping == 'Federation' && $coop_info->category_of_cooperative == 'Secondary'){
+                    $minimum = 2000.00;
+                    if($capitalization_info->total_amount_of_paid_up_capital*0.001 >= $minimum){
+                      $rf = $capitalization_info->total_amount_of_paid_up_capital*0.001;
+                      $lrf = $rf*0.01;
+                    } else {
+                      $rf = 2000.00;
+                      $lrf = $rf*0.01;
+                    }
+                  } else if ($coop_info->grouping == 'Federation' && $coop_info->category_of_cooperative == 'Tertiary'){
+                    $minimum = 5000.00;
+                    if($capitalization_info->total_amount_of_paid_up_capital*0.001 >= $minimum){
+                      $rf = $capitalization_info->total_amount_of_paid_up_capital*0.001;
+                      $lrf = $rf*0.01;
+                    } else {
+                      $rf = 5000.00;
+                    }
+                  } else {
+                    $minimum = 500.00;
+                    // $rf = $rf;
+                  }
+                  
                   $amount_in_words=0;
                     $amount_in_words = ($rf+$lrf+$name_reservation_fee);
                   ini_set('precision', 17);
@@ -1456,7 +1479,7 @@
                   <input type="hidden" class="form-control" id="nature" name="nature" value="Name Registration">
                   <!-- <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration<br/>Legal and Research Fund Fee"> -->
                   <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Registration Fee - <?=$registrationfeename?><br><i>(1/10 of 1% of Php<?=number_format($capitalization_info->total_amount_of_paid_up_capital,2)?> paid up capital amounted to Php<?=number_format($capitalization_info->total_amount_of_paid_up_capital*0.001,2)?> or a minimum of Php500.00, whichever is higher)</i><br/>Legal and Research Fund Fee<br/>COC Fee">
-                  <input type="hidden" class="form-control" id="amount" name="amount" value="<?=$amount?>">
+                  <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2).'<br/>'.number_format(100,2) ?>">
                   <input type="hidden" class="form-control" id="total" name="total" value="<?=$rf+$lrf+$name_reservation_fee?>">
                   <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
                 
