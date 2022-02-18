@@ -1388,18 +1388,25 @@
               if(($coop_info->status ==13) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two)
               {
                 if ($pay_from=='reservation'){
-                  $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
-                  $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
-                  if(!empty($coop_info->acronym_name)){ 
-                    $acronym_name = '('.$coop_info->acronym_name.') ';
+                  if($coop_info->category_of_cooperative == 'Tertiary'){
+                    $registrationfeename = 'Tertiary';
+                  } else if ($coop_info->category_of_cooperative == 'Secondary'){
+                    $registrationfeename = 'Secondary';
                   } else {
-                      $acronym_name = '';
+                    $registrationfeename = 'Primary';
                   }
-
                   if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){
-                      $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->grouping.' Of '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name);
+                    if($coop_info->area_of_operation == 'National'){
+                      $rf = 3000;
+                    } else if($coop_info->area_of_operation == 'Regional' || $coop_info->area_of_operation == 'Interregional'){
+                      $rf = 2000;
+                    } else {
+                      $rf = 1000;
+                    }
+                      $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
                   } else {
-                      $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
+                    $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
+                    $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
                   }
 
                   if($coop_info->grouping == 'Federation' && $coop_info->category_of_cooperative == 'Secondary'){
