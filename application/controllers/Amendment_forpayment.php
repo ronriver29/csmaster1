@@ -87,12 +87,8 @@ Thank you. </pre>";
    }else{
        return false;
    }
-        
-        redirect('amendment');
-    } else {
-        $this->session->set_flashdata('cooperative_error', 'Successfully updated basic information.');
-       redirect('amendment');
-    }
+    redirect('amendment');
+   
   }
 
   public function debug($array)
