@@ -2274,7 +2274,7 @@ public function count_documents_coop($coop_id,$num)
                                 $data['total_new_cooperators_added'] = 0;
                               }
 
-                                $this->load->view('documents/primary/amendment_treasurer_affidavit_primary', $data);
+                                // $this->load->view('documents/primary/amendment_treasurer_affidavit_primary', $data);
                                 $html2 = $this->load->view('documents/primary/amendment_treasurer_affidavit_primary', $data, TRUE);
                                 $f = new pdf();
                                 $f->set_option("isPhpEnabled", true);
