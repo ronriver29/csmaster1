@@ -1498,6 +1498,7 @@ $("#deleteStaffForm").validationEngine('attach',
         }
       }
   });
+
   $('#btnEditEconomicSurvey').on('click', function(){
     $(this).hide();
     var btnGroup = $('<div></div>').attr({'id':'economicSurveyCancelBtn','class':'btn-group','role':'group','aria-label':'Basic-example'});
@@ -1506,8 +1507,19 @@ $("#deleteStaffForm").validationEngine('attach',
     });
     $('.col-btn-action-survey-primary').append(btnCancel);
     $(".economicSurveyFooter").show();
-    $("#economicSurveyForm select,input,textarea").prop('disabled', false);
+    $("#economicSurveyForm select,input,textarea,button").prop('disabled', false);
   });
+  
+  // $('#btnEditEconomicSurvey').on('click', function(){
+  //   $(this).hide();
+  //   var btnGroup = $('<div></div>').attr({'id':'economicSurveyCancelBtn','class':'btn-group','role':'group','aria-label':'Basic-example'});
+  //   var btnCancel = $('<a></a>').attr({'class':'btn btn-secondary btn-sm float-right text-white','role':'button'}).html("<i class='fas fa-times'></i> Cancel").click(function(){
+  //     location.reload(true);
+  //   });
+  //   $('.col-btn-action-survey-primary').append(btnCancel);
+  //   $(".economicSurveyFooter").show();
+  //   $("#economicSurveyForm select,input,textarea").prop('disabled', false);
+  // });
 
   $('#economicSurveyForm #registeredOthers').on('click', function(){
     var registeredOthersSpecify = $('<div class="col-sm-12 col-md-12 col-registered-specify">' +
