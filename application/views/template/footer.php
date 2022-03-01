@@ -9,7 +9,7 @@
 <!-- jQuery Custom Scroller CDN -->
 <script src="<?=base_url();?>assets/js/malibu_scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="<?=base_url();?>assets/js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
-<link href="https://allfont.net/allfont.css?fonts=bookman-old-style" rel="stylesheet" type="text/css" />
+<!-- <link href="https://allfont.net/allfont.css?fonts=bookman-old-style" rel="stylesheet" type="text/css" /> -->
 <script src="<?=base_url();?>assets/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
 <script  src="<?=base_url();?>assets/js/sweetalert2.min.js"></script>
