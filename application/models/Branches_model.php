@@ -1206,7 +1206,7 @@ public function check_evaluator5_laboratories($branch_id){
   }
 }
   public function get_registered_branches($regcode){
-    $this->db->query(SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY','')));
+    $this->db->query("SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
     $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region from branches 
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
