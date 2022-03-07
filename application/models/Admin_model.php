@@ -41,14 +41,22 @@ class Admin_model extends CI_Model{
   public function get_all_signatory(){
     $this->db->select('*');
     $this->db->from('signatory');
+    // $this->db->where(array('active' => 1,'regno' => NULL));
     $this->db->where(array('active' => 1));
     $query = $this->db->get();
     return $query->result_array();
   }
-    public function get_all_user(){
+  public function get_all_user(){
     $this->db->select('*');
     $this->db->from('users');
     $this->db->where(array('is_verified =' => 1));
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function get_all_new_user(){
+    $this->db->select('*');
+    $this->db->from('users');
+    $this->db->where(array('is_verified =' => 1,'regno !=' => NULL));
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -454,7 +462,7 @@ public function add_admin_director($data,$raw_pass){
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $keywords = preg_split("/@/", $email);
       $message = "Your account has been created. See the details below: <br>".
-      "<ul><li>Username: ".$username."</li><li>Password: ".$password."</li></ul>";
+      "<ul><li>Username: ".$username."</li><li>Password: ".$password."</li></ul><br><br>We highly recommend to change your password once you successfully logged in";
       $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($email);
       $this->email->subject($subject);
@@ -544,6 +552,38 @@ public function add_admin_director($data,$raw_pass){
         <b><li> Contact Number: </b>".$contactnumber."</li>
         <b><li> Email Address: </b>".$clientemail."</li>
       </ol>";
+      $this->email->from($from,'ecoopris CDA (No Reply)');
+      $this->email->to($receiver);
+      $this->email->subject($subject);
+      $this->email->message($message);
+      if($this->email->send()){
+          return true;
+      }else{
+          return false;
+      }
+    } else {
+      return true;
+    }
+  }
+  public function sendEmailToAP($proposedname,$brgy,$fullname,$contactnumber,$clientemail,$senioremail){
+    if(sizeof($senioremail)>0){
+      $receiver = "";
+      if(sizeof($senioremail)>1){
+        $tempEmail = array();
+        foreach($senioremail as $email){
+          array_push($tempEmail, $email['email']);
+        }
+        $receiver = implode(", ",$tempEmail);
+      }else{
+        $receiver = $senioremail[0]['email'];
+      }
+      $from = "ecoopris@cda.gov.ph";    //senders email address
+      $subject = 'Cooperative Update Info';  //email subject
+      $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+      $message = "Good day!<p>
+
+      ".$proposedname." submitted an application for updating of cooperatives' original details for your review and approval ";
       $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($receiver);
       $this->email->subject($subject);
@@ -1579,7 +1619,7 @@ Very truly yours, <br>
     }
   }
   public function get_emails_of_senior_by_region($regcode){
-    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>2));
+    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>2,'active'=>1));
     $data = $query->result_array();
     if($this->db->count_all_results()==0){
       return array();
@@ -1588,7 +1628,7 @@ Very truly yours, <br>
     }
   }
   public function get_emails_of_supervisor_by_region($regcode){
-    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>4));
+    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>4,'active'=>1));
     $data = $query->result_array();
     if($this->db->count_all_results()==0){
       return array();
@@ -1597,7 +1637,7 @@ Very truly yours, <br>
     }
   }
   public function get_emails_of_director_by_region($regcode){
-    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>3));
+    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>3,'active'=>1));
     $data = $query->result_array();
     if($this->db->count_all_results()==0){
       return array();
@@ -1615,7 +1655,7 @@ Very truly yours, <br>
     }
   }
   public function get_emails_of_revoke_director_by_region($regcode){
-    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>4));
+    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>4,'active'=>1));
     $data = $query->result_array();
     if($this->db->count_all_results()==0){
       return array();
@@ -1625,7 +1665,7 @@ Very truly yours, <br>
   }
   public function get_all_specialist_by_region($regcode){
     $this->db->like('region_code',$regcode);
-    $query = $this->db->get_where('admin',array('access_level'=>1));
+    $query = $this->db->get_where('admin',array('access_level'=>1,'active'=>1));
     $data = $query->result_array();
     if($this->db->count_all_results()==0){
       return array();
@@ -1635,13 +1675,23 @@ Very truly yours, <br>
   }
   public function get_specialst_info($data){
     $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('admin',array('id'=>$data,'access_level'=>1));
+    $query= $this->db->get_where('admin',array('id'=>$data,'access_level'=>1,'active'=>1));
     $row = $query->row();
     return $row;
   }
+  public function get_ap_info($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'access_level'=>6,'active'=>1));
+    $data = $query->result_array();
+    if($this->db->count_all_results()==0){
+      return array();
+    }else{
+      return $data;
+    }
+  }
   public function get_senior_info($data){
     $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>2));
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>2,'active'=>1));
     $data = $query->result_array();
     if($this->db->count_all_results()==0){
       return array();
@@ -1651,19 +1701,19 @@ Very truly yours, <br>
   }
   public function get_senior_info_dir_defer($data){
     $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('admin',array('region_code'=>$data,'access_level'=>2));
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'access_level'=>2,'active'=>1));
     $row = $query->row();
     return $row;
   }
   public function get_director_info($data){
     $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>3));
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>3,'active'=>1));
     $row = $query->row();
     return $row;
   }
   public function get_supervising_info($data){
     $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>4));
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>4,'active'=>1));
     $row = $query->row();
     return $row;
   }
@@ -1699,9 +1749,19 @@ Very truly yours, <br>
       return false;
     }
   }
+  public function check_ap($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('admin',array('id'=>$data));
+    $row = $query->row();
+    if($row->access_level ==6){
+      return true;
+    }else{
+      return false;
+    }
+  }
   public function check_if_director_active($admin_id,$region_code){
     // $query= $this->db->get_where('admin',array('id'=>$admin_id,'access_level'=>3));
-    $query = $this->db->query("select * from admin where id='$admin_id' and region_code='$region_code' and access_level IN (3,4)");
+    $query = $this->db->query("select * from admin where id='$admin_id' and region_code='$region_code' and access_level IN (3,4) and active = 1");
     $row = $query->row();
     // return $this->db->last_query();
     if($row->is_director_active ==1){
@@ -1862,7 +1922,7 @@ System (CoopRIS).</pre>";
 //   }
     public function is_acting_director($supervising_id)
     {
-      $query = $this->db->get_where('admin',array('id'=>$supervising_id,'is_director_active'=>1,'access_level'=>4));
+      $query = $this->db->get_where('admin',array('id'=>$supervising_id,'is_director_active'=>1,'access_level'=>4,'active'=>1));
       if($query->num_rows()>0)
       {
         return true;
@@ -1874,7 +1934,7 @@ System (CoopRIS).</pre>";
     }
     public function is_active_director($director_id)
     {
-      $query = $this->db->get_where('admin',array('id'=>$director_id,'is_director_active'=>1,'access_level'=>3));
+      $query = $this->db->get_where('admin',array('id'=>$director_id,'is_director_active'=>1,'access_level'=>3,'active'=>1));
       if($query->num_rows()>0)
       {
         return true;
