@@ -731,15 +731,15 @@ class Amendment_committees extends CI_Controller{
           $result = $this->amendment_committee_model->check_committee_name_not_exists($data);
           echo json_encode($result);
         }else{
-          echo "ano";
+          
         }
       }else{
-        // show_404();
-        echo"saan";
+        show_404();
+        
       }
     }else{
-      // show_404();
-      echo"dddd";
+      show_404();
+      
     }
   }
   public function coop_dtl($amendment_id)
