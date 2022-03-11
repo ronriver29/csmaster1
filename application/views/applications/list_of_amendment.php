@@ -84,17 +84,23 @@ if($is_client && !$has_registered_coop):?>
           <table class="table table-bordered" id="cooperativesTable">
             <thead>
               <tr>
+                <th>Amendment No.</th>
                 <th>Name of Cooperative</th>
+                 <th>Amended Name</th>
                 <?php if(!$is_client) : ?>
                   <th>Office Address</th>
                 <?php endif;?>
+               
                 <th>Status</th>
                 <th>Action </th>
               </tr>
             </thead>
             <tbody>
+              <?php if($list_cooperatives!=NULL){ ?>
               <?php foreach ($list_cooperatives as $cooperative) : ?>
+                <?php if($cooperative['amendmentNo']!=0){?>
                 <tr>
+                  <td><center><?=$cooperative['amendmentNo']?></center></td>
                   <td>
                    <?php
                    if(strlen($cooperative['acronym'])>0)
@@ -115,15 +121,17 @@ if($is_client && !$has_registered_coop):?>
                     {
                       $proposeNames = $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative']. ' Cooperative '.$acronym_.' '.$cooperative['grouping'];
                     }
-                    echo $proposeNames;
+                    //echo $proposeNames;
+                    echo $this->amendment_model->proposed_name_comparison($cooperative['regNo'],$cooperative['amendmentNo'],$proposeNames);
                     ?>  
-                   
+                    <td><?= (strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($cooperative['regNo'],$cooperative['amendmentNo']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?></td>
                   <?php if(!$is_client) : ?>
                     <td>
                       <?php if($cooperative['house_blk_no']==null && $cooperative['street']==null) $x=''; else $x=', ';?>
                       <?=$cooperative['house_blk_no']?> <?=$cooperative['street'].$x?><?=$cooperative['brgy']?>, <?=$cooperative['city']?>, <?= $cooperative['province']?> <?=$cooperative['region']?>
                     </td>
                   <?php endif; ?>
+                
                   <td>
                       <span class="badge badge-secondary">
                       <?php if($is_client) : ?>
@@ -189,6 +197,7 @@ if($is_client && !$has_registered_coop):?>
 
                       </span>
                     </td>
+
                   <?php if($is_client) :?> 
                     <td>
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
@@ -257,7 +266,9 @@ if($is_client && !$has_registered_coop):?>
                     </td>
                   <?php endif;?>
                 </tr>
+              <?php } //end if 0 amendment number?>
               <?php endforeach; ?>
+            <?php } //end not null ?>
             </tbody>
           </table>
         </div>
@@ -282,7 +293,9 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Deferred/Denied</h4>
       <table class="table table-bordered" id="cooperativesTable">
         <thead>
           <tr>
+            <th>Amendment No.</th>
             <th>Name of Cooperative</th>
+            <th>Amended Name</th>
             <?php if(!$is_client) : ?>
             <th>Office Address</th>
             <?php endif;?>
@@ -295,6 +308,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Deferred/Denied</h4>
           {
         ?>
             <tr>
+                  <td><?=$cooperative['amendmentNo']?></td>
                   <td>
                    <?php
                    if(strlen($cooperative['acronym'])>0)
@@ -315,9 +329,9 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Deferred/Denied</h4>
                     {
                       $proposeNames = $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative']. ' Cooperative '.$acronym_.' '.$cooperative['grouping'];
                     }
-                    echo $proposeNames;
+                   echo $this->amendment_model->proposed_name_comparison($cooperative['regNo'],$cooperative['amendmentNo'],$proposeNames);
                     ?>  
-                  </td>
+                    <td><?= (strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($cooperative['regNo'],$cooperative['amendmentNo']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?></td>
 
                   <td>
                       <?php if($cooperative['house_blk_no']==null && $cooperative['street']==null) $x=''; else $x=', ';?>
@@ -357,6 +371,9 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Deferred/Denied</h4>
 </div>
 <?php endif;?>          
 
+
+
+
 <?php if(!$is_client && $admin_info->region_code != '00') :?>
 <h4 style="
 padding: 15px 10px;
@@ -375,7 +392,9 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
           <table class="table table-bordered" id="cooperativesTable2">
             <thead>
               <tr>
+                <th>Amendment No.</th>
                 <th>Name of Cooperative</th>
+                 <th>Amended Name</th>
                 <?php if(!$is_client) : ?>
                   <th>Office Address</th>
                 <?php endif;?>
@@ -386,7 +405,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
             <tbody>
               <?php foreach ($list_cooperatives_registered as $cooperative_registered) : ?>
                 <tr>
-              
+                  <td><?=$cooperative_registered['amendmentNo']?></td>
                   <td>
                     <?php
                       if(strlen($cooperative_registered['acronym'])>0)
@@ -407,9 +426,10 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                     {
                       $proposeNames = $cooperative_registered['proposed_name'].' '.$cooperative_registered['type_of_cooperative']. ' Cooperative '.$acronym_;
                     }
-                    echo $proposeNames;
-                    ?>
-                  </td>
+                    echo $this->amendment_model->proposed_name_comparison($cooperative_registered['regNo'],$cooperative_registered['amendmentNo'],$proposeNames);
+                    ?>  
+                    <td><?= (strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($cooperative_registered['regNo'],$cooperative_registered['amendmentNo']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?></td>
+
                   <td>
                     <?php if($cooperative_registered['house_blk_no']==null && $cooperative_registered['street']==null) $x=''; else $x=', ';?>
                     <?=$cooperative_registered['house_blk_no']?> <?=$cooperative_registered['street'].$x?><?=$cooperative_registered['brgy']?>, <?=$cooperative_registered['city']?>, <?= $cooperative_registered['province']?> <?=$cooperative_registered['region']?>
@@ -443,7 +463,95 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
     </div>
   </div><?endif;?>
 
-  
+  <?php if(!$is_client && $admin_info->region_code != '00') :?>
+<div class="col-md-12">    
+<h4 style="
+padding: 15px 10px;
+background: #fff;
+background-color: rgb(255, 255, 255);
+border: none;
+border-radius: 0;
+margin-bottom: 20px;
+box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Region</h4>
+  </div>
+
+<div class="col-sm-12 col-md-12">
+    <div class="card border-top-blue shadow-sm mb-4">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="cooperativesTable2">
+            <thead>
+              <tr>
+                <th>Amendment No.</th>
+                <th>Name of Cooperative</th>
+                <th>Amended Name</th>
+                <?php if(!$is_client) : ?>
+                  <th>Office Address</th>
+                <?php endif;?>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($registered_coop_change_region as $cooperative_registered) : ?>
+                <tr>
+                  <td><?=$cooperative_registered['amendmentNo']?></td>
+                  <td>
+                    <?php
+                      if(strlen($cooperative_registered['acronym'])>0)
+                     {
+                      $acronym_ = '('.$cooperative_registered['acronym'].')';
+                     }
+                     else
+                     {
+                      $acronym_='';
+                     }
+                      $count_tYpe = explode(',',$cooperative_registered['type_of_cooperative']);
+                    if(count($count_tYpe)>1)
+
+                    {
+                      $proposeNames = $cooperative_registered['proposed_name'].' Multipurpose Cooperative '.$acronym_;
+                    }
+                    else
+                    {
+                      $proposeNames = $cooperative_registered['proposed_name'].' '.$cooperative_registered['type_of_cooperative']. ' Cooperative '.$acronym_;
+                    }
+                    // echo $proposeNames;
+                     echo $this->amendment_model->proposed_name_comparison($cooperative_registered['regNo'],$cooperative_registered['amendmentNo'],$proposeNames);
+                    ?>
+                  </td>
+                   <td><?= (strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($cooperative_registered['regNo'],$cooperative_registered['amendmentNo']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?></td>
+                  <td>
+                    <?php if($cooperative_registered['house_blk_no']==null && $cooperative_registered['street']==null) $x=''; else $x=', ';?>
+                    <?=$cooperative_registered['house_blk_no']?> <?=$cooperative_registered['street'].$x?><?=$cooperative_registered['brgy']?>, <?=$cooperative_registered['city']?>, <?= $cooperative_registered['province']?> <?=$cooperative_registered['region']?>
+                  </td>
+                  <td>
+                    <span class="badge badge-secondary">
+                      <?php if($cooperative_registered['status']==15) { echo "REGISTERED"; }?>
+                    </span>
+                  </td>
+                  <td width="31%">
+                    <?php $ar = array(2,5); $viewdoc_array = array(2,3,5) ?>
+                    <?php if(in_array($admin_info->access_level,$ar)):?>
+                      <ul id="ul-admin">
+                        <li style="list-style: none;">
+                      <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/amendment_registration" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Re-print Registration</a>
+                    </li>
+                     <?php endif; ?>
+                     <?php if(in_array($admin_info->access_level,$viewdoc_array)): ?>
+                    <li style="list-style: none;">
+                      <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/amendment_documents" class="btn btn-sm btn-info"><i class='fas fa-eye'></i> View Document</a>
+                    </li>
+                     <?php endif; //end of viewdoc array?>
+                  </ul>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div> <?endif;?>
 
     <!-- HO PROCESS -->
     <?php if(!$is_client  && $admin_info->region_code == '00') :?>
@@ -466,7 +574,9 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
             <table class="table table-bordered" id="cooperativesTable2">
               <thead>
                 <tr>
+                  <th>Amendment No.</th>
                   <th>Name of Cooperative</th>
+                  <th>Amended Name</th>
                   <?php if(!$is_client) : ?>
                   <th>Office Address</th>
                   <?php endif;?>
@@ -477,8 +587,14 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
               <tbody>
                 <?php foreach ($list_cooperatives_registered_by_ho as $cooperative_registered) : ?>
                 <tr>
+                  <td><?=$cooperative_registered['amendmentNo']?></td>
                   <td><?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>
+                 <?php
+                    echo $this->amendment_model->proposed_name_comparison($cooperative_registered['regNo'],$cooperative_registered['amendmentNo'],$proposeNames);
+                    ?>
                   </td>
+                   <td><?= (strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($cooperative_registered['regNo'],$cooperative_registered['amendmentNo']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?></td>
+
                   <td>
                     <?php if($cooperative_registered['house_blk_no']==null && $cooperative_registered['street']==null) $x=''; else $x=', ';?>
                     <?=$cooperative_registered['house_blk_no']?> <?=$cooperative_registered['street'].$x?><?=$cooperative_registered['brgy']?>, <?=$cooperative_registered['city']?>, <?= $cooperative_registered['province']?> <?=$cooperative_registered['region']?>
@@ -537,7 +653,9 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
             <table class="table table-bordered" id="cooperativesTable2">
               <thead>
                 <tr>
+                  <th>Amendment No.</th>
                   <th>Name of Cooperative</th>
+                  <th>Amended Name</th>
                   <?php if(!$is_client) : ?>
                   <th>Office Address</th>
                   <?php endif;?>
@@ -548,8 +666,16 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
               <tbody>
                 <?php foreach ($list_of_cooperative_by_ho_process as $cooperative_registered) : ?>
                 <tr>
-                  <td><?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>
+                  <td><?=$cooperative_registered['amendmentNo']?></td>
+                 <td><?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>
+                 <?php
+                    echo $this->amendment_model->proposed_name_comparison($cooperative_registered['regNo'],$cooperative_registered['amendmentNo'],$proposeNames);
+                    ?>
                   </td>
+                   <td><?= (strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($cooperative_registered['regNo'],$cooperative_registered['amendmentNo']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?>
+                     
+                   </td>
+
                   <td>
                     <?php if($cooperative_registered['house_blk_no']==null && $cooperative_registered['street']==null) $x=''; else $x=', ';?>
                     <?=$cooperative_registered['house_blk_no']?> <?=$cooperative_registered['street'].$x?><?=$cooperative_registered['brgy']?>, <?=$cooperative_registered['city']?>, <?= $cooperative_registered['province']?> <?=$cooperative_registered['region']?>
@@ -616,7 +742,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                 </tr>
                  <tr>
                   <td class="bord">Date of OR</td>
-                  <td class="bord"><input type="date" id="dateofOR" name="dateofOR"  class="form-control" required><span id="msgdate" style="font-size:11px;margin-left:100px;color:red;font-style: italic;"></span></td>
+                  <td class="bord"><input type="date" id="dateofOR" name="dateofOR"  class="form-control validate[required]" required="required"><span id="msgdate" style="font-size:11px;margin-left:100px;color:red;font-style: italic;"></span></td>
                 </tr>
                  <tr>
                   <td class="bord">Order of Payment No.</td>
@@ -716,7 +842,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
     $('#paymentForm')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty();
-
+    $("#dateofOR").prop('required',true);
     $.ajax({
         url : "<?php echo base_url('amendment/payment')?>",
         type: "post",
@@ -760,6 +886,10 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
     var x = $('#orNo').val(); 
     if (x==''){
       alert('Missing O.R. No.');
+    }
+    else if($("#dateofOR").val()=='')
+    {
+      alert('Missing Date of O.R.');
     }
     else{
       var paymentFormData = new FormData($('#paymentForm')[0]);
