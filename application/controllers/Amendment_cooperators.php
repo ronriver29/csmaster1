@@ -232,7 +232,6 @@ class Amendment_cooperators extends CI_Controller{
                 {
                   $new = 0;
                 }  
-                var_dump($new);
                 $data['encrypted_coop_id'] = encrypt_custom($this->encryption->encrypt($cooperative_id));
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                 if($data['bylaw_complete']){
