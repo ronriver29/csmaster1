@@ -36,10 +36,8 @@ class amendment extends CI_Controller{
           $data['client_info'] = $this->user_model->get_user_info($user_id);
           $data['header'] = 'Amendment';
           $data['has_registered_coop'] = $this->amendment_model->check_if_has_registered($user_id);
-           
-          
           $data['check_pending'] = $this->amendment_model->check_pending($data['client_info']->regno,$user_id);  
-          
+          // echo $this->db->last_query()
             $this->load->view('template/header', $data);
            if($data['client_info']->regno == NULL)
            {
@@ -48,9 +46,25 @@ class amendment extends CI_Controller{
            }
            else
            {
-              $data['list_cooperatives'] = $this->amendment_model->reg_coop_migrated_data($user_id);
-              $this->load->view('applications/list_of_reg_amendment', $data);
-           }
+             $data['is_update_cooperative'] = $this->amendment_model->check_date_registered($data['client_info']->regno);
+             
+              if(!$data['is_update_cooperative']) //check if for updating 
+              { 
+                 $data['list_cooperatives_for_update'] = $this->amendment_model->reg_coop_migrated_data($user_id);
+                 $this->load->view('applications/list_of_reg_amendment', $data);
+              }
+              else
+              { 
+                //new upadeted coop migrated data
+                 $data['has_registered_coop'] =true;
+                 $data['list_cooperatives'] =$this->amendment_model->reg_coop_migrated_data_updates($data['client_info']->regno);
+                
+                $this->load->view('update/amendment/list_of_migrated_amendment', $data);
+              
+              }
+             
+           } 
+            // $this->load->view('applications/list_of_amendment', $data);
           $this->load->view('amendment/delete_modal_amendment');
           $this->load->view('template/footer');
         }else{
@@ -80,14 +94,16 @@ class amendment extends CI_Controller{
                   array_push($amendment_id,$row['id']);
                  }
               }
+               $data['registered_coop_change_region'] =$this->amendment_model->cooperatives_registered_change_region($data['admin_info']->region_code);
 
             if($this->session->userdata('access_level')==1){
+
               if($data['admin_info']->region_code=="00"){
                 $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_specialist_central_office($data['admin_info']->region_code);
-
+              
               }else{
                 $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_specialist($data['admin_info']->region_code,$user_id);
-                $data['list_of_cooperative_by_ho_process'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
+                $data['list_of_cooperative_by_ho_process'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
               }
             }else if($this->session->userdata('access_level')==2){
               // $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives_by_senior($data['admin_info']->region_code);
@@ -122,6 +138,7 @@ class amendment extends CI_Controller{
 
               }
             }else{ //DIRECTOR
+               $data['registered_coop_change_region'] =$this->amendment_model->cooperatives_registered_change_region($data['admin_info']->region_code);
               if($data['admin_info']->region_code=="00"){
                 // Registered Coop Process by Head Office
                   $data['list_cooperatives_registered_by_ho'] = $this->amendment_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
@@ -145,11 +162,11 @@ class amendment extends CI_Controller{
               }
             }
 
-            $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+            // $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
             $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code); 
             $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
             $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
-           
+             // $this->debug($data['list_cooperatives']);
               $this->load->view('templates/admin_header', $data);
               $this->load->view('applications/list_of_amendment', $data);
               $this->load->view('applications/assign_admin_modal_amendment');
@@ -188,11 +205,11 @@ class amendment extends CI_Controller{
                
                 if(strlen($data['client_info']->regno) ==0)
                 {
-                   $data['regNo'] =$this->load_regNo($user_id);
+                   $data['regNo'] =$this->amendment_model->load_regNo($user_id);
                 }
                 else
                 {
-                   $data['regNo'] = $this->load_regNo_reg($user_id);
+                   $data['regNo'] = $this->amendment_model->load_regNo_reg($user_id);
                 }
 
               if($this->amendment_model->check_pending($data['regNo'],$user_id))
@@ -201,30 +218,33 @@ class amendment extends CI_Controller{
                     redirect('amendment'); 
               }  
               $data['cooperative_id'] = $this->amendment_model->get_cooperative_id_by_regNo($data['regNo']);
-               
+              
               $data['date_diff_Reg'] =false;
-              $date_diff_reg = $this->amendment_model->year_registered($data['regNo']);
-              if($date_diff_reg>=2)
-              {
-                 $data['date_diff_Reg'] = true;
-              }        
+                  $date_diff_reg = $this->amendment_model->year_registered($data['regNo']);
+                  if($date_diff_reg>=2)
+                  {
+                     $data['date_diff_Reg'] = true;
+                  }
+                  if($date_diff_reg ==NULL)
+                  {
+                    $date_diff_reg = $this->amendment_model->year_registered2($data['regNo']); 
+                     if($date_diff_reg>=2)
+                    {
+                     $data['date_diff_Reg'] = true;
+                   }
+                  } 
                
                 if($this->amendment_model->if_had_amendment_new($data['regNo']))
                 {
                   // $composition_members = $this->amendment_model->amendment_info_by_regno($data['regNo']);
-
                   //last amendment info
                   $data['coop_info'] = $this->amendment_model->get_amendment_info_byreg($data['regNo']); 
-                  $composition_members = $this->amendment_model->get_composition_of_members_by_amendment($data['coop_info']->cooperative_id,$data['coop_info']->id);
-             
-                  // $this->debug($data['coop_info']);                 
+                  $composition_members = $this->amendment_model->get_composition_of_members_by_amendment($data['coop_info']->cooperative_id,$data['coop_info']->id);               
                 }
                 else
                 { 
                    $data['cooperative_id'] = $this->amendment_model->coop_info_by_regno($data['regNo'])->application_id;
                     $composition_members = $this->amendment_model->get_composition_of_members_by_coop($data['cooperative_id']);
-                 
-                    // echo $this->db->last_query();
                   //cooperative info if firt amendment apply  
                   $data['coop_info'] =  $this->amendment_model->get_cooperative_info_by_admin_orig($data['cooperative_id']);
                 }
@@ -243,12 +263,12 @@ class amendment extends CI_Controller{
                     $data['regions_island_list'] = $this->region_model->get_selected_islands($data['coop_info']->interregional);
 
                   }
-                  // $this->debug($data['coop_info']);
+                  $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($data['cooperative_id']);
                   // $data['list_of_regions'] = $this->amendment_model->get_regions();
                   $data['list_of_provinces'] = $this->amendment_model->get_provinces($data['coop_info']->rCode);
                   $data['list_of_cities'] = $this->amendment_model->get_cities($data['coop_info']->pCode);
                   $data['list_of_brgys'] = $this->amendment_model->get_brgys($data['coop_info']->cCode);
-                  // $this->debug($data['list_of_brgys']);
+          
                  
                 ini_set('display_errors', 1);
                 $this->load->view('./template/header', $data);
@@ -312,13 +332,7 @@ class amendment extends CI_Controller{
               {
               	$type_of = "Single";
               }
-              //validate name
-                // if(!$this->amendment_name_exist($coop_id,$proposeName))
-                // {
-                //   // echo "duplicate entry";
-                //    $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Proposed name already exist. Please try again.'));
-                //     redirect('amendment');
-                // }
+
 
                 $occu_comp_of_membship='';
                 if(is_array($this->input->post('compositionOfMembersa'))>0)
@@ -329,17 +343,23 @@ class amendment extends CI_Controller{
                $interregional='';
                $regions='';
                $interregional ='';
-               // var_dump($this->input->post('interregional'));
-               // var_dump($this->input->post('regions'));
-               if($this->input->post('interregional')!=NULL)
+              
+               if($this->input->post('areaOfOperation') == 'Interregional')
                {
                 $interregional= implode(',',$this->input->post('interregional'));
-               }
-                if($this->input->post('regions')!=NULL)
-               {
                  $regions= implode(',',$this->input->post('regions'));
                }
               
+                
+                if(in_array('Workers',explode(',',$type_of_cooperativeName))  || in_array('Labor Service',explode(',',$type_of_cooperativeName)))
+                {
+                   $commonBondOFmembership = $this->input->post('commonBond2');
+                }
+                else
+                {
+                  $commonBondOFmembership =  $this->input->post('commonBondOfMembership');
+                }
+               
                 $field_data = array(
                   'users_id' => $this->session->userdata('user_id'),
                   'cooperative_id' => $coop_id, 
@@ -351,7 +371,7 @@ class amendment extends CI_Controller{
                   'type_of_cooperative' => $type_of_cooperativeName,
                   'cooperative_type_id' => 	$coopTypeID,
                   'grouping' => $group,
-                  'common_bond_of_membership' => $this->input->post('commonBondOfMembership'),
+                  'common_bond_of_membership' =>$commonBondOFmembership,
                   'comp_of_membership' => $occu_comp_of_membship,
                   'field_of_membership' =>  $field_memship,
                   'name_of_ins_assoc' =>  $name_of_ins_assoc,
@@ -368,26 +388,30 @@ class amendment extends CI_Controller{
                   'expire_at' =>  date('Y-m-d h:i:s',(now('Asia/Manila')+(4*24*60*60)))
                 );
                 // $this->debug($field_data);
-
+                 $data_bylaws = array(
+                      'cooperatives_id' => $coop_id, 
+                      'annual_regular_meeting_day_date'=> $this->input->post('annaul_date_venue'),
+                      'annual_regular_meeting_day_venue'=> $this->input->post('assembly_venue'),
+                      'type' => $this->input->post('type')
+                );
+               
                 if($this->amendment_model->if_had_amendment_new($this->input->post('regNo')))
                 {
 
-                	 // $this->debug($this->amendment_model->add_amendment($field_data,$major_industry,$subclass_array,$members_composition,$typeOfCooperative));
-                  if($this->amendment_model->add_amendment($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative))
+                  if($this->amendment_model->add_amendment($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative,$data_bylaws))
                   {
                     $this->session->set_flashdata('list_success_message', 'Your reservation is confirmed.');
                     redirect('amendment');
                   }
                   else
                   {
-                      $this->session->set_flashdata('list_error_message', 'Unable to reserve cooperative name.');
+                    $this->session->set_flashdata('list_error_message', 'Unable to reserve cooperative name.');
                     redirect('amendment'); 
                   }
                 }
                 else
                 {
-                    // $this->debug($this->amendment_model->add_cooperative($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative));
-	                if($this->amendment_model->add_cooperative($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative)){
+	                if($this->amendment_model->add_cooperative($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative,$data_bylaws)){
 	             
 	                  $this->session->set_flashdata('list_success_message', 'Your reservation is confirmed.');
 	                  redirect('amendment');
@@ -404,76 +428,75 @@ class amendment extends CI_Controller{
               redirect('cooperatives');
             }
           }
-
       }
     }
 
     //json
-    public function load_regNo($user_id)
-    {
-      $qry_user = $this->db->get_where('cooperatives',array('users_id'=>$user_id));
-      if($qry_user->num_rows()>0)
-      {
-        foreach($qry_user->result_array() as $urow)
-        {
-          $cooperative_id = $urow['id'];
-        }
+    // public function load_regNo($user_id)
+    // {
+    //   $qry_user = $this->db->get_where('cooperatives',array('users_id'=>$user_id));
+    //   if($qry_user->num_rows()>0)
+    //   {
+    //     foreach($qry_user->result_array() as $urow)
+    //     {
+    //       $cooperative_id = $urow['id'];
+    //     }
 
-          $qry = $this->db->get_where('registeredcoop',array('application_id'=>$cooperative_id));
-          if($qry->num_rows()>0)
-          {
-            foreach($qry->result_array() as $row)
-            {
-              $regno = $row['regNo'];
-            }
+    //       $qry = $this->db->get_where('registeredcoop',array('application_id'=>$cooperative_id));
+    //       if($qry->num_rows()>0)
+    //       {
+    //         foreach($qry->result_array() as $row)
+    //         {
+    //           $regno = $row['regNo'];
+    //         }
 
-          }
-          else
-          {
-            $regno = NULL;
-          }
-          return $regno;
-      }   
-    }
-    public function load_regNo_reg($user_id)
-    {
-      $query_user_reg = $this->db->query("SELECT regno FROM users where id='$user_id'");
-      if($query_user_reg->num_rows()>0)
-      {
-        foreach($query_user_reg->result_array() as $row)
-        {
-           $data = $row['regno'];
-        }
-      }
-      else
-      {
-        $data = NULL;
-      }
-      return $data;
-      // $qry_user = $this->db->get_where('amend_coop',array('users_id'=>$user_id));
-      // if($qry_user->num_rows()>0)
-      // {
-      //   foreach($qry_user->result_array() as $urow)
-      //   {
-      //     $cooperative_id = $urow['id'];
-      //   }
+    //       }
+    //       else
+    //       {
+    //         $regno = NULL;
+    //       }
+    //       return $regno;
+    //   }   
+    // }
+    // public function load_regNo_reg($user_id)
+    // {
+    //   $query_user_reg = $this->db->query("SELECT regno FROM users where id='$user_id'");
+    //   if($query_user_reg->num_rows()>0)
+    //   {
+    //     foreach($query_user_reg->result_array() as $row)
+    //     {
+    //        $data = $row['regno'];
+    //     }
+    //   }
+    //   else
+    //   {
+    //     $data = NULL;
+    //   }
+    //   return $data;
+    //   // $qry_user = $this->db->get_where('amend_coop',array('users_id'=>$user_id));
+    //   // if($qry_user->num_rows()>0)
+    //   // {
+    //   //   foreach($qry_user->result_array() as $urow)
+    //   //   {
+    //   //     $cooperative_id = $urow['id'];
+    //   //   }
 
-      //     $qry = $this->db->get_where('registeredcoop',array('application_id'=>$cooperative_id));
-      //     if($qry->num_rows()>0)
-      //     {
-      //       foreach($qry->result_array() as $row)
-      //       {
-      //         $regno = $row['regNo'];
-      //       }
+    //   //     $qry = $this->db->get_where('registeredcoop',array('application_id'=>$cooperative_id));
+    //   //     if($qry->num_rows()>0)
+    //   //     {
+    //   //       foreach($qry->result_array() as $row)
+    //   //       {
+    //   //         $regno = $row['regNo'];
+    //   //       }
 
-      //     }
-      //     else
-      //     {
-      //       $regno = NULL;
-      //     }
-      //     return $regno;
-      // }   
-    }
+    //   //     }
+    //   //     else
+    //   //     {
+    //   //       $regno = NULL;
+    //   //     }
+    //   //     return $regno;
+    //   // }   
+    // }
 
 
     //modify
@@ -690,11 +713,11 @@ class amendment extends CI_Controller{
                    $data['client_info'] = $this->user_model->get_user_info($user_id);
                   if(strlen($data['client_info']->regno) ==0)
                   {
-                     $data['regNo'] =$this->load_regNo($user_id);
+                     $data['regNo'] =$this->amendment_model->load_regNo($user_id);
                   }
                   else
                   {
-                     $data['regNo'] = $this->load_regNo_reg($user_id);
+                     $data['regNo'] = $this->amendment_model->load_regNo_reg($user_id);
                   }
 
                   $data['date_diff_Reg'] =false;
@@ -702,12 +725,22 @@ class amendment extends CI_Controller{
                   if($date_diff_reg>=2)
                   {
                      $data['date_diff_Reg'] = true;
+                  }
+                  if($date_diff_reg ==NULL)
+                  {
+                    $date_diff_reg = $this->amendment_model->year_registered2($data['regNo']); 
+                     if($date_diff_reg>=2)
+                    {
+                     $data['date_diff_Reg'] = true;
+                   }
                   }   
+                  // var_dump($date_diff_reg);
                   $data['list_of_provinces'] = $this->amendment_model->get_provinces($data['coop_info']->rCode);
                   $data['list_of_cities'] = $this->amendment_model->get_cities($data['coop_info']->pCode);
                   $data['list_of_brgys'] = $this->amendment_model->get_brgys($data['coop_info']->cCode);
 
-                // $this->debug($data['coop_info']);  
+                  $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
+                  
                   $this->load->view('./template/header', $data);
                   $this->load->view('cooperative/amendment_reservation_update', $data);
                   if($this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
@@ -729,20 +762,29 @@ class amendment extends CI_Controller{
 	                 // $type_of_cooperativeName = $this->format_name($typeOfCooperative);
                   $field_memship ='';
                   $name_of_ins_assoc ='';
-	                if($this->input->post('commonBondOfMembership')=='Institutional')
+                   $commonBondOFmembership =  $this->input->post('commonBondOfMembership');
+	                if($commonBondOFmembership=='Institutional')
 	                {
 	                       $name_of_ins_assoc = implode(',',$this->input->post('name_institution'));
 	                        $field_memship =$this->input->post('field_membership');
 	                }
-	                else if($this->input->post('commonBondOfMembership')=='Associational')
+	                else if( $commonBondOFmembership=='Associational')
 	                {
 	                      $name_of_ins_assoc = implode(',',$this->input->post('name_institution'));
 	                      $field_memship =$this->input->post('field_membership');
 	                }
-	                 else if($this->input->post('commonBondOfMembership')=='Occupational')
+                  else if($commonBondOFmembership=='Residential')
+                  {
+                      $name_of_ins_assoc ='';
+                      $field_memship ='';
+                      $occu_comp_of_membship='';
+                  }  
+
+	                 else 
 	                {
 	                      $name_of_ins_assoc ='';
 	                      $field_memship ='';
+                        $commonBondOFmembership =  $this->input->post('commonBond2');
 	                } 
 
 	                $proposeName = strtolower($this->input->post('proposedName'));
@@ -768,6 +810,18 @@ class amendment extends CI_Controller{
                      $regions= implode(',',$this->input->post('regions'));
                    }
                    $cooperativeType_id =  implode(',',$this->input->post('typeOfCooperative'));
+                
+
+                   
+                    // if(in_array('Workers',explode(',',$type_of_cooperativeName))  || in_array('Labor Service',explode(',',$type_of_cooperativeName)))
+                    // {
+                    //    $commonBondOFmembership = "Occupational";//$this->input->post('commonBond2'); echo'aa';
+                    // }
+                    // else
+                    // { 
+                    //   $commonBondOFmembership =  $this->input->post('commonBondOfMembership');
+                    // }
+                
                     $field_data = array(
                       'users_id' => $this->session->userdata('user_id'),
                       'cooperative_id'=>$this->coop_dtl($decoded_id),
@@ -777,7 +831,7 @@ class amendment extends CI_Controller{
                       'type_of_cooperative' =>   $type_of_cooperativeName,
                       'cooperative_type_id' => $cooperativeType_id,
                       'grouping' => $group,
-                      'common_bond_of_membership' => $this->input->post('commonBondOfMembership'),
+                      'common_bond_of_membership' => $commonBondOFmembership,
                       'comp_of_membership' =>$occu_comp_of_membship,
                 	  'field_of_membership' => $field_memship,
                		  'name_of_ins_assoc' => $name_of_ins_assoc,
@@ -789,9 +843,15 @@ class amendment extends CI_Controller{
                       'house_blk_no' => $this->input->post('blkNo'),
                       'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
                     );
-                    // $this->debug($field_data);
-                 
-                    // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition));
+                    $this->debug($field_data);
+                    $data_bylaws = array(
+                      'annual_regular_meeting_day_date'=> $this->input->post('annaul_date_venue'),
+                      'annual_regular_meeting_day_venue'=> $this->input->post('assembly_venue'),
+                      'type' => $this->input->post('type')
+                    );
+                    $this->db->update('amendment_bylaws',$data_bylaws,array('amendment_id'=>$decoded_id));
+           
+         
                      $coo_info_by_admin=$this->amendment_model->get_cooperative_info23($cooperative_id,$decoded_id);
                     if($coo_info_by_admin->type_of_cooperative != $field_data['type_of_cooperative'])
                     {
@@ -811,9 +871,8 @@ class amendment extends CI_Controller{
                           $this->db->insert_batch('amendment_purposes',$temp_purpose);
                         }
                     }
-
-                    // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition));
-                    if($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition)){
+                     // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition,$data_bylaws));
+                    if($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition,$data_bylaws)){
                       $this->session->set_flashdata('cooperative_success', 'Successfully updated basic information.');
                       redirect('amendment/'.$this->input->post('Amendment_ID'));
                     }else{
@@ -841,9 +900,15 @@ class amendment extends CI_Controller{
                       'created_at'=> date('Y-m-d h:i:s'),
                       'expire_at' =>  date('Y-m-d h:i:s',(now('Asia/Manila')+(4*24*60*60)))
                     );
-                    // $this->debug($field_data);
-                    // $this->debug($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry));
-                    if($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry)){
+                    $data_bylaws = array(
+                      'annual_regular_meeting_day_date'=> $this->input->post('annaul_date_venue'),
+                      'annual_regular_meeting_day_venue'=> $this->input->post('assembly_venue'),
+                      'type' => $this->input->post('type')
+                    );
+                     $this->db->update('amendment_bylaws',$data_bylaws,array('amendment_id'=>$decoded_id));
+                
+                   
+                    if($this->amendment_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$data_bylaws)){
 
                       $this->session->set_flashdata('cooperative_success', 'Successfully updated expired reservation.');
                       redirect('amendment/'.$this->input->post('cooperativeID'));
@@ -1001,7 +1066,7 @@ class amendment extends CI_Controller{
                        $data['list_of_provinces'] = $this->amendment_model->get_provinces($data['coop_info']->rCode);
                         $data['list_of_cities'] = $this->amendment_model->get_cities($data['coop_info']->pCode);
                         $data['list_of_brgys'] = $this->amendment_model->get_brgys($data['coop_info']->cCode);
-
+                      $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);  
                       $this->load->view('./templates/admin_header', $data);
                       $this->load->view('cooperative/amendment_reservation_update', $data);
                       $this->load->view('./templates/admin_footer', $data);
@@ -1095,10 +1160,7 @@ class amendment extends CI_Controller{
                                   }
                                   $complete_upload[]= $coopRow['status'];
                                 }
-                                // $data['status_document_one'] =$this->check_is_uploaded($decoded_id,1);
-                                // $data['status_document_two'] =$this->check_is_uploaded($decoded_id,2);
-                               
-                                // $data['status_books_of_account'] =$this->check_is_uploaded($decoded_id,4);
+                              
                                 $data['ga_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($decoded_id,19);
                                  $data['bod_sec_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($decoded_id,20);
                                 if($data['coop_type_compare'])
@@ -1119,27 +1181,23 @@ class amendment extends CI_Controller{
                                 
                                 
               $data['business_activities'] =  $this->amendment_model->get_all_business_activities($decoded_id);
-//              $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
 
               $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($coop_id,$decoded_id) : true;
-              // $this->debug( $data['bylaw_complete']);
+  
 //              $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
               // $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
               $data['cooperative_id']=encrypt_custom($this->encryption->encrypt($coop_id));
               $data['encrypted_id'] = $id;
-              
-              //$data['capitalization_complete'] = $this->cooperative_model->is_capitalization_complete($decoded_id);
+    
               /*BEGIN: UPDATE FOR CAPITALIZATION --by Fred */
               $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_capitalization_model->check_capitalization_primary_complete($coop_id,$decoded_id) : true;
               // $this->debug(  $data['capitalization_complete']);
               $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
               $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($coop_id,$decoded_id);
-             // var_dump( $data['cooperator_complete']);
-             // echo $this->db->last_query();
-             // echo $this->db->last_query();
-              if($data['cooperator_complete']==false) {
-                $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($coop_id,$decoded_id);
-              }
+         
+              // if($data['cooperator_complete']==false) {
+              //   $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($coop_id,$decoded_id);
+              // }
               $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
               if($data['committees_complete']==false) {
                 $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
@@ -1171,10 +1229,8 @@ class amendment extends CI_Controller{
                         $type_coop_array_ = explode(',',$data['coop_info']->type_of_cooperative);
                         $count_type = count($type_coop_array_);
                         $data['complete_position']=false;
-                         $data['feasibity'] =true;
                         if($count_type > 1)
                         {
-                           $data['feasibity'] =$this->check_is_uploaded($decoded_id,3);
                              if(in_array('Credit', $type_coop_array_) || in_array('Agriculture', $type_coop_array_))
                             {
                                $data['credit'] = $this->committee_model->check_position($decoded_id,"Credit");
@@ -1260,7 +1316,7 @@ class amendment extends CI_Controller{
                   } 
             
                $data['is_deferred'] = $this->amendment_model->if_past_deffered($decoded_id);
-            
+
               $this->load->view('./template/header', $data);
               $this->load->view('cooperative/amendment_details', $data);
               $this->load->view('./template/footer');
@@ -1541,9 +1597,8 @@ class amendment extends CI_Controller{
                                 }else{ 
                                     
                                   if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
-                                   
-                                    // $this->debug($this->amendment_model->submit_for_evaluation($user_id,$decoded_id,$data['coop_info']->rCode)); 
                                     $success = $this->amendment_model->submit_for_evaluation($user_id,$decoded_id,$data['coop_info']->rCode);
+                                    // $this->debug($success);
                                     if($success){
                                       $this->session->set_flashdata('cooperative_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
                                       redirect('amendment/'.$id);
@@ -1689,7 +1744,7 @@ class amendment extends CI_Controller{
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID',TRUE)));
           $cooperative_id =$this->amendment_model->coop_dtl($decoded_id);
           $user_id = $this->session->userdata('user_id');
-          $data['is_client'] = $this->session->userdata('client');
+          // $data['is_client'] = $this->session->userdata('client');
           $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
           if(is_numeric($decoded_id) && $decoded_id!=0){
             if($this->session->userdata('client')){
@@ -1711,9 +1766,7 @@ class amendment extends CI_Controller{
                               $this->session->set_flashdata('redirect_applications_message', 'Amendment Cooperative already evaluated by a Director/Supervising CDS.');
                               redirect('amendment');
                             }else{
-                            // $this->debug($this->admin_model->check_if_director_active($user_id,$data['coop_info']->rCode));
 
-                              // $this->debug($this->admin_model->check_if_director_active($user_id,$data['coop_info']->rCode));
                               if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
                                 $success = $this->amendment_model->approve_by_supervisor($data['admin_info'],$decoded_id,$coop_full_name);
 
@@ -1745,23 +1798,11 @@ class amendment extends CI_Controller{
                               redirect('amendment');
                             }else{
                               if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
-
-                                // $comment =  rtrim(ltrim($this->input->post('comment')));
-                                //  $data_comment = array(
-                                //   'user_id' => $this->session->userdata('user_id'),
-                                //   'amendment_id' => $decoded_id,
-                                //   'access_level' => $this->session->userdata('access_level'),
-                                //   'status'=> 6,
-                                //   'documents'=>  rtrim(ltrim($this->input->post('documents'))),
-                                //   'comment' => $comment,
-                                //   'rec_action' =>  rtrim(ltrim($this->input->post('recomended_action'))),
-                                //   'created_at' => date('Y-m-d h:i:s'),
-                                //   'author' => $this->session->userdata('user_id')
-                                //   );
-                                // echo 'director';
                                 $data_comment ='';
-                                $success = $this->amendment_model->approve_by_director($data['admin_info'],$decoded_id,$data_comment);
-                                // $this->debug($success);
+                                
+                                $director_info = $this->amendment_model->get_specific_admin_info($user_id);
+                                $success = $this->amendment_model->approve_by_director($director_info,$decoded_id,$data_comment);
+                                // var_dump($success);
                                 if($success){
                                   $this->session->set_flashdata('list_success_message', 'Amendment Cooperative has been approved.');
                                   redirect('amendment');
@@ -1812,16 +1853,31 @@ class amendment extends CI_Controller{
                               //confirm in ho
                               if(in_array('true',$ho))
                               {
-                                //true
                                  $regioncode = '00';
-                                 //get senior admin info
                                  $data['admin_info'] =$this->admin_model->get_senior_info($regioncode);
                                 
                               }
-                               
+                              else
+                              {
+                                $previous_coop_info = $this->amendment_model->previous_coop_info($data['coop_info']->cooperative_id,$decoded_id,$data['coop_info']->regNo);
+                                // return $previous_coop_info;
+                                $previous_regions_array = explode(',',$previous_coop_info->regions);
+                                 //not in change region
+                                 if(in_array($data['coop_info']->rCode,$previous_regions_array))
+                                {
+                                  // $data['admin_info'] =$this->admin_model->get_senior_info($data['coop_info']->rCode); 
+                                  $data['admin_info'] = $this->amendment_model->get_specific_admin_info($user_id);
+                                   
+                                }
+                                else
+                                { //in change region
+                                  $data['admin_info'] =$this->amendment_model->get_specific_admin_info($user_id); 
+                                }
+                              }
+                            
                            
                             $success = $this->amendment_model->approve_by_senior($data['admin_info'],$decoded_id,$coop_full_name,$data_comment);
-                          // var_dump($success);
+                            // $this->debug($success);
                             if($success){
                               $this->session->set_flashdata('list_success_message', 'Amendment Cooperative has been submitted.');
                               redirect('amendment');
@@ -1871,7 +1927,21 @@ class amendment extends CI_Controller{
                             }
                             else
                             {
-                                $data['admin_info_senior'] =$this->admin_model->get_senior_info($data['admin_info']->region_code);
+                                 $previous_coop_info = $this->amendment_model->previous_coop_info($data['coop_info']->cooperative_id,$decoded_id,$data['coop_info']->regNo);
+                                // return $previous_coop_info;
+                                $previous_regions_array = explode(',',$previous_coop_info->regions);
+                                 //not in change region
+                                 if(in_array($data['coop_info']->rCode,$previous_regions_array))
+                                {
+                                  $data['admin_info_senior'] =$this->admin_model->get_senior_info($data['coop_info']->rCode); 
+                                   
+                                }
+                                else
+                                { //in change region
+                                  $data['admin_info_senior'] =$this->admin_model->get_senior_info($previous_coop_info->rCode); 
+                                }
+
+                                // $data['admin_info_senior'] =$this->admin_model->get_senior_info($data['admin_info']->region_code);
                             }
                             $specialist_info = $this->admin_model->get_admin_info($data['coop_info']->evaluated_by);
                             
@@ -2663,7 +2733,7 @@ class amendment extends CI_Controller{
   	{
   		if($category == 'Primary')
       { 
-        $except_type = array('Bank','Insurance','Multi-Purpose','Federation','Union');
+        $except_type = array('Bank','Cooperative Bank','Insurance','Multi-Purpose','Federation','Union');
         $this->db->select('*');
         $this->db->where_not_in('name',$except_type);
         $this->db->order_by('name', 'ASC');
@@ -3152,7 +3222,7 @@ class amendment extends CI_Controller{
       $category =  $this->input->post('category');
       if($category == 'Primary')
       { 
-        $except_type = array('Bank','Insurance','Multi-Purpose','Federation','Union');
+        $except_type = array('Bank','Cooperative Bank','Insurance','Multi-Purpose','Federation','Union');
         $this->db->select('*');
         $this->db->where_not_in('name',$except_type);
         $this->db->order_by('name', 'ASC');

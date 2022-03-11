@@ -25,6 +25,8 @@ class Amendment_cooperators extends CI_Controller{
               if(!$this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
                 $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
+                $data['has_new_regular'] = $this->amendment_cooperator_model->has_new_amendment_cptr($decoded_id,'Regular');
+                $data['has_new_associate'] = $this->amendment_cooperator_model->has_new_amendment_cptr($decoded_id,'Associate');
                 if($data['bylaw_complete']){
                     $data['client_info'] = $this->user_model->get_user_info($user_id);
                     $data['title'] = 'List of Cooperators';
@@ -225,7 +227,12 @@ class Amendment_cooperators extends CI_Controller{
             if($this->amendment_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
               if(!$this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
                 $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
-             
+                $new=1;
+                if($this->amendment_cooperator_model->check_if_exist_orig_coop($this->input->post('fName'),$cooperative_id))
+                {
+                  $new = 0;
+                }  
+                var_dump($new);
                 $data['encrypted_coop_id'] = encrypt_custom($this->encryption->encrypt($cooperative_id));
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
                 if($data['bylaw_complete']){
@@ -259,6 +266,7 @@ class Amendment_cooperators extends CI_Controller{
                         'proof_of_identity_number' =>$this->input->post('validIdNo'),
                         'proof_date_issued' => $dateIssued_,
                         'place_of_issuance' =>$this->input->post('placeIssuance'),
+                        'new'=> $new
                         );
                       // $this->debug($data);
                       $success = $this->amendment_cooperator_model->add_cooperator($data);
@@ -390,6 +398,8 @@ class Amendment_cooperators extends CI_Controller{
     }else{
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $cooperative_id = $this->coop_dtl($decoded_id);
+        $data['cooperative_id'] = encrypt_custom($this->encryption->encrypt($cooperative_id));
+
         $data['encrypted_coop_id'] = encrypt_custom($this->encryption->encrypt($cooperative_id));
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
@@ -428,16 +438,47 @@ class Amendment_cooperators extends CI_Controller{
                             $data['regions_list'] = $this->region_model->get_regions();
                           }
                           $data['encrypted_cooperator_id'] = $cooperator_id;
-                          $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
-                          $data['cooperator_info'] = $this->amendment_cooperator_model->get_cooperator_info($cooperative_id,$decoded_id,$decoded_cooperator_id);
-                         $data['check_if_orig_cptr'] = $this->amendment_cooperator_model->check_edit_id_orig_cptr($data['cooperator_info']->orig_cooperator_id,$decoded_id);
-
+                          $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
+                           $data['bylaw_info_orig'] = $this->bylaw_model->get_bylaw_by_coop_id($cooperative_id);
+                          $data['cooperator_info'] = $this->amendment_cooperator_model->get_cooperator_info($cooperative_id,$decoded_id,$decoded_cooperator_id);  // echo $this->db->last_query()
+                           $data['cooperator_info_orig'] = $this->amendment_cooperator_model->get_cooperator_info_orig($data['cooperator_info']->full_name);
+                          
+                          $data['is_original_cptr'] = $this->amendment_cooperator_model->check_edit_id_orig_cptr($data['cooperator_info']->full_name,$cooperative_id);
+                          // echo $this->db->last_query();
+                           $data['is_original_cooperator'] ='false';
+                          if($data['is_original_cptr'])
+                          {
+                            $data['is_original_cooperator'] = 'true';
+                          }
                           $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$decoded_id);
+                          $data['capitalization_info_orig'] = $this->capitalization_model->get_capitalization_by_coop_id($cooperative_id);
+
+                          if(strlen($data['client_info']->regno) ==0)
+                          {
+                             $data['regNo'] =$this->amendment_model->load_regNo($user_id);
+                          }
+                          else
+                          {
+                             $data['regNo'] = $this->amendment_model->load_regNo_reg($user_id);
+                          }
+
+                          if($this->amendment_model->if_had_amendment_new($data['regNo']))
+                          {
+                             $last_amendment_info = $this->amendment_model->get_last_amendment_info($cooperative_id,$decoded_id);
+                             $data['last_share_amount']=$this->amendment_cooperator_model->get_last_amount_share_amd($data['cooperator_info']->full_name,$last_amendment_info->id);
+
+                          }
+                          else
+                          { 
+                            $data['last_share_amount']=$this->amendment_cooperator_model->get_last_amount_share_coop($data['cooperator_info']->full_name);
+                          }
+
                           $data['list_cooperators'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop($cooperative_id,$decoded_id);
+                           $data['list_cooperators_orig'] = $this->cooperator_model->get_all_cooperator_of_coop($cooperative_id);
                       
-                          $data['list_of_provinces'] = $this->amendment_model->get_provinces($data['coop_info']->rCode);
-                          $data['list_of_cities'] = $this->amendment_model->get_cities($data['coop_info']->pCode);
-                          $data['list_of_brgys'] = $this->amendment_model->get_brgys($data['coop_info']->cCode);
+                          $data['list_of_provinces'] = $this->amendment_model->get_provinces($data['cooperator_info']->rCode);
+                          $data['list_of_cities'] = $this->amendment_model->get_cities($data['cooperator_info']->pCode);
+                          $data['list_of_brgys'] = $this->amendment_model->get_brgys($data['cooperator_info']->cCode);
                           $this->load->view('./template/header', $data);
                           $this->load->view('cooperators/amendment_edit_form_cooperator', $data);
                           $this->load->view('./template/footer');
@@ -463,7 +504,7 @@ class Amendment_cooperators extends CI_Controller{
                             'birth_date' => $this->input->post('bDate'),
                             'house_blk_no'=> $this->input->post('blkNo'),
                             'streetName'=> $this->input->post('streetName'),
-                            'addrCode' => $this->input->post('barangay'),
+                            'addrCode' => $this->input->post('addr_barangay'), // $this->input->post('barangay'),
                             'number_of_subscribed_shares' =>$this->input->post('amd_subscribedShares'),
                             'number_of_paid_up_shares' =>$this->input->post('paidShares'),
                             'proof_of_identity' =>$this->input->post('validIdType'),
@@ -471,19 +512,16 @@ class Amendment_cooperators extends CI_Controller{
                             'proof_date_issued' => $dateIssued_,
                             'place_of_issuance' =>$this->input->post('placeIssuance'),
                             );
-                          // $this->debug($decoded_post_cooperator_id);
-                          // $this->debug($data); $this->debug($decoded_id);
+                      
                           // $this->debug($data);
                           $success = $this->amendment_cooperator_model->edit_cooperator($decoded_post_cooperator_id,$data,$decoded_id);
                           // $this->debug($success);
                           if($success['success']){
                             $this->session->set_flashdata('cooperator_success', $success['message']);
                             redirect('amendment/'.$id.'/amendment_cooperators');
-                            // echo $this->db->last_query();
                           }else{
                             $this->session->set_flashdata('cooperator_error', $success['message']);
                             redirect('amendment/'.$id.'/amendment_cooperators');
-                            // echo $this->db->last_query();
                           }
                         }
                       }else{

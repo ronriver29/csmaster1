@@ -38,9 +38,16 @@ $(function(){
       user_id: userid
     },
     success: function(data){ 
-    var business_activities = data.business_activities;
+     var business_activities = data.business_activities;
      var cbom = data.common_bond_of_membership;
- 
+      if(cbom =='Occupational')
+      {
+         $('#reserveUpdateForm #commonBondOfMembership').attr("disabled", 'disabled');
+      }
+      else
+      {
+         $('#reserveUpdateForm #commonBondOfMembership').removeAttr('disabled');
+      }
           if(cbom=='Institutional'){
               $('#reserveUpdateForm #fieldmembershipname').show();
               $('#reserveUpdateForm #field_membership').show();
@@ -71,6 +78,8 @@ $(function(){
               $('#reserveUpdateForm .compositionRemoveBtn').hide();
               $('#reserveUpdateForm .occupation-wrapper').hide();
           } else if (cbom=="Occupational"){
+
+              $('#reserveUpdateForm #commonBond2').val('Occupational');
               $('#reserveUpdateForm #fieldmembershipname').hide();
               $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
               $('#reserveUpdateForm #field_membership').hide();
@@ -85,6 +94,7 @@ $(function(){
               $('#reserveUpdateForm #addMoreComBtn').show();
               $('#reserveUpdateForm select[name="compositionOfMembers[]"').show();
                $('#reserveUpdateForm .compositionRemoveBtn').show();
+               $("#commonBond2").val('Occupational');
           } else {
               $('#reserveUpdateForm #fieldmembershipname').hide();
               $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
@@ -169,7 +179,7 @@ $(function(){
                 $("#reserveUpdateForm .div-ins-assoc-occu").hide();
                  $("#reserveUpdateForm .insti_div").hide();
                 $("#reserveUpdateForm .occupation-wrapper").hide(); 
-            } else {
+            } else { 
                 $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
                 $('#reserveUpdateForm #field_membership').hide();
                 $('#reserveUpdateForm #name_institution_label').hide();
@@ -192,6 +202,7 @@ $(function(){
                 $("#reserveUpdateForm .insti_div").show();
                 $("#reserveUpdateForm .compositionRemoveBtn").show();
                 $("reserveUpdateForm #occupation-div").show();
+                $("#commonBond2").val($(this).val());
           
             }
         });
@@ -964,6 +975,34 @@ function get_specific_subclass_desc(id)
 
 //modified by json
    $(document).on('change','.coop-type',function(){
+    var typeCoop_array=[]; 
+
+      $('select[name="typeOfCooperative[]"] option:selected').each(function() {
+          typeCoop_array.push($(this).val());
+          
+      });
+      // var cooptype_array = typeCoop_array.split(',');  
+     console.log(typeCoop_array.includes('21'));
+    // if($(this).val()==19 || $(this).val()==21)
+     if(typeCoop_array.includes('19') || typeCoop_array.includes('21'))
+        { 
+          alert("The bond of membership for both labor service and workers cooperative shall be occupational.");
+          $('#reserveUpdateForm #commonBond2').val('Occupational')
+          $('#reserveUpdateForm #commonBondOfMembership').attr("disabled", 'disabled');
+           setTimeout( function(){
+        
+            $('#reserveUpdateForm #commonBondOfMembership').val('Occupational');
+            $('#reserveUpdateForm #commonBondOfMembership').trigger('change');
+
+          },300);
+            
+        }
+        else
+        {
+           $('#reserveUpdateForm #commonBond2').val('');
+          $('#reserveUpdateForm #commonBondOfMembership').removeAttr('disabled');
+        }
+
         var cooptype_value = this.value;
         var typeCoop_arrays=[]; 
           $('select[name="typeOfCooperative[]"] option:selected').each(function() {
@@ -1201,6 +1240,7 @@ function list_cooperative_type($select_id,$category)
                  data:{category:$category},
                  success: function(responsetxt){
                   // console.log(responsetxt);
+
                   $.each(responsetxt,function(a,coop_type){
                      $($select_id).append($('<option></option>').attr('value',coop_type['id']).text(coop_type['name']));
 

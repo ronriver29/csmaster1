@@ -81,9 +81,9 @@
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
                     <option value="">--</option>
                     <option value="Primary">Primary</option>
-                    <?php /*<option value="Secondary">Secondary</option>
+                  <!--   <option value="Secondary">Secondary</option>
                     <option value="Tertiary">Tertiary</option>
-                     <option value="Others">Others</option> */?>
+                     <option value="Others">Others</option> -->
                   </select>
                 </div>
               </div>
@@ -154,8 +154,9 @@
             <div class="row rd-row">
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
+                  <input type="hidden" id="commonBond2" name="commonBond2"/>
                   <label nfor="commonBondOfMembership">Common Bond of Membership </label>
-                  <select class="custom-select validate[required]" name="commonBondOfMembership" id="commonBondOfMembership">
+                  <select class="custom-select validate[required]" name="commonBondOfMembership" id="commonBondOfMembership" disabled>
            
                     <option value="Associational">Associational</option>
                     <option value="Institutional">Institutional</option>
@@ -280,8 +281,9 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="compositionOfMembers1">Composition of Members </label>
-              
+                
                 <div id="wrappera" class="col-md-12 occupational-wrappera">
+                <?php if($comp_of_membership!=NULL):?>
                 <?php foreach($comp_of_membership as $comRow):?>
               
                   <div class="col-md-12 list-compositions">
@@ -295,6 +297,19 @@
                     </div>  
                   </div>
                 <?php endforeach;?>  
+                <?php else: ?>
+                   <div class="col-md-12 list-compositions">
+                    <div class="form-group">
+                      <select class="custom-select composition-of-members validate[required]" name="compositionOfMembersa[]" id="compositionOfMembersa">
+                        <?php foreach($list_of_composition as $list_comp):?>
+                          <option value="" selected></option>
+                          <option value="<?=$list_comp['id']?>"> <?=$list_comp['composition']?></option>
+                        <?php endforeach;?>
+                      </select>
+                      <a class="customDeleleBtn compositionRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                    </div>  
+                  </div>  
+                <?php endif; ?>  
                 </div>
               <button type="button" class="btn btn-success btn-sm float-right" id="addMoreComBtn"><i class="fas fa-plus"></i> Add Composition of Members</button>
             </div>  
@@ -384,13 +399,33 @@
               </div>
             </div>
           </div>
-
-          <div class="row col-sm-12">
-            <div class="form-group">
-              <!-- FOR GA -->
+           <br>
+         
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+                <strong>General Assembly Details</strong>
+              </div>
+            </div><br>
+            <div class="col-sm-12 col-md-4">
+              <label  for="Assembly Venue">General Assembly Venue</label>
+              <input type="text" class="form-control" name="assembly_venue" required>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <label  for="Assembly Venue">General Assembly Type</label>
+              <select class="form-control validate[required]" name="type" id="type" required>  
+                <option value="" selected> </option>
+                <option value="Special">Special</option>
+                <option value="Regular" >Regular</option>
+              </select>
+            </div>
+            
+            <div class="col-sm-12 col-md-4">
+              <label  for="Assembly Venue">General Assembly Date</label>
+              <input type="date" name="annaul_date_venue"  class="form-control validate[required]" required>
             </div>
           </div>
-
+          <br>
           <div class="col-sm-12 offset-md-1 col-md-10 align-self-end">
             <div class="form-group">
               <div class="custom-control custom-checkbox text-center mt-2">
