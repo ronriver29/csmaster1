@@ -908,16 +908,16 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15  order by amend_coop.
     //   }
     // }
 
-        // if($process>0 && $success ==$process)
-        if($success ==$process)
-        {
-        // if($this->db->insert_batch('amendment_uploaded_documents',$data_file)){
-        }
-        else
-        {
-          $this->db->trans_rollback();
-          return false;
-        }
+        // // if($process>0 && $success ==$process)
+        // if($success ==$process)
+        // {
+        // // if($this->db->insert_batch('amendment_uploaded_documents',$data_file)){
+        // }
+        // else
+        // {
+        //   $this->db->trans_rollback();
+        //   return false;
+        // }
 
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();

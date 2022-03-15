@@ -379,7 +379,7 @@ $this->last_query = $this->db->last_query();
 
   public function check_edit_id_orig_cptr($full_name,$cooperatives_id)
   {
-    $query = $this->db->query("select full_name from cooperators where cooperatives_id ='$cooperatives_id' and full_name like '%".$full_name."%'");
+    $query = $this->db->query("select full_name from cooperators where cooperatives_id ='$cooperatives_id' and full_name like '%".$full_name."'");
     if($query->num_rows()==1)
     {
      return true;
