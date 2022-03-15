@@ -1472,7 +1472,7 @@ public function delete_cooperative($amendment_id){
   $this->db->delete('amendment_committees',array('amendment_id'=>$amendment_id));//modified by json
   $this->db->delete('amendment_members_composition_of_cooperative',array('amendment_id'=>$amendment_id));
   $this->db->delete('amendment_uploaded_documents',array('amendment_id'=>$amendment_id));
-  $this->db->delete('registeredcoop',array('amendment_id'=>$amendment_id));
+  $this->db->delete('registeredamendment',array('amendment_id'=>$amendment_id));
 
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
