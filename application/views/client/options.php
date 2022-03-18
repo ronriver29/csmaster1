@@ -12,11 +12,11 @@
               </button>
             </div>
             <div class="modal-body">
-              <div class="alert alert-success" role="alert">
+              <?php /*<div class="alert alert-success" role="alert">
                 <strong class="cooperative-name-text"><center><a class="btn btn-link" href="<?php echo base_url();?>users/use_registered_email" role="button">Use Registered Email Account</a></center></strong>
-              </div>
+              </div> */?>
               <div class="alert alert-success" role="alert">
-                <strong class="cooperative-name-text"><center><a class="btn btn-link" href="<?php echo base_url();?>users/create_new_email_account" role="button">Create New  Email Account</a></center></strong>
+                <strong class="cooperative-name-text"><center><a class="btn btn-link" href="<?php echo base_url();?>users/create_new_email_account" role="button">Create an account using email</a></center></strong>
               </div>
             </div>
             <div class="modal-footer deleteCooperativeFooter">
