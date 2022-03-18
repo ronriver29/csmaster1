@@ -1,0 +1,971 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Cooperators_update extends CI_Controller{
+
+  public function __construct()
+  {
+    parent::__construct();
+    //Codeigniter : Write Less Do More
+  }
+
+  function index($id = null)
+  {
+    if(!$this->session->userdata('logged_in')){
+      redirect('users/login');
+    }else{
+        $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+        $user_id = $this->session->userdata('user_id');
+        $data['is_client'] = $this->session->userdata('client');
+        if(is_numeric($decoded_id) && $decoded_id!=0){
+          if($this->session->userdata('client')){
+                $data['coop_info'] = $this->cooperatives_update_model->get_cooperative_info($decoded_id);
+                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_update_model->check_bylaw_primary_complete($decoded_id) : true;
+                $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->capitalization_update_model->check_capitalization_primary_complete($decoded_id) : true;
+                // if($data['capitalization_complete']){
+                    $data['client_info'] = $this->user_model->get_user_info($user_id);
+                    $data['title'] = 'List of Cooperators';
+                    $data['header'] = 'Cooperators';
+                    $data['encrypted_id'] = $id;
+                    $data['is_update_cooperative'] = $this->cooperatives_update_model->check_date_registered($data['coop_info']->id);
+                    $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    $capitalization_info = $data['capitalization_info'];
+                    if(isset($data['capitalization_info']->associate_members)){
+                      $data['requirements_complete'] = $this->cooperators_update_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
+                    } else {
+                      $data['requirements_complete'] = $this->cooperators_update_model->is_requirements_complete($decoded_id,0);
+                    }
+                    
+                    $data['directors_count'] = $this->cooperators_update_model->check_no_of_directors($decoded_id);
+                    $data['directors_count_odd'] = $this->cooperators_update_model->check_directors_odd_number($decoded_id);
+                    $data['total_directors'] = $this->cooperators_update_model->no_of_directors($decoded_id);
+                    $data['chairperson_count'] = true;//$this->cooperators_update_model->check_chairperson($decoded_id);
+                    $data['associate_not_exists'] = $this->cooperators_update_model->check_associate_not_exists($decoded_id);
+                    $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                    $data['minimum_regular_subscription'] = $this->cooperators_update_model->check_all_minimum_regular_subscription($decoded_id);
+                    $data['minimum_regular_pay'] = $this->cooperators_update_model->check_all_minimum_regular_pay($decoded_id);
+                    $data['minimum_associate_subscription'] = $this->cooperators_update_model->check_all_minimum_associate_subscription($decoded_id);
+                    $data['minimum_associate_pay'] = $this->cooperators_update_model->check_all_minimum_associate_pay($decoded_id);
+//                    $data['minimum_regular_subscription'] = $capitalization_info->minimum_subscribed_share_regular;
+//                    $data['minimum_regular_pay'] = $capitalization_info->minimum_paid_up_share_regular;
+//                    $data['minimum_associate_subscription'] = $capitalization_info->minimum_subscribed_share_associate;
+//                    $data['minimum_associate_pay'] = $capitalization_info->minimum_paid_up_share_associate;
+                    $data['total_regular'] = $this->cooperators_update_model->get_total_regular($decoded_id);
+                    $data['total_associate'] = $this->cooperators_update_model->get_total_associate($decoded_id);
+                    $data['check_regular_paid'] = $this->cooperators_update_model->check_regular_total_shares_paid_is_correct($data['total_regular']);
+                    $data['check_with_associate_paid'] = $this->cooperators_update_model->check_with_associate_total_shares_paid_is_correct($data['total_regular'],$data['total_associate']);
+                    $data['vice_count'] = $this->cooperators_update_model->check_vicechairperson($decoded_id);
+                    $data['treasurer_count'] = $this->cooperators_update_model->check_treasurer($decoded_id);
+                    $data['secretary_count'] = $this->cooperators_update_model->check_secretary($decoded_id);
+                    $data['list_cooperators'] = $this->cooperators_update_model->get_all_cooperator_of_coop($decoded_id);
+                    $data['list_cooperators_regular'] = $this->cooperators_update_model->get_all_cooperator_of_coop_regular($decoded_id);
+
+                    $data['list_cooperators_count'] = $this->cooperators_update_model->get_all_cooperator_of_coop_regular_count($decoded_id);
+                    $data['list_cooperators_associate_count'] = $this->cooperators_update_model->get_all_cooperator_of_coop_associate_count($decoded_id);
+                    $data['list_cooperators_associate'] = $this->cooperators_update_model->get_all_cooperator_of_coop_associate($decoded_id);
+                    $data['ten_percent']=$this->cooperators_update_model->ten_percent($decoded_id);
+                    
+                    $this->load->view('./template/header', $data);
+                    $this->load->view('update/cooperators_update_list', $data);
+                    $this->load->view('update/cooperator_info_modal');
+                    $this->load->view('update/delete_form_cooperator_update');
+                    $this->load->view('./template/footer'); 
+                // }else{
+                //   $this->session->set_flashdata('redirect_message', 'Please complete first your capitalization additional information.');
+                //   redirect('cooperatives/'.$id);
+                // }
+             
+          }else{
+            if($this->session->userdata('access_level')==5){
+              redirect('admins/login');
+            }
+            // else if($this->session->userdata('access_level')!=1){
+            //   redirect('cooperatives');
+            // }
+            if($this->session->userdata('access_level')==6){
+              // if($this->cooperatives_update_model->check_expired_reservation_by_admin($decoded_id)){
+              //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
+              //   redirect('cooperatives');
+              // }else{
+                // if($this->cooperatives_update_model->check_submitted_for_evaluation($decoded_id) || !$this->session->userdata('client')){
+                  $data['coop_info'] = $this->cooperatives_update_model->get_cooperative_info($decoded_id);
+                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                  $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->capitalization_model->check_capitalization_primary_complete($decoded_id) : true;
+                  // if($data['bylaw_complete']){
+                        $data['title'] = 'List of Cooperators';
+                        $data['header'] = 'Cooperators';
+                        $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                        $data['encrypted_id'] = $id;
+                        $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                        $capitalization_info = $data['capitalization_info'];
+                        if(isset($data['capitalization_info']->associate_members)){
+                          $data['requirements_complete'] = $this->cooperators_update_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
+                        }
+                        $data['directors_count'] = $this->cooperators_update_model->check_no_of_directors($decoded_id);
+                        $data['directors_count_odd'] = $this->cooperators_update_model->check_directors_odd_number($decoded_id);
+                        $data['total_directors'] = $this->cooperators_update_model->no_of_directors($decoded_id);
+                        $data['chairperson_count'] = $this->cooperators_update_model->check_chairperson($decoded_id);
+                        $data['associate_not_exists'] = $this->cooperators_update_model->check_associate_not_exists($decoded_id);
+                        $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                        $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                        $data['list_cooperators_associate_count'] = $this->cooperators_update_model->get_all_cooperator_of_coop_associate_count($decoded_id);
+                        $capitalization_info = $data['capitalization_info'];
+    //                    $data['minimum_regular_subscription'] = $this->cooperators_update_model->check_all_minimum_regular_subscription($decoded_id);
+    //                    $data['minimum_regular_pay'] = $this->cooperators_update_model->check_all_minimum_regular_pay($decoded_id);
+    //                    $data['minimum_associate_subscription'] = $this->cooperators_update_model->check_all_minimum_associate_subscription($decoded_id);
+    //                    $data['minimum_associate_pay'] = $this->cooperators_update_model->check_all_minimum_associate_pay($decoded_id);
+                        if(isset($capitalization_info->minimum_subscribed_share_regular)){
+                          $data['minimum_regular_subscription'] = $capitalization_info->minimum_subscribed_share_regular;
+                        }
+                        if(isset($capitalization_info->minimum_paid_up_share_regular)){
+                          $data['minimum_regular_pay'] = $capitalization_info->minimum_paid_up_share_regular;
+                        }
+                        if(isset($capitalization_info->minimum_subscribed_share_associate)){
+                          $data['minimum_associate_subscription'] = $capitalization_info->minimum_subscribed_share_associate;
+                        }
+                        if(isset($capitalization_info->minimum_paid_up_share_associate)){
+                          $data['minimum_associate_pay'] = $capitalization_info->minimum_paid_up_share_associate;
+                        }
+                        
+                        $data['total_regular'] = $this->cooperators_update_model->get_total_regular($decoded_id);
+                        $data['total_associate'] = $this->cooperators_update_model->get_total_associate($decoded_id);
+                        $data['check_regular_paid'] = $this->cooperators_update_model->check_regular_total_shares_paid_is_correct($data['total_regular']);
+                        $data['check_with_associate_paid'] = $this->cooperators_update_model->check_with_associate_total_shares_paid_is_correct($data['total_regular'],$data['total_associate']);
+                        $data['vice_count'] = $this->cooperators_update_model->check_vicechairperson($decoded_id);
+                        $data['treasurer_count'] = $this->cooperators_update_model->check_treasurer($decoded_id);
+                        $data['secretary_count'] = $this->cooperators_update_model->check_secretary($decoded_id);
+                        $data['list_cooperators'] = $this->cooperators_update_model->get_all_cooperator_of_coop($decoded_id);
+                        $data['list_cooperators_regular'] = $this->cooperators_update_model->get_all_cooperator_of_coop_regular($decoded_id);
+                        $data['list_cooperators_count'] = $this->cooperators_update_model->get_all_cooperator_of_coop_regular_count($decoded_id);
+                        $data['list_cooperators_associate'] = $this->cooperators_update_model->get_all_cooperator_of_coop_associate($decoded_id);
+                        $data['ten_percent']=$this->cooperators_update_model->ten_percent($decoded_id);
+                        $this->load->view('./templates/admin_header', $data);
+                        $this->load->view('update/cooperators_update_list', $data);
+                        $this->load->view('update/cooperator_info_modal');
+                        $this->load->view('update/delete_form_cooperator_update');
+                        $this->load->view('./templates/admin_footer');
+              //     }else{
+              //       $this->session->set_flashdata('redirect_message', 'Please complete first the capitalization additional information.');
+              //       redirect('cooperatives/'.$id);
+              //     }
+              //   }else{
+              //     $this->session->set_flashdata('redirect_applications_message', 'The cooperators of the cooperative you trying to view is not yet submitted for evaluation.');
+              //     redirect('cooperatives');
+              //   }
+              // }
+            }
+          }
+        }else{
+          show_404();
+        }
+    }
+  }
+
+  function add($id = null){
+    if(!$this->session->userdata('logged_in')){
+      redirect('users/login');
+    }else{
+      var_dump($this->uri->segment(5));
+        $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+        $user_id = $this->session->userdata('user_id');
+        $data['is_client'] = $this->session->userdata('client');
+        if(is_numeric($decoded_id) && $decoded_id!=0){
+          if($this->session->userdata('client')){
+          
+             
+                $data['coop_info'] = $this->cooperatives_update_model->get_cooperative_info($decoded_id);
+               
+                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->capitalization_model->check_capitalization_primary_complete($decoded_id) : true;
+                // if($data['capitalization_complete']){
+                 
+                   // if($this->form_validation->run() == FALSE){
+                    if($this->input->post('fName')) {
+                      $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
+                       $dateIssued_ = '';
+                          if($this->input->post('dateIssued'))
+                          {
+                             $dateIssued_ =$this->input->post('dateIssued');
+                          }
+                          if($this->input->post('dateIssued_chk'))
+                          {
+                            $dateIssued_  = $this->input->post('dateIssued_chk');
+                          }
+                      $data = array(
+                        'cooperatives_id' => $decoded_post_coop_id,
+                        'full_name' => $this->input->post('fName'),
+                        'gender' => $this->input->post('gender'),
+                        'position' => $this->input->post('position'),
+                        'type_of_member' => $this->input->post('membershipType'),
+                        'birth_date' => $this->input->post('bDate'),
+                        'house_blk_no'=> $this->input->post('blkNo'),
+                        'streetName'=> $this->input->post('streetName'),
+                        'addrCode' => $this->input->post('barangay'),
+                        'number_of_subscribed_shares' =>$this->input->post('subscribedShares'),
+                        'number_of_paid_up_shares' =>$this->input->post('paidShares'),
+                        'proof_of_identity' =>$this->input->post('validIdType'),
+                        'proof_of_identity_number' =>$this->input->post('validIdNo'),
+                        'proof_date_issued' => $dateIssued_,
+                        'place_of_issuance' =>$this->input->post('placeIssuance'),
+                        );
+                      $success = $this->cooperators_update_model->add_cooperator($data,'');
+                      if($success['success']){
+                        $this->session->set_flashdata('cooperator_success', $success['message']);
+                        redirect('cooperatives_update/'.$this->input->post('cooperativesID').'/cooperators_update');
+                      }else{
+                        $this->session->set_flashdata('cooperator_error', $success['message']);
+                        redirect('cooperatives_update/'.$this->input->post('cooperativesID').'/cooperators_update');
+                      }
+
+                    }else{ 
+                      $data['client_info'] = $this->user_model->get_user_info($user_id);
+                      $data['title'] = 'List of Cooperators';
+                      $data['header'] = 'Cooperators';
+                      $data['encrypted_id'] = $id;
+                      $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
+                      if($data['coop_info']->area_of_operation == 'Interregional'){
+                        $data['regions_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
+                      } else {
+                        $data['regions_list'] = $this->region_model->get_regions();
+                      }
+                      $this->db->select('*');
+                      $this->db->from('id_list');
+                      $this->db->order_by('id_name','ASC');
+                      $id_query = $this->db->get();
+                      if($id_query->num_rows()>0)
+                      {
+                        $data['list_id'] = $id_query->result_array();
+                      }
+                      else
+                      {
+                        $data['list_id'] = NULL;
+                      }
+                      $data['list_of_provinces'] = $this->cooperatives_update_model->get_provinces($data['coop_info']->rCode);
+                      $data['list_of_cities'] = $this->cooperatives_update_model->get_cities($data['coop_info']->pCode);
+                      $data['list_of_brgys'] = $this->cooperatives_update_model->get_brgys($data['coop_info']->cCode);
+                      // $data['last_query'] = $this->db->last_query();
+                      // $data['barangays_list'] = $this->barangay_model->all_barangays();
+                      
+                      $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                      $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                      $data['list_cooperators'] = $this->cooperators_update_model->get_all_cooperator_of_coop($decoded_id);
+                      $this->load->view('./template/header', $data);
+                      $this->load->view('update/add_form_cooperator_update', $data);
+                      $this->load->view('./template/footer');
+                    }
+                
+                // }else{
+                //   $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
+                //   redirect('cooperatives_update/'.$id.'cooperators_update');
+                // }
+          }else{
+            if($this->session->userdata('access_level')==5){
+              redirect('admins/login');
+            }
+            // else if($this->session->userdata('access_level')!=1){
+            //   redirect('cooperatives');
+            // }else{
+              // if($this->cooperatives_update_model->check_expired_reservation_by_admin($decoded_id)){
+              //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
+              //   redirect('cooperatives_update');
+              // }else{
+                // if($this->cooperatives_update_model->check_submitted_for_evaluation($decoded_id)){
+                  // if($this->cooperatives_update_model->check_first_evaluated($decoded_id)){
+                  //   $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
+                  //   redirect('cooperatives');
+                  // }else{
+                    $data['coop_info'] = $this->cooperatives_update_model->get_cooperative_info_by_admin($decoded_id);
+                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                    $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->capitalization_model->check_capitalization_primary_complete($decoded_id) : true;
+                    if($data['capitalization_complete']){
+                      if($this->input->post('fName')) {
+                        $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
+                         $dateIssued_ = '';
+                            if($this->input->post('dateIssued'))
+                            {
+                               $dateIssued_ =$this->input->post('dateIssued');
+                            }
+                            if($this->input->post('dateIssued_chk'))
+                            {
+                              $dateIssued_  = $this->input->post('dateIssued_chk');
+                            }
+                        $data = array(
+                          'cooperatives_id' => $decoded_post_coop_id,
+                          'full_name' => $this->input->post('fName'),
+                          'gender' => $this->input->post('gender'),
+                          'position' => $this->input->post('position'),
+                          'type_of_member' => $this->input->post('membershipType'),
+                          'birth_date' => $this->input->post('bDate'),
+                          'house_blk_no'=> $this->input->post('blkNo'),
+                          'streetName'=> $this->input->post('streetName'),
+                          'addrCode' => $this->input->post('barangay'),
+                          'number_of_subscribed_shares' =>$this->input->post('subscribedShares'),
+                          'number_of_paid_up_shares' =>$this->input->post('paidShares'),
+                          'proof_of_identity' =>$this->input->post('validIdType'),
+                          'proof_of_identity_number' =>$this->input->post('validIdNo'),
+                          'proof_date_issued' => $dateIssued_,
+                          'place_of_issuance' =>$this->input->post('placeIssuance'),
+                          );
+                        $success = $this->cooperators_update_model->add_cooperator($data,'');
+                        if($success['success']){
+                          $this->session->set_flashdata('cooperator_success', $success['message']);
+                          redirect('cooperatives_update/'.$this->input->post('cooperativesID').'/cooperators_update');
+                        }else{
+                          $this->session->set_flashdata('cooperator_error', $success['message']);
+                          redirect('cooperatives_update/'.$this->input->post('cooperativesID').'/cooperators_update');
+                        }
+                    } else {
+                        $data['title'] = 'List of Cooperators';
+                        $data['header'] = 'Cooperators';
+                        $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                        $data['encrypted_id'] = $id;
+                        $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($data['coop_info']->users_id));
+                        $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                        $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                        $data['list_cooperators'] = $this->cooperators_update_model->get_all_cooperator_of_coop($decoded_id);
+                        
+                        $this->db->select('*');
+                        $this->db->from('id_list');
+                        $this->db->order_by('id_name','ASC');
+                        $id_query = $this->db->get();
+                        if($id_query->num_rows()>0)
+                        {
+                          $data['list_id'] = $id_query->result_array();
+                        }
+                        else
+                        {
+                          $data['list_id'] = NULL;
+                        }
+                        if($data['coop_info']->area_of_operation == 'Interregional'){
+                          $data['regions_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
+                        } else {
+                          $data['regions_list'] = $this->region_model->get_regions();
+                        }
+                        $data['list_of_provinces'] = $this->cooperatives_update_model->get_provinces($data['coop_info']->rCode);
+                        $data['list_of_cities'] = $this->cooperatives_update_model->get_cities($data['coop_info']->pCode);
+                        $data['list_of_brgys'] = $this->cooperatives_update_model->get_brgys($data['coop_info']->cCode);
+                        $this->load->view('./templates/admin_header', $data);
+                        $this->load->view('update/add_form_cooperator_update', $data);
+                        $this->load->view('./templates/admin_footer');
+                      }
+                      // else{
+                      //   $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
+                      //   $data = array(
+                      //     'cooperatives_id' => $decoded_post_coop_id,
+                      //     'full_name' => $this->input->post('fName'),
+                      //     'gender' => $this->input->post('gender'),
+                      //     'position' => $this->input->post('position'),
+                      //     'type_of_member' => $this->input->post('membershipType'),
+                      //     'birth_date' => $this->input->post('bDate'),
+                      //     'house_blk_no'=> $this->input->post('blkNo'),
+                      //     'streetName'=> $this->input->post('streetName'),
+                      //     'addrCode' => $this->input->post('barangay'),
+                      //     'number_of_subscribed_shares' =>$this->input->post('subscribedShares'),
+                      //     'number_of_paid_up_shares' =>$this->input->post('paidShares'),
+                      //     'proof_of_identity' =>$this->input->post('validIdType'),
+                      //     'proof_of_identity_number' =>$this->input->post('validIdNo'),
+                      //     'proof_date_issued' =>$this->input->post('dateIssued'),
+                      //     'place_of_issuance' =>$this->input->post('placeIssuance'),
+                      //     );
+                      //   $success = $this->cooperators_update_model->add_cooperator($data,'');
+                      //   if($success['success']){
+                      //     $this->session->set_flashdata('cooperator_success', $success['message']);
+                      //     redirect('cooperatives_update/'.$this->input->post('cooperativesID').'/cooperators_update');
+                      //   }else{
+                      //     $this->session->set_flashdata('cooperator_error', $success['message']);
+                      //     redirect('cooperatives/'.$this->input->post('cooperativesID').'/cooperators');
+                      //   }
+                      // }
+                    }else{
+                      $this->session->set_flashdata('redirect_message', 'Please complete first the capitalization additional information.');
+                      redirect('cooperatives_update/'.$id.'cooperators_update');
+                    }
+                  // }
+                // }else{
+                //   $this->session->set_flashdata('redirect_applications_message', 'Adding cooperator is not available because the cooperative is not yet submitted for evaluation.');
+                //   redirect('cooperatives_update');
+                // }
+              // }
+            // }
+          }
+        }else{
+          show_404();
+        }
+    }
+  }
+
+  //modify by json
+  public function get_coop_info_dtl()
+  {
+       if(!$this->session->userdata('logged_in'))
+      {
+        redirect('users/login');
+      }
+      else
+      {
+        if($this->input->method(TRUE)==="GET"){
+          if($this->session->userdata('access_level')==5){
+            redirect('admins/login');
+          }else{
+            redirect('cooperatives');
+          }
+        }else{
+          if($this->input->post('id') && $this->input->post('user_id')){
+            $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('id')));
+            $decoded_user_id = $this->encryption->decrypt(decrypt_custom($this->input->post('user_id')));
+           $decoded_coop_id= $this->encryption->decrypt(decrypt_custom($this->input->post('coop_ids')));
+            $result = $this->cooperators_update_model->get_cooperative_details($decoded_user_id,$decoded_coop_id);
+            // echo json_encode($this->db->last_query());
+             echo json_encode($result);
+          }else{
+            echo json_encode(array('error'=>'Internal Server Error.'));
+          }
+        }
+      }
+  }
+
+  //end modify 
+  function edit($id = null,$cooperator_id = null){
+    if(!$this->session->userdata('logged_in')){
+      redirect('users/login');
+    }else{
+      // var_dump($this->uri->segment());
+        $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+        $user_id = $this->session->userdata('user_id');
+        $data['is_client'] = $this->session->userdata('client');
+        if(is_numeric($decoded_id) && $decoded_id!=0){
+          if($this->session->userdata('client')){
+            // if($this->cooperatives_update_model->check_own_cooperative($decoded_id,$user_id)){
+              // if(!$this->cooperatives_update_model->check_expired_reservation($decoded_id,$user_id)){
+                $data['coop_info'] = $this->cooperatives_update_model->get_cooperative_info($decoded_id);
+                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->capitalization_model->check_capitalization_primary_complete($decoded_id) : true;
+                if($data['capitalization_complete']){
+                    $decoded_cooperator_id = $this->encryption->decrypt(decrypt_custom($cooperator_id));
+                    if($this->cooperators_update_model->check_cooperator_in_cooperative($decoded_id,$decoded_cooperator_id)){ //check if cooperator is in cooperative
+                      // if(!$this->cooperatives_update_model->check_submitted_for_evaluation($decoded_id)){
+                        if(!isset($_POST['editCooperatorBtn'])){
+                          $data['client_info'] = $this->user_model->get_user_info($user_id);
+                          $data['title'] = 'List of Cooperators';
+                          $data['header'] = 'Cooperators';
+                          $data['encrypted_id'] = $id;
+
+                          $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
+                          
+                          if($data['coop_info']->area_of_operation == 'Interregional'){
+                            $data['regions_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
+                          } else {
+                            $data['regions_list'] = $this->region_model->get_regions();
+                          }
+
+                          $this->db->select('*');
+                          $this->db->from('id_list');
+                          $this->db->order_by('id_name','ASC');
+                          $id_query = $this->db->get();
+                          if($id_query->num_rows()>0)
+                          {
+                            $data['list_id'] = $id_query->result_array();
+                          }
+                          else
+                          {
+                            $data['list_id'] = NULL;
+                          }
+                          
+                          $data['cooperator_info'] = $this->cooperators_update_model->get_cooperator_info($decoded_cooperator_id);
+
+                          $data['list_of_provinces'] = $this->cooperatives_update_model->get_provinces($data['cooperator_info']->rCode);
+                          $data['list_of_cities'] = $this->cooperatives_update_model->get_cities($data['cooperator_info']->pCode);
+                          $data['list_of_brgys'] = $this->cooperatives_update_model->get_brgys($data['cooperator_info']->cCode);
+
+                          $data['encrypted_cooperator_id'] = $cooperator_id;
+                          $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                          $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                          // $data['cooperator_info'] = $this->cooperators_update_model->get_cooperator_info($decoded_cooperator_id);
+                          $data['list_cooperators'] = $this->cooperators_update_model->get_all_cooperator_of_coop($decoded_id);
+                          $this->load->view('./template/header', $data);
+                          $this->load->view('update/edit_form_cooperator_update', $data);
+                          $this->load->view('./template/footer');
+                        }else{
+                          $decoded_post_cooperator_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
+                          $dateIssued_ = '';
+                          if($this->input->post('dateIssued'))
+                          {
+                             $dateIssued_ =$this->input->post('dateIssued');
+                          }
+                          if($this->input->post('dateIssued_chk'))
+                          {
+                            $dateIssued_  = $this->input->post('dateIssued_chk');
+                          }
+
+                          // Get Count Committee
+
+                          // echo $decoded_post_cooperator_id;
+                            $this->db->where(array('cooperators_id'=>$decoded_post_cooperator_id));
+                            $this->db->from('committees');
+                          
+                            // echo $this->db->count_all_results();
+                          if($this->db->count_all_results()>0){
+
+                            $this->db->trans_begin();
+                            $this->db->delete('committees',array('cooperators_id'=>$decoded_post_cooperator_id));
+                            if($this->db->trans_status() === FALSE){
+                              $this->db->trans_rollback();
+                              // return false;
+                            }else{
+                              $this->db->trans_commit();
+                              // return true;
+                            }
+                            // $committee_info = array(
+                            //   'name' => ''
+                            // );
+
+                            // $this->db->where('cooperators_id', $decoded_post_cooperator_id);
+                            // $this->db->update('committees',$committee_info);
+                            // if($this->db->trans_status() === FALSE){
+                            //   // echo $this->db->last_query();
+                            //   $this->db->trans_rollback();
+                            //   // return array('success'=>false,'message'=>'Unable to updated committee');
+                            // }else{
+                            //   $this->db->trans_commit();
+                            //   // return array('success'=>true,'message'=>'Committee has been successfully updated');
+                            // }
+                          }
+
+                          // End Get Committee
+
+                          $data = array(
+                            'full_name' => $this->input->post('fName'),
+                            'gender' => $this->input->post('gender'),
+                            'position' => $this->input->post('position'),
+                            'type_of_member' => $this->input->post('membershipType'),
+                            'birth_date' => $this->input->post('bDate'),
+                            'house_blk_no'=> $this->input->post('blkNo'),
+                            'streetName'=> $this->input->post('streetName'),
+                            'addrCode' => $this->input->post('barangay'),
+                            'number_of_subscribed_shares' =>$this->input->post('subscribedShares'),
+                            'number_of_paid_up_shares' =>$this->input->post('paidShares'),
+                            'proof_of_identity' =>$this->input->post('validIdType'),
+                            'proof_of_identity_number' =>$this->input->post('validIdNo'),
+                            'proof_date_issued' => $dateIssued_ ,
+                            'place_of_issuance' =>$this->input->post('placeIssuance'),
+                            );
+                         // $this->debug($data);
+                          // echo $decoded_post_cooperator_id;
+                          $success = $this->cooperators_update_model->edit_cooperator($decoded_post_cooperator_id,$data);
+                          if($success['success']){
+                            $this->session->set_flashdata('cooperator_success', $success['message']);
+                            redirect('cooperatives_update/'.$this->input->post('cooperativesID').'/cooperators_update');
+                          }else{
+                            $this->session->set_flashdata('cooperator_error', $success['message']);
+                            redirect('cooperatives_update/'.$this->input->post('cooperativesID').'/cooperators_update');
+                          }
+                        }
+                      // }else{
+                      //   $this->session->set_flashdata('redirect_message', 'You already submitted for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
+                      //    redirect('cooperatives_update/'.$id.'cooperators_update');
+                      // }
+                    }else{
+                      $this->session->set_flashdata('cooperator_redirect', 'Unauthorized!!.');
+                       redirect('cooperatives_update/'.$id.'cooperators_update');
+                    }
+                }else{
+                  $this->session->set_flashdata('redirect_message', 'Please complete first your capitalization additional information.');
+                   redirect('cooperatives_update/'.$id.'cooperators_update');
+                }
+              // }else{
+              //   redirect('cooperatives_update/'.$id.'cooperators_update');
+              // }
+            // }else{
+            //   $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+            //   redirect('cooperatives');
+            // }
+          }else{
+            if($this->session->userdata('access_level')==5){
+              redirect('admins/login');
+            }else if($this->session->userdata('access_level')!=1 && $this->session->userdata('access_level')!=6){
+              // redirect('cooperatives');
+            }else{
+              // echo $decoded_id;
+              // if($this->cooperatives_update_model->check_expired_reservation_by_admin($decoded_id)){
+              //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
+              //   redirect('cooperatives');
+              // }else{
+                // if($this->cooperatives_update_model->check_submitted_for_evaluation($decoded_id)){
+                  // if($this->cooperatives_update_model->check_first_evaluated($decoded_id)){
+                  //   $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
+                  //   redirect('cooperatives');
+                  // }else{
+                    $data['coop_info'] = $this->cooperatives_update_model->get_cooperative_info_by_admin($decoded_id);
+                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                    $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->capitalization_model->check_capitalization_primary_complete($decoded_id) : true;
+                    if($data['capitalization_complete']){
+                        $decoded_cooperator_id = $this->encryption->decrypt(decrypt_custom($cooperator_id));
+                        if($this->cooperators_update_model->check_cooperator_in_cooperative($decoded_id,$decoded_cooperator_id)){
+                            if(!isset($_POST['editCooperatorBtn'])){
+                              $data['client_info'] = $this->user_model->get_user_info($user_id);
+                              $data['title'] = 'List of Cooperators';
+                              $data['header'] = 'Cooperators';
+                              $data['encrypted_id'] = $id;
+
+                              $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
+                              
+                              if($data['coop_info']->area_of_operation == 'Interregional'){
+                                $data['regions_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
+                              } else {
+                                $data['regions_list'] = $this->region_model->get_regions();
+                              }
+
+                              $this->db->select('*');
+                              $this->db->from('id_list');
+                              $this->db->order_by('id_name','ASC');
+                              $id_query = $this->db->get();
+                              if($id_query->num_rows()>0)
+                              {
+                                $data['list_id'] = $id_query->result_array();
+                              }
+                              else
+                              {
+                                $data['list_id'] = NULL;
+                              }
+                              
+                              $data['cooperator_info'] = $this->cooperators_update_model->get_cooperator_info($decoded_cooperator_id);
+
+                              $data['list_of_provinces'] = $this->cooperatives_update_model->get_provinces($data['cooperator_info']->rCode);
+                              $data['list_of_cities'] = $this->cooperatives_update_model->get_cities($data['cooperator_info']->pCode);
+                              $data['list_of_brgys'] = $this->cooperatives_update_model->get_brgys($data['cooperator_info']->cCode);
+
+                              $data['encrypted_cooperator_id'] = $cooperator_id;
+                              $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                              $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                              // $data['cooperator_info'] = $this->cooperators_update_model->get_cooperator_info($decoded_cooperator_id);
+                              $data['list_cooperators'] = $this->cooperators_update_model->get_all_cooperator_of_coop($decoded_id);
+                              $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                              $this->load->view('./templates/admin_header', $data);
+                              $this->load->view('update/edit_form_cooperator_update', $data);
+                              $this->load->view('./templates/admin_footer');
+
+                              // $data['title'] = 'List of Cooperators';
+                              // $data['header'] = 'Cooperators';
+                              // $data['encrypted_id'] = $id;
+                              // $data['encrypted_cooperator_id'] = $cooperator_id;
+                              
+                              // $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                              // $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                              // $data['cooperator_info'] = $this->cooperators_update_model->get_cooperator_info($decoded_cooperator_id);
+                              // $data['list_cooperators'] = $this->cooperators_update_model->get_all_cooperator_of_coop($decoded_id);
+                              // $this->load->view('./templates/admin_header', $data);
+                              // $this->load->view('update/edit_form_cooperator_update', $data);
+                              // $this->load->view('./templates/admin_footer');
+                            }else{
+                              $decoded_post_cooperator_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
+                              $dateIssued_ = '';
+                              if($this->input->post('dateIssued'))
+                              {
+                                 $dateIssued_ =$this->input->post('dateIssued');
+                              }
+                              if($this->input->post('dateIssued_chk'))
+                              {
+                                $dateIssued_  = $this->input->post('dateIssued_chk');
+                              }
+
+                              // Get Count Committee
+
+                              // echo $decoded_post_cooperator_id;
+                                $this->db->where(array('cooperators_id'=>$decoded_post_cooperator_id));
+                                $this->db->from('committees');
+                              
+                                // echo $this->db->count_all_results();
+                              if($this->db->count_all_results()>0){
+
+                                $this->db->trans_begin();
+                                $this->db->delete('committees',array('cooperators_id'=>$decoded_post_cooperator_id));
+                                if($this->db->trans_status() === FALSE){
+                                  $this->db->trans_rollback();
+                                  // return false;
+                                }else{
+                                  $this->db->trans_commit();
+                                  // return true;
+                                }
+                                // $committee_info = array(
+                                //   'name' => ''
+                                // );
+
+                                // $this->db->where('cooperators_id', $decoded_post_cooperator_id);
+                                // $this->db->update('committees',$committee_info);
+                                // if($this->db->trans_status() === FALSE){
+                                //   // echo $this->db->last_query();
+                                //   $this->db->trans_rollback();
+                                //   // return array('success'=>false,'message'=>'Unable to updated committee');
+                                // }else{
+                                //   $this->db->trans_commit();
+                                //   // return array('success'=>true,'message'=>'Committee has been successfully updated');
+                                // }
+                              }
+
+                              // End Get Committee
+
+                              $data = array(
+                                'full_name' => $this->input->post('fName'),
+                                'gender' => $this->input->post('gender'),
+                                'position' => $this->input->post('position'),
+                                'type_of_member' => $this->input->post('membershipType'),
+                                'birth_date' => $this->input->post('bDate'),
+                                'house_blk_no'=> $this->input->post('blkNo'),
+                                'streetName'=> $this->input->post('streetName'),
+                                'addrCode' => $this->input->post('barangay'),
+                                'number_of_subscribed_shares' =>$this->input->post('subscribedShares'),
+                                'number_of_paid_up_shares' =>$this->input->post('paidShares'),
+                                'proof_of_identity' =>$this->input->post('validIdType'),
+                                'proof_of_identity_number' =>$this->input->post('validIdNo'),
+                                'proof_date_issued' => $dateIssued_ ,
+                                'place_of_issuance' =>$this->input->post('placeIssuance'),
+                                );
+                             // $this->debug($data);
+                              // echo $decoded_post_cooperator_id;
+                              $success = $this->cooperators_update_model->edit_cooperator($decoded_post_cooperator_id,$data);
+                              if($success['success']){
+                                $this->session->set_flashdata('cooperator_success', $success['message']);
+                                redirect('cooperatives_update/'.$this->input->post('cooperativesID').'/cooperators_update');
+                              }else{
+                                $this->session->set_flashdata('cooperator_error', $success['message']);
+                                redirect('cooperatives_update/'.$this->input->post('cooperativesID').'/cooperators_update');
+                              }
+                            }
+                      }else{
+                        $this->session->set_flashdata('cooperator_redirect', 'Unauthorized!!.');
+                        redirect('cooperatives/'.$id.'/cooperators');
+                      }
+                    }else{
+                      $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
+                      redirect('cooperatives/'.$id);
+                    }
+                  // }
+                // }else{
+                //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you trying to update is not yet submitted for evaluation.');
+                //   redirect('cooperatives');
+                // }
+              // }
+            }
+          }
+        }else{
+          show_404();
+        }
+    }
+  }
+  function delete_cooperator(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('users/login');
+    }else{
+      if($this->input->post('deleteCooperatorBtn')){
+        $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID',TRUE)));
+        $user_id = $this->session->userdata('user_id');
+        $data['is_client'] = $this->session->userdata('client');
+        if(is_numeric($decoded_id) && $decoded_id!=0){
+          if($this->session->userdata('client')){
+            // if($this->cooperatives_update_model->check_own_cooperative($decoded_id,$user_id)){
+              $decoded_post_cooperator_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
+              // if($this->cooperators_update_model->check_cooperator_in_cooperative($decoded_id,$decoded_post_cooperator_id)){
+                // if(!$this->cooperatives_update_model->check_submitted_for_evaluation($decoded_id)){
+                  $success = $this->cooperators_update_model->delete_cooperator($decoded_post_cooperator_id);
+                  if($success){
+                    $this->session->set_flashdata('cooperator_success', 'Cooperative has been deleted.');
+                    redirect('cooperatives_update/'.$this->input->post('cooperativeID').'/cooperators_update');
+                  }else{
+                    $this->session->set_flashdata('cooperator_error', 'Unable to delete cooperative.');
+                    redirect('cooperatives_update/'.$this->input->post('cooperativeID').'/cooperators_update');
+                  }
+                // }else{
+                //   $this->session->set_flashdata('redirect_message', 'You already submitted for evaluation.');
+                //   redirect('cooperatives/'.$id);
+                // }
+              // }else{
+              //   $this->session->set_flashdata('cooperator_redirect','Unauthorized!!');
+              //   redirect('cooperatives/'.$this->input->post('cooperativeID').'/cooperators');
+              // }
+            // }else{
+            //   $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+            //   redirect('cooperatives');
+            // }
+          }else{
+            if($this->session->userdata('access_level')==5){
+              redirect('admins/login');
+            }
+            // else if($this->session->userdata('access_level')!=1 || $this->session->userdata('access_level')!=6){
+            //   redirect('cooperatives');
+            // }else{
+              $decoded_post_cooperator_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
+              if($this->cooperators_update_model->check_cooperator_in_cooperative($decoded_id,$decoded_post_cooperator_id)){
+                // if($this->cooperatives_update_model->check_submitted_for_evaluation($decoded_id)){
+                  // if($this->cooperatives_update_model->check_first_evaluated($decoded_id)){
+                    // $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
+                    // redirect('cooperatives');
+                  // }else{
+                    $success = $this->cooperators_update_model->delete_cooperator($decoded_post_cooperator_id);
+                    if($success){
+                      $this->session->set_flashdata('cooperator_success', 'Cooperative has been deleted.');
+                      redirect('cooperatives_update/'.$this->input->post('cooperativeID').'/cooperators_update');
+                    }else{
+                      $this->session->set_flashdata('cooperator_error', 'Unable to delete cooperative.');
+                      redirect('cooperatives_update/'.$this->input->post('cooperativeID').'/cooperators_update');
+                    }
+                  // }
+                // }else{
+                //   $this->session->set_flashdata('redirect_applications_message', 'Deleting a cooperator of the cooperative is not available because the cooperative is not yet submitted for evaluation.');
+                //   redirect('cooperatives_update');
+                // }
+              }else{
+                $this->session->set_flashdata('cooperator_redirect','Unauthorized!!');
+                redirect('cooperatives_update/'.$this->input->post('cooperativeID').'/cooperators_update');
+              }
+            // }
+          }
+        }else{
+          redirect('cooperatives_update');
+        }
+      }else{
+        redirect('cooperatives_update');
+      }
+    }
+  }
+  function all(){
+
+    if($this->input->method(TRUE)==="GET"){
+      redirect('cooperatives');
+    }else if($this->input->method(TRUE)==="POST"){
+      $uid = $this->session->userdata('user_id');
+      $cooperatives_id = $this->cooperatives_update_model->get_cooperative_info($uid)->id;
+      $cooperators = $this->cooperators_update_model->get_all_cooperator_of_coop($cooperatives_id);
+      $temp['data'] = $cooperators;
+      echo json_encode($temp);
+    }
+
+  }
+  public function check_cooperator_not_exist(){
+     if(!$this->session->userdata('logged_in')){
+        redirect('users/login');
+      }else{
+        if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('cooperativesID')){
+          $data = array(
+            'fieldId'=>$this->input->get('fieldId'),
+            'fieldValue'=>$this->input->get('fieldValue'),
+            'cooperativesID'=>$this->input->get('cooperativesID'),
+          );
+          $result = $this->cooperators_update_model->is_name_unique($data);
+          echo json_encode($result);
+        }else{
+          $this->session->set_flashdata('redirect_applications_message', 'Server error code 500.');
+          redirect('cooperators');
+        }
+      }
+  }
+
+  public function check_position_not_exist(){
+     if(!$this->session->userdata('logged_in')){
+        redirect('users/login');
+      }else{
+        if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('cooperativesID')){
+          $data = array(
+            'fieldId'=>$this->input->get('fieldId'),
+            'fieldValue'=>$this->input->get('fieldValue'),
+            'cooperativesID'=>$this->input->get('cooperativesID'),
+          );
+          $result = $this->cooperators_update_model->is_position_available($data);
+          echo json_encode($result);
+        }else{
+          $this->session->set_flashdata('redirect_applications_message', 'Server error code 500.');
+          redirect('cooperators');
+        }
+      }
+  }
+
+  public function check_edit_cooperator_not_exist(){
+     if(!$this->session->userdata('logged_in')){
+        redirect('users/login');
+      }else{
+        if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('cooperatorID') && $this->input->get('cooperativesID')){
+          $data = array(
+            'fieldId'=>$this->input->get('fieldId'),
+            'fieldValue'=>$this->input->get('fieldValue'),
+            'cooperatorID'=>$this->input->get('cooperatorID'),
+            'cooperativesID'=>$this->input->get('cooperativesID')
+          );
+          $result = $this->cooperators_update_model->edit_is_name_unique($data);
+          echo json_encode($result);
+        }else{
+          $this->session->set_flashdata('redirect_applications_message', 'Server error code 500.');
+          redirect('cooperators');
+        }
+      }
+  }
+
+  public function check_edit_position_not_exist(){
+     if(!$this->session->userdata('logged_in')){
+        redirect('users/login');
+      }else{
+        if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('cooperatorID') && $this->input->get('cooperativesID')){
+          $data = array(
+            'fieldId'=>$this->input->get('fieldId'),
+            'fieldValue'=>$this->input->get('fieldValue'),
+            'cooperatorID'=>$this->input->get('cooperatorID'),
+            'cooperativesID'=>$this->input->get('cooperativesID')
+          );
+          $result = $this->cooperators_update_model->edit_is_position_available($data);
+          echo json_encode($result);
+        }else{
+          $this->session->set_flashdata('redirect_applications_message', 'Server error code 500.');
+          redirect('cooperators');
+        }
+      }
+  }
+
+  function get_post_cooperator_info($id){
+    if($this->input->method(TRUE)==="GET"){
+      redirect('cooperatives');
+    }else if($this->input->method(TRUE)==="POST"){
+      $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+      $user_id = $this->session->userdata('user_id');
+      if(is_numeric($decoded_id) && $decoded_id!=0){
+        if($this->session->userdata('client')){
+          if($this->cooperatives_update_model->check_own_cooperative($decoded_id,$user_id)){
+              $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperator_id',true)));
+              $data = $this->cooperators_update_model->get_cooperator_info($decoded_post_coop_id);
+              echo json_encode($data);
+          }else{
+            $this->session->set_flashdata('cooperator_redirect','Unauthorized!!');
+            redirect('cooperatives/'.$this->input->post('cooperativeID').'/cooperators');
+          }
+        }else{
+          if($this->session->userdata('access_level')==5){
+            redirect('admins/login');
+          }else if($this->session->userdata('access_level')!=1){
+            redirect('cooperatives');
+          }else{
+            $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperator_id',true)));
+            $data = $this->cooperators_update_model->get_cooperator_info($decoded_post_coop_id);
+            echo json_encode($data);
+          }
+        }
+      }else{
+        show_404();
+      }
+    }
+  }
+
+  function get_cooperative_info($user_id,$coop_id){
+    $this->db->select('cooperatives.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+    $this->db->from('cooperatives');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->where(array('cooperatives.users_id'=>$user_id,'cooperatives.id'=>$coop_id));
+    $query = $this->db->get();
+    return $query->row();
+  }
+   public function debug($array)
+    {
+        echo"<pre>";
+        print_r($array);
+        echo"</pre>";
+    }
+}

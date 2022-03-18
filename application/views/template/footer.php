@@ -9,13 +9,14 @@
 <!-- jQuery Custom Scroller CDN -->
 <script src="<?=base_url();?>assets/js/malibu_scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="<?=base_url();?>assets/js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
-<link href="https://allfont.net/allfont.css?fonts=bookman-old-style" rel="stylesheet" type="text/css" /> 
+<!-- <link href="https://allfont.net/allfont.css?fonts=bookman-old-style" rel="stylesheet" type="text/css" /> -->
 <script src="<?=base_url();?>assets/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
 <!-- Optional: include a polyfill for ES6 Promises for IE11 and Android browser -->
 <script  src="<?=base_url();?>assets/js/sweetalert2.min.js"></script>
 <script src="<?=base_url();?>assets/js/custom-script.js"></script>
 <script src="<?=base_url();?>assets/js/custom-error-messages.js"></script>
 <script src="<?=base_url();?>assets/js/toword.js"></script>
+<!-- <script src="<?=base_url();?>assets/js/update_cooperative_info.js"></script> -->
 <?php if($this->uri->segment(2) == "registration" && $is_client)   : ?><script src="<?=base_url();?>assets/js/add-registration.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(2) == "reservation" && $is_client)   : ?><script src="<?=base_url();?>assets/js/add-reservation.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(2) == "application" && $is_client)   : ?><script src="<?=base_url();?>assets/js/add-amendment.js"></script> <?php endif; ?>
@@ -36,6 +37,9 @@
 <?php if($this->uri->segment(3) == "amendment_cooperators" && $this->uri->segment(5)=="edit")   : ?><script src="<?=base_url();?>assets/js/edit_cooperator_amendment.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(3) == "cooperators" && $this->uri->segment(4)=="add")   : ?><script src="<?=base_url();?>assets/js/add_cooperator_custom.js"></script> <?php endif; ?>
 
+<?php if($this->uri->segment(3) == "affiliators_update") : ?><script src="<?=base_url();?>assets/js/edit_affiliator_update_custom.js"></script>
+<script src="<?=base_url();?>assets/js/add_affiliator_update_custom.js"></script><?php endif; ?>
+
 <?php if($this->uri->segment(3) == "affiliators") : ?><script src="<?=base_url();?>assets/js/edit_affiliator_custom.js"></script>
 <script src="<?=base_url();?>assets/js/add_affiliator_custom.js"></script><?php endif; ?>
 
@@ -45,7 +49,14 @@
 <?php if($this->uri->segment(3) == "laboratories_cooperators" && $this->uri->segment(4)=="add")   : ?><script src="<?=base_url();?>assets/js/add_cooperator_lab_custom.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(3) == "laboratories_cooperators" && $this->uri->segment(4)=="edit")   : ?><script src="<?=base_url();?>assets/js/update-purposes.js"></script> <?php endif; ?>
 
-<script type="text/javascript">
+<?php if($this->uri->segment(1) == "cooperatives_update" && $this->uri->segment(2)=="update"): ?><script src="<?=base_url();?>assets/js/update_cooperative_info.js"></script> <?php  endif; ?>
+<?php if($this->uri->segment(3) == "purposes_update" && $this->uri->segment(4)=="edit"): ?><script src="<?=base_url();?>assets/js/purposes_update.js"></script> <?php  endif; ?>
+<?php if($this->uri->segment(5) == "cooperators_update" && $this->uri->segment(6)=="edit"): ?><script src="<?=base_url();?>assets/js/edit_cooperator_update_custom.js"></script> <?php  endif; ?>
+<?php if($this->uri->segment(3) == "cooperators_update" && $this->uri->segment(4)=="add"): ?><script src="<?=base_url();?>assets/js/add_cooperator_update_custom.js"></script> <?php  endif; ?>
+
+<?php if($this->uri->segment(1) == "amendment_update" && $this->uri->segment(3)=="update"): ?><script src="<?=base_url();?>assets/js/amendment_update.js"></script> <?php  endif; ?>
+
+<script type="text/javascript"> 
         $(document).ready(function () {
             $("#sidebar").mCustomScrollbar({
                 theme: "minimal"

@@ -51,6 +51,8 @@ class Admins extends CI_Controller{
               $admin_user_id = $this->session->userdata('user_id');
               if($this->admin_model->check_super_admin($admin_user_id)){
                 redirect('admins/all_admin');
+              }elseif($this->admin_model->check_ap($admin_user_id)){
+                redirect('updated_cooperative_info');
               }else{
                 redirect('cooperatives');
               }
@@ -113,6 +115,70 @@ class Admins extends CI_Controller{
       }
     }
   }
+  public function all_new_user(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        $admin_user_id = $this->session->userdata('user_id');
+        if($this->admin_model->check_super_admin($admin_user_id)){
+          $data['title'] = 'List of New Email Users';
+          $data['header'] = 'List of New Email Users';
+          $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
+          $data['users_list'] = $this->admin_model->get_all_new_user();
+          $this->load->view('./templates/admin_header', $data);
+          $this->load->view('admin/list_of_new_user', $data);
+          $this->load->view('admin/resetpassword_modal_new_user', $data);
+          $this->load->view('admin/edit_reg_date_status', $data);
+          $this->load->view('admin/delete_modal_new_user', $data);
+          $this->load->view('./templates/admin_footer');
+        }else{
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('cooperatives');
+      }
+    }
+  }
+  public function migration_coop(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        $admin_user_id = $this->session->userdata('user_id');
+        if($this->admin_model->check_super_admin($admin_user_id)){
+          $data['title'] = 'List of Migrated Cooperatives';
+          $data['header'] = 'List of Migrated Cooperatives';
+          $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
+
+          $data['migrated_data'] = $this->admin_model->get_migrated_data('','',0);
+
+          if($this->input->post('submit')) {
+            $coopName = $this->input->post('coopName');
+            $regNo = $this->input->post('regNo');
+            $limit = $this->input->post('limit');
+
+            // echo $coopName.'asdassdad';
+            $data['migrated_data'] = $this->admin_model->get_migrated_data($coopName,$regNo,$limit);
+            // echo $this->db->last_query();
+          }
+
+          $this->load->view('./templates/admin_header', $data);
+          $this->load->view('admin/list_of_migrated_data', $data);
+          $this->load->view('admin/edit_reg_date_status', $data);
+          $this->load->view('./templates/admin_footer');
+        }else{
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('cooperatives');
+      }
+    }
+  }
   public function all_signatory(){ 
     if(!$this->session->userdata('logged_in')){
       redirect('admins/login');
@@ -158,6 +224,7 @@ class Admins extends CI_Controller{
               'signatory' => $this->input->post('signatory'),
               'signatory_designation' => $this->input->post('designation'),
               'region_code' => $this->input->post('region'),
+              'effectivity_date' => date('Y-m-d',strtotime($this->input->post('effectivity_date'))),
               'date_last_updated' => date('y-m-d H:i:s'),
               'active' => 1
               );
@@ -252,13 +319,15 @@ class Admins extends CI_Controller{
                 } else {
                     $success = $this->admin_model->check_position_not_exists_in_region($data['access_level'],$data['region_code']);
                     if($success['success']){
-                      if($this->admin_model->add_admin($data,$this->input->post('pword',true))){
+                      // if(
+                        $this->admin_model->add_admin($data,$this->input->post('pword',true));
+                      // ){
                         $this->session->set_flashdata('add_admin_success', 'Successfully added an administrator.');
                       redirect('admins/all_admin');
-                      }else{
-                        $this->session->set_flashdata('add_admin_error', 'Unable to add administrator.');
-                        redirect('admins/all_admin');
-                      }
+                      // }else{
+                      //   $this->session->set_flashdata('add_admin_error', 'Unable to add administrator.');
+                      //   redirect('admins/all_admin');
+                      // }
                     }else{
                       $this->session->set_flashdata('add_admin_error', $success['message']);
                       redirect('admins/all_admin');
@@ -359,6 +428,7 @@ class Admins extends CI_Controller{
                 'signatory' => $this->input->post('signatory'),
                 'signatory_designation'=> $this->input->post('designation'),
                 'region_code' => $this->input->post('region'),
+                'effectivity_date' => date('Y-m-d',strtotime($this->input->post('effectivity_date'))),
                 'active' => 1,
                 'date_last_updated' => date('y-m-d H:i:s')
                 );
@@ -474,6 +544,35 @@ class Admins extends CI_Controller{
       }
     }
   }
+  public function delete_new_user(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        if(!$this->session->userdata('access_level')==5){
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }else{
+          if($this->input->post('deleteAdministratorBtn')){
+            $decoded_aid = $this->encryption->decrypt(decrypt_custom($this->input->post('adminID')));
+              if($this->admin_model->delete_user($decoded_aid)){
+                $this->session->set_flashdata('delete_admin_success', 'Successfully deleted an user.');
+                redirect('admins/all_new_user');
+              }else{
+                $this->session->set_flashdata('delete_admin_error', 'Unable to delete administrator.');
+                redirect('admins/all_new_user');
+              }
+          }else{
+            $this->session->set_flashdata('redirect_admin_applications_message', 'Unauthorized!!.');
+            redirect('admins/all_new_user');
+          }
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('cooperatives');
+      }
+    }
+  }
   public function reset_password_user(){
     if(!$this->session->userdata('logged_in')){
       redirect('admins/login');
@@ -498,6 +597,72 @@ class Admins extends CI_Controller{
           }else{
             $this->session->set_flashdata('redirect_admin_applications_message', 'Unauthorized!!.');
             redirect('admins/all_user');
+          }
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('cooperatives');
+      }
+    }
+  }
+  public function edit_reg_date_status(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        if(!$this->session->userdata('access_level')==5){
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }else{
+          if($this->input->post('resetPasswordBtn')){
+            $decoded_aid = $this->encryption->decrypt(decrypt_custom($this->input->post('adminID')));
+            $regNo = $this->input->post('regno');
+            $data = array(
+                    'dateRegistered' => date('Y-m-d',strtotime($this->input->post('date_registered'))),
+                    // 'compliant' => $this->input->post('compliant')
+            );
+              if($this->admin_model->edit_datereg_status($decoded_aid,$data,$regNo)){
+                $this->session->set_flashdata('delete_admin_success', 'Date Registered and Status Successfully Edited');
+                redirect('admins/migration_coop');
+              }else{
+                $this->session->set_flashdata('delete_admin_error', 'Unable to delete user.');
+                redirect('admins/migration_coop');
+              }
+          }else{
+            $this->session->set_flashdata('redirect_admin_applications_message', 'Unauthorized!!.');
+            redirect('admins/migration_coop');
+          }
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('cooperatives');
+      }
+    }
+  }
+  public function reset_password_new_user(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        if(!$this->session->userdata('access_level')==5){
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }else{
+          if($this->input->post('resetPasswordBtn')){
+            $decoded_aid = $this->encryption->decrypt(decrypt_custom($this->input->post('adminID')));
+            $data = array(
+                    'password' => password_hash($this->input->post('pword'), PASSWORD_BCRYPT)
+            );
+              if($this->admin_model->reset_password($decoded_aid,$data)){
+                $this->session->set_flashdata('delete_admin_success', 'Password successfully reset.');
+                redirect('admins/all_new_user');
+              }else{
+                $this->session->set_flashdata('delete_admin_error', 'Unable to delete user.');
+                redirect('admins/all_new_user');
+              }
+          }else{
+            $this->session->set_flashdata('redirect_admin_applications_message', 'Unauthorized!!.');
+            redirect('admins/all_new_user');
           }
         }
       }else{

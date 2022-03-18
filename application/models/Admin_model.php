@@ -54,9 +54,25 @@ class Admin_model extends CI_Model{
     return $query->result_array();
   }
   public function get_all_new_user(){
+    $this->db->select('u.*,c.id as application_id');
+    $this->db->from('users u');
+    $this->db->join('cooperatives c','u.id = c.users_id');
+    $this->db->where(array('u.is_verified =' => 1,'u.regno !=' => NULL));
+    $query = $this->db->get();
+    return $query->result_array();
+
+    // $this->db->select('u.*,c.id as application_id');
+    // $this->db->from('users u');
+    // $this->db->join('cooperatives c','u.id = c.users_id');
+    // $this->db->where(array('u.is_verified =' => 1));
+  }
+  public function get_migrated_data($coopName,$regNo,$limit){
     $this->db->select('*');
-    $this->db->from('users');
-    $this->db->where(array('is_verified =' => 1,'regno !=' => NULL));
+    $this->db->from('registeredcoop');
+    $this->db->where('coopName LIKE "%'.$coopName.'%" AND regNo LIKE "%'.$regNo.'%"');
+    $this->db->group_by('regNo');
+    $this->db->order_by('coopName','ASC');
+    $this->db->limit($limit);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -176,6 +192,20 @@ public function add_admin_director($data,$raw_pass){
     $this->db->trans_begin();
     $this->db->where('id',$aid);
     $this->db->update('signatory',$data);
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
+  public function edit_datereg_status($aid,$data,$regno){
+    $aid = $this->security->xss_clean($aid);
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+    $this->db->where(array('id'=>$aid,'regNo'=>$regno));
+    $this->db->update('registeredcoop',$data);
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -527,6 +557,24 @@ public function add_admin_director($data,$raw_pass){
         return false;
     }
   }
+  public function sendEmailToClientUpdating($proposedname,$email){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = $message = "Good day! Encoded updates on your cooperative information have been successfully submitted for evaluation.<p>";
+    $this->email->from($from,'ecoopris CDA (No Reply)');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+
+
   public function sendEmailToSenior($proposedname,$brgy,$fullname,$contactnumber,$clientemail,$senioremail){
     if(sizeof($senioremail)>0){
       $receiver = "";
@@ -565,7 +613,7 @@ public function add_admin_director($data,$raw_pass){
       return true;
     }
   }
-  public function sendEmailToAP($proposedname,$brgy,$fullname,$contactnumber,$clientemail,$senioremail){
+  public function sendEmailToAP($proposedname,$brgy,$fullname,$contactnumber,$clientemail,$senioremail,$regNo,$coop_region){
     if(sizeof($senioremail)>0){
       $receiver = "";
       if(sizeof($senioremail)>1){
@@ -577,13 +625,34 @@ public function add_admin_director($data,$raw_pass){
       }else{
         $receiver = $senioremail[0]['email'];
       }
+
+      $this->db->select('*');
+      $this->db->from('registeredcoop');
+      $this->db->where('regNo', $regNo);
+      $this->db->limit('1');
+      $this->db->order_by('id','ASC');
+      $query = $this->db->get();
+      $reg = $query->row();
+
+      $this->db->select('*');
+      $this->db->from('refregion');
+      $this->db->where('regCode', '0'.substr($coop_region, 0, 2));
+      $query2 = $this->db->get();
+      $region = $query2->row();
+    // echo $receiver;
       $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = 'Cooperative Update Info';  //email subject
       $burl = base_url();
       //sending confirmEmail($receiver) function calling link to the user, inside message body
-      $message = "Good day!<p>
+      $message = "Good day! An application to update the cooperative information with the following details had been submitted for evaluation.<br><br>
 
-      ".$proposedname." submitted an application for updating of cooperatives' original details for your review and approval ";
+      a. ".$reg->coopName."<br>
+      b. ".$region->regDesc."<br>
+      c. ".$reg->regNo."<br>
+      d. ".$reg->noStreet." ".$reg->Street."<br>
+      e. ".$clientemail."<br>
+      ";
+
       $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($receiver);
       $this->email->subject($subject);
@@ -597,6 +666,46 @@ public function add_admin_director($data,$raw_pass){
       return true;
     }
   }
+
+  public function sendEmailToClientUpdatingApprove($client_email,$regNo,$coop_region){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+
+    $this->db->select('*');
+    $this->db->from('registeredcoop');
+    $this->db->where('regNo', $regNo);
+    $this->db->limit('1');
+    $this->db->order_by('id','ASC');
+    $query = $this->db->get();
+    $reg = $query->row();
+
+    $this->db->select('*');
+    $this->db->from('refregion');
+    $this->db->where('regCode', '0'.substr($coop_region, 0, 2));
+    $query2 = $this->db->get();
+    $region = $query2->row();
+
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = $message = "Congratulations! The cooperative information with the following details had been successfully UPDATED.<br><br>
+
+    a. ".$reg->coopName."<br>
+    b. ".$region->regDesc."<br>
+    c. ".$reg->regNo."<br>
+    d. ".$reg->noStreet." ".$reg->Street."<br>
+    e. ".$client_email."<br>
+    ";
+    $this->email->from($from,'ecoopris CDA (No Reply)');
+    $this->email->to($client_email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+
   public function sendEmailToSeniorBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type,$fullnamesupervising){
     if(sizeof($senioremail)>0){
       $receiver = "";

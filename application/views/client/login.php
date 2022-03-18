@@ -51,29 +51,37 @@
             <!-- <a class="btn btn-linnk" href="<?php echo base_url();?>admins/login">Admin Login</a> -->
             <div>
             <a class="btn btn-link" href="<?php echo base_url('/users/signup');?>" style="float:left;">Create an account</a>
+            
 
             <a class="btn btn-link" href="<?= base_url('/Users/forgot_password')?>" style="float:right;">Forgot password</a>
 
           </div>
-            <a class="btn btn-linnk" href="<?php echo base_url();?>welcome">Home Page</a>
+          <a class="btn btn-linnk" href="<?php echo base_url();?>welcome">Home Page</a><br>
+          <a class="btn btn-link" data-toggle="modal" data-target="#deleteCooperativeModal" href="" role="button">Click here if registered before September 1, 2020</a>
+            
+            
             <br/>
             
+
           </div>
           <div>
+
              <center>
               <ul>  
                   <li style="list-style: none">  
                       Users Manual
                   </li>
-                  <li style="list-style: none">
-                      <a class="" target="_blank" href="<?=base_url()?>users/users_manual/<?=encrypt_custom($this->encryption->encrypt('CDA_ClientAccount - Coop_Registration.pdf'))?>">Cooperative</a>
-                  </li>
-                  <li style="list-style: none">
-                      <a class="" target="_blank" href="<?=base_url()?>users/users_manual/<?=encrypt_custom($this->encryption->encrypt('CDA_ClientAccount - BranchSatellite_Registration_V.2.pdf'))?>">Branches & Satellite</a>
-                  </li>
-                  <li style="list-style: none">
-                      <a class="" target="_blank" href="<?=base_url()?>users/users_manual/<?=encrypt_custom($this->encryption->encrypt('CDA_Client_LaboratoyRegistration_V.2.pdf'))?>">Laboratory</a>
-                  </li>
+                  <li style="list-style: none"><a class="" target="_blank" href="<?=base_url()?>users/users_manual/<?=encrypt_custom($this->encryption->encrypt('CDA_ClientAccount - Coop_Registration.pdf'))?>">Cooperative
+                  </a>
+                </li>
+                <?php /*
+                    <li style="list-style: none">
+                      <a class="" target="_blank" href="<?=base_url()?>users/users_manual/<?=encrypt_custom($this->encryption->encrypt('CDA_Client_BranchRegistration.pdf'))?>">Branches & Satellite</a>
+                    </li>
+
+                      <li style="list-style: none"><a class="" target="_blank" href="<?=base_url()?>users/users_manual/<?=encrypt_custom($this->encryption->encrypt('CDA_Client_LaboratoyRegistration.pdf'))?>">Laboratory</a>
+                      </li>
+                      */?>
               </ul>
             </center>
           </div>

@@ -14,7 +14,7 @@
     <div class="card mb-4 border-top-blue">
       <?php echo form_open('users/create_new_email_account', 'name="signUpForm" id="signUpForm" enctype="multipart/form-data"');?>
         <div class="card-header">
-          <h4><strong> Create New Email Account </strong></h4>
+          <h4><strong> Create an Account Using Email </strong></h4>
         </div>
       <div class="card-body">
           <div class="row">
@@ -49,8 +49,15 @@
           <?php endif;  ?>
             <div class="col-sm-12 col-md-4">
               <div class="form-group form-group-fName">
-                <label for="LastName">Registered number:</label>
+                <label for="RegNo">Registered number:</label>
                 <input type="text" class="form-control" id="regno" name="regno">
+              </div>
+            </div>
+
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label for="coopName">Cooperative Name:</label>
+                <input type="text" class="form-control" id="coopname" name="coopname" disabled="">
               </div>
             </div>
 
@@ -103,7 +110,7 @@
             <div class="col-sm-12 col-md-4">
               <div class="form-group form-group-eAddress">
                 <label for="eAddress">Chairperson:</label>
-                <input type="text" class="form-control validate[required]" id="chairperson" name="chairperson">
+                <input type="text" class="form-control validate[required]" id="chairperson" name="chairperson" placeholder="Please input name of the latest Chairperson">
               </div>
             </div>
             <div class="col-sm-12 col-md-8">
@@ -163,6 +170,8 @@
                 <label for="img">Upload file</label>
                 <input type="file" name="img[]" class="form-control validate[required]" multiple>
                 <div style="color:red;font-size:10px;"><i>* Note: Upload scan copy of letter request signed by the Manager/CEO of the cooperative to update their email address</i></div>
+                <a class="" target="_blank" href="<?=base_url()?>users/authorization/<?=encrypt_custom($this->encryption->encrypt('authorization.docx'))?>">Click here to download template
+                  </a>
               </div>
             </div>
 
@@ -236,6 +245,33 @@
 </div>
 <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
+
+  $('#regno').on('change',function(){
+      // $('#province').empty();
+      // $("#province").prop("disabled",true);
+      // $('#city').empty();
+      // $("#city").prop("disabled",true);
+      // $('#barangay').empty();
+      // $("#barangay").prop("disabled",true);
+      if($(this).val() && ($(this).val()).length > 0){
+        // $("#coopname").prop("disabled",true);
+        var regno = $(this).val();
+          $.ajax({
+          type : "POST",
+          url  : "../api/registered",
+          dataType: "json",
+          data : {
+            regno: regno
+          },
+          success: function(data){
+            $('#coopname').attr('value',"").text("");
+            $.each(data, function(key,value){
+              $('#coopname').attr('value',value.coopName).text(value.coopName);
+            });
+          }
+        });
+      }
+    });
 
   $('#region').on('change',function(){
       $('#province').empty();
