@@ -74,10 +74,13 @@
           <table class="table table-bordered" id="cooperativesTable">
             <thead>
               <tr>
+                <th>Amendment No.</th>
                 <th>Name of Cooperative</th>
+                 <th>Amended Name</th>
                 <?php if(!$is_client) : ?>
                   <th>Office Address</th>
                 <?php endif;?>
+                
                 <th>Current Status</th>
                 <th>Action </th>
               </tr>
@@ -85,13 +88,39 @@
             <tbody>
               <?php foreach ($list_amendments as $amendment) : ?>
                 <tr>
-                  <td><?= $amendment['proposed_name']?> <?= $amendment['type_of_cooperative']?> Cooperative <?php if(!empty($amendment['acronym_name'])){ echo '('.$amendment['acronym_name'].')';}?> <?= $amendment['grouping']?></td>
+                  <td><?=$amendment['amendmentNo']?></td>
+                  <td>
+                    <?php
+                       if(strlen($amendment['acronym'])>0)
+                       {
+                        $acronym_ = '('.$amendment['acronym'].')';
+                       }
+                       else
+                       {
+                        $acronym_='';
+                       }
+                        $count_tYpe = explode(',',$amendment['type_of_cooperative']);
+                        if(count($count_tYpe)>1)
+
+                        {
+                          $proposeNames = $amendment['proposed_name'].' Multipurpose Cooperative '.$acronym_.' '.$amendment['grouping'];
+                        }
+                        else
+                        {
+                          $proposeNames = $amendment['proposed_name'].' '.$amendment['type_of_cooperative']. ' Cooperative '.$acronym_.' '.$amendment['grouping'];
+                        }
+                         echo $this->amendment_model->proposed_name_comparison($amendment['regNo'],$amendment['amendmentNo'],$proposeNames);
+                         
+                    ?>
+                   </td>
+                    <td>  <?php echo (strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($amendment['regNo'],$amendment['amendmentNo']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : ""); ?></td>
                   <?php if(!$is_client) : ?>
                     <td>
                       <?php if($amendment['house_blk_no']==null && $amendment['street']==null) $x=''; else $x=', ';?>
                       <?=$amendment['house_blk_no']?> <?=$amendment['street'].$x?><?=$amendment['brgy']?>, <?=$amendment['city']?>, <?= $amendment['province']?> <?=$amendment['region']?>
                     </td>
                   <?php endif; ?>
+                
                   <td>
                       <span class="badge badge-secondary">
                       <?php if($is_client) : ?>

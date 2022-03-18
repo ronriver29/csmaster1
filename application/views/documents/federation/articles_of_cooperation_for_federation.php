@@ -76,7 +76,7 @@
   </div>
   <div class="row ">
     <div class="col-sm-12 col-md-12">
-      <p class="text-justify" style="text-indent: 50px;">That the name of this Feederation shall be <?= $coop_info->proposed_name?> <?= $coop_info->grouping?> of <?= $coop_info->type_of_cooperative?> <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?></p>
+      <p class="text-justify" style="text-indent: 50px;">That the name of this Federation shall be <?= $coop_info->proposed_name?> <?= $coop_info->grouping?> of <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?></p>
     </div>
   </div>
   <div class="row  mb-2">
@@ -105,14 +105,14 @@
   </div>
   <div class="row ">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">The goals of this Federation are to help improve the quality of services of its members and in furtherance thereto shall aim:</p>
+      <p class="text-justify" style="text-indent: 50px;">The goal of this Federation is to help improve the quality of services of its members and in furtherance thereto shall aim:</p>
     </div>
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
           <ol class="text-justify" type="1">
-            <li> To carry on any cooperative enterprise authorized under Article 6 of RA 9520 that compliments, augments, supplements but does not conflict, compete with nor supplant the business or economic activities of its members;</li>
-            <li> To carry on, encourage and assist educational and advisory work relating its members cooperatives;</li>
+            <li> To carry on any cooperative enterprise authorized under Article 6 of RA 9520 that compliments, augments, supplements but do not conflict, compete with nor supplant the business or economic activities of its members;</li>
+            <li> To carry on, encourage and assist the educational and advisory work relating its members' cooperatives;</li>
             <li> To render services designed to encourage simplicity, efficiency, and economy in the conduct of the business of its members and to facilitate the implementation of their bookkeeping, accounting, and other systems and procedures;</li>
             <li> To print, publish, and circulate any newspaper or other publication in the interest of its members and enterprises;</li>
             <li> To coordinate and facilitate the activities of its member- cooperatives;</li>
@@ -137,18 +137,19 @@
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="1">
-        <li>To the exclusive use of its registered name; </li>
-        <li>To sue and be sued;</li>
+        <li>To the exclusive use of its registered name, to sue and be sued; </li>
+        <!-- <li>To sue and be sued;</li> -->
         <li>Of succession;</li>
         <li>To amend its Articles of Cooperation in accordance with the provisions of RA 9520;</li>
         <li>To adopt bylaws not contrary to law, morals or public policy, and to amend and repeal the same in accordance with RA 9520;</li>
         <li>To purchase, receive, take or grant, hold, convey, sell, lease, pledge, mortgage, and otherwise deal with such real and personal property as the transaction of the lawful affairs of the cooperative may reasonably and necessarily require, subject to the limitations prescribed by law and the Constitution;</li>
         <li>To enter into division, merger, or consolidation, as provided under RA 9520;</li>
-        <li>To form subsidiary Cooperatives and join federations or unions, as provided in this Code;</li>
         <li>To avail of loans, be entitled to credit and to accept and receive grants, donations and assistance from foreign and domestic sources subject to the conditions of said loans, credits, grants, donations or assistance that will not undermine the autonomy of the cooperative. The Authority, upon written request, shall provide necessary assistance in the documentary requirements for the loans, credit, grants, donations and other financial support; and</li>
-        <li>To avail preferential rights granted to Cooperatives under RA 7160, otherwise known as the Local Government Code, and other laws, particularly those in the grant of franchises to establish, construct, operate and maintain ferries, wharves, markets or slaughters houses and to lease public utilities, including access to extension and on-site research services and facilities related to agriculture and fishery activities;</li>
-        <li>To exercise such other powers granted under RA 9520 or necessary to carry out its purposes as stated in this Articles of Cooperation. </li>
-        <?php if($article_info->guardian_cooperative==1){?> <li>To act as Guardian Cooperative and accept the responsibilities of supervising and monitoring the activities of the Laboratory Cooperative and act in its behalf in dealings with third parties when capacity to contract is required. (<i class="text-danger text-left">applicable to Guardian Cooperative only</i>)</li><?php } ?>
+        <li>To enter into joint ventures with national or international cooperatives   in the manufacture and sale of products and/or services in the   Philippines and abroad;</li>
+        <!-- <li>To exercise such other powers granted under RA 9520 or necessary to carry out its purposes as stated in this Articles of Cooperation. </li> -->
+        <li>To avail preferential rights granted to cooperatives under RA 7160, otherwise known as the Local Government Code, and other laws, particularly those in the grant of franchises to establish, construct, operate and maintain ferries, wharves, markets or slaughters houses and to lease public utilities, including access to extension and on-site research services and facilities related to agriculture and fishery activities; and</li>
+        <li>To exercise such other powers granted under RA 9520 or necessary to carry out its purposes as stated in this articles of cooperation.  </li>
+        <!-- <?php if($article_info->guardian_cooperative==1){?> <li>To act as Guardian Cooperative and accept the responsibilities of supervising and monitoring the activities of the Laboratory Cooperative and act in its behalf in dealings with third parties when capacity to contract is required. (<i class="text-danger text-left">applicable to Guardian Cooperative only</i>)</li><?php } ?> -->
       </ol>
     </div>
   </div>
@@ -159,7 +160,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">The term of existence of the  Federation  is <?= ucwords(num_format_custom($article_info->years_of_existence))?> (<?= $article_info->years_of_existence?>) years from the date of its registration.</p>
+      <p class="text-justify" style="text-indent: 50px;">The term of existence of the  Federation  is <?= ucwords(num_format_custom($article_info->years_of_existence))?> (<?= $article_info->years_of_existence?>) years from the date of its registration with the Cooperative Development Authority.</p>
     </div>
   </div>
   <!-- <div class="row mb-2">
@@ -180,7 +181,7 @@
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">That the Federation shall conduct its business and admit members from
+      <p class="text-justify" style="text-indent: 50px;">That the membership of this Federation shall come from
        <?php if($coop_info->area_of_operation=="Barangay"){ ?>
 
          <?= ($in_chartered_cities ? $coop_info->brgy.' '.$chartered_cities.' '.$coop_info->region : $coop_info->brgy.' '.$coop_info->city.' '.$coop_info->province.' '.$coop_info->region)?>
@@ -223,12 +224,12 @@
   <?php } ?>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport'){ echo 'Article VIII'; } else { echo 'Article VII'; }?><br>Name and Address of Cooperators</p>
+        <p class="font-weight-bold"><?php if($coop_info->type_of_cooperative == 'Transport'){ echo 'Article VIII'; } else { echo 'Article VII'; }?><br>Cooperators</p>
     </div>
   </div>
   <div class="row ">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">That the name and complete postal address of the cooperators are as follows:</p>
+      <p class="text-justify" style="text-indent: 50px;">That the names and complete postal addresses of the cooperators are as follows:</p>
     </div>
   </div>
   <div class="row mb-4">
@@ -237,9 +238,9 @@
         <table class="table table-bordered table-sm">
           <thead>
             <tr>
-              <th>Name of Member-Cooperator</th>
-              <th>Postal Address of  Member-Cooperator</th>
-              <th>Name of Representative</th>
+              <th><center>Name of Cooperative</center></th>
+              <th><center>Postal Address of  Cooperative</center></th>
+              <th><center>Name of Authorized Representative of the Cooperative</center></th>
             </tr>
           </thead>
           <tbody>
@@ -343,11 +344,11 @@
         <table class="table table-sm">
           <thead>
             <tr>
-              <th class="text-center">Names</th>
-              <th class="text-center">No. of  Subscribed Shares</th>
-              <th class="text-center">Amount of Subscribed Shares</th>
-              <th class="text-center">No. of Paidup Shares</th>
-              <th class="text-center">Amount of Paidup Shares</th>
+              <th><center>Names of Cooperative</center></th>
+              <th><center>No. of  Subscribed Shares</center></th>
+              <th><center>Amount of Subscribed Shares</center></th>
+              <th><center>No. of Paidup Shares</center></th>
+              <th><center>Amount of Paidup Shares</center></th>
             </tr>
           </thead>
           <tbody>
@@ -434,7 +435,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;">Any dispute, controversy or claim arising out of or relating to this Articles of Cooperation, By-laws, the Cooperative laws and related rules, administrative guidelines of the Cooperative Development Authority, including inter-cooperative, inter-federation disputes and related concerns shall be exclusively referred to and finally resolved by voluntary arbitration under the institutional rules promulgated by the Cooperative Development Authority, after compliance with the conciliation or mediation mechanisms embodied in the Bylaws and in such other pertinent laws and issuances. </p>
+      <p class="text-justify" style="text-indent: 50px;">Any dispute, controversy, or claim arising out of or relating to this  Articles of Cooperation, the cooperative law, and related rules, administrative guidelines of the Cooperative Development Authority, including inter-federation disputes and related concerns, and any question regarding the existence, interpretation, validity, breach or termination of the business relationship shall be exclusively referred to and finally resolved by voluntary arbitration under the institutional rules promulgated by the Cooperative  Development Authority, after compliance with the conciliation or mediation mechanisms embodied in the applicable bylaws and such other pertinent laws.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -444,7 +445,7 @@
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;"> <b><?=$treasurer_of_coop->representative?></b> has been elected as Treasurer of this Cooperative to act as such until her/his successor shall have been duly appointed and qualified in accordance with the By-laws. As such Treasurer, he/she is authorized to receive payments and issue receipts for membership fees, share capital subscriptions and other revenues, and to pay obligations for and in the name of this Cooperative.</p>
+      <p class="text-justify" style="text-indent: 50px;"> <b><?=$treasurer_of_coop->representative?></b> has been appointed as Treasurer of this Cooperative to act as such until her/his successor shall have been duly appointed and qualified in accordance with the By-laws. As such Treasurer, he/she is authorized to receive payments and issue receipts for membership fees, share capital subscriptions and other revenues, and pay obligations for and in the name of this Cooperative.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -465,7 +466,7 @@
             <tr>
               <th>Cooperator/Member</th>
               <th>Name of Representative</th>
-              <th>Signature of Representative</th>
+              <th><center>Signature of Representative</center></th>
             </tr>
           </thead>
           <tbody>

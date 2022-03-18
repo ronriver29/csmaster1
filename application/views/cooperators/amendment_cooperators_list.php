@@ -54,7 +54,7 @@
     <div class="alert alert-info text-justify" role="alert">
        Note:
        <ul>
-        <?php if($list_cooperators_count < 15) echo '<li>There must be total of 15 Regular Cooperators.</li>'; ?>
+        <?php if($list_cooperators_count != $capitalization_info->regular_members) echo '<li>There must be total of '.$capitalization_info->regular_members.' Regular Cooperators.</li>'; ?>
         <?php if(isset($capitalization_info->total_no_of_subscribed_capital) ) : ?>
           <?php if($list_cooperators_associate_count < $capitalization_info->associate_members) echo '<li>There must be total of '.$capitalization_info->associate_members.' Associate Cooperators.</li>'; ?>
         <?php endif; ?>

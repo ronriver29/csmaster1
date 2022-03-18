@@ -323,13 +323,20 @@ $(function(){
       var val = $(this).val();
       var typeofcoop = $( "#reserveAddForm #typeOfCooperative option:selected").text();
       var categoryofcoop = $( "#reserveAddForm #categoryOfCooperative option:selected").text();
+      var acronym = $( "#reserveUpdateForm #acronymname").val();
+
+      if(acronym != ''){
+        acronym = ' ('+acronym+')';
+      } else {
+        acronym = '';
+      }
 
       // var count_coop_type =$('#reserveAddForm select[name="typeOfCooperative[]"').length;
       // if(count_coop_type>1)
       // {
         // $("#typeOfCooperative").html(val+' Multipurpose Cooperative');
       if(categoryofcoop == 'Secondary' || categoryofcoop == 'Tertiary'){
-        $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+val+' Federation of '+typeofcoop);
+        $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+proposenameinput+' Federation of '+typeofcoop + ' Cooperative' +acronym);
       } else {
         $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+val+' '+typeofcoop+' Cooperative');
       }
@@ -340,13 +347,20 @@ $(function(){
       var typeofcoop = $( "#reserveAddForm #typeOfCooperative option:selected").text();
       var categoryofcoop = $( "#reserveAddForm #categoryOfCooperative option:selected").text();
       var proposenameinput = $( "#reserveAddForm #proposedName").val();
+      var acronym = $( "#reserveUpdateForm #acronymname").val();
 
+      if(acronym != ''){
+        acronym = ' ('+acronym+')';
+      } else {
+        acronym = '';
+      }
+      
       // var count_coop_type =$('#reserveAddForm select[name="typeOfCooperative[]"').length;
       // if(count_coop_type>1)
       // {
         // $("#typeOfCooperative").html(val+' Multipurpose Cooperative');
       if(categoryofcoop == 'Secondary' || categoryofcoop == 'Tertiary'){
-        $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+proposenameinput+' Federation of '+typeofcoop);
+        $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+proposenameinput+' Federation of '+typeofcoop + ' Cooperative' +acronym);
       } else {
         $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+proposenameinput+' '+typeofcoop+' Cooperative ('+val+')');
       }
@@ -357,7 +371,7 @@ $(function(){
     var val = $("#reserveAddForm #categoryOfCooperative option:selected").text();
 
     // alert(val);
-    if(val == 'Secondary' || val == 'Tertiary' || val == 'Others'){
+    if(val == 'Others'){ // val == 'Secondary' || val == 'Tertiary' || 
       $('#reserveAddForm #majorIndustry1').hide();
       $('#reserveAddForm #subClass1').hide();
       $('#reserveAddForm #addMoreSubclassBtn').hide();

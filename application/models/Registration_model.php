@@ -10,11 +10,17 @@ class registration_model extends CI_Model{
     $this->load->database();
   }
 
-  public function get_cooperative_details($coop_id)
-  {
-    $query = $this->db->get_where('cooperatives',array('id'=>$coop_id));
-    return $query->row();
+  public function get_registeredcoop(){
+    $this->db->select('coopName');
+    $query = $this->db->get('registeredcoop');
+    return $query->result_array();
   }
+  public function get_selected_registered_coop($data){
+      // $query= $this->db->get_where('islands', array('island_id' => $data));
+      $query = $this->db->query("SELECT * FROM registeredcoop WHERE regNo IN ('".$data."')");
+      return $query->result_array();
+  }
+
   public function register_branch($type,$branch_id,$rCode,$pst,$branchsatellite,$coopName,$branchName,$subaddcode){
     $this->db->trans_begin();
     $x=$this->registered_branch_count($coopName,$branchsatellite,$subaddcode);
@@ -86,9 +92,7 @@ class registration_model extends CI_Model{
         'regNo'=> $j, 
         'category'=> $coop_info->category_of_cooperative, 
         'type'=> $coop_info->type_of_cooperative, 
-        // 'dateRegistered'=> date('m-d-Y',now('Asia/Manila')), 
-        'date_printed'=> date('m-d-Y',now('Asia/Manila')),
-        'dateRegistered' => $coop_info->date_of_or, 
+        'dateRegistered'=> date('m-d-Y',now('Asia/Manila')), 
         'commonBond'=> $coop_info->common_bond_of_membership, 
         'areaOfOperation'=> $coop_info->area_of_operation, 
         'noStreet'=> $coop_info->house_blk_no, 
@@ -203,7 +207,7 @@ class registration_model extends CI_Model{
   }
 
   public function get_coop_info($coop){
-    $this->db->select('registeredcoop.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,payment.date_of_or as dateofor,cooperatives.type_of_cooperative,payment.date_of_or,cooperatives.third_evaluated_by');
+    $this->db->select('registeredcoop.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,payment.date_of_or as dateofor,cooperatives.type_of_cooperative,payment.date_of_or');
     $this->db->from('registeredcoop');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -308,18 +312,17 @@ class registration_model extends CI_Model{
 
       return $query->row();
   }
-  public function get_director($id){
+  public function get_director($region_code){
       
       // $query = $this->db->query('select * from admin where access_level=3 and region_code=(select region_code from admin where id ='.$id.')');
-    $query = $this->db->get_where('admin',array('id'=>$id,'access_level'=>3));
+    $query = $this->db->get_where('admin',array('id'=>$region_code,'access_level'=>3,'ord'=>1));
     if($query->num_rows()>0)
     {
       return $query->row(); 
     }
     else
     {
-      // $query2 = $this->db->get_where('admin',array('access_level'=>3,'access_name'=>"Acting Regional Director",'id'=>$id));
-       $query2 = $this->db->get_where('admin',array('access_level'=>3,'id'=>$id));
+      $query2 = $this->db->get_where('admin',array('access_level'=>3,'access_name'=>"Acting Regional Director",'id'=>$region_code));
       if($query2->num_rows()>0)
       {
          return $query2->row();

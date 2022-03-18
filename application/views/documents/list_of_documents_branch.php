@@ -1,6 +1,10 @@
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
-    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>branches/<?= $encrypted_branch_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php if($branch_info->status != 21){ ?>
+      <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>branches/<?= $encrypted_branch_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php } else { ?>
+      <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch_info->regNo)) ?>/branch_registered" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php }?>
 
     <?php if($is_client) : ?>
     <h5 class="text-primary text-right">
@@ -49,7 +53,7 @@
         <?php } ?>
         </div>
         <?php } ?>
-      <?php if($admin_info->access_level !=5 && $branch_info->status != 23 && $branch_info->status != 24) : ?>
+      <?php if($admin_info->access_level !=5 && $branch_info->status != 23 && $branch_info->status != 24 && $branch_info->status != 21) : ?>
         <div class="btn-group float-right" role="group" aria-label="Basic example">
           <?php if($branch_info->status>=9) echo '<a class="btn btn-info btn-sm" href="'.base_url().'branches/'.$encrypted_branch_id.'/cooperative_tool/branch">Validation Tool</a>';
           ?>

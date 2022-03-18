@@ -1462,7 +1462,7 @@ public function count_documents_coop($coop_id,$num)
                               //   $check_date_reg_new =true;
                               // }
                               // $data['new_reg_coop'] = $check_date_reg_new ;
-                            $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data);
+                            // $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data);
                                 $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data, TRUE);
                                 $f = new pdf();
                                 $f->set_option("isPhpEnabled", true);
@@ -2274,7 +2274,7 @@ public function count_documents_coop($coop_id,$num)
                                 $data['total_new_cooperators_added'] = 0;
                               }
 
-                                $this->load->view('documents/primary/amendment_treasurer_affidavit_primary', $data);
+                                // $this->load->view('documents/primary/amendment_treasurer_affidavit_primary', $data);
                                 $html2 = $this->load->view('documents/primary/amendment_treasurer_affidavit_primary', $data, TRUE);
                                 $f = new pdf();
                                 $f->set_option("isPhpEnabled", true);

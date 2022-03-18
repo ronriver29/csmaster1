@@ -222,6 +222,14 @@
           <?= $coop_info->category_of_cooperative?>
         </p>
         <hr>
+        <strong>Business Activities - Subclass</strong>
+        <p class="text-muted">
+          <?php foreach($business_activities as $casd) : ?>
+          &#9679; <?= $casd['bactivity_name'] ?> - <?= $casd['bactivitysubtype_name']?><br>
+          <?php endforeach; ?>
+          <!--  $coop_info->bactivity_name -->
+        </p>
+        <hr>
         <strong>Common Bond of Membership</strong>
         <p class="text-muted">
           <?= $coop_info->common_bond_of_membership?>
@@ -280,7 +288,7 @@
         <?php endif; ?>
       </small>
       </div>
-      <?php if(($is_client && ($coop_info->status==11||$coop_info->status<=1)) || (!$is_client &&  $coop_info->status==3)): ?>
+      <?php if(($is_client && ($coop_info->status==11||$coop_info->status<=1)) || (!$is_client && ($coop_info->status==3 || $coop_info->status == 6))): ?>
         <div class="card-footer">
           <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/rupdate" class="btn btn-block btn-color-blue"><i class='fas fa-edit'></i> Update Basic Information</a>
         </div>
@@ -798,8 +806,19 @@
               if(($coop_info->status ==13) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $staff_complete && $document_two && $document_three && $document_four)
               {
                 if ($pay_from=='reservation'){
-                $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
-                $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){
+                  if($coop_info->area_of_operation == 'National'){
+                    $rf = 3000;
+                  } else if($coop_info->area_of_operation == 'Regional' || $coop_info->area_of_operation == 'Interregional'){
+                    $rf = 2000;
+                  } else {
+                    $rf = 1000;
+                  }
+                    $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                } else {
+                  $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
+                  $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                }
                 if(!empty($coop_info->acronym_name)){ 
                     $acronym_name = ' ('.$coop_info->acronym_name.') ';
                 } else {
@@ -808,7 +827,7 @@
                 if($coop_info->grouping == 'Union'){
                     $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->grouping.' Of '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name);
                 } else if($coop_info->grouping == 'Federation'){
-                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->grouping.' Of '.$coop_info->type_of_cooperative.$acronym_name);
+                    $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->grouping.' Of '.$coop_info->type_of_cooperative.' Cooperative'.$acronym_name);
                 } else {
                     $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
                 }
@@ -820,6 +839,7 @@
                     $lrf = $rf*0.01;
                   } else {
                     $rf = 2000.00;
+                    $lrf = $rf*0.01;
                   }
                 } else if ($coop_info->grouping == 'Federation' && $coop_info->category_of_cooperative == 'Tertiary'){
                   $minimum = 5000.00;
@@ -847,8 +867,11 @@
                 $w = new Numbertowords();
                 ?>
                 <?php
-                  $report_exist = $this->db->where(array('payor'=>$payorname))->get('payment');
-                  if($report_exist->num_rows()==0){
+                $query = $this->db->get_where('payment',array('payor'=>$payorname));
+                $data = $query->result_array();
+                  if($this->db->count_all_results()==0){
+                // $report_exist = $this->db->where(array('payor'=>$payorname))->get('payment');
+                //   if($report_exist->num_rows()==0){
                     // Payment Series
                     $current_year = date('Y');
                     $this->db->select('*');
@@ -859,18 +882,24 @@
                     $datee = date('Y-m-d',now('Asia/Manila'));
                     // End Payment Series
                   } else {
+                    $payorname = trim($payorname);
+                    // echo $payorname;
                     $this->db->select('*');
                     $this->db->from('payment');
-                    $this->db->where('payor',$payorname);
+                    $this->db->where('payor = "'.$payorname.'"');
                     $query = $this->db->get();
+
+                    // echo $this->db->last_query();
+
+                    // echo var_dump($query->result_array());
                     $series = $query->row();
                     $datee = $series->date;
                     $series = $series->refNo;
                     
+                    // echo $this->db->last_query();
                     // $string = substr($lastseries, strrpos($lastseries, '-' )+1);
                     // $series = $string; // about-us
                   }
-                  
                   if($coop_info->category_of_cooperative == 'Tertiary'){
                     $registrationfeename = 'Tertiary';
                   } else if ($coop_info->category_of_cooperative == 'Secondary'){
@@ -890,7 +919,6 @@
                   <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2).'<br/>'.number_format(100,2) ?>">
                   <input type="hidden" class="form-control" id="total" name="total" value="<?=$rf+$lrf+$name_reservation_fee?>">
                   <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
-                
                  <input style="width:20%;" class="btn btn-info btn-sm" type="submit" id="offlineBtn" name="offlineBtn" value="Download O.P">
                 
 

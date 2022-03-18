@@ -66,7 +66,7 @@ class Amendment_registration extends CI_Controller{
               'amendment_no'=>$amendment_no,
               'category'=> $coop_info->category_of_cooperative,
               'type'=> $coop_info->type_of_cooperative,
-              'date_printed'=> date('m-d-Y',now('Asia/Manila')),
+               'date_printed'=> date('m-d-Y',now('Asia/Manila')),
               'dateRegistered'=>$coop_info->dateRegistered,
               'commonBond'=> $coop_info->common_bond_of_membership,
               'areaOfOperation'=>$coop_info->area_of_operation,
@@ -195,14 +195,18 @@ class Amendment_registration extends CI_Controller{
       
          
           // $this->debug($this->amendment_model->if_had_amendment_for_cor($amendment_info->regNo,$decoded_id));
-           $last_amendment_info = $this->amendment_model->get_last_amendment_info($amendment_info->cooperative_id,$decoded_id);
+         
+
           $next_amendment_ = false;
           if($this->amendment_model->if_had_amendment_for_cor($amendment_info->regNo,$decoded_id))
           {
+
             //next amendment
             $next_amendment_ = true;
-            $coop_info_orig= $this->amendment_model->get_cooperative_info_by_admin($last_amendment_info->id);
+            $last_amendment_info = $this->amendment_model->get_last_amendment_info($amendment_info->cooperative_id,$decoded_id);
             
+            $coop_info_orig= $this->amendment_model->get_cooperative_info_by_admin($last_amendment_info->id);
+           
             $capitalization_info_orig = $this->amendment_capitalization_model->get_capitalization_by_coop_id($last_amendment_info->cooperative_id, $last_amendment_info->id);
             $no_of_bod_orig = $this->amendment_cooperator_model->check_directors_odd_number($last_amendment_info->cooperative_id, $last_amendment_info->id);
             $purposes_orig=$this->amendment_purpose_model->get_purposes($last_amendment_info->id);
@@ -336,7 +340,7 @@ class Amendment_registration extends CI_Controller{
 
   public function compare_param($param1,$param2)
   {   
-   if(strcasecmp(trim(preg_replace('/\s\s+/', ' ',$param1)),trim(preg_replace('/\s\s+/', ' ',$param2)))!=0)
+    if(strcasecmp($param1,$param2)!=0)
     {
           return 'true';
     }

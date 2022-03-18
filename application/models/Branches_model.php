@@ -51,6 +51,19 @@ class branches_model extends CI_Model{
     $data = $query->result_array();
     return $data;
   }
+  public function get_all_branches_regno($regno){
+    $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, coopName, refcitymun.citymunCode as cCode');
+    $this->db->from('branches');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = branches.addrCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    // $this->db->where('branches.user_id', $user_id);
+    $this->db->where('branches.status IN (1,21) AND branches.regNo = "'.$regno.'"');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
   public function get_all_branches($user_id){
     $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, coopName, refcitymun.citymunCode as cCode');
     $this->db->from('branches');
@@ -311,6 +324,14 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     $this->db->join('registeredcoop','registeredcoop.regNo=branches.regNo','inner');
     $this->db->join('cooperatives','cooperatives.id=registeredcoop.application_id','inner');
     $this->db->where(array('branches.user_id'=>$user_id,'branches.id'=>$branch_id));
+    $query = $this->db->get();
+    return $query->row();
+  }
+
+  public function get_branch_registered_info($regno){
+    $this->db->select('*');
+    $this->db->from('branches');
+    $this->db->where(array('regno'=>$regno));
     $query = $this->db->get();
     return $query->row();
   }
@@ -1185,6 +1206,7 @@ public function check_evaluator5_laboratories($branch_id){
   }
 }
   public function get_registered_branches($regcode){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region from branches 
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
@@ -1192,8 +1214,8 @@ public function check_evaluator5_laboratories($branch_id){
     inner join refregion on refregion.regCode = refprovince.regCode
     inner join registeredcoop on branches.regNo = registeredcoop.regNo
     inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
-    where x.regCode like "'.$regcode.'%"
-    and branches.status in (2)
+    where x.regCode like "'.$regcode.'%" 
+    and branches.status in (2) 
 UNION
 select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region from branches 
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
@@ -1201,7 +1223,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
     where refregion.regCode like "'.$regcode.'%"
-    and branches.status in (21)');
+    and branches.status in (21) GROUP BY branches.coopName');
     $data = $query->result_array();
     return $data;
   }

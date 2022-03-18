@@ -171,6 +171,58 @@ class Email_model extends CI_Model{
         }
   }
 
+   public function sendEmailtoAuthorized($authorized_email,$coop_info,$client_info)
+  {
+    $address = $coop_info->house_blk_no.' '.$coop_info->street.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.' '.$coop_info->region;
+    $from = "ecoopris@cda.gov.ph";   
+    $subject = 'Amendment Update Info';
+    $message = "<pre> Good day! An application to update the cooperative information with the following details had been submitted for evaluation. </pre>
+
+                    <ol type='a'>  
+                     <b><li> Name of Cooperative:</b> ". $coop_info->coopName."</li>                
+                     <b><li> Region of Cooperative: </b>". $coop_info->region."</li>                             
+                     <b><li> Registration Number: </b>". $coop_info->dateRegistered."</li>                                         
+                     <b><li> Address of Cooperative: </b>". $client_info->contact_number."</li>
+                     <b><li> Email address: </b>". $client_info->email."</li>
+                    </ol>";       
+                       
+
+        $this->email->from($from,'ecoopris CDA (No Reply)');
+        $this->email->to($authorized_email);
+        $this->email->subject($subject);
+        $this->email->message($message);
+        if($this->email->send())
+        {
+        return true;
+        }
+        else
+        {
+        return false;
+        }
+  }
+
+   public function sendEmailtoClientupdate($client_info)
+  {
+    $from = "ecoopris@cda.gov.ph";   
+    $client_subject = 'Amendment Update Info';
+    $client_message = "<pre>Good Day! 
+                        
+                        Good day! Encoded updates on your cooperative information have been successfully submitted for evaluation. </pre>";
+        $this->email->from($from,'ecoopris CDA (No Reply)');
+        $this->email->to($client_info->email);
+        $this->email->subject($client_subject);
+        $this->email->message($client_message);
+        if($this->email->send())
+        {
+        return true;
+        }
+        else
+        {
+        return false;
+        }
+  }
+
+
   public function sendEmailfirstSubmissionAmendment($client_info,$senior_email,$amendment_info)
   {
      $acronym='';

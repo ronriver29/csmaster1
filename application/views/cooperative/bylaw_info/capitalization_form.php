@@ -219,7 +219,7 @@
                     <tr>
                         <td>Total amount of paid-up capital</td>
                         <td>
-                            <input type="number" name="item[total_amount_of_paid_up_capital]" id="total_amount_of_paid_up_capital" class="form-control" value="<?=$total_amount_of_paid_up_capital;?>"/>
+                            <input type="number" name="item[total_amount_of_paid_up_capital]" id="total_amount_of_paid_up_capital" class="form-control" value="<?=$total_amount_of_paid_up_capital;?>" required/>
                             <br/>
                             <span id="total_amount_of_paid_up_capital_note"class="err-message-note"></span>
                         </td>
@@ -511,9 +511,10 @@ function computeCapital() {
 
 //        $("#total_amount_of_paid_up_capital").val(amount_of_paid_up_capital);
         $("#total_amount_of_paid_up_capital").attr("min",minimum_amount_of_paid_up_capital);
-        $("#total_amount_of_paid_up_capital_note").html("Should be at least "+minimum_amount_of_paid_up_capital);
+        $("#total_amount_of_paid_up_capital").attr("max",amount_of_subscribed_capital);
+        $("#total_amount_of_paid_up_capital_note").html("Should be at least "+minimum_amount_of_paid_up_capital +" and Should not be higner than " + amount_of_subscribed_capital);
         $("#total_amount_of_paid_up_capital_note").removeClass("err-message-note-error");
-        if(minimum_amount_of_paid_up_capital>amount_of_paid_up_capital) {
+        if(minimum_amount_of_paid_up_capital>amount_of_paid_up_capital || amount_of_paid_up_capital>amount_of_subscribed_capital) {
             $("#total_amount_of_paid_up_capital_note").addClass("err-message-note-error");
         }
         $("#total_no_of_paid_up_capital").val(no_of_paid_up_capital);

@@ -192,7 +192,7 @@
                     } 
               ?>
                  <?php if(empty($rem[7])){$rem[7]=null;}?>
-              <td width="50%"><textarea rows="5" class="form-control" name ="sagot[7]"></textarea><!-- <input type="text" class="form-control" name ="sagot[7]" value="<?=$rem[7]?>"> --></td>
+              <td width="50%"><textarea rows="5" class="form-control" name ="sagot[7]"><?=$rem[7]?></textarea><!-- <input type="text" class="form-control" name ="sagot[7]" value="<?=$rem[7]?>"> --></td>
             </tr>
             <tr>
               <td style="padding-left: 30px">e.3. The proposed additional business responds to members' needs (Means of verification: interview, survey if applicable) </td>

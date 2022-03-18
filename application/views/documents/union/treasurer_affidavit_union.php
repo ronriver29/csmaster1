@@ -50,7 +50,7 @@ font-face {
 <div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-bold">TREASURER’S AFFIDAVIT</p>
+        <center><p class="font-weight-bold"><b>TREASURER’S AFFIDAVIT</b></p></center>
     </div>
   </div>
   <div class="row mb-4">
@@ -65,7 +65,8 @@ font-face {
   </div>
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
-      <ol class="text-justify" type="1">
+      <ol class="text-justify" type="1" style="line-height: 1.1;text-align: justify;
+  text-justify: inter-word;">
         <li>That I am the duly elected Treasurer of the <?= $coop_info->proposed_name?>  <?= $coop_info->grouping?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> to act as such until my successor shall have been appointed and qualified in accordance with the By-laws of the Cooperative Union;</li>
         <li>That as such, I hereby certify that the actual total capital contribution collected for the registration of this Cooperative Union is <?= ucwords(num_format_custom($coop_info->capital_contribution)).' Pesos'?> (Php <?= number_format(str_replace(',','',$coop_info->capital_contribution),2)?>); and</li>
         <li>That the total membership fees paid and actually received by me is <?= ucwords(num_format_custom($no_of_cooperator * $bylaw_info->membership_fee)).' Pesos'?> (Php <?= number_format((str_replace(',','',$no_of_cooperator) * str_replace(',','',$bylaw_info->membership_fee)),2)?>).</li>
@@ -77,11 +78,18 @@ font-face {
       <p class="text-justify" style="text-indent: 50px;">IN WITNESS WHEREOF, I have hereunto affixed my signature this ___________ day of ______________, 20___ in ________________, Philippines.</p>
     </div>
   </div>
-  <div class="row mb-4">
+  <div class="row mb-3">
+    <div class="col-sm-12 col-md-12 text-center">
+         <p class="font-weight-regular" style="text-align: right;"><?= $treasurer_of_coop->representative?></p>
+         <span style="float:right;margin-bottom: 1.5em;margin-right: 3.5em;margin-top:-1em;">Affiant</span>
+       
+    </div>
+  </div>
+  <!-- <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
         <p class="font-weight-regular"><?= $treasurer_of_coop->representative?><br>Affiant</p>
     </div>
-  </div>
+  </div> -->
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-left">
       <p class="text-justify" style="text-indent: 50px;">SUBSCRIBED AND SWORN TO before me this ________ day of ______________, 20____ in ________________, Philippines, by _______________________ who exhibited to me his/her Proof of Identity ___________ issued on ___________________, in ______________________, Philippines</p>

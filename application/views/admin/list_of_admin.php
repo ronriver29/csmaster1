@@ -106,6 +106,10 @@
                       {
                         $access_level = "Supervising CDS";
                       }
+                      else if($admin['access_level'] == 6)
+                      {
+                        $access_level = "Authorized Personnel";
+                      }
                       else
                       {
                          $access_level='';

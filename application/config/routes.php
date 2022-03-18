@@ -51,6 +51,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //$route['default_controller'] = 'cooperatives';
 //$route['default_controller'] = 'welcome';
 $route['default_controller'] = 'users/index';
+$route['amendment_update/replicate'] = 'amendment_update/replicate';
+$route['amendment_update/authorized_user_submission'] = 'amendment_update/authorized_user_submission';
 
 $route['branches/(:any)/documents/bylaws_primary_branch'] = 'documents/bylaws_primary_branch/$1';
 $route['branches/(:any)/documents/bylaws_primary_branch_amend'] = 'documents/bylaws_primary_branch_amend/$1';
@@ -96,7 +98,9 @@ $route['branches/(:any)/evaluate'] = 'branches/evaluate/$1';
 $route['branches/(:any)/registration'] = 'registration/branch/$1';
 $route['branches/get_cooperative_info'] = 'branches/get_cooperative_info';
 $route['branches/(:any)/forpaymentbranches'] = 'forpaymentbranches/index/$1';
+$route['branches/(:any)/branch_registered'] = 'branch_registered/index/$1';
 
+$route['laboratories/(:any)/laboratory_registered'] = 'laboratory_registered/index/$1';
 $route['laboratories/coop_info/(:any)'] = 'laboratories/coop_info/$1';
 $route['laboratories/approve_laboratories_2'] ='Laboratories/approve_laboratories_2'; //modify
 $route['laboratories/payment'] = 'Laboratories/payment'; //modify by
@@ -171,6 +175,8 @@ $route['cooperatives/bylaws/check_minimum_regular_pay'] = 'bylaws/check_minimum_
 $route['cooperatives/bylaws/check_minimum_associate_subscription'] = 'bylaws/check_minimum_associate_subscription';
 $route['cooperatives/bylaws/check_minimum_associate_pay'] = 'bylaws/check_minimum_associate_pay';
 $route['cooperatives/(:any)/payments'] = 'payments/index/$1';
+$route['cooperatives/(:any)/affiliators/check_position_not_exist/(:any)'] = 'affiliators/check_position_not_exist/$1/$2';
+$route['cooperatives/(:any)/affiliators/check_edit_position_not_exist/(:any)/(:any)'] = 'affiliators/check_edit_position_not_exist/$1/$2/$3';
 $route['cooperatives/(:any)/evaluate'] = 'cooperatives/evaluate/$1';
 // $route['cooperatives/(:any)/documents/view_document_one/(:any)'] = 'documents/view_document_one/$1/$2';
 $route['cooperatives/sp'] = 'cooperatives/sp';
@@ -185,6 +191,7 @@ $route['cooperatives/(:any)/documents/upload_document_unifed_sbao'] = 'documents
 $route['cooperatives/(:any)/documents/upload_document_others/(:any)'] = 'documents/upload_document_others/$1/$2';
 $route['cooperatives/(:any)/documents/upload_document_others_unifed'] = 'documents/upload_document_others_unifed/$1';
 $route['cooperatives/(:any)/documents/economic_survey'] = 'documents/economic_survey/$1';
+$route['cooperatives/(:any)/documents/simplified_economic_survey'] = 'documents/simplified_economic_survey/$1';
 $route['cooperatives/(:any)/documents/affidavit_primary'] = 'documents/affidavit_primary/$1';
 $route['cooperatives/(:any)/documents/affidavit_federation'] = 'documents/affidavit_federation/$1';
 $route['cooperatives/(:any)/documents/affidavit_union'] = 'documents/affidavit_union/$1';
@@ -208,6 +215,8 @@ $route['cooperatives/(:any)/staff'] = 'staff/index/$1';
 
 $route['cooperatives/(:any)/cooperative_tool'] = 'cooperative_tool/index/$1';
 $route['cooperatives/(:any)/survey'] = 'survey/index/$1';
+$route['cooperatives/(:any)/simplified_survey'] = 'simplified_survey/index/$1';
+$route['simplified_survey/(:any)/download/(:any)'] = 'simplified_survey/download/$1/$2';
 $route['cooperatives/(:any)/committees/(:any)/edit'] = 'committees/edit/$1/$2';
 $route['cooperatives/(:any)/committees/add'] = 'committees/add/$1';
 $route['cooperatives/(:any)/committees/add_fed'] = 'committees/add_fed/$1';
@@ -388,6 +397,7 @@ $route['users/login'] = 'users/login';
 $route['users/logout'] = 'users/logout';
 
 $route['users/manual/(:any)'] = 'users/users_manual/$1'; //modify
+$route['users/authorization/(:any)'] = 'users/authorization/$1'; //modify
 $route['admins/(:any)/edit'] = 'admins/edit/$1';
 $route['admins/(:any)/edit_signatory'] = 'admins/edit_signatory/$1';
 $route['admins/add'] = 'admins/add';
@@ -397,12 +407,15 @@ $route['admins/all_admin'] = 'admins/all_admin';
 $route['admins/cooperatives_list'] = 'admins/cooperatives_list';
 $route['admins/branches_list'] = 'admins/branches_list';
 $route['admins/all_user'] = 'admins/all_user';
+$route['admins/all_new_user'] = 'admins/all_new_user';
+$route['admins/migration_coop'] = 'admins/migration_coop';
 $route['admins/change_passwd'] = 'admins/change_passwd';
 $route['admins/login'] = 'admins/login';
 $route['api/cooperative_types'] = 'api/cooperative_types/index';
 $route['api/regions'] ='api/regions/index';
 $route['api/provinces'] ='api/provinces/index';
 $route['api/cities'] = 'api/cities/index';
+$route['api/registered'] ='api/registered/index';
 
 $route['cooperatives/(:any)/api/regions'] ='api/regions/index';
 $route['cooperatives/(:any)/api/provinces'] ='api/provinces/index';
@@ -442,9 +455,116 @@ $route['account_approval/(:any)/approve/(:any)'] = 'account_approval/approve/$1/
 $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 //
 
+// Updates
+	// Cooperatives
+	$route['api/major_industries'] ='api/major_industries/index';
+	$route['cooperatives_update/major_industries'] = 'cooperatives_update/major_industries';
+	$route['cooperatives_update/(:any)/cooperative_type_ajax'] ='cooperatives_update/cooperative_type_ajax/$1';
+	$route['cooperatives_update/(:any)/rupdate']  =  'cooperatives_update/rupdate/$1';
+	$route['cooperatives_update/defer_cooperative'] = 'cooperatives_update/defer_cooperative';
+	$route['cooperatives_update/approve_cooperative'] = 'cooperatives_update/approve_cooperative';
+	$route['cooperatives_update/(:any)/capitalization_update'] = 'capitalization_update/index/$1';
+	$route['cooperatives_update/get_cooperative_info'] = 'cooperatives_update/get_cooperative_info';
+	$route['cooperatives_update/update'] = 'cooperatives_update/update';
+	$route['cooperatives_update/get_business_activities_of_coop'] = 'cooperatives_update/get_business_activities_of_coop';
+	$route['cooperatives_update/(:any)/composition'] = 'cooperatives_update/composition/$1';
+	$route['cooperatives_update/composition'] = 'cooperatives_update/composition';
+	$route['cooperatives_update/(:any)'] = 'cooperatives_update/view/$1';
+	$route['cooperatives_update/(:any)/bylaws_primary'] = 'bylaw_update/primary/$1';
+	$route['cooperatives_update/(:any)/bylaws_union'] = 'bylaw_update/union/$1';
+	$route['cooperatives_update/(:any)/bylaws_federation'] = 'bylaw_update/federation/$1';
+	$route['cooperatives_update/(:any)/cooperators_update'] = 'cooperators_update/index/$1';
+	$route['cooperatives_update/(:any)/cooperators_update/add'] = 'cooperators_update/add/$1';
+	$route['cooperatives_update/(:any)/cooperators_update/(:any)/cooperators_update/edit'] = 'cooperators_update/edit/$1/$2';
+	$route['cooperatives_update/(:any)/purposes_update'] = 'purposes_update/index/$1';
+	$route['cooperatives_update/(:any)/purposes_update/edit'] = 'purposes_update/edit/$1';
+	$route['cooperatives_update/(:any)/article_update/primary'] = 'article_update/primary/$1';
+	$route['cooperatives_update/(:any)/evaluate'] = 'cooperatives_update/evaluate/$1';
+	$route['cooperatives_update/get_cooperative_info_by_admin'] = 'cooperatives_update/get_cooperative_info_by_admin';
+
+	// Union
+	$route['cooperatives_update/(:any)/unioncoop_update'] = 'unioncoop_update/index/$1';
+	$route['cooperatives_update/(:any)/affiliators/unioncoop_update'] = 'affiliators/edit_unioncoop/$1';
+	$route['unioncoop_update/(:any)/update_cc'] = 'unioncoop_update/update_cc/$1';
+	
+	// Federation
+	$route['cooperatives_update/(:any)/affiliators_update'] = 'affiliators_update/index/$1';
+	$route['cooperatives_update/(:any)/affiliators_update/add_affiliators'] = 'affiliators_update/add_affiliators/$1';
+	$route['cooperatives_update/(:any)/affiliators_update/edit_affiliators'] = 'affiliators_update/edit_affiliators/$1';
+
+	// Committees
+	$route['cooperatives_update/(:any)/cooperators/(:any)/get_cooperative_info'] = 'cooperators/get_cooperative_info/$1/$2';
+	$route['cooperatives_update/(:any)/cooperators/get_post_cooperator_info'] = 'cooperators/get_post_cooperator_info/$1';
+
+	$route['cooperatives_update/(:any)/committees_update'] = 'committees_update/index/$1';
+	$route['cooperatives_update/(:any)/committees_update/(:any)/edit'] = 'committees_update/edit/$1/$2';
+	$route['cooperatives_update/(:any)/committees_update/add'] = 'committees_update/add/$1';
+	$route['cooperatives_update/(:any)/committees_update/add_fed'] = 'committees_update/add_fed/$1';
+	$route['cooperatives_update/(:any)/committees_update/add_union'] = 'committees_update/add_union/$1';
+	$route['cooperatives_update/(:any)/committees_update/check_committee_name_not_exists'] = 'committees_update/check_committee_name_not_exists/$1';
+	$route['cooperatives_update/(:any)/committees_update'] = 'committees_update/index/$1';
+	//
+
+	// Survey
+	$route['cooperatives_update/(:any)/survey_update'] = 'survey_update/index/$1';
+	//
+
+	// Staff
+	$route['cooperatives_update/(:any)/staff_update/(:any)/edit'] = 'staff_update/edit/$1/$2';
+	$route['cooperatives_update/(:any)/staff_update/add'] = 'staff_update/add/$1';
+	$route['cooperatives_update/(:any)/staff_update'] = 'staff_update/index/$1';
+	//
+
+	// Documents
+	$route['cooperatives_update/(:any)/documents_update'] = 'documents_update/index/$1';
+	$route['cooperatives_update/(:any)/documents_update/view_document_one/(:any)/(:any)'] = 'documents_update/view_document_one/$1/$2/$3';
+	$route['cooperatives_update/(:any)/documents_update/view_document_two/(:any)'] = 'documents_update/view_document_two/$1/$2';
+	$route['cooperatives_update/(:any)/documents_update/upload_document_one'] = 'documents_update/upload_document_one/$1';
+	$route['cooperatives_update/(:any)/documents_update/upload_document_two'] = 'documents_update/upload_document_two/$1';
+	$route['cooperatives_update/(:any)/documents_update/upload_document_others/(:any)'] = 'documents_update/upload_document_others/$1/$2';
+	$route['cooperatives_update/(:any)/documents_update/upload_document_others_unifed'] = 'documents_update/upload_document_others_unifed/$1';
+	//
+//
+
+	$route['amendment_update/(:any)'] = 'amendment_update/view/$1';
+	$route['amendment_update/(:any)/update'] = 'amendment_update/update/$1';
+	$route['amendment_update/(:any)/coop_info'] = 'amendment_update/coop_info';
+	$route['amendment_update/(:any)/cooperative_type_ajax'] = 'amendment_update/cooperative_type_ajax';
+	$route['amendment_update/(:any)/bylaw_primary'] = 'amendment_bylaw_update/primary/$1';
+	$route['amendment_update/(:any)/evaluate'] = 'amendment_update/evaluate/$1';
+	$route['amendment_update/(:any)/composition'] = 'amendment_update/composition';
+
+	$route['amendment_update/(:any)/bylaw_update'] = 'amendment_bylaw_update/index/$1';
+	$route['amendment_update/(:any)/bylaw_update_primary'] = 'amendment_bylaw_update/primary/$1';
+	$route['amendment_update/(:any)/bylaw_update_union'] = 'amendment_bylaw_update/union/$1';
+
+	//FEDERATION
+
+	$route['amendment_update/(:any)/bylaw_update_federation'] = 'amendment_bylaw_update/federation/$1';
+	$route['amendment_update/(:any)/affiliators_update'] = 'Amendment_affiliators_update/index/$1';
+
+	$route['amendment_update/(:any)/capitalization'] = 'amendment_update_capitalization/index/$1';
+	$route['amendment_update/(:any)/cooperators'] = 'amendment_update_cooperator/index/$1';
+	$route['amendment_update/(:any)/cooperators_update/add'] = 'amendment_update_cooperator/add/$1';
+	$route['amendment_update/(:any)/purposes'] = 'amendment_update_purposes/index/$1';
+	$route['amendment_update/(:any)/amendment_purposes/edit'] = 'amendment_update_purposes/edit/$1';
+	//Articles of Cooperation	
+	$route['amendment_update/(:any)/articles_update'] = 'amendment_articles_update/index/$1';
+	$route['amendment_update/(:any)/articles_update'] = 'amendment_articles_update/primary/$1';
+	$route['amendment_update/(:any)/articles_update/primary'] = 'amendment_articles_update/primary/$1';
+	//Committees
+	$route['amendment_update/(:any)/committees_update'] = 'amendment_committees_update/index/$1';
+	$route['amendment_update/(:any)/committees_update/add'] = 'amendment_committees_update/add/$1';
+
+	//UNION
+	$route['amendment_update/(:any)/union_update'] = 'amendment_union_update/index/$1';
+
+	
+
 $route['reset_migration'] = 'migrate/resetMigration';
 $route['undo_migration'] = 'migrate/undoMigration';
 $route['seeding_data/seed_luba'] = 'seeding_data/seed_luba';
 $route['seeding_data/unseed_luba'] = 'seeding_data/unseed_luba';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+

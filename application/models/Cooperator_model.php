@@ -587,7 +587,18 @@ public $last_query = "";
       }
     }
   }
-  
+  public function delete_cooperator_assoc($data){
+    $this->db->trans_begin();
+    $this->db->delete('cooperators',array('cooperatives_id' => $data,'type_of_member' => 'Associate'));
+    // $this->db->delete('committees',array('cooperators_id'=>$data));
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
   public function delete_cooperator($data){
     $this->db->trans_begin();
     $this->db->delete('cooperators',array('id' => $data));

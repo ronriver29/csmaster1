@@ -141,6 +141,8 @@ class Unioncoop extends CI_Controller{
                         $data['list_cooperators_count'] = $this->cooperator_model->get_all_cooperator_of_coop_regular_count($decoded_id);
                         $data['list_cooperators_associate'] = $this->cooperator_model->get_all_cooperator_of_coop_associate($decoded_id);
                         $data['ten_percent']=$this->cooperator_model->ten_percent($decoded_id);
+                        $data['cc_count'] = $this->unioncoop_model->get_total_cc($data['coop_info']->users_id);
+
                         $this->load->view('./templates/admin_header', $data);
                         $this->load->view('union/union_list', $data);
                         $this->load->view('federation/full_info_modal_registeredcoop');
@@ -173,6 +175,10 @@ class Unioncoop extends CI_Controller{
         $query = $this->unioncoop_model->existing_unioncoop($user_id,$this->input->post('regNo'));
         $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
         $encrypted_post_coop_id = $this->input->post('cooperativesID');
+
+        $data['cc_count'] = $this->unioncoop_model->get_total_cc($user_id);
+        $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
+
         $this->db->where('user_id',$user_id);
         // $this->db->where('id !=',$encrypted_post_coop_id);
         $this->db->where('position', $this->input->post('position'));
@@ -195,7 +201,7 @@ class Unioncoop extends CI_Controller{
                 'valid_id' => $this->input->post('validIdNo'),
                 'date_issued' => $this->input->post('dateIssued'),
                 'place_of_issuance' => $this->input->post('placeIssuance'),
-                'capital_contribution' => $this->input->post('cc'),
+                'capital_contribution' => str_replace(',', '', $this->input->post('cc')),
                 'user_id' => $user_id, 
                 );
               $success = $this->unioncoop_model->add_unioncoop($data);
@@ -225,7 +231,9 @@ class Unioncoop extends CI_Controller{
 
         $encryptedcoopid = $this->input->post('cooperativesID');
         $encrypted_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
-
+        $data['cc_count'] = $this->unioncoop_model->get_total_cc($user_id);
+        $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
+        
         $this->db->where('user_id',$user_id);
         $this->db->where('id !=',$encrypted_post_coop_id);
         $this->db->where('position', $this->input->post('position'));
@@ -243,7 +251,7 @@ class Unioncoop extends CI_Controller{
               'valid_id' => $this->input->post('validIdNo'),
               'date_issued' => $this->input->post('dateIssued'),
               'place_of_issuance' => $this->input->post('place_of_issuance'),
-              'capital_contribution' => $this->input->post('cc'),
+              'capital_contribution' => str_replace(',', '', $this->input->post('cc')),
             );
 
           $update_aff = $this->db->update('unioncoop',$u_data,array('id'=>$encrypted_post_coop_id));
@@ -277,7 +285,7 @@ class Unioncoop extends CI_Controller{
             $encrypted_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
 
             $u_data = array(
-              'capital_contribution' => $this->input->post('cc'),
+              'capital_contribution' => str_replace(',', '', $this->input->post('cc')),
             );
 
             // echo $user_id.'-'.$encrypted_post_coop_id;

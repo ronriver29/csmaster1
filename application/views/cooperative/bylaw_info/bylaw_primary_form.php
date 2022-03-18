@@ -597,8 +597,37 @@
             </div>
           </div>
       </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12">
+          <div class="modal fade" id="deleteAlertModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="deleteAlertModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <?php //echo form_open('bylaws/primary',array('id'=>'deleteAlertForm','name'=>'deleteAlertForm')); ?>
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="deleteMemberModalLabel">Are you sure you want to change your Membership?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <input type="hidden" id="cooperativeID" name="cooperativeID" value="1">
+                    <div class="alert alert-warning" role="alert">
+                      <strong><b>Warning:</b></strong>
+                      <p>Saving this form will delete the existing Associate Member(s). Are you sure you want to proceed?</p>
+                    </div>
+                  </div>
+                  <div class="modal-footer deleteAlertFooter">
+                    <input class="btn btn-color-blue btn-block" type="submit" id="bylawsPrimaryBtn" name="bylawsPrimaryBtn" value="Submit">
+                  </div>
+                <!-- </form> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="card-footer bylawsPrimaryFooter" style="display: none;">
-        <input class="btn btn-color-blue btn-block" type="submit" id="bylawsPrimaryBtn" name="bylawsPrimaryBtn" value="Submit">
+        <button type="button" class="btn btn-color-blue btn-block" data-toggle="modal" data-target="#deleteAlertModal" name="bylawsPrimaryBtn" id="bylawsPrimaryBtn2"></i>Submit</button>
+        <input class="btn btn-color-blue btn-block" type="submit" id="bylawsPrimaryBtn3" name="bylawsPrimaryBtn" value="Submit">
       </div>
     </form>
     </div>
@@ -650,6 +679,37 @@ $("#othersFund").on('change', function(){
     expd1 = Math.abs(Number(othersFund-10));
     $('#communityFund').val(expd1);
     
+});
+
+var submitchange =$("#kindsOfMember").val();
+
+console.log(submitchange);
+$("#bylawsPrimaryBtn2").hide();
+
+$("#kindsOfMember").on('change', function(){
+    
+    var kindsOfMemberType =$(this).val();
+
+    if(kindsOfMemberType == 1){
+      $("#associateQualifications1").prop('required',false);
+    } else if(kindsOfMemberType == 2){
+      $("#associateQualifications1").prop('required',true);
+    }
+
+    if(submitchange == 1){
+      $("#bylawsPrimaryBtn2").hide();
+      $("#bylawsPrimaryBtn3").show();
+    }
+    else if(kindsOfMemberType != submitchange){
+      $("#bylawsPrimaryBtn3").hide();
+      $("#bylawsPrimaryBtn2").show();
+      console.log('change');
+    } else {
+      $("#bylawsPrimaryBtn3").show();
+    }
+
+    console.log(submitchange); 
+    console.log(kindsOfMemberType); 
 });
 
   });

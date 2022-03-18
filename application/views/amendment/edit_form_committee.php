@@ -108,7 +108,7 @@
                 ?>
               
                
-               <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture' || $coop_info->type =='Multipurpose' || $coop_info->type_of_cooperative == 'Advocacy' || $coop_info->type_of_cooperative =='Agrarian Reform' || $count_type>1){?>
+               <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture' || $coop_info->type =='Multipurpose' || $coop_info->type_of_cooperative == 'Advocacy' || $coop_info->type_of_cooperative =='Agrarian Reform' || $coop_info->type_of_cooperative == 'Consumers' || $count_type>1){?>
                   <option id="A" value="Credit">Credit</option>
                 <?php } ?>
 

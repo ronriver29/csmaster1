@@ -129,7 +129,7 @@
                               <?php } ?>
                             <!-- <textarea class="form-control " style="resize: none;" id="comment" name="comment_by_specialist_senior" placeholder=""rows="8"></textarea> -->
                         <?php } else {?>
-                            <!-- <textarea class="form-control " style="resize: none;" id="comment" name="comment_by_specialist_senior" placeholder=""rows="8"></textarea> -->
+                            <textarea class="form-control " style="resize: none;" id="comment" name="comment_by_specialist_senior" placeholder=""rows="8"></textarea>
                         <?php } ?>
                       </td>
                       <td style="border:1px solid black;padding-top:5px;">

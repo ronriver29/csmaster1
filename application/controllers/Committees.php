@@ -342,7 +342,8 @@ class Committees extends CI_Controller{
                                   $data = array(
                                     'user_id' => $user_id,
                                     'cooperators_id' => $decoded_id,
-                                    'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName')
+                                    'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName'),
+                                    'func_and_respons' => $this->input->post('func_and_respons')
                                     );
                                   $success = $this->committee_model->add_committee_union($data);
                                   if($success['success']){
@@ -576,7 +577,8 @@ class Committees extends CI_Controller{
                                   $data = array(
                                     'user_id' => $user_id,
                                     'cooperators_id' => $decoded_id,
-                                    'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName')
+                                    'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName'),
+                                    'func_and_respons' => $this->input->post('func_and_respons'),
                                     );
                                   $success = $this->committee_model->add_committee_federation($data);
                                   if($success['success']){
@@ -854,7 +856,8 @@ class Committees extends CI_Controller{
                                   $data = array(
                                     'user_id' => $user_id,
                                     'cooperators_id' => $decoded_id,
-                                    'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName')
+                                    'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName'),
+                                    'func_and_respons' => $this->input->post('func_and_respons')
                                     );
                                   $success = $this->committee_model->add_committee_union($data);
                                   if($success['success']){
@@ -1256,6 +1259,8 @@ class Committees extends CI_Controller{
                 if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                     if($data['coop_info']->grouping=="Federation"){
                         $success = $this->committee_model->delete_committee_federation($decoded_post_committee_id);
+                    } else if($data['coop_info']->grouping=="Union"){
+                        $success = $this->committee_model->delete_committee_union($decoded_post_committee_id);
                     } else {
                         $success = $this->committee_model->delete_committee($decoded_post_committee_id);
                     }

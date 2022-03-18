@@ -107,6 +107,35 @@ $(function(){
   //END AMENDMENT
   //end sign up validation
 
+  $('#deleteAlertModal').on('show.bs.modal', function (event) {
+    // alert('asdsadasdasdsad');
+    var button = $(event.relatedTarget);
+    // var coop_name = button.data('cname');
+    // var coop_id = button.data('coopid');
+    var modal = $(this);
+    // modal.find('.modal-body #cooperativeID').val(coop_id);
+    // modal.find('.modal-body .cooperative-name-text').text(coop_name);
+  });
+
+  $("#deleteAlertForm").validationEngine('attach',
+    {promptPosition: 'inline',
+    scroll: false,
+    focusFirstField : false,
+    onValidationComplete: function(form,status){
+        if(status == true){
+          if($("#deleteAlertLoadingBtn").length <= 0){
+            $("#deleteAlertForm #deleteAlertBtn").hide();
+            $("#deleteAlertForm .col-delete-cooperative-btn").append($('<button></button>').attr({'id':'deleteAlertLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
+            return true;
+          }else{
+            return false;
+          }
+        }else{
+          return false;
+        }
+      }
+  });
+
   /* START DELETE COOPERATIVE*/
   $('#deleteCooperativeModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
@@ -319,6 +348,16 @@ $('#editAffiliatorModal').on('show.bs.modal', function (event) {
   var regid = button.data('reg_id');
   var repre = button.data('representative');
   var position = button.data('pos');
+  // alert(position);
+  var match = position.split(', ');
+    // console.log(match)
+    for (var a in match)
+    {
+        var variable = match[a]
+        // alert(variable);
+        
+    }
+  $("#editAffiliatorModal #position2").val(match).change();
   var proof_of_identity = button.data('proofofidentity');
   var valid_id = button.data('validid');
   var place_of_issuance = button.data('placeissuance');
@@ -378,7 +417,7 @@ $('#editAffiliatorModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #validIdNo').val(valid_id);
   modal.find('.modal-body #place_of_issuance').val(place_of_issuance);
   
-  modal.find('.modal-body #cc').val(capital_contribution);
+  modal.find('.modal-body #capitalcontri').val(capital_contribution);
 
   modal.find('.modal-body #subscribedShares2').val(subscribedShares2);
   modal.find('.modal-body #paidShares2').val(paidShares2);
@@ -683,6 +722,18 @@ $("#deleteStaffForm").validationEngine('attach',
               /*
               Start add committee form
               */
+              $('#addCommitteeUpdateForm #committeeName').on('change', function(){
+                if($(this).val()=="Others"){ 
+                  var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
+                            '<input type="text" class="form-control" name="committeeNameSpecify" id="committeeNameSpecify">' +
+                            '</div></div>');
+                  $('#addCommitteeUpdateForm .ac-row').append(committeeNameSpecify);
+                }else{
+                  $('#addCommitteeUpdateForm .col-committee-specify').remove();
+                }
+              });
+
               $('#addCommitteeForm #committeeName').on('change', function(){
                 if($(this).val()=="Others"){ 
                   var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
@@ -697,8 +748,8 @@ $("#deleteStaffForm").validationEngine('attach',
               $('#addCommitteeForm #cooperatorID').on('change', function(){
                 $("#addCommitteeForm .ac-info-row input,textarea").val("");
                 if($(this).val() && $(this).val().length >0){
-					       var cooperator_id = $(this).val() ;
-					// alert(cooperator_ID);
+                 var cooperator_id = $(this).val() ;
+          // alert(cooperator_ID);
                   $.ajax({
                       type : "POST",
                       url  : "../cooperators/get_post_cooperator_info",
@@ -746,6 +797,19 @@ $("#deleteStaffForm").validationEngine('attach',
               /*
               Start add committee form
               */
+              $('#addCommitteeUpdateForm #committeeName').on('change', function(){
+                if($(this).val()=="Others"){ 
+                  var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Function and Responsibilities:</label>' +
+                            // '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhp]]" name="func_and_respons" id="committeeNameSpecify">' +
+                             '<textarea class="form-control validate[required]" name="func_and_respons" id="func_and_respons" rows="5"></textarea>' +
+                            '<input type="hidden" value="others" name="type">' +
+                            '</div></div>');
+                  $('#addCommitteeUpdateForm .ac-row').append(committeeNameSpecify);
+                }else{
+                  $('#addCommitteeUpdateForm .col-committee-specify').remove();
+                }
+              });
               $('#addCommitteeForm #committeeName').on('change', function(){
                 if($(this).val()=="Others"){ 
                   var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
@@ -1400,7 +1464,7 @@ $("#deleteStaffForm").validationEngine('attach',
     $(this).hide();
     var btnGroup = $('<div></div>').attr({'id':'bylawsPrimaryCancelBtn','class':'btn-group','role':'group','aria-label':'Basic-example'});
     var btnCancel = $('<a></a>').attr({'class':'btn btn-secondary btn-sm float-right text-white','role':'button'}).html("<i class='fas fa-times'></i> Cancel").click(function(){
-      location.reload();
+      location.reload(true);
     });
     $('.col-btn-action-bylaws-primary').append(btnCancel);
     $(".bylawsPrimaryFooter").show();
@@ -1431,7 +1495,7 @@ $("#deleteStaffForm").validationEngine('attach',
     $(this).hide();
     var btnGroup = $('<div></div>').attr({'id':'articlesPrimaryCancelBtn','class':'btn-group','role':'group','aria-label':'Basic-example'});
     var btnCancel = $('<a></a>').attr({'class':'btn btn-secondary btn-sm float-right text-white','role':'button'}).html("<i class='fas fa-times'></i> Cancel").click(function(){
-      location.reload();
+      location.reload(true);
     });
     $('.col-btn-action-articles-primary').append(btnCancel);
     $(".articlesPrimaryFooter").show();
@@ -1463,7 +1527,7 @@ $("#deleteStaffForm").validationEngine('attach',
     $(this).hide();
     var btnGroup = $('<div></div>').attr({'id':'economicSurveyCancelBtn','class':'btn-group','role':'group','aria-label':'Basic-example'});
     var btnCancel = $('<a></a>').attr({'class':'btn btn-secondary btn-sm float-right text-white','role':'button'}).html("<i class='fas fa-times'></i> Cancel").click(function(){
-      location.reload();
+      location.reload(true);
     });
     $('.col-btn-action-survey-primary').append(btnCancel);
     $(".economicSurveyFooter").show();
@@ -1725,6 +1789,17 @@ $('#editStaffForm #position').on('change', function(){
         }
   });
   /* END DELETE ADMIN*/
+  $('#editRegDateStatusModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var full_name = button.data('fname');
+    var registeredno = button.data('regno');
+    var adid = button.data('adid');
+    var modal = $(this)
+    modal.find('.modal-body #adminID').val(adid);
+    modal.find('.modal-body .admin-name-text').text(full_name);
+    modal.find('.modal-body .reg-no-text').text(registeredno);
+    modal.find('.modal-body .regno').val(registeredno);
+  });
   /* ANJURY RESET PASSWORD START*/
   $('#resetPasswordModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
@@ -2742,8 +2817,10 @@ function validateActivityNotNullUpdateCustom(field, rules, i, options){
 }
 function validateActivityInNameUpdateCustom(field, rules, i, options){
   let tempName = $.trim($(field).val());
-  let tempActivity = $.trim($("#reserveUpdateForm #typeOfCooperative").val());
-  if(tempName.length >0 && tempActivity.length >0){
+  // let tempActivity = $.trim($("#reserveUpdateForm #typeOfCooperative").text());
+  let tempActivity = $('#reserveUpdateForm #typeOfCooperative').find(":selected").text();
+  // alert(tempActivity);
+  if(tempName.length >0){
     var checkName = new RegExp(tempActivity , 'i');
     var result = checkName.test(tempName);
     if(result){
@@ -2754,7 +2831,7 @@ function validateActivityInNameUpdateCustom(field, rules, i, options){
 function validateCooperativeWordInNameCustom(field, rules, i, options){
   let tempName = $.trim($(field).val());
   if(tempName.length >0){
-    var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa|cooperatiba|advocacy|Agrarian Reform|Agriculture| Bank |Consumers| Credit|Credit |Dairy|Education|Electric|Financial Service|Fishermen|Health Service|Housing|Insurance|Labor Service|Marketing|Producers|Professionals|Service|Small Scale Mining|Transport|Water Service|Workers|Union|federation', 'i');
+    var checkName = new RegExp('"|cooperative|cooperatives|kooperatiba|cooperativa|cooperatiba|advocacy|Agrarian Reform|Agriculture| Bank |Consumers| Credit|Credit |Dairy|Education|Electric|Financial Service|Fishermen|Health Service|Housing|Insurance|Labor Service|Marketing|Producers|Professionals|Service|Small Scale Mining|Transport|Water Service|Workers|Union|federation', 'i');
     var result = checkName.test(tempName);
     // alert( result);
     if(result == 'Accredited' || result =='accredited')
@@ -2774,7 +2851,7 @@ function validateAmendmentWordInNameCustom(field, rules, i, options){
   let tempName = $.trim($(field).val());
   if(tempName.length >0){
     // var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa| Credit|Credit |cooperatiba|agriculture|Consumers|advocacy|Dairy|Education|Electric|multipurpose|multi-purpose', 'i');
-     var checkName = new RegExp('cooperative|cooperatives|kooperatiba|cooperativa|cooperatiba|advocacy|Agrarian Reform|Agriculture| Bank |Consumers| Credit|Credit |Dairy|Education|Electric|Financial Service|Fishermen|Health Service|Housing|Insurance|Labor Service|Marketing|Producers|Professionals|Service|Small Scale Mining|Transport|Water Service|Workers|multipurpose|multi-purpose|Union|federation', 'i');
+     var checkName = new RegExp('"|cooperative|cooperatives|kooperatiba|cooperativa|cooperatiba|advocacy|Agrarian Reform|Agriculture| Bank |Consumers| Credit|Credit |Dairy|Education|Electric|Financial Service|Fishermen|Health Service|Housing|Insurance|Labor Service|Marketing|Producers|Professionals|Service|Small Scale Mining|Transport|Water Service|Workers|multipurpose|multi-purpose|Union|federation|"', 'i');
     var result = checkName.test(tempName);
         if(result){
           return options.allrules.validateAmendment_proposed_name.alertText;
@@ -2946,6 +3023,15 @@ function validateRegularAssociateAuthorizedCapitalCustom(field, rules, i, option
     return output;
   }
 }
+// function validateAddNumberOfSubsribedGreaterCustom(field,rules, i, options){ 
+//   let tempPaidUp = $.trim($(field).val());
+//   let tempSubscribed = $.trim($("#addCooperatorForm #subscribedShares").val());
+//   if(tempPaidUp.length >0 && tempPaidUp > 0){
+//     if(parseInt(tempPaidUp) > parseInt(tempSubscribed)){
+//       return options.allrules.validateNumberOfPaidUpGreater.alertText;
+//     }
+//   }
+// }
 function validateAddNumberOfPaidUpGreaterCustom(field,rules, i, options){ 
   let tempPaidUp = $.trim($(field).val());
   let tempSubscribed = $.trim($("#addCooperatorForm #subscribedShares").val());

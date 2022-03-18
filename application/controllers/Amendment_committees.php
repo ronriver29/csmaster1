@@ -75,11 +75,11 @@ class Amendment_committees extends CI_Controller{
                         $type_coop_array_ = explode(',',$data['coop_info']->type_of_cooperative);
                         $count_type ='';
                         $count_type = count($type_coop_array_);
-
+                        // var_dump( $type_coop_array_)
                         $data['complete_position']=false;
                         if($count_type > 1)
                         {
-                             if(in_array('Credit', $type_coop_array_) || in_array('Agriculture', $type_coop_array_) || in_array('Electric', $type_coop_array_))
+                             if(in_array('Credit', $type_coop_array_))
                             {
                                $data['credit'] = $this->committee_model->check_position($decoded_id,"Credit");
                               if($data['credit'] && $data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])
@@ -98,11 +98,24 @@ class Amendment_committees extends CI_Controller{
                         }
                         else
                         {
-                           $data['credit'] = true;
-                              if($data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])
+                           
+                          if($data['coop_info']->type_of_cooperative == 'Credit')
+                          {
+                            // $data['credit'] = $this->committee_model->check_position($decoded_id,"Credit");
+                            $data['credit'] = true;
+                            if($data['credit'] && $data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])
                               {
                                 $data['complete_position']=true;
                               }
+                          }
+                          else
+                          {
+                            $data['credit'] = true;
+                            if($data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])
+                              {
+                                $data['complete_position']=true;
+                              }
+                          }       
                         }
                        
                         
@@ -718,15 +731,15 @@ class Amendment_committees extends CI_Controller{
           $result = $this->amendment_committee_model->check_committee_name_not_exists($data);
           echo json_encode($result);
         }else{
-          echo "ano";
+          
         }
       }else{
-        // show_404();
-        echo"saan";
+        show_404();
+        
       }
     }else{
-      // show_404();
-      echo"dddd";
+      show_404();
+      
     }
   }
   public function coop_dtl($amendment_id)

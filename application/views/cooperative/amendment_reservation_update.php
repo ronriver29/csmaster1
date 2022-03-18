@@ -69,9 +69,9 @@
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
               
                     <option value="Primary" <?php if($coop_info->category_of_cooperative=="Primary") echo "selected";?>>Primary</option>
-                    <?php /*<option value="Secondary" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Secondary") echo "selected";?>>Secondary</option>
+                    <option value="Secondary" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Secondary") echo "selected";?>>Secondary</option>
                     <option value="Tertiary" <?php if($coop_info->category_of_cooperative=="Tertiary" ) echo "selected";?>>Tertiary</option>
-                    <option value="Others" <?php if($coop_info->category_of_cooperative=="Others") echo "selected";?>>Others</option> */ ?>
+                    <option value="Others" <?php if($coop_info->category_of_cooperative=="Others") echo "selected";?>>Others</option>
                   </select>
                 </div>
               </div>
@@ -209,6 +209,7 @@
             <div class="row rd-row">
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
+                   <input type="hidden" id="commonBond2" name="commonBond2"/>
                   <label nfor="commonBondOfMembership">Common Bond of Membership </label>
                   <select class="custom-select validate[required]" name="commonBondOfMembership" id="commonBondOfMembership">
            
@@ -347,13 +348,13 @@
                
                   <div class="col-md-12 ocu-div">
                   <label for="compositionOfMembers" id="composition_of_members_label">Composition of Members </label>
-                  
+                 
                   <?php if(empty($members_composition)) {?>
                   <select class="custom-select" name="compositionOfMembers[]" id="compositionOfMembers1">
                     <option value="" selected></option>
-                    <?php
+                   <?php
                     foreach ($composition as $key) {
-                    echo '<option value="'.$key->composition.'">'.$key->composition.'</option>';
+                    echo '<option value="'.$key->id.'">'.$key->composition.'</option>';
                     }
                     ?>
                   </select>
@@ -486,7 +487,34 @@
                 </div>
               </div>
             </div>
+          </div><br>
+
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+                <strong>General Assembly Details</strong>
+              </div>
+            </div><br>
+            <div class="col-sm-12 col-md-4">
+              <label  for="Assembly Venue">General Assembly Venue</label>
+              <input type="text" class="form-control" name="assembly_venue" value="<?=$bylaw_info->annual_regular_meeting_day_venue?>" required>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <label  for="Assembly Venue">General Assembly Type</label>
+              <select class="form-control validate[required]" name="type" id="type" required>
+                <option value="Special" <?=($bylaw_info->type == 'Special' ? 'selected' : '')?>>Special</option>
+                <option value="Regular" <?=($bylaw_info->type == 'Regular' ? 'selected' : '')?>>Regular</option>
+              </select>
+            </div>
+            
+            <div class="col-sm-12 col-md-4">
+              <label  for="Assembly Venue">General Assembly Date</label>
+              <input type="date" name="annaul_date_venue" value="<?=$bylaw_info->annual_regular_meeting_day_date?>"  class="form-control validate[required]" required>
+            </div>
           </div>
+          <br>
+
+
            <?php if($is_client): ?>
           <div class="col-sm-12 offset-md-1 col-md-10 align-self-end">
             <div class="form-group">

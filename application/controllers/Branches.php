@@ -18,7 +18,6 @@
         $data['is_client'] = $this->session->userdata('client');
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
-            if($this->branches_model->check_own_branch($decoded_id,$user_id)){
               if(!$this->branches_model->check_submitted_for_evaluation($decoded_id)){
                 if($this->form_validation->run() == FALSE){
                   $data['client_info'] = $this->user_model->get_user_info($user_id); 
@@ -216,9 +215,9 @@
               }
             }
           }
-        }else{
-          show_404();
-        }
+        // }else{
+        //   show_404();
+        // }
       }
     }
      public function specialist(){

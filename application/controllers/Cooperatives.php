@@ -37,13 +37,16 @@
           // echo $data['client_info']->regno;
           if($data['client_info']->regno == NULL){
             $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives($this->session->userdata('user_id'));
+            $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
           } else {
             $data['list_cooperatives'] = $this->cooperatives_model->get_registeredcoop($data['client_info']->regno);
+            $data['coop_info'] = $this->cooperatives_model->get_cooperative_migrated_info($data['client_info']->regno);
           }
           
 //          $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives($this->session->userdata('user_id'));
           $data['count_cooperatives'] = $this->cooperatives_model->get_count_cooperatives($this->session->userdata('user_id'));
-          $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
+          // $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
+  
           // if(!empty($data['coop_info']->id)){
           //     if($data['coop_info']->status != 15){
           //       if(date('Y-m-d H:i:s',strtotime($data['coop_info']->expire_at)) < date('Y-m-d H:i:s')){
@@ -56,6 +59,11 @@
           //       }
           //     }
           // }
+          //Notification if cooperative need to update
+          if(isset($data['coop_info']->id)){
+            $data['is_update_cooperative'] = $this->cooperatives_update_model->check_date_registered($data['coop_info']->id);
+          }
+          
           if(isset($_POST['tos']))
           {
             $data['tos'] = $_POST['tos'];
@@ -198,6 +206,13 @@
                   $interregional = '';
                   $regions = '';
                 }
+
+                if($_POST[$this->input->post('is_youth')] == 1){
+                  $is_youth = 1;
+                } else {
+                  $is_youth = 1;
+                }
+
                 $field_data = array(
                   'users_id' => $this->session->userdata('user_id'),
                   'category_of_cooperative' => $category,
@@ -215,6 +230,7 @@
                   'street' => $this->input->post('streetName'),
                   'house_blk_no' => $this->input->post('blkNo'),
                   'status' => '1',
+                  'is_youth' => $is_youth,
                   'created_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
                   'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
                   'expire_at' =>  date('Y-m-d h:i:s',(now('Asia/Manila')+(4*24*60*60)))
@@ -513,6 +529,7 @@
                   if($data['coop_info']->grouping == 'Federation'){
                       $this->load->view('cooperative/federation_detail', $data);
                   } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
+                    $data['cc_count'] = $this->unioncoop_model->get_total_cc($data['coop_info']->users_id);
                       $this->load->view('cooperative/union_detail', $data);
                   } else {
                       $this->load->view('cooperative/cooperative_detail', $data);
@@ -615,6 +632,12 @@
                       $regions = '';
                     }
                     
+                    if($_POST[$this->input->post('is_youth')] == 1){
+                      $is_youth = 1;
+                    } else {
+                      $is_youth = 1;
+                    }
+
                     $field_data = array(
                       'users_id' => $this->session->userdata('user_id'),
                       'category_of_cooperative' => $category,
@@ -629,6 +652,7 @@
                       'refbrgy_brgyCode' => $this->input->post('barangay'),
                       'interregional' => $interregional,
                       'regions' => $regions,
+                      'is_youth' => $is_youth,
                       'street' => $this->input->post('streetName'),
                       'house_blk_no' => $this->input->post('blkNo')
                     );
@@ -1021,7 +1045,6 @@
                                       }
 
                                       $this->admin_model->sendEmailToClient($proposednameemail,$data['client_info']->email);
-
                                       if($this->admin_model->sendEmailToSenior($proposednameemail,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info)){
                                         $this->session->set_flashdata('cooperative_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
                                         redirect('cooperatives/'.$id);

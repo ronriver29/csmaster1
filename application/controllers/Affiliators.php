@@ -175,17 +175,38 @@ class Affiliators extends CI_Controller{
         $query = $this->affiliators_model->existing_affiliators($user_id,$this->input->post('regNo'));
         $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
         $encrypted_post_coop_id = $this->input->post('cooperativesID');
+
+        if(!empty($this->input->post('position'))){
+              $position = implode(", ",$this->input->post('position'));
+              // $regions = implode(", ",$this->input->post('regions'));
+            } else {
+              $position = '';
+              // $regions = '';
+            }
+
         $this->db->where('user_id',$user_id);
-        // $this->db->where('id !=',$encrypted_post_coop_id);
-        $this->db->where('position', $this->input->post('position'));
+        // $this->db->where('position', $this->input->post('position'));
         $this->db->where_in('position',array('Chairperson','Vice-Chairperson','Treasurer','Secretary'));
         $this->db->from('affiliators');
-        $count = $this->db->count_all_results();
-        if($count==1){
+        // $count = $this->db->count_all_results();
+        $query_aff = $this->db->get();
+        $data_aff = $query_aff->result_array();
+        $aff_results = array();
+        foreach($data_aff as $row_aff){
+          $aff_results[] = $row_aff['position'];
+        }
+        if (in_array($position, $aff_results)) {
+          $found = 'found' ;
+        } else {
+          $found = '';
+        }
+        // print_r($sample_results);
+        if($found=='found'){
           $this->session->set_flashdata('cooperator_error', 'Position already exists.');
             redirect('cooperatives/'.$encrypted_post_coop_id.'/affiliators');
         } else {
           if($query==0){
+            
               $data = array(
                 'registeredcoop_id' => $this->input->post('registered_id'),
                 'regNo' => $this->input->post('regNo'),
@@ -195,7 +216,7 @@ class Affiliators extends CI_Controller{
                 'number_of_subscribed_shares' => $this->input->post('subscribedShares'),
                 'number_of_paid_up_shares' => $this->input->post('paidShares'),
                 'representative' => $this->input->post('representative'),
-                'position' => $this->input->post('position'),
+                'position' => $position,
                 'proof_of_identity' => $this->input->post('validIdType'),
                 'valid_id' => $this->input->post('validIdNo'),
                 'date_issued' => date('Y-m-d',strtotime($this->input->post('dateIssued'))),
@@ -233,11 +254,31 @@ class Affiliators extends CI_Controller{
 
         $this->db->where('user_id',$user_id);
         $this->db->where('id !=',$encrypted_post_coop_id);
-        $this->db->where('position', $this->input->post('position'));
+        // $this->db->where('position', $this->input->post('position'));
         $this->db->where_in('position',array('Chairperson','Vice-Chairperson','Treasurer','Secretary'));
         $this->db->from('affiliators');
-        $count = $this->db->count_all_results();
-        if($count==1){
+        // $count = $this->db->count_all_results();
+        $query_aff = $this->db->get();
+        $data_aff = $query_aff->result_array();
+
+        if(!empty($this->input->post('position'))){
+          $position = implode(", ",$this->input->post('position'));
+          // $regions = implode(", ",$this->input->post('regions'));
+        } else {
+          $position = '';
+          // $regions = '';
+        }
+        $aff_results = array();
+        foreach($data_aff as $row_aff){
+          $aff_results[] = $row_aff['position'];
+        }
+        if (in_array($position, $aff_results)) {
+          $found = 'found' ;
+        } else {
+          $found = '';
+        }
+
+        if($found=='found'){
           $this->session->set_flashdata('cooperator_error', 'Position already exists.');
             redirect('cooperatives/'.$encryptedcoopid.'/affiliators');
         }
@@ -249,11 +290,12 @@ class Affiliators extends CI_Controller{
           // echo $position_exists->num_rows();
         // } 
         else {
+          
           $u_data = array(
               'number_of_subscribed_shares'=> $this->input->post('subscribedShares2'),
               'number_of_paid_up_shares'=> $this->input->post('paidShares2'),
               'representative' => $this->input->post('repre'),
-              'position' => $this->input->post('position'),
+              'position' => $position,
               'proof_of_identity' => $this->input->post('validIdType'),
               'valid_id' => $this->input->post('validIdNo'),
               'date_issued' => date('Y-m-d',strtotime($this->input->post('dateIssued'))),
@@ -348,43 +390,56 @@ class Affiliators extends CI_Controller{
     }
   }
 
-  public function check_position_not_exist(){
-     if(!$this->session->userdata('logged_in')){
-        redirect('users/login');
-      }else{
-        if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('cooperativesID')){
-          $data = array(
-            'fieldId'=>$this->input->get('fieldId'),
-            'fieldValue'=>$this->input->get('fieldValue'),
-            'cooperativesID'=>$this->input->get('cooperativesID'),
-          );
-          $result = $this->affiliators_model->is_position_available($data);
-          echo json_encode($result);
-        }else{
-          $this->session->set_flashdata('redirect_applications_message', 'Server error code 500.');
-          redirect('cooperators');
-        }
-      }
+  // public function check_position_not_exist(){
+  //    if(!$this->session->userdata('logged_in')){
+  //       redirect('users/login');
+  //     }else{
+  //       if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('cooperativesID')){
+  //         $data = array(
+  //           'fieldId'=>$this->input->get('fieldId'),
+  //           'fieldValue'=>$this->input->get('fieldValue'),
+  //           'cooperativesID'=>$this->input->get('cooperativesID'),
+  //         );
+  //         $result = $this->affiliators_model->is_position_available($data);
+  //         echo json_encode($result);
+  //         // echo $this->db->last_query();
+  //       }else{
+  //         $this->session->set_flashdata('redirect_applications_message', 'Server error code 500.');
+  //         redirect('cooperators');
+  //       }
+  //     }
+  // }
+
+  public function check_position_not_exist($user_id,$position){
+      // $position = $this->encryption->decrypt(decrypt_custom($position));
+      // $position=str_replace('%20',' ',$position);
+      $data = $this->affiliators_model->is_position_available($user_id,$position);
+      echo json_encode($data);
   }
 
-  public function check_edit_position_not_exist(){
-     if(!$this->session->userdata('logged_in')){
-        redirect('users/login');
-      }else{
-        if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('cooperatorID') && $this->input->get('cooperativesID')){
-          $data = array(
-            'fieldId'=>$this->input->get('fieldId'),
-            'fieldValue'=>$this->input->get('fieldValue'),
-            'cooperatorID'=>$this->input->get('cooperatorID'),
-            'cooperativesID'=>$this->input->get('cooperativesID')
-          );
-          $result = $this->affiliators_model->edit_is_position_available($data);
-          echo json_encode($result);
-        }else{
-          $this->session->set_flashdata('redirect_applications_message', 'Server error code 500.');
-          redirect('cooperators');
-        }
-      }
+  // public function check_edit_position_not_exist(){
+  //    if(!$this->session->userdata('logged_in')){
+  //       redirect('users/login');
+  //     }else{
+  //       if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('cooperatorID') && $this->input->get('cooperativesID')){
+  //         $data = array(
+  //           'fieldId'=>$this->input->get('fieldId'),
+  //           'fieldValue'=>$this->input->get('fieldValue'),
+  //           'cooperatorID'=>$this->input->get('cooperatorID'),
+  //           'cooperativesID'=>$this->input->get('cooperativesID')
+  //         );
+  //         $result = $this->affiliators_model->edit_is_position_available($data);
+  //         echo json_encode($result);
+  //       }else{
+  //         $this->session->set_flashdata('redirect_applications_message', 'Server error code 500.');
+  //         redirect('cooperators');
+  //       }
+  //     }
+  // }
+
+  public function check_edit_position_not_exist($user_id,$position,$cooperatorid){
+    $data = $this->affiliators_model->edit_is_position_available($user_id,$position,$cooperatorid);
+      echo json_encode($data);
   }
     
 }

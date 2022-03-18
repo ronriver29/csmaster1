@@ -36,24 +36,32 @@
       </div>
       <div class="card-body">
         <div class="row">
-         <form action=" https://222.127.109.48/epp_mobile/" method="POST">
-          <input type="text" name="MerchantCode"  value="00000001">
-          <input type="text" name="MerchantRefNo" value="10000000">
-          <input type="text" name="Particulars" value="transaction_type=Registration Fee;Desc=Registration payment;SID=1;Name=Johnny Tee;">
+         <form action="https://222.127.109.48/epp20200915/" method="POST">
+          <?php // echo form_open('paymentsKo/submit',array('id'=>'editAffiliatorForm','name'=>'editAffiliatorForm')); ?>
+          <!-- Late -->
+          <input type="text" name="MerchantCode" value="2018070336">
+          <input type="text" name="MerchantRefNo" value="1234">
+          <input type="text" name="Particulars" value="transaction_type=Accreditation of CEA - New;Regional Office=NCR;Name of Individual/Partnership/Firm=Individual;Order of Payment No.=20220211;">
           <input type="text" name="Amount" value="2500.00">
-          <input type="text" name="PayorName" value="Johnny Tee">
-          <input type="text" name="PayorEmail" value="akotagaturomo@gmail.com">
-          <input type="text" name="ReturnURLOK" value="<?=base_url()?>PaymentsKo/ok.php">
-          <input type="text" name="ReturnURLError" value="<?=base_url()?>PaymentsKo/error.php">
-          <input type="text" name="Hash" value="<?=MD5('00000001' + '10000000' + '2500.00')?>"/>
-          <input type="submit" value="POST TO EPP"/>
-          </form> 
+          <input type="text" name="PayorName" value="John Doe">
+          <input type="text" name="PayorEmail" value="john.doe@gmail.com">
+          <input type="text" name="ReturnURLOK"
+          value="http://merchant.com/merchant/ok.php">
+          <input type="text" name="ReturnURLError"
+          value="http://merchant.com/merchant/error.php">
+          <input type="text" name="Hash" value=" fe38b7924be81e629bb142ccbb71757c">
+          <!-- END -->
+
+          <input type="submit" value="POST TO EPP">
+          </form>
 
       </div>
       <div class="card-footer paymentFooter" style="display: none;">
-        <
+        
       </div>
     
     </div>
   </div>
 </div>
+
+

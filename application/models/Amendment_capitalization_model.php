@@ -25,32 +25,7 @@ class Amendment_capitalization_model extends CI_Model{
     $query = $this->db->get_where('amendment_capitalization',array('cooperatives_id'=>$data));
     return $query->num_rows();
   }
-  //  public function get_capitalization_by_coop_id($amendment_id){
-  //   $data = $this->security->xss_clean($amendment_id);
-  //   $query = $this->db->get_where('amendment_capitalization',array('amendment_id'=>$data));
-  //   return $query->row();
-  // }
-  // public function update_capitalization($capitalization_coop_id,$capitalization_info){
-  //     $capitalization_coop_id = $this->security->xss_clean($capitalization_coop_id);
-  //     $capitalization_info = $this->security->xss_clean($capitalization_info);
-  //     $query = $this->db->where('cooperatives_id', $capitalization_coop_id)->get('amendment_capitalization');
-  //     if($query->num_rows()>0) {
-  //       $this->db->trans_begin();
-  //       $this->db->where('cooperatives_id', $capitalization_coop_id);
-  //       $this->db->update('amendment_capitalization',$capitalization_info);
-  //     } else {
-  //        $capitalization_info['cooperatives_id'] = $capitalization_coop_id;
-  //       $this->db->trans_begin();
-  //       $this->db->insert('amendment_capitalization',$capitalization_info);
-  //     }
-  //       if($this->db->trans_status() === FALSE){
-  //         $this->db->trans_rollback();
-  //         return false;
-  //       }else{
-  //         $this->db->trans_commit();
-  //         return true;
-  //       }
-  // }
+
   public function update_capitalization($amendment_id,$capitalization_coop_id,$capitalization_info){
       $capitalization_coop_id = $this->security->xss_clean($capitalization_coop_id);
       $capitalization_info = $this->security->xss_clean($capitalization_info);

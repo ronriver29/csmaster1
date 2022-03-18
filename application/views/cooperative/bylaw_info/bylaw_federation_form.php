@@ -256,7 +256,7 @@
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
             <label for="actUponMembershipDays"><strong>An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within _________ (_____) days from the date of filing.  The Board of Directors shall devise a form for the purpose which shall, aside from the personal data of the applicant, include the duties of a member to participate in all programs including but not limited to capital build-up and savings mobilization of the Cooperative and, such other information as may be deemed necessary.</strong></label>
-            <input type="number" value="30" class="form-control validate[required]" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" disabled>
+            <input type="number" value="<?=$bylaw_info->act_upon_membership_days ?>" class="form-control validate[required]" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" disabled>
             <small id="emailHelp" class="form-text text-muted">Days from the date filing.</small>
            </div>
           </div>
@@ -280,34 +280,34 @@
         </div>
         <br/>
 <!--          <div class="row row-subscriptions">
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-          			<label for="regularMembershipPercentageSubscription"><strong>Regular Membership</strong><br>What is the minimum number of shares that the applicant must subscribe upon approval of regular membership?</label>
-          			<input type="number" value="<?= $bylaw_info->regular_percentage_shares_subscription ?>"
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+                <label for="regularMembershipPercentageSubscription"><strong>Regular Membership</strong><br>What is the minimum number of shares that the applicant must subscribe upon approval of regular membership?</label>
+                <input type="number" value="<?= $bylaw_info->regular_percentage_shares_subscription ?>"
                  class="form-control validate[required,min[1],custom[integer]]" id="regularMembershipPercentageSubscription" name="regularMembershipPercentageSubscription" placeholder="Enter Shares" disabled>
 
-          		</div>
+              </div>
               <div class="form-group">
                 <label for="regularMembershipPercentagePay">What is the minimum number of shares that the applicant must pay upon approval of regular membership?</label>
-          			<input type="number" value="<?= $bylaw_info->regular_percentage_shares_pay ?>" 
+                <input type="number" value="<?= $bylaw_info->regular_percentage_shares_pay ?>" 
                  class="form-control validate[required,min[1],custom[integer],funcCall[validateMinimumPaidRegularPrimaryCustom]]" id="regularMembershipPercentagePay" name="regularMembershipPercentagePay" 
                 placeholder="Enter Shares" disabled>
                 <span id="rg" style="color:red"></span>
 
               </div>
-        		</div>
+            </div>
             <div class="col-sm-12 col-md-12" id="colAssociateSubscription" <?php if($bylaw_info->kinds_of_members == 1) echo "style='display:none;'"; ?>>
-        		  <div class="form-group">
-          			<label for="associateMembershipPercentageSubscription"><strong>Associate Membership</strong><br>What is the minimum number of shares that the applicant must subscribe upon approval of associate membership?</label>
-          			<input type="number" value="<?=$bylaw_info->associate_percentage_shares_subscription?>" class="form-control <?php if($bylaw_info->kinds_of_members == 2) echo "validate[required,min[1],custom[integer]]'"; ?>" id="associateMembershipPercentageSubscription" name="associateMembershipPercentageSubscription" placeholder="Enter Shares" disabled>
-          		</div>
+              <div class="form-group">
+                <label for="associateMembershipPercentageSubscription"><strong>Associate Membership</strong><br>What is the minimum number of shares that the applicant must subscribe upon approval of associate membership?</label>
+                <input type="number" value="<?=$bylaw_info->associate_percentage_shares_subscription?>" class="form-control <?php if($bylaw_info->kinds_of_members == 2) echo "validate[required,min[1],custom[integer]]'"; ?>" id="associateMembershipPercentageSubscription" name="associateMembershipPercentageSubscription" placeholder="Enter Shares" disabled>
+              </div>
 
               <div class="form-group">
                 <label for="associateMembershipPercentagePay">What is the minimum number of shares that the applicant must pay upon approval of associate membership?</label>
                 <input type="number" value="<?=$bylaw_info->associate_percentage_shares_pay?>" class="form-control <?php if($bylaw_info->kinds_of_members == 2) echo "validate[required,min[1],custom[integer],funcCall[validateMinimumPaidAssociatePrimaryCustom]]'"; ?>" id="associateMembershipPercentagePay" name="associateMembershipPercentagePay" placeholder="Enter Shares" disabled>
                 <span id="sg" style="color:red"></span>
               </div>
-        		</div>
+            </div>
           </div>-->
           <div class="row">
             <div class="col-sm-12 col-md-12">
@@ -425,7 +425,7 @@
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
+              <div class="form-group">
 <!--                                <select class="form-control validate[required]" id="regularMeetingDay" name="regularMeetingDay" placeholder="ex. second/2nd saturday of february" disabled>
                                     <option value="<?=$bylaw_info->annual_regular_meeting_day?>"><?=$bylaw_info->annual_regular_meeting_day?></option>
                                     <option value="first/1st saturday of January">first/1st saturday of January</option>
@@ -441,10 +441,10 @@
                                     <option value="third/3rd saturday of March">third/3rd saturday of March</option>
                                     <option value="fourth/4th saturday of March">fourth/4th saturday of March</option>
                                   </select>-->
-        			<label for="regularMeetingDay"><strong>On what day shall the General Assembly hold its annual regular meeting at the principal office of the Cooperation or at any place that may be determined by the board?</strong>	<small class="text-info">Shall not be beyond ninety (90) days after the close of the calendar year.</small></label>
-        			<input type="text" value="<?=$bylaw_info->annual_regular_meeting_day?>" class="form-control validate[required]" id="regularMeetingDay" name="regularMeetingDay" placeholder="ex. second/2nd saturday of february" disabled>
-        		 </div>
-        		</div>
+              <label for="regularMeetingDay"><strong>On what day shall the General Assembly hold its annual regular meeting at the principal office of the Cooperation or at any place that may be determined by the board?</strong>  <small class="text-info">Shall not be beyond ninety (90) days after the close of the calendar year.</small></label>
+              <input type="text" value="<?=$bylaw_info->annual_regular_meeting_day?>" class="form-control validate[required]" id="regularMeetingDay" name="regularMeetingDay" placeholder="ex. second/2nd saturday of february" disabled>
+             </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12">
@@ -508,11 +508,11 @@
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			  <label for="termHoldDirector"><strong>How many years should the directors hold office before the new election of directors?</strong></label>
-        			  <input type="number" value="<?=$bylaw_info->director_hold_term?>" class="form-control validate[required,min[1],max[<?php echo ($coop_info->type_of_cooperative == "Electric") ? 3 : 2?>],custom[integer]]" id="termHoldDirector" name="termHoldDirector" placeholder="Enter years" disabled>
-        		 </div>
-        		</div>
+              <div class="form-group">
+                <label for="termHoldDirector"><strong>How many years should the directors hold office before the new election of directors?</strong></label>
+                <input type="number" value="<?=$bylaw_info->director_hold_term?>" class="form-control validate[required,min[1],max[<?php echo ($coop_info->type_of_cooperative == "Electric") ? 3 : 2?>],custom[integer]]" id="termHoldDirector" name="termHoldDirector" placeholder="Enter years" disabled>
+             </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12 text-center">
@@ -527,23 +527,23 @@
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="investPerMonth"><strong>At least how much a member should invest per annum?</strong></label>
-        			 <input type="text" value="<?=number_format($bylaw_info->member_invest_per_month,2)?>" class="form-control validate[custom[number]]" min="1" id="investPerMonth" name="investPerMonth" placeholder="" disabled>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="investAnnualInterest"><strong>Percentage of every member's annual interest on share capital and patronage refund should be invested?</strong></label>
-        			 <input type="number" value="<?=$bylaw_info->member_percentage_annual_interest?>" class="form-control validate[min[1],max[100],custom[integer]]" min="1" max="100" id="investAnnualInterest" name="investAnnualInterest" placeholder="%" disabled>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="investService"><strong>Percentage of goods procured/services availed by every member should be invested?</strong></label>
-        			 <input type="number" value="<?=$bylaw_info->member_percentage_service?>" class="form-control validate[min[1],max[100],custom[integer]]" min="1" max="100" id="investService" name="investService" placeholder="%" disabled>
-        		 </div>
-        		</div>
+              <div class="form-group">
+              <label for="investPerMonth"><strong>At least how much a member should invest per annum?</strong></label>
+               <input type="text" value="<?php if($bylaw_info->member_invest_per_month !== ''){ echo number_format($bylaw_info->member_invest_per_month,2); }?>" class="form-control validate[custom[number]]" min="1" id="investPerMonth" name="investPerMonth" placeholder="" disabled>
+             </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+              <label for="investAnnualInterest"><strong>Percentage of every member's annual interest on share capital and patronage refund should be invested?</strong></label>
+               <input type="number" value="<?=$bylaw_info->member_percentage_annual_interest?>" class="form-control validate[min[1],max[100],custom[integer]]" min="1" max="100" id="investAnnualInterest" name="investAnnualInterest" placeholder="%" disabled>
+             </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+              <label for="investService"><strong>Percentage of goods procured/services availed by every member should be invested?</strong></label>
+               <input type="number" value="<?=$bylaw_info->member_percentage_service?>" class="form-control validate[min[1],max[100],custom[integer]]" min="1" max="100" id="investService" name="investService" placeholder="%" disabled>
+             </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12 text-center">
@@ -604,30 +604,30 @@
             </div>
           </div>
           <div class="row">
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="educationFund"><strong>Percentage to be set aside for Cooperative Education and Training Fund?</strong></label>
-        			 <input type="number" value="<?=$bylaw_info->percent_education_fund?>" class="form-control validate[required,min[0],max[10],custom[integer]]" min="0" max="10" id="educationFund" name="educationFund" placeholder="%" disabled>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="reserveFund"><strong>Percentage to be set aside for Reserve Fund?</strong></label>
-        			 <input type="number" value="<?=$bylaw_info->percent_reserve_fund?>" class="form-control validate[required,min[10],max[100],custom[integer]]" min="10" max="100" id="reserveFund" name="reserveFund" placeholder="%" disabled>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="communityFund"><strong>Percentage to be set aside for Community Development Fund?</strong></label>
-        			 <input type="number" value="<?=$bylaw_info->percent_community_fund?>" class="form-control validate[required,min[3],max[9],custom[integer]]" min="3" max="9" id="communityFund" name="communityFund" placeholder="%" disabled>
-        		 </div>
-        		</div>
-        		<div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="othersFund"><strong>Percentage to be set aside for Optional Fund?</strong></label>
-        			 <input type="number" value="<?=$bylaw_info->percent_optional_fund?>" class="form-control validate[required,min[1],max[7],custom[integer]" min="1" max="7" id="othersFund" name="othersFund" placeholder="%" disabled>
-        		 </div>
-        		</div>
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+              <label for="educationFund"><strong>Percentage to be set aside for Cooperative Education and Training Fund?</strong></label>
+               <input type="number" value="<?=$bylaw_info->percent_education_fund?>" class="form-control validate[required,min[0],max[10],custom[integer]]" min="0" max="10" id="educationFund" name="educationFund" placeholder="%" disabled>
+             </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+              <label for="reserveFund"><strong>Percentage to be set aside for Reserve Fund?</strong></label>
+               <input type="number" value="<?=$bylaw_info->percent_reserve_fund?>" class="form-control validate[required,min[10],max[100],custom[integer]]" min="10" max="100" id="reserveFund" name="reserveFund" placeholder="%" disabled>
+             </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+              <label for="communityFund"><strong>Percentage to be set aside for Community Development Fund?</strong></label>
+               <input type="number" value="<?=$bylaw_info->percent_community_fund?>" class="form-control validate[required,min[3],max[9],custom[integer]]" min="3" max="9" id="communityFund" name="communityFund" placeholder="%" disabled>
+             </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+              <label for="othersFund"><strong>Percentage to be set aside for Optional Fund?</strong></label>
+               <input type="number" value="<?=$bylaw_info->percent_optional_fund?>" class="form-control validate[required,min[1],max[7],custom[integer]" min="1" max="7" id="othersFund" name="othersFund" placeholder="%" disabled>
+             </div>
+            </div>
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12">
@@ -654,15 +654,15 @@
           </div>
           <div class="row">
             <div class="col-sm-12 col-md-12">
-        		  <div class="form-group">
-        			<label for="amendmentMembersWith"><strong>Amendments to the Articles of Cooperation and this By-Laws may be adopted by at least two-thirds (2/3) votes of all members with_________, present and constituting a quorum.</strong></label>
+              <div class="form-group">
+              <label for="amendmentMembersWith"><strong>Amendments to the Articles of Cooperation and this By-Laws may be adopted by at least two-thirds (2/3) votes of all members with_________, present and constituting a quorum.</strong></label>
               <select class="custom-select validate[required]" name="amendmentMembersWith" id="amendmentMembersWith" disabled>
                 <option value="" selected>--</option>
                 <option value="Voting Rights" <?php if($bylaw_info->amendment_votes_members_with == "Voting Rights") echo "selected"; ?>>Voting Rights</option>
                 <!-- <option value="Members Entitled to Vote" <?php if($bylaw_info->amendment_votes_members_with == "Members Entitled to Vote") echo "selected"; ?>>Members Entitled to Vote</option> -->
               </select>
              </div>
-        		</div>
+            </div>
           </div>
       </div>
       <div class="card-footer bylawsPrimaryFooter" style="display: none;">

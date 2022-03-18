@@ -1181,8 +1181,8 @@
                 <?php endif;?>
 
             <?php }//end else */?> 
-              
-               <?php if($status_document_cooptype && $ga_complete && $bod_sec_complete && $feasibity): ?>
+             
+               <?php if($status_document_cooptype && $ga_complete && $bod_sec_complete): ?>
                 <span class="badge badge-success">COMPLETE</span>
                 <?php else: ?>
              
@@ -1197,7 +1197,7 @@
             Uploaded documents
             <?php endif;?>
           </p>
-          <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $complete_position ): //&& $cooperator_complete && $committees_complete && $economic_survey_complete && $staff_complete ?>
+          <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $complete_position): //&& $cooperator_complete && $committees_complete && $economic_survey_complete && $staff_complete ?>
             <small class="text-muted">
               <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_documents" class="btn btn-info btn-sm">View</a>
             </small>
@@ -1217,7 +1217,7 @@
               </small>
             </div>
             <p class="mb-1 font-italic">Finalize and review all the information you provide. After reviewing your application, click proceed for evaluation of your application.</p>
-              <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $status_document_cooptype && $ga_complete && $bod_sec_complete && $complete_position && $feasibity){ ?>
+              <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $status_document_cooptype && $ga_complete && $bod_sec_complete && $complete_position){ ?>
               <small class="text-muted">
                 <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
               </small>
@@ -1264,39 +1264,34 @@
               {   
                 if ($pay_from=='reservation'){
                
-                   $basic_reservation_fee =300;
+                     $basic_reservation_fee =300;
                      $name_reservation_fee =0;
-                     $acronym ='';
+                     $acronym =' ';
                      // $amendment_name = ''; 
-                     if(strlen($coop_info->acronym)>0)
-                     {
-                      $acronym = '('.$coop_info->acronym.')';
-                     
-                     }
-                    
-                    
-                    if(count(explode(',',$coop_info->type_of_cooperative))>1)
-                    {
-                      $proposeName = ltrim(rtrim($coop_info->proposed_name)).' Multipurpose Cooperative '.$acronym;
-                    }
-                    else
-                    {
+                    if(strlen($coop_info->acronym)>0)
+                 {
+                  $acronym = ' ('.$coop_info->acronym.')';
+                 
+                 }
+                
+                
+                if(count(explode(',',$coop_info->type_of_cooperative))>1)
+                {
+                  $proposeName = rtrim($coop_info->proposed_name).' Multipurpose Cooperative'.$acronym;
+                }
+                else
+                {
 
-                        $proposeName = ltrim(rtrim($coop_info->proposed_name)).' '.$coop_info->type_of_cooperative.' Cooperative '.$acronym;
-                    }
-                       
-                  $orig_proposedName_formated = trim(preg_replace('/\s\s+/', ' ', $orig_proposedName_formated));
-                   $proposeName = trim(preg_replace('/\s\s+/', ' ', $proposeName));
-                  // var_dump($orig_proposedName_formated);
-                  // var_dump($proposeName);
-                    $name_comparison = strcasecmp($orig_proposedName_formated,$proposeName);
-                    // var_dump($original_coop_name); var_dump($proposeName);
-                    if($name_comparison!=0)
-                    {
-                    
-                      $name_reservation_fee = 100;
-                    }
-                    
+                    $proposeName = rtrim($coop_info->proposed_name).' '.$coop_info->type_of_cooperative.' Cooperative'.$acronym;
+                }
+               
+                $name_comparison = strcasecmp($orig_proposedName_formated,$proposeName);
+              
+                if($name_comparison!=0)
+                {
+                
+                  $name_reservation_fee = 100;
+                } 
                     
                      $rf=0;
                      $percentage_amount = 0;
@@ -1323,6 +1318,7 @@
 
                      }
                    
+                     
                      if($percentage_amount>0)
                      {
                        $total_amendment_fee   = $percentage_amount +$basic_reservation_fee;
@@ -1344,12 +1340,13 @@
                 <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$proposeName?>">
                 <input type="hidden" class="form-control" id="nature" name="nature" value="Amendment">
                 <?php if($name_reservation_fee>0):?>
-                <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Amendment Fee - Primary<br>(1/10 of 1% of Php '<?=number_format($diff_amount,2)?>' increased in paid up capital<br> amounted to Php '<?=number_format($percentage_amount,2)?>' plus Php 300.00 basic fee)<br>Legal and Research Fund Fee">
-                <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br><br><br><br><br>'.number_format($total_amendment_fee,2).'<br><br>'.number_format($lrf,2) ?>">
+                <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Amendment Fee - Primary<br>(1/10 of 1% of Php '<?=number_format($diff_amount,2)?>' increased in paid up capital<br> amounted to Php '<?=number_format($percentage_amount,2)?>' or a minimum of<br> Php 300.00 whichever is higher)<br>Legal and Research Fund Fee">
+                 <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($total_amendment_fee,2).'<br/><br><br><br>'.number_format($lrf,2) ?>">
                 <?php else: ?>
-                <input type="hidden" class="form-control" id="particulars" name="particulars" value="<b>Amendment Fee</b> <br/>(1/10 of 1% of Php <?=number_format($diff_amount,2)?> increased in paid up capital<br> amounted to Php <?=number_format($percentage_amount,2)?> plus Php 300.00 basic fee )<br><b>Legal and Research Fund Fee</b>">
-                <input type="hidden" class="form-control" id="amount" name="amount" value="<br><?=number_format($total_amendment_fee,2).'<br><br><br>'.number_format($lrf,2) ?>">
+                <input type="hidden" class="form-control" id="particulars" name="particulars" value="Amendment Fee <br/>(1/10 of 1% of Php <?=number_format($diff_amount,2)?> increased in paid up capital<br> amounted to Php <?=number_format($percentage_amount,2)?> or a minimum of<br> Php 300.00 whichever is higher)<br>Legal and Research Fund Fee">
+                <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($total_amendment_fee,2).'<br/><br><br><br>'.number_format($lrf,2) ?>">
                 <?php endif;?>
+               
                 <input type="hidden" class="form-control" id="total" name="total" value="<?=$total_amendment_fee+$lrf+$name_reservation_fee?>">
                 <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
                  <input style="width:20%;" class="btn btn-info btn-sm" type="submit" id="offlineBtn" name="offlineBtn" value="Download O.P">

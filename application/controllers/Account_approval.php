@@ -24,7 +24,7 @@
                   $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
                 // End Registered Coop Process by Head Office
                 $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
-                $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_ho_senior($data['admin_info']->region_code);
+                $data['list_cooperatives'] = $this->cooperatives_model->get_all_account_approval_ho($data['admin_info']->region_code);
                 $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
               } else {
                 // Registered Coop Process by Head Office
@@ -90,8 +90,23 @@
             foreach($getRegCoop->result_array() as $reg){
               $regCode = $reg['addrCode'];
               $regNo = $reg['regno'];
+              $email = $reg['email'];
             }
           }
+
+        $this->db->select('*');
+        $this->db->from('registeredcoop');
+        $this->db->where('regNo', $regNo);
+        $this->db->limit('1');
+        $this->db->order_by('id','ASC');
+        $query = $this->db->get();
+        $reg = $query->row();
+
+        $this->db->select('*');
+        $this->db->from('refregion');
+        $this->db->where('regCode', '0'.substr($regCode, 0, 2));
+        $query2 = $this->db->get();
+        $region = $query2->row();
 
         $data_registeredcoop = array(
           'addrCode' => $regCode
@@ -101,7 +116,15 @@
         $subject = 'Cooperative Account Application';  //email subject
         $burl = base_url();
            
-        $message = "Good Day! Your Account has been Approved!<br><br>Your Password is: ".$temp_passwd." You may now Login.";
+        $message = "Good day! Your application for account creation with the following information had been APPROVED.<br><br>
+
+        a. ".$reg->coopName."<br>
+        b. ".$region->regDesc."<br>
+        c. ".$reg->regNo."<br>
+        d. ".$reg->noStreet." ".$reg->Street."<br>
+        e. ".$email."<br>
+
+        Your Password is: ".$temp_passwd." . <br><br>You may now login and update your cooperative information thru this link:".base_url()."users/login";
        
         $this->email->from($from,'ecoopris CDA (No Reply)');
         $this->email->to($email);

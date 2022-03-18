@@ -84,6 +84,8 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->select('*');
     $this->db->from('registeredcoop');
     $this->db->where('regNo', $user_id);
+    $this->db->limit('1');
+    $this->db->order_by('id','ASC');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
@@ -175,6 +177,35 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     return $query->row();
   }
 
+  public function get_all_account_approval_ho($regcode){
+    // Get Coop Type for HO
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
+
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+    // End Get Coop Type for HO
+    $this->db->select('users.*,users.id as usersid,registeredcoop.*');
+    $this->db->from('users');
+    $this->db->join('registeredcoop' , 'users.regNo = registeredcoop.regNo','inner');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = users.addrCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
+    // $this->db->like('refregion.regCode', $regcode);
+    $this->db->where('(users.is_taken IS NULL OR users.is_taken = 0 AND users.files IS NOT NULL) AND registeredcoop.type IN ('.$typeofcoopimp.')');
+    $this->db->group_by('registeredcoop.regNo');
+    $this->db->order_by('registeredcoop.id','asc');
+    // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+
   public function get_all_account_approval($regcode){
     // Get Coop Type for HO
     $this->db->select('name');
@@ -195,7 +226,9 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('users.is_taken IS NULL OR users.is_taken = 0 AND registeredcoop.type NOT IN ('.$typeofcoopimp.') AND users.files IS NOT NULL');
+    $this->db->where('(users.is_taken IS NULL OR users.is_taken = 0 AND users.files IS NOT NULL) AND registeredcoop.type NOT IN ('.$typeofcoopimp.')');
+    $this->db->group_by('registeredcoop.regNo');
+    $this->db->order_by('registeredcoop.id','asc');
     // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
     $query = $this->db->get();
     $data = $query->result_array();
@@ -455,7 +488,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     return $data;
   }
   public function get_cooperative_info($user_id,$coop_id){
-    $this->db->select('cooperatives.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+    $this->db->select('cooperatives.*, cooperatives.category_of_cooperative as cofc, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
     $this->db->from('cooperatives');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -584,6 +617,20 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $query = $this->db->get();
     return $query->row();
   }
+
+   public function get_cooperative_migrated_info($user_regno){
+   
+    $this->db->select('cooperatives.*');
+    $this->db->from('cooperatives');
+    $this->db->join('registeredcoop', 'registeredcoop.application_id = cooperatives.id');
+    $this->db->where('registeredcoop.regNo', $user_regno);
+    $this->db->limit('1');
+    $this->db->order_by('cooperatives.id','ASC');
+    $query = $this->db->get();
+    return $query->row();
+
+  }
+
   public function get_cooperative_info_branch($user_id,$coop_id){
     $this->db->select('cooperatives.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
     $this->db->from('cooperatives');
@@ -633,7 +680,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     return $query->row();
   }
   public function get_cooperative_info_by_admin($coop_id){
-    $this->db->select('cooperatives.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,cooperatives.type_of_cooperative');
+    $this->db->select('cooperatives.*, cooperatives.category_of_cooperative as cofc, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,cooperatives.type_of_cooperative');
     $this->db->from('cooperatives');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -849,7 +896,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
 
     $temp_purpose = array(
         'cooperatives_id' => $coop_id,
-        'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
+        'content'  => ''
       );
     
     $this->db->select('id');
@@ -872,7 +919,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     if($coop_type_of_coop->type_of_cooperative != $coop_type->name || $coop_type_of_coop->category_of_cooperative != $data['category_of_cooperative']){
       $temp_purpose = array(
           'cooperatives_id' => $coop_id,
-          'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
+          'content'  => ''
         );
       $this->db->where('cooperatives_id',$coop_id);
       $this->db->update('purposes',$temp_purpose);
@@ -1309,7 +1356,7 @@ public function approve_by_supervisor($admin_info,$coop_id,$coop_full_name){
 }
 public function approve_by_director($admin_info,$coop_id){
   $coop_id = $this->security->xss_clean($coop_id);
-  $this->db->select('cooperatives.proposed_name, cooperatives.type_of_cooperative, cooperatives.grouping, users.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+  $this->db->select('cooperatives.proposed_name, cooperatives.type_of_cooperative, cooperatives.grouping, cooperatives.house_blk_no, cooperatives.street, users.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
   $this->db->from('cooperatives');
   $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
   $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -1335,7 +1382,7 @@ public function approve_by_director($admin_info,$coop_id){
           $acronym_name = '';
       }
 
-      $coopname = ucwords($client_info['proposed_name'].' '.$client_info['type_of_cooperative'] .' Cooperative '.$acronym_name);
+      $coopname = ucwords($client_info['proposed_name'].' Federation of '.$client_info['type_of_cooperative'] .' Cooperative '.$acronym_name);
 
       if($client_info['house_blk_no']==null && $client_info['street']==null) $x=''; else $x=', ';
       $addresscoop = $client_info['house_blk_no'].' '.$client_info['street'].$x.' '.$client_info['brgy'].', '.$client_info['city'].', '.$client_info['province'].' '.$client_info['region'];
@@ -1426,7 +1473,7 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step){
   if ($step==1)
     $this->db->update('cooperatives',array('evaluated_by'=>$admin_id,'status'=>5,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment,'temp_evaluation_comment'=>$reason_commment));
   else if($step==2)
-    $this->db->update('cooperatives',array('second_evaluated_by'=>$admin_id,'status'=>8,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment,'temp_evaluation_comment'=>$reason_commment));
+    $this->db->update('cooperatives',array('second_evaluated_by'=>$admin_id,'status'=>41,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment,'temp_evaluation_comment'=>$reason_commment));
   else 
     $this->db->update('cooperatives',array('third_evaluated_by'=>$admin_id,'status'=>11,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment,'temp_evaluation_comment'=>$reason_commment));
   if($this->db->trans_status() === FALSE){

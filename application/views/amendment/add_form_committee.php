@@ -49,7 +49,7 @@
                 <option id="C" value="Education and Training">Education and Training</option>
                 <option id="A" value="Mediation and Conciliation">Mediation and Conciliation</option>
                 <option id="A" value="Ethics">Ethics</option>
-                <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture' || $coop_info->type =='Multipurpose' || $coop_info->type_of_cooperative =='Advocacy' || $coop_info->type_of_cooperative =='Agrarian Reform' || $count_type>1){?>
+                <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture' || $coop_info->type =='Multipurpose' || $coop_info->type_of_cooperative =='Advocacy' || $coop_info->type_of_cooperative =='Agrarian Reform' || $coop_info->type_of_cooperative == 'Consumers' || $count_type>1){?>
                   <option id="A" value="Credit">Credit</option>
                 <?php } ?>
                 <option id="B" value="Gender and Development">Gender and Development</option>

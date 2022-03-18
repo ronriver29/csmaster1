@@ -1,3 +1,10 @@
+<style>
+.select2-search__field{
+  width: 100% !important;
+}
+</style>
+<link rel="stylesheet" href="<?=base_url('assets/plugins/select2/css/select2.css')?>" type="text/css"/>
+<link rel="stylesheet" href="<?=base_url('assets/plugins/bootstrap-select/bootstrap-select.min.css')?>" type="text/css"/>  
 <?php $total_subscribed = 0;?>
 <?php $total_paid = 0;?>
 <?php foreach ($list_cooperators as $cooperator) : ""?>
@@ -62,11 +69,12 @@
             </div> -->
 
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-sm-12 col-md-4">
                   <div class="form-group"> 
-                    <label for="position">Position:</label>
-                    <select class="custom-select validate[required,ajax[ajaxCooperatorPositionCallPhp]" id="position" name="position" required>
-                      <option value="" selected>--</option>
+                    <label for="position">Position:</label><br>
+                    <select class="form-control validate[required] select2 select-island add-affiliators" id="position" name="position[]" multiple="" required>
+                    <!-- <select class="form-control validate[required] select2" id="position" name="position[]" multiple="" required> -->
+                      <!-- <option value="" selected>--</option> -->
                       <option value="Chairperson">Chairperson</option>
                       <option value="Vice-Chairperson">Vice-Chairperson</option>
                       <option value="Board of Director">Board of Director</option>
@@ -75,6 +83,7 @@
                       <option value="Member">Member</option>
                     </select>
                   </div>
+                  <label id="positionexists" style="color:red;font-size: 10px;"><i>* This position is already occupied.</i></label>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
@@ -150,7 +159,7 @@
 
             </div>
             <div class="modal-footer deleteCooperatorFooter">
-              <input class="btn btn-color-blue btn-block" type="submit" id="deleteCooperatorBtn" name="deleteCooperatorBtn" value="Add">
+              <input class="btn btn-color-blue btn-block" type="submit" id="aAddAffiliatorsBtn" name="deleteCooperatorBtn" value="Add">
             </div>
           </form>
         </div>
@@ -158,6 +167,7 @@
     </div>
   </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
  $(document).ready(function(){
@@ -174,5 +184,56 @@
 
     });
  });
+// var position = $("#position").val();
+
+// $("#position").change(function(){
+//   alert(position);
+//   $.ajax({
+//         url : "<?php echo base_url('affiliators/check_position_not_exist')?>/" + coop_name,
+//         type: "GET",
+//         dataType: "JSON",
+//         success: function(data)
+//         {
+//             var currentdate = new Date(data.date);
+//             var month = currentdate.getMonth() + 1;
+//             var day = currentdate.getDate();
+//             var formated_date = ( (('' + day).length < 2 ? '0' : '')  + day + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' +currentdate.getFullYear());
+
+//             var s = convert(data.total);
+//             $('#payment_id').val(data.id);
+//             $('#tDate').text(formated_date);
+//             $('#payor').text(data.payor);
+//             // $('#tNo').text(data.transactionNo);
+//             $('#tNo').text(data.refNo);
+//             $('#cid').val(coop_id);   
+//             $('#word').text(s);
+//             $('#nature').text(data.nature);
+//             $('#particulars').html(data.particulars);
+//             $('#amount').html(data.amount);
+//             $('#total').text(parseFloat(data.total).toFixed(2));
+
+            
+//             $('#paymentModal').modal('show'); // show bootstrap modal
+//             $('.modal-title').text('Order of Payment');
+
+ 
+//         },
+//         error: function (jqXHR, textStatus, errorThrown)
+//         {
+//             alert('Error get data from ajax!');
+//         }
+//     });
+// }
+
+ // $(".select-island").each(function(){
+ //      $(this).select2({
+ //          template: "bootstrap",
+ //          multiple: true,
+ //          tagging: true,
+ //          allowClear: true,
+ //          placeholder: "Select island"
+ //      });
+ //  });
   
 </script>
+<script src="<?=base_url();?>assets/plugins/select2/js/select2.full.min.js"></script>

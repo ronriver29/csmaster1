@@ -16,6 +16,8 @@
               <input type="hidden" class="validate[required]" id="cooperatorID" name="cooperatorID">
               <input type="hidden" class="validate[required]" id="cooperativeID" name="cooperativesID">
               
+              <input type='hidden' id='maxvalue2'/>
+              <input type='hidden' id='maxvalue_apuc' value="<?=$coop_info->capital_contribution - $cc_count->total_cc?>"/>
               <!-- <input type="hidden" class="validate[required]" id="application_id" name="applicationid">
               <input type="hidden" class="validate[required]" id="coopname" name="coopName">
               <input type="hidden" class="validate[required]" id="regno" name="regNo">
@@ -108,11 +110,16 @@
                   </div>
                 </div>
             </div>
+            <?php if($coop_info->capital_contribution != $cc_count->total_cc){
+                $max = $coop_info->capital_contribution - $cc_count->total_cc;
+              } else {
+                $max = '';
+              }?>
             <div class="row">
                 <div class="col-sm-12 col-md-4">
-                  <div class="form-group form-group-validIdNo">
+                  <div class="form-group">
                     <label for="validIdNo">Capital Contribution</label>
-                    <input type="text" class="form-control validate[required]" id="cc" name="cc">
+                    <input type="text" class="form-control validate[required,min[1],max[]]" id="capitalcontri" name="cc">
                   </div>
                 </div>
               </div>
@@ -127,3 +134,52 @@
     </div>
   </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+
+ $(document).ready(function(){
+  // $("#cc").hide();
+    var str3 = $("#maxvalue_apuc").val();
+
+    if(str3 != 0){
+        $("#capitalcontri").one('click',function(){
+          // alert(str3);
+            var str4 = $("#capitalcontri").val();
+            var str5 = $("#maxvalue_apuc").val();
+            var str_total = parseInt(str4)+parseInt(str5);
+            $('#maxvalue2').val(str_total);
+
+            $('#capitalcontri').attr({'class':'form-control validate[required,min[1],max['+str_total+'],custom[integer]]'});
+
+            // $("#capitalcontri").attr({
+            //    "max" : str_total,        // substitute your own
+            //    "min" : 1          // values (or variables) here
+            // });
+        });
+      } 
+      else {
+        $("#capitalcontri").one('click',function(){
+          var capitalcontri = parseInt($(this).val());
+          // alert(capitalcontri);
+          $('#capitalcontri').attr({'class':'form-control validate[required,min[1],max['+capitalcontri+'],custom[integer]]'});
+        });
+      }
+
+    $(".close").on('click',function(){
+      // $("#clicktoverify2").show();
+      if(str3 == 0){
+        $("#cc").one('click',function(){
+            var str4 = $("#cc").val();
+            var str5 = $("#maxvalue_apuc").val();
+            var str_total = parseInt(str4)+parseInt(str5);
+            $('#maxvalue2').val(str_total);
+
+            $("#capitalcontri").attr({
+               "max" : str_total,        // substitute your own
+               "min" : 1          // values (or variables) here
+            });
+        });
+      }
+    });
+  });
+</script>

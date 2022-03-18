@@ -41,14 +41,38 @@ class Admin_model extends CI_Model{
   public function get_all_signatory(){
     $this->db->select('*');
     $this->db->from('signatory');
+    // $this->db->where(array('active' => 1,'regno' => NULL));
     $this->db->where(array('active' => 1));
     $query = $this->db->get();
     return $query->result_array();
   }
-    public function get_all_user(){
+  public function get_all_user(){
     $this->db->select('*');
     $this->db->from('users');
     $this->db->where(array('is_verified =' => 1));
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function get_all_new_user(){
+    $this->db->select('u.*,c.id as application_id');
+    $this->db->from('users u');
+    $this->db->join('cooperatives c','u.id = c.users_id');
+    $this->db->where(array('u.is_verified =' => 1,'u.regno !=' => NULL));
+    $query = $this->db->get();
+    return $query->result_array();
+
+    // $this->db->select('u.*,c.id as application_id');
+    // $this->db->from('users u');
+    // $this->db->join('cooperatives c','u.id = c.users_id');
+    // $this->db->where(array('u.is_verified =' => 1));
+  }
+  public function get_migrated_data($coopName,$regNo,$limit){
+    $this->db->select('*');
+    $this->db->from('registeredcoop');
+    $this->db->where('coopName LIKE "%'.$coopName.'%" AND regNo LIKE "%'.$regNo.'%"');
+    $this->db->group_by('regNo');
+    $this->db->order_by('coopName','ASC');
+    $this->db->limit($limit);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -168,6 +192,20 @@ public function add_admin_director($data,$raw_pass){
     $this->db->trans_begin();
     $this->db->where('id',$aid);
     $this->db->update('signatory',$data);
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
+  public function edit_datereg_status($aid,$data,$regno){
+    $aid = $this->security->xss_clean($aid);
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+    $this->db->where(array('id'=>$aid,'regNo'=>$regno));
+    $this->db->update('registeredcoop',$data);
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -454,7 +492,7 @@ public function add_admin_director($data,$raw_pass){
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $keywords = preg_split("/@/", $email);
       $message = "Your account has been created. See the details below: <br>".
-      "<ul><li>Username: ".$username."</li><li>Password: ".$password."</li></ul>";
+      "<ul><li>Username: ".$username."</li><li>Password: ".$password."</li></ul><br><br>We highly recommend to change your password once you successfully logged in";
       $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($email);
       $this->email->subject($subject);
@@ -519,6 +557,24 @@ public function add_admin_director($data,$raw_pass){
         return false;
     }
   }
+  public function sendEmailToClientUpdating($proposedname,$email){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = $message = "Good day! Encoded updates on your cooperative information have been successfully submitted for evaluation.<p>";
+    $this->email->from($from,'ecoopris CDA (No Reply)');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+
+
   public function sendEmailToSenior($proposedname,$brgy,$fullname,$contactnumber,$clientemail,$senioremail){
     if(sizeof($senioremail)>0){
       $receiver = "";
@@ -557,6 +613,99 @@ public function add_admin_director($data,$raw_pass){
       return true;
     }
   }
+  public function sendEmailToAP($proposedname,$brgy,$fullname,$contactnumber,$clientemail,$senioremail,$regNo,$coop_region){
+    if(sizeof($senioremail)>0){
+      $receiver = "";
+      if(sizeof($senioremail)>1){
+        $tempEmail = array();
+        foreach($senioremail as $email){
+          array_push($tempEmail, $email['email']);
+        }
+        $receiver = implode(", ",$tempEmail);
+      }else{
+        $receiver = $senioremail[0]['email'];
+      }
+
+      $this->db->select('*');
+      $this->db->from('registeredcoop');
+      $this->db->where('regNo', $regNo);
+      $this->db->limit('1');
+      $this->db->order_by('id','ASC');
+      $query = $this->db->get();
+      $reg = $query->row();
+
+      $this->db->select('*');
+      $this->db->from('refregion');
+      $this->db->where('regCode', '0'.substr($coop_region, 0, 2));
+      $query2 = $this->db->get();
+      $region = $query2->row();
+    // echo $receiver;
+      $from = "ecoopris@cda.gov.ph";    //senders email address
+      $subject = 'Cooperative Update Info';  //email subject
+      $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+      $message = "Good day! An application to update the cooperative information with the following details had been submitted for evaluation.<br><br>
+
+      a. ".$reg->coopName."<br>
+      b. ".$region->regDesc."<br>
+      c. ".$reg->regNo."<br>
+      d. ".$reg->noStreet." ".$reg->Street."<br>
+      e. ".$clientemail."<br>
+      ";
+
+      $this->email->from($from,'ecoopris CDA (No Reply)');
+      $this->email->to($receiver);
+      $this->email->subject($subject);
+      $this->email->message($message);
+      if($this->email->send()){
+          return true;
+      }else{
+          return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
+  public function sendEmailToClientUpdatingApprove($client_email,$regNo,$coop_region){
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $proposedname.' Application';  //email subject
+    $burl = base_url();
+
+    $this->db->select('*');
+    $this->db->from('registeredcoop');
+    $this->db->where('regNo', $regNo);
+    $this->db->limit('1');
+    $this->db->order_by('id','ASC');
+    $query = $this->db->get();
+    $reg = $query->row();
+
+    $this->db->select('*');
+    $this->db->from('refregion');
+    $this->db->where('regCode', '0'.substr($coop_region, 0, 2));
+    $query2 = $this->db->get();
+    $region = $query2->row();
+
+    //sending confirmEmail($receiver) function calling link to the user, inside message body
+    $message = $message = "Congratulations! The cooperative information with the following details had been successfully UPDATED.<br><br>
+
+    a. ".$reg->coopName."<br>
+    b. ".$region->regDesc."<br>
+    c. ".$reg->regNo."<br>
+    d. ".$reg->noStreet." ".$reg->Street."<br>
+    e. ".$client_email."<br>
+    ";
+    $this->email->from($from,'ecoopris CDA (No Reply)');
+    $this->email->to($client_email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return false;
+    }
+  }
+
   public function sendEmailToSeniorBranch($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type,$fullnamesupervising){
     if(sizeof($senioremail)>0){
       $receiver = "";
@@ -1039,6 +1188,94 @@ You shall submit the above required documents within 30 days from the date of e-
         // echo $this->email->print_debugger();
     }
   }
+  public function sendEmailToClientApproveFederation($name,$email,$admin_info,$coopname,$addresscoop){
+//    echo $name;
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $name.' Evaluation Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+//    $message = "Congratulations ".$client_info->full_name.". Your application <b>".$client_info->proposed_name." ".$client_info->type_of_cooperative." Cooperative</b> has been approved. You can now proceed to payment. You have 10 working days to complete the payment";
+
+    $message="<pre>
+    Name of Proposed Federation: ".$coopname."
+    Address of Proposed Federation: ".$addresscoop."
+
+    <b>Congratulations!</b> Your application status is <b>FOR PRINTING AND SUBMISSION</b>.
+
+You may now print the following documents in Four (4) copies:
+
+     1.  Feasibility Study;
+     2. Duly notarized Articles of Cooperation with signatures of all member-cooperatives representatives/cooperators in every page;
+     3. By-Laws with signatures of all member-cooperatives representatives/cooperators on the adoption page;
+     4. Duly notarized Treasurer's Affidavit stating the total amount received from members' share capital contributions, membership fees, donations or subsidies;
+     5. General Assembly Resolution of each member-cooperative stating that the general assembly has approved its membership and the exact amounts of paid-up share capital contributions/dues to the federation; and
+     6. BOD Resolution on authorized representative/s of each of the member-cooperatives.
+
+Submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Electronic-Cooperative Registration Information System (E-CoopRIS).
+
+In addition to the above, please attached other required documents 1 original and 3 photocopies, if applicable.
+
+Very truly yours,
+
+".$admin_info->full_name."</pre>";
+
+
+    $this->email->from($from,'ecoopris CDA (No Reply)');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return true;
+        // echo $this->email->print_debugger();
+    }
+  }
+  public function sendEmailToClientApproveUnion($name,$email,$admin_info,$coopname,$addresscoop){
+//    echo $name;
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject = $name.' Evaluation Result';  //email subject
+    $burl = base_url();
+      //sending confirmEmail($receiver) function calling link to the user, inside message body
+
+//    $message = "Congratulations ".$client_info->full_name.". Your application <b>".$client_info->proposed_name." ".$client_info->type_of_cooperative." Cooperative</b> has been approved. You can now proceed to payment. You have 10 working days to complete the payment";
+
+    $message="<pre>
+    Name of Proposed Federation: ".$coopname."
+    Address of Proposed Federation: ".$addresscoop."
+
+    <b>Congratulations!</b> Your application status is <b>FOR PRINTING AND SUBMISSION</b>.
+
+You may now print the following documents in Four (4) copies:
+
+     1. Developmental Plan;
+     2. Duly notarized Articles of Cooperation with signatures of all member-cooperatives representatives/cooperators in every page;
+     3. By-Laws with signatures of all member-cooperatives representatives/cooperators on the adoption page;
+     4. Duly notarized Treasurer's Affidavit stating the total amount received from members;
+     5. General Assembly Resolution of each member-cooperative stating that the general assembly has approved its membership and the amount of dues to the cooperative union; and
+     6. BOD Resolution on authorized representative/s.
+
+Submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Electronic-Cooperative Registration Information System (E-CoopRIS).
+
+In addition to the above, please attached other required documents 1 original and 3 photocopies, if applicable.
+
+Very truly yours,
+
+".$admin_info->full_name."</pre>";
+
+
+    $this->email->from($from,'ecoopris CDA (No Reply)');
+    $this->email->to($email);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    if($this->email->send()){
+        return true;
+    }else{
+        return true;
+        // echo $this->email->print_debugger();
+    }
+  }
   public function sendEmailToClientDeferAmendment($client_info,$data_comment,$amendment_info,$reg_officials_info){
     $acbl = $this->amendment_model->acbl($amendment_info->id);
    
@@ -1491,7 +1728,7 @@ Very truly yours, <br>
     }
   }
   public function get_emails_of_senior_by_region($regcode){
-    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>2));
+    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>2,'active'=>1));
     $data = $query->result_array();
     if($this->db->count_all_results()==0){
       return array();
@@ -1500,7 +1737,7 @@ Very truly yours, <br>
     }
   }
   public function get_emails_of_supervisor_by_region($regcode){
-    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>4));
+    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>4,'active'=>1));
     $data = $query->result_array();
     if($this->db->count_all_results()==0){
       return array();
@@ -1509,7 +1746,7 @@ Very truly yours, <br>
     }
   }
   public function get_emails_of_director_by_region($regcode){
-    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>3));
+    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>3,'active'=>1));
     $data = $query->result_array();
     if($this->db->count_all_results()==0){
       return array();
@@ -1527,7 +1764,7 @@ Very truly yours, <br>
     }
   }
   public function get_emails_of_revoke_director_by_region($regcode){
-    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>4));
+    $query = $this->db->get_where('admin',array('region_code'=>$regcode,'access_level'=>4,'active'=>1));
     $data = $query->result_array();
     if($this->db->count_all_results()==0){
       return array();
@@ -1537,7 +1774,7 @@ Very truly yours, <br>
   }
   public function get_all_specialist_by_region($regcode){
     $this->db->like('region_code',$regcode);
-    $query = $this->db->get_where('admin',array('access_level'=>1));
+    $query = $this->db->get_where('admin',array('access_level'=>1,'active'=>1));
     $data = $query->result_array();
     if($this->db->count_all_results()==0){
       return array();
@@ -1547,13 +1784,23 @@ Very truly yours, <br>
   }
   public function get_specialst_info($data){
     $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('admin',array('id'=>$data,'access_level'=>1));
+    $query= $this->db->get_where('admin',array('id'=>$data,'access_level'=>1,'active'=>1));
     $row = $query->row();
     return $row;
   }
+  public function get_ap_info($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'access_level'=>6,'active'=>1));
+    $data = $query->result_array();
+    if($this->db->count_all_results()==0){
+      return array();
+    }else{
+      return $data;
+    }
+  }
   public function get_senior_info($data){
     $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>2));
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>2,'active'=>1));
     $data = $query->result_array();
     if($this->db->count_all_results()==0){
       return array();
@@ -1563,19 +1810,19 @@ Very truly yours, <br>
   }
   public function get_senior_info_dir_defer($data){
     $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('admin',array('region_code'=>$data,'access_level'=>2));
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'access_level'=>2,'active'=>1));
     $row = $query->row();
     return $row;
   }
   public function get_director_info($data){
     $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>3));
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>3,'active'=>1));
     $row = $query->row();
     return $row;
   }
   public function get_supervising_info($data){
     $data = $this->security->xss_clean($data);
-    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>4));
+    $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>4,'active'=>1));
     $row = $query->row();
     return $row;
   }
@@ -1611,9 +1858,19 @@ Very truly yours, <br>
       return false;
     }
   }
+  public function check_ap($data){
+    $data = $this->security->xss_clean($data);
+    $query= $this->db->get_where('admin',array('id'=>$data));
+    $row = $query->row();
+    if($row->access_level ==6){
+      return true;
+    }else{
+      return false;
+    }
+  }
   public function check_if_director_active($admin_id,$region_code){
     // $query= $this->db->get_where('admin',array('id'=>$admin_id,'access_level'=>3));
-    $query = $this->db->query("select * from admin where id='$admin_id' and region_code='$region_code' and access_level IN (3,4)");
+    $query = $this->db->query("select * from admin where id='$admin_id' and region_code='$region_code' and access_level IN (3,4) and active = 1");
     $row = $query->row();
     // return $this->db->last_query();
     if($row->is_director_active ==1){
@@ -1774,7 +2031,7 @@ System (CoopRIS).</pre>";
 //   }
     public function is_acting_director($supervising_id)
     {
-      $query = $this->db->get_where('admin',array('id'=>$supervising_id,'is_director_active'=>1,'access_level'=>4));
+      $query = $this->db->get_where('admin',array('id'=>$supervising_id,'is_director_active'=>1,'access_level'=>4,'active'=>1));
       if($query->num_rows()>0)
       {
         return true;
@@ -1786,7 +2043,7 @@ System (CoopRIS).</pre>";
     }
     public function is_active_director($director_id)
     {
-      $query = $this->db->get_where('admin',array('id'=>$director_id,'is_director_active'=>1,'access_level'=>3));
+      $query = $this->db->get_where('admin',array('id'=>$director_id,'is_director_active'=>1,'access_level'=>3,'active'=>1));
       if($query->num_rows()>0)
       {
         return true;

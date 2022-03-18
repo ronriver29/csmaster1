@@ -60,7 +60,7 @@ class Payments extends CI_Controller{
                         if($data['staff_complete']){
                           $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
                           $data['document_two'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
-                          if($data['document_one'] && $data['document_two']){
+                          if(($data['document_one'] && $data['document_two']) || $data['coop_info']->grouping == 'Federation'){
 //                            if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                               if($this->cooperatives_model->check_first_evaluated($decoded_id)){
                                 if($this->cooperatives_model->check_second_evaluated($decoded_id)){

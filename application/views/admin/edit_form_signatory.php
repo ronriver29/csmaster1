@@ -21,7 +21,7 @@
           <div class="col-sm-12 col-md-6">
             <div class="form-group">
               <label for="access_level">Signatory Designation</label>
-              <?php $arr = array("Chairperson","Regional Director","Administrator","Acting Director","OIC Director"); ?>
+              <?php $arr = array("Chairperson","Director II","Director III","Administrator","Executive Director","Acting Director","OIC Director"); ?>
               <select name="designation" class="custom-select form-control validate[required]" id="designation">
                 <?php foreach($arr as $a) : ?>
                   <option value="<?=$a;?>" <?php if($edit_signatory_info->signatory_designation==$a) echo "selected";?>><?=$a;?></option>
@@ -50,6 +50,12 @@
               </select>
             </div>
           </div> 
+          <div class="col-sm-12 col-md-4">
+            <div class="form-group form-group-fName">
+              <label for="signatory">Effectivity Date:</label>
+              <input type="date" class="form-control validate[required]" id="effectivity" name="effectivity_date" value="<?=$edit_signatory_info->effectivity_date?>">
+            </div>
+          </div>
         </div>
       </div>
       <div class="card-footer editAdministratorFooter">

@@ -83,6 +83,7 @@
             $lrf = $rf*0.01;
           } else {
             $rf = 2000.00;
+            $lrf = $rf*0.01;
           }
         } else if ($coop_info->grouping == 'Federation' && $coop_info->category_of_cooperative == 'Tertiary'){
           $minimum = 5000.00;
@@ -91,6 +92,7 @@
             $lrf = $rf*0.01;
           } else {
             $rf = 5000.00;
+            $lrf = $rf*0.01;
           }
         } else {
           $minimum = 500.00;

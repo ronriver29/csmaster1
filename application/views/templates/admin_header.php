@@ -43,7 +43,7 @@
         </div>
         <div class="row">
           <div class="col-sm-12 text-center">
-            <small><?php echo (($admin_info->access_level == 1) ? "Cooperative Development Specialist II" : (($admin_info->access_level == 2) ? "Senior Cooperative Development Specialist" : (($admin_info->access_level == 3 && $admin_info->access_name == 'Director') ? "Director" : (($admin_info->access_level == 3 && $admin_info->access_name == 'Acting Regional Director') ? "Acting Regional Director" : (($admin_info->access_level == 4) ? "Supervising CDS" : "Super Admin")))))?></small><br>
+            <small><?php echo (($admin_info->access_level == 1) ? "Cooperative Development Specialist II" : (($admin_info->access_level == 2) ? "Senior Cooperative Development Specialist" : (($admin_info->access_level == 3 && $admin_info->access_name == 'Director') ? "Director" : (($admin_info->access_level == 3 && $admin_info->access_name == 'Acting Regional Director') ? "Acting Regional Director" : (($admin_info->access_level == 4) ? "Supervising CDS"  :  (($admin_info->access_level == 6) ? "Authorized Personnel" : "Super Admin"))))))?></small><br>
             <?php if($admin_info->access_level != 5) : ?>
               <small class="font-italic">
                 <?php
@@ -75,19 +75,25 @@
           <li>
             <a href="<?php echo base_url();?>admins/all_user"><i class="fas fa-user-tie"></i> Users</a>
           </li>
+          <li>
+            <a href="<?php echo base_url();?>admins/all_new_user"><i class="fas fa-user-tie"></i> New Email Users</a>
+          </li>
+          <li>
+            <a href="<?php echo base_url();?>admins/migration_coop"><i class="fas fa-user-tie"></i> Migration Cooperatives</a>
+          </li>
           <li>   
             <a href="<?php echo base_url();?>admins/all_signatory"><i class="fas fa-handshake"></i> COC Signatory</a>
           </li>  
           <li>   
             <a href="<?php echo base_url();?>admins/cooperatives_list"><i class="fas fa-handshake"></i> All Cooperatives List</a>
           </li>
-          <li>   
+             <li>   
             <a href="<?php echo base_url();?>admins/amendment_list"><i class="fas fa-handshake"></i> All Amendments List</a>
           </li>
            <li>   
-            <!-- <a href="<?php echo base_url();?>admins/branches_list"><i class="fas fa-handshake"></i> All Branches List</a> -->
+            <a href="<?php echo base_url();?>admins/branches_list"><i class="fas fa-handshake"></i> All Branches List</a>
           </li> 
-         <?php /* <li>
+          <li>
           <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> SMS Settings</a>
           <ul class="collapse list-unstyled" id="pageSubmenu2">
             <li>
@@ -134,11 +140,10 @@
 
           </ul>
         </li>
+
         <li>   
           <a href="<?php echo base_url();?>api_settings/messages_list"><i class="fas fa-cog"></i> SMS Messages</a>
         </li>
-         */?>
-
         <?php endif; ?>
       
         <?php if($admin_info->access_level < 5) : ?>
@@ -153,15 +158,24 @@
           <li>   
             <a href="<?php echo base_url();?>laboratories"><i class="fas fa-handshake"></i> Laboratories</a>
           </li>
-         <li>   
+          <li>   
             <a href="<?php echo base_url();?>amendment"><i class="fas fa-handshake"></i> Amendment</a>
-          </li>   
+          </li>  
           <?php if($admin_info->access_level == 2) : ?>
-        <!--   <li>   
+          <li>   
             <a href="<?php echo base_url();?>account_approval"><i class="fas fa-handshake"></i> Account Approval</a>
-          </li>  -->
+          </li> 
           <?php endif; ?>
         <?php endif; ?>
+        <?php if($admin_info->access_level == 6) : ?>
+          <li>   
+            <a href="<?php echo base_url();?>updated_cooperative_info"><i class="fas fa-handshake"></i> Updated Cooperative Info</a>
+          </li> 
+           <li>   
+            <a href="<?php echo base_url();?>updated_amendment_info"><i class="fas fa-handshake"></i> Updated Amendment Info</a>
+          </li> 
+        <?php endif; ?>
+       
         <li>
           <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> Settings</a>
           <ul class="collapse list-unstyled" id="pageSubmenu">

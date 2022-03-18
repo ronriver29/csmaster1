@@ -51,9 +51,9 @@
                     <option value="">--</option>
                     <option value="Primary">Primary</option>
                      <!-- <option value="Tertiary - Union">Tertiary - Union</option>  -->
-                   <!--  <option value="Secondary - Federation">Secondary</option>
+                    <option value="Secondary - Federation">Secondary</option>
                     <option value="Tertiary - Federation">Tertiary</option>  
-                    <option value="Secondary - Union">Others</option> --> 
+                    <option value="Secondary - Union">Others</option> 
                   </select>
                 </div>
               </div>
@@ -67,7 +67,7 @@
                     <option value="7">Advocacy</option>
                     <option value="8">Agrarian Reform</option>
                     <option value="24">Agriculture</option>
-                    <option value="9">Bank</option>
+                    <!-- <option value="9">Bank</option> -->
                     <option value="4">Consumers</option>
                     <!-- <option value="27" id="coopbank">Cooperative Bank</option> -->
                     <option value="1">Credit</option>
@@ -79,7 +79,7 @@
                     <option value="14">Fishermen</option>
                     <option value="15">Health Service</option>
                     <option value="20">Housing</option>
-                    <option value="16">Insurance</option>
+                    <!-- <option value="16">Insurance</option> -->
                     <option value="21">Labor Service</option>
                     <option value="5">Marketing</option>
                     <option value="2">Producers</option>

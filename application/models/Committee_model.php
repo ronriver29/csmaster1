@@ -57,7 +57,7 @@ class Committee_model extends CI_Model{
             $row = $query->row_array();
         }
         $data['orig_committee_id'] = $row['id'];
-        $this->db->insert('amendment_committees_federation',$data);
+        // $this->db->insert('amendment_committees_federation',$data);
       if($this->db->trans_status() === FALSE){
         $this->db->trans_rollback();
         return array('success'=>false,'message'=>'Unable to add committee');
@@ -87,7 +87,7 @@ class Committee_model extends CI_Model{
             $row = $query->row_array();
         }
         $data['orig_committee_id'] = $row['id'];
-        $this->db->insert('amendment_committees_federation',$data);
+        // $this->db->insert('amendment_committees_federation',$data);
       if($this->db->trans_status() === FALSE){
         $this->db->trans_rollback();
         return array('success'=>false,'message'=>'Unable to add committee');
@@ -229,6 +229,18 @@ class Committee_model extends CI_Model{
     }
   }
   
+  public function delete_committee_union($data){
+    $this->db->trans_begin();
+    $this->db->delete('committees_union',array('id' => $data));
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
+
   public function delete_committee_federation($data){
     $this->db->trans_begin();
     $this->db->delete('committees_federation',array('id' => $data));
@@ -330,7 +342,7 @@ class Committee_model extends CI_Model{
   }
   public function get_all_others_committees_of_coop_union($coop_id){
     // $query = $this->db->get_where('committees_federation',array('user_id'=>$coop_id,'type'=>'others'));
-    $query = $this->db->query("SELECT * from committees_union WHERE user_id = '$coop_id' AND func_and_respons IS NOT NULL");
+    $query = $this->db->query("SELECT * from committees_union WHERE user_id = '$coop_id' AND func_and_respons IS NOT NULL AND func_and_respons != ''");
     $data =  $query->result_array();
     return $data;
   }

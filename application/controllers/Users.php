@@ -24,9 +24,10 @@ class Users extends CI_Controller{
       redirect('cooperatives');
     }else{
       $data['title'] = 'Login';
-      $data['header']= 'huy';
+      $data['header']= 'Login';
       if ($this->form_validation->run() == FALSE){
         $this->load->view('./template/header', $data);
+        $this->load->view('client/options');
         $this->load->view('client/login', $data); //client login
         $this->load->view('./template/footer');
       }else{
@@ -260,15 +261,15 @@ class Users extends CI_Controller{
         // $coop_exist = $this->db->get_where('registeredcoop',array('regNo'=>$this->input->post('regno')));
         if($coop_exist->num_rows() == 0){
           $this->session->set_flashdata(array('email_sent_warning'=>'Registration Number does not Exist.'));
-                // redirect('users/create_new_email_account');
+                redirect('users/create_new_email_account');
         } elseif($coop_exist_taken->num_rows() > 0) {
           $this->session->set_flashdata(array('email_sent_warning'=>'Registration Number already Taken.'));
-                // redirect('users/create_new_email_account');
+                redirect('users/create_new_email_account');
         } 
-        // elseif($email_taken->num_rows() > 0) {
-        //   $this->session->set_flashdata(array('email_sent_warning'=>'Email already Taken.'));
-        //         // redirect('users/create_new_email_account');
-        // } 
+        elseif($email_taken->num_rows() > 0) {
+          $this->session->set_flashdata(array('email_sent_warning'=>'Email already Taken.'));
+                redirect('users/create_new_email_account');
+        } 
         else {
 
           $getRegCoop = $this->db->get_where('registeredcoop',array('regNo'=>$this->input->post('regno')));
@@ -339,10 +340,10 @@ class Users extends CI_Controller{
             'addrCode' => $this->input->post('barangay'),
             'chairperson' => $this->input->post('chairperson')
           );
-            // print_r($data);
-            $data = $this->security->xss_clean($data);
+
             if($this->user_model->add_user($data)){
-              if($this->user_model->sendEmailCreateNewEmail($data['email'],$data['hash'],$full_name,$newnamearray,$AdminEmail)){
+              if($this->user_model->sendEmailCreateNewEmail($data['email'],$data['hash'],$full_name,$newnamearray,$AdminEmail,$this->input->post('regno'),substr($this->input->post('barangay'), 0, 2),$this->input->post('eAddress'))){
+                $this->user_model->sendEmailToClientCreateNewEmail($data['email'],$data['hash'],$full_name,$newnamearray,$AdminEmail,$this->input->post('regno'),substr($this->input->post('barangay'), 0, 2),$this->input->post('eAddress'));
                 $this->session->set_flashdata(array('email_sent_success'=>'Your account application is pending for approval. Result and login credentials will be sent to your email.'));
                 redirect('users/login');
               }else{
@@ -351,6 +352,7 @@ class Users extends CI_Controller{
             }else{
               echo 'server error';
             }
+
           }//end isset
         }
           
@@ -576,11 +578,23 @@ class Users extends CI_Controller{
     }
 
     ///modify
-     public function users_manual($file_name)
+    public function users_manual($file_name)
     {
         $filename= $this->encryption->decrypt(decrypt_custom($file_name));
           $this->output->set_header('Content-Disposition: inline; filename="'.$filename.'"')
           ->set_content_type('application/pdf','utf-8','CoopRIS')
+          ->set_output(
+          file_get_contents('user_guide/user_manual/'.$filename)
+          );
+    }  
+
+    public function authorization($file_name)
+    {
+        $filename= $this->encryption->decrypt(decrypt_custom($file_name));
+
+        // echo pathinfo($filename, PATHINFO_EXTENSION);
+          $this->output->set_header('Content-Disposition: attachment; filename="'.$filename.'"')
+          // ->set_content_type('application/doc')
           ->set_output(
           file_get_contents('user_guide/user_manual/'.$filename)
           );

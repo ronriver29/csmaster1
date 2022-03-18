@@ -181,7 +181,7 @@ $(function(){
           if (ctype.length > 1){
               count_id=1
               // var label = $('<label></label>').attr({'for': 'typeCooperative '}).text("Type of Cooperative");
-              
+            
             $.each(ctype, function(i,row) {
               
                 var c = count_id++;
@@ -786,7 +786,6 @@ $(function(){
 
   
   $('#amendmentAddForm #typeOfCooperative1').on('change', function(){
-
     $('#amendmentAddForm #addMoreSubclassBtn').prop("disabled",true);
     $("#amendmentAddForm #newNamess").prop("disabled",true);
     $('#amendmentAddForm select[name="majorIndustry[]"').each(function(index){
@@ -1094,7 +1093,26 @@ $(function(){
     
      //onchge coop type
     $(document).on('change','.coop-type',function(){
-      
+        if($(this).val()==19 || $(this).val()==21)
+        { 
+          alert("The bond of membership for both labor service and workers cooperative shall be occupational.");
+          $("#commonBond2").val('Occupational');
+          // $('#amendmentAddForm #commonBondOfMembership').attr("disabled", 'disabled');
+           $('#amendmentAddForm #commonBondOfMembership').prop("disabled",true);
+           setTimeout( function(){
+        
+            $('#amendmentAddForm #commonBondOfMembership').val('Occupational');
+            $('#amendmentAddForm #commonBondOfMembership').trigger('change');
+
+          },300);
+
+        }
+        else
+        {
+          $("#commonBond2").val('');
+          // $('#amendmentAddForm #commonBondOfMembership').removeAttr('disabled');
+            $('#amendmentAddForm #commonBondOfMembership').prop("disabled",false);
+        }
         var cooptype_value = this.value;
         var typeCoop_arrays=[]; 
           $('select[name="typeOfCooperative[]"] option:selected').each(function() {
@@ -1168,6 +1186,21 @@ $(function(){
                   var c_name = coop_type['name'];
                   $selected ="selected";
                   $($select_id).val(val).prop('selected', true);
+                  if($selected_id==19 || $selected_id==21)
+                  // if($(this).val()==19 || $(this).val()==21)
+                  { $('#amendmentAddForm #commonBondOfMembership').attr("disabled", 'disabled');
+                     setTimeout( function(){
+                  
+                      $('#amendmentAddForm #commonBondOfMembership').val('Occupational');
+                      $('#amendmentAddForm #commonBondOfMembership').trigger('change');
+
+                    },300);
+
+                  }
+                  else
+                  {
+                    $('#amendmentAddForm #commonBondOfMembership').removeAttr('disabled');
+                  }
                     // $($select_id).append($('<option selected></option>').attr('value',val).text(c_name));
                     // $($select_id).append($('<option'+selected+'></option>').attr('value',coop_type['id']).text(coop_type['name']));
                 }  
