@@ -33,6 +33,7 @@
                 <option value="4">Supervising CDS</option>
                 <option value="3">Director</option>
                 <option value="3">Acting Regional Director</option>
+                <option value="6">Authorized Personnel</option>
               </select>
             </div>
           </div>
