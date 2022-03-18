@@ -33,7 +33,8 @@
                 <option value="2" <?php if($edit_admin_info->access_level==2) echo "selected";?>>Senior Cooperative Development Specialist</option>
                 <option value="4" <?php if($edit_admin_info->access_level==4) echo "selected";?>>Supervising CDS</option>
                 <option value="3" <?php if($edit_admin_info->access_name=="Director") echo "selected";?>>Director</option>
-                 <option value="3" <?php if($edit_admin_info->access_name=="Acting Regional Director") echo "selected";?>>Acting Regional Director</option>
+                <option value="3" <?php if($edit_admin_info->access_name=="Acting Regional Director") echo "selected";?>>Acting Regional Director</option>
+                <option value="6" <?php if($edit_admin_info->access_level==6) echo "selected";?>>Authorized Personnel</option>
               </select>
               <input type="hidden" id="access_n" name="access_name" value="<?=$edit_admin_info->access_name?>">
             </div>
