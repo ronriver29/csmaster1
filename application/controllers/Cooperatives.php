@@ -37,13 +37,16 @@
           // echo $data['client_info']->regno;
           if($data['client_info']->regno == NULL){
             $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives($this->session->userdata('user_id'));
+            $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
           } else {
             $data['list_cooperatives'] = $this->cooperatives_model->get_registeredcoop($data['client_info']->regno);
+            $data['coop_info'] = $this->cooperatives_model->get_cooperative_migrated_info($data['client_info']->regno);
           }
           
 //          $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives($this->session->userdata('user_id'));
           $data['count_cooperatives'] = $this->cooperatives_model->get_count_cooperatives($this->session->userdata('user_id'));
-          $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
+          // $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
+  
           // if(!empty($data['coop_info']->id)){
           //     if($data['coop_info']->status != 15){
           //       if(date('Y-m-d H:i:s',strtotime($data['coop_info']->expire_at)) < date('Y-m-d H:i:s')){
@@ -175,7 +178,7 @@
               if ($this->form_validation->run() == FALSE){
                 $this->load->view('./template/header', $data);
                 $this->load->view('cooperative/reservation_detail', $data);
-               $this->load->view('cooperative/terms_and_condition');
+               // $this->load->view('cooperative/terms_and_condition');
                 $this->load->view('./template/footer');
               }else{
                 $subclass_array = $this->input->post('subClass');
@@ -203,6 +206,13 @@
                   $interregional = '';
                   $regions = '';
                 }
+
+                if($_POST[$this->input->post('is_youth')] == 1){
+                  $is_youth = 1;
+                } else {
+                  $is_youth = 1;
+                }
+
                 $field_data = array(
                   'users_id' => $this->session->userdata('user_id'),
                   'category_of_cooperative' => $category,
@@ -220,6 +230,7 @@
                   'street' => $this->input->post('streetName'),
                   'house_blk_no' => $this->input->post('blkNo'),
                   'status' => '1',
+                  'is_youth' => $is_youth,
                   'created_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
                   'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
                   'expire_at' =>  date('Y-m-d h:i:s',(now('Asia/Manila')+(4*24*60*60)))
@@ -587,7 +598,7 @@
                   $this->load->view('./template/header', $data);
                   $this->load->view('cooperative/reservation_update', $data);
                   if($this->cooperatives_model->check_expired_reservation($decoded_id,$user_id)){
-                    $this->load->view('cooperative/terms_and_condition');
+                    // $this->load->view('cooperative/terms_and_condition');
                   }
                   $this->load->view('./template/footer', $data);
                 }else{
@@ -621,6 +632,12 @@
                       $regions = '';
                     }
                     
+                    if($_POST[$this->input->post('is_youth')] == 1){
+                      $is_youth = 1;
+                    } else {
+                      $is_youth = 1;
+                    }
+
                     $field_data = array(
                       'users_id' => $this->session->userdata('user_id'),
                       'category_of_cooperative' => $category,
@@ -635,6 +652,7 @@
                       'refbrgy_brgyCode' => $this->input->post('barangay'),
                       'interregional' => $interregional,
                       'regions' => $regions,
+                      'is_youth' => $is_youth,
                       'street' => $this->input->post('streetName'),
                       'house_blk_no' => $this->input->post('blkNo')
                     );
