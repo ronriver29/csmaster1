@@ -559,6 +559,8 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 	//UNION
 	$route['amendment_update/(:any)/union_update'] = 'amendment_union_update/index/$1';
 
+	$route['updated_amendment_info'] = 'updated_amendment_info/index';
+
 	
 
 $route['reset_migration'] = 'migrate/resetMigration';
