@@ -1,8 +1,6 @@
 <?php
   defined('BASEPATH') OR exit('No direct script access allowed');
-
   class Updated_amendment_info extends CI_Controller{
-
     public function __construct()
     {
       parent::__construct();
@@ -40,8 +38,7 @@
             $this->load->view('templates/admin_header', $data);
             $this->load->view('applications/list_of_updated_amendment_info', $data);
             $this->load->view('applications/assign_admin_modal');
-            $this->load->view('templates/admin_footer');
-          
+            $this->load->view('templates/admin_footer');   
       }
 
     public function view($id = null){
@@ -67,7 +64,6 @@
         $this->load->view('./templates/admin_footer');
       }
     }
-
     public function approve($id = null,$email){
 
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
@@ -126,7 +122,6 @@
           }
         }
     }
-
     public function deny($id = null,$email){
 
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
@@ -162,7 +157,6 @@
         }
       
     }
-
     public function debug($array)
     {
       echo"<pre>";
