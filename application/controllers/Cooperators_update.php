@@ -44,8 +44,12 @@ class Cooperators_update extends CI_Controller{
                     $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                     $data['minimum_regular_subscription'] = $this->cooperators_update_model->check_all_minimum_regular_subscription($decoded_id);
                     $data['minimum_regular_pay'] = $this->cooperators_update_model->check_all_minimum_regular_pay($decoded_id);
-                    $data['minimum_associate_subscription'] = $this->cooperators_update_model->check_all_minimum_associate_subscription($decoded_id);
-                    $data['minimum_associate_pay'] = $this->cooperators_update_model->check_all_minimum_associate_pay($decoded_id);
+                    if(isset($capitalization_info->minimum_subscribed_share_associate)){
+                      $data['minimum_associate_subscription'] = $capitalization_info->minimum_subscribed_share_associate;
+                    }
+                    if(isset($capitalization_info->minimum_paid_up_share_associate)){
+                      $data['minimum_associate_pay'] = $capitalization_info->minimum_paid_up_share_associate;
+                    }
 //                    $data['minimum_regular_subscription'] = $capitalization_info->minimum_subscribed_share_regular;
 //                    $data['minimum_regular_pay'] = $capitalization_info->minimum_paid_up_share_regular;
 //                    $data['minimum_associate_subscription'] = $capitalization_info->minimum_subscribed_share_associate;

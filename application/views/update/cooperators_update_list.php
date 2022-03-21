@@ -161,7 +161,7 @@
     </div>
   </div>
 </div>
-<?php if($bylaw_info->kinds_of_members == 2){?>
+<?php if(isset($bylaw_info->kinds_of_members)){ if($bylaw_info->kinds_of_members == 2){?>
 <br>
 <div class="row">
   <div class="col-sm-12 col-md-12">
@@ -224,4 +224,5 @@
     </div>
   </div>
 </div>
-<?php } ?>
+<?php } 
+} ?>
