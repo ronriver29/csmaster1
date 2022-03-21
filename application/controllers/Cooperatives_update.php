@@ -703,10 +703,10 @@
               } 
              
               $data['capitalization_info'] = $this->capitalization_update_model->get_capitalization_by_coop_id($decoded_id);
+              echo $this->db->last_query();
               $capitalization_info = $data['capitalization_info'];
               if($capitalization_info != NULL){
                     $data['cooperator_complete'] = $this->cooperators_update_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
-                 
               } else {
                     $data['cooperator_complete'] = $this->cooperators_update_model->is_requirements_complete($decoded_id,0);
               }
