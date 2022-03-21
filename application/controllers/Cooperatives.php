@@ -32,6 +32,7 @@
         if($this->session->userdata('client')){
           $data['title'] = 'List of Cooperatives';
           $data['client_info'] = $this->user_model->get_user_info($user_id);
+          echo $this->db->last_query();
           $data['header'] = 'Cooperatives';
           // print_r($data['client_info']);
           // echo $data['client_info']->regno;
