@@ -103,12 +103,16 @@
         $query = $this->db->get();
         $reg = $query->row();
 
-        $this->db->select('*');
-        $this->db->from('refregion');
-        $this->db->where('regCode', '0'.substr($regCode, 0, 2));
+        $this->db->select('refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+        $this->db->from('refbrgy');
+        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+        $this->db->where('refbrgy.brgyCode', $regCode);
         $query2 = $this->db->get();
         $region = $query2->row();
 
+        // echo $this->db->last_query();
         $data_registeredcoop = array(
           'addrCode' => $regCode
         );
@@ -120,9 +124,9 @@
         $message = "Good day! Your application for account creation with the following information had been APPROVED.<br><br>
 
         a. ".$reg->coopName."<br>
-        b. ".$region->regDesc."<br>
+        b. ".$region->region."<br>
         c. ".$reg->regNo."<br>
-        d. ".$reg->noStreet." ".$reg->Street."<br>
+        d. ".$region->brgy.", ".$region->city.", ".$region->province.", ".$region->region."<br>
         e. ".$email."<br>
 
         Your Password is: ".$temp_passwd." . <br><br>You may now login and update your cooperative information thru this link:".base_url()."users/login";
