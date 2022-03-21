@@ -1635,14 +1635,13 @@ public function submit_to_authorized_user($amendment_id,$region_code,$user_id,$c
   $this->db->update('amend_coop',array('status'=>40,'ho'=>$ho,'updated_at'=>date('Y-m-d h:i:s')));
 
   $auth_info =$this->authorized_user($region_code);
-  // return $this->db->last_query();
+   $this->email_model->sendEmailtoClientupdate($client_info);
    foreach($auth_info as $row)
       {
         // $process++;
           $admin_authorized_email =  $row['email'];
           // echo $senior_email;
-          if($this->email_model->sendEmailtoClientupdate($client_info))
-          {
+          
              if($this->email_model->sendEmailtoAuthorized($admin_authorized_email,$coop_info,$client_info)){
              $this->db->trans_commit();
              // $success++;
@@ -1651,10 +1650,8 @@ public function submit_to_authorized_user($amendment_id,$region_code,$user_id,$c
              $this->db->trans_rollback();
              return false;
             }
-          }
-          
-           
       }
+
           
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
@@ -1691,9 +1688,10 @@ public function submit_by_authorized_user($amendment_id,$region_code){
   $amendment_id = $this->security->xss_clean($amendment_id);
   $cooperative_id = $this->coop_dtl($amendment_id);
   $amendment_info = $this->get_cooperative_info($cooperative_id,$amendment_id);//$this->get_cooperative_info23($cooperative_id,$amendment_id);
-  $reg_coop_name = $amendment_info->coopName;
+  // $reg_coop_name = $amendment_info->coopName;
 
-
+  $client_qry = $this->db->get_where('users',array('id'=>$amendment_info->users_id));
+  $client_info = $client_qry->row();
 
   // $this->db->trans_begin();
   $ho =0;
@@ -1722,13 +1720,22 @@ public function submit_by_authorized_user($amendment_id,$region_code){
      // return $array_reg_data;
        if($this->db->update('registeredamendment',$array_reg_data,array('amendment_id'=>$amendment_id)))
        {
-        return true;
-          // if($this->db->trans_status() === FALSE){
-          //   $this->db->trans_rollback();
-          //   return false;
-          // }else{
-          //   return true;
-          // }
+        // return true;
+        // $auth_info =$this->authorized_user($region_code);
+        //  foreach($auth_info as $row)
+        // {
+        //     $admin_authorized_email =  $row['email'];            
+              
+        // }
+         
+          if($this->email_model->sendEmailsubmitAll($amendment_info,$client_info)){
+               $this->db->trans_commit();
+               // $success++;
+               return true;
+              }else{
+               $this->db->trans_rollback();
+               return false;
+              }
        }
        else
        {
@@ -1739,59 +1746,14 @@ public function submit_by_authorized_user($amendment_id,$region_code){
   {
     return false;
   }
-  // else
-  // {
-  //   return false;
-  // }
-  
-  //UPDATE REGISTERED AMENDEMNT TABLE
 
- 
-   
-  // $auth_info =$this->authorized_user($region_code);
-
-  //  foreach($auth_info as $row)
-  //     {
-  //       // $process++;
-  //         $admin_authorized_email =  $row['email'];
-  //         // echo $senior_email;
-  //          if($this->email_model->sendEmailtoAuthorized($admin_authorized_email,$reg_coop_name)){
-  //          $this->db->trans_commit();
-  //          // $success++;
-  //          return true;
-  //         }else{
-  //          $this->db->trans_rollback();
-  //          return false;
-  //         }
-  //     }
-  //   if($this->db->trans_status() === FALSE){
-  //     $this->db->trans_rollback();
-  //     return false;
-  //   }else{
-  //     return true;
-  //   }
+         if($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            return false;
+          }else{
+            return true;
+          }
   
- 
-  //  
-  //    if($this->db->trans_status() === FALSE){
-  //     $this->db->trans_rollback();
-  //     return false;
-  //   }else{
-  //     foreach($auth_info as $row)
-  //     {
-  //       $process++;
-  //         $senior_email =  $row['email'];
-  //         // echo $senior_email;
-  //          if($this->email_model->sendEmailfirstSubmissionAmendment($client_info,$senior_email,$amendment_info)){
-  //          $this->db->trans_commit();
-  //          $success++;
-  //          // return true;
-  //         }else{
-  //          $this->db->trans_rollback();
-  //          return false;
-  //         }
-  //     }
-  //   }
 }
 
  public function authorized_user($region_code)

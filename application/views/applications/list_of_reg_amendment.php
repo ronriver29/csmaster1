@@ -46,11 +46,11 @@
 </div>
 <?php endif; ?>
 <div class="row">
-  <?php if($is_client) :?>
+  
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
     <a class="btn btn-color-blue btn-block" href="<?php echo base_url();?>amendment/application" role="button">Amend a Cooperative</a>
   </div>
-  <?php endif; ?>
+ 
   <?php if(!$is_client && $admin_info->access_level == 3) : ?>
     <?php if($admin_info->is_director_active == 1) : ?>
     <div class="col-sm-12 offset-md-8 col-md-4 mb-2">

@@ -3009,6 +3009,56 @@ public function check_if_denied($coop_id){
     return $data;
   }
 
+  //if both coop and amd updated
+  public function is_coop_updated($regNo)
+  {
+    $query = $this->db->query("select coop.id,coop.proposed_name,coop.status from cooperatives as coop left join registeredcoop on registeredcoop.application_id = coop.id where coop.status = 39 and registeredcoop.regNo = '$regNo' order by coop.id asc limit 1");
+    if($query->num_rows()==1)
+    {
+      foreach($query->result_array() as $row)
+      {
+        if($row['status']==39)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+    }
+    else
+    {
+      return true;
+    }
+
+  }
+
+  public function is_amendment_updated($regno)
+  {
+    $query = $this->db->query("select id,proposed_name,migrated,status from amend_coop where regNo='$regno' order by id desc limit 1");
+    if($query->num_rows()==1)
+    {
+      foreach($query->result_array() as $row)
+      {
+        if($row['migrated']==1)
+        {
+          if($row['status'] ==41)
+          {
+            return true;
+          }
+          else
+          {
+            return false;
+          }
+        }
+      }
+    }
+    else
+    { //no migrated amendment
+      return true;
+    }
+  }
 
   public function no_of_doc($amendment_id,$doc_name)
   {

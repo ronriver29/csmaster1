@@ -99,8 +99,8 @@ class Amendment_update extends CI_Controller{
               if($data['committees_complete']==false) {
                 $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($decoded_id);
               }
+
               $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($coop_id,$decoded_id); 
-             
               // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
               
               // $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
@@ -1647,7 +1647,7 @@ echo $input;
         $fields = $this->db->list_fields("temp_registeredcoop");
         // $this->debug($regNos);
         unset($fields['id']);
-        $qry = $this->db->query("select *, DATE(CASE WHEN LOCATE('-', temp_registeredcoop.dateRegistered) = 3 THEN STR_TO_DATE(temp_registeredcoop.dateRegistered, '%m-%d-%Y') WHEN LOCATE('-', temp_registeredcoop.dateRegistered) = 5 THEN STR_TO_DATE(temp_registeredcoop.dateRegistered, '%Y-%m-%d') ELSE STR_TO_DATE(temp_registeredcoop.dateRegistered, '%d/%m/%Y') END) as dateRegistered from temp_registeredcoop  where dateRegistered <> '0000-00-00' order by regNo, dateRegistered");
+        $qry = $this->db->query("select application_id,coopName,acronym,regNo,category,type,commonBond,areaOfOperation,noStreet,Street,addrCode,compliant, DATE(CASE WHEN LOCATE('-', temp_registeredcoop.dateRegistered) = 3 THEN STR_TO_DATE(temp_registeredcoop.dateRegistered, '%m-%d-%Y') WHEN LOCATE('-', temp_registeredcoop.dateRegistered) = 5 THEN STR_TO_DATE(temp_registeredcoop.dateRegistered, '%Y-%m-%d') ELSE STR_TO_DATE(temp_registeredcoop.dateRegistered, '%d/%m/%Y') END) as dateRegistered from temp_registeredcoop  where dateRegistered <> '0000-00-00' order by regNo, dateRegistered");
 
         $process = 0;
         $success =0;

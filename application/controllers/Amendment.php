@@ -57,6 +57,9 @@ class amendment extends CI_Controller{
               { 
                 //new upadeted coop migrated data
                  $data['has_registered_coop'] =true;
+                 $data['is_coop_updated'] = $this->amendment_model->is_coop_updated($data['client_info']->regno);
+                 $data['is_amendment_updated'] = $this->amendment_model->is_amendment_updated($data['client_info']->regno);
+                 // echo $this->db->last_query();
                  $data['list_cooperatives'] =$this->amendment_model->reg_coop_migrated_data_updates($data['client_info']->regno);
                 
                 $this->load->view('update/amendment/list_of_migrated_amendment', $data);

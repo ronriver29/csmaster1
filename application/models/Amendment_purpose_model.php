@@ -65,35 +65,50 @@ class Amendment_purpose_model extends CI_Model{
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $amendment_id = $this->security->xss_clean($amendment_id );
     $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id));
-    $data = $query->row();
-    if(strlen($data->content) > 0){
-      return true;
-    }else{
+    if($query->num_rows()>0)
+    {
+         $data = $query->row();
+      if(strlen($data->content) > 0){
+        return true;
+      }else{
+        return false;
+      }
+    }
+    else
+    {
       return false;
     }
+   
   }
   public function check_blank_not_exists($cooperatives_id,$amendment_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $amendment_id = $this->security->xss_clean($amendment_id);
     $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id));
-    foreach($query->result() as $row)
+    if($query->num_rows()>0)
     {
-      // $data[] = $row->content;
-      if(strpos($row->content,'_') === false){
-       $row->status= 'true';
-      }else{
-        $row->status = 'false';
+      foreach($query->result() as $row)
+      {
+        // $data[] = $row->content;
+        if(strpos($row->content,'_') === false){
+         $row->status= 'true';
+        }else{
+          $row->status = 'false';
+        }
+        $data[] = $row->status;
+      } 
+      if(in_array('false',$data))
+      {
+        return false;
+      } 
+      else
+      {
+        return true;
       }
-      $data[] = $row->status;
-    } 
-    if(in_array('false',$data))
-    {
-      return false;
-    } 
+    }
     else
     {
-      return true;
-    }
+      return false;
+    }  
   }
   public function check_purpose_complete($cooperatives_id,$amendment_id){
     if($this->check_not_null($cooperatives_id,$amendment_id) && $this->check_blank_not_exists($cooperatives_id,$amendment_id)){
