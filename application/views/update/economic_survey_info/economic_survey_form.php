@@ -127,13 +127,13 @@
           <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label for="increaseSecond"><strong>Second year</strong></label>
-            		<input type="number" value="<?=(isset($survey_info->increase_second_year) ?  $survey_info->increase_second_year : "") ?>" class="form-control" name="increaseSecond" id="increaseSecond" disabled>
+                <input type="number" value="<?=(isset($survey_info->increase_second_year) ?  $survey_info->increase_second_year : "") ?>" class="form-control" name="increaseSecond" id="increaseSecond" disabled>
               </div>
           </div>
           <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label for="increaseThird"><strong>Third year</strong></label>
-            		<input type="number" value="<?=(isset($survey_info->increase_third_year) ?  $survey_info->increase_third_year : "") ?>" class="form-control" name="increaseThird" id="increaseThird" disabled>
+                <input type="number" value="<?=(isset($survey_info->increase_third_year) ?  $survey_info->increase_third_year : "") ?>" class="form-control" name="increaseThird" id="increaseThird" disabled>
               </div>
           </div>
         </div>
@@ -281,13 +281,13 @@
           <div class="col-sm-12 col-md-12">
               <div class="form-group">
                 <label for="businessActivitySecond"><strong>Second year</strong></label>
-            		<input type="text" class="form-control" name="businessActivitySecond" id="businessActivitySecond" disabled value="<?=(isset($survey_info->bactivities_plans_second_year) ?  $survey_info->bactivities_plans_second_year : "") ?>">
+                <input type="text" class="form-control" name="businessActivitySecond" id="businessActivitySecond" disabled value="<?=(isset($survey_info->bactivities_plans_second_year) ?  $survey_info->bactivities_plans_second_year : "") ?>">
               </div>
           </div>
           <div class="col-sm-12 col-md-12">
               <div class="form-group">
                 <label for="businessActivityThird"><strong>Third year</strong></label>
-            		<input type="text" class="form-control" name="businessActivityThird" id="businessActivityThird" disabled value="<?=(isset($survey_info->bactivities_plans_third_year) ?  $survey_info->bactivities_plans_third_year : "") ?>">
+                <input type="text" class="form-control" name="businessActivityThird" id="businessActivityThird" disabled value="<?=(isset($survey_info->bactivities_plans_third_year) ?  $survey_info->bactivities_plans_third_year : "") ?>">
               </div>
           </div>
         </div>
@@ -352,7 +352,7 @@
           <div class="col-sm-12 col-md-12">
               <div class="form-group">
                 <label for="strategyCapitalBuildUp"><strong>Strategies for internal capital build-up:</strong></label>
-            		<textarea type="text" class="form-control" name="strategyCapitalBuildUp" id="strategyCapitalBuildUp" disabled value=""><?=(isset($survey_info->strategy_capital_build_up) ?  $survey_info->strategy_capital_build_up : "") ?></textarea>
+                <textarea type="text" class="form-control" name="strategyCapitalBuildUp" id="strategyCapitalBuildUp" disabled value=""><?=(isset($survey_info->strategy_capital_build_up) ?  $survey_info->strategy_capital_build_up : "") ?></textarea>
               </div>
           </div>
         </div>
@@ -373,13 +373,13 @@
           <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label for="revenueSecond"><strong>Second year</strong></label>
-            		<input type="number" class="form-control" name="revenueSecond" id="revenueSecond" disabled value="<?=(isset($survey_info->revenue_second_year) ?  $survey_info->revenue_second_year : "") ?>">
+                <input type="number" class="form-control" name="revenueSecond" id="revenueSecond" disabled value="<?=(isset($survey_info->revenue_second_year) ?  $survey_info->revenue_second_year : "") ?>">
               </div>
           </div>
           <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label for="revenueThird"><strong>Third year</strong></label>
-            		<input type="number" class="form-control" name="revenueThird" id="revenueThird" disabled value="<?=(isset($survey_info->revenue_third_year) ?  $survey_info->revenue_third_year : "") ?>">
+                <input type="number" class="form-control" name="revenueThird" id="revenueThird" disabled value="<?=(isset($survey_info->revenue_third_year) ?  $survey_info->revenue_third_year : "") ?>">
               </div>
           </div>
         </div>
@@ -400,13 +400,13 @@
           <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label for="expenditureSecond"><strong>Second year</strong></label>
-            		<input type="number" class="form-control" name="expenditureSecond" id="expenditureSecond" disabled value="<?=(isset($survey_info->expenditure_second_year) ?  $survey_info->expenditure_second_year : "") ?>">
+                <input type="number" class="form-control" name="expenditureSecond" id="expenditureSecond" disabled value="<?=(isset($survey_info->expenditure_second_year) ?  $survey_info->expenditure_second_year : "") ?>">
               </div>
           </div>
           <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label for="expenditureThird"><strong>Third year</strong></label>
-            		<input type="number" class="form-control" name="expenditureThird" id="expenditureThird" disabled value="<?=(isset($survey_info->expenditure_third_year) ?  $survey_info->expenditure_third_year : "") ?>">
+                <input type="number" class="form-control" name="expenditureThird" id="expenditureThird" disabled value="<?=(isset($survey_info->expenditure_third_year) ?  $survey_info->expenditure_third_year : "") ?>">
               </div>
           </div>
         </div>
@@ -675,13 +675,13 @@
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
               <label for="educationProgramMembers"><strong>Members</strong></label>
-            	<textarea type="text" class="form-control" name="educationProgramMembers" id="educationProgramMembers" disabled value=""><?=(isset($survey_info->education_programs_members) ?  $survey_info->education_programs_members : "") ?></textarea>
+              <textarea type="text" class="form-control" name="educationProgramMembers" id="educationProgramMembers" disabled value=""><?=(isset($survey_info->education_programs_members) ?  $survey_info->education_programs_members : "") ?></textarea>
             </div>
           </div>
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
               <label for="educationProgramOfficers"><strong>Officers</strong></label>
-            	<textarea type="text" class="form-control" name="educationProgramOfficers" id="educationProgramOfficers" disabled value=""><?=(isset($survey_info->education_programs_officers) ?  $survey_info->education_programs_officers : "") ?></textarea>
+              <textarea type="text" class="form-control" name="educationProgramOfficers" id="educationProgramOfficers" disabled value=""><?=(isset($survey_info->education_programs_officers) ?  $survey_info->education_programs_officers : "") ?></textarea>
             </div>
           </div>
           <div class="col-sm-12 col-md-12">
