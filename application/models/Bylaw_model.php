@@ -38,23 +38,31 @@ class Bylaw_model extends CI_Model{
   public function check_bylaw_primary_complete($bylaw_coop_id){
     $counter = 0;
     $query = $this->db->get_where('bylaws',array('cooperatives_id'=>$bylaw_coop_id));
-    $data = $query->row();
-    foreach ($data as $key => $value){
-      if(empty($value)) $counter++;
+    if($query->num_rows()>0)
+    {
+        $data = $query->row();
+        foreach ($data as $key => $value){
+          if(empty($value)) $counter++;
+        }
+        if($data->kinds_of_members==1){
+          if($counter<=15){
+            return true;
+          }else{
+            return false;
+          }
+        }else{
+          if($counter<=13){
+            return true;
+          }else{
+            return false;
+          }
+        }
     }
-    if($data->kinds_of_members==1){
-      if($counter<=15){
-        return true;
-      }else{
-        return false;
-      }
-    }else{
-      if($counter<=13){
-        return true;
-      }else{
-        return false;
-      }
+    else
+    {
+      return false;
     }
+  
   }
 
   public function check_bylaw_primary_complete_amend($bylaw_coop_id){
