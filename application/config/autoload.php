@@ -213,5 +213,18 @@ $autoload['model'] = array(
   'cais/sked31_model',
   'cais/sked32_model',
   'cais/so_model',
-  'cooperatives_update_model'
+  'cooperatives_update_model',
+  'bylaw_update_model',
+  'capitalization_update_model',
+  'cooperators_update_model',
+  'committee_update_model',
+  'purpose_update_model',
+  'economic_survey_update_model',
+  'article_update_model',
+  'staff_update_model',
+  'amendment_update_model',
+  'amendment_article_update_model',
+  'amendment_update_bylaw_model',
+  'amendment_update_capitalization_model',
+  'amendment_update_purposes_model'
 );
