@@ -181,8 +181,8 @@ class Email_model extends CI_Model{
                     <ol type='a'>  
                      <b><li> Name of Cooperative:</b> ". $coop_info->coopName."</li>                
                      <b><li> Region of Cooperative: </b>". $coop_info->region."</li>                             
-                     <b><li> Registration Number: </b>". $coop_info->dateRegistered."</li>                                         
-                     <b><li> Address of Cooperative: </b>". $client_info->contact_number."</li>
+                     <b><li> Registration Number: </b>". $coop_info->regNo."-".$coop_info->amendmentNo."</li>                                         
+                     <b><li> Address of Cooperative: </b>". $address."</li>
                      <b><li> Email address: </b>". $client_info->email."</li>
                     </ol>";       
                        
@@ -201,13 +201,43 @@ class Email_model extends CI_Model{
         }
   }
 
+  public function sendEmailsubmitAll($coop_info,$client_info)
+  {
+    $address = $coop_info->house_blk_no.' '.$coop_info->street.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.' '.$coop_info->region;
+    $from = "ecoopris@cda.gov.ph";   
+    $subject = 'Amendment Update Info';
+    $message = "<pre> Congratulations! The cooperative information with the following details had been successfully UPDATED. </pre>
+
+                    <ol type='a'>  
+                     <b><li> Name of Cooperative:</b> ". $coop_info->coopName."</li>                
+                     <b><li> Region of Cooperative: </b>". $coop_info->region."</li>                             
+                     <b><li> Registration Number: </b>". $coop_info->regNo."-".$coop_info->amendmentNo."</li>                                         
+                     <b><li> Address of Cooperative: </b>". $address."</li>
+                     <b><li> Email address: </b>". $client_info->email."</li>
+                    </ol>";       
+                       
+
+        $this->email->from($from,'ecoopris CDA (No Reply)');
+        $this->email->to($client_info->email);
+        $this->email->subject($subject);
+        $this->email->message($message);
+        if($this->email->send())
+        {
+        return true;
+        }
+        else
+        {
+        return false;
+        }
+  }
+
    public function sendEmailtoClientupdate($client_info)
   {
     $from = "ecoopris@cda.gov.ph";   
     $client_subject = 'Amendment Update Info';
     $client_message = "<pre>Good Day! 
                         
-                        Good day! Encoded updates on your cooperative information have been successfully submitted for evaluation. </pre>";
+                         Encoded updates on your cooperative information have been successfully submitted for evaluation. </pre>";
         $this->email->from($from,'ecoopris CDA (No Reply)');
         $this->email->to($client_info->email);
         $this->email->subject($client_subject);
