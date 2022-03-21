@@ -49,22 +49,38 @@ class Purpose_model extends CI_Model{
   public function check_not_null($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $query = $this->db->get_where('purposes',array('cooperatives_id'=>$cooperatives_id));
-    $data = $query->row();
-    if(strlen($data->content) > 0){
-      return true;
-    }else{
+    if($query->num_rows()>0)
+    {
+      $data = $query->row();
+      if(strlen($data->content) > 0){
+        return true;
+      }else{
+        return false;
+      }
+    }
+    else
+    {
       return false;
     }
+    
   }
   public function check_blank_not_exists($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $query = $this->db->get_where('purposes',array('cooperatives_id'=>$cooperatives_id));
-    $data = $query->row();
-    if(strpos($data->content,'_') === false){
-      return true;
-    }else{
+    if($query->num_rows()>0)
+    {
+       $data = $query->row();
+        if(strpos($data->content,'_') === false){
+          return true;
+        }else{
+          return false;
+        }
+    }
+    else
+    {
       return false;
     }
+   
   }
   public function check_purpose_complete($cooperatives_id){
     if($this->check_not_null($cooperatives_id) && $this->check_blank_not_exists($cooperatives_id)){
