@@ -6,8 +6,6 @@ class Amendment_update_capitalization_model extends CI_Model{
   public function __construct()
   {
     parent::__construct();
-    //Codeigniter : Write Less Do More
-//    $this->load->database();
   }
   public function get_capitalization_by_coop_id($coop_id,$amendment_id){
     $data_coop_id = $this->security->xss_clean($coop_id);
