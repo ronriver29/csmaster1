@@ -48,8 +48,33 @@
   </div>
 </div>
 <?php endif; ?>
+<?php if($is_client && $is_update_cooperative) :?>
+<!-- <div class="row">   
+  <div class="col">
+    <div class="alert alert-info shadow-sm" role="alert">
+      “To be able to start amendment updating process, completing the Cooperative’s Original Details (details from Original Registration) is required to proceed.”
+    </div>
+  </div>
+</div> -->
+<?php endif; ?>
+
 <div class="row">
-  <?php if($is_client) :?>
+  <?php
+    if($is_client && $is_update_cooperative)
+    {
+       foreach ($list_cooperatives as $cooperative)
+       {
+        $coop_id = encrypt_custom($this->encryption->encrypt($cooperative['application_id']));
+       }
+      ?>
+         <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
+    <a class="btn btn-color-blue btn-block" href="<?php echo base_url();?>cooperatives_update/<?=$coop_id?>" role="button">Update Cooperative Information</a>
+  </div>
+      <?php
+    }
+  ?>
+
+  <?php if($is_client && (!$is_update_cooperative)) :?>
    <?php if($count_cooperatives->coop_count == 0){?>
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
     <a class="btn btn-color-blue btn-block" href="<?php echo base_url();?>cooperatives/reservation" role="button">New Registration</a>
