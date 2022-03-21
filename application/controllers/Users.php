@@ -276,22 +276,27 @@ class Users extends CI_Controller{
           if($getRegCoop->num_rows() != 0){
             foreach($getRegCoop->result_array() as $reg){
               $regCode = $reg['addrCode'];
+              $type = $reg['type'];
             }
           } 
-          // else {
-          //   $this->session->set_flashdata(array('email_sent_warning'=>'Registered Cooperatives has no Region assign. Please contact the System Admin!'));
-          //       redirect('users/create_new_email_account');
-          // }
-          // echo $this->input->post('barangay');
-          // $newregCode2 = substr($this->input->post('barangay'), 0, 2);
-          // $newregCode2 = '0'.$newregCode2;
 
-          $newregCode = substr($this->input->post('barangay'), 0, 2);
-          $newregCode = '0'.$newregCode;
+          // Get Count Coop Type for HO
+            $this->db->where(array('name'=>$type,'active'=>1));
+            $this->db->from('head_office_coop_type');
+          // End Get Count Coop Type
+          if($this->db->count_all_results()>0)
+          {
+            $regioncode = '00';
+          } else {
+            $regioncode = '0'.mb_substr($this->input->post('barangay'), 0, 2);
+          }
+
+          // $newregCode = substr($this->input->post('barangay'), 0, 2);
+          // $newregCode = '0'.$newregCode;
 
           // echo $newregCode2;
 
-          $getAdminEmail = $this->db->get_where('admin',array('access_level'=>2,'region_code'=>$newregCode));
+          $getAdminEmail = $this->db->get_where('admin',array('access_level'=>2,'region_code'=>$regioncode));
           if($getAdminEmail->num_rows() != 0){
             foreach($getAdminEmail->result_array() as $email){
               $AdminEmail = $email['email'];
@@ -342,8 +347,8 @@ class Users extends CI_Controller{
           );
 
             if($this->user_model->add_user($data)){
-              if($this->user_model->sendEmailCreateNewEmail($data['email'],$data['hash'],$full_name,$newnamearray,$AdminEmail,$this->input->post('regno'),substr($this->input->post('barangay'), 0, 2),$this->input->post('eAddress'))){
-                $this->user_model->sendEmailToClientCreateNewEmail($data['email'],$data['hash'],$full_name,$newnamearray,$AdminEmail,$this->input->post('regno'),substr($this->input->post('barangay'), 0, 2),$this->input->post('eAddress'));
+              if($this->user_model->sendEmailCreateNewEmail($data['email'],$data['hash'],$full_name,$newnamearray,$AdminEmail,$this->input->post('regno'),$this->input->post('barangay'),$this->input->post('eAddress'))){
+                $this->user_model->sendEmailToClientCreateNewEmail($data['email'],$data['hash'],$full_name,$newnamearray,$AdminEmail,$this->input->post('regno'),$this->input->post('barangay'),$this->input->post('eAddress'));
                 $this->session->set_flashdata(array('email_sent_success'=>'Your account application is pending for approval. Result and login credentials will be sent to your email.'));
                 redirect('users/login');
               }else{

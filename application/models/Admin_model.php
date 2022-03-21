@@ -67,6 +67,7 @@ class Admin_model extends CI_Model{
     // $this->db->where(array('u.is_verified =' => 1));
   }
   public function get_migrated_data($coopName,$regNo,$limit){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->select('*');
     $this->db->from('registeredcoop');
     $this->db->where('coopName LIKE "%'.$coopName.'%" AND regNo LIKE "%'.$regNo.'%"');
@@ -634,11 +635,20 @@ public function add_admin_director($data,$raw_pass){
       $query = $this->db->get();
       $reg = $query->row();
 
-      $this->db->select('*');
-      $this->db->from('refregion');
-      $this->db->where('regCode', '0'.substr($coop_region, 0, 2));
+      $this->db->select('refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+      $this->db->from('refbrgy');
+      $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+      $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+      $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+      $this->db->where('refbrgy.brgyCode', $coop_region);
       $query2 = $this->db->get();
       $region = $query2->row();
+        
+      // $this->db->select('*');
+      // $this->db->from('refregion');
+      // $this->db->where('regCode', '0'.substr($coop_region, 0, 2));
+      // $query2 = $this->db->get();
+      // $region = $query2->row();
     // echo $receiver;
       $from = "ecoopris@cda.gov.ph";    //senders email address
       $subject = 'Cooperative Update Info';  //email subject
@@ -647,9 +657,9 @@ public function add_admin_director($data,$raw_pass){
       $message = "Good day! An application to update the cooperative information with the following details had been submitted for evaluation.<br><br>
 
       a. ".$reg->coopName."<br>
-      b. ".$region->regDesc."<br>
+      b. ".$region->region."<br>
       c. ".$reg->regNo."<br>
-      d. ".$reg->noStreet." ".$reg->Street."<br>
+      d. ".$region->brgy.", ".$region->city.", ".$region->province.", ".$region->region."<br>
       e. ".$clientemail."<br>
       ";
 
@@ -680,19 +690,22 @@ public function add_admin_director($data,$raw_pass){
     $query = $this->db->get();
     $reg = $query->row();
 
-    $this->db->select('*');
-    $this->db->from('refregion');
-    $this->db->where('regCode', '0'.substr($coop_region, 0, 2));
-    $query2 = $this->db->get();
-    $region = $query2->row();
+    $this->db->select('refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+      $this->db->from('refbrgy');
+      $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+      $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+      $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+      $this->db->where('refbrgy.brgyCode', $coop_region);
+      $query2 = $this->db->get();
+      $region = $query2->row();
 
     //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = $message = "Congratulations! The cooperative information with the following details had been successfully UPDATED.<br><br>
 
     a. ".$reg->coopName."<br>
-    b. ".$region->regDesc."<br>
+    b. ".$region->region."<br>
     c. ".$reg->regNo."<br>
-    d. ".$reg->noStreet." ".$reg->Street."<br>
+    d. ".$region->brgy.", ".$region->city.", ".$region->province.", ".$region->region."<br>
     e. ".$client_email."<br>
     ";
     $this->email->from($from,'ecoopris CDA (No Reply)');

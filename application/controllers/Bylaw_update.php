@@ -733,17 +733,18 @@ class Bylaw_update extends CI_Controller{
                 }else{
                   // if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                     $bylaw_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('bylaw_coop_id')));
+                    $regQualicationsTemp = '';
                     if($this->input->post('regularQualifications')){
                       $regQualificationsLength = sizeof($this->input->post('regularQualifications'));
-                      $regQualicationsTemp = '';
                       for($i = 0; $i< $regQualificationsLength;$i++){
                         $regQualicationsTemp .=  $this->input->post('regularQualifications')[$i].';';
                         }
                       $regQualicationsTemp = substr_replace($regQualicationsTemp, "", -1);
                     }
+
+                    $ascQualicationsTemp = '';
                     if($this->input->post('associateQualifications')){
                       $ascQualificationsLength = sizeof($this->input->post('associateQualifications'));
-                      $ascQualicationsTemp = '';
                       for($i = 0; $i< $ascQualificationsLength;$i++){
                           $ascQualicationsTemp .=  $this->input->post('associateQualifications')[$i].';';
                       }
@@ -753,27 +754,27 @@ class Bylaw_update extends CI_Controller{
                     $membership_fee=str_replace(',','',$this->input->post('membershipFee'));
                     $investPerMonth=str_replace(',','',$this->input->post('investPerMonth'));
                     
+                    $additionalRequirementsForMembership = '';
                     if($this->input->post('additionalRequirementsForMembership')){
                       $regQualificationsLength = sizeof($this->input->post('additionalRequirementsForMembership'));
-                      $additionalRequirementsForMembership = '';
                       for($i = 0; $i< $regQualificationsLength;$i++){
                         $additionalRequirementsForMembership .=  $this->input->post('additionalRequirementsForMembership')[$i].';';
                         }
                       $additionalRequirementsForMembership = substr_replace($additionalRequirementsForMembership, "", -1);
                     }
                     
+                    $additionaldelegatePowers = '';
                     if($this->input->post('additionaldelegatePowers')){
                       $regQualificationsLength = sizeof($this->input->post('additionaldelegatePowers'));
-                      $additionaldelegatePowers = '';
                       for($i = 0; $i< $regQualificationsLength;$i++){
                         $additionaldelegatePowers .=  $this->input->post('additionaldelegatePowers')[$i].';';
                         }
                       $additionaldelegatePowers = substr_replace($additionaldelegatePowers, "", -1);
                     }
                     
+                    $primaryConsideration = '';
                     if($this->input->post('additionalPrimaryConsideration')){
                       $regQualificationsLength = sizeof($this->input->post('additionalPrimaryConsideration'));
-                      $primaryConsideration = '';
                       for($i = 0; $i< $regQualificationsLength;$i++){
                         $primaryConsideration .=  $this->input->post('additionalPrimaryConsideration')[$i].';';
                         }

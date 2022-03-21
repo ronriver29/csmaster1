@@ -65,7 +65,7 @@
             <div class="col-md-4">
                 <a href="<?php echo base_url();?>account_approval/<?=encrypt_custom($this->encryption->encrypt($account_info->usersid))?>/approve/<?=encrypt_custom($this->encryption->encrypt($account_info->email))?>" class="btn btn-success">Approve</a>
                 <!-- <a href="<?php echo base_url();?>account_approval/<?=encrypt_custom($this->encryption->encrypt($account_info->usersid))?>/deny/<?=encrypt_custom($this->encryption->encrypt($account_info->email))?>" class="btn btn-danger">Deny</a> -->
-                <a data-toggle="modal" data-target="#denyaccountModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($account_info->usersid))?>" data-email="<?=encrypt_custom($this->encryption->encrypt($account_info->email))?>" class="btn btn-danger" style="color:white;"> Assign Validator</a>
+                <a data-toggle="modal" data-target="#denyaccountModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($account_info->usersid))?>" data-email="<?=encrypt_custom($this->encryption->encrypt($account_info->email))?>" class="btn btn-danger" style="color:white;"> Deny</a>
               </p>
             </div>
             <div class="col-md-4">
