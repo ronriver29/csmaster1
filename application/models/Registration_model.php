@@ -17,7 +17,7 @@ class registration_model extends CI_Model{
   }
   public function get_selected_registered_coop($data){
       // $query= $this->db->get_where('islands', array('island_id' => $data));
-      $query = $this->db->query("SELECT * FROM registeredcoop WHERE regNo IN ('".$data."')");
+      $query = $this->db->query("SELECT * FROM registeredcoop WHERE regNo IN ('".$data."') ORDER BY id ASC LIMIT 1");
       return $query->result_array();
   }
 
