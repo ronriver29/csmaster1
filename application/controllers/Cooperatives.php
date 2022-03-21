@@ -69,6 +69,7 @@
           {
             $data['tos'] = $_POST['tos'];
           }
+          echo $data['client_info']->regno;
           $this->load->view('template/header', $data);
           if($data['client_info']->regno == NULL){
             $this->load->view('applications/list_of_applications', $data);
