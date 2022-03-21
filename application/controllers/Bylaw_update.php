@@ -769,6 +769,8 @@ class Bylaw_update extends CI_Controller{
                         $additionaldelegatePowers .=  $this->input->post('additionaldelegatePowers')[$i].';';
                         }
                       $additionaldelegatePowers = substr_replace($additionaldelegatePowers, "", -1);
+                    } else {
+                      $additionaldelegatePowers = '';
                     }
                     
                     if($this->input->post('additionalPrimaryConsideration')){
