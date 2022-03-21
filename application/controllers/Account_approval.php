@@ -62,6 +62,7 @@
 
         $this->load->view('./templates/admin_header', $data);
         $this->load->view('cooperative/account_approval_detail', $data);
+        $this->load->view('applications/deny_account');
         $this->load->view('./templates/admin_footer');
       }
     }
@@ -159,7 +160,11 @@
 
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $email = $this->encryption->decrypt(decrypt_custom($email));
+        $reason = $this->input->post('reason');
 
+        // echo $decoded_id.'<br>';
+        // echo $email.'<br>';
+        // echo $reason;
         $data = array(
           'is_verified' => 2,
           'is_taken' => 2
@@ -169,7 +174,9 @@
         $subject = 'Cooperative Account Application';  //email subject
         $burl = base_url();
            
-        $message = "Your Account has been Denied";
+        $message = "Good day! Your application for account creation had been denied due to the following reasons:<br><br>
+
+        ".nl2br($reason)."";
        
         $this->email->from($from,'ecoopris CDA (No Reply)');
         $this->email->to($email);
