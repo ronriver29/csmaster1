@@ -216,21 +216,21 @@
         <div class="row row-strat">
           <div class="col-sm-12 col-md-4">
             <div class="form-check">
-                <?php if(empty($survey_info->strategies_support_members[0])){ $survey_info->strategies_support_members[]=0; }?>
+                <?php if(empty($survey_info->strategies_support_members[0])){ $survey_info->strategies_support_members[0]=0; }?>
               <input type="checkbox" class="form-check-input" value="1" name="strategiesSupport[]" id="collectivePurchases" disabled <?=($survey_info->strategies_support_members[0] == 1 ? "checked" :"") ?>>
               <label class="form-check-label" for="collectivePurchases">Collective purchases</label>
             </div>
           </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-check">
-                  <?php if(empty($survey_info->strategies_support_members[1])){ $survey_info->strategies_support_members[]=0; }?>
+                  <?php if(empty($survey_info->strategies_support_members[1])){ $survey_info->strategies_support_members[1]=0; }?>
               <input type="checkbox" class="form-check-input" value="2" name="strategiesSupport[]" id="lendingPolicies" disabled <?=($survey_info->strategies_support_members[1] == 1 ? "checked" :"") ?>>
               <label class="form-check-label" for="lendingPolicies">Commitment on lending policies</label>
             </div>
           </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-check">
-                 <?php if(empty($survey_info->strategies_support_members[2])){ $survey_info->strategies_support_members[]=0; }?>
+                 <?php if(empty($survey_info->strategies_support_members[2])){ $survey_info->strategies_support_members[2]=0; }?>
               <input type="checkbox" class="form-check-input" value="3" name="strategiesSupport[]" id="activeParticipation" disabled <?($survey_info->strategies_support_members[2] == 1 ?  "checked" : "") ?>>
               <label class="form-check-label" for="activeParticipation">Active participation in cooperative affairs</label>
             </div>
