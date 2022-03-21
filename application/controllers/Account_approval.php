@@ -146,17 +146,17 @@
           $this->session->set_flashdata(array('email_sent_warning'=>'Account failed to approve. Please Contact Administrator.'));
           redirect('account_approval');
         }else{
-          $this->db->where(array('regNo'=>$regNo));
-          $this->db->update('registeredcoop',$data_registeredcoop);
-          if($this->db->trans_status() === FALSE){
-            $this->db->trans_rollback();
-            $this->session->set_flashdata(array('email_sent_warning'=>'Account failed to approve. Please Contact Administrator.'));
-            redirect('account_approval');
-          } else {
+          // $this->db->where(array('regNo'=>$regNo));
+          // $this->db->update('registeredcoop',$data_registeredcoop);
+          // if($this->db->trans_status() === FALSE){
+          //   $this->db->trans_rollback();
+          //   $this->session->set_flashdata(array('email_sent_warning'=>'Account failed to approve. Please Contact Administrator.'));
+          //   redirect('account_approval');
+          // } else {
             $this->db->trans_commit();
             $this->session->set_flashdata(array('email_sent_success'=>'Account has been approved.'));
             redirect('account_approval');
-          }
+          // }
         }
     }
 
