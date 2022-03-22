@@ -233,6 +233,7 @@ class Users extends CI_Controller{
     if($this->session->userdata('logged_in')){
       redirect('cooperatives');
     }else{
+      redirect('users/login');
       $data['title'] = 'Sign Up';
       $data['header'] = '';
       // if ($this->form_validation->run() == FALSE){
