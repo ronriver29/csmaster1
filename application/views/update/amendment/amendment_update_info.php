@@ -228,7 +228,7 @@ if(isset($bylaw_info))
                 <div class="form-group">
                   <label for="acronymofCooperative"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Acronym of Cooperative Name:</label>
-                  <input type="text" class="form-control" name="acronym_names" id="acronym_names" value="<?=$coop_info->acronym?>" <?=$readonly?>/>
+                  <input type="text" class="form-control" name="acronym_names" id="acronym_names" value="<?=$coop_info->acronym?>" readonly/>
                 </div>
                  <label id="acronymnameerr" style="color:red;font-size:80%;display:none"><i>* Acronym Name has been disabled. Maximum Character reach on "Proposed Name".</i></label>
               </div>
