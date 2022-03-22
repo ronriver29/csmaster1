@@ -3677,7 +3677,7 @@ where coop.users_id = '$user_id' and coop.status =15");
     // End Get Coop Type for HO
     $this->db->select('amend_coop.*,registeredamendment.coopName,registeredamendment.dateRegistered, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('amend_coop');
-    $this->db->join('registeredamendment', 'registeredamendment.amendment_id = amend_coop.id','left');
+    $this->db->join('registeredamendment', 'registeredamendment.cooperative_id = amend_coop.cooperative_id','left');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
