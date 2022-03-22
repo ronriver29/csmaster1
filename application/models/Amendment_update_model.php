@@ -10,7 +10,6 @@ class amendment_update_model extends CI_Model{
     //Codeigniter : Write Less Do More
     $this->load->database();
   }
-
   // public function get_coop($regNo){
   //   $this->db->select('registeredcoop.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region,cooperatives.proposed_name, cooperatives.category_of_cooperative, cooperatives.grouping,cooperative_type.id as type_id,cooperatives.common_bond_of_membership,cooperatives.field_of_membership,cooperatives.name_of_ins_assoc,cooperatives.interregional,cooperatives.regions,cooperatives.acronym_name');
   //   $this->db->from('registeredcoop');
