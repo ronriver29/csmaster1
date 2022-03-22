@@ -137,7 +137,7 @@ class Documents_update extends CI_Controller{
                                 // }  
                                 $this->load->view('template/header', $data);
                                 if($data['coop_info']->grouping == 'Federation'){
-                                  $this->load->view('documents/list_of_documents_federation', $data);
+                                  $this->load->view('update/documents/list_of_documents_federation', $data);
                                 } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                                   $this->load->view('update/documents/list_of_documents_union', $data);
                                 } else {
@@ -297,7 +297,7 @@ class Documents_update extends CI_Controller{
                             
                                   $this->load->view('templates/admin_header', $data);
                                   if($data['coop_info']->grouping == 'Federation'){
-                                    $this->load->view('documents/list_of_documents_federation', $data);
+                                    $this->load->view('update/documents/list_of_documents_federation', $data);
                                   } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                                     $this->load->view('update/documents/list_of_documents_union', $data);
                                   } else {
