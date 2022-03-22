@@ -130,7 +130,7 @@
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <?php endif; ?>
                   <label for="regularQualifications<?= $key + 4?>">Requirements for membership <?= $key + 4?></label>
-                  <textarea type="text" value="" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 4?>" disabled><?= $add_memberships?></textarea>
+                  <textarea type="text" value="" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 4?>" disabled><?php if(isset($add_memberships)){ echo $add_memberships;?></textarea>
                 </div>
               </div>
             <?php endforeach; } else { ?>
@@ -139,7 +139,7 @@
                   <?php $key=1?>
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <label for="regularQualifications<?= $key + 4?>">Requirements for membership <?= $key + 4?></label>
-                  <textarea type="text" value="" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 4?>" disabled><?= $add_memberships?></textarea>
+                  <textarea type="text" value="" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 4?>" disabled><?php if(isset($add_memberships)){ echo $add_memberships;?></textarea>
                 </div>
               </div>
             <?php } ?>
@@ -165,14 +165,6 @@
                 <div class="delegatePowers">
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
-<!--                        <small>
-                            This is the general requirements for membership.
-                                <ol type="1">
-                                  <li>Approved application for membership;</li>
-                                  <li>Certificate of completion of the prescribed Pre-Membership Education Seminar (PMES);</li>
-                                  <li>Subscribed and paid the required minimum share capital and membership fee;</li>
-                                </ol>
-                        </small>-->
                           <div class="form-group">
                               <label for="additionaldelegatePowers"><strong>Powers of the General Assembly.</strong> </label>
                               <br>Subject to the pertinent provisions of the Cooperative Code and the rules issued thereunder, the General Assembly shall have the following exclusive powers which cannot be delegated:<br>
@@ -197,7 +189,32 @@
                 <div class="col-sm-12 offset-md-8 col-md-4">
                     <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoredelegatePowersBtn" disabled><i class="fas fa-plus"></i> Add More General Assembly</button>
                 </div>
-            <?php endif; }?>
+            <?php endif; } else {?>
+              <div class="delegatePowers">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="form-group">
+                          <div class="form-group">
+                              <label for="additionaldelegatePowers"><strong>Powers of the General Assembly.</strong> </label>
+                              <br>Subject to the pertinent provisions of the Cooperative Code and the rules issued thereunder, the General Assembly shall have the following exclusive powers which cannot be delegated:<br>
+                          </div>
+                         <!--<label><strong>List down any additional requirements for membership in your cooperative</strong></label>--> 
+                            <div class="col-sm-12 col-md-12">
+                              <div class="form-group">
+                                <?php $key=1;?>
+                                  <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                                <label for="regularQualifications<?= $key + 2?>">Regular member qualification <?= $key + 2?></label>
+                                <textarea class="form-control" id="additionaldelegatePowers1" name="additionaldelegatePowers[]" placeholder="Must be in a sentence" rows="2" value="" disabled><?php if(isset($delegate_powers)) { echo $delegate_powers; } ?></textarea>
+                              </div>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 offset-md-8 col-md-4">
+                    <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoredelegatePowersBtn" disabled><i class="fas fa-plus"></i> Add More General Assembly</button>
+                </div>
+            <?php } ?>
 
 <!--          End Delegate Powers-->
 <!--          <div class="delegatePowers">
@@ -253,7 +270,16 @@
                     <textarea type="text" value="" class="form-control" name="additionalPrimaryConsideration[]" id="additionalPrimaryConsideration<?= $key + 1?>" disabled><?= $add_members_votes?></textarea>
                   </div>
                 </div>
-                <?php endforeach; }?>
+                <?php endforeach; } else { ?>
+                  <div class="col-sm-12 col-md-12">
+                  <div class="form-group">
+                    <?php $key=1;?>
+                      <a class="customDeleleBtn delegatePowersRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                    <label for="additionalPrimaryConsideration<?= $key + 5?>">a.<?=$key+1?></label>
+                    <textarea type="text" value="" class="form-control" name="additionalPrimaryConsideration[]" id="additionalPrimaryConsideration<?= $key + 1?>" disabled><?php if(isset($add_members_votes)) { echo $add_members_votes; } ?></textarea>
+                  </div>
+                </div>
+                <?php } ?>
           </div>
 
             <div class="col-sm-12 offset-md-8 col-md-4">
