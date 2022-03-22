@@ -285,7 +285,7 @@ class Committees_update extends CI_Controller{
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_update_model->check_article_primary_complete($decoded_id) : true;
                       // if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                         // if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
-                          if($this->form_validation->run() == FALSE){
+                          if(!isset($_POST['addCommitteeBtn'])){
                             $data['client_info'] = $this->user_model->get_user_info($user_id);
                             $data['title'] = 'List of Committees';
                             $data['header'] = 'Committees';
@@ -450,7 +450,7 @@ class Committees_update extends CI_Controller{
                         // if($data['purposes_complete']){
                           $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_update_model->check_article_primary_complete($decoded_id) : true;
                           // if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
-                            if($this->form_validation->run() == FALSE){
+                            if(!isset($_POST['addCommitteeBtn'])){
                               $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                               $data['title'] = 'List of Committees';
                               $data['header'] = 'Committees';
