@@ -7,7 +7,8 @@ class Amendment_update extends CI_Controller{
     {
       parent::__construct();
       //Codeigniter : Write Less Do More
-      $this->load->model('amendment_update_model');
+      // $this->load->model('amendment_update_model');
+      $this->load->model('amendment_uploaded_document_model');
     }
     
 
