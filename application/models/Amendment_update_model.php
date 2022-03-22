@@ -1718,7 +1718,12 @@ public function submit_by_authorized_user($amendment_id,$region_code){
           'regions' => $amendment_info->regions,
      );
      // return $array_reg_data;
-       if($this->db->update('registeredamendment',$array_reg_data,array('amendment_id'=>$amendment_id)))
+        $qry_reg = $this->db->query("select id from registeredamendment where regNo='$amendment_info->regNo' order by id desc limit 1");
+        foreach($qry_reg->result_array() as $reg_amd)
+        {
+          $reg_amd_id = $reg_amd['id'];
+        }
+       if($this->db->update('registeredamendment',$array_reg_data,array('id'=>$reg_amd_id)))
        {
         // return true;
         // $auth_info =$this->authorized_user($region_code);

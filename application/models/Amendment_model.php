@@ -39,6 +39,20 @@ class amendment_model extends CI_Model{
     }
   }
 
+  public function check_if_has_updated($user_id)
+  {
+    // $query = $this->db->get_where('cooperatives',array('users_id'=>$user_id,'status'=>39));
+    $query = $this->db->query("select id,proposed_name from cooperatives where users_id='$user_id' and status=39 order by id asc limit 1");
+    if($query->num_rows() ==1)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
    public function check_date_registered($regNo)
   {
     $query = $this->db->query("select regNo, DATE(CASE WHEN LOCATE('-', dateRegistered) = 3 THEN STR_TO_DATE(dateRegistered, '%m-%d-%Y') WHEN LOCATE('-', dateRegistered) = 5 THEN STR_TO_DATE(dateRegistered, '%Y-%m-%d') ELSE STR_TO_DATE(dateRegistered, '%d/%m/%Y') END) as dateRegistered from registeredcoop where regNo = '$regNo' and dateRegistered >=DATE('2020-09-30') order by id asc limit 1");
@@ -449,7 +463,7 @@ class amendment_model extends CI_Model{
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->join('registeredamendment', 'registeredamendment.regNo = amend_coop.regNo');
-    $this->db->where(array('registeredamendment.regNo'=>$regNo,'amend_coop.status'=>15));
+    $this->db->where('registeredamendment.regNo="'.$regNo.'" and amend_coop.status=15 or amend_coop.status=41');
     $this->db->where('amendmentNo!=',0);
    $this->db->order_by('id', 'DESC');
    $this->db->limit(1);
@@ -611,7 +625,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15 and amend_coop.id <> 
   {
     $qry = $this->db->query("select amend_coop.regNo,amend_coop.amendmentNo,reg.amendment_no  from amend_coop 
 left join registeredamendment as reg ON reg.regNo = amend_coop.regNo
-where amend_coop.regNo ='$regNo' and amend_coop.status =15  order by amend_coop.id desc limit 1");
+where amend_coop.regNo ='$regNo' and amend_coop.status =15 or amend_coop.status=41  order by amend_coop.id desc limit 1");
     if($qry->num_rows()>0)
     {
           return true;
@@ -3478,7 +3492,7 @@ on regcoop.application_id = coop.id where regcoop.regNo ='$regNo'");
     $data =[];
     if($regNo !=NULL)
     {
-       $query = $this->db->query("select * from amend_coop where regNo = '$regNo' and status NOT IN(15)");
+       $query = $this->db->query("select * from amend_coop where regNo = '$regNo' and status NOT IN(15,41)");
       if($query->num_rows()>0)
       {
         return true;

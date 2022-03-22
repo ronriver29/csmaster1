@@ -101,9 +101,13 @@
             <div class="row">
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
-                  <?php if($date_diff_Reg):?>
-                  <button type="button"  class="btn btn-success btn-sm float-right" id="addCoop"><i class="fas fa-plus"></i> Add Cooperative Type</button>
-                <?php endif;?>
+                  <?php if($coop_info->migrated ==1){?>
+                    <button type="button"  class="btn btn-success btn-sm float-right" id="addCoop"><i class="fas fa-plus"></i> Add Cooperative Type</button>
+                  <?php }else{?>  
+                    <?php if($date_diff_Reg):?>
+                    <button type="button"  class="btn btn-success btn-sm float-right" id="addCoop"><i class="fas fa-plus"></i> Add Cooperative Type</button>
+                   <?php endif;?>
+                 <?php }?>
                 </div>
               </div>
             </div>

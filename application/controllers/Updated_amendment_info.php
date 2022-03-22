@@ -29,6 +29,7 @@
               else
               {
                 $data['list_cooperatives_registered'] = $this->amendment_update_model->get_all_registered_amendment($data['admin_info']->region_code); 
+                // echo $this->db->last_query()
                  $data['list_cooperatives_registered_ho'] = $this->amendment_update_model->get_all_updated_registered_coop_ho();
                 $data['list_cooperatives'] = $this->amendment_update_model->get_all_updated_coop_info($data['admin_info']->region_code);
                 
@@ -37,7 +38,7 @@
                 // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
       }
             $this->load->view('templates/admin_header', $data);
-              $this->load->view('applications/list_of_updated_amendment_info', $data);
+            $this->load->view('applications/list_of_updated_amendment_info', $data);
             $this->load->view('applications/assign_admin_modal');
             $this->load->view('templates/admin_footer');
       }

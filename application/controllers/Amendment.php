@@ -192,12 +192,23 @@ class amendment extends CI_Controller{
               $data['client_info'] = $this->user_model->get_user_info($user_id);
               $data['header'] = 'Amendment';
               $data['regions_list'] = $this->region_model->get_regions();
-            if(!$this->amendment_model->check_if_has_registered($user_id))
-            {
-              // $this->session->set_flashdata('list_success_message', 'Your reservation is confirmed.');
-              $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'A Cooperative must be registered first to open Amendment module.'));
-              redirect('amendment');
-            } 
+            if($this->amendment_model->check_date_registered($data['client_info']->regno))
+               {
+                  if(!$this->amendment_model->check_if_has_updated($user_id))
+                  {
+                    $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'A Cooperative must be updated.'));
+                    redirect('amendment');
+                  }
+               }
+               else
+               {
+                 if(!$this->amendment_model->check_if_has_registered($user_id))
+                  {
+                    // $this->session->set_flashdata('list_success_message', 'Your reservation is confirmed.');
+                    $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'A Cooperative must be registered first to open Amendment module.'));
+                    redirect('amendment');
+                  } 
+               }
               $data['has_registered_coop'] = $this->amendment_model->check_if_has_registered($user_id);
               if(isset($_POST['amendmentAddBtn'])){
                   $temp = TRUE;
@@ -242,6 +253,7 @@ class amendment extends CI_Controller{
                   // $composition_members = $this->amendment_model->amendment_info_by_regno($data['regNo']);
                   //last amendment info
                   $data['coop_info'] = $this->amendment_model->get_amendment_info_byreg($data['regNo']); 
+
                   $composition_members = $this->amendment_model->get_composition_of_members_by_amendment($data['coop_info']->cooperative_id,$data['coop_info']->id);               
                 }
                 else
