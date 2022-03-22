@@ -51,13 +51,13 @@
               ?>
               <input type='hidden' id='maxvalue'/>
               <?php if(isset($capitalization_info->total_no_of_subscribed_capital)){
-                echo "<input type='hidden' id='maxvalue_asc' value='".$capitalization_info->total_no_of_subscribed_capital - $total_subscribed."'/>";
+                echo "<input type='hidden' id='maxvalue_asc' value='".($capitalization_info->total_no_of_subscribed_capital - $total_subscribed)."'/>";
               }?>
               
               <input type='hidden' id='maxvalue2'/>
 
               <?php if(isset($capitalization_info->total_no_of_subscribed_capital)){
-                echo "<input type='hidden' id='maxvalue_apuc' value='".$capitalization_info->total_no_of_paid_up_capital - $total_paid."'/>";
+                echo "<input type='hidden' id='maxvalue_apuc' value='".($capitalization_info->total_no_of_paid_up_capital - $total_paid)."'/>";
               }?>
               
 

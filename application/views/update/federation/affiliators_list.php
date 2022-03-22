@@ -47,8 +47,8 @@
   <div class="col-sm-12 col-md-12">
     <?php if(!$requirements_complete): ?>
     <div class="alert alert-info text-justify" role="alert">
-      <li>The total subscribed shares of all cooperator should be <strong><?= isset($capitalization_info->total_no_of_subscribed_capital)?></strong>. (Current Total Subscribed Share: <strong><?= ($total_regular['total_subscribed']) ?></strong>)</li>
-      <li>The total paid shares must be: <strong><?= isset($capitalization_info->total_no_of_paid_up_capital) ?></strong>. (Current Total Paid Shares: <strong><?= ($total_regular['total_paid']) ?></strong>)</li>
+      <li>The total subscribed shares of all cooperator should be <strong><?= if(isset($capitalization_info->total_no_of_subscribed_capital)) { echo $capitalization_info->total_no_of_subscribed_capital;}?></strong>. (Current Total Subscribed Share: <strong><?= ($total_regular['total_subscribed']) ?></strong>)</li>
+      <li>The total paid shares must be: <strong><?= if(isset($capitalization_info->total_no_of_paid_up_capital)) { echo $capitalization_info->total_no_of_paid_up_capital; } ?></strong>. (Current Total Paid Shares: <strong><?= ($total_regular['total_paid']) ?></strong>)</li>
       <?php if(!$directors_count) echo '<li>The Board of Directors must consist of 5 to 15 members including the chairperson and vice-chairperson.</li>'; ?>
       <?php if(!$directors_count_odd) echo'<li>The total member of board of directors must be odd number. (Current Total: '.$total_directors.')</li>'; ?>
       <?php if(!$chairperson_count) echo '<li>You need a Chairperson</li>'; ?>
