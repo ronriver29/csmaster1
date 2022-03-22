@@ -212,7 +212,7 @@ class Cooperatives_update_model extends CI_Model{
         $this->db->insert_batch('members_composition_of_cooperative', $batch_composition);
     }
 
-    if($coop_type_of_coop->type_of_cooperative != $coop_type->name || $coop_type_of_coop->category_of_cooperative != $data['category_of_cooperative']){
+    if($coop_type_of_coop->category_of_cooperative != $data['category_of_cooperative']){
       $temp_purpose = array(
           'cooperatives_id' => $coop_id,
           'content'  => ''
