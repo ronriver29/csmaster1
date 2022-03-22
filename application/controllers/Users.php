@@ -296,7 +296,7 @@ class Users extends CI_Controller{
 
           // echo $newregCode2;
 
-          $getAdminEmail = $this->db->get_where('admin',array('access_level'=>2,'region_code'=>$regioncode));
+          $getAdminEmail = $this->db->get_where('admin',array('access_level'=>2,'region_code'=>$regioncode,'active'=>1));
           if($getAdminEmail->num_rows() != 0){
             foreach($getAdminEmail->result_array() as $email){
               $AdminEmail = $email['email'];
