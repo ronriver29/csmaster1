@@ -18,6 +18,33 @@
 
   var typeofcoop = $("#reserveUpdateForm #typeOfCooperative option:selected").text();
 
+  var typeofcoop2 = $("#reserveUpdateForm #typeOfCooperative option:selected").val();
+  // alert(typeofcoop2);
+
+  // if(typeofcoop && ($(this).val()).length > 0){
+  //     $("#reserveUpdateForm #addMoreSubclassBtn").prop("disabled",false);
+  //     $("#reserveUpdateForm #proposedName").prop("disabled",false);
+      var coop_type = typeofcoop2;
+        $.ajax({
+        type : "POST",
+        url  : "../../api/major_industries",
+        dataType: "json",
+        data : {
+          coop_type: coop_type
+        },
+        success: function(data){
+          $('#reserveUpdateForm select[name="majorIndustry[]"').each(function(index){
+            var majorIndustry = $(this);
+            $(majorIndustry).prop("disabled",false);
+            $(majorIndustry).append($('<option></option>').attr('value',"").text(""));
+            $.each(data, function(key,value){
+              $(majorIndustry).append($('<option></option>').attr('value',value.id).text(value.description));
+            });
+          });
+        }
+      });
+    // }
+
 
 
   if(categryofcoop == 'Others'){ // categryofcoop == 'Secondary' || categryofcoop == 'Tertiary' || 

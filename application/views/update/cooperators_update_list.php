@@ -70,7 +70,7 @@
         <?php if(isset($capitalization_info->total_no_of_subscribed_capital) ) : ?>
             <?php if($bylaw_info->kinds_of_members ==2) : ?>
                 <li>The total subscribed shares of all cooperator should be <strong><?= $capitalization_info->total_no_of_subscribed_capital?></strong>. (Current Total Subscribed Share: <strong><?= ($total_regular['total_subscribed']+$total_associate['total_subscribed']) ?></strong>)</li>
-                <li>The total paid shares must be: <strong><?= isset($capitalization_info->total_no_of_paid_up_capital) ?></strong>. (Current Total Paid Shares: <strong><?= ($total_regular['total_paid']+$total_associate['total_paid']) ?></strong>)</li>
+                <li>The total paid shares must be: <strong><?php if(isset($capitalization_info->total_no_of_paid_up_capital)){ echo $capitalization_info->total_no_of_paid_up_capital; }  ?></strong>. (Current Total Paid Shares: <strong><?= ($total_regular['total_paid']+$total_associate['total_paid']) ?></strong>)</li>
            <?php else : ?>
                 <li>The total subscribed shares of all cooperator should be <strong><?= $capitalization_info->total_no_of_subscribed_capital?></strong>. (Current Total Subscribed Share: <strong><?= ($total_regular['total_subscribed']) ?></strong>)</li>
                 <li>The total paid shares must be: <strong><?= $capitalization_info->total_no_of_paid_up_capital ?></strong>. (Current Total Paid Shares: <strong><?= ($total_regular['total_paid']) ?></strong>)</li>

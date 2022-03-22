@@ -169,7 +169,7 @@ class Cooperators_update extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
-      var_dump($this->uri->segment(5));
+      // var_dump($this->uri->segment(5));
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
