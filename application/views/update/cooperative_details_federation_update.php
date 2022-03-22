@@ -965,7 +965,7 @@ if(isset($coop_info))
           <?php
                 if($coop_info->grouping == 'Federation'){
                     $groupingname = 'Affiliators';
-                    $stepfourdirectory = 'affiliators';
+                    $stepfourdirectory = 'affiliators_update';
                 } else if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union') {
                     $groupingname = 'Federation';
                         $stepfourdirectory = 'unioncoop';
@@ -1089,7 +1089,7 @@ if(isset($coop_info))
         <?php if($coop_info->status!= 0 && $is_update_cooperative && $coop_info->type_of_cooperative != 'Cooperative Bank' && $coop_info->type_of_cooperative != 'Insurance' && $coop_info->type_of_cooperative != 'Union' && $coop_info->grouping != 'Union'): ?>
         <?php // if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete): ?>
           <small class="text-muted">
-            <!-- <a href="<?php echo base_url();?>cooperatives_update/<?= $encrypted_id ?>/documents_update" class="btn btn-info btn-sm">View</a> -->
+            <a href="<?php echo base_url();?>cooperatives_update/<?= $encrypted_id ?>/documents_update" class="btn btn-info btn-sm">View</a>
           </small>
         <?php endif ?>
       </li>

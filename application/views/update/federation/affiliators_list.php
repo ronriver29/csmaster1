@@ -43,7 +43,6 @@
         <?php $business_activity_sub = $casd['bactivitysubtype_name']?>
     <?php endforeach; ?>
   </div>
-<?php if($is_client) : ?>
   <div class="col-sm-12 col-md-12">
     <?php if(!$requirements_complete): ?>
     <div class="alert alert-info text-justify" role="alert">
@@ -105,7 +104,6 @@
     </div>
   <!--</form>-->
   </div>
-<?php endif; ?>
 </div>
 <br>
 <div class="row">
@@ -149,7 +147,7 @@
                         <!--<input class="btn btn-color-blue" type="submit" id="offlineBtn" name="offlineBtn" value="Add">-->
                         
 
-                    <?php if($is_client){ ?>
+                    <?php if(($is_client && $is_update_cooperative && $coop_info->status != 39) || (!$is_client && $coop_info->status == 40 && $coop_info->status != 39)){ ?>
                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editAffiliatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($applied_coops['aff_id']))?>" data-representative="<?=$applied_coops['representative']?>" data-pos="<?=$applied_coops['position']?>" data-proofofidentity="<?=$applied_coops['proof_of_identity']?>" data-validid="<?=$applied_coops['valid_id']?>" data-placeissuance="<?=$applied_coops['place_of_issuance']?>" data-dateissued="<?=$applied_coops['date_issued']?>" data-subscribed="<?=$applied_coops['number_of_subscribed_shares']?>" data-paidshares="<?=$applied_coops['number_of_paid_up_shares']?>"><i class='fas fa-eye'></i> Edit</button>
                     <!-- END -->
 

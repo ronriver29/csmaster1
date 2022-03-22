@@ -103,7 +103,7 @@
               <div class="col-sm-12 col-md-4">
                   <div class="form-group"> 
                     <label for="position">Position:</label><br>
-                    <select class="form-control validate[required] select2 select-island edit-affiliators" id="position2" name="position[]" multiple="">
+                    <select class="form-control select2 select-island edit-affiliators" id="position2" name="position[]" multiple="">
                     <!-- <select class="form-control validate[required,ajax[ajaxAffiliatorsPositionCallPhp] select2" id="position2" name="position[]" multiple="" required> -->
                       <!-- <option value="" selected>--</option> -->
                       <option id="Chairperson" value="Chairperson">Chairperson</option>
