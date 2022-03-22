@@ -516,7 +516,7 @@ if(isset($bylaw_info))
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="streetName">Street Name</label>
-                  <input type="text" class="form-control" name="streetName" id="streetName" value="<?=$coop_info->Street?>">
+                  <input type="text" class="form-control" name="streetName" id="streetName" value="<?=$coop_info->street?>">
                  
                 </div>
               </div>

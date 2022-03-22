@@ -728,7 +728,7 @@ class Amendment_update extends CI_Controller{
                       'house_blk_no' => $this->input->post('blkNo'),
                       'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
                     );
-                  
+                  // $this->debug($field_data);
                     $data_bylaws = array(
                       'cooperatives_id' => $cooperative_id,
                       'amendment_id' =>$decoded_id,
@@ -757,7 +757,7 @@ class Amendment_update extends CI_Controller{
                           $this->db->insert_batch('amendment_purposes',$temp_purpose);
                         }
                     // }
-
+                    
                     if($this->amendment_update_model->update_not_expired_cooperative($user_id,$decoded_id,$field_data,$major_industry,$data_bylaws)){
                        $this->session->set_flashdata(array('msg_class'=>'success','amendment_msg'=>'Successfully updated basic information.'));
                       redirect(base_url('/amendment_update/'.$this->input->post('amendment_id').'/update'));

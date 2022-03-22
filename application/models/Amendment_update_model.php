@@ -10,6 +10,7 @@ class amendment_update_model extends CI_Model{
     //Codeigniter : Write Less Do More
     $this->load->database();
   }
+
   // public function get_coop($regNo){
   //   $this->db->select('registeredcoop.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region,cooperatives.proposed_name, cooperatives.category_of_cooperative, cooperatives.grouping,cooperative_type.id as type_id,cooperatives.common_bond_of_membership,cooperatives.field_of_membership,cooperatives.name_of_ins_assoc,cooperatives.interregional,cooperatives.regions,cooperatives.acronym_name');
   //   $this->db->from('registeredcoop');
@@ -1399,10 +1400,12 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15  order by amend_coop.
            
       }
     
-      
-  // return $data;
+  
     // update amend_coop table
-    $this->db->update('amend_coop',$data,array('id'=>$amendment_id));
+    if(!$this->db->update('amend_coop',$data,array('id'=>$amendment_id)))
+    {
+      return false;
+    }
      
     // return $data['comp_of_membership'];
    //if Common bond of memebship is occupation
@@ -3682,7 +3685,7 @@ where coop.users_id = '$user_id' and coop.status =15");
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('amend_coop.status = 40 AND amend_coop.migrated=1 AND ho=0');
+    $this->db->where('amend_coop.status = 40 AND amend_coop.migrated=1');
     // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
     $query = $this->db->get();
     $data = $query->result_array();
@@ -3703,7 +3706,7 @@ where coop.users_id = '$user_id' and coop.status =15");
     // End Get Coop Type for HO
     $this->db->select('amend_coop.*,registeredamendment.coopName,registeredamendment.dateRegistered, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('amend_coop');
-    $this->db->join('registeredamendment', 'registeredamendment.amendment_id = amend_coop.id','left');
+    $this->db->join('registeredamendment', 'registeredamendment.cooperative_id = amend_coop.cooperative_id','left');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');

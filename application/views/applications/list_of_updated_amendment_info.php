@@ -712,7 +712,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
   </div>
   <?endif;?>
 
- <?php if(!$is_client && $admin_info->region_code != '00') :?>
+ <!-- <?php if(!$is_client && $admin_region_code != '00') :?>
 <h4 style="
 padding: 15px 10px;
 background: #fff;
@@ -781,3 +781,4 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered by Head Office Proce
   </div>
   </div>
   <?endif;?>
+ -->
