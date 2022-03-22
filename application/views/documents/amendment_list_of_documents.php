@@ -506,7 +506,7 @@
   </div>
 <?php endif; ?>
 
-<div class="row mb-2">
+<div class="row mb-2"> 
   <?php if($acbl['bylaws'] == true):?>
   <div class="col-sm-12 col-md-4">
     <div class="card">

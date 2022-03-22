@@ -7,7 +7,7 @@ class Amendment_update extends CI_Controller{
     {
       parent::__construct();
       //Codeigniter : Write Less Do More
-      $this->load->model('amendment_uploaded_document_model');
+      $this->load->model('amendment_update_model');
     }
     
 
@@ -965,7 +965,8 @@ class Amendment_update extends CI_Controller{
                   $data['client_info'] = $this->user_model->get_user_info($user_id); 
 
                   $decoded_id =$this->encryption->decrypt(decrypt_custom($this->input->post('amendment_id')));  
-                    // $subclass_array = $this->input->post('subClass');
+                   $cooperative_id = $this->coop_dtl($decoded_id);
+                  $data['coop_info2'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$decoded_id);
                     $major_industry = $this->input->post('majorIndustry');
                     $members_composition = $this->input->post('compositionOfMembers');
              
@@ -1061,10 +1062,10 @@ class Amendment_update extends CI_Controller{
                       'house_blk_no' => $this->input->post('blkNo'),
                       'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
                     );
-                   
+                    $reg_id = $this->amendment_update_model->reg_id($data['coop_info2']->regNo)->id;
                     $dateRegistered = $this->input->post('dateRegistered');     
                     $coopName = $this->input->post('proposed_name');
-                    $this->db->update('registeredamendment',array('dateRegistered'=>$dateRegistered,'coopName'=>$coopName),array('amendment_id'=>$decoded_id));
+                    $this->db->update('registeredamendment',array('dateRegistered'=>$dateRegistered,'coopName'=>$coopName),array('id'=>$reg_id));
                    
                     $data_bylaws = array(
                       'cooperatives_id' => $cooperative_id,
@@ -1100,7 +1101,6 @@ class Amendment_update extends CI_Controller{
                        $this->session->set_flashdata(array('msg_class'=>'success','amendment_msg'=>'Successfully updated basic information.'));
                       redirect(base_url('/amendment_update/'.$this->input->post('amendment_id').'/update'));
                     }else{
-                      $this->session->set_flashdata('cooperative_error', '');
                         $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Unable to update cooperative basic information.'));
                       redirect('amendment_update/'.$this->input->post('amendment_id'));
                     }

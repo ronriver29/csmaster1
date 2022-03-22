@@ -3753,6 +3753,12 @@ where coop.users_id = '$user_id' and coop.status =15");
     }
     return $data;
   }
+
+  public function reg_id($regNo)
+  {
+    $query = $this->db->query("select id from registeredamendment where regNo='$regNo' order by id desc limit 1");
+    return $query->row();
+  }
    public function debug($array)
     {
         echo"<pre>";
