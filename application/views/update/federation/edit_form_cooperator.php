@@ -70,9 +70,9 @@
               <div class="alert alert-info" role="alert">
                 <strong>Reminder: <small>(The information below is in your bylaws (capitalization))</small></strong>
                  <ul>
-                   <li>Regular Member must subscribed at least <strong><?= isset($capitalization_info->minimum_subscribed_share_regular)?></strong> shares and pay at least <strong><?= isset($capitalization_info->minimum_paid_up_share_regular)?></strong> shares.</li>
+                   <li>Regular Member must subscribed at least <strong><?php if(isset($capitalization_info->minimum_subscribed_share_regular)){ echo $capitalization_info->minimum_subscribed_share_regular;}?></strong> shares and pay at least <strong><?php if(isset($capitalization_info->minimum_paid_up_share_regular)) { echo $capitalization_info->minimum_paid_up_share_regular;}?></strong> shares.</li>
                    <?php if(isset($bylaw_info->kinds_of_members) ==2) : ?>
-                    <li>Associate Member must subscribed at least  <strong><?= isset($capitalization_info->minimum_subscribed_share_associate)?></strong> shares and pay at least <strong><?= isset($capitalization_info->minimum_paid_up_share_associate)?></strong> shares.</li>
+                    <li>Associate Member must subscribed at least  <strong><?php if(isset($capitalization_info->minimum_subscribed_share_associate)){ echo $capitalization_info->minimum_subscribed_share_associate;}?></strong> shares and pay at least <strong><?php if(isset($capitalization_info->minimum_paid_up_share_associate)){ echo $capitalization_info->minimum_paid_up_share_associate;}?></strong> shares.</li>
                   <?php endif; ?>
                  </ul>
                 </div>
