@@ -150,22 +150,7 @@
               <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsRegularBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Regular Member</button>
             </div>
           </div>
-        <?php endif; } else { ?>
-          <div class="col-sm-12 col-md-12">
-            <div class="form-group">
-              <?php $key=0; ?>
-                <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
-              <label for="regularQualifications<?= $key + 1?>">Regular member qualification <?= $key + 1?></label>
-              <textarea type="text" value="" class="form-control" name="regularQualifications[]" id="regularQualifications<?= $key + 1?>" disabled></textarea>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-sm-12 offset-md-8 col-md-4">
-              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsRegularBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Regular Member</button>
-            </div>
-          </div>
-        <?php } ?>
+        <?php endif; } ?>
             <div class="row row-assoc" style="<?php if(isset($bylaw_info->kinds_of_members)) { echo ($bylaw_info->kinds_of_members == 1) ? "display: none;" : ""; } ?>">
               <div class="col-sm-12 col-md-12">
                 <div class="row">
@@ -187,21 +172,7 @@
                     <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsAssociateBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Associate Member</button>
                   </div>
                 </div>
-                <?php endif; } else { ?>
-                  <div class="row row-associate-qualifications">
-                    <div class="col-sm-12 col-md-12">
-                      <div class="form-group">
-                        <label for="associateQualifications1">Associate member qualification 1</label>
-                        <input type="text" value="" class="form-control" name="associateQualifications[]" id="associateQualifications1" disabled>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-12 offset-md-8 col-md-4">
-                      <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsAssociateBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Associate Member</button>
-                    </div>
-                  </div>
-                <?php } ?>
+                <?php endif; }?>
                 <?php if(isset($bylaw_info->associate_qualifications)){ if(strlen($bylaw_info->associate_qualifications) > 0) : ?>
                   <div class="row row-associate-qualifications">
                     <?php foreach($asc_qualifications as $key => $asc_qualification) : ?>
@@ -771,7 +742,7 @@
               <label for="amendmentMembersWith"><strong>Amendments to the Articles of Cooperation and this By-Laws may be adopted by at least two-thirds (2/3) votes of all members with_________, present and constituting a quorum.</strong></label>
               <select class="custom-select" name="amendmentMembersWith" id="amendmentMembersWith" disabled>
                 <option value="" selected>--</option>
-                <option value="Voting Rights" <?php if($bylaw_info->amendment_votes_members_with == "Voting Rights") echo "selected"; ?>>Voting Rights</option>
+                <option value="Voting Rights" <?php if(isset($bylaw_info->amendment_votes_members_with)) { if($bylaw_info->amendment_votes_members_with == "Voting Rights") echo "selected"; } ?>>Voting Rights</option>
                 <!-- <option value="Members Entitled to Vote" <?php if($bylaw_info->amendment_votes_members_with == "Members Entitled to Vote") echo "selected"; ?>>Members Entitled to Vote</option> -->
               </select>
              </div>
