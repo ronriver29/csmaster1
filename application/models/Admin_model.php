@@ -679,7 +679,7 @@ public function add_admin_director($data,$raw_pass){
 
   public function sendEmailToClientUpdatingApprove($client_email,$regNo,$coop_region){
     $from = "ecoopris@cda.gov.ph";    //senders email address
-    $subject = $proposedname.' Application';  //email subject
+    $subject = 'Updating Application';  //email subject
     $burl = base_url();
 
     $this->db->select('*');
