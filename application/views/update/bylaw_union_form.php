@@ -136,7 +136,7 @@
             <?php endforeach; } else { ?>
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
-                  <?php $key>=1;?>
+                  <?php $key=1;?>
                   <label for="regularQualifications<?= $key + 0?>">Requirements for membership <?= $key + 0?></label>
                   <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <textarea type="text" value="" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 0?>" disabled><?php if(isset($add_memberships)){ echo $add_memberships; }?></textarea>
