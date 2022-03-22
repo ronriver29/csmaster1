@@ -202,7 +202,7 @@ class Committees_update extends CI_Controller{
 
                           $this->load->view('./templates/admin_header', $data);
                           if($data['coop_info']->grouping == 'Federation'){
-                              $this->load->view('federation/federation_committees_list', $data);
+                              $this->load->view('update/committees/federation_committees_list', $data);
                           } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                               $this->load->view('update/union/union_committees_list', $data);
                           } else {
