@@ -136,9 +136,10 @@
             <?php endforeach; } else { ?>
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
-                  <?php $key=1; ?>
-                    <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
-                  <label for="regularQualifications<?= $key + 4?>">Requirements for membership <?= $key + 4?></label>
+                  <?php $key>=1;?>
+                  <label for="regularQualifications<?= $key + 0?>">Requirements for membership <?= $key + 0?></label>
+                  <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                  <textarea type="text" value="" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 0?>" disabled><?php if(isset($add_memberships)){ echo $add_memberships; }?></textarea>
                 </div>
               </div>
             <?php } ?>
@@ -200,8 +201,8 @@
                             <div class="col-sm-12 col-md-12">
                               <div class="form-group">
                                 <?php $key=1;?>
-                                  <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
-                                <label for="regularQualifications<?= $key + 2?>">Regular member qualification <?= $key + 2?></label>
+                                <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                                <label for="regularQualifications<?= $key + 0?>">Regular member qualification <?= $key + 0?></label>
                                 <textarea class="form-control" id="additionaldelegatePowers1" name="additionaldelegatePowers[]" placeholder="Must be in a sentence" rows="2" value="" disabled><?php if(isset($delegate_powers)) { echo $delegate_powers; } ?></textarea>
                               </div>
                             </div>
@@ -274,8 +275,8 @@
                   <div class="form-group">
                     <?php $key=1;?>
                       <a class="customDeleleBtn delegatePowersRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
-                    <label for="additionalPrimaryConsideration<?= $key + 5?>">a.<?=$key+1?></label>
-                    <textarea type="text" value="" class="form-control" name="additionalPrimaryConsideration[]" id="additionalPrimaryConsideration<?= $key + 1?>" disabled><?php if(isset($add_members_votes)) { echo $add_members_votes; } ?></textarea>
+                    <label for="additionalPrimaryConsideration<?= $key + 0?>">a.<?=$key+0?></label>
+                    <textarea type="text" value="" class="form-control" name="additionalPrimaryConsideration[]" id="additionalPrimaryConsideration<?= $key + 0?>" disabled><?php if(isset($add_members_votes)) { echo $add_members_votes; } ?></textarea>
                   </div>
                 </div>
                 <?php } ?>
