@@ -86,7 +86,7 @@
               <div class="form-group">
                 <label for="kindsOfMember"><strong>Define Membership:</strong></label>
                 <select class="custom-select" name="kindsOfMember" id="kindsOfMember" disabled>
-                  <option value="1" <?php if($bylaw_info->kinds_of_members == 1) echo "selected"; ?>>Regular Member Only</option>
+                  <option value="1" <?php if(isset($bylaw_info->kinds_of_members)){ if($bylaw_info->kinds_of_members == 1) echo "selected"; }?>>Regular Member Only</option>
                   <!-- <option value="2" <?php if($bylaw_info->kinds_of_members == 2) echo "selected"; ?>>Regular And Associate Member</option> -->
                 </select>
               </div>
@@ -102,7 +102,7 @@
             <strong>List down the qualifications for regular members:</strong>
           </div>
         </div>
-        <?php if(strlen($bylaw_info->regular_qualifications) <= 0) : ?>
+        <?php if(isset($bylaw_info->regular_qualifications)){ if(strlen($bylaw_info->regular_qualifications) <= 0) : ?>
           <div class="row row-regular-qualifications">
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
@@ -116,8 +116,22 @@
               <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsRegularBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Regular Member</button>
             </div>
           </div>
-        <?php endif;?>
-        <?php if(strlen($bylaw_info->regular_qualifications) > 0) : ?>
+        <?php endif; } else {?>
+          <div class="row row-regular-qualifications">
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+                <label for="regularQualifications1">Regular member qualification 1</label>
+                <textarea type="text" value="" class="form-control" name="regularQualifications[]" id="regularQualifications1" placeholder="Must be in a sentence" disabled></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 offset-md-8 col-md-4">
+              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsRegularBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Regular Member</button>
+            </div>
+          </div>
+        <?php } ?>
+        <?php if(isset($bylaw_info->regular_qualifications)){ if(strlen($bylaw_info->regular_qualifications) > 0) : ?>
           <div class="row row-regular-qualifications">
             <?php foreach($reg_qualifications as $key => $reg_qualification) : ?>
               <div class="col-sm-12 col-md-12">
@@ -136,15 +150,30 @@
               <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsRegularBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Regular Member</button>
             </div>
           </div>
-        <?php endif;?>
-            <div class="row row-assoc" style="<?php echo ($bylaw_info->kinds_of_members == 1) ? "display: none;" : "" ?>">
+        <?php endif; } else { ?>
+          <div class="col-sm-12 col-md-12">
+            <div class="form-group">
+              <?php $key=0; ?>
+                <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+              <label for="regularQualifications<?= $key + 1?>">Regular member qualification <?= $key + 1?></label>
+              <textarea type="text" value="" class="form-control" name="regularQualifications[]" id="regularQualifications<?= $key + 1?>" disabled></textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12 offset-md-8 col-md-4">
+              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsRegularBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Regular Member</button>
+            </div>
+          </div>
+        <?php } ?>
+            <div class="row row-assoc" style="<?php if(isset($bylaw_info->kinds_of_members)) { echo ($bylaw_info->kinds_of_members == 1) ? "display: none;" : ""; } ?>">
               <div class="col-sm-12 col-md-12">
                 <div class="row">
                   <div class="col-sm-12 col-md-12">
                     <strong>List down the qualifications for associate members:</strong>
                   </div>
                 </div>
-                <?php if(strlen($bylaw_info->associate_qualifications) <= 0) : ?>
+                <?php if(isset($bylaw_info->associate_qualifications)){ if(strlen($bylaw_info->associate_qualifications) <= 0) : ?>
                 <div class="row row-associate-qualifications">
                   <div class="col-sm-12 col-md-12">
                     <div class="form-group">
@@ -158,8 +187,22 @@
                     <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsAssociateBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Associate Member</button>
                   </div>
                 </div>
-                <?php endif;?>
-                <?php if(strlen($bylaw_info->associate_qualifications) > 0) : ?>
+                <?php endif; } else { ?>
+                  <div class="row row-associate-qualifications">
+                    <div class="col-sm-12 col-md-12">
+                      <div class="form-group">
+                        <label for="associateQualifications1">Associate member qualification 1</label>
+                        <input type="text" value="" class="form-control" name="associateQualifications[]" id="associateQualifications1" disabled>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 offset-md-8 col-md-4">
+                      <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsAssociateBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Associate Member</button>
+                    </div>
+                  </div>
+                <?php } ?>
+                <?php if(isset($bylaw_info->associate_qualifications)){ if(strlen($bylaw_info->associate_qualifications) > 0) : ?>
                   <div class="row row-associate-qualifications">
                     <?php foreach($asc_qualifications as $key => $asc_qualification) : ?>
                       <div class="col-sm-12 col-md-12">
@@ -178,7 +221,7 @@
                       <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreQualificationsAssociateBtn" disabled><i class="fas fa-plus"></i> Add More Qualifications for Associate Member</button>
                     </div>
                   </div>
-                <?php endif;?>
+                <?php endif; }?>
               </div>
             </div>
         <div class="row">
@@ -186,7 +229,7 @@
             <p class="h6 font-weight-bold text-color-blue-custom">Section 3. <em>Requirements for Membership</em></p>
           </div>
         </div>
-        <?php if(strlen($bylaw_info->regular_qualifications) <= 0) : ?>
+        <?php if(isset($bylaw_info->regular_qualifications)){ if(strlen($bylaw_info->regular_qualifications) <= 0) : ?>
         <div class="row additionalRequirementsForMembership">
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
@@ -202,7 +245,7 @@
             </small>
               <!-- <label for="additionalRequirementsForMembership"><strong>List down any additional requirements for membership in your cooperative</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> -->
         
-              <textarea class="form-control " style="resize: none;" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->additional_requirements_for_membership ?>" disabled></textarea>
+              <textarea class="form-control " style="resize: none;" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" placeholder="Must be in a sentence" rows="8" value="<?php if(isset($bylaw_info->additional_requirements_for_membership)) { echo $bylaw_info->additional_requirements_for_membership; } ?>" disabled></textarea>
             </div>
           </div>
         </div>
@@ -212,8 +255,34 @@
               <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreRequirementsBtn" disabled><i class="fas fa-plus"></i> Add More Requirements for Membership</button>
             </div>
           </div>
-          <?php endif; ?>
-          <?php if(strlen($bylaw_info->regular_qualifications) > 0) : ?>
+          <?php endif; } else { ?>
+            <div class="row additionalRequirementsForMembership">
+          <div class="col-sm-12 col-md-12">
+            <div class="form-group">
+              <small>
+                A member must have complied with the following requirements:
+              <ol type="a">
+                <li> Approved application for membership; </li>
+                <li> General Assembly Resolution indicating membership and share capital contribution to this Federation of Cooperatives; </li>
+                <li> Board of Directors Resolution on authorized representative; </li>
+                <li> Certification of line of business activities engaged in; </li>
+                <li> Subscribed and paid the required minimum share capital and membership fee; and </li>
+              </ol>
+            </small>
+              <!-- <label for="additionalRequirementsForMembership"><strong>List down any additional requirements for membership in your cooperative</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> -->
+        
+              <textarea class="form-control " style="resize: none;" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" placeholder="Must be in a sentence" rows="8" value="<?php if(isset($bylaw_info->additional_requirements_for_membership)){ echo $bylaw_info->additional_requirements_for_membership; } ?>" disabled></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 offset-md-8 col-md-4">
+              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreRequirementsBtn" disabled><i class="fas fa-plus"></i> Add More Requirements for Membership</button>
+            </div>
+          </div>
+          <?php } ?>
+          <?php if(isset($bylaw_info->regular_qualifications)){ if(strlen($bylaw_info->regular_qualifications) > 0) : ?>
           <div class="row additionalRequirementsForMembership">
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
@@ -246,7 +315,7 @@
               <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreRequirementsBtn" disabled><i class="fas fa-plus"></i> Add More Requirements for Membership</button>
             </div>
           </div>
-        <?php endif;?>
+        <?php endif; }?>
         <div class="row">
           <div class="col-sm-12 col-md-12">
             <p class="h6 font-weight-bold text-color-blue-custom">Section 4. <em>Application for Membership</em></p>
@@ -256,14 +325,14 @@
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
             <label for="actUponMembershipDays"><strong>An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within _________ (_____) days from the date of filing.  The Board of Directors shall devise a form for the purpose which shall, aside from the personal data of the applicant, include the duties of a member to participate in all programs including but not limited to capital build-up and savings mobilization of the Cooperative and, such other information as may be deemed necessary.</strong></label>
-            <input type="number" value="<?=$bylaw_info->act_upon_membership_days ?>" class="form-control" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" disabled>
+            <input type="number" value="<?php if(isset($bylaw_info->act_upon_membership_days)) { echo $bylaw_info->act_upon_membership_days; }  ?>" class="form-control" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" disabled>
             <small id="emailHelp" class="form-text text-muted">Days from the date filing.</small>
            </div>
           </div>
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
             <label for="membershipFee"><strong>How much is the membership fee?</strong></label>
-            <input type="text" value="<?= number_format($bylaw_info->membership_fee,2) ?>" min="0" step="any" class="form-control" id="membershipFee" name="membershipFee"   placeholder="&#8369; 0.00" disabled>
+            <input type="text" value="<?php if(isset($bylaw_info->membership_fee)) { echo number_format($bylaw_info->membership_fee,2); } ?>" min="0" step="any" class="form-control" id="membershipFee" name="membershipFee"   placeholder="&#8369; 0.00" disabled>
             <small id="emailHelp" class="form-text text-muted">In case the application should be rejected, this fee shall be refunded to the applicant within 7-10 business days.</small>
            </div>
           </div>
@@ -314,7 +383,7 @@
               <p class="h6 font-weight-bold text-color-blue-custom">Section 9. <em>Affiliate Entitled to Vote</em></p>
             </div>
           </div>
-          <?php if(strlen($bylaw_info->additional_conditions_to_vote) <= 0) : ?>
+          <?php if(isset($bylaw_info->additional_conditions_to_vote)){ if(strlen($bylaw_info->additional_conditions_to_vote) <= 0) : ?>
           <div class="row additionalConditionsForVoting">
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
@@ -331,7 +400,7 @@
               </small>
                 <!-- <label for="additionalConditionsForVoting"><strong>List down any additional condition for members to be able to vote</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> -->
                 
-                <textarea class="form-control " style="resize: none;" id="additionalConditionsForVoting" name="additionalConditionsForVoting[]" placeholder="Must be in a sentence"rows="8"  value="" disabled><?= $bylaw_info->additional_conditions_to_vote ?></textarea>
+                <textarea class="form-control " style="resize: none;" id="additionalConditionsForVoting" name="additionalConditionsForVoting[]" placeholder="Must be in a sentence"rows="8"  value="" disabled><?php if(isset($bylaw_info->additional_conditions_to_vote)){ echo $bylaw_info->additional_conditions_to_vote; } ?></textarea>
               </div>
             </div>
           </div>
@@ -340,8 +409,34 @@
               <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreMembersEntitledtoVoteBtn" disabled><i class="fas fa-plus"></i> Add More Members Entitled to Vote</button>
             </div>
           </div>
-        <?php endif; ?>
-          <?php if(strlen($bylaw_info->additional_conditions_to_vote) > 0) : ?>
+        <?php endif; } else {?>
+          <div class="row additionalConditionsForVoting">
+            <div class="col-sm-12 col-md-12">
+              <div class="form-group">
+                <small>
+                  This is the general conditions for members to vote.
+                <ol type="a">
+                  <li> Has paid the membership fee and the value of the minimum shares required for membership; </li>
+                  <li> Is not delinquent in the payment of its share capital subscriptions and other accounts or obligations; </li>
+                  <li> Has not violated any provision of cooperative laws, CDA administrative issuances, Articles of Cooperation and this By laws, the terms and conditions of the subscription agreement;  and the decisions, guidelines, rules and regulations promulgated by the Board of Directors and the General Assembly; </li>
+                  <li> Has completed the continuing education program prescribed by the Board of Directors; </li>
+                  <li> Has remitted the Cooperative Education and Training Fund (CETF)  due to the Federation/Union; and</li>
+                  <li> Has participated in the affairs of the Federation and patronized its businesses in accordance with the policies and guidelines.</li>
+                </ol>
+              </small>
+                <!-- <label for="additionalConditionsForVoting"><strong>List down any additional condition for members to be able to vote</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> -->
+                
+                <textarea class="form-control " style="resize: none;" id="additionalConditionsForVoting" name="additionalConditionsForVoting[]" placeholder="Must be in a sentence"rows="8"  value="" disabled><?php if(isset($bylaw_info->additional_conditions_to_vote)) { echo $bylaw_info->additional_conditions_to_vote; } ?></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 offset-md-8 col-md-4">
+              <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreMembersEntitledtoVoteBtn" disabled><i class="fas fa-plus"></i> Add More Members Entitled to Vote</button>
+            </div>
+          </div>
+        <?php } ?>
+          <?php if(isset($bylaw_info->additional_conditions_to_vote)){ if(strlen($bylaw_info->additional_conditions_to_vote) > 0) : ?>
           <div class="row additionalConditionsForVoting">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
@@ -375,7 +470,7 @@
               <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreMembersEntitledtoVoteBtn" disabled><i class="fas fa-plus"></i> Add More Members Entitled to Vote</button>
             </div>
           </div>
-        <?php endif;?>
+        <?php endif; }?>
           <div class="row">
             <div class="col-sm-12 col-md-12 text-center">
               <p class="font-weight-bold h5 text-color-blue-custom">Article III. Administration</p>
@@ -400,7 +495,7 @@
                 </small>
                 </div>
               </div>
-            <?php foreach($delegate_powers as $key => $add_members_votes) : ?>
+            <?php if($delegate_powers != '') { foreach($delegate_powers as $key => $add_members_votes) : ?>
                 <div class="col-sm-12 col-md-12">
                   <div class="form-group">
                     <?php if($key>=1) :?>
@@ -410,7 +505,16 @@
                     <textarea type="text" value="" class="form-control" name="additionaldelegatePowers[]" id="additionaldelegatePowers<?= $key + 5?>" disabled><?= $add_members_votes?></textarea>
                   </div>
                 </div>
-                <?php endforeach;?>
+                <?php endforeach; } else {?>
+                  <div class="col-sm-12 col-md-12">
+                  <div class="form-group">
+                    <?php $key=0;?>
+                      <a class="customDeleleBtn delegatePowersRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                    <label for="additionaldelegatePowers<?= $key + 5?>">General Assembly</label>
+                    <textarea type="text" value="" class="form-control" name="additionaldelegatePowers[]" id="additionaldelegatePowers<?= $key + 5?>" disabled><?php if(isset($add_members_votes)) { echo $add_members_votes; } ?></textarea>
+                  </div>
+                </div>
+                <?php } ?>
           </div>
           <div class="row">
             <div class="col-sm-12 offset-md-8 col-md-4">
@@ -442,7 +546,7 @@
                                     <option value="fourth/4th saturday of March">fourth/4th saturday of March</option>
                                   </select>-->
               <label for="regularMeetingDay"><strong>On what day shall the General Assembly hold its annual regular meeting at the principal office of the Cooperation or at any place that may be determined by the board?</strong>  <small class="text-info">Shall not be beyond ninety (90) days after the close of the calendar year.</small></label>
-              <input type="text" value="<?=$bylaw_info->annual_regular_meeting_day?>" class="form-control" id="regularMeetingDay" name="regularMeetingDay" placeholder="ex. second/2nd saturday of february" disabled>
+              <input type="text" value="<?php if(isset($bylaw_info->annual_regular_meeting_day)) { echo $bylaw_info->annual_regular_meeting_day; } ?>" class="form-control" id="regularMeetingDay" name="regularMeetingDay" placeholder="ex. second/2nd saturday of february" disabled>
              </div>
             </div>
           </div>
@@ -462,7 +566,7 @@
             <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                       <label for="quorumPercentage"><strong>How many percent of the members are entitled to vote to constitute the quorum?</strong> <small  class="text-info"><?=$percenttext?></small></label>
-                      <input type="number" value="<?=$bylaw_info->members_percent_quorom?>"  class="form-control" id="quorumPercentage" name="quorumPercentage" placeholder="Enter Percent %" value="25" disabled>
+                      <input type="number" value="<?php if(isset($bylaw_info->members_percent_quorom)) { echo $bylaw_info->members_percent_quorom; } ?>"  class="form-control" id="quorumPercentage" name="quorumPercentage" placeholder="Enter Percent %" value="25" disabled>
                </div>
               </div>
           </div>
@@ -480,7 +584,7 @@
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
                    <label for="compositionoftheboard"><strong>The Board of Directors shall be composed of _____________() members.</strong></label>
-                 <input type="number" value="<?=$bylaw_info->composition_of_bod?>" class="form-control" id="compositionoftheboard" name="compositionoftheboard" placeholder="Enter Number" disabled>
+                 <input type="number" value="<?php if(isset($bylaw_info->composition_of_bod)) { echo $bylaw_info->composition_of_bod; }?>" class="form-control" id="compositionoftheboard" name="compositionoftheboard" placeholder="Enter Number" disabled>
               </div>
             </div>
           </div>
@@ -493,11 +597,11 @@
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
                    <label for="consecutiveAbsences"><strong>How many consecutive absences in order to be disqualified?</strong></label>
-                 <input type="number" value="<?=$bylaw_info->number_of_absences_disqualification?>" class="form-control" id="consecutiveAbsences" name="consecutiveAbsences" placeholder="Enter Number" disabled>
+                 <input type="number" value="<?php if(isset($bylaw_info->number_of_absences_disqualification)){ echo $bylaw_info->number_of_absences_disqualification; }?>" class="form-control" id="consecutiveAbsences" name="consecutiveAbsences" placeholder="Enter Number" disabled>
               </div>
                <div class="form-group">
                   <label for="consecutivePercentageAbsences"><strong>How many percent of absences of all meetings within a year in order to be disqualified?</strong> <small class="text-info">(Atleast twenty five percent.)</small></label>
-                 <input type="number" value="<?=$bylaw_info->percent_of_absences_all_meettings?>" class="form-control" id="consecutivePercentageAbsences" name="consecutivePercentageAbsences" placeholder="Enter Percent %" disabled>
+                 <input type="number" value="<?php if(isset($bylaw_info->percent_of_absences_all_meettings)){ echo $bylaw_info->percent_of_absences_all_meettings; }?>" class="form-control" id="consecutivePercentageAbsences" name="consecutivePercentageAbsences" placeholder="Enter Percent %" disabled>
               </div>
             </div>
           </div>
@@ -510,7 +614,7 @@
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
                 <label for="termHoldDirector"><strong>How many years should the directors hold office before the new election of directors?</strong></label>
-                <input type="number" value="<?=$bylaw_info->director_hold_term?>" class="form-control" id="termHoldDirector" name="termHoldDirector" placeholder="Enter years" disabled>
+                <input type="number" value="<?php if(isset($bylaw_info->director_hold_term)){ echo $bylaw_info->director_hold_term; }?>" class="form-control" id="termHoldDirector" name="termHoldDirector" placeholder="Enter years" disabled>
              </div>
             </div>
           </div>
@@ -529,19 +633,19 @@
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
               <label for="investPerMonth"><strong>At least how much a member should invest per annum?</strong></label>
-               <input type="text" value="<?php if($bylaw_info->member_invest_per_month !== ''){ echo number_format($bylaw_info->member_invest_per_month,2); }?>" class="form-control validate[custom[number]]" min="1" id="investPerMonth" name="investPerMonth" placeholder="" disabled>
+               <input type="text" value="<?php if(isset($bylaw_info->member_invest_per_month)){ if($bylaw_info->member_invest_per_month !== ''){ echo number_format($bylaw_info->member_invest_per_month,2); } }?>" class="form-control validate[custom[number]]" min="1" id="investPerMonth" name="investPerMonth" placeholder="" disabled>
              </div>
             </div>
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
               <label for="investAnnualInterest"><strong>Percentage of every member's annual interest on share capital and patronage refund should be invested?</strong></label>
-               <input type="number" value="<?=$bylaw_info->member_percentage_annual_interest?>" class="form-control" id="investAnnualInterest" name="investAnnualInterest" placeholder="%" disabled>
+               <input type="number" value="<?php if(isset($bylaw_info->member_percentage_annual_interest)) { echo $bylaw_info->member_percentage_annual_interest; } ?>" class="form-control" id="investAnnualInterest" name="investAnnualInterest" placeholder="%" disabled>
              </div>
             </div>
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
               <label for="investService"><strong>Percentage of goods procured/services availed by every member should be invested?</strong></label>
-               <input type="number" value="<?=$bylaw_info->member_percentage_service?>" class="form-control" id="investService" name="investService" placeholder="%" disabled>
+               <input type="number" value="<?php if(isset($bylaw_info->member_percentage_service)){ echo $bylaw_info->member_percentage_service; }?>" class="form-control" id="investService" name="investService" placeholder="%" disabled>
              </div>
             </div>
           </div>
@@ -567,7 +671,7 @@
                 </small>
                 </div>
               </div>
-            <?php foreach($primary_consideration as $key => $add_members_votes) : ?>
+            <?php if($primary_consideration != ''){ foreach($primary_consideration as $key => $add_members_votes) : ?>
                 <div class="col-sm-12 col-md-12">
                   <div class="form-group">
                     <?php if($key>=1) :?>
@@ -577,7 +681,16 @@
                     <textarea type="text" value="" class="form-control" name="additionalPrimaryConsideration[]" id="additionalPrimaryConsideration<?= $key + 1?>" disabled><?= $add_members_votes?></textarea>
                   </div>
                 </div>
-                <?php endforeach;?>
+                <?php endforeach; } else {?>
+                  <div class="col-sm-12 col-md-12">
+                  <div class="form-group">
+                    <?php $key = 0?>
+                      <a class="customDeleleBtn delegatePowersRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                    <label for="additionalPrimaryConsideration<?= $key + 5?>">a.<?=$key+1?></label>
+                    <textarea type="text" value="" class="form-control" name="additionalPrimaryConsideration[]" id="additionalPrimaryConsideration<?= $key + 1?>" disabled></textarea>
+                  </div>
+                </div>
+                <?php } ?>
           </div>
           <div class="row">
             <div class="col-sm-12 offset-md-8 col-md-4">
@@ -607,25 +720,25 @@
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
               <label for="educationFund"><strong>Percentage to be set aside for Cooperative Education and Training Fund?</strong></label>
-               <input type="number" value="<?=$bylaw_info->percent_education_fund?>" class="form-control" id="educationFund" name="educationFund" placeholder="%" disabled>
+               <input type="number" value="<?php if(isset($bylaw_info->percent_education_fund)) { echo $bylaw_info->percent_education_fund; }?>" class="form-control" id="educationFund" name="educationFund" placeholder="%" disabled>
              </div>
             </div>
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
               <label for="reserveFund"><strong>Percentage to be set aside for Reserve Fund?</strong></label>
-               <input type="number" value="<?=$bylaw_info->percent_reserve_fund?>" class="form-control" id="reserveFund" name="reserveFund" placeholder="%" disabled>
+               <input type="number" value="<?php if(isset($bylaw_info->percent_reserve_fund)) { echo $bylaw_info->percent_reserve_fund; } ?>" class="form-control" id="reserveFund" name="reserveFund" placeholder="%" disabled>
              </div>
             </div>
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
               <label for="communityFund"><strong>Percentage to be set aside for Community Development Fund?</strong></label>
-               <input type="number" value="<?=$bylaw_info->percent_community_fund?>" class="form-control" id="communityFund" name="communityFund" placeholder="%" disabled>
+               <input type="number" value="<?php if(isset($bylaw_info->percent_community_fund)) { echo $bylaw_info->percent_community_fund; } ?>" class="form-control" id="communityFund" name="communityFund" placeholder="%" disabled>
              </div>
             </div>
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
               <label for="othersFund"><strong>Percentage to be set aside for Optional Fund?</strong></label>
-               <input type="number" value="<?=$bylaw_info->percent_optional_fund?>" class="form-control" id="othersFund" name="othersFund" placeholder="%" disabled>
+               <input type="number" value="<?php if(isset($bylaw_info->percent_optional_fund)){ echo $bylaw_info->percent_optional_fund; } ?>" class="form-control" id="othersFund" name="othersFund" placeholder="%" disabled>
              </div>
             </div>
           </div>
@@ -638,7 +751,7 @@
             <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                       <label for="nonMemberPatronYears"><strong>In the case of non-member patron, his/her proportionate amount of patronage refunds shall be set aside in a general fund for such patron and shall be allocated to individual non-member patron and only upon request and presentation of evidence of the amount of his/her patronage. The amount so allocated shall be credited to such patron toward payment of the minimum capital contribution for membership. When a sum equal to this amount has accumulated at any time within how many years?</strong></label>
-                       <input type="number" value="<?=$bylaw_info->non_member_patron_years?>" class="form-control" id="nonMemberPatronYears" name="nonMemberPatronYears" placeholder="how many years" disabled>
+                       <input type="number" value="<?php if(isset($bylaw_info->non_member_patron_years)) { echo $bylaw_info->non_member_patron_years; } ?>" class="form-control" id="nonMemberPatronYears" name="nonMemberPatronYears" placeholder="how many years" disabled>
                 </div>
                 </div>
           </div>

@@ -748,8 +748,8 @@ $("#deleteStaffForm").validationEngine('attach',
               $('#addCommitteeForm #cooperatorID').on('change', function(){
                 $("#addCommitteeForm .ac-info-row input,textarea").val("");
                 if($(this).val() && $(this).val().length >0){
-					       var cooperator_id = $(this).val() ;
-					// alert(cooperator_ID);
+                 var cooperator_id = $(this).val() ;
+          // alert(cooperator_ID);
                   $.ajax({
                       type : "POST",
                       url  : "../cooperators/get_post_cooperator_info",
@@ -1380,7 +1380,7 @@ $("#deleteStaffForm").validationEngine('attach',
       });
     });
     var labelRegularQualifications = $('<label></label>').attr({'for': 'regularQualifications'+(intLastCount + 1)}).text('Regular member qualification ' + (intLastCount + 1));
-    var inputRegularQualifications = $('<textarea></textarea>').attr({'type':'text','class': 'form-control validate[required]','placeholder':'Must be in a sentence','name': 'regularQualifications[]', 'id': 'regularQualifications' + (intLastCount + 1)});
+    var inputRegularQualifications = $('<textarea></textarea>').attr({'type':'text','class': 'form-control','placeholder':'Must be in a sentence','name': 'regularQualifications[]', 'id': 'regularQualifications' + (intLastCount + 1)});
     var divFormGroupRegularQualifications = $('<div></div>').attr({'class':'form-group'});
     var divColRegularQualifications = $('<div></div>').attr({'class':'col-sm-12 col-md-12'});
     $(divFormGroupRegularQualifications).append(deleteSpan,labelRegularQualifications,inputRegularQualifications);
