@@ -12,35 +12,44 @@
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
+
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
         
             $data['title'] = 'Updated Amendment Information';
             $data['header'] = 'Updated Amendment Information';
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-            $data['admin_region_code'] = $data['admin_info']->region_code;
-              if($data['admin_info']->region_code =='00')
-              {
-                 $data['list_cooperatives_registered'] = $this->amendment_update_model->get_all_registered_amendment_ho('00'); 
-                $data['list_cooperatives'] = $this->amendment_update_model->get_all_updated_coop_info_ho($data['admin_info']->region_code);
-                $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
-              }
-              else
-              {
-                $data['list_cooperatives_registered'] = $this->amendment_update_model->get_all_registered_amendment($data['admin_info']->region_code); 
-                // echo $this->db->last_query()
-                 $data['list_cooperatives_registered_ho'] = $this->amendment_update_model->get_all_updated_registered_coop_ho();
-                $data['list_cooperatives'] = $this->amendment_update_model->get_all_updated_coop_info($data['admin_info']->region_code);
-                // echo $this->db->last_query();
-                $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
-              }
-                
-                // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
-            // $this->debug($data['admin_info']);
-            $this->load->view('templates/admin_header', $data);
-            $this->load->view('applications/list_of_updated_amendment_info', $data);
-            $this->load->view('applications/assign_admin_modal');
-            $this->load->view('templates/admin_footer');
+            if($data['admin_info']->access_level ==6)
+            {
+                $data['admin_region_code'] = $data['admin_info']->region_code;
+                if($data['admin_info']->region_code =='00')
+                {
+                   $data['list_cooperatives_registered'] = $this->amendment_update_model->get_all_registered_amendment_ho('00'); 
+                  $data['list_cooperatives'] = $this->amendment_update_model->get_all_updated_coop_info_ho($data['admin_info']->region_code);
+                  $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
+                }
+                else
+                {
+                  $data['list_cooperatives_registered'] = $this->amendment_update_model->get_all_registered_amendment($data['admin_info']->region_code); 
+                  // echo $this->db->last_query()
+                   $data['list_cooperatives_registered_ho'] = $this->amendment_update_model->get_all_updated_registered_coop_ho();
+                  $data['list_cooperatives'] = $this->amendment_update_model->get_all_updated_coop_info($data['admin_info']->region_code);
+                  // echo $this->db->last_query();
+                  $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
+                }
+                  
+                  // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
+              // $this->debug($data['admin_info']);
+              $this->load->view('templates/admin_header', $data);
+              $this->load->view('applications/list_of_updated_amendment_info', $data);
+              $this->load->view('applications/assign_admin_modal');
+              $this->load->view('templates/admin_footer');
+            }
+            else
+            {
+              echo"Unauthorized!";
+            }
+            
            }
       }
 

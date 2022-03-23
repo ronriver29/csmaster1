@@ -82,7 +82,7 @@ class amendment_update_model extends CI_Model{
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status = 41 AND ho=0');
+    $this->db->where('status = 41 AND ho=0 AND amend_coop.migrated=1');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
@@ -3685,7 +3685,7 @@ where coop.users_id = '$user_id' and coop.status =15");
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('amend_coop.status = 40 AND amend_coop.migrated=1');
+    $this->db->where('amend_coop.status = 40 AND amend_coop.migrated=1 AND ho=0');
     // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
     $query = $this->db->get();
     $data = $query->result_array();
