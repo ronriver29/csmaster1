@@ -879,29 +879,30 @@ class Amendment_update extends CI_Controller{
                         $data['list_of_major_industry_']= $business_data;
 
                         // $this->debug( $data['list_of_major_industry_']);
-                        
-                        foreach($cooptype_id_array as $ctype_id)
-                        {
-                          $mdata[] = $this->list_of_majorindustry($ctype_id);
-                        }
-                     
-                        $data['mjor_list']=$mdata;
-                     
-                        foreach($mdata as $m)
-                        {
-                          //$this->$this->major_industry_description_subclass($['sublcass+i']);
-                          $subclass_data[]=$this->list_of_subclasss($m['major_industry_id']);
-                        }
+                      if($data['coop_info2']->type_of_cooperative !='Union')
+                      {    
+                          foreach($cooptype_id_array as $ctype_id)
+                          {
+                            $mdata[] = $this->list_of_majorindustry($ctype_id);
+                          }
+                       
+                          $data['mjor_list']=$mdata;
+                       
+                          foreach($mdata as $m)
+                          {
+                            //$this->$this->major_industry_description_subclass($['sublcass+i']);
+                            $subclass_data[]=$this->list_of_subclasss($m['major_industry_id']);
+                          }
 
-                       foreach($subclass_data as $sdata){
-                        foreach($sdata as $srow)
-                        {
-                          $list_subclass[]= $this->major_industry_description_subclass($srow['subclass_id']);
-                        }
-                       }
+                         foreach($subclass_data as $sdata){
+                          foreach($sdata as $srow)
+                          {
+                            $list_subclass[]= $this->major_industry_description_subclass($srow['subclass_id']);
+                          }
+                         }
 
-                       $data['list_subclass'] = $list_subclass;
-
+                         $data['list_subclass'] = $list_subclass;
+                      }   
                     }
                   }
                   // $data['members_compositions']=$this->amendment_update_model->get_composition_of_members($decoded_id);
