@@ -547,7 +547,8 @@ class Amendment_update extends CI_Controller{
                         $data['list_of_major_industry_']= $business_data;
 
                         // $this->debug( $data['list_of_major_industry_']);
-                        
+                      if($data['coop_info2']->type_of_cooperative !='Union')
+                      {  
                         foreach($cooptype_id_array as $ctype_id)
                         {
                           $mdata[] = $this->list_of_majorindustry($ctype_id);
@@ -557,8 +558,7 @@ class Amendment_update extends CI_Controller{
                      
                         foreach($mdata as $m)
                         {
-                          //$this->$this->major_industry_description_subclass($['sublcass+i']);
-                          $subclass_data[]=$this->list_of_subclasss($m['major_industry_id']);
+                            $subclass_data[]=$this->list_of_subclasss($m['major_industry_id']);
                         }
 
                        foreach($subclass_data as $sdata){
@@ -569,6 +569,7 @@ class Amendment_update extends CI_Controller{
                        }
 
                        $data['list_subclass'] = $list_subclass;
+                      }   
 
                     }
                   }
@@ -1620,7 +1621,7 @@ echo $input;
              {
               $region_code = '00';
              }
-             if($this->amendment_update_model->submit_by_authorized_user($decoded_id,$data['coop_info2']->rCode))
+             if($this->amendment_update_model->submit_by_authorized_user($decoded_id,$region_code))
             {                              
               $this->session->set_flashdata(array('msg_class'=>'success','amendment_msg'=>'Successfully submitted.'));   
               redirect('amendment_update/'.$this->input->post('cooperativeID'));                           

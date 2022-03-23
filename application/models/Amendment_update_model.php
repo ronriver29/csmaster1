@@ -1303,9 +1303,11 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15  order by amend_coop.
         $this->db->insert('amendment_bylaws',$data_bylaws);
       }
 
+    if($data['type_of_cooperative'] != 'Union')
+    {
 
+    
       $business_info_coop = $this->business_activities_cooperative_by_coop_id($coop_id);
-
        $business_data = array();
       if($business_info_coop!=NULL)
       {
@@ -1345,8 +1347,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15  order by amend_coop.
       elseif($this->business_activities_cooperative_amendment($amendment_id))
       {
           if(!empty($major_industry)>0)
-              {
-
+          {
                 $this->db->delete('business_activities_cooperative_amendment',array('amendment_id'=>$amendment_id));
                 foreach($major_industry as $major_row)
                 {
@@ -1361,11 +1362,9 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15  order by amend_coop.
                     unset($major_row['major_id']);
                      $final_business_data = $major_row;
                       $this->db->insert('business_activities_cooperative_amendment',$final_business_data);
-                  }
-                 
-                }
-               
-              }
+                  }           
+                }     
+          }
       }
       else
       {  
@@ -1388,18 +1387,9 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15  order by amend_coop.
                        $this->db->insert('business_activities_cooperative_amendment',$final_business_data);
                   }
                 }
-
-
-
-                // if($this->db->delete('business_activities_cooperative_amendment',array('amendment_id'=>$amendment_id)))
-                // {
-                 
-                 
-                // }
               }
-           
       }
-    
+    }
   
     // update amend_coop table
     if(!$this->db->update('amend_coop',$data,array('id'=>$amendment_id)))
@@ -1697,10 +1687,11 @@ public function submit_by_authorized_user($amendment_id,$region_code){
 
   // $this->db->trans_begin();
   $ho =0;
-  if($region_code='00')
+  if($region_code=='00')
   {
     $ho =1;
   }
+
   $this->db->where(array('id'=>$amendment_id));
   if($this->db->update('amend_coop',array('status'=>41,'ho'=>$ho,'updated_at'=>date('Y-m-d h:i:s'))))
   {
