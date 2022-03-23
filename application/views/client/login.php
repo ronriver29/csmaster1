@@ -57,7 +57,7 @@
 
           </div>
           <a class="btn btn-linnk" href="<?php echo base_url();?>welcome">Home Page</a><br>
-          <!-- <a class="btn btn-link" data-toggle="modal" data-target="#deleteCooperativeModal" href="" role="button">Click here if registered before September 1, 2020</a> -->
+          <a class="btn btn-link" data-toggle="modal" data-target="#deleteCooperativeModal" href="" role="button">Click here if registered before September 1, 2020</a>
             
             
             <br/>

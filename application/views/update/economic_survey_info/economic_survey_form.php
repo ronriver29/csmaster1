@@ -216,19 +216,19 @@
         <div class="row row-strat">
           <div class="col-sm-12 col-md-4">
             <div class="form-check">
-              <input type="checkbox" class="form-check-input" value="1" name="strategiesSupport[]" id="collectivePurchases" disabled <?php if(!empty($survey_info->strategies_support_members[0])){ ($survey_info->strategies_support_members[0] == 1 ? "checked" :""); } ?>>
+              <input type="checkbox" class="form-check-input" value="1" name="strategiesSupport[]" id="collectivePurchases" disabled <?php if(!empty($survey_info->strategies_support_members[0])){ if($survey_info->strategies_support_members[0] == 1) { echo "checked"; } }?>>
               <label class="form-check-label" for="collectivePurchases">Collective purchases</label>
             </div>
           </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-check">
-              <input type="checkbox" class="form-check-input" value="2" name="strategiesSupport[]" id="lendingPolicies" disabled <?php if(!empty($survey_info->strategies_support_members[1])){ ($survey_info->strategies_support_members[1] == 1 ? "checked" :""); } ?>>
+              <input type="checkbox" class="form-check-input" value="2" name="strategiesSupport[]" id="lendingPolicies" disabled <?php if(!empty($survey_info->strategies_support_members[1])){ if($survey_info->strategies_support_members[1] == 1) { echo "checked"; } }?>>
               <label class="form-check-label" for="lendingPolicies">Commitment on lending policies</label>
             </div>
           </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-check">
-              <input type="checkbox" class="form-check-input" value="3" name="strategiesSupport[]" id="activeParticipation" disabled <?php if(!empty($survey_info->strategies_support_members[2])){ ($survey_info->strategies_support_members[2] == 1 ?  "checked" : ""); } ?>>
+              <input type="checkbox" class="form-check-input" value="3" name="strategiesSupport[]" id="activeParticipation" disabled <?php if(!empty($survey_info->strategies_support_members[2])){ if($survey_info->strategies_support_members[2] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="activeParticipation">Active participation in cooperative affairs</label>
             </div>
           </div>
@@ -301,19 +301,19 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="1" name="generateCapital[]" id="capitalSubscription" disabled <?php if(!empty($survey_info->generate_capital[0])){ ($survey_info->generate_capital[0] == 1 ?  "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="1" name="generateCapital[]" id="capitalSubscription" disabled <?php if(!empty($survey_info->generate_capital[0])){ if($survey_info->generate_capital[0] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="capitalSubscription">
                 Share Capital Subscription
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2" name="generateCapital[]" id="deferredPayment" disabled <?php if(!empty($survey_info->generate_capital[1])){ ($survey_info->generate_capital[1] == 1 ? "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="2" name="generateCapital[]" id="deferredPayment" disabled <?php if(!empty($survey_info->generate_capital[1])){ if($survey_info->generate_capital[1] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="deferredPayment">
                 Deferred payment of patronage refund/interest on share capital (Revolving Capital)
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="3" name="generateCapital[]" id="acquisitionLoans" disabled <?php if(!empty($survey_info->generate_capital[2])){ ($survey_info->generate_capital[2] == 1 ?  "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="3" name="generateCapital[]" id="acquisitionLoans" disabled <?php if(!empty($survey_info->generate_capital[2])){ if($survey_info->generate_capital[2] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="acquisitionLoans">
                 Acquisition of Loans/borrowings
               </label>
@@ -321,13 +321,13 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="4" name="generateCapital[]" id="solicitationDonations" disabled <?php if(!empty($survey_info->generate_capital[3])){ ($survey_info->generate_capital[3] == 1 ? "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="4" name="generateCapital[]" id="solicitationDonations" disabled <?php if(!empty($survey_info->generate_capital[3])){ if($survey_info->generate_capital[3] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="solicitationDonations">
                 Solicitation/acceptance of donations, subsidies, grants, etc.
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="5" name="generateCapital[]" id="fundRaising" disabled  <?php if(!empty($survey_info->generate_capital[4])){ ($survey_info->generate_capital[4] == 1 ? "checked" : ""); } ?>>
+              <input class="form-check-input" type="checkbox" value="5" name="generateCapital[]" id="fundRaising" disabled  <?php if(!empty($survey_info->generate_capital[4])){ if($survey_info->generate_capital[4] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="fundRaising">
                 Fund raising activities
               </label>
@@ -410,19 +410,19 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="1" name="investments[]" id="cooperativeBank" disabled  <?php if(!empty($survey_info->investments[0])){ ($survey_info->investments[0] == 1 ?  "checked" : ""); } ?>>
+              <input class="form-check-input" type="checkbox" value="1" name="investments[]" id="cooperativeBank" disabled  <?php if(!empty($survey_info->investments[0])){ if($survey_info->investments[0] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="cooperativeBank">
                 Cooperative bank
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2" name="investments[]" id="federation" disabled <?php if(!empty($survey_info->investments[1])){($survey_info->investments[1] == 1 ?  "checked" : ""); } ?>>
+              <input class="form-check-input" type="checkbox" value="2" name="investments[]" id="federation" disabled <?php if(!empty($survey_info->investments[1])){ if($survey_info->investments[1] == 1) { echo "checked" ; } } ?>>
               <label class="form-check-label" for="federation">
                 Federation
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="3" name="investments[]" id="jointVentures" disabled <?php if(!empty($survey_info->investments[2])){ ($survey_info->investments[2] == 1 ?  "checked" : ""); } ?>>
+              <input class="form-check-input" type="checkbox" value="3" name="investments[]" id="jointVentures" disabled <?php if(!empty($survey_info->investments[2])){ if($survey_info->investments[2] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="jointVentures">
                 Joint ventures
               </label>
@@ -430,13 +430,13 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="4" name="investments[]" id="mutual" disabled <?php if(!empty($survey_info->investments[3])){ ($survey_info->investments[3] == 1 ? "checked" : ""); } ?>>
+              <input class="form-check-input" type="checkbox" value="4" name="investments[]" id="mutual" disabled <?php if(!empty($survey_info->investments[3])){ if($survey_info->investments[3] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="mutual">
                 Mutual
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="5" name="investments[]" id="insurance" disabled <?php if(!empty($survey_info->investments[4])){ ($survey_info->investments[4] == 1 ? "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="5" name="investments[]" id="insurance" disabled <?php if(!empty($survey_info->investments[4])){ if($survey_info->investments[4] == 1) { echo "checked" ; } } ?>>
               <label class="form-check-label" for="insurance">
                 Insurance
               </label>
@@ -470,49 +470,49 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="1" name="equipments[]" id="typewriter" disabled <?php if(!empty($survey_info->equipments_etc[0])){ ($survey_info->equipments_etc[0] == 1 ?  "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="1" name="equipments[]" id="typewriter" disabled <?php if(!empty($survey_info->equipments_etc[0])){ if($survey_info->equipments_etc[0] == 1) { echo "checked"; } }?>>
               <label class="form-check-label" for="typewriter">
                 Typewriter
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="2" name="equipments[]" id="computer" disabled <?php if(!empty($survey_info->equipments_etc[1])){($survey_info->equipments_etc[1] == 1 ?  "checked" : ""); } ?>>
+              <input class="form-check-input" type="checkbox" value="2" name="equipments[]" id="computer" disabled <?php if(!empty($survey_info->equipments_etc[1])){ if($survey_info->equipments_etc[1] == 1) { echo "checked"; } }?>>
               <label class="form-check-label" for="computer">
                 Computer
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="3" name="equipments[]"  id="tables" disabled <?php if(!empty($survey_info->equipments_etc[2])){ ($survey_info->equipments_etc[2] == 1 ? "checked" : ""); } ?>>
+              <input class="form-check-input" type="checkbox" value="3" name="equipments[]"  id="tables" disabled <?php if(!empty($survey_info->equipments_etc[2])){ if($survey_info->equipments_etc[2] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="tables">
                 Tables
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="4" name="equipments[]"  id="chairs" disabled <?php if(!empty($survey_info->equipments_etc[3])){ ($survey_info->equipments_etc[3] == 1 ?  "checked" : ""); } ?>>
+              <input class="form-check-input" type="checkbox" value="4" name="equipments[]"  id="chairs" disabled <?php if(!empty($survey_info->equipments_etc[3])){ if($survey_info->equipments_etc[3] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="chairs">
                 Chairs
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="5" name="equipments[]"  id="calculator" disabled <?php if(!empty($survey_info->equipments_etc[4])){ ($survey_info->equipments_etc[4] == 1 ?  "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="5" name="equipments[]"  id="calculator" disabled <?php if(!empty($survey_info->equipments_etc[4])){ if($survey_info->equipments_etc[4] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="calculator">
                 Calculator
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="6" name="equipments[]"  id="vault" disabled <?php if(!empty($survey_info->equipments_etc[5])){($survey_info->equipments_etc[5] == 1 ? "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="6" name="equipments[]"  id="vault" disabled <?php if(!empty($survey_info->equipments_etc[5])){ if($survey_info->equipments_etc[5] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="vault">
                 Vault/Safe
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="7" name="equipments[]"  id="fillingCabinet" disabled <?php if(!empty($survey_info->equipments_etc[6])){ ($survey_info->equipments_etc[6] == 1 ? "checked" : ""); } ?>>
+              <input class="form-check-input" type="checkbox" value="7" name="equipments[]"  id="fillingCabinet" disabled <?php if(!empty($survey_info->equipments_etc[6])){ if($survey_info->equipments_etc[6] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="fillingCabinet">
                 Filing Cabinet
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="8" name="equipments[]"  id="medicalIntruments" disabled <?php if(!empty($survey_info->equipments_etc[7])){ ($survey_info->equipments_etc[7] == 1 ? "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="8" name="equipments[]"  id="medicalIntruments" disabled <?php if(!empty($survey_info->equipments_etc[7])){ if($survey_info->equipments_etc[7] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="medicalIntruments">
                 Medical Instruments
               </label>
@@ -520,37 +520,37 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="9" name="equipments[]"  id="warehouse" disabled <?php if(!empty($survey_info->equipments_etc[8])){ ($survey_info->equipments_etc[8] == 1 ? "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="9" name="equipments[]"  id="warehouse" disabled <?php if(!empty($survey_info->equipments_etc[8])){ if($survey_info->equipments_etc[8] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="warehouse">
                 Warehouse
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="10" name="equipments[]"  id="milling" disabled <?php if(!empty($survey_info->equipments_etc[9])){ ($survey_info->equipments_etc[9] == 1 ? "checked" : ""); } ?>>
+              <input class="form-check-input" type="checkbox" value="10" name="equipments[]"  id="milling" disabled <?php if(!empty($survey_info->equipments_etc[9])){ if($survey_info->equipments_etc[9] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="milling">
                 Milling
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="11" name="equipments[]"  id="farmEquipment" disabled <?php if(!empty($survey_info->equipments_etc[10])){ ($survey_info->equipments_etc[10] == 1 ?  "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="11" name="equipments[]"  id="farmEquipment" disabled <?php if(!empty($survey_info->equipments_etc[10])){ if($survey_info->equipments_etc[10] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="farmEquipment">
                 Farm Equipment
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="12" name="equipments[]"  id="postHarvestEquipment" disabled <?php if(!empty($survey_info->equipments_etc[11])){ ($survey_info->equipments_etc[11] == 1 ?  "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="12" name="equipments[]"  id="postHarvestEquipment" disabled <?php if(!empty($survey_info->equipments_etc[11])){ if($survey_info->equipments_etc[11] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="postHarvestEquipment">
                 Post Harvest Equipment
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="13" name="equipments[]"  id="solarDryer" disabled <?php if(!empty($survey_info->equipments_etc[12])){ ($survey_info->equipments_etc[12] == 1 ?  "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="13" name="equipments[]"  id="solarDryer" disabled <?php if(!empty($survey_info->equipments_etc[12])){ if($survey_info->equipments_etc[12] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="solarDryer">
                 Solar Dryer
               </label>
             </div>
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="14" name="equipments[]"  id="fishingEquipment" disabled <?php if(!empty($survey_info->equipments_etc[13])){($survey_info->equipments_etc[13] == 1 ? "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="14" name="equipments[]"  id="fishingEquipment" disabled <?php if(!empty($survey_info->equipments_etc[13])){ if($survey_info->equipments_etc[13] == 1) {echo "checked"; } }?>>
               <label class="form-check-label" for="fishingEquipment">
                 Fishing Equipment
               </label>
@@ -580,13 +580,13 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">=
-              <input class="form-check-input" type="checkbox" value="1" name="procureEquipments[]" id="procureCashPurchase" disabled <?php if(!empty($survey_info->procure_equipments_etc[0])){ ($survey_info->procure_equipments_etc[0] == 1 ? "checked" :""); } ?>>
+              <input class="form-check-input" type="checkbox" value="1" name="procureEquipments[]" id="procureCashPurchase" disabled <?php if(!empty($survey_info->procure_equipments_etc[0])){ if($survey_info->procure_equipments_etc[0] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="procureCashPurchase">
                 Cash purchase
               </label>
             </div>
             <div class="form-check">=
-              <input class="form-check-input" type="checkbox" value="2" name="procureEquipments[]" id="procureLoans" disabled <?php if(!empty($survey_info->procure_equipments_etc[1])){($survey_info->procure_equipments_etc[1] == 1 ? "checked" : ""); } ?>>
+              <input class="form-check-input" type="checkbox" value="2" name="procureEquipments[]" id="procureLoans" disabled <?php if(!empty($survey_info->procure_equipments_etc[1])){ if($survey_info->procure_equipments_etc[1] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="procureLoans">
                 Loans
               </label>
@@ -594,7 +594,7 @@
           </div>
           <div class="col-sm-12 col-md-6">
             <div class="form-check">=
-              <input class="form-check-input" type="checkbox" value="3" name="procureEquipments[]" id="procureDonations" disabled <?php if(!empty($survey_info->procure_equipments_etc[2])){($survey_info->procure_equipments_etc[2] == 1 ? "checked" : ""); } ?>>
+              <input class="form-check-input" type="checkbox" value="3" name="procureEquipments[]" id="procureDonations" disabled <?php if(!empty($survey_info->procure_equipments_etc[2])){ if($survey_info->procure_equipments_etc[2] == 1) { echo "checked"; } } ?>>
               <label class="form-check-label" for="procureDonations">
                 Donations
               </label>
