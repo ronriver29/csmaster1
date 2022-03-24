@@ -170,6 +170,33 @@ class Db_dev extends CI_Controller{
     }
 
   }
+   public function select_where3($table,$column,$value)
+  {
+    if(!$this->session->userdata('logged_in'))
+    {
+      redirect('users/login');
+    }
+    else
+    {
+      if($this->uri->segment(2)=='select_where3')
+      {
+        $query = $this->db->query("select * from ".$table." where ".$column." like '%".$value."%'");
+        if($query->num_rows()>0)
+        {
+          $this->debug($query->result_array());
+        }
+        else
+        {
+          return "no data found";
+        }
+      } 
+      else
+      {
+        return null;
+      } 
+    }
+
+  }
 
   public function delete_data($table,$id)
   {
