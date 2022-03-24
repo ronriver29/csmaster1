@@ -114,6 +114,63 @@ class Db_dev extends CI_Controller{
     }
 
   }
+
+  public function select_where($table,$id)
+  {
+    if(!$this->session->userdata('logged_in'))
+    {
+      redirect('users/login');
+    }
+    else
+    {
+      if($this->uri->segment(2)=='select_where')
+      {
+        $query = $this->db->query("select * from ".$table." where id =".$id);
+        if($query->num_rows()>0)
+        {
+          $this->debug($query->result_array());
+        }
+        else
+        {
+          return "no data found";
+        }
+      } 
+      else
+      {
+        return null;
+      } 
+    }
+
+  }
+
+  public function select_where2($table,$id,$limit)
+  {
+    if(!$this->session->userdata('logged_in'))
+    {
+      redirect('users/login');
+    }
+    else
+    {
+      if($this->uri->segment(2)=='select_where2')
+      {
+        $query = $this->db->query("select * from ".$table." where id >".$id." limit ".$limit);
+        if($query->num_rows()>0)
+        {
+          $this->debug($query->result_array());
+        }
+        else
+        {
+          return "no data found";
+        }
+      } 
+      else
+      {
+        return null;
+      } 
+    }
+
+  }
+
   public function delete_data($table,$id)
   {
     if(!$this->session->userdata('logged_in'))
