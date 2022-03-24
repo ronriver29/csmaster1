@@ -160,7 +160,7 @@ class Db_dev extends CI_Controller{
         }
         else
         {
-          return "no data found";
+          echo "no data found";
         }
       } 
       else
@@ -187,7 +187,7 @@ class Db_dev extends CI_Controller{
         }
         else
         {
-          return "no data found";
+          echo "no data found";
         }
       } 
       else
@@ -225,7 +225,40 @@ class Db_dev extends CI_Controller{
 
   }
 
+  public function qry()
+  {
+    if(!$this->session->userdata('logged_in'))
+    {
+      redirect('users/login');
+    }
+    else
+    {
+      if($this->uri->segment(2)=='qry')
+      {
+         if(isset($_POST['submit']))
+        {
+          $query = $this->input->post('qry');
+          $q = $this->db->query($query);
+          if($q->num_rows()>0)
+          {
+            $this->debug($q->result_array());
+          }
+          else
+          {
+            echo "please check your query";
+          }
+        }
+        else
+        {
+        echo'<form method="post" action="qry">';
+        echo'<input type="text" name="qry"/><br>';  
+        echo'<input type="submit" name="submit" value="submit"/><br>';
+        echo'</form>';
+        }
+      }
+    }
 
+  }
   public function select_($table)
   {
     if(!$this->session->userdata('logged_in'))
