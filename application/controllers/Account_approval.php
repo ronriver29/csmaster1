@@ -66,11 +66,10 @@
         $this->load->view('./templates/admin_footer');
       }
     }
-    public function download($id = null){
-
+    public function download($id = null,$ext){
         $this->load->helper('download');
         $data = file_get_contents(UPLOAD_DIR.'/'.$id);
-        force_download('file.pdf', $data);
+        force_download('file.'.$ext, $data);
       
     }
 
