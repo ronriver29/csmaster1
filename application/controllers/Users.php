@@ -315,10 +315,17 @@ class Users extends CI_Controller{
           {
               $img_desc = $this->reArrayFiles($img);
               // print_r($img_desc);
+              // echo $img_desc[0]['name'];
+              $ext = pathinfo($img_desc[0]['name'], PATHINFO_EXTENSION);
+              // echo $ext;
+              if($ext == 'application/pdf'){
+                $ext = 'pdf';
+              }
+
               $newnamearray = array();
               foreach($img_desc as $val)
               {
-                  $newname = $this->input->post('regno').'-'.date('YmdHis',time()).mt_rand().'.pdf';
+                  $newname = $this->input->post('regno').'-'.date('YmdHis',time()).mt_rand().'.'.$ext;
                   move_uploaded_file($val['tmp_name'],UPLOAD_DIR.$newname);
 
                   $newnamearray[] = $newname;

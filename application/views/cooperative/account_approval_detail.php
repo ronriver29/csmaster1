@@ -52,8 +52,11 @@
                 <?php $pieces = explode("|", $account_info->files);
                 $count = 0; 
                 // echo $pieces[0];
-                foreach($pieces as $cheese) {?>
-                  <a href="<?php echo base_url();?>account_approval/<?= $pieces[$count]?>/download" class="btn btn-info"><?=$pieces[$count]?></a>
+                foreach($pieces as $cheese) {
+                  $ext = pathinfo($pieces[$count], PATHINFO_EXTENSION);
+                ?>
+
+                  <a href="<?php echo base_url();?>account_approval/<?= $pieces[$count]?>/download/<?= $ext?>" class="btn btn-info"><?=$pieces[$count]?></a>
                   <?php $count++;
                 }?>
                   <!-- <a href='./uploads/<?=$account_info->files?>'><?=$account_info->files?></a> -->
