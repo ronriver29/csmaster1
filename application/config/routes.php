@@ -451,6 +451,7 @@ $route['amendment_upload'] ='amendment_upload';
 // Account Approval
 $route['account_approval/(:any)'] = 'account_approval/view/$1';
 $route['account_approval/(:any)/download'] = 'account_approval/download/$1';
+$route['account_approval/(:any)/download/(:any)'] = 'account_approval/download/$1/$2';
 $route['account_approval/(:any)/approve/(:any)'] = 'account_approval/approve/$1/$2';
 $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 //
@@ -558,8 +559,6 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 
 	//UNION
 	$route['amendment_update/(:any)/union_update'] = 'amendment_union_update/index/$1';
-
-	$route['updated_amendment_info'] = 'updated_amendment_info/index';
 
 	
 
