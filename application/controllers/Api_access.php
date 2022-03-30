@@ -41,39 +41,17 @@ class Api_access extends CI_Controller {
 
     public function update_access()
     {
-        // if(isset($_POST['submit']))
-        // {
-        //     $table = $this->input->post('table');
-        //     $fields = implode(',',$this->input->post('fields'));
-        //     $data =['table'=>$table,'fields'=>$fields,'active'=>1,'created_at'=>date('Y-m-d h:i:s',now('Asia/Manila'))];
-        //     if($this->api_access_model->create($data))
-        //     {
-        //      $this->session->set_flashdata('redirect_applications_message', 'Successfully created!');
-        //       redirect('api_access');
-        //     }
-        //     else
-        //     {
-        //      $this->session->set_flashdata('error_redirect_applications_message', 'Failed to create data.');
-        //       redirect('api_access');
-        //     }
-        // }
-        // else
-        // {
-        //      $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-        //       redirect('api_access');
-        // }
-
         $table = $this->input->post('table');
         $id = $this->input->post('id');
 
             // $fields = implode(',',$this->input->post('fields'));
-            $data =['table'=>$table,'active'=>$id,'updated_at'=>date('Y-m-d h:i:s',now('Asia/Manila'))];
-            $ajax =false;
+            $data =['tbl'=>$table,'active'=>$id,'updated_at'=>date('Y-m-d h:i:s',now('Asia/Manila'))];
+            $ajax ='Failed';
             if($this->api_access_model->update($data))
             {
-                $ajax = true;
+                $ajax = 'success';
             }
-            return $ajax;
+           echo json_encode(['msg'=> $ajax]);
     }
 
     public function delete_access()
@@ -119,7 +97,7 @@ class Api_access extends CI_Controller {
         );
 
         $token = $jwt->encode($data,$jwtSecrectKey,'HS256');
-        echo $token;
+        return $token;
     }
 
     public function decode_token()
@@ -132,6 +110,37 @@ class Api_access extends CI_Controller {
         // echo'<pre>';
         // print_r($decode_token);    
         echo $jwt->jsonEncode($decode_token);
+    }
+
+    public function davao_api()
+    {
+        if(isset($_POST['token']))
+        {
+            $token = $this->input->post('token');
+            $regNo = $this->input->post('regNo');
+            $table = 'registeredcoop';
+            if($this->api_access_model->check_table_access($table))
+            {
+                if($this->token() == $token)
+                {
+                   $result = $this->api_access_model->get_coop_by_regNo($regNo);
+                   echo json_encode($result);
+                }
+                else
+                {
+                    echo json_encode("Unauthorized");
+                }
+            }
+            else
+            {
+                echo json_encode("Fobidden to accesss data. Please contact system administrator.");
+            }
+            
+        }
+        else
+        {
+            echo '404 No found';
+        }
     }
 
     public function debug($array)

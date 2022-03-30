@@ -113,7 +113,7 @@ input:checked + .slider:before {
                 <div class=" form-check" style="overflow: hidden;padding:8px;">
                 <label class="form-check-label" for="defaultCheck1"><strong><?=$row['alias']?></strong></label>
                 <label class="switch" style="float:right;">
-                  <small><input type="checkbox" name="switchbtn" class="form-control onOff" id='defaultCheck1' value="<?=$row['table']?>" <?=($row['active']==1 ? 'checked' : '')?> style="float:right;border-bottom: 1px solid #ccc;">
+                  <small><input type="checkbox" name="switchbtn" class="form-control onOff" id='defaultCheck1' value="<?=$row['tbl']?>" <?=($row['active']==1 ? 'checked' : '')?> style="float:right;border-bottom: 1px solid #ccc;">
                   <span class="slider round"></span></small>
                 </label>
               </div>
