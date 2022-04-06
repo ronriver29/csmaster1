@@ -721,6 +721,11 @@
               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
               $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
+
+              if($data['coop_info']->area_of_operation == 'Interregional'){
+                $data['regions_island_list'] = $this->region_model->get_selected_islands($data['coop_info']->interregional);
+              }
+                      
               $this->load->view('./template/header', $data);
               if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                 $this->load->view('update/cooperative_details_union_update', $data);
