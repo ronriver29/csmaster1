@@ -896,7 +896,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
 
     $temp_purpose = array(
         'cooperatives_id' => $coop_id,
-        'content'  => ''
+        'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
       );
     
     $this->db->select('id');
@@ -919,7 +919,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     if($coop_type_of_coop->type_of_cooperative != $coop_type->name || $coop_type_of_coop->category_of_cooperative != $data['category_of_cooperative']){
       $temp_purpose = array(
           'cooperatives_id' => $coop_id,
-          'content'  => ''
+          'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
         );
       $this->db->where('cooperatives_id',$coop_id);
       $this->db->update('purposes',$temp_purpose);
