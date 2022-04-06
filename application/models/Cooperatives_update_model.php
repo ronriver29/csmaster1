@@ -35,13 +35,48 @@ class Cooperatives_update_model extends CI_Model{
     $query2 = $this->db->get();
     $coop_type = $query2->row();
 
-    $this->db->select('type_of_cooperative,category_of_cooperative');
+    $this->db->select('type_of_cooperative,category_of_cooperative,grouping');
     $this->db->where('id',$coop_id);
     $this->db->from('cooperatives');
     $query3 = $this->db->get();
     $coop_type_of_coop = $query3->row();
     
-  
+    if($coop_type_of_coop->type_of_cooperative == 'Union' && $coop_type_of_coop->grouping == 'Union'){
+
+        $this->db->where(array('user_id'=>$user_id));
+        $this->db->from('committees_union');
+        if($this->db->count_all_results() == 0){
+          $audit = array('name'=> 'Audit','user_id' => $user_id);
+        $gad = array('name'=> 'Gender and Development','user_id' => $user_id);
+        $election = array('name'=> 'Election','user_id' => $user_id);
+        $mac = array('name'=> 'Mediation and Conciliation','user_id' => $user_id);
+        $ethics = array('name'=> 'Ethics','user_id' => $user_id);
+
+        $this->db->insert('committees_union',$audit);
+        $this->db->insert('committees_union',$gad);
+        $this->db->insert('committees_union',$election);
+        $this->db->insert('committees_union',$mac);
+        $this->db->insert('committees_union',$ethics);
+
+      }
+    } else if($coop_type_of_coop->grouping == 'Federation'){
+      $this->db->where(array('user_id'=>$user_id));
+      $this->db->from('committees_federation');
+      if($this->db->count_all_results() == 0){
+        $audit = array('name'=> 'Audit','user_id' => $user_id);
+        $gad = array('name'=> 'Gender and Development','user_id' => $user_id);
+        $election = array('name'=> 'Election','user_id' => $user_id);
+        $mac = array('name'=> 'Mediation and Conciliation','user_id' => $user_id);
+        $ethics = array('name'=> 'Ethics','user_id' => $user_id);
+
+        $this->db->insert('committees_federation',$audit);
+        $this->db->insert('committees_federation',$gad);
+        $this->db->insert('committees_federation',$election);
+        $this->db->insert('committees_federation',$mac);
+        $this->db->insert('committees_federation',$ethics);
+      }
+    }
+
     $data['type_of_cooperative'] = $coop_type->name;
     $this->db->where(array('id'=>$coop_id));
     $this->db->update('cooperatives',$data);
@@ -241,7 +276,7 @@ class Cooperatives_update_model extends CI_Model{
 
   public function get_coop_info($regNo)
   {
-    $this->db->select('cooperatives.*,cooperatives.street as reg_street, cooperatives.category_of_cooperative as cofc, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,cooperatives.type_of_cooperative,registeredcoop.coopName');
+    $this->db->select('cooperatives.*,cooperatives.street as reg_street, cooperatives.category_of_cooperative as cofc, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,cooperatives.type_of_cooperative,registeredcoop.coopName,registeredcoop.Street as rStreet');
     $this->db->from('cooperatives');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','left');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','left');

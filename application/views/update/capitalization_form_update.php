@@ -109,9 +109,9 @@ $kinds_of_members = $bylaw_info->kinds_of_members;
                     <tr>
                         <td>Regular</td>
                         <td>
-                            <input type="number" name="item[regular_members]" id="regular_members" class="form-control" min="15" value="<?=$regular_members;?>"/>
+                            <input type="number" name="item[regular_members]" id="regular_members" class="form-control" value="<?=$regular_members;?>"/>
                             <br/>
-                            <span id="regular_members_note" class="err-message-note"></span>
+                            <!-- <span id="regular_members_note" class="err-message-note"></span> -->
                         </td>
                     </tr>
                     <?php if($kinds_of_members ==2) : ?>
@@ -128,7 +128,7 @@ $kinds_of_members = $bylaw_info->kinds_of_members;
                     <tr>
                         <td>Authorized Share Capital</td>
                         <td>
-                            <input type="number" name="item[authorized_share_capital]" id="authorized_share_capital" min="15000" class="form-control" value="<?=$authorized_share_capital;?>"/>
+                            <input type="number" name="item[authorized_share_capital]" id="authorized_share_capital" class="form-control" value="<?=$authorized_share_capital;?>"/>
                             <br/>
                             <span id="authorized_share_capital_note" class="err-message-note"></span>
                         </td>

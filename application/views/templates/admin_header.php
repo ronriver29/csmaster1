@@ -95,7 +95,7 @@
           </li> 
 
           <?php if($admin_info->access_level==5):?>
-               <li>
+               <!-- <li>
           <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> Api</a>
            <ul class="collapse list-unstyled" id="pageSubmenu3">
             <li>
@@ -107,7 +107,7 @@
                </ul>
             </li>
            </ul> 
-        </li>
+        </li> -->
           <?php endif;?>
 
           <li>

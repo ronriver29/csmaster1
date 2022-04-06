@@ -175,7 +175,7 @@
               </div>
             </div>
           <?php } ?>
-          <?php if($coop_info->type_of_cooperative != 'Multipurpose' && strpos($coop_info->type_of_cooperative, ',') == false ){?>
+          <?php // if($coop_info->type_of_cooperative != 'Multipurpose' && strpos($coop_info->type_of_cooperative, ',') == false ){?>
             <div class="row">
               <div class="col-sm-12 col-md-12 col-industry-subclass">
                 <?php if(isset($business_activity)) : ?>
@@ -210,25 +210,35 @@
                         </div>
                       </div>
                       <?php endforeach; ?>
-                  <?php else: ?>
-                        <div class="row">
-                          <div class="col-sm-12 col-md-12">
-                            <div class="form-group">
-                              <label for="majorIndustry1" id="majorlabel">Major Industry Classification No. 1</label>
-                              <select class="custom-select form-control" name="majorIndustry[]" id="majorIndustry1">
-                              
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-sm-12 col-md-12">
-                            <div class="form-group">
-                              <label for="subClass1" id="subclasslabel">Major Industry Classification No. 1 Subclass</label>
-                              <select class="custom-select form-control" name="subClass[]" id="subClass1" disabled>
-                                
-                              </select>
-                            </div>
+                  <?php elseif($coop_info->type_of_cooperative != 'Multipurpose' && strpos($coop_info->type_of_cooperative, ',') == false ) : ?>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                          <div class="form-group">
+                            <label for="majorIndustry1" id="majorlabel">Major Industry Classification No. 1</label>
+                            <select class="custom-select form-control" name="majorIndustry[]" id="majorIndustry1">
+                            
+                            </select>
                           </div>
                         </div>
+                        <div class="col-sm-12 col-md-12">
+                          <div class="form-group">
+                            <label for="subClass1" id="subclasslabel">Major Industry Classification No. 1 Subclass</label>
+                            <select class="custom-select form-control" name="subClass[]" id="subClass1" disabled>
+                              
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                  <?php else : ?> 
+                    <div class="row">
+                      <div class="col-sm-12 col-md-12 col-industry-subclass">
+                        <div class="row-cis">
+
+                          
+                        </div>
+                      </div>
+                    </div> 
+                        
                   <?php endif; ?>  
                 <?php else: ?> 
                   <div class="row">
@@ -258,7 +268,7 @@
                 <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreSubclassBtn"><i class="fas fa-plus"></i> Add More Business Activity</button>
               </div>
             </div>
-            <?php } ?>
+            <?php // } ?>
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
@@ -476,7 +486,12 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="streetName">Street Name</label> 
-                  <input type="text" class="form-control" name="streetName" id="streetName" value="<?=$coop_info->reg_street?>">
+                  <?php if($coop_info->reg_street == "15"){
+                    $street_name = $coop_info->rStreet;
+                  } else {
+                    $street_name = $coop_info->reg_street;
+                  }?>
+                  <input type="text" class="form-control" name="streetName" value="<?=$street_name?>"> <!-- id="streetName" -->
                 </div>
               </div>
               <?php if($is_client){?>
