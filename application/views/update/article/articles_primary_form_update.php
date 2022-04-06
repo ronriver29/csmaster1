@@ -125,11 +125,12 @@
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
               <label for="cooperativeExistence"><strong>How many years does the Cooperative should exist?</strong></label>
-              <input type="number" value="<?= $years_of_existence ?>" class="form-control " min="1" max="50" name="cooperativeExistence" id="cooperativeExistence" placeholder="Years" disabled>
+              <input type="number" value="<?= $years_of_existence ?>" class="form-control " name="cooperativeExistence" id="cooperativeExistence" placeholder="Years" disabled>
               <small id="emailHelp" class="form-text text-muted">Start from the date of registration </small>
            </div>
           </div>
         </div>
+      <?php if($coop_info->type_of_cooperative != 'Union' && $coop_info->grouping != 'Union'){ ?>
         <div class="row">
           <div class="col-sm-12 col-md-12 text-center">
             <p class="font-weight-bold h5 text-color-blue-custom">Article IX. Board of Directors</p>
@@ -188,6 +189,7 @@
           <?php } ?>
          </div>
         </div>
+      <?php } ?>
         </div>
       </div>
       <div class="card-footer articlesPrimaryFooter" style="display: none;">

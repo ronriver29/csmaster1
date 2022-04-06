@@ -757,8 +757,8 @@ $("#deleteStaffForm").validationEngine('attach',
               $('#addCommitteeForm #cooperatorID').on('change', function(){
                 $("#addCommitteeForm .ac-info-row input,textarea").val("");
                 if($(this).val() && $(this).val().length >0){
-					       var cooperator_id = $(this).val() ;
-					// alert(cooperator_ID);
+                 var cooperator_id = $(this).val() ;
+          // alert(cooperator_ID);
                   $.ajax({
                       type : "POST",
                       url  : "../cooperators/get_post_cooperator_info",
@@ -802,6 +802,66 @@ $("#deleteStaffForm").validationEngine('attach',
                 }
               });
 
+              $('#addCommitteeForm2 #committeeName').on('change', function(){
+                if($(this).val()=="Others"){ 
+                  var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Function and Responsibilities:</label>' +
+                            // '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhp]]" name="func_and_respons" id="committeeNameSpecify">' +
+                             '<textarea class="form-control validate[required]" name="func_and_respons" id="func_and_respons" rows="5"></textarea>' +
+                            '<input type="hidden" value="others" name="type">' +
+                            '</div></div>');
+                  $('#addCommitteeForm2 .ac-row').append(committeeNameSpecify);
+                }else{
+                  $('#addCommitteeForm2 .col-committee-specify').remove();
+                }
+              });
+              $('#addCommitteeForm2 #cooperatorID').on('change', function(){
+                $("#addCommitteeForm2 .ac-info-row input,textarea").val("");
+                if($(this).val() && $(this).val().length >0){
+                 var cooperator_id = $(this).val() ;
+
+                  $.ajax({
+                      type : "POST",
+                      url  : "../cooperators/get_post_cooperator_info",
+                      dataType: "json",
+                      data : {
+                        cooperator_id: cooperator_id
+                      },
+                      success: function(data){
+                        $('#addCommitteeForm2 #committeeName').prop('disabled',false);
+                        $('#addCommitteeForm2 #position').val(data.position);
+                        $('#addCommitteeForm2 #membershipType').val(data.type_of_member);
+                        $('#addCommitteeForm2 #gender').val(data.gender);
+                        $('#addCommitteeForm2 #bDate').val(data.birth_date);
+
+                        if (data.position=='Vice-Chairperson'){
+                          $('#addCommitteeForm2 #A').prop('disabled',true);
+                          $('#addCommitteeForm2 #B').prop('disabled',false);
+                          $('#addCommitteeForm2 #C').prop('disabled',false);
+                        } else if(data.position=='Board of Director'){
+                          $('#addCommitteeForm2 #A').prop('disabled',true);
+                          $('#addCommitteeForm2 #B').prop('disabled',false);
+                          $('#addCommitteeForm2 #C').prop('disabled',true);
+                        } else if(data.position=='Member'){
+                          $('#addCommitteeForm2 #A').prop('disabled',false);
+                          $('#addCommitteeForm2 #B').prop('disabled',false);
+                          $('#addCommitteeForm2 #C').prop('disabled',false);
+                        } else {
+                          $('#addCommitteeForm2 #A').prop('disabled',true);
+                          $('#addCommitteeForm2 #B').prop('disabled',false);
+                          $('#addCommitteeForm2 #C').prop('disabled',true);
+                        }
+                        var addr='';
+                        if (data.house_blk_no=='' && data.streetName=='')
+                          addr = data.brgy +', '+data.city+', '+data.province;
+                        else
+                          addr = data.house_blk_no+' '+data.streetName+', '+data.brgy+', '+data.city+', '+data.province;
+                        
+                        $('#addCommitteeForm2 #pAddress').val(addr);
+                      }
+                    });
+                }
+              });
 
               /*
               Start add committee form
@@ -875,6 +935,315 @@ $("#deleteStaffForm").validationEngine('attach',
                           addr = data.house_blk_no+' '+data.streetName+', '+data.brgy+', '+data.city+', '+data.province;
                         
                         $('#addCommitteeForm #pAddress').val(addr);
+                      }
+                    });
+                }
+              });
+
+                /*
+              Start add committee form amendment
+              */
+              $('#addCommitteeFormAmendment #committeeName').on('change', function(){
+                if($(this).val()=="Others"){ 
+                  // var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+                  //           '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
+                  //           '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhpAmendment]]" name="committeeNameSpecify" id="committeeNameSpecify">' +
+                  //           '</div></div>');
+
+                   var committeeSpecifyOthers = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
+                            '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhpAmendment]]" name="committeeNameSpecify" id="committeeNameSpecify">' +
+                            '</div></div>');
+                   var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Function and Responsibilities:</label>' +
+                             '<textarea class="form-control validate[required]" name="func_and_respons" id="func_and_respons" rows="5"></textarea>' +
+                            '<input type="hidden" value="others" name="type">' +
+                            '</div></div>');
+
+                  $('#addCommitteeFormAmendment .ac-row').append(committeeSpecifyOthers,committeeNameSpecify);
+                }else{
+                  $('#addCommitteeFormAmendment .col-committee-specify').remove();
+                }
+              });
+
+              $('#addCommitteeFormAmendment #cooperator_ID').on('change', function(){
+                $("#addCommitteeFormAmendment .ac-info-row input,textarea").val("");
+                if($(this).val() && $(this).val().length >0){
+                 var cooperator_id = $(this).val() ; 
+          // alert(cooperator_ID);
+                  var amd_id = $("#cooperativesID").val();
+                  $.ajax({
+                      type : "POST",
+                     url  : "../amendment_cooperators/get_post_cooperator_info_ajax",
+                      dataType: "json",
+                      data : {
+                        cooperator_id: cooperator_id,amd_ids:amd_id
+                      },
+                      success: function(data){
+                        $('#addCommitteeFormAmendment #committeeName').prop('disabled',false);
+                        $('#addCommitteeFormAmendment #position').val(data.position);
+                        $('#addCommitteeFormAmendment #membershipType').val(data.type_of_member);
+                        $('#addCommitteeFormAmendment #gender').val(data.gender);
+                        $('#addCommitteeFormAmendment #bDate').val(data.birth_date);
+
+                        if (data.position=='Vice-Chairperson'){
+                          $('#addCommitteeFormAmendment #A').prop('disabled',true);
+                          $('#addCommitteeFormAmendment #B').prop('disabled',false);
+                          $('#addCommitteeFormAmendment #C').prop('disabled',false);
+                        } else if(data.position=='Board of Director'){
+                          $('#addCommitteeFormAmendment #A').prop('disabled',true);
+                          $('#addCommitteeFormAmendment #B').prop('disabled',false);
+                          $('#addCommitteeFormAmendment #C').prop('disabled',true);
+                        } else if(data.position=='Member'){
+                          $('#addCommitteeFormAmendment #A').prop('disabled',false);
+                          $('#addCommitteeFormAmendment #B').prop('disabled',false);
+                          $('#addCommitteeFormAmendment #C').prop('disabled',false);
+                        } else {
+                          $('#addCommitteeFormAmendment #A').prop('disabled',true);
+                          $('#addCommitteeFormAmendment #B').prop('disabled',false);
+                          $('#addCommitteeFormAmendment #C').prop('disabled',true);
+                        }
+                        var addr='';
+                        if (data.house_blk_no=='' && data.streetName=='')
+                          addr = data.brgy +', '+data.city+', '+data.province;
+                        else
+                          addr = data.house_blk_no+' '+data.streetName+', '+data.brgy+', '+data.city+', '+data.province;
+                        
+                        $('#addCommitteeFormAmendment #pAddress').val(addr);
+                      }
+                    });
+                }
+              });
+
+              $("#addCommitteeFormAmendment").validationEngine('attach',
+                  {promptPosition: 'inline',
+                  scroll: false,
+                  focusFirstField : false,
+                  onValidationComplete: function(form,status){
+                    if(status==true){
+                      if($("#addCommitteeLoadingBtn").length <= 0){
+                        $("#addCommitteeBtn").hide();
+                        $(".addCommitteeFooter").append($('<button></button>').attr({'id':'addCommitteeLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
+                        return true;
+                      }else{
+                        return false;
+                      }
+                    }else{
+                      return false;
+                    }
+                  }
+              });
+              //end add amendment committee
+
+              //json
+              $('#addCommitteeForm #cooperator_ID').on('change', function(){
+                $("#addCommitteeForm .ac-info-row input,textarea").val("");
+                if($(this).val() && $(this).val().length >0){
+                 var cooperator_id = $(this).val() ;
+                var amd_id = $("#cooperativesID").val();
+                // alert(cooperator_id);
+                  $.ajax({
+                      type : "POST",
+                      url  : "../amendment_cooperators/get_post_cooperator_info_ajax",
+                      dataType: "json",
+                      data : {
+                        cooperator_id: cooperator_id,amd_ids:amd_id
+                      },
+                      success: function(data){
+                        console.log(data);
+                        $('#addCommitteeForm #committeeName').prop('disabled',false);
+                        $('#addCommitteeForm #position').val(data.position);
+                        $('#addCommitteeForm #membershipType').val(data.type_of_member);
+                        $('#addCommitteeForm #gender').val(data.gender);
+                        $('#addCommitteeForm #bDate').val(data.birth_date);
+
+                        if (data.position=='Vice-Chairperson'){
+                          $('#addCommitteeForm #A').prop('disabled',true);
+                          $('#addCommitteeForm #B').prop('disabled',false);
+                          $('#addCommitteeForm #C').prop('disabled',false);
+                        } else if(data.position=='Board of Director'){
+                          $('#addCommitteeForm #A').prop('disabled',true);
+                          $('#addCommitteeForm #B').prop('disabled',false);
+                          $('#addCommitteeForm #C').prop('disabled',true);
+                        } else if(data.position=='Member'){
+                          $('#addCommitteeForm #A').prop('disabled',false);
+                          $('#addCommitteeForm #B').prop('disabled',false);
+                          $('#addCommitteeForm #C').prop('disabled',false);
+                        } else {
+                          $('#addCommitteeForm #A').prop('disabled',true);
+                          $('#addCommitteeForm #B').prop('disabled',false);
+                          $('#addCommitteeForm #C').prop('disabled',true);
+                        }
+                        var addr='';
+                        
+                        if (data.house_blk_no=='' && data.streetName=='')
+                          addr = data.brgy +', '+data.city+', '+data.province;
+                        else
+                          addr = data.house_blk_no+' '+data.streetName+', '+data.brgy+', '+data.city+', '+data.province;
+                        
+                        $('#addCommitteeForm #pAddress').val(addr);
+                      }
+                    });
+                }
+              });
+              //end json
+
+              $("#addCommitteeForm").validationEngine('attach',
+                  {promptPosition: 'inline',
+                  scroll: false,
+                  focusFirstField : false,
+                  onValidationComplete: function(form,status){
+                    if(status==true){
+                      if($("#addCommitteeLoadingBtn").length <= 0){
+                        $("#addCommitteeBtn").hide();
+                        $(".addCommitteeFooter").append($('<button></button>').attr({'id':'addCommitteeLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
+                        return true;
+                      }else{
+                        return false;
+                      }
+                    }else{
+                      return false;
+                    }
+                  }
+              });
+              /*
+              end add committee form
+              */
+
+
+
+              $('#addCommitteePrimaryForm #committeeName').on('change', function(){
+                if($(this).val()=="Others"){ 
+                  var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
+                            '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhp]]" name="committeeNameSpecify" id="committeeNameSpecify">' +
+                            '</div></div>');
+                  $('#addCommitteePrimaryForm .ac-row').append(committeeNameSpecify);
+                }else{
+                  $('#addCommitteePrimaryForm .col-committee-specify').remove();
+                }
+              });
+              $('#addCommitteePrimaryForm #cooperatorID').on('change', function(){
+                $("#addCommitteePrimaryForm .ac-info-row input,textarea").val("");
+                if($(this).val() && $(this).val().length >0){
+                 var cooperator_id = $(this).val() ;
+          // alert(cooperator_ID);
+                  $.ajax({
+                      type : "POST",
+                      url  : "../cooperators/get_post_cooperator_info",
+                      dataType: "json",
+                      data : {
+                        cooperator_id: cooperator_id
+                      },
+                      success: function(data){
+                        $('#addCommitteePrimaryForm #committeeName').prop('disabled',false);
+                        $('#addCommitteePrimaryForm #position').val(data.position);
+                        $('#addCommitteePrimaryForm #membershipType').val(data.type_of_member);
+                        $('#addCommitteePrimaryForm #gender').val(data.gender);
+                        $('#addCommitteePrimaryForm #bDate').val(data.birth_date);
+
+                        if (data.position=='Vice-Chairperson'){
+                          $('#addCommitteePrimaryForm #A').prop('disabled',true);
+                          $('#addCommitteePrimaryForm #B').prop('disabled',false);
+                          $('#addCommitteePrimaryForm #C').prop('disabled',false);
+                        } else if(data.position=='Board of Director'){
+                          $('#addCommitteePrimaryForm #A').prop('disabled',true);
+                          $('#addCommitteePrimaryForm #B').prop('disabled',false);
+                          $('#addCommitteePrimaryForm #C').prop('disabled',true);
+                        } else if(data.position=='Member'){
+                          $('#addCommitteePrimaryForm #A').prop('disabled',false);
+                          $('#addCommitteePrimaryForm #B').prop('disabled',false);
+                          $('#addCommitteePrimaryForm #C').prop('disabled',false);
+                        } else {
+                          $('#addCommitteePrimaryForm #A').prop('disabled',true);
+                          $('#addCommitteePrimaryForm #B').prop('disabled',false);
+                          $('#addCommitteePrimaryForm #C').prop('disabled',true);
+                        }
+                        var addr='';
+                        if (data.house_blk_no=='' && data.streetName=='')
+                          addr = data.brgy +', '+data.city+', '+data.province;
+                        else
+                          addr = data.house_blk_no+' '+data.streetName+', '+data.brgy+', '+data.city+', '+data.province;
+                        
+                        // $('#addCommitteeForm #pAddress').val(addr);
+                      }
+                    });
+                }
+              });
+
+
+              /*
+              Start add committee form
+              */
+              $('#addCommitteeUpdateForm #committeeName').on('change', function(){
+                if($(this).val()=="Others"){ 
+                  var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Function and Responsibilities:</label>' +
+                            // '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhp]]" name="func_and_respons" id="committeeNameSpecify">' +
+                             '<textarea class="form-control validate[required]" name="func_and_respons" id="func_and_respons" rows="5"></textarea>' +
+                            '<input type="hidden" value="others" name="type">' +
+                            '</div></div>');
+                  $('#addCommitteeUpdateForm .ac-row').append(committeeNameSpecify);
+                }else{
+                  $('#addCommitteeUpdateForm .col-committee-specify').remove();
+                }
+              });
+              $('#addCommitteePrimaryForm #committeeName').on('change', function(){
+                if($(this).val()=="Others"){ 
+                  var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Function and Responsibilities:</label>' +
+                            // '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhp]]" name="func_and_respons" id="committeeNameSpecify">' +
+                             '<textarea class="form-control validate[required]" name="func_and_respons" id="func_and_respons" rows="5"></textarea>' +
+                            '<input type="hidden" value="others" name="type">' +
+                            '</div></div>');
+                  $('#addCommitteePrimaryForm .ac-row').append(committeeNameSpecify);
+                }else{
+                  $('#addCommitteePrimaryForm .col-committee-specify').remove();
+                }
+              });
+              $('#addCommitteePrimaryForm #cooperatorID').on('change', function(){
+                $("#addCommitteePrimaryForm .ac-info-row input,textarea").val("");
+                if($(this).val() && $(this).val().length >0){
+                 var cooperator_id = $(this).val() ;
+
+                  $.ajax({
+                      type : "POST",
+                      url  : "../cooperators/get_post_cooperator_info",
+                      dataType: "json",
+                      data : {
+                        cooperator_id: cooperator_id
+                      },
+                      success: function(data){
+                        $('#addCommitteePrimaryForm #committeeName').prop('disabled',false);
+                        $('#addCommitteePrimaryForm #position').val(data.position);
+                        $('#addCommitteePrimaryForm #membershipType').val(data.type_of_member);
+                        $('#addCommitteePrimaryForm #gender').val(data.gender);
+                        $('#addCommitteePrimaryForm #bDate').val(data.birth_date);
+
+                        if (data.position=='Vice-Chairperson'){
+                          $('#addCommitteePrimaryForm #A').prop('disabled',true);
+                          $('#addCommitteePrimaryForm #B').prop('disabled',false);
+                          $('#addCommitteePrimaryForm #C').prop('disabled',false);
+                        } else if(data.position=='Board of Director'){
+                          $('#addCommitteePrimaryForm #A').prop('disabled',true);
+                          $('#addCommitteePrimaryForm #B').prop('disabled',false);
+                          $('#addCommitteePrimaryForm #C').prop('disabled',true);
+                        } else if(data.position=='Member'){
+                          $('#addCommitteePrimaryForm #A').prop('disabled',false);
+                          $('#addCommitteePrimaryForm #B').prop('disabled',false);
+                          $('#addCommitteePrimaryForm #C').prop('disabled',false);
+                        } else {
+                          $('#addCommitteePrimaryForm #A').prop('disabled',true);
+                          $('#addCommitteePrimaryForm #B').prop('disabled',false);
+                          $('#addCommitteePrimaryForm #C').prop('disabled',true);
+                        }
+                        var addr='';
+                        if (data.house_blk_no=='' && data.streetName=='')
+                          addr = data.brgy +', '+data.city+', '+data.province;
+                        else
+                          addr = data.house_blk_no+' '+data.streetName+', '+data.brgy+', '+data.city+', '+data.province;
+                        
+                        $('#addCommitteePrimaryForm #pAddress').val(addr);
                       }
                     });
                 }

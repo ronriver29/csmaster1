@@ -688,9 +688,9 @@ $count=0;
               <br>
             </p>
 
-          <?php if($coop_info->status<=1 || $coop_info->status>=11 && $coop_info->status!=15): ?>
+          <?php if(($is_client && $coop_info->status!=40 && $coop_info->status!=40) || (!$is_client && $coop_info->status==40)): ?>
             <?php if($is_client) : ?>
-                <a href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/upload_document_others_unifed" class="btn btn-primary">Upload</a>
+                <a href="<?php echo base_url();?>cooperatives_update/<?=$encrypted_id?>/documents_update/upload_document_others_unifed" class="btn btn-primary">Upload</a>
             <?php endif;?>
           <?php endif; ?>
 
