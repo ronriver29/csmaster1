@@ -215,12 +215,15 @@ public function add_admin_director($data,$raw_pass){
       return true;
     }
   }
-  public function reset_password($aid,$data){
+  public function reset_password($aid,$data,$newPassword){
     $aid = $this->security->xss_clean($aid);
+    $client_info = $this->user_model->get_user_info($aid);
     $data = $this->security->xss_clean($data);
+
     $this->db->trans_begin();
     $this->db->where('id',$aid);
     $this->db->update('users',$data);
+    $this->email_model->sendEmailToclientResetpwd($client_info,$newPassword);
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;

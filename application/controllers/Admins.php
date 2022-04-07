@@ -587,7 +587,7 @@ class Admins extends CI_Controller{
             $data = array(
                     'password' => password_hash($this->input->post('pword'), PASSWORD_BCRYPT)
             );
-              if($this->admin_model->reset_password($decoded_aid,$data)){
+              if($this->admin_model->reset_password($decoded_aid,$data,$this->input->post('pword'))){
                 $this->session->set_flashdata('delete_admin_success', 'Password successfully reset.');
                 redirect('admins/all_user');
               }else{

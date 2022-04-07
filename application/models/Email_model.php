@@ -49,6 +49,28 @@ class Email_model extends CI_Model{
     }
   }
 
+  public function sendEmailToclientResetpwd($client_info,$newPassword){
+    
+    $client_full_name = $client_info->first_name." ".$client_info->middle_name." ".$client_info->last_name;
+    $from = "ecoopris@cda.gov.ph";    //senders email address
+    $subject =$client_full_name." Password Reset";  //email subject
+    $burl = base_url();
+    $message = "<pre>
+    Good day ".$client_full_name.",
+
+    The password of your account has been reset to: ".$newPassword." 
+    After successful login, we highly suggest to change your password by going to Settings > Change Password
+
+    Thank you!
+    </pre>
+    ";
+    if($this->sendMail($client_info->email, $subject, $message)){
+        return true;
+    }else{
+        return false;
+    }
+  }
+
   public function sendEmailToSpecialistAmendment($admin_info,$client_info,$amendment_info){
      $acronym='';
         if(strlen($amendment_info->acronym)>0)
