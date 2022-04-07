@@ -75,7 +75,7 @@ class Affiliators_update extends CI_Controller{
                     if($data['coop_info']->category_of_cooperative == 'Tertiary'){
                       $data['registered_coop'] = $this->affiliators_model->get_registered_coop_secondary($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
                     } else {
-                      $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                      $data['registered_coop'] = $this->affiliators_model->get_registered_coop_update($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
                     }
                     $data['user_id'] = $this->encryption->encrypt(encrypt_custom($user_id));
                     $data['applied_coop'] = $this->affiliators_model->get_applied_coop($user_id);
@@ -121,7 +121,7 @@ class Affiliators_update extends CI_Controller{
                         $data['header'] = 'Affiliators';
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                         $data['encrypted_id'] = $id;
-                        $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                        $data['registered_coop'] = $this->affiliators_model->get_registered_coop_update($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
                         $data['requirements_complete'] = $this->affiliators_model->is_requirements_complete($decoded_id,$user_id);
                         $data['directors_count'] = $this->affiliators_model->check_no_of_directors($user_id);
                         $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($decoded_id);
