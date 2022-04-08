@@ -377,6 +377,8 @@ $(function(){
       }
     });
   });
+  
+ 
 
   $('#branchAddForm #areaOfOperation').on('change', function(){
     area=$('#areaOfOperation').val();
@@ -416,3 +418,8 @@ $(function(){
     }
   });
 });
+
+ // $("#branchAddForm .customDeleleBtn").on('click',(function(){
+     $(document).on('click','.customDeleleBtn',function(){
+   $(this).parent().remove();
+  });  
