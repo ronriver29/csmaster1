@@ -625,7 +625,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15 and amend_coop.id <> 
   {
     $qry = $this->db->query("select amend_coop.regNo,amend_coop.amendmentNo,reg.amendment_no  from amend_coop 
 left join registeredamendment as reg ON reg.regNo = amend_coop.regNo
-where amend_coop.regNo ='$regNo' and amend_coop.status =15 or amend_coop.status=41  order by amend_coop.id desc limit 1");
+where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41)  order by amend_coop.id desc limit 1");
     if($qry->num_rows()>0)
     {
           return true;

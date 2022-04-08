@@ -192,7 +192,7 @@ class amendment extends CI_Controller{
               $data['client_info'] = $this->user_model->get_user_info($user_id);
               $data['header'] = 'Amendment';
               $data['regions_list'] = $this->region_model->get_regions();
-            if($this->amendment_model->check_date_registered($data['client_info']->regno))
+            if(!$this->amendment_model->check_date_registered($data['client_info']->regno))
                {
                   if(!$this->amendment_model->check_if_has_updated($user_id))
                   {
@@ -337,15 +337,15 @@ class amendment extends CI_Controller{
                 $proposeName = trim($this->input->post('newNamess'));
                 $type_of_cooperativeName = $this->format_name($typeOfCooperativeID);
                 $type_of = '';
-               	$coopTypeID = implode(',',$typeOfCooperativeID);
+                $coopTypeID = implode(',',$typeOfCooperativeID);
                 
               if(count($typeOfCooperativeID)>1)
               {
-              	$type_of = "Multipurpose";
+                $type_of = "Multipurpose";
               }
               else
               {
-              	$type_of = "Single";
+                $type_of = "Single";
               }
 
 
@@ -384,7 +384,7 @@ class amendment extends CI_Controller{
                   'proposed_name' => $proposeName,
                   'acronym' => strtoupper($this->input->post('acronym_names')),
                   'type_of_cooperative' => $type_of_cooperativeName,
-                  'cooperative_type_id' => 	$coopTypeID,
+                  'cooperative_type_id' =>  $coopTypeID,
                   'grouping' => $group,
                   'common_bond_of_membership' =>$commonBondOFmembership,
                   'comp_of_membership' => $occu_comp_of_membship,
@@ -426,14 +426,14 @@ class amendment extends CI_Controller{
                 }
                 else
                 {
-	                if($this->amendment_model->add_cooperative($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative,$data_bylaws)){
-	             
-	                  $this->session->set_flashdata('list_success_message', 'Your reservation is confirmed.');
-	                  redirect('amendment');
-	                }else{
-	                  $this->session->set_flashdata('list_error_message', 'Unable to reserve cooperative name.');
-	                  redirect('amendment');
-	                }
+                  if($this->amendment_model->add_cooperative($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative,$data_bylaws)){
+               
+                    $this->session->set_flashdata('list_success_message', 'Your reservation is confirmed.');
+                    redirect('amendment');
+                  }else{
+                    $this->session->set_flashdata('list_error_message', 'Unable to reserve cooperative name.');
+                    redirect('amendment');
+                  }
                 }
               }
           }else{
@@ -537,20 +537,20 @@ class amendment extends CI_Controller{
     //modify
     public function format_name($type_of_coop_id)
     {
-    	if(is_array($type_of_coop_id))
-    	{
-    		foreach($type_of_coop_id as $type_id)
-		      {
-		        $sqry = $this->db->get_where('cooperative_type',array('id'=>$type_id));
-		        foreach($sqry->result_array() as $val)
-		        {
-		            $typeCoopName [] = $val['name'];
-		        }
-		      }
-		      
-		         $type_of_cooperative_name = implode(",",$typeCoopName);
-		       return $type_of_cooperative_name;
-    	}
+      if(is_array($type_of_coop_id))
+      {
+        foreach($type_of_coop_id as $type_id)
+          {
+            $sqry = $this->db->get_where('cooperative_type',array('id'=>$type_id));
+            foreach($sqry->result_array() as $val)
+            {
+                $typeCoopName [] = $val['name'];
+            }
+          }
+          
+             $type_of_cooperative_name = implode(",",$typeCoopName);
+           return $type_of_cooperative_name;
+      }
     }
     //end modify
 
@@ -560,28 +560,28 @@ class amendment extends CI_Controller{
       $check_name = $this->db->query("select cooperative_id,proposed_name from amend_coop");
       if($check_name->num_rows()>0)
       {
-      	foreach($check_name->result_array() as $row_name)
-      	{
-      		$row_name['proposed_name'] =strtolower($row_name['proposed_name']);
-      		if($row_name['proposed_name'] ==strtolower($proposed_name) && $row_name['cooperative_id']==$cooperatieID_)
-      		{
-      			return TRUE;
-      		}	
-      	}
-	      			//check to amend coop without coop id
-		      	 $check_name_all = $this->db->query('select * from amend_coop where proposed_name="'.$proposed_name.'" and cooperative_id!='.$cooperatieID_);
-		      	 if($check_name_all->num_rows()>0)
-		      	 {
-		      	 	return FALSE;
-		      	 }
-		      	 else
-		      	 {
-		      	 	return TRUE;
-		      	 }
+        foreach($check_name->result_array() as $row_name)
+        {
+          $row_name['proposed_name'] =strtolower($row_name['proposed_name']);
+          if($row_name['proposed_name'] ==strtolower($proposed_name) && $row_name['cooperative_id']==$cooperatieID_)
+          {
+            return TRUE;
+          } 
+        }
+              //check to amend coop without coop id
+             $check_name_all = $this->db->query('select * from amend_coop where proposed_name="'.$proposed_name.'" and cooperative_id!='.$cooperatieID_);
+             if($check_name_all->num_rows()>0)
+             {
+              return FALSE;
+             }
+             else
+             {
+              return TRUE;
+             }
       }
       else
       {
-      	return TRUE;
+        return TRUE;
       }
     }
     //end modify
@@ -614,22 +614,22 @@ class amendment extends CI_Controller{
                   // echo $this->db->last_query();
                  //get major industry id
                   foreach($list_coop_type_id as $row_coop_type_id)
-                  { 	
-                  	//get major class industry id
-                  		$mjor_ins_id[]=$this->industry_subclass_per_coop_type( $row_coop_type_id);
+                  {   
+                    //get major class industry id
+                      $mjor_ins_id[]=$this->industry_subclass_per_coop_type( $row_coop_type_id);
 
                   }
                 
-                   	//extract all major industrial id
+                    //extract all major industrial id
                   foreach($mjor_ins_id as $id_major_industry)
-                  {	
+                  { 
                     foreach($id_major_industry as $mjorID)
                     { 
                     $extracted_majorins_id =  $mjorID['major_industry_id'];
                     $list_major_ins[] = $this->major_industry_description($extracted_majorins_id); 
                     $list_subclassID=$this->major_industry_subclass_id($extracted_majorins_id);
                     }
-               		
+                  
                   } 
 
                  $data['cooperative_type'] = $list_type; 
@@ -638,12 +638,12 @@ class amendment extends CI_Controller{
 
                  if($data['coop_info']->common_bond_of_membership=='Occupational')
                  {
-                 	$existed_composition = explode(',',$data['coop_info']->comp_of_membership);
-                 	foreach($existed_composition as $com_row)
-                 	{
-                 		$list_ofComposition[] = $this->CompositionOfmembers($com_row);
-                 	}
-                 	$data['list_of_comp'] = $list_ofComposition;
+                  $existed_composition = explode(',',$data['coop_info']->comp_of_membership);
+                  foreach($existed_composition as $com_row)
+                  {
+                    $list_ofComposition[] = $this->CompositionOfmembers($com_row);
+                  }
+                  $data['list_of_comp'] = $list_ofComposition;
                  }
 
                   $data['major_industries_by_coop_type'] = $this->major_industry_model->get_major_industries_by_type_name($data['coop_info']->type_of_cooperative);
@@ -763,7 +763,7 @@ class amendment extends CI_Controller{
                   }
                   $this->load->view('./template/footer', $data);
                 }else{
-                	// $cooperative_id = $this->coop_dtl($decoded_id);
+                  // $cooperative_id = $this->coop_dtl($decoded_id);
                   if(!$this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
                     $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
                     $subclass_array = $this->input->post('subClass');
@@ -771,23 +771,23 @@ class amendment extends CI_Controller{
                     $members_composition = $this->input->post('compositionOfMembers');
              
                    
-           			  $typeOfCooperativeID = $this->input->post('typeOfCooperative');
-	                $typeOfCooperative = implode(',',$this->input->post('typeOfCooperative'));
+                  $typeOfCooperativeID = $this->input->post('typeOfCooperative');
+                  $typeOfCooperative = implode(',',$this->input->post('typeOfCooperative'));
 
-	                 // $type_of_cooperativeName = $this->format_name($typeOfCooperative);
+                   // $type_of_cooperativeName = $this->format_name($typeOfCooperative);
                   $field_memship ='';
                   $name_of_ins_assoc ='';
                    $commonBondOFmembership =  $this->input->post('commonBondOfMembership');
-	                if($commonBondOFmembership=='Institutional')
-	                {
-	                       $name_of_ins_assoc = implode(',',$this->input->post('name_institution'));
-	                        $field_memship =$this->input->post('field_membership');
-	                }
-	                else if( $commonBondOFmembership=='Associational')
-	                {
-	                      $name_of_ins_assoc = implode(',',$this->input->post('name_institution'));
-	                      $field_memship =$this->input->post('field_membership');
-	                }
+                  if($commonBondOFmembership=='Institutional')
+                  {
+                         $name_of_ins_assoc = implode(',',$this->input->post('name_institution'));
+                          $field_memship =$this->input->post('field_membership');
+                  }
+                  else if( $commonBondOFmembership=='Associational')
+                  {
+                        $name_of_ins_assoc = implode(',',$this->input->post('name_institution'));
+                        $field_memship =$this->input->post('field_membership');
+                  }
                   else if($commonBondOFmembership=='Residential')
                   {
                       $name_of_ins_assoc ='';
@@ -795,24 +795,24 @@ class amendment extends CI_Controller{
                       $occu_comp_of_membship='';
                   }  
 
-	                 else 
-	                {
-	                      $name_of_ins_assoc ='';
-	                      $field_memship ='';
+                   else 
+                  {
+                        $name_of_ins_assoc ='';
+                        $field_memship ='';
                         $commonBondOFmembership =  $this->input->post('commonBond2');
-	                } 
+                  } 
 
-	                $proposeName = strtolower($this->input->post('proposedName'));
-	                $type_of_cooperativeName = $this->format_name($typeOfCooperativeID);
+                  $proposeName = strtolower($this->input->post('proposedName'));
+                  $type_of_cooperativeName = $this->format_name($typeOfCooperativeID);
 
-	                $occu_comp_of_membship='';
-	                if(is_array($this->input->post('compositionOfMembers'))>0)
-	                {
-	                  $occu_comp_of_membship = implode(',',$this->input->post('compositionOfMembers'));
-	                }    
+                  $occu_comp_of_membship='';
+                  if(is_array($this->input->post('compositionOfMembers'))>0)
+                  {
+                    $occu_comp_of_membship = implode(',',$this->input->post('compositionOfMembers'));
+                  }    
                   // $this->debug( $occu_comp_of_membship);
                   $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('Amendment_ID')));             
-	                 $group='';
+                   $group='';
 
                    $interregional='';
                    $regions='';
@@ -848,8 +848,8 @@ class amendment extends CI_Controller{
                       'grouping' => $group,
                       'common_bond_of_membership' => $commonBondOFmembership,
                       'comp_of_membership' =>$occu_comp_of_membship,
-                	  'field_of_membership' => $field_memship,
-               		  'name_of_ins_assoc' => $name_of_ins_assoc,
+                    'field_of_membership' => $field_memship,
+                    'name_of_ins_assoc' => $name_of_ins_assoc,
                       'area_of_operation' => $this->input->post('areaOfOperation'),
                       'refbrgy_brgyCode' => $this->input->post('barangay_'),//$this->input->post('barangay'),
                       'interregional' =>$interregional,
@@ -2623,7 +2623,7 @@ class amendment extends CI_Controller{
       // echo $this->db->last_query();
                 if(strlen($datas['client_info']->regno)<1)
                 {
-                  $qr =$this->db->query("select application_id from registeredcoop where regNo='$regNo' order by id desc limit 1");
+                  $qr =$this->db->query("select application_id from registeredcoop where regNo='$regNo' order by id asc limit 1");
                   foreach($qr->result() as $c)
                   {
                     $cooperative_id = $c->application_id;
@@ -2725,28 +2725,28 @@ class amendment extends CI_Controller{
         show_404();
       }
     }
-  	}
+    }
 
-  	public function coop_dtl($amendment_id)
-  	{
-  		$query = $this->db->query("select cooperative_id from amend_coop where id='$amendment_id'");
-  		if($query->num_rows()>0)
-  		{
-  			foreach($query->result() as $row)
-  			{
-  				$data = $row->cooperative_id;
-  			}
-  		}
-  		else
-  		{
-  			$data =NULL;
-  		}
-  		return $data;
-  	}
+    public function coop_dtl($amendment_id)
+    {
+      $query = $this->db->query("select cooperative_id from amend_coop where id='$amendment_id'");
+      if($query->num_rows()>0)
+      {
+        foreach($query->result() as $row)
+        {
+          $data = $row->cooperative_id;
+        }
+      }
+      else
+      {
+        $data =NULL;
+      }
+      return $data;
+    }
 
-  	public function coop_type($existing_type,$category)
-  	{
-  		if($category == 'Primary')
+    public function coop_type($existing_type,$category)
+    {
+      if($category == 'Primary')
       { 
         $except_type = array('Bank','Cooperative Bank','Insurance','Multi-Purpose','Federation','Union');
         $this->db->select('*');
@@ -2779,25 +2779,25 @@ class amendment extends CI_Controller{
         $this->db->order_by('name', 'ASC');
         $coop_type = $this->db->get('cooperative_type');
       }
-  		foreach($coop_type->result_array() as $row)
-  		{
-  			$row['amended_type'] = explode(',',$existing_type);
-  			$data[] = $row;
-  		}
-  		return $data;
-  	}
+      foreach($coop_type->result_array() as $row)
+      {
+        $row['amended_type'] = explode(',',$existing_type);
+        $data[] = $row;
+      }
+      return $data;
+    }
 
-  	public function CompositionOfmembers($existing_Composition)
-  	{
-  		
-  		$coop_type = $this->db->get('composition_of_members');
-  		foreach($coop_type->result_array() as $row)
-  		{
-  			$row['amended_composition'] = $existing_Composition;
-  			$data[] = $row;
-  		}
-  		return $data;
-  	}
+    public function CompositionOfmembers($existing_Composition)
+    {
+      
+      $coop_type = $this->db->get('composition_of_members');
+      foreach($coop_type->result_array() as $row)
+      {
+        $row['amended_composition'] = $existing_Composition;
+        $data[] = $row;
+      }
+      return $data;
+    }
 
     public function get_specific_CompositionOfmembers()
     {
@@ -3004,17 +3004,17 @@ class amendment extends CI_Controller{
     //for registration
     public function get_major_industry_ajax()
     {
-    	$coop_type_id = $this->input->post('cooptype_');
-    	$qry = $this->db->query("select distinct industry_subclass_by_coop_type.major_industry_id,major_industry.description from industry_subclass_by_coop_type left join major_industry on industry_subclass_by_coop_type.major_industry_id = major_industry.id where cooperative_type_id='$coop_type_id'");
-    	if($qry->num_rows()>0)
-    	{
-    		foreach($qry->result_array() as $row)
-    		{
-    			// $row['description'] = $this->major_industry_subclass_id($row['major_industry_id']);
-    			$data[] = $row;
-    		}
-    		echo json_encode($data);
-    	}
+      $coop_type_id = $this->input->post('cooptype_');
+      $qry = $this->db->query("select distinct industry_subclass_by_coop_type.major_industry_id,major_industry.description from industry_subclass_by_coop_type left join major_industry on industry_subclass_by_coop_type.major_industry_id = major_industry.id where cooperative_type_id='$coop_type_id'");
+      if($qry->num_rows()>0)
+      {
+        foreach($qry->result_array() as $row)
+        {
+          // $row['description'] = $this->major_industry_subclass_id($row['major_industry_id']);
+          $data[] = $row;
+        }
+        echo json_encode($data);
+      }
     }
 
     public function get_coopTypeID_ajax()
@@ -3186,18 +3186,18 @@ class amendment extends CI_Controller{
 
         foreach($sub_class_id as $index=> $row_subclass_id)
         {
-        	$query_subclass = $this->db->query("select id as sub_class_id,description as subclass_description from subclass where id={$row_subclass_id}");
-        	if($query_subclass->num_rows()>0)
-        	{
-        		foreach($query_subclass->result_array() as $row_subclass)
-        		{
-        			$data[]=$row_subclass;
-        		}
-        	}
-        	else
-        	{
-        		$data='dd';
-        	}
+          $query_subclass = $this->db->query("select id as sub_class_id,description as subclass_description from subclass where id={$row_subclass_id}");
+          if($query_subclass->num_rows()>0)
+          {
+            foreach($query_subclass->result_array() as $row_subclass)
+            {
+              $data[]=$row_subclass;
+            }
+          }
+          else
+          {
+            $data='dd';
+          }
         }
       }
       else
@@ -3210,16 +3210,16 @@ class amendment extends CI_Controller{
 
     public function get_specific_subclassAjax()
     {
-    	$id = $this->encryption->decrypt(decrypt_custom($this->input->post("amd_id"))); 
-    	$qry = $this->db->query("select amt_baca.*, industry_subclass_by_coop_type.id as ins_id, industry_subclass_by_coop_type.major_industry_id as ins_major_ins_id, industry_subclass_by_coop_type.subclass_id as ins_subclass_id,subclass.description as subclass_description from business_activities_cooperative_amendment as amt_baca left join industry_subclass_by_coop_type on amt_baca.industry_subclass_by_coop_type_id= industry_subclass_by_coop_type.id left join subclass on industry_subclass_by_coop_type.subclass_id=subclass.id where amt_baca.amendment_id='$id'");
-    	if($qry->num_rows()>0)
-    	{
-    		foreach($qry->result() as $row)
-    		{
-    			echo json_encode($row);
-    		}
-    	}
-    	// echo json_encode($id);
+      $id = $this->encryption->decrypt(decrypt_custom($this->input->post("amd_id"))); 
+      $qry = $this->db->query("select amt_baca.*, industry_subclass_by_coop_type.id as ins_id, industry_subclass_by_coop_type.major_industry_id as ins_major_ins_id, industry_subclass_by_coop_type.subclass_id as ins_subclass_id,subclass.description as subclass_description from business_activities_cooperative_amendment as amt_baca left join industry_subclass_by_coop_type on amt_baca.industry_subclass_by_coop_type_id= industry_subclass_by_coop_type.id left join subclass on industry_subclass_by_coop_type.subclass_id=subclass.id where amt_baca.amendment_id='$id'");
+      if($qry->num_rows()>0)
+      {
+        foreach($qry->result() as $row)
+        {
+          echo json_encode($row);
+        }
+      }
+      // echo json_encode($id);
     }
 
     public function cooperative_type_ajax()
@@ -3376,9 +3376,9 @@ class amendment extends CI_Controller{
 
     public function amendment_info()
     {
-    	$amendment_id = $this->encryption->decrypt(decrypt_custom($this->input->post('amd_id')));
-    	$result = $this->amendment_model->amendment_info($amendment_id);
-    	echo json_encode($result);
+      $amendment_id = $this->encryption->decrypt(decrypt_custom($this->input->post('amd_id')));
+      $result = $this->amendment_model->amendment_info($amendment_id);
+      echo json_encode($result);
     }
 
     public function coop_capitalization($cooperative_id)
@@ -3432,9 +3432,9 @@ class amendment extends CI_Controller{
 
   public function debug($array)
   {
-    		echo"<pre>";
-    		print_r($array);
-    		echo"</pre>";
+        echo"<pre>";
+        print_r($array);
+        echo"</pre>";
   }
   
   public function test()
