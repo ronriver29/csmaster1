@@ -151,6 +151,116 @@ $(function(){
   //     }
   //   }
   // });
+  $("#reserveAddForm #is_youth").change(function() {
+    if(this.checked) {
+        // alert('wow');
+        $('#reserveAddForm #proposedName').on('change click',function(){
+
+        var val = $(this).val();
+
+        var typeofcoop = $( "#reserveAddForm #typeOfCooperative option:selected").text();
+
+        var categoryofcoop = $( "#reserveAddForm #categoryOfCooperative option:selected").text();
+
+        var acronym = $( "#reserveAddForm #acronymname").val();
+
+
+
+        if(acronym != ''){
+
+          acronym = ' ('+acronym+')';
+
+        } else {
+
+          acronym = '';
+
+        }
+
+        $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+val+' Youth '+typeofcoop+' Cooperative');
+
+        document.getElementById('acronymname').value = '';
+
+        var value = document.getElementById("proposedName").value;
+
+        var totalval = 99 - value.length; 
+
+        if(totalval == 0){
+
+          $("#reserveAddForm #acronymname").prop("disabled",true);
+
+          $('#reserveAddForm #acronymnameerr').show();
+
+        } else {
+
+          $('#reserveAddForm #acronymnameerr').hide();
+
+          $("#reserveAddForm #acronymname").prop("disabled",false);
+
+        }
+
+        document.getElementById("acronymname").maxLength = totalval;
+
+      });
+        
+    } else {
+        $('#reserveAddForm #proposedName').on('change click',function(){
+
+        var val = $(this).val();
+
+        var typeofcoop = $( "#reserveAddForm #typeOfCooperative option:selected").text();
+
+        var categoryofcoop = $( "#reserveAddForm #categoryOfCooperative option:selected").text();
+
+        var acronym = $( "#reserveAddForm #acronymname").val();
+
+
+
+        if(acronym != ''){
+
+          acronym = ' ('+acronym+')';
+
+        } else {
+
+          acronym = '';
+
+        }
+
+        if(categoryofcoop == 'Secondary' || categoryofcoop == 'Tertiary'){
+
+          $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+val+' Federation of '+typeofcoop + ' Cooperative' +acronym);
+
+        } else {
+
+          $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+val+' '+typeofcoop+' Cooperative');
+
+        }
+
+        document.getElementById('acronymname').value = '';
+
+        var value = document.getElementById("proposedName").value;
+
+        var totalval = 99 - value.length; 
+
+        if(totalval == 0){
+
+          $("#reserveAddForm #acronymname").prop("disabled",true);
+
+          $('#reserveAddForm #acronymnameerr').show();
+
+        } else {
+
+          $('#reserveAddForm #acronymnameerr').hide();
+
+          $("#reserveAddForm #acronymname").prop("disabled",false);
+
+        }
+
+        document.getElementById("acronymname").maxLength = totalval;
+
+      });
+    }
+  });
+  
   $('#reserveAddForm #acronymnameerr').hide();
   $('#reserveAddForm #typeOfCooperative').find('option:contains(Federation)').hide();
 
@@ -185,6 +295,7 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Small Scale Mining)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Transport)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Technology Service)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Water Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Workers)').show();
         } else if(categorycoop=="Secondary - Federation"){
@@ -212,6 +323,7 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Small Scale Mining)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Transport)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Technology Service)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Water Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Workers)').show();
             // $('#reserveAddForm #coopbank').hide();
@@ -240,6 +352,7 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Small Scale Mining)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Transport)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Technology Service)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Water Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Workers)').show();
             // $('#reserveAddForm #coopbank').hide();
@@ -269,6 +382,7 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Service)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Small Scale Mining)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Transport)').hide();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Technology Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Water Service)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Workers)').hide();
         } else {
@@ -296,6 +410,7 @@ $(function(){
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Small Scale Mining)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Transport)').show();
+            $('#reserveAddForm #typeOfCooperative').find('option:contains(Technology Service)').hide();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Water Service)').show();
             $('#reserveAddForm #typeOfCooperative').find('option:contains(Workers)').show();
         }
@@ -304,7 +419,7 @@ $(function(){
   $('#reserveAddForm #typeOfCooperative').on('change', function(){
       var typeofcoop = $(this).val();
       // alert(typeofcoop);
-      if(typeofcoop == 16 || typeofcoop == 26 || typeofcoop == 9){
+      if(typeofcoop == 16 || typeofcoop == 26 || typeofcoop == 9 || typeofcoop == 28){
         var categoryofcoop = $( "#reserveAddForm #categoryOfCooperative option:selected").text();
         // alert('wow');
         if(categoryofcoop == 'Primary' || categoryofcoop == 'Secondary' || categoryofcoop == 'Tertiary'){
@@ -402,12 +517,12 @@ $(function(){
     
     if($(this).val() && ($(this).val()).length > 0){
       $("#reserveAddForm #addMoreSubclassBtn").prop("disabled",false);
-      document.getElementById("proposedName").maxLength = "61";
+      document.getElementById("proposedName").maxLength = "99";
 
       $('#reserveAddForm #proposedName').on('change',function(){
         document.getElementById('acronymname').value = '';
         var value = document.getElementById("proposedName").value;
-        var totalval = 61 - value.length; 
+        var totalval = 99 - value.length; 
         if(totalval == 0){
           $("#reserveAddForm #acronymname").prop("disabled",true);
           $('#reserveAddForm #acronymnameerr').show();

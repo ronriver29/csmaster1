@@ -347,6 +347,27 @@ $('#addAffiliatorModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #regno').val(regno);
   modal.find('.modal-body #regid').val(regid);
 });
+
+$('#addAffiliatorModalcoop').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var full_name = button.data('fname');
+  var coop_id = button.data('coopid');
+  var cooperatorid = button.data('cooperatorid');
+  var application_id = button.data('application_id');
+  var regno = button.data('regno');
+  var regid = button.data('reg_id');
+  var types = button.data('types');
+  var modal = $(this);
+  modal.find('.modal-body #cooperativeID').val(coop_id);
+//  modal.find('.modal-body #cooperatorID').val(cooperatorid);
+  modal.find('.modal-body #application_id').val(application_id);
+  modal.find('.modal-body #coopname').val(full_name);
+  modal.find('.modal-body .cooperator-name-text').text(full_name);
+  modal.find('.modal-body #regno').val(regno);
+  modal.find('.modal-body #regid').val(regid);
+  modal.find('.modal-body #types').val(types);
+});
+
 $('#editAffiliatorModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget);
   var full_name = button.data('fname');
