@@ -834,6 +834,19 @@ $("#deleteStaffForm").validationEngine('attach',
                   $('#addCommitteeForm2 .col-committee-specify').remove();
                 }
               });
+              $('#addCommitteeForm2 #committeeName').on('change', function(){
+                if($(this).val()=="Others"){ 
+                  var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Function and Responsibilities:</label>' +
+                            // '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhp]]" name="func_and_respons" id="committeeNameSpecify">' +
+                             '<textarea class="form-control" name="func_and_respons" id="func_and_respons" rows="5"></textarea>' +
+                            '<input type="hidden" value="others" name="type">' +
+                            '</div></div>');
+                  $('#addCommitteeForm2 .ac-row').append(committeeNameSpecify);
+                }else{
+                  $('#addCommitteeForm2 .col-committee-specify').remove();
+                }
+              });
               $('#addCommitteeForm2 #cooperatorID').on('change', function(){
                 $("#addCommitteeForm2 .ac-info-row input,textarea").val("");
                 if($(this).val() && $(this).val().length >0){
