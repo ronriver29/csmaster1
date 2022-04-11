@@ -826,10 +826,8 @@ $("#deleteStaffForm").validationEngine('attach',
               $('#addCommitteeForm2 #committeeName').on('change', function(){
                 if($(this).val()=="Others"){ 
                   var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
-                            '<div class="form-group"><label for="committeeNameSpecify">Function and Responsibilities:</label>' +
-                            // '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhp]]" name="func_and_respons" id="committeeNameSpecify">' +
-                             '<textarea class="form-control validate[required]" name="func_and_respons" id="func_and_respons" rows="5"></textarea>' +
-                            '<input type="hidden" value="others" name="type">' +
+                            '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
+                            '<input type="text" class="form-control name="committeeNameSpecify" id="committeeNameSpecify">' +
                             '</div></div>');
                   $('#addCommitteeForm2 .ac-row').append(committeeNameSpecify);
                 }else{
