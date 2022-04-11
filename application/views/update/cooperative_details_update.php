@@ -1358,8 +1358,8 @@ if(isset($coop_info))
               </small>
             </div>
             <p class="mb-1 font-italic">Finalize and review all the information you provide. After reviewing your application, click proceed for evaluation of your application.</p>
-            <?php // if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two && $document_completed): 
-              if(($coop_info->status != 40 && $coop_info->status != 39)):
+            <?php // if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two && $document_completed):
+                if(($coop_info->status != 40 && strlen($coop_info->refbrgy_brgyCode)) == 9 && strlen($coop_info->type_of_cooperative) != 0 && $coop_info->status != 39):
             ?>
             <small class="text-muted">
               <a href="<?php echo base_url();?>cooperatives_update/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
