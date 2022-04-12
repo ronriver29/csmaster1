@@ -175,7 +175,7 @@
               </div>
             </div>
           <?php } ?>
-          <?php // if($coop_info->type_of_cooperative != 'Multipurpose' && strpos($coop_info->type_of_cooperative, ',') == false ){?>
+          <?php if($coop_info->type_of_cooperative != 'Multipurpose' && strpos($coop_info->type_of_cooperative, ',') == false ){?>
             <div class="row">
               <div class="col-sm-12 col-md-12 col-industry-subclass">
                 <?php if(isset($business_activity)) : ?>
@@ -268,7 +268,7 @@
                 <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreSubclassBtn"><i class="fas fa-plus"></i> Add More Business Activity</button>
               </div>
             </div>
-            <?php // } ?>
+            <?php } ?>
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
