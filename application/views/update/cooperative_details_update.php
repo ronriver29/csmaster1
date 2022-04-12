@@ -55,6 +55,13 @@ if(isset($coop_info))
   </div>
 
 <?php endif; ?>
+<div class="row">
+  <div class="col-sm-12 col-md-12">
+    <div class="alert alert-info text-center" role="alert">
+      Basic Information such as Category, Cooperative Type, Area of Operation and Address must be filled out first before you can submit your application.
+    </div>
+  </div>
+</div>
 <?php if(!$is_client){?>
   <?php if(strlen(($coop_info->comment_by_specialist && $admin_info->access_level==2) && $coop_info->status != 15 || $admin_info->access_level==3 || $admin_info->access_level==4) && strlen($coop_info->comment_by_specialist)>0 && $coop_info->status != 15) : ?>
 <?php if($this->cooperatives_model->check_if_revert($coop_info->id)){ } else {?>
