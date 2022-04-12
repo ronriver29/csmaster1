@@ -407,6 +407,7 @@ $route['admins/all_admin'] = 'admins/all_admin';
 $route['admins/cooperatives_list'] = 'admins/cooperatives_list';
 $route['admins/branches_list'] = 'admins/branches_list';
 $route['admins/all_user'] = 'admins/all_user';
+$route['admins/(:any)/new_user_change_status'] = 'admins/new_user_change_status/$1';
 $route['admins/all_new_user'] = 'admins/all_new_user';
 $route['admins/migration_coop'] = 'admins/migration_coop';
 $route['admins/change_passwd'] = 'admins/change_passwd';
@@ -545,8 +546,8 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 	$route['amendment_update/(:any)/affiliators_update'] = 'Amendment_affiliators_update/index/$1';
 
 	$route['amendment_update/(:any)/capitalization'] = 'amendment_update_capitalization/index/$1';
-	$route['amendment_update/(:any)/cooperators'] = 'amendment_update_cooperator/index/$1';
-	$route['amendment_update/(:any)/cooperators_update/add'] = 'amendment_update_cooperator/add/$1';
+	$route['amendment_update/(:any)/amendment_cooperators'] = 'amendment_update_cooperator/index/$1';
+	$route['amendment_update/(:any)/amendment_cooperator/add'] = 'amendment_update_cooperator/add/$1';
 	$route['amendment_update/(:any)/purposes'] = 'amendment_update_purposes/index/$1';
 	$route['amendment_update/(:any)/amendment_purposes/edit'] = 'amendment_update_purposes/edit/$1';
 	//Articles of Cooperation	
@@ -556,10 +557,15 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 	//Committees
 	$route['amendment_update/(:any)/committees_update'] = 'amendment_committees_update/index/$1';
 	$route['amendment_update/(:any)/committees_update/add'] = 'amendment_committees_update/add/$1';
-
+	//Documents
+	$route['amendment_update/(:any)/amendment_documents'] = 'amendment_update_documents/index/$1';
+	$route['amendment_update/(:any)/amendment_update_documents/upload_document_other'] = 'amendment_update_documents/upload_document_other/$1';
+	$route['amendment_update/(:any)/amendment_update_documents/view_document_one/(:any)/(:any)'] = 'amendment_update_documents/view_document_one/$1/$2/$3';
+	$route['amendment_update/(:any)/amendment_update_documents/list_upload_pdf'] = 'amendment_update_documents/list_upload_pdf/$1/$2';
 	//UNION
 	$route['amendment_update/(:any)/union_update'] = 'amendment_union_update/index/$1';
 
+	// $route['union_update/update_cc']='union_update/update_cc';
 	
 
 $route['reset_migration'] = 'migrate/resetMigration';

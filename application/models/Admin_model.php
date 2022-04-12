@@ -111,6 +111,20 @@ class Admin_model extends CI_Model{
         // }
       }
   }
+  public function change_new_user_coop_status($aid,$data){
+    $aid = $this->security->xss_clean($aid);
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+    $this->db->where('users_id',$aid);
+    $this->db->update('cooperatives',$data);
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
 public function add_admin_director($data,$raw_pass){
     $data = $this->security->xss_clean($data);
    
@@ -223,14 +237,21 @@ public function add_admin_director($data,$raw_pass){
     $this->db->trans_begin();
     $this->db->where('id',$aid);
     $this->db->update('users',$data);
-    $this->email_model->sendEmailToclientResetpwd($client_info,$newPassword);
-    if($this->db->trans_status() === FALSE){
-      $this->db->trans_rollback();
+    if(!$this->email_model->sendEmailToclientResetpwd($client_info,$newPassword))
+    {
       return false;
-    }else{
-      $this->db->trans_commit();
-      return true;
     }
+    else
+    {
+       if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+        return false;
+      }else{
+        $this->db->trans_commit();
+        return true;
+      }
+    }
+   
   }
   public function delete_admin($aid){
     $aid = $this->security->xss_clean($aid);

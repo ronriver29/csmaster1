@@ -2291,6 +2291,25 @@ $('#editStaffForm #position').on('change', function(){
   });
 
 /* ANJURY END */
+  $(".btnNewUsers").on('click',function(e){
+    var lnkProceed = this;
+    e.preventDefault();
+    Swal({
+      title: 'Are you sure you want to change status?',
+      text: "Once submitted, you wont be able to change all the information you provide.",
+      type: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'No',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        window.location.href = lnkProceed;
+      }
+    });
+  });
+  
   $(".btnFinalize").on('click',function(e){
     var lnkProceed = this;
     e.preventDefault();

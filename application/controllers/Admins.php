@@ -453,6 +453,39 @@ class Admins extends CI_Controller{
       }
     }
   }
+  public function new_user_change_status($id = null){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      // if(!$this->session->userdata('client')){
+      //   if(!$this->session->userdata('access_level')==5){
+      //     $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+      //     redirect('cooperatives');
+      //   }else{
+      //     if($this->input->post('deleteAdministratorBtn')){
+            $decoded_aid = $this->encryption->decrypt(decrypt_custom($id));
+            $data = array(
+              'status' => 15
+            );
+              if($this->admin_model->change_new_user_coop_status($decoded_aid,$data)){
+                $this->session->set_flashdata('delete_admin_success', 'Successfully Change Status.');
+                redirect('admins/all_new_user');
+              }else{
+                $this->session->set_flashdata('delete_admin_error', 'Unable to Change Status.');
+                redirect('admins/all_new_user');
+              }
+        //   }else{
+        //     $this->session->set_flashdata('redirect_admin_applications_message', 'Unauthorized!!.');
+        //     redirect('admins/all_admin');
+        //   }
+        // }
+      // }else{
+      //   $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+      //   redirect('cooperatives');
+      // }
+    }
+  }
+
   public function delete_admin(){
     if(!$this->session->userdata('logged_in')){
       redirect('admins/login');
@@ -591,7 +624,7 @@ class Admins extends CI_Controller{
                 $this->session->set_flashdata('delete_admin_success', 'Password successfully reset.');
                 redirect('admins/all_user');
               }else{
-                $this->session->set_flashdata('delete_admin_error', 'Unable to delete user.');
+                $this->session->set_flashdata('delete_admin_success', 'Unable to reset user password.');
                 redirect('admins/all_user');
               }
           }else{
