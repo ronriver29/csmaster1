@@ -125,6 +125,21 @@ class Admin_model extends CI_Model{
       return true;
     }
   }
+
+  public function change_new_user_coop_status_amendment($aid,$data){
+    $aid = $this->security->xss_clean($aid);
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+    $this->db->where('users_id',$aid);
+    $this->db->update('amend_coop',$data);
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }else{
+      $this->db->trans_commit();
+      return true;
+    }
+  }
 public function add_admin_director($data,$raw_pass){
     $data = $this->security->xss_clean($data);
    

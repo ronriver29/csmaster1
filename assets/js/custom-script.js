@@ -827,7 +827,7 @@ $("#deleteStaffForm").validationEngine('attach',
                 if($(this).val()=="Others"){ 
                   var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
                             '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
-                            '<input type="text" class="form-control name="committeeNameSpecify" id="committeeNameSpecify">' +
+                            '<input type="text" class="form-control" name="committeeNameSpecify" id="committeeNameSpecify">' +
                             '</div></div>');
                   $('#addCommitteeForm2 .ac-row').append(committeeNameSpecify);
                 }else{
@@ -2295,7 +2295,7 @@ $('#editStaffForm #position').on('change', function(){
     var lnkProceed = this;
     e.preventDefault();
     Swal({
-      title: 'Are you sure you want to change status?',
+      title: 'Are you sure you want to change status of the Cooperative?',
       text: "Once submitted, you wont be able to change all the information you provide.",
       type: 'info',
       showCancelButton: true,
@@ -2310,6 +2310,24 @@ $('#editStaffForm #position').on('change', function(){
     });
   });
   
+  $(".btnNewUsersAmend").on('click',function(e){
+    var lnkProceed = this;
+    e.preventDefault();
+    Swal({
+      title: 'Are you sure you want to change status of the Amend Coop?',
+      text: "Once submitted, you wont be able to change all the information you provide.",
+      type: 'info',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'No',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        window.location.href = lnkProceed;
+      }
+    });
+  });
   $(".btnFinalize").on('click',function(e){
     var lnkProceed = this;
     e.preventDefault();

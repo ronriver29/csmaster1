@@ -408,6 +408,7 @@ $route['admins/cooperatives_list'] = 'admins/cooperatives_list';
 $route['admins/branches_list'] = 'admins/branches_list';
 $route['admins/all_user'] = 'admins/all_user';
 $route['admins/(:any)/new_user_change_status'] = 'admins/new_user_change_status/$1';
+$route['admins/(:any)/new_user_change_status_amendment'] = 'admins/new_user_change_status_amendment/$1';
 $route['admins/all_new_user'] = 'admins/all_new_user';
 $route['admins/migration_coop'] = 'admins/migration_coop';
 $route['admins/change_passwd'] = 'admins/change_passwd';
@@ -546,8 +547,12 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 	$route['amendment_update/(:any)/affiliators_update'] = 'Amendment_affiliators_update/index/$1';
 
 	$route['amendment_update/(:any)/capitalization'] = 'amendment_update_capitalization/index/$1';
+	//COOPERATORS
 	$route['amendment_update/(:any)/amendment_cooperators'] = 'amendment_update_cooperator/index/$1';
 	$route['amendment_update/(:any)/amendment_cooperator/add'] = 'amendment_update_cooperator/add/$1';
+	$route['amendment_update/(:any)/amendment_cooperator/(:any)/edit'] = 'amendment_update_cooperator/edit/$1/$2';
+	$route['amendment/(:any)/amendment_cooperators/(:any)/edit'] = 'amendment_cooperators/edit/$1/$2';
+
 	$route['amendment_update/(:any)/purposes'] = 'amendment_update_purposes/index/$1';
 	$route['amendment_update/(:any)/amendment_purposes/edit'] = 'amendment_update_purposes/edit/$1';
 	//Articles of Cooperation	

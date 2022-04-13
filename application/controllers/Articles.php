@@ -85,6 +85,7 @@ class Articles extends CI_Controller{
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
+                        echo $this->db->last_query();
                     } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                         $model = 'unioncoop_model';
                         $ids = $user_id;
@@ -99,7 +100,7 @@ class Articles extends CI_Controller{
                   if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
-                  if($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Primary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Secondary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Tertiary"){
+                    if($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Primary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Secondary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Tertiary"){
                         if($this->form_validation->run() == FALSE){
                           $data['title'] = 'Articles of Cooperation';
                           $data['header'] = 'Articles of Cooperation';
