@@ -50,7 +50,7 @@
             <?php echo form_close(); ?>
             <!-- <a class="btn btn-linnk" href="<?php echo base_url();?>admins/login">Admin Login</a> -->
             <div>
-            <a class="btn btn-link" href="<?php echo base_url('/users/signup');?>" style="float:left;">Create an account</a>
+            <a class="btn btn-link" href="<?php echo base_url('/users/signup');?>" style="float:left;">New Registration</a>
             
 
             <a class="btn btn-link" href="<?= base_url('/Users/forgot_password')?>" style="float:right;">Forgot password</a>
