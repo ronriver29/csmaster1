@@ -142,6 +142,33 @@ class Admins extends CI_Controller{
       }
     }
   }
+  public function for_verifications(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        $admin_user_id = $this->session->userdata('user_id');
+        if($this->admin_model->check_super_admin($admin_user_id)){
+          $data['title'] = 'For Verification Lists';
+          $data['header'] = 'For Verification Lists';
+          $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
+          $data['verification_list'] = $this->admin_model->get_all_for_verifications();
+          $this->load->view('./templates/admin_header', $data);
+          $this->load->view('admin/list_of_verifications', $data);
+          // $this->load->view('admin/resetpassword_modal_new_user', $data);
+          // $this->load->view('admin/edit_reg_date_status', $data);
+          // $this->load->view('admin/delete_modal_new_user', $data);
+          $this->load->view('./templates/admin_footer');
+        }else{
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('cooperatives');
+      }
+    }
+  }
   public function migration_coop(){
     if(!$this->session->userdata('logged_in')){
       redirect('admins/login');

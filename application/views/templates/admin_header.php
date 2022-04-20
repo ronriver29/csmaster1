@@ -79,6 +79,9 @@
             <a href="<?php echo base_url();?>admins/all_new_user"><i class="fas fa-user-tie"></i> New Email Users</a>
           </li>
           <li>
+            <a href="<?php echo base_url();?>admins/for_verifications"><i class="fas fa-user-tie"></i> For Verifications</a>
+          </li>
+          <li>
             <a href="<?php echo base_url();?>admins/migration_coop"><i class="fas fa-user-tie"></i> Migration Cooperatives</a>
           </li>
           <li>   
@@ -93,23 +96,6 @@
            <li>   
             <a href="<?php echo base_url();?>admins/branches_list"><i class="fas fa-handshake"></i> All Branches List</a>
           </li> 
-
-          <?php if($admin_info->access_level==5):?>
-               <!-- <li>
-          <a href="#pageSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> Api</a>
-           <ul class="collapse list-unstyled" id="pageSubmenu3">
-            <li>
-               <a href="#pageSubmenu4" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> Davao</a>
-                 <ul class="collapse list-unstyled" id="pageSubmenu4">
-                 <li> 
-                      <a href="<?php echo base_url();?>api_access" style="padding-left:25%;"><small><i class="fas fa-cog"></i></small> Access Data</a>
-                 </li>
-               </ul>
-            </li>
-           </ul> 
-        </li> -->
-          <?php endif;?>
-
           <li>
           <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> SMS Settings</a>
           <ul class="collapse list-unstyled" id="pageSubmenu2">
@@ -156,16 +142,14 @@
             </li>
 
           </ul>
-     
+        </li>
+
         <li>   
           <a href="<?php echo base_url();?>api_settings/messages_list"><i class="fas fa-cog"></i> SMS Messages</a>
         </li>
-        
-        
         <?php endif; ?>
-         
+      
         <?php if($admin_info->access_level < 5) : ?>
-        
           <li>   
             <a href="<?php echo base_url();?>cooperatives"><i class="fas fa-handshake"></i> Cooperatives</a>
           </li>

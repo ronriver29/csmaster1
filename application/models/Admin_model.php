@@ -66,6 +66,19 @@ class Admin_model extends CI_Model{
     // $this->db->join('cooperatives c','u.id = c.users_id');
     // $this->db->where(array('u.is_verified =' => 1));
   }
+  public function get_all_for_verifications(){
+    $this->db->select('u.*,c.id as application_id');
+    $this->db->from('users u');
+    $this->db->join('cooperatives c','u.id = c.users_id');
+    $this->db->where('u.is_verified = 0 AND (u.is_taken = 0 OR u.is_taken IS NULL)');
+    $query = $this->db->get();
+    return $query->result_array();
+
+    // $this->db->select('u.*,c.id as application_id');
+    // $this->db->from('users u');
+    // $this->db->join('cooperatives c','u.id = c.users_id');
+    // $this->db->where(array('u.is_verified =' => 1));
+  }
   public function get_migrated_data($coopName,$regNo,$limit){
     $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->select('*');

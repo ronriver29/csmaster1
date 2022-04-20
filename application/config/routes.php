@@ -411,6 +411,7 @@ $route['admins/all_user'] = 'admins/all_user';
 $route['admins/(:any)/new_user_change_status'] = 'admins/new_user_change_status/$1';
 $route['admins/(:any)/new_user_change_status_amendment'] = 'admins/new_user_change_status_amendment/$1';
 $route['admins/all_new_user'] = 'admins/all_new_user';
+$route['admins/for_verifications'] = 'admins/for_verifications';
 $route['admins/migration_coop'] = 'admins/migration_coop';
 $route['admins/change_passwd'] = 'admins/change_passwd';
 $route['admins/login'] = 'admins/login';
