@@ -54,7 +54,7 @@ spec:
           requests:
             cpu: "500m"
             memory: "1Gi"
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: php
         volumeMounts:
           - name: shared-files
@@ -76,7 +76,7 @@ spec:
             port: 9000
           initialDelaySeconds: 15
       - image: nginx:1.7.9
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         name: nginx
         volumeMounts:
           - name: shared-files
