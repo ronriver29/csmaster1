@@ -260,6 +260,39 @@ class Db_dev extends CI_Controller{
 
   }
 
+  public function replicate_to_temp_table($regNo)
+  {
+    $query = $this->db->query("select * from registeredcoop where regNo='$regNo'");
+    if($query->num_rows()>0)
+    {
+      foreach($query->result_array() as $row)
+      {
+        unset($row['grouping']);
+        unset($row['migrated']);
+        $data[] = $row;
+      }
+      // $this->debug($data);
+
+       $this->db->delete('temp_registeredcoop',array('regNo'=>$regNo));
+       
+          if($this->db->insert_batch('temp_registeredcoop',$data))
+          {
+            echo'success';
+          }
+          else
+          {
+            echo'failed';
+          }
+     
+        
+    }
+    else
+    {
+      echo'no data found';
+    }
+
+  }
+
  public function seed_migration($regNo,$users_id)
     { 
       if(!$this->session->userdata('logged_in'))
@@ -580,14 +613,12 @@ class Db_dev extends CI_Controller{
           if(isset($_POST['submit']))
           {
             $query = $this->input->post('qry');
-              if($this->db->query($query))
-              {
-                echo "query successfully";
-              }
+            $result = $this->db->query($query);
+              $this->debug($result->result_array());
           }
           else
           {
-            echo'<form method="post" action="update">';
+            echo'<form method="post">';
             echo'<input type="text" name="qry"/><br>';
             echo'<input type="submit" name="submit" value="submit"/><br>';
             echo'</form>';
@@ -1028,5 +1059,16 @@ class Db_dev extends CI_Controller{
         echo"</pre>";
     }
 
+   public function amd_migration($id,$limit)
+   {
    
+    $data['header_fields'] = $this->db->list_fields("amend_coop");
+    $query =$this->db->query("select amend_coop.* From amend_coop where id > '$id' order by regNo limit ".$limit);
+    // $this->debug($data['header_fields']);
+    $data['result'] = $query->result_array();
+    // $this->debug($data['result']);
+    $this->load->view('./template/header', $data);
+    $this->load->view('client/amendment_migration', $data);
+    $this->load->view('./template/footer');
+   }
 }

@@ -55,7 +55,7 @@ class amendment_model extends CI_Model{
 
    public function check_date_registered($regNo)
   {
-    $query = $this->db->query("select regNo, DATE(CASE WHEN LOCATE('-', dateRegistered) = 3 THEN STR_TO_DATE(dateRegistered, '%m-%d-%Y') WHEN LOCATE('-', dateRegistered) = 5 THEN STR_TO_DATE(dateRegistered, '%Y-%m-%d') ELSE STR_TO_DATE(dateRegistered, '%d/%m/%Y') END) as dateRegistered from registeredcoop where regNo = '$regNo' and dateRegistered >=DATE('2020-09-30') order by id asc limit 1");
+    $query = $this->db->query("select regNo, DATE(CASE WHEN LOCATE('-', dateRegistered) = 3 THEN STR_TO_DATE(dateRegistered, '%m-%d-%Y') WHEN LOCATE('-', dateRegistered) = 5 THEN STR_TO_DATE(dateRegistered, '%Y-%m-%d') ELSE STR_TO_DATE(dateRegistered, '%d/%m/%Y') END) as dateRegistered from registeredcoop where regNo = '$regNo' and migrated=0 and dateRegistered >=DATE('2020-09-30') order by id asc limit 1");
     if($query->num_rows()==1)
     {
       return false;
