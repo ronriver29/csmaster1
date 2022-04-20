@@ -53,6 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'users/index';
 $route['amendment_update/replicate'] = 'amendment_update/replicate';
 $route['amendment_update/authorized_user_submission'] = 'amendment_update/authorized_user_submission';
+	$route['amendment_update/seed_data'] = 'amendment_update/seed_data';
 
 $route['branches/(:any)/documents/bylaws_primary_branch'] = 'documents/bylaws_primary_branch/$1';
 $route['branches/(:any)/documents/bylaws_primary_branch_amend'] = 'documents/bylaws_primary_branch_amend/$1';
@@ -571,7 +572,6 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 	$route['amendment_update/(:any)/union_update'] = 'amendment_union_update/index/$1';
 
 	// $route['union_update/update_cc']='union_update/update_cc';
-	
 
 $route['reset_migration'] = 'migrate/resetMigration';
 $route['undo_migration'] = 'migrate/undoMigration';
