@@ -150,9 +150,28 @@
         <?php endif; ?>
       
         <?php if($admin_info->access_level < 5) : ?>
-          <li>   
-            <a href="<?php echo base_url();?>cooperatives"><i class="fas fa-handshake"></i> Cooperatives</a>
+          <li>
+            <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-handshake"></i> Cooperatives Menu</a>
+            <ul class="collapse list-unstyled" id="pageSubmenu5">
+              <li>
+                <a href="<?php echo base_url();?>cooperatives"><i class="fas fa-cog"></i> Cooperatives</a>
+              </li>
+              <?php if($admin_info->access_level == 2) : ?>
+              <li>
+                <a href="<?php echo base_url();?>denied_defered_cooperatives"><i class="fas fa-cog"></i> Deferred / Denied</a>
+              </li>
+              <?php endif; ?>
+              <li>
+                <a href="<?php echo base_url();?>registered_cooperatives"><i class="fas fa-cog"></i> Registered</a>
+              </li>
+              <li>
+                <a href="<?php echo base_url();?>process_by_ho"><i class="fas fa-cog"></i> Registered Coop Processed by Head Office</a>
+              </li>
+            </ul>
           </li>
+          <!-- <li>   
+            <a href="<?php echo base_url();?>cooperatives"><i class="fas fa-handshake"></i> Cooperatives</a>
+          </li> -->
          
            <li>   
 

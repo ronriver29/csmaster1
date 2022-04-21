@@ -258,9 +258,9 @@
         </div>
       </div>
     </div>
-<?php if(!$is_client && $admin_info->region_code != '00' && $admin_info->access_level==2) :?>
+<?php // if(!$is_client && $admin_info->region_code != '00' && $admin_info->access_level==2) :?>
 
-<h4 style="
+<!-- <h4 style="
 padding: 15px 10px;
 background: #fff;
 background-color: rgb(255, 255, 255);
@@ -395,11 +395,11 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Deferred/Denied</h4>
           </table>
         </div>
       </div>
-    </div>
-  <?endif;?>
+    </div> -->
+  <?php // endif;?>
 
-<?php if(!$is_client && $admin_info->region_code != '00') :?>
-<h4 style="
+<?php // if(!$is_client && $admin_info->region_code != '00') :?>
+<!-- <h4 style="
 padding: 15px 10px;
 background: #fff;
 background-color: rgb(255, 255, 255);
@@ -457,8 +457,6 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                     if($dateRegistered >= $datestr){?>
                       <li>
                         <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/coc" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print COC</a>
-
-                        <!-- <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/assign" data-toggle="modal" data-target="#assignInspectorModal" data-coopregno="<?= $cooperative_registered['regNo']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id']))?>" data-cname="<?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print COC</a> -->
                       </li>
                     <?php } ?>
                      <?php endif; ?>
@@ -466,7 +464,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                     <li style="list-style: none;">
                       <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/documents" class="btn btn-sm btn-info"><i class='fas fa-eye'></i> View Document</a>
                     </li>
-                     <?php endif; //end of viewdoc array?>
+                     <?php endif;?>
                   </ul>
 
                    
@@ -479,13 +477,13 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
       </div>
     </div>
   </div>
-  </div>
-  <?endif;?>
+</div> -->
+  <?php // endif;?>
 
 
 <!-- Registered Coop Process by Head Office -->
-<?php if(!$is_client) :?>
-<h4 style="
+<?php // if(!$is_client) :?>
+<!-- <h4 style="
 padding: 15px 10px;
 background: #fff;
 background-color: rgb(255, 255, 255);
@@ -539,8 +537,6 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
                     if($dateRegistered >= $datestr){?>
                         <li>
                           <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/coc" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print COC</a>
-
-                          <!-- <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/assign" data-toggle="modal" data-target="#assignInspectorModal" data-coopregno="<?= $cooperative_registered['regNo']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id']))?>" data-cname="<?= $cooperative_registered['proposed_name']?> <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';}?> <?= $cooperative_registered['grouping']?>" class="btn btn-sm btn-info"><i class='fas fa-print'></i> Print COC</a> -->
                         </li>
                       <?php } ?>
                      <?php endif; ?>
@@ -559,8 +555,8 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
           </table>
         </div>
       </div>
-    </div>
-  </div><?endif;?>
+    </div> -->
+  </div><?php // endif;?>
 </div>
 <!-- End of Registered Coop Process by Head Office -->
 

@@ -76,6 +76,7 @@
                 <th>Email</th>
                 <th>Contact Number</th>
                 <th>Valid ID No.</th>
+                <th>Reg No.</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -94,6 +95,11 @@
                     <td>
                         <?= $users['valid_id_number']?>
                     </td>
+                    <td><?php if($users['regno'] == NULL){
+                      echo '';
+                    } else {
+                      echo $users['regno'];
+                    }?></td>
                     <td><?php if($users['regno'] == NULL){
                       echo 'For Verification of Client';
                     } else {

@@ -827,7 +827,7 @@
 
       type : "POST",
 
-      url  : "../get_cooperative_info",
+      url  : "../get_cooperative_info_by_admin",
 
       dataType: "json",
 
@@ -989,7 +989,7 @@
 
           var tempCount = 0;
 
-  //        alert(data.common_bond_of_membership);
+         // alert(data.common_bond_of_membership);
 
        
 
