@@ -66,11 +66,22 @@
                 </div>
               </div>
             </div> -->
-             <div class="row">
+             <div class="row"> 
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
                   <label for="regNo">Users ID:</label>
-                  <input type="text" class="form-control validate[required]" name="user_id" id="regNo" >
+                 <!--  <input type="text" class="form-control validate[required]" name="user_id" id="regNo" > -->
+                  <select class="form-control validate[required]" name="user_id">
+                    <option value="" selected>Select user</option>
+                    <?php 
+                    foreach($all_users as $user)
+                    {
+                      ?>
+                      <option value="<?=$user->id?>"><?=$user->email.' - '.$user->regno?></option>
+                      <?php
+                    }
+                    ?>
+                  </select>
                 </div>
               </div>
             </div>

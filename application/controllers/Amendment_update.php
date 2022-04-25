@@ -1149,15 +1149,20 @@ class Amendment_update extends CI_Controller{
     }
 
 
-    public function seed_data()
-    {
-	$user_id = $this->session->userdata('user_id');
-	$data['client_info'] = $this->user_model->get_user_info($user_id);
-	$data['title'] = 'Update Amendment Details';
-	$data['header'] = 'Add amendment migration';
+  public function seed_data()
+  {
+      if(!$this->session->userdata('logged_in'))
+      {
+        redirect('users/login');
+      }
+  	$user_id = $this->session->userdata('user_id');
+    $data['all_users'] = $this->user_model->get_all_users();
+  	$data['client_info'] = $this->user_model->get_user_info($user_id);
+  	$data['title'] = 'Update Amendment Details';
+  	$data['header'] = 'Add amendment migration';
     if(!isset($_POST['submit']))
     {
-       $data['list_type_coop'] = $this->list_coopType();
+      $data['list_type_coop'] = $this->list_coopType();
       $this->load->view('./template/header', $data);
       $this->load->view('update/amendment/migrate_form', $data);
       $this->load->view('./template/footer', $data);
@@ -1166,8 +1171,6 @@ class Amendment_update extends CI_Controller{
     {
       $typeOfCooperativeID = $this->input->post('typeOfCooperative'); 
       $type_of_cooperativeName = $this->format_name($typeOfCooperativeID);
-        
-        // $this->debug( $field_regcoop);
         $data_cooperative = array(
           'users_id' => $this->input->post('user_id'),
         	'category_of_cooperative' => $this->input->post('categoryOfCooperative'),
@@ -1182,61 +1185,48 @@ class Amendment_update extends CI_Controller{
           'migrated'=>1
         );
        
-       	// $this->debug($data_cooperative);
-
-       	if($this->db->insert('cooperatives',$data_cooperative))
-       	{
-       		$application_id =   $this->db->insert_id();
-
-       		$field_regcoop = array(
-                     
-                      'coopName' => $this->input->post('coopName'),
-                      'regNo' => $this->input->post('regNo'),
-                      'category' => $this->input->post('categoryOfCooperative'),
-                      'type' =>   $type_of_cooperativeName,
-                      // 'cooperative_type_id' => $typeOfCooperativeID,
-                     'dateRegistered' => $this->input->post('dateRegistered'),
-                      'commonBond' => $this->input->post('commonBondOfMembership'),
-                      // 'comp_of_membership' =>$occu_comp_of_membship,
-                      // 'field_of_membership' => $field_memship,
-                      // 'name_of_ins_assoc' => $name_of_ins_assoc,
-                      'areaOfOperation' => $this->input->post('areaOfOperation'),
-                      // 'refbrgy_brgyCode' => $this->input->post('barangay_'),//$this->input->post('barangay'),
-                      // 'interregional' =>$interregional,
-                      // 'regions'=>$regions,
-                      'compliant'=> $this->input->post('compliant'),
-                      'application_id' => $application_id,
-                      'compliant' =>'',
-                      'Street' => $this->input->post('streetName'),
-                      'noStreet' => $this->input->post('blkNo'),
-                      'migrated'=>1
-                      // 'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
-                    );
-       		if($this->db->insert('registeredcoop',$field_regcoop))
-       		{
-       		   $this->session->set_flashdata(array('msg_class'=>'success','amendment_msg'=>'Successfully migrate basic information.'));
-                      redirect(base_url('/amendment_update/seed_data'));
-	        }
-	        else
-	        {
-	           $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Unable to migrate cooperative basic information.'));
-	           redirect(base_url('/amendment_update/seed_data'));
-	        }
-       	}
-        // if($this->db->insert('temp_registeredcoop',$field_data))
-        // {
-        //   $this->session->set_flashdata(array('msg_class'=>'success','amendment_msg'=>'Successfully migrate basic information.'));
-        //               redirect(base_url('/amendment_update/seed_data'));
-        // }
-        // else
-        // {
-        //    $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Unable to migrate cooperative basic information.'));
-        //    redirect(base_url('/amendment_update/seed_data'));
-        // }
+        if($this->amendment_update_model->add_to_coop($data_cooperative))
+          {
+          $application_id =   $this->amendment_update_model->get_cooperative_id_by_regNo($this->input->post('regNo'));
+            $field_regcoop = array(
+            'coopName' => $this->input->post('coopName'),
+            'regNo' => $this->input->post('regNo'),
+            'category' => $this->input->post('categoryOfCooperative'),
+            'type' =>   $type_of_cooperativeName,
+            // 'cooperative_type_id' => $typeOfCooperativeID,
+            'dateRegistered' => $this->input->post('dateRegistered'),
+            'commonBond' => $this->input->post('commonBondOfMembership'),
+            // 'comp_of_membership' =>$occu_comp_of_membship,
+            // 'field_of_membership' => $field_memship,
+            // 'name_of_ins_assoc' => $name_of_ins_assoc,
+            'areaOfOperation' => $this->input->post('areaOfOperation'),
+            // 'refbrgy_brgyCode' => $this->input->post('barangay_'),//$this->input->post('barangay'),
+            // 'interregional' =>$interregional,
+            // 'regions'=>$regions,
+            'compliant'=> $this->input->post('compliant'),
+            'application_id' => $application_id,
+            'compliant' =>'',
+            'Street' => $this->input->post('streetName'),
+            'noStreet' => $this->input->post('blkNo'),
+            'migrated'=>1
+            // 'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
+            );
+            if($this->amendment_update_model->add_to_Regcoop($field_regcoop))
+            {
+              var_dump($this->amendment_update_model->replicate_to_temp_table($this->input->post('regNo'),$this->input->post('user_id')));
+                // if($this->amendment_update_model->seed_migration($this->input->post('regNo'),$this->input->post('user_id')))
+                // {
+                //   $this->session->set_flashdata(array('msg_class'=>'success','amendment_msg'=>'Successfully migrate basic information.'));
+                // redirect(base_url('/amendment_update/seed_data'));
+                // }
+                // else{
+                //   $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Unable to migrate cooperative basic information.'));
+                // redirect(base_url('/amendment_update/seed_data'));
+                // }  
+            }
+        }
     }
-   
-
-    }
+  }
 
     public function list_coopType()
     {
