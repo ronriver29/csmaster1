@@ -251,6 +251,7 @@ e. ".$email."<br>
     $this->db->select("id,email,regno");
     $this->db->from('users');
     $this->db->where(array('is_verified'=>1));
+    $this->db->order_by('email','asc');
     $query = $this->db->get();
     if($query->num_rows()>0)
     {

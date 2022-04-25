@@ -375,6 +375,16 @@ $(function(){
                 typeCoop_array.push($(this).val());
                 
             });
+            if($(this).val() == 26)
+            {
+              $("#amendmentAddForm .businesActivity-row").hide();
+              $("#amendmentAddForm .bussiness-btn").hide();
+            }
+            else
+            {
+               $("#amendmentAddForm .businesActivity-row").show();
+               $("#amendmentAddForm .bussiness-btn").show();
+            }
             // var cooptype_array = typeCoop_array.split(',');  
            console.log(typeCoop_array.includes('21'));
           // if($(this).val()==19 || $(this).val()==21)
@@ -532,12 +542,12 @@ $(function(){
 
     //area of operation
       var AreaOperation =  $('#amendmentAddForm #areaOfOperation').val(); 
-          if( AreaOperation == "Interregional"){
-                $('.opt').each(function() {
-                      if(!this.selected) {
-                          $(this).attr('disabled', true);
-                      }
-                  });
+          if( AreaOperation == "Interregional"){ 
+                // $('.opt').each(function() {
+                //       if(!this.selected) { 
+                //           // $(this).attr('disabled', true);
+                //       }
+                //   });
             $('#amendmentAddForm #allisland').show();
             $('#amendmentAddForm #allregions').show();
             $('#amendmentAddForm #interregional').show();
@@ -1024,7 +1034,7 @@ $(function(){
             $(this).siblings('label').text("Major Industry Classification No. " + (index+1) + " Subclass ");
           });
         });
-
+     var htmls= $('<div></div>').attr({'class':'list-major'});
       var divFormGroupSubclass= $('<div></div>').attr({'class':'form-group'});
       var divColSubclass = $('<div></div>').attr({'class':'col-sm-12 col-md-12'});
       var labelSubClass = $('<label></label>').attr({'for': 'subClass'+(intLastCount + 1)}).text("Major Industry Classification No. " + (intLastCount+1) + " Subclass ");
@@ -1040,7 +1050,7 @@ $(function(){
         
       }); //end delete
 
-      var divInnerRow = $('<div></div>').attr({'class':'row'});
+      // var divInnerRow = $('<div></div>').attr({'class':'list-major'});
       var typeCoop_arrays=[]; 
           $('select[name="typeOfCooperative[]"] option:selected').each(function() {
               typeCoop_arrays.push($(this).val()); 
@@ -1056,7 +1066,7 @@ $(function(){
           dataType: "json",
           data: {cooptype_:typeCoop_arrays},
           success: function(data){
-             // alert('fire');
+             
               $.each(data, function(key,value){
                 $(selectMajorIndustry).append($('<option></option>').attr('value',value.major_industry_id).text(value.description));
               });
@@ -1064,8 +1074,8 @@ $(function(){
               $(divColSubclass).append(divFormGroupSubclass);
               $(divFormGroupMajorIndustry).append(labelMajorIndustry,selectMajorIndustry);
               $(divColMajorIndustry).append(divFormGroupMajorIndustry);
-              $(divInnerRow).append(divColMajorIndustry,divColSubclass);
-              $("#amendmentAddForm .col-industry-subclass").append(divInnerRow);
+              $(htmls).append(divColMajorIndustry,divColSubclass);
+              $("#amendmentAddForm .col-industry-subclass").append(htmls);
               $('#amendmentAddForm select[name="majorIndustry[]"').each(function(index){
                 $(this).siblings('label').text("Major Industry Classification No. " + (index+1));
               });
@@ -1130,4 +1140,19 @@ $(function(){
                 $(this).closest('.list_cooptype').remove();//$("#con-wrapper").children().last().remove(); // $(this).parent().remove();// $(this).closest(".tbl").remove();
           });
 
+
+      $(document).on('click','.businessActivityRemoveBtn',function(){
+                    
+                   $(this).closest('.list-major').remove();
+                  $('#amendmentAddForm select[name="majorIndustry['+mcount+'][major_id]"').each(function(index){
+                    $(this).siblings('label').text("Major Industry Classification No. "+(index+1));
+                  });
+                  $('#amendmentAddForm select[name="majorIndustry['+mcount+'][subclass_id]]').each(function(index){
+                    $(this).siblings('label').text("Major Industry Classification No. Subclass "+(index+1));
+                  });
+                  mcount--;
+            });     
+            
+
 });//end s function
+

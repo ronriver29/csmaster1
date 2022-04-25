@@ -533,8 +533,13 @@ class amendment_model extends CI_Model{
   }
   public function coop_info_by_regno($regno)
   {
+    $data=null;
     $query = $this->db->query("select application_id from registeredcoop where regNo='$regno' order by id desc limit 1");
-    return $query->row();
+    if($query->num_rows()==1)
+    {
+      $data= $query->row();
+    }
+    return $data;
   }
 
   public function get_composition_of_members_by_coop($coop_id)
@@ -625,7 +630,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15 and amend_coop.id <> 
   {
     $qry = $this->db->query("select amend_coop.regNo,amend_coop.amendmentNo,reg.amendment_no  from amend_coop 
 left join registeredamendment as reg ON reg.regNo = amend_coop.regNo
-where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41)  order by amend_coop.id desc limit 1");
+where amend_coop.regNo ='$regNo' and amend_coop.status =15 or amend_coop.status=41  order by amend_coop.id desc limit 1");
     if($qry->num_rows()>0)
     {
           return true;
@@ -3633,6 +3638,24 @@ where coop.users_id = '$user_id' and coop.status =15");
       }
       return $data;
     }
+    public function format_amendmentNo_byregNo($coop_id)
+    {
+      $amendment_no = '';
+      $qry = $this->db->query("select amendmentNo from amend_coop where cooperative_id ={$coop_id} order by id desc limit 1");
+      if($qry->num_rows()>0)
+      {
+        foreach($qry->result_array() as $row)
+        {
+           $amendment_no = $row['amendmentNo'] + 1;
+        }
+      }
+      else
+      {
+        $amendment_no =1;
+      }
+      return $amendment_no;
+    }
+
    public function debug($array)
     {
         echo"<pre>";
