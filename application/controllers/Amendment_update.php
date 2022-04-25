@@ -1213,16 +1213,14 @@ class Amendment_update extends CI_Controller{
             );
             if($this->amendment_update_model->add_to_Regcoop($field_regcoop))
             {
-              var_dump($this->amendment_update_model->replicate_to_temp_table($this->input->post('regNo'),$this->input->post('user_id')));
-                // if($this->amendment_update_model->seed_migration($this->input->post('regNo'),$this->input->post('user_id')))
-                // {
-                //   $this->session->set_flashdata(array('msg_class'=>'success','amendment_msg'=>'Successfully migrate basic information.'));
-                // redirect(base_url('/amendment_update/seed_data'));
-                // }
-                // else{
-                //   $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Unable to migrate cooperative basic information.'));
-                // redirect(base_url('/amendment_update/seed_data'));
-                // }  
+             if($this->amendment_update_model->replicate_to_temp_table($this->input->post('regNo'),$this->input->post('user_id')))
+             {
+                 $this->session->set_flashdata(array('msg_class'=>'success','amendment_msg'=>'Successfully migrate basic information.'));
+             }
+             else
+             {
+                $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Unable to migrate cooperative basic information.'));
+             }
             }
         }
     }
