@@ -1281,27 +1281,10 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15  order by amend_coop.
     $coopertiveTypeID=explode(",",$data['cooperative_type_id']);
     $amendment_info = $this->get_cooperative_info23($coop_id,$amendment_id);
     // return $data_bylaws;
-   // $this->db->trans_begin();
+   $this->db->trans_begin();
 
    //check if have bylaws
-      $bylaw_info_coop = $this->cooperative_by_laws($coop_id,$amendment_id);
-      if($bylaw_info_coop !=NULL)
-      {  
-         unset($bylaw_info_coop['directors_term']);
-         if($this->db->insert('amendment_bylaws',$bylaw_info_coop))
-         {
-          $this->db->update('amendment_bylaws',$data_bylaws,array('amendment_id'=>$amendment_id));
-         }
-      }
-      else if($this->check_has_bylaws($amendment_id))
-      {
-         $this->db->update('amendment_bylaws',$data_bylaws,array('amendment_id'=>$amendment_id));
-      }
-      else
-      {
-        //insert to amendment bylaws
-        $this->db->insert('amendment_bylaws',$data_bylaws);
-      }
+   
 
     if($data['type_of_cooperative'] != 'Union')
     {
@@ -1421,8 +1404,6 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15  order by amend_coop.
     }
  
 
-    // $this->db->update('amendment_bylaws',$data_bylaws,array('amendment_id'=>$amendment_id));
-    // return $this->db->last_query();
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -3752,6 +3733,29 @@ where coop.users_id = '$user_id' and coop.status =15");
     $query = $this->db->query("select id from registeredamendment where regNo='$regNo' order by id desc limit 1");
     return $query->row();
   }
+
+  public function major_industry_description2($major_id)
+    { 
+      $where ="";
+      if(strlen($major_id)>0)
+      { 
+         $where =" where id ='$major_id'";
+      }
+      $query = $this->db->query("select * from major_industry".$where);
+      if($query->num_rows()>0)
+      {
+        foreach($query->result_array() as $row)
+        {
+          $data = $row['description'];
+        }
+      }
+      else
+      {
+        $data= NULL;
+      }
+      return $data;
+  }
+
    public function debug($array)
     {
         echo"<pre>";

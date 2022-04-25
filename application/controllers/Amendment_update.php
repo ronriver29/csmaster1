@@ -539,7 +539,7 @@ class Amendment_update extends CI_Controller{
                     {
                       // $this->debug($brow);
                       $major_id = $brow['major_industry_id'];
-                      $brow['major_description_']=$this->major_industry_description2($major_id);
+                      $brow['major_description_']=$this->amendment_update_model->major_industry_description2($major_id);
                    
                       $brow['subclass_description_']=$this->major_industry_description_subclass2($brow['subclass_id']);
                      
@@ -893,7 +893,7 @@ class Amendment_update extends CI_Controller{
                     {
                       // $this->debug($brow);
                       $major_id = $brow['major_industry_id'];
-                      $brow['major_description_']=$this->major_industry_description2($major_id);
+                      $brow['major_description_']=$this->amendment_update_model->major_industry_description2($major_id);
                    
                       $brow['subclass_description_']=$this->major_industry_description_subclass2($brow['subclass_id']);
                      
@@ -1349,22 +1349,27 @@ class Amendment_update extends CI_Controller{
       return $data;
     }
 
-    public function major_industry_description2($major_id)
-    {
-      $query = $this->db->query("select * from major_industry where id=".$major_id);
-      if($query->num_rows()>0)
-      {
-        foreach($query->result_array() as $row)
-        {
-          $data = $row['description'];
-        }
-      }
-      else
-      {
-        $data= NULL;
-      }
-      return $data;
-    }
+    // public function major_industry_description2($major_id)
+    // { 
+    //   $where ="";
+    //   if(strlen($major_id)>0)
+    //   { 
+    //      $where =" where id ='$major_id'";
+    //   }
+    //   $query = $this->db->query("select * from major_industry".$where);
+    //   if($query->num_rows()>0)
+    //   {
+    //     foreach($query->result_array() as $row)
+    //     {
+    //       $data = $row['description'];
+    //     }
+    //   }
+    //   else
+    //   {
+    //     $data= NULL;
+    //   }
+    //   return $data;
+    // }
     
 
 
@@ -1435,7 +1440,7 @@ class Amendment_update extends CI_Controller{
       {
         foreach($qry->result_array() as $row)
         {
-          $row['major_description'] = $this->major_industry_description2($row['major_industry_id']);
+          $row['major_description'] = $this->amendment_update_model->major_industry_description2($row['major_industry_id']);
           $data =$row;
         }
         return $data;
@@ -1512,7 +1517,7 @@ class Amendment_update extends CI_Controller{
       {
         foreach($qry->result_array() as $row)
         {
-          $row['major_description'] =$this->major_industry_description2($row['major_industry_id']);
+          $row['major_description'] =$this->amendment_update_model->major_industry_description2($row['major_industry_id']);
           // $row['subclass_id'] =$this->g_subclass($row['major_industry_id']);
           $data[] = $row;
         }
