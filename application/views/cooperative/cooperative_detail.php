@@ -1427,6 +1427,7 @@
                     $amount = number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2).'<br/>'.number_format(100,2);
                     // End Payment Series
                   } else {
+                    echo $payorname;
                     $this->db->select('*');
                     $this->db->from('payment');
                     $this->db->where('payor',$payorname);
