@@ -773,11 +773,15 @@
         <small>
         <strong>Proposed Name:</strong>
         <p class="text-muted">
+          <?php if($coop_info->is_youth == 0){ ?>
             <?php if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union') {?>
                 <?= $coop_info->proposed_name?> <?= $coop_info->grouping?> Of <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
             <?php } else { ?>
                 <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> 
             <?php } ?>
+          <?php } else {?>
+                <?= $coop_info->proposed_name?> Youth <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
+          <?php } ?>
         </p>
         <hr>
         <strong>Category of Cooperative</strong>
@@ -1032,7 +1036,11 @@
         </div>
         <?php if($coop_info->status!= 0 && $bylaw_complete && $article_complete && $grouping && $committees_complete && $purposes_complete): ?>
         <small class="text-muted">
-          <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/survey" class="btn btn-info btn-sm">View</a>
+          <?php if($coop_info->created_at >= '2022-03-08'){ ?>
+            <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/simplified_survey" class="btn btn-info btn-sm">View</a>
+          <?php } else { ?>
+            <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/survey" class="btn btn-info btn-sm">View</a>
+          <?php } ?>
         </small>
       <?php endif ?>
       </li>
@@ -1282,7 +1290,11 @@
             <?php // if($count == 0) {?>
             <?php // } else {?>
                 <small class="text-muted">
-                  <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/survey" class="btn btn-info btn-sm">View</a>
+                  <?php if($coop_info->created_at >= '2022-03-08'){ ?>
+                    <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/simplified_survey" class="btn btn-info btn-sm">View</a>
+                  <?php } else { ?>
+                    <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/survey" class="btn btn-info btn-sm">View</a>
+                  <?php } ?>
                 </small>
             <?php // } ?>
         <?php endif ?>
@@ -1427,15 +1439,15 @@
                     $amount = number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2).'<br/>'.number_format(100,2);
                     // End Payment Series
                   } else {
-                    echo $payorname;
                     $this->db->select('*');
                     $this->db->from('payment');
                     $this->db->where('payor',$payorname);
                     $query = $this->db->get();
                     $series = $query->row();
                     $datee = $series->date;
-                    $series = $series->refNo;
                     $amount = $series->amount;
+                    $series = $series->refNo;
+                    
                     
                     // $string = substr($lastseries, strrpos($lastseries, '-' )+1);
                     // $series = $string; // about-us
