@@ -1053,15 +1053,15 @@ public function delete_pdf()
                               $f = new pdf();
                               $f->set_option("isPhpEnabled", true);
 
-                              if($data['coop_info']->is_youth == 0){
+                              // if($data['coop_info']->is_youth == 0){
                                 if($data['coop_info']->type_of_cooperative == 'Bank'){
                                   $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_bank', $data, TRUE);
                                 } else {
                                   $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
                                 }
-                              } else {
-                                $html2 = $this->load->view('documents/primary/youth/articles_of_cooperation_for_primary_youth', $data, TRUE);
-                              }
+                              // } else {
+                              //   $html2 = $this->load->view('documents/primary/youth/articles_of_cooperation_for_primary_youth', $data, TRUE);
+                              // }
                               
                               if($data['coop_info']->status != 12){
                                 $data['encrypted_id'] = $id;
@@ -1069,11 +1069,11 @@ public function delete_pdf()
                                 $data['client_info'] = $this->user_model->get_user_info($user_id);
                                 $data['header'] = 'Documents';
                                 $this->load->view('template/header', $data);
-                                if($data['coop_info']->is_youth == 0){
+                                // if($data['coop_info']->is_youth == 0){
                                   $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data); 
-                                } else {
-                                  $this->load->view('documents/primary/youth/articles_of_cooperation_for_primary_youth', $data);
-                                }
+                                // } else {
+                                //   $this->load->view('documents/primary/youth/articles_of_cooperation_for_primary_youth', $data);
+                                // }
                                 $this->load->view('template/footer');
                               } else {
                                 $f->setPaper('folio', 'portrait');
@@ -1183,19 +1183,19 @@ public function delete_pdf()
                                   $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                                   $data['encrypted_id'] = $id;
                                   $this->load->view('templates/admin_header', $data);
-                                  if($data['coop_info']->is_youth == 0){
+                                  // if($data['coop_info']->is_youth == 0){
                                     $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data); 
-                                  } else {
-                                    $this->load->view('documents/primary/youth/articles_of_cooperation_for_primary_youth', $data);
-                                  }
+                                  // } else {
+                                  //   $this->load->view('documents/primary/youth/articles_of_cooperation_for_primary_youth', $data);
+                                  // }
                                   $this->load->view('templates/admin_footer');
                                 } else {
                                   
-                                  if($data['coop_info']->is_youth == 0){
+                                  // if($data['coop_info']->is_youth == 0){
                                     $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
-                                  } else {
-                                    $html2 = $this->load->view('documents/primary/youth/articles_of_cooperation_for_primary_youth', $data, TRUE);
-                                  }
+                                  // } else {
+                                  //   $html2 = $this->load->view('documents/primary/youth/articles_of_cooperation_for_primary_youth', $data, TRUE);
+                                  // }
                                   // $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
                                   $f = new pdf();
                                    $f->set_option("isPhpEnabled", true);
@@ -1918,19 +1918,19 @@ public function delete_pdf()
                                 $data['client_info'] = $this->user_model->get_user_info($user_id);
                                 $data['header'] = 'Documents';
                                 $this->load->view('template/header', $data);
-                                if($data['coop_info']->is_youth == 1){
-                                  $this->load->view('documents/primary/youth/bylaws_for_primary_youth', $data);
-                                } else {
+                                // if($data['coop_info']->is_youth == 1){
+                                //   $this->load->view('documents/primary/youth/bylaws_for_primary_youth', $data);
+                                // } else {
                                   $this->load->view('documents/primary/bylaws_for_primary', $data); 
-                                }
+                                // }
                                 $this->load->view('template/footer');
                               } else {
 
-                                if($data['coop_info']->is_youth == 1){
-                                  $html2 = $this->load->view('documents/primary/youth/bylaws_for_primary_youth', $data, TRUE);
-                                } else {
+                                // if($data['coop_info']->is_youth == 1){
+                                //   $html2 = $this->load->view('documents/primary/youth/bylaws_for_primary_youth', $data, TRUE);
+                                // } else {
                                   $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
-                                }
+                                // }
 
                                 
 
@@ -2026,20 +2026,20 @@ public function delete_pdf()
                                   $data['encrypted_id'] = $id;
                                   $this->load->view('templates/admin_header', $data);
 
-                                  if($data['coop_info']->is_youth == 1){
-                                    $this->load->view('documents/primary/youth/bylaws_for_primary_youth', $data);
-                                  } else {
+                                  // if($data['coop_info']->is_youth == 1){
+                                  //   $this->load->view('documents/primary/youth/bylaws_for_primary_youth', $data);
+                                  // } else {
                                     $this->load->view('documents/primary/bylaws_for_primary', $data); 
-                                  }
+                                  // }
 
                                   $this->load->view('templates/admin_footer');
                                 } else {
 
-                                  if($data['coop_info']->is_youth == 1){
-                                    $html2 = $this->load->view('documents/primary/youth/bylaws_for_primary_youth', $data, TRUE);
-                                  } else {
+                                  // if($data['coop_info']->is_youth == 1){
+                                  //   $html2 = $this->load->view('documents/primary/youth/bylaws_for_primary_youth', $data, TRUE);
+                                  // } else {
                                     $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
-                                  }
+                                  // }
 
                                   // $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
                                   $f = new pdf();
