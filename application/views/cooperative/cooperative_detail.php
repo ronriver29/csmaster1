@@ -773,15 +773,15 @@
         <small>
         <strong>Proposed Name:</strong>
         <p class="text-muted">
-          <?php if($coop_info->is_youth == 0){ ?>
+          <?php // if($coop_info->is_youth == 0){ ?>
             <?php if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union') {?>
                 <?= $coop_info->proposed_name?> <?= $coop_info->grouping?> Of <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
             <?php } else { ?>
                 <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> 
             <?php } ?>
-          <?php } else {?>
-                <?= $coop_info->proposed_name?> Youth <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
-          <?php } ?>
+          <?php // } else {?>
+                <?php // echo $coop_info->proposed_name?> Youth <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
+          <?php // } ?>
         </p>
         <hr>
         <strong>Category of Cooperative</strong>
