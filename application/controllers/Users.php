@@ -96,7 +96,7 @@ class Users extends CI_Controller{
         );
           // print_r($data);
           $data = $this->security->xss_clean($data);
-          if($this->user_model->add_user($data)){
+          if($this->user_model->add_user_signup($data)){
             if($this->user_model->sendEmail($data['email'],$data['hash'])){
               $this->session->set_flashdata(array('email_sent_success'=>'Your account has been created.</br> Please check your email to verify your account.'));
               redirect('users/login');

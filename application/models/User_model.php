@@ -30,6 +30,20 @@ class User_model extends CI_Model{
     $row = $query->row();
     return $row;
   }
+  public function add_user_signup($data){
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+    $this->db->insert('users',$data);
+    
+    $this->db->trans_commit();
+
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }
+    $this->db->trans_commit();
+    return true;
+  }
   public function add_user($data){
     $data = $this->security->xss_clean($data);
     $this->db->trans_begin();
