@@ -648,7 +648,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->like('refregion.regCode', $regcode);
     $this->db->where('cooperatives.status = 15 AND cooperatives.type_of_cooperative NOT IN ('.$typeofcoopimp.')');
-    $this->db->order_by('dateRegistered', 'ASC');
+    $this->db->order_by('dateRegistered', 'DESC');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
