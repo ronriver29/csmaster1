@@ -69,8 +69,8 @@ class Admin_model extends CI_Model{
   public function get_all_for_verifications(){
     $this->db->select('u.*,c.id as application_id');
     $this->db->from('users u');
-    $this->db->join('cooperatives c','u.id = c.users_id');
-    $this->db->where('u.is_verified = 0 AND (u.is_taken = 0 OR u.is_taken IS NULL)');
+    $this->db->join('cooperatives c','u.id = c.users_id','left');
+    $this->db->where('u.is_verified = 0 AND (u.is_taken = 0 OR u.is_taken IS NULL) AND email != "sample@email.tst"');
     $query = $this->db->get();
     return $query->result_array();
 

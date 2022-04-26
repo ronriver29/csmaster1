@@ -80,7 +80,7 @@
     <div class="card border-top-blue shadow-sm mb-4">
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-bordered" id="cooperativesTable4">
+          <table class="table table-bordered">
             <thead>
               <tr>
                 <th>Name of Cooperative</th>
@@ -256,6 +256,9 @@
             </tbody>
           </table>
         </div>
+        <?php if(!$is_client) {?>
+          <p><?php echo $links; ?></p>
+        <?php } ?>
       </div>
     </div>
 <?php // if(!$is_client && $admin_info->region_code != '00' && $admin_info->access_level==2) :?>

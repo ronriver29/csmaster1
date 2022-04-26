@@ -7,6 +7,7 @@
     {
       parent::__construct();
       $this->load->library('pdf');
+      $this->load->library("pagination");
       //Codeigniter : Write Less Do More
     }
 
@@ -83,7 +84,40 @@
             $data['title'] = 'List of Cooperatives';
             $data['header'] = 'Registered Cooperatives';
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-          
+            
+            $config["base_url"] = base_url() . "registered_cooperatives";
+            $config["total_rows"] = $this->cooperatives_model->get_all_cooperatives_registration_count($data['admin_info']->region_code);
+            $config["per_page"] = 10;
+            $config["uri_segment"] = 3;
+            $config['page_query_string'] = TRUE;
+            $config['full_tag_open'] = '<ul class="pagination">';        
+            $config['full_tag_close'] = '</ul>';        
+            $config['first_link'] = 'First';        
+            $config['last_link'] = 'Last';        
+            $config['first_tag_open'] = '<li class="page-item"><span class="page-link">';        
+            $config['first_tag_close'] = '</span></li>';        
+            $config['prev_link'] = '&laquo';        
+            $config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';        
+            $config['prev_tag_close'] = '</span></li>';        
+            $config['next_link'] = '&raquo';        
+            $config['next_tag_open'] = '<li class="page-item"><span class="page-link">';        
+            $config['next_tag_close'] = '</span></li>';        
+            $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';        
+            $config['last_tag_close'] = '</span></li>';        
+            $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';        
+            $config['cur_tag_close'] = '</a></li>';        
+            $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';        
+            $config['num_tag_close'] = '</span></li>';
+            $this->pagination->initialize($config);
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+            if(isset($_GET['per_page'])){
+              $per_page = $_GET['per_page'];
+            } else {
+              $per_page = 0;
+            }
+
+            $this->benchmark->mark('code_start');
             if($this->session->userdata('access_level')==1){
               if($data['admin_info']->region_code=="00"){
               // Registered Coop Process by Head Office
@@ -95,7 +129,8 @@
                 // Registered Coop Process by Head Office
                   $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
                 // End Registered Coop Process by Head Office
-                $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
+                $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration2($data['admin_info']->region_code, $config["per_page"], $per_page);
+                // $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 // $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_specialist($data['admin_info']->region_code,$user_id);
               }
             }else if($this->session->userdata('access_level')==2){
@@ -109,9 +144,10 @@
                 $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
               } else {
                 // Registered Coop Process by Head Office
-                  $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+                $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
                 // End Registered Coop Process by Head Office
-                $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
+                $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration2($data['admin_info']->region_code, $config["per_page"], $per_page);
+                // $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 // $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_senior($data['admin_info']->region_code);
                 $data['list_cooperatives_defer_deny'] = $this->cooperatives_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
                 $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
@@ -133,11 +169,16 @@
                 // Registered Coop Process by Head Office
                   $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
                 // End Registered Coop Process by Head Office
-                $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
+                $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration2($data['admin_info']->region_code, $config["per_page"], $per_page);
                 // $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_director($data['admin_info']->region_code);
                 $data['list_specialist'] = $this->admin_model->get_inspector($data['admin_info']->region_code);
               }
             }
+
+            $this->benchmark->mark('code_end');
+            $data["links"] = $this->pagination->create_links();
+            $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memeory useage'=>$this->benchmark->memory_usage()); 
+
             $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
             $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
             $this->load->view('templates/admin_header', $data);

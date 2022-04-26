@@ -1,4 +1,6 @@
-
+<div class="col-md-12" style="color:#cccc;">
+  <center><small> <?php print_r(isset($resources) ? $resources : '')?></small></center>
+</div>
 </div>
 
 <script src="<?=base_url();?>assets/js/popper.min.js"></script>
@@ -45,7 +47,6 @@
 
 <?php if($this->uri->segment(3) == "cooperators" && $this->uri->segment(5)=="edit")   : ?><script src="<?=base_url();?>assets/js/edit_cooperator_custom.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(3) == "purposes" && $this->uri->segment(4)=="edit")   : ?><script src="<?=base_url();?>assets/js/update-purposes.js"></script> <?php endif; ?>
-<?php if($this->uri->segment(3) == "purposes_update" && $this->uri->segment(4)=="edit")   : ?><script src="<?=base_url();?>assets/js/update-purposes.js"></script> <?php endif; ?>
 
 <?php if($this->uri->segment(3) == "laboratories_cooperators" && $this->uri->segment(4)=="add")   : ?><script src="<?=base_url();?>assets/js/add_cooperator_lab_custom.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(3) == "laboratories_cooperators" && $this->uri->segment(4)=="edit")   : ?><script src="<?=base_url();?>assets/js/update-purposes.js"></script> <?php endif; ?>
@@ -56,6 +57,8 @@
 <?php if($this->uri->segment(3) == "cooperators_update" && $this->uri->segment(4)=="add"): ?><script src="<?=base_url();?>assets/js/add_cooperator_update_custom.js"></script> <?php  endif; ?>
 
 <?php if($this->uri->segment(1) == "amendment_update" && $this->uri->segment(3)=="update"): ?><script src="<?=base_url();?>assets/js/amendment_update.js"></script> <?php  endif; ?>
+
+<?php if($this->uri->segment(3) == "amendment_cooperator" && $this->uri->segment(4)=="add")   : ?><script src="<?=base_url();?>assets/js/add_cooperator_update_amendment.js"></script> <?php endif; ?>
 
 <script type="text/javascript"> 
         $(document).ready(function () {

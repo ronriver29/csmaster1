@@ -1,4 +1,6 @@
-
+<div class="col-md-12" style="color:#cccc;">
+  <center><small> <?php print_r(isset($resources) ? $resources : '')?></small></center>
+</div>
 </div>
 <!-- <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script> -->
 <script src="<?=base_url();?>assets/js/popper.min.js"></script>
@@ -28,7 +30,7 @@
 <?php if($this->uri->segment(3) == "purposes" && $this->uri->segment(4)=="edit")   : ?><script src="<?=base_url();?>assets/js/update-purposes.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(3) == "purposes_update" && $this->uri->segment(4)=="edit")   : ?><script src="<?=base_url();?>assets/js/update-purposes.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(3) == "amendment_update")   : ?><script src="<?=base_url();?>assets/js/update-amendment.js"></script> <?php endif; ?>
-
+<?php if($this->uri->segment(3) == "amendment_purposes" && $this->uri->segment(4)=="edit")   : ?><script src="<?=base_url();?>assets/js/update_amendment_purposes.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(1) == "amendment_update" && $this->uri->segment(3)=="update"): ?><script src="<?=base_url();?>assets/js/amendment_update.js"></script> <?php  endif; ?>
 
 <script type="text/javascript">
