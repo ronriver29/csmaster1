@@ -112,9 +112,9 @@
 <br>
 <?php if(is_array($users_list)){?>
 <div class="row">
-  <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
+  <!-- <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
     <a class="btn btn-color-blue btn-block" href="<?php echo base_url();?>admins/add" role="button"><i class="fas fa-plus"></i> Add Administrators</a>
-  </div>
+  </div> -->
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue shadow-sm mb-4">
       <div class="card-body">
