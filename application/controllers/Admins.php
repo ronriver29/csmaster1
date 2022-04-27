@@ -100,7 +100,26 @@ class Admins extends CI_Controller{
           $data['title'] = 'List of Users';
           $data['header'] = 'List of Users';
           $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
-          $data['users_list'] = $this->admin_model->get_all_user();
+          $this->benchmark->mark('code_start');
+          $data['users_list'] = '';
+          // $data['users_list'] = $this->admin_model->get_all_user();
+
+          if($this->input->post('submit')) {
+            $first_name = $this->input->post('first_name');
+            $middle_name = $this->input->post('middle_name');
+            $last_name = $this->input->post('last_name');
+            $email = $this->input->post('email');
+            $contact_number = $this->input->post('contact_number');
+            $limit = $this->input->post('limit');
+
+            // echo $coopName.'asdassdad';
+            $data['users_list'] = $this->admin_model->get_all_user2($first_name,$middle_name,$last_name,$email,$contact_number,$limit);
+            echo $this->db->last_query();
+          }
+
+          // $data['users_list'] = $this->admin_model->get_all_user();
+          $this->benchmark->mark('code_end');
+          $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
           $this->load->view('./templates/admin_header', $data);
           $this->load->view('admin/list_of_user', $data);
           $this->load->view('admin/resetpassword_modal_user', $data);

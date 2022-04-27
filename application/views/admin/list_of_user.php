@@ -61,6 +61,56 @@
     </div>
   </div>
 <?php endif; ?>
+<center><h3>Search</h3></center>
+<div class="portlet-body">
+  <form method="post">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="eAddress">First Name</label>
+          <div id='search'><input type="text" class="form-control" id="first_name" name="first_name"></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="eAddress">Middle Name</label>
+          <div id='search'><input type="text" class="form-control" id="middle_name" name="middle_name"></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="eAddress">Last Name</label>
+          <div id='search'><input type="text" class="form-control" id="last_name" name="last_name"></div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="eAddress">Email</label>
+          <div id='search'><input type="text" class="form-control" id="email" name="email"></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="eAddress">Contact Number</label>
+          <div id='search'><input type="text" class="form-control" id="contact_number" name="contact_number"></div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="eAddress">Show</label>
+          <select class="form-control" id="limit" name="limit" required=""></div>
+            <option value="10">10</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <center><button type="submit" name="submit" value="submit" class="btn btn-info" >Submit</button></center>
+  </form>
+</div>
+<br>
+<?php if(is_array($users_list)){?>
 <div class="row">
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
     <a class="btn btn-color-blue btn-block" href="<?php echo base_url();?>admins/add" role="button"><i class="fas fa-plus"></i> Add Administrators</a>
@@ -76,6 +126,7 @@
                 <th>Email</th>
                 <th>Contact Number</th>
                 <th>Valid ID No.</th>
+                <th>Registered No.</th>
                 <th>Action </th>
               </tr>
             </thead>
@@ -95,6 +146,9 @@
                         <?= $users['valid_id_number']?>
                     </td>
                     <td>
+                        <?= $users['regno']?>
+                    </td>
+                    <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#resetPasswordModal" data-fname="<?= $users['first_name'].' '.$users['last_name'].' '.$users['middle_name']?>" data-adid="<?= encrypt_custom($this->encryption->encrypt($users['id']))?>"><i class="fas fa-edit"></i> Reset Password</button>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAdministratorModal" data-fname="<?= $users['first_name'].' '.$users['last_name'].' '.$users['middle_name']?>" data-adid="<?= encrypt_custom($this->encryption->encrypt($users['id']))?>"><i class='fas fa-trash'></i> Delete</button>
@@ -109,3 +163,4 @@
     </div>
   </div>
 </div>
+<?php } ?>
