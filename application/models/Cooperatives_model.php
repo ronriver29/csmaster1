@@ -156,8 +156,8 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     return $data;
   }
 
-  public function get_all_cooperatives_ho2($limit,$start){
-    $this->db->limit($limit, $start);
+  public function get_all_cooperatives_ho2($coopName,$limit){
+    $this->db->limit($limit);
     $this->db->select('cooperatives.id,cooperatives.proposed_name,cooperatives.type_of_cooperative,cooperatives.acronym_name,cooperatives.grouping, cooperatives.third_evaluated_by,
       cooperatives.house_blk_no,cooperatives.street,cooperatives.status, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('cooperatives');
@@ -165,20 +165,20 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->where('cooperatives.status NOT IN (1,15)');
+    $this->db->where('cooperatives.status NOT IN (1,15) AND cooperatives.proposed_name LIKE "%'.$coopName.'%"');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
   }
-  public function get_all_cooperatives_ho_count(){
-   
-    $this->db->select('cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+  public function get_all_cooperatives_ho_count($coopName){
+    $this->db->select('cooperatives.id,cooperatives.proposed_name,cooperatives.type_of_cooperative,cooperatives.acronym_name,cooperatives.grouping, cooperatives.third_evaluated_by,
+      cooperatives.house_blk_no,cooperatives.street,cooperatives.status, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('cooperatives');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->where('cooperatives.status NOT IN (1,15)');
+    $this->db->where('cooperatives.status NOT IN (1,15) AND cooperatives.proposed_name LIKE "%'.$coopName.'%"');
     
     return $this->db->count_all_results();
   }

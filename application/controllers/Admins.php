@@ -7,6 +7,7 @@ class Admins extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
+     $this->load->library("pagination");
   }
 
   function index()
@@ -179,9 +180,11 @@ class Admins extends CI_Controller{
           $data['title'] = 'List of Migrated Cooperatives';
           $data['header'] = 'List of Migrated Cooperatives';
           $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
-
+          
+          $this->benchmark->mark('code_start');
           $data['migrated_data'] = $this->admin_model->get_migrated_data('','',0);
-
+          $this->benchmark->mark('code_end');
+          
           if($this->input->post('submit')) {
             $coopName = $this->input->post('coopName');
             $regNo = $this->input->post('regNo');
@@ -191,7 +194,8 @@ class Admins extends CI_Controller{
             $data['migrated_data'] = $this->admin_model->get_migrated_data($coopName,$regNo,$limit);
             // echo $this->db->last_query();
           }
-
+          
+          $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
           $this->load->view('./templates/admin_header', $data);
           $this->load->view('admin/list_of_migrated_data', $data);
           $this->load->view('admin/edit_reg_date_status', $data);
@@ -1194,23 +1198,106 @@ class Admins extends CI_Controller{
       echo"</pre>";
    }
 
+   // public function cooperatives_list(){
+   //    if(!$this->session->userdata('logged_in')){
+   //      redirect('admins/login');
+   //    }else{
+   //      $data['is_client'] = $this->session->userdata('client');
+   //      if(!$this->session->userdata('client')){
+   //        $admin_user_id = $this->session->userdata('user_id');
+   //        if($this->admin_model->check_super_admin($admin_user_id)){
+   //          $data['title'] = 'List of Cooperatives';
+   //          $data['header'] = 'List of Cooperatives';
+   //          $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
+   //          $data['users_list'] = $this->admin_model->get_all_user();
+
+   //          $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_ho();
+   //          $data['is_acting_director'] = $this->admin_model->is_active_director($admin_user_id);
+   //          $data['supervising_'] = $this->admin_model->is_acting_director($admin_user_id);
+            
+   //          $this->load->view('templates/admin_header', $data);
+   //          $this->load->view('applications/list_of_all_cooperatives', $data);
+   //          $this->load->view('applications/change_cooperative_status');
+   //          $this->load->view('admin/grant_privilege_supervisor');
+   //          $this->load->view('admin/revoke_privilege_supervisor');
+   //          $this->load->view('templates/admin_footer');
+   //        }else{
+   //          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+   //          redirect('cooperatives_list');
+   //        }
+   //      }else{
+   //        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+   //        redirect('cooperatives_list');
+   //      }
+   //    }
+   //  }
+
    public function cooperatives_list(){
       if(!$this->session->userdata('logged_in')){
         redirect('admins/login');
       }else{
         $data['is_client'] = $this->session->userdata('client');
         if(!$this->session->userdata('client')){
+
           $admin_user_id = $this->session->userdata('user_id');
           if($this->admin_model->check_super_admin($admin_user_id)){
+
             $data['title'] = 'List of Cooperatives';
             $data['header'] = 'List of Cooperatives';
             $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
             $data['users_list'] = $this->admin_model->get_all_user();
+              
+            // $data['list_cooperative'] = $this->cooperatives_model->get_all_cooperatives_ho();
+             // $data['list_cooperative'] = $this->cooperatives_model->get_all_cooperatives_ho2($config["per_page"], $page);
+             $data['list_cooperative'] = '';
 
-            $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_ho();
+            if($this->input->post('submit')) {
+              $coopName = $this->input->post('coopName');
+              $limit = $this->input->post('limit');
+
+              $this->benchmark->mark('code_start');
+
+              // $config["base_url"] = base_url() . "admins/cooperatives_list";
+              // $config["total_rows"] = $this->cooperatives_model->get_all_cooperatives_ho_count($coopName);
+              // $config["per_page"] = 10;
+              // $config["uri_segment"] = 3;
+              // $config['page_query_string'] = TRUE;
+              // $config['full_tag_open'] = '<ul class="pagination">';        
+              // $config['full_tag_close'] = '</ul>';        
+              // $config['first_link'] = 'First';        
+              // $config['last_link'] = 'Last';        
+              // $config['first_tag_open'] = '<li class="page-item"><span class="page-link">';        
+              // $config['first_tag_close'] = '</span></li>';        
+              // $config['prev_link'] = '&laquo';        
+              // $config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';        
+              // $config['prev_tag_close'] = '</span></li>';        
+              // $config['next_link'] = '&raquo';        
+              // $config['next_tag_open'] = '<li class="page-item"><span class="page-link">';        
+              // $config['next_tag_close'] = '</span></li>';        
+              // $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';        
+              // $config['last_tag_close'] = '</span></li>';        
+              // $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';        
+              // $config['cur_tag_close'] = '</a></li>';        
+              // $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';        
+              // $config['num_tag_close'] = '</span></li>';
+              // $this->pagination->initialize($config);
+              // $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+              // if(isset($_GET['per_page'])){
+              //   $per_page = $_GET['per_page'];
+              // } else {
+              //   $per_page = 0;
+              // }
+              // $data["links"] = $this->pagination->create_links();
+              // echo $coopName.'asdassdad';
+              $data['list_cooperative'] = $this->cooperatives_model->get_all_cooperatives_ho2($coopName, $limit);
+              // $data['list_cooperative'] = $this->admin_model->get_migrated_data($coopName,$regNo,$limit);
+              // echo $this->db->last_query();
+            }
+              $this->benchmark->mark('code_end');
             $data['is_acting_director'] = $this->admin_model->is_active_director($admin_user_id);
             $data['supervising_'] = $this->admin_model->is_acting_director($admin_user_id);
-            
+           
+            $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
             $this->load->view('templates/admin_header', $data);
             $this->load->view('applications/list_of_all_cooperatives', $data);
             $this->load->view('applications/change_cooperative_status');
@@ -1276,7 +1363,7 @@ class Admins extends CI_Controller{
             $data['list_amendments'] = $this->amendment_model->get_all_amendments();
             $data['is_acting_director'] = $this->admin_model->is_active_director($admin_user_id);
             $data['supervising_'] = $this->admin_model->is_acting_director($admin_user_id);
-            
+            $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memeory useage'=>$this->benchmark->memory_usage()); 
             $this->load->view('templates/admin_header', $data);
             $this->load->view('applications/list_of_all_amendments', $data);
             $this->load->view('applications/change_amendment_modal');
