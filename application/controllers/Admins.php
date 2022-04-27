@@ -114,7 +114,7 @@ class Admins extends CI_Controller{
 
             // echo $coopName.'asdassdad';
             $data['users_list'] = $this->admin_model->get_all_user2($first_name,$middle_name,$last_name,$email,$contact_number,$limit);
-            echo $this->db->last_query();
+            // echo $this->db->last_query();
           }
 
           // $data['users_list'] = $this->admin_model->get_all_user();
