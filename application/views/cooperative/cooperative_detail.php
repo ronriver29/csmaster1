@@ -780,7 +780,7 @@
                 <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> 
             <?php } ?>
           <?php // } else {?>
-                <?php // echo $coop_info->proposed_name?> Youth <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
+                <?php // echo $coop_info->proposed_name?> <!-- Youth --> <?php // echo $coop_info->type_of_cooperative?> <!-- Cooperative --> <?php // if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
           <?php // } ?>
         </p>
         <hr>
