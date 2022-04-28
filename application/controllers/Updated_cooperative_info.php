@@ -18,7 +18,8 @@
             $data['title'] = 'Updated Cooperative Information';
             $data['header'] = 'Updated Cooperative Information';
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-          
+            
+            $this->benchmark->mark('code_start');
               if($data['admin_info']->region_code=="00"){
               //   // Registered Coop Process by Head Office
               //     $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
@@ -26,18 +27,37 @@
               //   $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
               //   $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_ho_senior($data['admin_info']->region_code);
               //   $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
-                $data['list_cooperatives_registered'] = $this->cooperatives_update_model->get_all_cooperatives_registration_ho($data['admin_info']->region_code);
-                $data['list_cooperatives'] = $this->cooperatives_update_model->get_all_updated_coop_info_ho($data['admin_info']->region_code);
-                $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
+
+              // Head Office
+                // $data['list_cooperatives_registered'] = $this->cooperatives_update_model->get_all_cooperatives_registration_ho($data['admin_info']->region_code);
+                if($this->input->post('submit')) {
+                  $coopname = $this->input->post('coopname');
+                  $limit = $this->input->post('limit');
+
+                  $data['list_cooperatives'] = $this->cooperatives_update_model->get_all_updated_coop_info_ho2($data['admin_info']->region_code,$coopname,$limit);
+                }
+                // $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
               } else {
               //   // Registered Coop Process by Head Office
               //     $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
               //   // End Registered Coop Process by Head Office
-                $data['list_cooperatives_registered'] = $this->cooperatives_update_model->get_all_cooperatives_registration($data['admin_info']->region_code);
-                $data['list_cooperatives'] = $this->cooperatives_update_model->get_all_updated_coop_info($data['admin_info']->region_code);
-                $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
+
+              // Head Office
+                // $data['list_cooperatives_registered'] = $this->cooperatives_update_model->get_all_cooperatives_registration($data['admin_info']->region_code);
+                $data['list_cooperatives'] = '';
+
+                if($this->input->post('submit')) {
+                  $coopname = $this->input->post('coopname');
+                  $limit = $this->input->post('limit');
+
+                  $data['list_cooperatives'] = $this->cooperatives_update_model->get_all_updated_coop_info2($data['admin_info']->region_code,$coopname,$limit);
+                  // echo $this->db->last_query();
+                }
+                // $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
                 // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
               }
+            $this->benchmark->mark('code_end');
+            $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
       }
             $this->load->view('templates/admin_header', $data);
             $this->load->view('applications/list_of_updated_coop_info', $data);

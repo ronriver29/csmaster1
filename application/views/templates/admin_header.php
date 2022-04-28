@@ -190,9 +190,20 @@
           <?php endif; ?>
         <?php endif; ?>
         <?php if($admin_info->access_level == 6) : ?>
-          <li>   
+          <li>
+            <a href="#pageSubmenu6" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-handshake"></i> Updated Cooperative Info</a>
+            <ul class="collapse list-unstyled" id="pageSubmenu6">
+              <li>
+                <a href="<?php echo base_url();?>updated_cooperative_info"><i class="fas fa-handshake"></i> Ongoing</a>
+              </li>
+              <li>
+                <a href="<?php echo base_url();?>updated_cooperative_info_registered"><i class="fas fa-handshake"></i> Registered</a>
+              </li>
+            </ul>
+          </li>
+          <!-- <li>   
             <a href="<?php echo base_url();?>updated_cooperative_info"><i class="fas fa-handshake"></i> Updated Cooperative Info</a>
-          </li> 
+          </li>  -->
            <li>   
             <a href="<?php echo base_url();?>updated_amendment_info"><i class="fas fa-handshake"></i> Updated Amendment Info</a>
           </li> 

@@ -61,6 +61,62 @@
     </div>
   </div>
 <?php endif; ?>
+<center><h3>Search</h3></center>
+<div class="portlet-body">
+  <form method="post">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="eAddress">First Name</label>
+          <div id='search'><input type="text" class="form-control" id="first_name" name="first_name"></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="eAddress">Middle Name</label>
+          <div id='search'><input type="text" class="form-control" id="middle_name" name="middle_name"></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="eAddress">Last Name</label>
+          <div id='search'><input type="text" class="form-control" id="last_name" name="last_name"></div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="eAddress">Registration No.</label>
+          <div id='search'><input type="text" class="form-control" id="regno" name="regno"></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="eAddress">Email</label>
+          <div id='search'><input type="text" class="form-control" id="email" name="email"></div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="eAddress">Contact Number</label>
+          <div id='search'><input type="text" class="form-control" id="contact_number" name="contact_number"></div>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-group">
+          <label for="eAddress">Show</label>
+          <select class="form-control" id="limit" name="limit" required=""></div>
+            <option value="10">10</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <center><button type="submit" name="submit" value="submit" class="btn btn-info" >Submit</button></center>
+  </form>
+</div>
+<br>
+<?php if(is_array($users_list)){?>
 <div class="row">
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
     <!-- <a class="btn btn-color-blue btn-block" href="<?php echo base_url();?>admins/add" role="button"><i class="fas fa-plus"></i> Add Administrators</a> -->
@@ -119,3 +175,4 @@
     </div>
   </div>
 </div>
+<?php } ?>
