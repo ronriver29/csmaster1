@@ -57,6 +57,32 @@
     </div>
   </div>
 <?php endif; ?>
+<center><h3>Search</h3></center>
+<div class="portlet-body">
+  <form method="post">
+    <div class="row">
+      <div class="col-md-10">
+        <div class="form-group">
+          <label for="eAddress">Cooperative Name</label>
+          <div id='search'><input type="text" class="form-control" id="coopname" name="coopname"></div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="eAddress">Show</label>
+          <select class="form-control" id="limit" name="limit" required=""></div>
+            <option value="10">10</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <center><button type="submit" name="submit" value="submit" class="btn btn-info" >Submit</button></center>
+  </form>
+</div>
+<br>
+<?php if(is_array($list_cooperatives)){?>
 <div class="row">
   <?php if($is_client) :?>
    <?php if($count_cooperatives->coop_count == 0){?>
@@ -263,143 +289,8 @@
         </div>
       </div>
     </div>
-<?php if(!$is_client && $admin_info->region_code != '00' && $admin_info->access_level==2) :?>
-
-<h4 style="
-padding: 15px 10px;
-background: #fff;
-background-color: rgb(255, 255, 255);
-border: none;
-border-radius: 0;
-margin-bottom: 20px;
-box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Deferred/Denied</h4>
-
-<div class="card border-top-blue shadow-sm mb-4">
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered" id="cooperativesTable">
-            <thead>
-              <tr>
-                <th>Name of Cooperative</th>
-                <?php if(!$is_client) : ?>
-                  <th>Office Address</th>
-                <?php endif;?>
-                <th>Status</th>
-                <th>Action </th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($list_cooperatives_defer_deny as $cooperative) : ?>
-                <tr>
-                  <td><?php if($cooperative['grouping'] != 'Federation'){?>
-                      <?= $cooperative['proposed_name']?> <?= $cooperative['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative['acronym_name'])){ echo '('.$cooperative['acronym_name'].')';}?> <?= $cooperative['grouping']?>
-                    <?php } else { ?>
-                      <?= $cooperative['proposed_name']?> Federation of <?= $cooperative['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative['acronym_name'])){ echo '('.$cooperative['acronym_name'].')';
-                    }?>
-                  <?php }?></td>
-                  <?php if(!$is_client) : ?>
-                    <td>
-                      <?php if($cooperative['house_blk_no']==null && $cooperative['street']==null) $x=''; else $x=', ';?>
-                      <?=$cooperative['house_blk_no']?> <?=$cooperative['street'].$x?><?=$cooperative['brgy']?>, <?=$cooperative['city']?>, <?= $cooperative['province']?> <?=$cooperative['region']?>
-                    </td>
-                  <?php endif; ?>
-                  <td>
-                   
-                      <span class="badge badge-secondary">
-                      <?php if($is_client) : ?>
-                        
-                      <?php else : ?>
-                        <?php if($cooperative['status']==41) echo "DEFERRED"; ?>
-                      <?php endif ?>
-
-                      </span>
-                    </td>
-                  <?php if($is_client) :?>
-                    <td>
-                      <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                        <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View</a>
-                      <?php if($cooperative['status']<2 || $cooperative['status']==10|| $cooperative['status']==11) : ?>
-                        <?php if($cooperative['grouping'] != 'Federation'){?>
-                          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCooperativeModal" data-cname="<?= $cooperative['proposed_name']?> <?= $cooperative['type_of_cooperative']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>"><i class='fas fa-trash'></i><?php echo ($cooperative['status']==10 || $cooperative['status']==11) ? "Delete": "Cancel" ?></button>
-                        <?php } else { ?>
-                          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCooperativeModal" data-cname="<?= $cooperative['proposed_name']?> Federation of <?= $cooperative['type_of_cooperative']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>"><i class='fas fa-trash'></i><?php echo ($cooperative['status']==10 || $cooperative['status']==11) ? "Delete": "Cancel" ?></button>
-                        <?php }?></td>
-                      <?php endif;?>
-                      </div>
-                    </td>
-                  <?php endif;?>
-                  <?php if(!$is_client) :?>
-                    <td>
-                      <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                      <?php if($admin_info->access_level == 1) : ?>
-                        <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View Cooperative</a>
-                      <?php else: ?>
-                        
-                        <?php if($cooperative['status']==3): ?>
-                          <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/assign" data-toggle="modal" data-target="#assignSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>" data-cname="<?= $cooperative['proposed_name']?> <?= $cooperative['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative['acronym_name'])){ echo '('.$cooperative['acronym_name'].')';}?> <?= $cooperative['grouping']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Re-assign Validator</a>
-                          <?php endif; ?>
-                        <?php if(($cooperative['status'] == 41 && $admin_info->access_level == 2)) : ?>
-                          <a href="<?php echo base_url();?>cooperatives_update/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
-                        
-                        <?php elseif($cooperative['status']==2 && $cooperative['evaluated_by']==0): ?>
-                          <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/assign" data-toggle="modal" data-target="#assignSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>" data-cname="<?= $cooperative['proposed_name']?> <?= $cooperative['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative['acronym_name'])){ echo '('.$cooperative['acronym_name'].')';}?> <?= $cooperative['grouping']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Assign Validator</a>
-                        
-                        <?php elseif($cooperative['status']==13): ?>
-                          <?php
-                          if($cooperative['grouping'] == 'Union'){
-                            if(!empty($cooperative['acronym_name'])){ 
-                                $acronym_name = '('.$cooperative['acronym_name'].')';
-
-                                if($cooperative['grouping'] != ''){
-                                  $grouping = ' '.$cooperative['grouping'];
-                                } else {
-                                  $grouping = '';
-                                }
-                            } else {
-                                $acronym_name = '';
-                                if($cooperative['grouping'] != ''){
-                                  $grouping = $cooperative['grouping'];
-                                } else {
-                                  $grouping = '';
-                                }
-
-                            } 
-                          } else {
-                            if(!empty($cooperative['acronym_name'])){ 
-                                $acronym_name = '('.$cooperative['acronym_name'].')';
-                            } else {
-                                $acronym_name = ' ';
-                            } 
-
-                            if($cooperative['grouping'] != ''){
-                              $grouping = ' '.$cooperative['grouping'];
-                            } else {
-                              $grouping = '';
-                            }
-                          }
-                          ?>
-                          <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment(<?=$cooperative['id']?>,'<?=encrypt_custom($this->encryption->encrypt($cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$acronym_name.$grouping))?>')" value="Save O.R. No.">
-                       
-                        <?php elseif($cooperative['status']==12): ?>
-                          <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/forpayment" class="btn btnOkForPayment btn-color-blue"> OK For Payment</a>
-                          <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
-                          
-                        <?php elseif($cooperative['status']==14 || $cooperative['status']==15): ?>
-                          <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/registration" class="btn btn-info"><i class='fas fa-print'></i> Print Registration</a>
-                        <?php endif; ?>
-                      <?php endif;?>
-                      </div>
-                    </td>
-                  <?php endif;?> 
-                </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  <?endif;?>
-
+<?php } ?>
+<!-- 
   <?php if(!$is_client) :?>
 <h4 style="
 padding: 15px 10px;
@@ -455,4 +346,4 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
     </div>
   </div>
   </div>
-  <?endif;?>
+  <?endif;?> -->
