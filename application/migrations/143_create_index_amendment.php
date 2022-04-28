@@ -64,6 +64,5 @@ CHANGE COLUMN `category` `category` VARCHAR(200) CHARACTER SET 'utf8mb4' COLLATE
 
 		$this->db->query("DROP INDEX amendment_id ON amendment_capitalization");
 		$this->db->query("DROP INDEX amendment_id ON amendment_uploaded_documents");
-
     }
 }
