@@ -82,6 +82,46 @@ class Admin_model extends CI_Model{
     $query = $this->db->get();
     return $query->result_array();
   }
+
+  public function get_all_new_user2($first_name,$middle_name,$last_name,$email,$regno,$contact_number,$limit){
+    $where_array = array();
+       if($first_name != '') {
+           $where_array[] = "u.first_name LIKE '%".$first_name."%'";
+       }
+       if($middle_name != '') {
+           $where_array[] = "u.middle_name LIKE '%".$middle_name."%'";
+       }
+       if($last_name != '') {
+           $where_array[] = "u.last_name LIKE '%".$last_name."%'";
+       }
+       if($email != '') {
+           $where_array[] = "u.email LIKE '%".$email."%'";
+       }
+       if($regno != '') {
+           $where_array[] = "u.regno LIKE '%".$regno."%'";
+       }
+       if($contact_number != '') {
+           $where_array[] = "u.contact_number LIKE '%".$contact_number."%'";
+       }
+       $and_where = "";
+       if(count($where_array)>0) {
+           $and_where = " AND ".join(" OR ",$where_array);
+       }
+
+    $this->db->limit($limit);
+    $this->db->select('u.*,c.id as application_id');
+    $this->db->from('users u');
+    $this->db->join('cooperatives c','u.id = c.users_id');
+    $this->db->where('u.is_verified = 1 AND u.regno IS NOT NULL '.$and_where);
+    $query = $this->db->get();
+    return $query->result_array();
+
+    // $this->db->select('u.*,c.id as application_id');
+    // $this->db->from('users u');
+    // $this->db->join('cooperatives c','u.id = c.users_id');
+    // $this->db->where(array('u.is_verified =' => 1));
+  }
+
   public function get_all_new_user(){
     $this->db->select('u.*,c.id as application_id');
     $this->db->from('users u');
