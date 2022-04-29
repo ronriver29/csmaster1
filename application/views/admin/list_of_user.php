@@ -83,7 +83,13 @@
           <div id='search'><input type="text" class="form-control" id="last_name" name="last_name"></div>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="eAddress">Registered No.</label>
+          <div id='search'><input type="text" class="form-control" id="regno" name="regno"></div>
+        </div>
+      </div>
+      <div class="col-md-3">
         <div class="form-group">
           <label for="eAddress">Email</label>
           <div id='search'><input type="text" class="form-control" id="email" name="email"></div>

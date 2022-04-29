@@ -53,7 +53,7 @@ class Admin_model extends CI_Model{
     $query = $this->db->get();
     return $query->result_array();
   }
-  public function get_all_user2($first_name,$middle_name,$last_name,$email,$contact_number,$limit){
+  public function get_all_user2($first_name,$middle_name,$last_name,$regno,$email,$contact_number,$limit){
     $where_array = array();
        if($first_name != '') {
            $where_array[] = "u.first_name LIKE '%".$first_name."%'";
@@ -63,6 +63,9 @@ class Admin_model extends CI_Model{
        }
        if($last_name != '') {
            $where_array[] = "u.last_name LIKE '%".$last_name."%'";
+       }
+       if($regno != '') {
+           $where_array[] = "rc.regNo LIKE '%".$regno."%'";
        }
        if($email != '') {
            $where_array[] = "u.email LIKE '%".$email."%'";

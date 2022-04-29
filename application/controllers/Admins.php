@@ -108,12 +108,13 @@ class Admins extends CI_Controller{
             $first_name = $this->input->post('first_name');
             $middle_name = $this->input->post('middle_name');
             $last_name = $this->input->post('last_name');
+            $regno = $this->input->post('regno');
             $email = $this->input->post('email');
             $contact_number = $this->input->post('contact_number');
             $limit = $this->input->post('limit');
 
             // echo $coopName.'asdassdad';
-            $data['users_list'] = $this->admin_model->get_all_user2($first_name,$middle_name,$last_name,$email,$contact_number,$limit);
+            $data['users_list'] = $this->admin_model->get_all_user2($first_name,$middle_name,$last_name,$regno,$email,$contact_number,$limit);
             // echo $this->db->last_query();
           }
 
