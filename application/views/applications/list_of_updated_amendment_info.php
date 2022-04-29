@@ -70,7 +70,6 @@
       </div>
     <?php endif; ?>
   <?php endif;?>
-
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue shadow-sm mb-4">
       <div class="card-body">
