@@ -60,7 +60,7 @@
 
                   $data['links']=$this->paginate($array);
                   $data['list_cooperatives'] = $this->cooperatives_update_model->get_all_updated_coop_info2($data['admin_info']->region_code,$coopname,$limit,$config['per_page']);
-                  // echo $this->db->last_query();
+                  echo $this->db->last_query();
                 }
                 // $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
                 // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
