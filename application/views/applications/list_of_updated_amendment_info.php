@@ -603,7 +603,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
               <?php foreach ($list_cooperatives_registered as $cooperative_registered) : ?>
                 <tr>
                   <td><?=$cooperative_registered['amendmentNo']?></td>
-                  <td> <?=$cooperative_registered['proposed_name']?>
+                  <td> <?=$cooperative_registered['coopName']?>
                   <!-- <?php if($cooperative_registered['grouping'] == 'Federation'){?>
                     <?= $cooperative_registered['proposed_name']?> Federation of <?= $cooperative_registered['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative_registered['acronym_name'])){ echo '('.$cooperative_registered['acronym_name'].')';
                     }?>
