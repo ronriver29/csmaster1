@@ -108,7 +108,7 @@
     <div class="card border-top-blue shadow-sm mb-4">
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-bordered" id="cooperativesTable4">
+          <table class="table table-bordered">
             <thead>
               <tr>
                 <th>Name of Cooperative</th>
@@ -289,6 +289,7 @@
             </tbody>
           </table>
         </div>
+        <?=$links?>
       </div>
     </div>
 <?php } ?>

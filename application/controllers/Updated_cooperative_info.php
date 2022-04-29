@@ -6,6 +6,7 @@
     public function __construct()
     {
       parent::__construct();
+      $this->load->library('pagination');
       //Codeigniter : Write Less Do More
     }
     public function index(){
@@ -50,7 +51,15 @@
                   $coopname = $this->input->post('coopname');
                   $limit = $this->input->post('limit');
 
-                  $data['list_cooperatives'] = $this->cooperatives_update_model->get_all_updated_coop_info2($data['admin_info']->region_code,$coopname,$limit);
+                  $array =array(
+                  'url'=>base_url()."updated_cooperative_info",
+                  'total_rows'=>$this->cooperatives_update_model->get_all_updated_coop_info_count($data['admin_info']->region_code,$coopname),
+                  'per_page'=>$config['per_page']=4,
+                  'url_segment'=>2
+                  );
+
+                  $data['links']=$this->paginate($array);
+                  $data['list_cooperatives'] = $this->cooperatives_update_model->get_all_updated_coop_info2($data['admin_info']->region_code,$coopname,$limit,$config['per_page']);
                   // echo $this->db->last_query();
                 }
                 // $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
@@ -190,6 +199,39 @@
           redirect('account_approval');
         }
       
+    }
+
+    public function paginate($array)
+    {
+      // $result =null;
+        $config["base_url"] = $array['url'];
+        $config["total_rows"] =$array['total_rows'];
+        $config["per_page"] = $array['per_page'];
+        $config["uri_segment"] = $array['url_segment'];
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+        $config['first_link'] = 'First';
+        $config['last_link'] = 'Last';
+        $config['first_tag_open'] = '<li class="page-item">asfasd<span class="page-link">';
+        $config['first_tag_close'] = '</span></li>';
+        $config['prev_link'] = '&laquo';
+        $config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['prev_tag_close'] = '</span></li>';
+        $config['next_link'] = '&raquo';
+        $config['next_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['next_tag_close'] = '</span></li>';
+        $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['last_tag_close'] = '</span></li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close'] = '</span></li>';
+        $this->pagination->initialize($config);
+        
+       
+       
+        $links = $this->pagination->create_links();
+        return $links;
     }
   }
 ?>
