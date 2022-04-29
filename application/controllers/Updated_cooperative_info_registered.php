@@ -30,6 +30,8 @@
 
               // Head Office
                 // $data['list_cooperatives_registered'] = $this->cooperatives_update_model->get_all_cooperatives_registration_ho($data['admin_info']->region_code);
+                $data['list_cooperatives_registered'] = '';
+                
                 if($this->input->post('submit')) {
                   $coopname = $this->input->post('coopname');
                   $limit = $this->input->post('limit');
@@ -45,7 +47,7 @@
 
               // Head Office
                 // $data['list_cooperatives_registered'] = $this->cooperatives_update_model->get_all_cooperatives_registration($data['admin_info']->region_code);
-                $data['list_cooperatives'] = '';
+                $data['list_cooperatives_registered'] = '';
 
                 if($this->input->post('submit')) {
                   $coopname = $this->input->post('coopname');
