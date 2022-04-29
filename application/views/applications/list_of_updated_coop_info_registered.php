@@ -84,7 +84,7 @@
   </form>
 </div>
 <br>
-<?php if(is_array($list_cooperatives)){?>
+<?php if(is_array($list_cooperatives_registered)){?>
   <?php if(!$is_client) :?>
 <h4 style="
 padding: 15px 10px;
