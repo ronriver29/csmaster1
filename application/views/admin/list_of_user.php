@@ -146,7 +146,7 @@
                         <?= $users['valid_id_number']?>
                     </td>
                     <td>
-                        <?= $users['regno']?>
+                        <?= $users['registered_no']?>
                     </td>
                     <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
