@@ -518,7 +518,36 @@ class Cooperatives_update_model extends CI_Model{
     }
 
   }
+  public function get_all_cooperatives_registration2($regcode,$coopname,$limit){
+    // Get Coop Type for HO
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
 
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+    // End Get Coop Type for HO
+    $this->db->limit($limit);
+    $this->db->select('registeredcoop.*,cooperatives.*,payment.date_of_or, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->from('cooperatives');
+    $this->db->join('registeredcoop', 'registeredcoop.application_id = cooperatives.id','inner');
+    $this->db->join('payment', 'registeredcoop.coopName = payment.payor','left');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->like('refregion.regCode', $regcode);
+    $this->db->where('cooperatives.status = 39 AND cooperatives.type_of_cooperative NOT IN ('.$typeofcoopimp.') AND registeredcoop.coopName LIKE "%'.$coopname.'%"');
+    $this->db->order_by('registeredcoop.regNo', 'ASC');
+    $this->db->group_by('registeredcoop.regNo');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
   public function get_all_cooperatives_registration($regcode){
     // Get Coop Type for HO
     $this->db->select('name');
@@ -548,7 +577,36 @@ class Cooperatives_update_model extends CI_Model{
     $data = $query->result_array();
     return $data;
   }
+  public function get_all_cooperatives_registration_ho2($regcode,$coopname,$limit){
+    // Get Coop Type for HO
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
 
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+    // End Get Coop Type for HO
+    $this->db->limit($limit);
+    $this->db->select('registeredcoop.*,cooperatives.*,payment.date_of_or, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->from('cooperatives');
+    $this->db->join('registeredcoop', 'registeredcoop.application_id = cooperatives.id','inner');
+    $this->db->join('payment', 'registeredcoop.coopName = payment.payor','left');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    // $this->db->like('refregion.regCode', $regcode);
+    $this->db->where('cooperatives.status = 39 AND cooperatives.type_of_cooperative IN ('.$typeofcoopimp.') AND registeredcoop.coopName LIKE "%'.$coopname.'%"');
+    $this->db->order_by('regNo', 'ASC');
+    $this->db->group_by('coopName');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
   public function get_all_cooperatives_registration_ho($regcode){
     // Get Coop Type for HO
     $this->db->select('name');
