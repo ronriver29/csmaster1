@@ -3635,9 +3635,7 @@ where coop.users_id = '$user_id' and coop.status =15");
       return $data;
     }
 
-    public function get_all_updated_coop_info($regcode,$limit,$start,$coopName,$regNo){
-      $coopName = (strlen($coopName)>0 ? " AND amend_coop.proposed_name like '%".$coopName."%'" : '');
-      $regNo = (strlen($regNo)>0 ? " AND amend_coop.regNo='$regNo'"  : '');
+    public function get_all_updated_coop_info($regcode){
     // Get Coop Type for HO
     $this->db->select('name');
     $this->db->from('head_office_coop_type');
@@ -3659,7 +3657,7 @@ where coop.users_id = '$user_id' and coop.status =15");
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('amend_coop.status = 40 AND amend_coop.migrated=1 AND ho=0'.$coopName.$regNo);
+    $this->db->where('amend_coop.status = 40 AND amend_coop.migrated=1 AND ho=0');
     // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
     $query = $this->db->get();
     $data = $query->result_array();
