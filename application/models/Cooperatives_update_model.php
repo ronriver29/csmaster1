@@ -532,6 +532,7 @@ class Cooperatives_update_model extends CI_Model{
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
     // End Get Coop Type for HO
     $this->db->limit($limit);
+    $this->db->distinct();
     $this->db->select('registeredcoop.*,cooperatives.*,payment.date_of_or, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('cooperatives');
     $this->db->join('registeredcoop', 'registeredcoop.application_id = cooperatives.id','inner');
@@ -543,7 +544,6 @@ class Cooperatives_update_model extends CI_Model{
     $this->db->like('refregion.regCode', $regcode);
     $this->db->where('cooperatives.status = 39 AND cooperatives.type_of_cooperative NOT IN ('.$typeofcoopimp.') AND registeredcoop.coopName LIKE "%'.$coopname.'%"');
     $this->db->order_by('registeredcoop.regNo', 'ASC');
-    $this->db->group_by('registeredcoop.regNo');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
