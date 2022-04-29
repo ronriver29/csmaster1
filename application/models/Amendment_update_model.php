@@ -3759,6 +3759,23 @@ where coop.users_id = '$user_id' and coop.status =15");
     return $data;
   }
 
+  public function major_industry_description2($major_id)
+    {
+      $query = $this->db->query("select * from major_industry where id=".$major_id);
+      if($query->num_rows()>0)
+      {
+        foreach($query->result_array() as $row)
+        {
+          $data = $row['description'];
+        }
+      }
+      else
+      {
+        $data= NULL;
+      }
+      return $data;
+    }
+    
   public function reg_id($regNo)
   {
     $query = $this->db->query("select id from registeredamendment where regNo='$regNo' order by id desc limit 1");
