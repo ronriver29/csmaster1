@@ -57,10 +57,14 @@
                   'per_page'=>$config['per_page']=4,
                   'url_segment'=>2
                   );
-
+                  if(isset($_GET['per_page'])){
+                    $per_page = $_GET['per_page'];
+                  } else {
+                    $per_page = 0;
+                  }
                   $data['links']=$this->paginate($array);
-                  $data['list_cooperatives'] = $this->cooperatives_update_model->get_all_updated_coop_info2($data['admin_info']->region_code,$coopname,$limit,$config['per_page']);
-                  echo $this->db->last_query();
+                  $data['list_cooperatives'] = $this->cooperatives_update_model->get_all_updated_coop_info2($data['admin_info']->region_code,$coopname,$limit,$per_page);
+                  // echo $this->db->last_query();
                 }
                 // $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
                 // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
@@ -208,6 +212,7 @@
         $config["total_rows"] =$array['total_rows'];
         $config["per_page"] = $array['per_page'];
         $config["uri_segment"] = $array['url_segment'];
+        $config['page_query_string'] = TRUE;
         $config['full_tag_open'] = '<ul class="pagination">';
         $config['full_tag_close'] = '</ul>';
         $config['first_link'] = 'First';
