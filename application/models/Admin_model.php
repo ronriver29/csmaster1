@@ -53,6 +53,18 @@ class Admin_model extends CI_Model{
     $query = $this->db->get();
     return $query->result_array();
   }
+  public function insert_deleted_users($data_field){
+        $this->db->trans_begin();
+        $this->db->insert('deleted_users',$data_field);
+        $id = $this->db->insert_id();
+        if($this->db->trans_status() === FALSE){
+            $this->db->trans_rollback();
+            return false;
+        }else{
+            $this->db->trans_commit();
+            return true;
+        }
+  }
   public function get_all_user2($first_name,$middle_name,$last_name,$regno,$email,$contact_number,$limit){
     $where_array = array();
        if($first_name != '') {

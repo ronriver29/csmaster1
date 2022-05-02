@@ -12,6 +12,9 @@
             </div>
             <div class="modal-body">
               <input type="hidden" class="validate[required]" id="adminID" name="adminID">
+              <input type="hidden" class="validate[required]" id="admin-name" name="name">
+              <input type="hidden" class="validate[required]" id="admin-email-text" name="email">
+              <input type="hidden" class="validate[required]" id="admin-regno-text" name="regno">
               <div class="alert alert-warning" role="alert">
                 <strong><b>Warning:</b></strong>
                 <p>All <strong class="admin-name-text">test</strong>'s data will be delete. There is no way to recover this.</p>

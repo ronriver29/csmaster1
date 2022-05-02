@@ -663,7 +663,20 @@ class Admins extends CI_Controller{
           redirect('cooperatives');
         }else{
           if($this->input->post('deleteAdministratorBtn')){
+            $data_field = array(
+              "user_id" => $this->encryption->decrypt(decrypt_custom($this->input->post('adminID'))),
+              "full_name" => $this->input->post('name'),
+              "regno" => $this->input->post('regno'),
+              "email" => $this->input->post('email'),
+              "date_deleted" => date("Y-m-d H:i:s"),
+              "deleted_by" => $this->session->userdata('access_level')
+            );
+
             $decoded_aid = $this->encryption->decrypt(decrypt_custom($this->input->post('adminID')));
+
+            $this->admin_model->insert_deleted_users($data_field);
+
+            // echo $this->db->last_query();
               if($this->admin_model->delete_user($decoded_aid)){
                 $this->session->set_flashdata('delete_admin_success', 'Successfully deleted an user.');
                 redirect('admins/all_user');

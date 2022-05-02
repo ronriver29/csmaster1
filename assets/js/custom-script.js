@@ -2393,11 +2393,15 @@ $('#editStaffForm #position').on('change', function(){
   $('#deleteAdministratorModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
     var full_name = button.data('fname');
+    var email_add = button.data('email');
+    var reg_no = button.data('regno');
     var adid = button.data('adid');
     var modal = $(this)
     modal.find('.modal-body #adminID').val(adid);
-    modal.find
-    ('.modal-body .admin-name-text').text(full_name);
+    modal.find('.modal-body #admin-name').val(full_name);
+    modal.find('.modal-body .admin-name-text').text(full_name);
+    modal.find('.modal-body #admin-email-text').val(email_add);
+    modal.find('.modal-body #admin-regno-text').val(reg_no);
   });
   $("#deleteAdministratorForm").validationEngine('attach',
       {promptPosition: 'inline',
