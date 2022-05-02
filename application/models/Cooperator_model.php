@@ -991,7 +991,12 @@ $this->last_query = $this->db->last_query();
   public function check_all_minimum_regular_subscription($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
 //    $temp = $this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id)->regular_percentage_shares_subscription;
-    $temp = $this->capitalization_model->get_capitalization_by_coop_id($cooperatives_id)->minimum_subscribed_share_regular;
+    // echo $this->capitalization_model->get_capitalization_by_coop_id($cooperatives_id)->minimum_subscribed_share_regular.'asdasdas';
+    if(empty($this->capitalization_model->get_capitalization_by_coop_id($cooperatives_id)->minimum_subscribed_share_regular)) {
+      $temp = 0;
+    } else {
+      $temp = $this->capitalization_model->get_capitalization_by_coop_id($cooperatives_id)->minimum_subscribed_share_regular;
+    }
     $this->db->where(array('cooperatives_id'=>$cooperatives_id,'type_of_member'=>'Regular'));
     $this->db->where('number_of_subscribed_shares <', $temp);
     $this->db->from('cooperators');
@@ -1004,7 +1009,12 @@ $this->last_query = $this->db->last_query();
   public function check_all_minimum_regular_pay($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
 //    $temp = $this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id)->regular_percentage_shares_pay;
-    $temp = $this->capitalization_model->get_capitalization_by_coop_id($cooperatives_id)->minimum_paid_up_share_regular;
+    // $temp = $this->capitalization_model->get_capitalization_by_coop_id($cooperatives_id)->minimum_paid_up_share_regular;
+    if(empty($this->capitalization_model->get_capitalization_by_coop_id($cooperatives_id)->minimum_paid_up_share_regular)) {
+      $temp = 0;
+    } else {
+      $temp = $this->capitalization_model->get_capitalization_by_coop_id($cooperatives_id)->minimum_paid_up_share_regular;
+    }
     $this->db->where(array('cooperatives_id'=>$cooperatives_id,'type_of_member'=>'Regular'));
     $this->db->where('number_of_paid_up_shares <', $temp);
     $this->db->from('cooperators');
