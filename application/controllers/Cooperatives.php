@@ -80,7 +80,10 @@
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
-          }else{
+          } else if ($this->session->userdata('access_level') == 6) {
+            $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+            redirect('updated_cooperative_info');
+          } else {
             $data['title'] = 'List of Cooperatives';
             $data['header'] = 'Cooperatives';
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
@@ -264,11 +267,11 @@
                   $regions = '';
                 }
 
-                // if($_POST[$this->input->post('is_youth')] == 1){
-                //   $is_youth = 1;
-                // } else {
-                //   $is_youth = 1;
-                // }
+                if($_POST[$this->input->post('is_youth')] == 1){
+                  $is_youth = 1;
+                } else {
+                  $is_youth = 1;
+                }
 
                 $field_data = array(
                   'users_id' => $this->session->userdata('user_id'),
@@ -287,7 +290,7 @@
                   'street' => $this->input->post('streetName'),
                   'house_blk_no' => $this->input->post('blkNo'),
                   'status' => '1',
-                  // 'is_youth' => $is_youth,
+                  'is_youth' => $is_youth,
                   'created_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
                   'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
                   'expire_at' =>  date('Y-m-d h:i:s',(now('Asia/Manila')+(4*24*60*60)))
@@ -430,11 +433,11 @@
               
               $data['affiliates_complete'] = $this->unioncoop_model->is_requirements_complete($user_id);
               
-              // if($data['coop_info']->created_at >= '2022-03-08'){
-              //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-              // } else {
+              if($data['coop_info']->created_at >= '2022-03-08'){
+                $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+              } else {
                 $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-              // }
+              }
 
               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
               $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);//surety
@@ -525,11 +528,11 @@
                         }
                   }
 
-                  // if($data['coop_info']->created_at >= '2022-03-08'){
-                  //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                  // } else {
+                  if($data['coop_info']->created_at >= '2022-03-08'){
+                    $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                  } else {
                     $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                  // }
+                  }
                   // $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
                   $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
 
@@ -700,11 +703,11 @@
                       $regions = '';
                     }
                     
-                    // if($_POST[$this->input->post('is_youth')] == 1){
-                    //   $is_youth = 1;
-                    // } else {
-                    //   $is_youth = 1;
-                    // }
+                    if($_POST[$this->input->post('is_youth')] == 1){
+                      $is_youth = 1;
+                    } else {
+                      $is_youth = 1;
+                    }
 
                     $field_data = array(
                       'users_id' => $this->session->userdata('user_id'),
@@ -720,7 +723,7 @@
                       'refbrgy_brgyCode' => $this->input->post('barangay'),
                       'interregional' => $interregional,
                       'regions' => $regions,
-                      // 'is_youth' => $is_youth,
+                      'is_youth' => $is_youth,
                       'street' => $this->input->post('streetName'),
                       'house_blk_no' => $this->input->post('blkNo')
                     );
@@ -1119,7 +1122,7 @@
                                       }
                                       else
                                       {
-                                        $this->session->set_flashdata('cooperative_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
+                                        $this->session->set_flashdata('cooperative_error','Unable to submit your application');
                                         redirect('cooperatives/'.$id);
                                       }
                                     }else{

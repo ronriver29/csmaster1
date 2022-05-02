@@ -128,6 +128,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                   <td width="31%">
                     <li style="list-style: none;">
                       <a href="<?php echo base_url();?>cooperatives_update/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>/documents_update" class="btn btn-sm btn-info"><i class='fas fa-eye'></i> View Document</a>
+                      <a href="<?php echo base_url();?>cooperatives_update/<?= encrypt_custom($this->encryption->encrypt($cooperative_registered['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> Re-submit Cooperative</a>
                     </li>
                   </ul>
                   </td>

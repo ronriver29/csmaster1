@@ -1122,7 +1122,7 @@ if(isset($coop_info))
           <small class="text-muted">
             <div class="btn-group" role="group" aria-label="Basic example">
                 <?php
-              if(($coop_info->status == 40 && $coop_info->status != 41)):
+              if(($coop_info->status == 40 && $coop_info->status != 41) || ($admin_info->access_level == 6 && $coop_info->status == 39)):
             ?>
                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->coopName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" >Submit All</button>
               <?php endif; ?>
