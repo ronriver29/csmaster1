@@ -58,6 +58,91 @@ class Seeding_data extends CI_Controller{
     }
   }
 
+  public function seed_cooperative_info()
+  {
+    $cooperatives = array(
+        "users_id" => 0,
+        "category_of_cooperative" => "primary",
+        "type_of_cooperative" => "credit",
+        "grouping" => NULL,
+        "proposed_name" => "United Global EntrePinoy",
+        "acronym_name" => "",
+        "common_bond_of_membership" => "Associational",
+        "field_of_membership" => NULL,
+        "name_of_ins_assoc" => NULL,
+        "area_of_operation" => "",
+        "refbrgy_brgyCode" => "13",
+        "interregional" => NULL,
+        "regions" => NULL,
+        "street" => NULL,
+        "house_blk_no" => NULL,
+        "status" => 15,
+        "evaluated_by" => 0,
+        "second_evaluated_by" => 0,
+        "third_evaluated_by" => 0,
+        "tool_yn_answer" => NULL,
+        "tool_remark" => NULL,
+        "tool_findings" => "",
+        "tool_comment" => "",
+        "evaluation_comment" => NULL,
+        "temp_evaluation_comment" => NULL,
+        "capital_contribution" => 0,
+        "created_at" => "2022-05-04 02:56:06",
+        "date_of_or" => NULL,
+        "comment_by_specialist" => NULL,
+        "comment_by_senior" => NULL,
+        "updated_at" => "2022-05-04 02:56:06",
+        "expire_at" => NULL,
+        "specialist_submit_at" => "2021-01-01 10:00:00",
+        "senior_submit_at" => "2021-01-01 10:00:00",
+        "date_for_payment" => NULL,
+        "migrated" => 0,
+    );
+
+    if($this->db->insert('cooperatives',$cooperatives))
+    {
+      echo" Successfully added Cooperative Info";
+    }
+    else
+    {
+      echo "failed to seed data";
+    }
+  }
+
+  public function seed_registered_info()
+  {
+    $registeredcoop = array(
+      "coopName" => "United Global EntrePinoy Credit Cooperative",
+      "acronym" => "",
+      "regNo" => "9520-1016000000042321",
+      "category" => "Primary",
+      "grouping" => NULL,
+      "type" => "Credit",
+      "date_printed" => "",
+      "dateRegistered" => "2018-04-26",
+      "commonBond" => "Associational",
+      "areaOfOperation" => "members of Global Pi",
+      "noStreet" => NULL,
+      "Street" => "",
+      "addrCode" => "13",
+      "compliant" => "Non-Compliant: Issued with Not",
+      "qr_code" => NULL,
+      "application_id" => 0,
+      "amendment_id" => NULL,
+      "migrated" => 0,
+    );
+
+
+    if($this->db->insert('registeredcoop',$registeredcoop))
+    {
+      echo" Successfully added Registeredcoop Info";
+    }
+    else
+    {
+      echo "failed to seed data";
+    }
+  }
+
   public function unseed_luba()
   {
     if($this->db->query('delete from refcitymun where id =1648'))
