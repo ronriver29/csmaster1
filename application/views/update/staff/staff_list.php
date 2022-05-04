@@ -56,7 +56,7 @@
       </div> 
     </div>
   <?php // endif; ?>
-  <?php if(($is_client && $coop_info->status!=40 && $coop_info->status != 39) || (!$is_client && $coop_info->status==40 && $coop_info->status != 39)): ?>
+  <?php if(($is_client && $coop_info->status!=40 && $coop_info->status != 39) || (!$is_client && ($coop_info->status==40 || $coop_info->status == 39))): ?>
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
     <a class="btn btn-color-blue btn-block" role="button" href="<?php echo base_url();?>cooperatives_update/<?= $encrypted_id ?>/staff_update/add" role="button"><i class="fas fa-plus"></i> Add Staff </a>
   </div>

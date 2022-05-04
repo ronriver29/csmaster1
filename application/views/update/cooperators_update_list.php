@@ -63,8 +63,8 @@
         <?php if(!$treasurer_count) echo '<li>You need a Treasurer</li>'; ?>
         <?php if(!$secretary_count) echo '<li>You need a Secretary</li>'; ?>
         <?php if(!$associate_not_exists && $bylaw_info->kinds_of_members == 1) echo '<li>Please update all Associate members</li>'; ?>
-        <?php if(!$minimum_regular_subscription) echo '<li>Please update all regular member whose number of subscribed shares not greater than or equal to <strong>'.isset($capitalization_info->minimum_subscribed_share_regular).'</strong></li>'; ?>
-        <?php if(!$minimum_regular_pay) echo '<li>Please update all regular member whose number of paid shares not greater than or equal to <strong>'.isset($capitalization_info->minimum_paid_up_share_regular).'</strong></li>';?>
+        <?php if(isset($minimum_regular_subscription)) { if(!$minimum_regular_subscription) echo '<li>Please update all regular member whose number of subscribed shares not greater than or equal to <strong>'.isset($capitalization_info->minimum_subscribed_share_regular).'</strong></li>'; } ?>
+        <?php if(isset($minimum_regular_pay)) { if(!$minimum_regular_pay) echo '<li>Please update all regular member whose number of paid shares not greater than or equal to <strong>'.isset($capitalization_info->minimum_paid_up_share_regular).'</strong></li>'; } ?>
         <?php if(isset($minimum_associate_subscription)) { if(!$minimum_associate_subscription) echo '<li> Please update all associate member whose number of subscribed shares not greater than or equal to <strong>'.isset($capitalization_info->minimum_subscribed_share_associate).'</strong></li>'; }?>
         <?php if(isset($minimum_associate_pay)) { if(!$minimum_associate_pay) echo '<li>Please update all associate member whose number of paid shares not greater than or equal to <strong>'.isset($capitalization_info->minimum_paid_up_share_associate).'</strong></li>'; }?>
         <?php if(isset($capitalization_info->total_no_of_subscribed_capital) ) : ?>
@@ -90,7 +90,7 @@
     </div>
 <?php // endif; } ?>
   </div>
-<?php if(($is_client && $is_update_cooperative && $coop_info->status != 40 && $coop_info->status != 39) || (!$is_client && $coop_info->status == 40 && $coop_info->status != 39)): ?>
+<?php if(($is_client && $is_update_cooperative && $coop_info->status != 40 && $coop_info->status != 39) || (!$is_client && ($coop_info->status == 40 || $coop_info->status == 39))): ?>
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
    <?php // if(isset($capitalization_info->total_no_of_subscribed_capital) && ($capitalization_info->total_no_of_subscribed_capital > $total_subscribed) || isset($capitalization_info->total_no_of_paid_up_capital) > $total_paid) : ?>
     <?php // if($list_cooperators_count + $list_cooperators_associate_count != $capitalization_info->regular_members + $capitalization_info->associate_members){?>

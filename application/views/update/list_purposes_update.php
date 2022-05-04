@@ -47,7 +47,7 @@
 </div>
 <?php endif; ?>
 <div class="row mt-2 mb-4">
-  <?php if(($is_client && $is_update_cooperative && $coop_info->status != 40 && $coop_info->status != 39) || (!$is_client && $coop_info->status == 40 && $coop_info->status != 39)): ?>
+  <?php if(($is_client && $is_update_cooperative && $coop_info->status != 40 && $coop_info->status != 39) || (!$is_client && ($coop_info->status == 40 || $coop_info->status == 39))): ?>
 
     <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
       <a href="<?php echo base_url();?>cooperatives_update/<?= $encrypted_id ?>/purposes_update/edit" class="btn btn-color-blue btn-block" id="btnEditPurposes"><i class="fas fa-<?php echo (count(array_filter($contents)) > 0) ? "edit":"plus"?>"></i> <?php echo (count(array_filter($contents)) > 0) ? "Edit":"Add"?> Purposes</a>

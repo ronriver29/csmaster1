@@ -85,7 +85,7 @@
         <div class="row d-flex">
           <div class="col-sm-12 col-md-12 col-btn-action-survey-primary">
             <h4 class="float-left">Additional Information:</h4>
-            <?php if(($is_client && $coop_info->status!=40 && $coop_info->status != 39) || (!$is_client && $coop_info->status==40 && $coop_info->status != 39)): ?>
+            <?php if(($is_client && $coop_info->status!=40 && $coop_info->status != 39) || (!$is_client && ($coop_info->status==40 || $coop_info->status == 39))): ?>
               <a class="btn btn-primary btn-sm float-right text-white" id="btnEditEconomicSurvey"><i class="fas fa-edit"></i> Edit</a>
             <?php endif; ?>
           </div>
