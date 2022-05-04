@@ -230,15 +230,52 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $data = $query->result_array();
     return $data;
   }
-  public function get_all_cooperatives_by_specialist_central_office($regcode){
+  public function get_all_cooperatives_by_specialist_central_office_count($regcode){
+    // Get Coop Type for HO
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
+
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+    // End Get Coop Type for HO
     $this->db->select('cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('cooperatives');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->like('refregion.regCode', $regcode);
-    $this->db->where(array('status'=>3,'evaluated_by >'=>0));
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
+    // $this->db->like('refregion.regCode', $regcode);
+    $this->db->where('status IN ("3") AND type_of_cooperative IN ('.$typeofcoopimp.')');
+    // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
+    // $query = $this->db->get();
+    // $data = $query->result_array();
+    return $this->db->count_all_results();
+  }
+  public function get_all_cooperatives_by_specialist_central_office($regcode){
+    // Get Coop Type for HO
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
+
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+    // End Get Coop Type for HO
+    $this->db->select('cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->from('cooperatives');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
+    // $this->db->like('refregion.regCode', $regcode);
+    $this->db->where('status IN ("3") AND type_of_cooperative IN ('.$typeofcoopimp.')');
+    // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
