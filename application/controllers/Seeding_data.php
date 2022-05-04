@@ -127,7 +127,7 @@ class Seeding_data extends CI_Controller{
       "addrCode" => "13",
       "compliant" => "Non-Compliant: Issued with Not",
       "qr_code" => NULL,
-      "application_id" => 0,
+      "application_id" => 50664,
       "amendment_id" => NULL,
       "migrated" => 0,
     );
@@ -142,7 +142,7 @@ class Seeding_data extends CI_Controller{
       echo "failed to seed data";
     }
   }
-
+  
   public function unseed_luba()
   {
     if($this->db->query('delete from refcitymun where id =1648'))
