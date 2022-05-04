@@ -314,7 +314,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $data = $query->result_array();
     return $data;
   }
-  public function get_all_cooperatives_by_senior2($regcode,$limit,$start){
+  public function get_all_cooperatives_by_senior2($regcode,$coopname,$limit,$start){
 
     // Get Coop Type for HO
     $this->db->select('name');
@@ -326,6 +326,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     }
 
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+    $coopname = (strlen($coopname)>0 ? " AND cooperatives.proposed_name LIKE '%".$coopname."%'" : '');
     // End Get Coop Type for HO
     $this->db->limit($limit, $start);
     $this->db->select('cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
@@ -335,7 +336,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status IN ("2","3","4","5","6","16") OR (status = 6 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 12 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 13 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 14 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%")');
+    $this->db->where('(status IN ("2","3","4","5","6","16") OR (status = 6 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 12 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 13 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%") OR (status = 14 AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%"))'.$coopname);
     // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
     $query = $this->db->get();
     $data = $query->result_array();
@@ -544,7 +545,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     return $this->db->count_all_results();
   }
 
-  public function get_all_cooperatives_by_director2($regcode,$limit,$start){
+  public function get_all_cooperatives_by_director2($regcode,$coopname,$limit,$start){
     // Get Coop Type for HO
     $this->db->select('name');
     $this->db->from('head_office_coop_type');
@@ -553,7 +554,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     foreach($typeofcoop as $typesofcoop){
       $cooparray[] = $typesofcoop['name'];
     }
-
+    $coopname = (strlen($coopname)>0 ? " AND cooperatives.proposed_name LIKE '%".$coopname."%'" : '');
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
     // End Get Coop Type for HO
     $this->db->limit($limit,$start);
@@ -564,7 +565,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status IN ("7","8") OR ((status = 9 OR status = 17) AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%")');
+    $this->db->where('(status IN ("7","8") OR ((status = 9 OR status = 17) AND type_of_cooperative NOT IN ('.$typeofcoopimp.') AND refregion.regCode LIKE "%'.$regcode.'%"))'. $coopname);
     // $this->db->where_in('status',array('7','8','9'));
     $query = $this->db->get();
     $data = $query->result_array();
