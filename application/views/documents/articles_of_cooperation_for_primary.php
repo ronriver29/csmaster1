@@ -442,6 +442,7 @@ if($coop_info->status != 12){
           </thead>
           <tbody>
             <?php $count=0; foreach($associate_cooperator_list as $associate) : ?>
+            <?php $count++; ?>
             <tr>
               <td><?=$count.'. '. $associate['full_name']?></td>
               <td style="text-align: center;"><?= $associate['number_of_subscribed_shares']?></td>
