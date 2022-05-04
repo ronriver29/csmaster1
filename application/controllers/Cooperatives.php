@@ -294,11 +294,11 @@
                   $regions = '';
                 }
 
-                if($_POST[$this->input->post('is_youth')] == 1){
-                  $is_youth = 1;
-                } else {
-                  $is_youth = 1;
-                }
+                // if($_POST[$this->input->post('is_youth')] == 1){
+                //   $is_youth = 1;
+                // } else {
+                //   $is_youth = 1;
+                // }
 
                 $field_data = array(
                   'users_id' => $this->session->userdata('user_id'),
@@ -317,7 +317,7 @@
                   'street' => $this->input->post('streetName'),
                   'house_blk_no' => $this->input->post('blkNo'),
                   'status' => '1',
-                  'is_youth' => $is_youth,
+                  // 'is_youth' => $is_youth,
                   'created_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
                   'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
                   'expire_at' =>  date('Y-m-d h:i:s',(now('Asia/Manila')+(4*24*60*60)))
@@ -730,11 +730,11 @@
                       $regions = '';
                     }
                     
-                    if($_POST[$this->input->post('is_youth')] == 1){
-                      $is_youth = 1;
-                    } else {
-                      $is_youth = 1;
-                    }
+                    // if($_POST[$this->input->post('is_youth')] == 1){
+                    //   $is_youth = 1;
+                    // } else {
+                    //   $is_youth = 1;
+                    // }
 
                     $field_data = array(
                       'users_id' => $this->session->userdata('user_id'),
@@ -750,7 +750,7 @@
                       'refbrgy_brgyCode' => $this->input->post('barangay'),
                       'interregional' => $interregional,
                       'regions' => $regions,
-                      'is_youth' => $is_youth,
+                      // 'is_youth' => $is_youth,
                       'street' => $this->input->post('streetName'),
                       'house_blk_no' => $this->input->post('blkNo')
                     );
