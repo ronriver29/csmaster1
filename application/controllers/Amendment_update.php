@@ -813,7 +813,7 @@ class Amendment_update extends CI_Controller{
                    $admin_user_id = $this->session->userdata('user_id');
                   $user_id = $this->amendment_update_model->user_info_by_amendment_id($decoded_id)->users_id;
                   // echo $this->db->last_query();
-                  $data['client_info'] = $this->user_model->get_user_info($user_id); 
+                 
                   // $this->debug($data['client_info']);
                   $data['members_composition'] = $this->amendment_update_model->get_coop_composition($decoded_id);
                   $data['title'] = 'Update Cooperative Details';
@@ -821,8 +821,9 @@ class Amendment_update extends CI_Controller{
                   $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
                   $data['coop_info'] = $this->amendment_update_model->get_coop_info2($decoded_id);
                   $data['coop_info2'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$decoded_id);
+                  $data['client_info'] = $this->user_model->get_user_info($data['coop_info2']->users_id); 
                   $data['name_of_coop_primary'] = $this->amendment_update_model->name_coop_primary($data['client_info']->regno);
-
+                   
                   $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
                   $coopTypeName= $data['coop_info']->type_of_cooperative;
                   $typeName_arr = explode(',',$coopTypeName);
@@ -950,7 +951,7 @@ class Amendment_update extends CI_Controller{
                     $data['regions_island_list'] = $this->region_model->get_selected_islands($data['coop_info']->interregional);
 
                   }
-               
+                  // $this->debug($data['coop_info2']);
                   if(strlen($data['client_info']->regno) ==0)
                   {
                      $data['regNo'] =$this->amendment_update_model->load_regNo($user_id);
