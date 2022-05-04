@@ -159,7 +159,7 @@
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#resetPasswordModal" data-fname="<?= $users['first_name'].' '.$users['last_name'].' '.$users['middle_name']?>" data-adid="<?= encrypt_custom($this->encryption->encrypt($users['id']))?>"><i class="fas fa-edit"></i> Reset Password</button>
                         <!-- <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editRegDateStatusModal" data-fname="<?= $users['first_name'].' '.$users['last_name'].' '.$users['middle_name']?>" data-regno="<?= $users['regno']?>" data-adid="<?= encrypt_custom($this->encryption->encrypt($users['application_id']))?>"><i class="fas fa-edit"></i> Edit</button> -->
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAdministratorModal" data-fname="<?= $users['first_name'].' '.$users['last_name'].' '.$users['middle_name']?>" data-adid="<?= encrypt_custom($this->encryption->encrypt($users['id']))?>"><i class='fas fa-trash'></i> Delete</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAdministratorModal" data-fname="<?= $users['first_name'].' '.$users['last_name'].' '.$users['middle_name']?>" data-email="<?=$users['email']?>" data-regno="<?= $users['regno'];?>" data-adid="<?= encrypt_custom($this->encryption->encrypt($users['id']))?>"><i class='fas fa-trash'></i> Delete</button>
                     </div>
                   </td>
                   <td>
