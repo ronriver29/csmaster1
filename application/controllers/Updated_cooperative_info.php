@@ -31,10 +31,24 @@
 
               // Head Office
                 // $data['list_cooperatives_registered'] = $this->cooperatives_update_model->get_all_cooperatives_registration_ho($data['admin_info']->region_code);
+                $data['list_cooperatives'] = '';
+                
                 if($this->input->post('submit')) {
                   $coopname = $this->input->post('coopname');
                   $limit = $this->input->post('limit');
 
+                  $array =array(
+                  'url'=>base_url()."updated_cooperative_info",
+                  'total_rows'=>$this->cooperatives_update_model->get_all_updated_coop_info_count($data['admin_info']->region_code,$coopname),
+                  'per_page'=>$config['per_page']=4,
+                  'url_segment'=>2
+                  );
+                  if(isset($_GET['per_page'])){
+                    $per_page = $_GET['per_page'];
+                  } else {
+                    $per_page = 0;
+                  }
+                  $data['links']=$this->paginate($array);
                   $data['list_cooperatives'] = $this->cooperatives_update_model->get_all_updated_coop_info_ho2($data['admin_info']->region_code,$coopname,$limit);
                 }
                 // $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
