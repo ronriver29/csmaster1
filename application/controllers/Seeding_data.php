@@ -127,7 +127,7 @@ class Seeding_data extends CI_Controller{
       "addrCode" => "13",
       "compliant" => "Non-Compliant: Issued with Not",
       "qr_code" => NULL,
-      "application_id" => 50664,
+      "application_id" => 50674,
       "amendment_id" => NULL,
       "migrated" => 0,
     );
