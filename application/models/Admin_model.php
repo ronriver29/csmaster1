@@ -94,7 +94,7 @@ class Admin_model extends CI_Model{
     $this->db->select('u.*, rc.regNo as registered_no');
     $this->db->from('users u');
     $this->db->join('cooperatives c','u.id = c.users_id','LEFT');
-    $this->db->join('registeredcoop rc','c.users_id = rc.application_id','LEFT');
+    $this->db->join('registeredcoop rc','c.id = rc.application_id','LEFT');
     $this->db->where('u.is_verified = 1 AND (u.regno IS NULL OR u.regno = "")'.$and_where);
     $query = $this->db->get();
     return $query->result_array();
