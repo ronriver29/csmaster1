@@ -30,20 +30,6 @@ class User_model extends CI_Model{
     $row = $query->row();
     return $row;
   }
-  public function add_user_signup($data){
-    $data = $this->security->xss_clean($data);
-    $this->db->trans_begin();
-    $this->db->insert('users',$data);
-    
-    $this->db->trans_commit();
-
-    if($this->db->trans_status() === FALSE){
-      $this->db->trans_rollback();
-      return false;
-    }
-    $this->db->trans_commit();
-    return true;
-  }
   public function add_user($data){
     $data = $this->security->xss_clean($data);
     $this->db->trans_begin();
@@ -63,7 +49,7 @@ class User_model extends CI_Model{
 
     
     
-    $new_user_data =array('users_id'=> $user_last_id);
+    $new_user_data =array('users_id'=>$this->get_user_id_by_reg($new_user_regNo));
     $this->db->where(array('id'=>$row->coop_id));
     $this->db->update('cooperatives',$new_user_data);
 
@@ -78,6 +64,20 @@ class User_model extends CI_Model{
     }
     $this->db->trans_commit();
     return true;
+  }
+  public function get_user_id_by_reg($regNo)
+  {
+    $data =0;
+    $query = $this->db->query("select id from users where regNo='$regNo' order by id desc limit 1");
+    if($query->num_rows()==1)
+    {
+      foreach($query->result_array() as $row)
+      {
+        $data = $row['id'];
+      }
+    }
+    unset($query);
+    return $data;
   }
   //send confirm mail
   public function sendEmail($receiver,$hash){
@@ -99,6 +99,13 @@ class User_model extends CI_Model{
       }else{
           return false;
       }
+  }
+  public function get_search_reg($regno){
+    $this->db->select('*');
+    $this->db->from('registeredcoop');
+    $this->db->where(array('regNo'=>$regno));
+    $query = $this->db->get();
+    return $query->row();
   }
   //activate account
   public function sendEmailCreateNewEmail($receiver,$hash,$full_name,$newnamearray,$AdminEmail,$regNo,$region,$email){
