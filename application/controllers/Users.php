@@ -250,7 +250,7 @@ class Users extends CI_Controller{
         $data['search_registered_coop'] = $this->user_model->get_search_reg($reg_no);
 
         $this->load->view('./template/header', $data);
-        $this->load->view('client/search_reg_no');
+        // $this->load->view('client/search_reg_no');
         $this->load->view('client/create_new_email_account', $data);
         $this->load->view('./template/footer');
     } else {
