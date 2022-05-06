@@ -15,9 +15,10 @@
               <input type="hidden" class="validate[required]" id="admin-name" name="name">
               <input type="hidden" class="validate[required]" id="admin-email-text" name="email">
               <input type="hidden" class="validate[required]" id="admin-regno-text" name="regno">
+              <input type="hidden" class="validate[required]" id="admin-stats-text" name="stats">
               <div class="alert alert-warning" role="alert">
                 <strong><b>Warning:</b></strong>
-                <p>All <strong class="admin-name-text">test</strong>'s data will be delete. There is no way to recover this.</p>
+                <p>All <strong class="admin-name-text">test</strong>'s <strong class="admin-message-text">test</strong> <!-- data will be delete. There is no way to recover this. --></p>
               </div>
             </div>
             <div class="modal-footer deleteAdministratorFooter">

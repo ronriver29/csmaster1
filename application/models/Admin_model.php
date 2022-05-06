@@ -126,7 +126,7 @@ class Admin_model extends CI_Model{
        }
 
     $this->db->limit($limit);
-    $this->db->select('u.*,c.id as application_id');
+    $this->db->select('u.*,c.id as application_id,c.status');
     $this->db->from('users u');
     $this->db->join('cooperatives c','u.id = c.users_id','left');
     $this->db->where('u.is_verified = 1 AND u.regno IS NOT NULL '.$and_where);

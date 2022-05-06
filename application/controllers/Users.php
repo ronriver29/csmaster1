@@ -96,7 +96,7 @@ class Users extends CI_Controller{
         );
           // print_r($data);
           $data = $this->security->xss_clean($data);
-          if($this->user_model->add_user_signup($data)){
+          if($this->user_model->add_user($data)){
             if($this->user_model->sendEmail($data['email'],$data['hash'])){
               $this->session->set_flashdata(array('email_sent_success'=>'Your account has been created.</br> Please check your email to verify your account.'));
               redirect('users/login');
@@ -227,7 +227,37 @@ class Users extends CI_Controller{
       // }
     }
   }
+  public function search_reg_no(){
+    if($this->input->post('SearchBtn')){
+      $reg_no = $this->input->post('search_regno');
+      // echo $reg_no;
 
+      $data['title'] = 'Sign Up';
+      $data['header'] = '';
+      // if ($this->form_validation->run() == FALSE){
+        //get id list
+        $id_query = $this->db->get('id_list');
+        if($id_query->num_rows()>0)
+        {
+          $data['list_id'] = $id_query->result_array();
+        }
+        else
+        {
+          $data['list_id'] = NULL;
+        }
+        $data['regions_list'] = $this->region_model->get_regions();
+
+        $data['search_registered_coop'] = $this->user_model->get_search_reg($reg_no);
+
+        $this->load->view('./template/header', $data);
+        $this->load->view('client/search_reg_no');
+        $this->load->view('client/create_new_email_account', $data);
+        $this->load->view('./template/footer');
+    } else {
+      $this->create_new_email_account();
+    }
+        
+  }
   public function create_new_email_account()
   {
     if($this->session->userdata('logged_in')){
@@ -248,7 +278,7 @@ class Users extends CI_Controller{
         }
         $data['regions_list'] = $this->region_model->get_regions();
         $this->load->view('./template/header', $data);
-        // $this->load->view('client/options');
+        $this->load->view('client/search_reg_no');
         $this->load->view('client/create_new_email_account', $data);
         $this->load->view('./template/footer');
       // }else{

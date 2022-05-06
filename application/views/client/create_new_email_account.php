@@ -9,6 +9,51 @@
 <?php
   // echo substr("175210012", 0, 2);
 ?>
+<div class="card mb-4 border-top-blue">
+  <div><center><h2>Search</h2></center></div>
+<?php echo form_open('users/search_reg_no', 'name="signUpForm" id="signUpForm" enctype="multipart/form-data"');?>  
+  <div class="row">
+    <div class="col">
+      <div class="col-sm-12">
+        <div class="form-group form-group-fName">
+          <label for="RegNo">Registered number:</label>
+          <input type="text" class="form-control" id="search_regno" name="search_regno" value="<?php if(isset($search_registered_coop->regNo)) { echo $search_registered_coop->regNo; }?>">
+        </div>
+      </div>
+      <div class="col-sm-12">
+        <input class="btn btn-color-blue btn-block" type="submit" id="SearchBtn" name="SearchBtn" value="Search">
+      </div><br>
+    </div>
+  </div>
+  <?php echo form_close(); ?> 
+  <?php if(isset($search_registered_coop->regNo)) { ?>
+    <center>
+    <div class="col-sm-12">
+      <div class="form-group form-group-fName">
+        <label for="RegNo"><u><h3>Result</h3></u></label>
+        <!-- <input type="text" class="form-control" id="coopname" name="coopname"> -->
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="form-group form-group-fName">
+        <label for="RegNo">Registered Number:</label><br>
+        <b><?=$search_registered_coop->regNo;?></b><br>
+        <label for="RegNo">Cooperative Name:</label><br>
+        <b><?=$search_registered_coop->coopName;?></b>
+        
+        <!-- <input type="text" class="form-control" id="coopname" name="coopname"> -->
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <a href="<?=base_url()?>users/create_new_email_account?reg_no=<?=$search_registered_coop->regNo;?>&coopName=<?=$search_registered_coop->coopName;?>" class="btn btn-color-blue btn-block" type="submit" id="SearchBtn" name="SearchBtn" value="Apply">Apply</a>
+    </div><br>
+    </center>
+  <?php } ?>
+</div>
+<?php // echo print_r($search_registered_coop);?>
+
+
+
 <div class="row">
   <div class="col">
     <div class="card mb-4 border-top-blue">
@@ -50,14 +95,14 @@
             <div class="col-sm-12 col-md-4">
               <div class="form-group form-group-fName">
                 <label for="RegNo">Registered number:</label>
-                <input type="text" class="form-control" id="regno" name="regno">
+                <input type="text" class="form-control" id="regno" name="regno" readonly="" value="<?php if(isset($_GET['reg_no'])){ echo $_GET['reg_no']; }?>">
               </div>
             </div>
 
             <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label for="coopName">Cooperative Name:</label>
-                <input type="text" class="form-control" id="coopname" name="coopname" disabled="">
+                <input type="text" class="form-control" id="coopname" name="coopname" disabled="" value="<?php if(isset($_GET['coopName'])){ echo $_GET['coopName']; }?>">
               </div>
             </div>
 

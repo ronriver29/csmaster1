@@ -347,7 +347,25 @@ $('#addAffiliatorModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body #regno').val(regno);
   modal.find('.modal-body #regid').val(regid);
 });
-
+$('#addAffiliatorModalamd').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var full_name = button.data('fname');
+  var amd_union_id = button.data('amd_union_id');
+  var types = button.data('types');
+  var amendment_id = button.data('amendment_id');
+  var application_id = button.data('coopid');
+  var regno = button.data('regno');
+  var regid = button.data('reg_id');
+  var modal = $(this);
+  modal.find('.modal-body #amd_union_id').val(amd_union_id);
+  modal.find('.modal-body #types').val(types);
+  modal.find('.modal-body #cooperativeID').val(application_id);
+  modal.find('.modal-body #amendment_id').val(amendment_id);
+  modal.find('.modal-body #coopname').val(full_name);
+  modal.find('.modal-body .cooperator-name-text').text(full_name);
+  modal.find('.modal-body #regno').val(regno);
+  modal.find('.modal-body #regid').val(regid);
+});
 $('#addAffiliatorModalcoop').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget);
   var full_name = button.data('fname');
@@ -495,6 +513,43 @@ $('#fullInfoRegisteredModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body .brgy').text(brgy);
   modal.find('.modal-body .type').text(type);
 });
+
+$('#fullInfoRegisteredModalamd').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var full_name = button.data('fname');
+  var placeissuance = button.data('placeissuance');
+  var regno = button.data('regno');
+  var business_activity = button.data('business_activity');
+  var business_activity_sub = button.data('business_activity_sub');
+  var common_bond_membership = button.data('common_bond_membership');
+  var house_blk_no = button.data('house_blk_no');
+  var street = button.data('street');
+  var region = button.data('region');
+  var city = button.data('city');
+  var province = button.data('province');
+  var brgy = button.data('brgy');
+  var type = button.data('type');
+  var type_arr = type.split(',');
+  if((type_arr).length > 1)
+  {
+    type = 'Multipurpose';
+  }
+  var modal = $(this);
+  modal.find('.modal-body .fname').text(full_name);
+  modal.find('.modal-body .place-issuance').text(placeissuance);
+  modal.find('.modal-body .regno').text(regno);
+  modal.find('.modal-body .business_activity').text(business_activity);
+  modal.find('.modal-body .business_activity_sub').text(business_activity_sub);
+  modal.find('.modal-body .common_bond_membership').text(common_bond_membership);
+  modal.find('.modal-body .house_blk_no').text(house_blk_no);
+  modal.find('.modal-body .street').text(street);
+  modal.find('.modal-body .region').text(region);
+  modal.find('.modal-body .city').text(city);
+  modal.find('.modal-body .province').text(province);
+  modal.find('.modal-body .brgy').text(brgy);
+  modal.find('.modal-body .type').text(type);
+});
+
 $('#fullInfoCooperatorModal').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget);
   var full_name = button.data('fname');
@@ -2396,12 +2451,24 @@ $('#editStaffForm #position').on('change', function(){
     var email_add = button.data('email');
     var reg_no = button.data('regno');
     var adid = button.data('adid');
+    var stats = button.data('status');
     var modal = $(this)
     modal.find('.modal-body #adminID').val(adid);
     modal.find('.modal-body #admin-name').val(full_name);
     modal.find('.modal-body .admin-name-text').text(full_name);
     modal.find('.modal-body #admin-email-text').val(email_add);
     modal.find('.modal-body #admin-regno-text').val(reg_no);
+    modal.find('.modal-body #admin-stats-text').val(stats);
+
+    // alert(stats);
+    if(stats == 39){
+      $("#deleteAdministratorForm #deleteAdministratorBtn").hide();
+      modal.find('.modal-body .admin-message-text').text("data can't be deleted. Updated information already approved/Submitted under this user.");
+
+    } else {
+      $("#deleteAdministratorForm #deleteAdministratorBtn").show();
+      modal.find('.modal-body .admin-message-text').text("data will be delete. There is no way to recover this.");
+    }
   });
   $("#deleteAdministratorForm").validationEngine('attach',
       {promptPosition: 'inline',
