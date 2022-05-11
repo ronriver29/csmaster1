@@ -266,4 +266,15 @@ e. ".$email."<br>
     }
   }
 
+  public function get_all_users()
+  {
+    $data=null;
+    $query = $this->db->query("select id,email,regno from users");
+    if($query->num_rows()>0)
+    {
+      $data = $query->result();
+      unset($query);
+    }
+    return $data;
+  }
 }
