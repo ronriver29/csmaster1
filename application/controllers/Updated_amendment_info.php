@@ -7,52 +7,77 @@
     {
       parent::__construct();
       //Codeigniter : Write Less Do More
+       $this->load->library('pagination');
     }
+
+    public $coopName='';
+    public $regNo='';
     public function index(){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
+       
+          $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
 
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
-        
             $data['title'] = 'Updated Amendment Information';
             $data['header'] = 'Updated Amendment Information';
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-            if($data['admin_info']->access_level ==6)
-            {
-                $data['admin_region_code'] = $data['admin_info']->region_code;
-                if($data['admin_info']->region_code =='00')
-                {
-                   $data['list_cooperatives_registered'] = $this->amendment_update_model->get_all_registered_amendment_ho('00'); 
-                  $data['list_cooperatives'] = $this->amendment_update_model->get_all_updated_coop_info_ho($data['admin_info']->region_code);
-                  $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
-                }
-                else
-                {
-                  $data['list_cooperatives_registered'] = $this->amendment_update_model->get_all_registered_amendment($data['admin_info']->region_code); 
-                  // echo $this->db->last_query()
-                   $data['list_cooperatives_registered_ho'] = $this->amendment_update_model->get_all_updated_registered_coop_ho();
-                  $data['list_cooperatives'] = $this->amendment_update_model->get_all_updated_coop_info($data['admin_info']->region_code);
-                  // echo $this->db->last_query();
-                  $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
-                }
+ 
+                $this->benchmark->mark('code_start');
                   
-                  // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
-              // $this->debug($data['admin_info']);
-              $this->load->view('templates/admin_header', $data);
-              $this->load->view('applications/list_of_updated_amendment_info', $data);
-              $this->load->view('applications/assign_admin_modal');
-              $this->load->view('templates/admin_footer');
-            }
-            else
-            {
-              echo"Unauthorized!";
-            }
-            
+                 if(isset($_POST['btn-filter']))
+                 {
+                  $this->coopName = $this->input->post('coopName');
+                  $this->regNo=$this->input->post('regNo');
+                 }
+                  $array =array(
+                  'url'=>base_url()."updated_amendment_info",
+                  'total_rows'=>$this->amendment_update_model->get_all_submitted_coop_count($data['admin_info']->region_code,$this->coopName,$this->regNo),
+                  'per_page'=>$config['per_page']=5,
+                  'url_segment'=>2
+                  );
+                  
+                 $data['links']=$this->paginate($array);
+                 $data['list_cooperatives']=$this->amendment_update_model->get_all_updated_coop_info($data['admin_info']->region_code,$config['per_page'],$page,$this->coopName,$this->regNo); 
+                $this->benchmark->mark('code_end');
+              // }
+            $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage());
+            $this->load->view('templates/admin_header', $data);
+            $this->load->view('applications/list_of_updated_amendment_info', $data);
+            $this->load->view('applications/assign_admin_modal');
+            $this->load->view('templates/admin_footer');
            }
       }
 
+  public function registered_updated()
+  {
+    $data['title'] = 'Registered Updated Amendment Information';
+    $data['header'] = 'Registered Updated Amendment Information';
+    $user_id = $this->session->userdata('user_id');
+    $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+    $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
+    if(isset($_POST['btn-filter']))
+    {
+    $this->coopName = $this->input->post('coopName');
+    $this->regNo=$this->input->post('regNo');
+    }
+    $array =array(
+    'url'=>base_url()."registered_updated",
+    'total_rows'=>$this->amendment_update_model->get_all_registered_amendment_count($data['admin_info']->region_code,$this->coopName,$this->regNo),
+    'per_page'=>$config['per_page']=5,
+    'url_segment'=>2
+    );
+    $data['links']=$this->paginate($array);
+    $data['list_cooperatives_registered'] = $this->amendment_update_model->get_all_registered_amendment($data['admin_info']->region_code,$config['per_page'],$page,$this->coopName,$this->regNo); 
+
+    // echo $this->db->last_query();
+    $this->load->view('templates/admin_header', $data);
+    $this->load->view('applications/list_updated_registered_amendment', $data);
+    $this->load->view('applications/assign_admin_modal');
+    $this->load->view('templates/admin_footer');
+  }    
     public function view($id = null){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
@@ -170,6 +195,39 @@
           redirect('account_approval');
         }
       
+    }
+
+    public function paginate($array)
+    {
+      // $result =null;
+        $config["base_url"] = $array['url'];
+        $config["total_rows"] =$array['total_rows'];
+        $config["per_page"] = $array['per_page'];
+        $config["uri_segment"] = $array['url_segment'];
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+        $config['first_link'] = 'First';
+        $config['last_link'] = 'Last';
+        $config['first_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['first_tag_close'] = '</span></li>';
+        $config['prev_link'] = '&laquo';
+        $config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['prev_tag_close'] = '</span></li>';
+        $config['next_link'] = '&raquo';
+        $config['next_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['next_tag_close'] = '</span></li>';
+        $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['last_tag_close'] = '</span></li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close'] = '</span></li>';
+        $this->pagination->initialize($config);
+        
+       
+       
+        $links = $this->pagination->create_links();
+        return $links;
     }
 
     public function debug($array)

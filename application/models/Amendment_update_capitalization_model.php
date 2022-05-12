@@ -1,3 +1,4 @@
+
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -6,12 +7,19 @@ class Amendment_update_capitalization_model extends CI_Model{
   public function __construct()
   {
     parent::__construct();
+    //Codeigniter : Write Less Do More
+//    $this->load->database();
   }
   public function get_capitalization_by_coop_id($coop_id,$amendment_id){
     $data_coop_id = $this->security->xss_clean($coop_id);
      $data_amendment_id = $this->security->xss_clean($amendment_id);
+     $data =null;
     $query = $this->db->get_where('amendment_capitalization',array('cooperatives_id'=>$data_coop_id,'amendment_id'=>$data_amendment_id));
-    return $query->row();
+    if($query->num_rows()>0)
+    {
+      $data = $query->row();
+    }
+    return $data;
   }
   public function amend_get_capitalization_by_coop_id($coop_id){
     $data = $this->security->xss_clean($coop_id);

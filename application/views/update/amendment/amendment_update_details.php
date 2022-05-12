@@ -557,27 +557,29 @@ $region='';
         <p class="text-muted">
          
            <?php 
-           $count_type =explode(',',$coop_info->type_of_cooperative);
-           if(strlen($coop_info->acronym)>0)
-           {
-              $acronym_ = '('.$coop_info->acronym.')';
-           }
-           else
-           {
-            $acronym_='';
-           }
-            if(count($count_type)>1)
-            {
-              $proposedName_ = $coop_info->proposed_name.' Multipurpose Cooperative '.$coop_info->grouping.' '.$acronym_ ;
-            }
-            else
-            {
-               $proposedName_ = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping.' '.$acronym_;
-            }
-           $proposedName_ ;// = $coop_info->coopName;
+           // $count_type =explode(',',$coop_info->type_of_cooperative);
+           // if(strlen($coop_info->acronym)>0)
+           // {
+           //    $acronym_ = '('.$coop_info->acronym.')';
+           // }
+           // else
+           // {
+           //  $acronym_='';
+           // }
+           //  if(count($count_type)>1)
+           //  {
+           //    $proposedName_ = $coop_info->proposed_name.' Multipurpose Cooperative '.$coop_info->grouping.' '.$acronym_ ;
+           //  }
+           //  else
+           //  {
+           //     $proposedName_ = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping.' '.$acronym_;
+           //  }
+           // $proposedName_ ;// = $coop_info->coopName;
+           echo $coop_info->coopName;
            ?>
     
-           <?= $proposedName_ ?>
+         
+
         </p>
         <hr>
         <strong>Category of Cooperative</strong>
@@ -600,6 +602,7 @@ $region='';
           ?>
         </p>
         <hr>
+        <?php if($coop_info->grouping!='Union'){?>
         <strong>Business Activities - Subclass</strong>
         <p class="text-muted">
           <?php
@@ -612,6 +615,7 @@ $region='';
          <?php }?>
         </p>
         <hr>
+      <?php }?>
         <strong>Common Bond of Membership</strong>
         <p class="text-muted"> <?=$coop_info->common_bond_of_membership?></p>
          <hr>
@@ -763,14 +767,14 @@ $region='';
 
           <small class="text-muted">
             <?php  if($is_update_cooperative): ?>
-         <!--  <small class="text-muted">
+          <small class="text-muted">
             <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/bylaw_update" class="btn btn-info btn-sm">View </a>
-          </small> -->
+          </small>
         <?php endif; ?>
           </small>
         
       </li>
-      
+       <?php if($coop_info->grouping !=='Union') :?>
       <li class="list-group-item  flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1 font-weight-bold">Additional Information: Capitalization</h5>
@@ -783,16 +787,34 @@ $region='';
             <?php endif; ?>
           </small>
         </div>
-        <?php /* if($coop_info->status!= 0): ?>
+        <?php  if($coop_info->status!= 0): ?>
           <small class="text-muted">
-            <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_capitalization" class="btn btn-info btn-sm">View</a>
+            <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/capitalization" class="btn btn-info btn-sm">View</a>
           </small>
-        <?php endif; */?>
+        <?php endif; ?>
       </li>
-      
+      <?php endif; ?>  
       <li class="list-group-item  flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1 font-weight-bold">List of Cooperators</h5>
+           <?php 
+       
+          switch ($coop_info->grouping) {
+            case 'Union':
+                 $module = 'Members';
+                 $moduleUrl = 'union_update';
+              break;
+            case 'Federation':
+                   $module = 'Members';
+                 $moduleUrl = 'update_affiliators';
+            break;
+            default:
+                 $module ='Cooperators';
+                 $moduleUrl ='amendment_cooperators';
+              break;
+          }
+          ?>
+          <h5 class="mb-1 font-weight-bold">List of <?=$module?></h5>
+          <!-- <h5 class="mb-1 font-weight-bold">List of Cooperators</h5> -->
           <small class="text-muted">
             <?php if($cooperator_complete): ?>
               <span class="badge badge-success">COMPLETE</span>
@@ -802,12 +824,15 @@ $region='';
             <?php endif; ?>
           </small>
         </div>
-        <?php /* if($coop_info->status!= 0 && $bylaw_complete): ?>
-        <small class="text-muted">
-          <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_cooperators" class="btn btn-info btn-sm">View</a>
-        </small>
-      <?php endif */?>
-      </li>
+
+
+       
+         
+           <small class="text-muted">
+            <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/<?=$moduleUrl?>" class="btn btn-info btn-sm">View</a>
+          </small> 
+        </li>
+  
       <li class="list-group-item  flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1 font-weight-bold">Cooperative's Purposes</h5>
@@ -820,11 +845,11 @@ $region='';
             <?php endif; ?>
           </small>
         </div>
-        <?php /*if($coop_info->status!= 0 && $bylaw_complete && $cooperator_complete): ?>
+      
         <small class="text-muted">
-          <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_purposes" class="btn btn-info btn-sm">View</a>
-        </small>
-      <?php endif */?>
+            <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/purposes" class="btn btn-info btn-sm">View</a>
+          </small> 
+    
       </li>
       <li class="list-group-item  flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
@@ -838,11 +863,9 @@ $region='';
             <?php endif; ?>
           </small>
         </div>
-      <!--   <?php if($is_update_cooperative): ?>
-        <small class="text-muted">
-          <a href="<?php echo base_url();?>amendment/<?= $encrypted_id?>/articles_primary" class="btn btn-info btn-sm">View</a>
-        </small>
-      <?php endif ?> -->
+     <small class="text-muted">
+            <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/articles_update" class="btn btn-info btn-sm">View</a>
+          </small> 
       </li>
       <li class="list-group-item  flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
@@ -856,11 +879,9 @@ $region='';
             <?php endif; ?>
           </small>
         </div>
-        <?php /*if($coop_info->status!= 0 && $bylaw_complete && $article_complete && $cooperator_complete && $purposes_complete): ?>
         <small class="text-muted">
-          <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_committees" class="btn btn-info btn-sm">View</a>
-        </small>
-      <?php endif */?>
+            <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/committees_update" class="btn btn-info btn-sm">View</a>
+          </small> 
       </li>
     
       <li class="list-group-item  flex-column align-items-start">
@@ -876,11 +897,7 @@ $region='';
           <?php endif;?>
           </small>
         </div>
-        <?php /*if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete): ?>
-          <small class="text-muted">
-            <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_documents" class="btn btn-info btn-sm">View</a>
-          </small>
-        <?php endif */?>
+         <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/amendment_documents" class="btn btn-info btn-sm">View</a>
       </li> 
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
@@ -1009,13 +1026,14 @@ $region='';
             </small>
           </div>
           <p class="mb-1 font-italic">Additional Information: By Laws</p>
-    <!--    <small class="text-muted">
+       <small class="text-muted">
             <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/bylaw_update" class="btn btn-info btn-sm">View </a>
-          </small>  -->
+          </small>  
         </li>
    
 
-   
+      <?php if($coop_info->grouping !=='Union') :?>
+         
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 font-weight-bold"> Step 3 </h5>
@@ -1030,11 +1048,12 @@ $region='';
           </div>
           <p class="mb-1 font-italic">Capitalization</p>
      
-      <!--    <small class="text-muted">
+          <small class="text-muted">
            <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/capitalization" class="btn btn-info btn-sm">View </a> 
-          </small> -->
+          </small> 
         </li>
-   
+     
+      <?php endif; ?>
    
         
         <li class="list-group-item  flex-column align-items-start">
@@ -1058,19 +1077,19 @@ $region='';
               break;
             case 'Federation':
                    $module = 'Members';
-                 $moduleUrl = 'affiliators_update';
+                 $moduleUrl = 'update_affiliators';
             break;
             default:
                  $module ='Cooperators';
-                 $moduleUrl ='cooperators';
+                 $moduleUrl ='amendment_cooperators';
               break;
           }
           ?>
           <p class="mb-1 font-italic">List of <?=$module?></p>
          
-        <!--    <small class="text-muted">
+           <small class="text-muted">
             <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/<?=$moduleUrl?>" class="btn btn-info btn-sm">View</a>
-          </small>  --> 
+          </small> 
         </li>
   
    
@@ -1088,10 +1107,10 @@ $region='';
             </small>
           </div>
           <p class="mb-1 font-italic">Cooperative's Purposes</p>
-        <?php /*
+        
           <small class="text-muted">
-            <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/amendment_purposes" class="btn btn-info btn-sm">View</a>
-          </small> */ ?>
+            <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/purposes" class="btn btn-info btn-sm">View</a>
+          </small> 
         </li>
 
         <li class="list-group-item  flex-column align-items-start">
@@ -1108,9 +1127,9 @@ $region='';
           </div>
           <p class="mb-1 font-italic">Additional Information: Articles of Cooperation</p>
         
-       <!--    <small class="text-muted">
+          <small class="text-muted">
             <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/articles_update" class="btn btn-info btn-sm">View</a>
-          </small>  -->
+          </small>  
        
         </li>
         <li class="list-group-item  flex-column align-items-start">
@@ -1126,9 +1145,9 @@ $region='';
           </div>
           <p class="mb-1 font-italic">List of Committees</p>
         
-        <!--   <small class="text-muted">
+         <small class="text-muted">
             <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/committees_update" class="btn btn-info btn-sm">View</a>
-          </small> --> 
+          </small> 
        
         </li>
     
@@ -1174,10 +1193,10 @@ $region='';
             Uploaded documents
             <?php endif;?>
           </p>
-        <?php /*
+       
             <small class="text-muted">
-              <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_documents" class="btn btn-info btn-sm">View</a>
-            </small> */?>
+              <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/amendment_documents" class="btn btn-info btn-sm">View</a>
+            </small>
           
         </li>
    

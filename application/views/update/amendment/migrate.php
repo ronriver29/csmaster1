@@ -66,15 +66,6 @@
                 </div>
               </div>
             </div> -->
-             <div class="row">
-              <div class="col-sm-12 col-md-6">
-                <div class="form-group">
-                  <label for="regNo">Users ID:</label>
-                  <input type="text" class="form-control validate[required]" name="user_id" id="regNo" >
-                </div>
-              </div>
-            </div>
-
             <div class="row">
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">

@@ -190,21 +190,30 @@ if(isset($bylaw_info))
               </div>
             <?php endif; ?>
             </div>
-          
-            <div class="row">
-              <div class="col-sm-12 col-md-12 col-industry-subclass">
-                <div class="row-cis">
+            
+            <?php 
+            $business_value = '';
+            if($coop['name']=='Union')
+            {
+              $business_value = 'none';
+            }
+           
+            ?>
+            <div class="row businesActivity-row" style="display:<?=$business_value?>;">
+              <div class="col-sm-12 col-md-12   col-industry-subclass">
+                <div class="row-cis" style="margin-bottom: 3px;">
 
                   
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-12 offset-md-9 col-md-3" style="margin-top:3px;">
+            <div class="row bussiness-btn" style="display:<?=$business_value?>;">
+              <div class="col-sm-12 offset-md-9 col-md-3">
                 <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreSubclassBtn"><i class="fas fa-plus"></i> Add More Business Activity</button>
               </div>
             </div> 
             
+
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group" style="margin-bottom: 0">
