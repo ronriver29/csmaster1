@@ -39,8 +39,8 @@
   </div>
 </div>
 <?php endif; ?>
-<div class="row mt-2 mb-4">
-  <?php if(($is_client && $is_update_cooperative && $coop_info->status ===15) || $this->session->userdata('access_level')==6):// if(($is_client && $coop_info->status<=1) || (!$is_client &&  $coop_info->status==3)): ?>
+<div class="row mt-2 mb-4"> 
+  <?php if(($is_client && $is_update_cooperative && $coop_info->status ==15) || $this->session->userdata('access_level')==6):// if(($is_client && $coop_info->status<=1) || (!$is_client &&  $coop_info->status==3)): ?>
     <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
       <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/amendment_purposes/edit" class="btn btn-color-blue btn-block" id="btnEditPurposes"><i class="fas fa-<?php echo (count(array_filter($contents)) > 0) ? "edit":"plus"?>"></i> <?php echo (count(array_filter($contents)) > 0) ? "Edit":"Add"?> Purposes</a>
     </div>
