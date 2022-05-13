@@ -305,7 +305,7 @@ if(isset($list_cooperators))
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
               <label for="placeIssuance">Place of Issuance: </label>
-              <textarea class="form-control validate[required]" style="resize: none;" id="placeIssuance" name="placeIssuance" rows="1"></textarea>
+              <textarea class="form-control " style="resize: none;" id="placeIssuance" name="placeIssuance" rows="1"></textarea>
             </div>
           </div>
         </div>
