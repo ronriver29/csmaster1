@@ -1116,7 +1116,7 @@ class Amendment_update extends CI_Controller{
                           ); 
                             // $this->debug($temp_purpose);
                         } 
-                        if($this->db->delete('amendment_purposes',array('amendment_id'=>$decoded_id)))
+                        if(!$this->amendment_update_model->check_purposes($decoded_id))
                         {
                           $this->db->insert_batch('amendment_purposes',$temp_purpose);
                         }
