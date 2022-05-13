@@ -1,6 +1,7 @@
 <?php
   defined('BASEPATH') OR exit('No direct script access allowed');
-
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Amendment_update extends CI_Controller{
  
     public function __construct()
@@ -234,7 +235,7 @@ class Amendment_update extends CI_Controller{
               $data['header'] = 'Amendment Information';
               $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
 
-              $data['coop_info'] = $this->amendment_update_model->get_coop_info2($decoded_id);
+              $data['coop_info'] = $this->amendment_update_model->get_coop_info2($decoded_id); echo $this->db->last_query();
               $data['coop_info2'] = $this->amendment_update_model->get_cooperative_info($coop_id,$decoded_id);
               $data['coop_info_primary'] = $this->cooperatives_model->get_cooperative_info_by_admin($coop_id);
 
@@ -414,8 +415,6 @@ class Amendment_update extends CI_Controller{
                     $data['orig_proposedName_formated'] = ltrim(rtrim($coop_info_orig->proposed_name)).' '.$coop_info_orig->type_of_cooperative.' Cooperative '.$acronym;
                   }
 
-                   // $data['acting_director'] = $this->admin_model->check_director_supervising($data['coop_info']->rCode);
-                  //end of download payment   
                   if($data['coop_info']->area_of_operation == 'Interregional'){
                     $data['regions_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
 
@@ -425,11 +424,6 @@ class Amendment_update extends CI_Controller{
                   $this->load->view('update/amendment/approve_amendment_modal',$data);
                   $this->load->view('update/amendment/amendment_update_details', $data);
                   $this->load->view('update/amendment/approve_amendment_modal',$data);
-                  // $this->load->view('cooperative/amendment_details', $data);
-                  // $this->load->view('amendment/evaluation/approve_modal_cooperative',$data);
-                  // $this->load->view('amendment/evaluation/deny_modal_cooperative',$data);
-                  //  $this->load->view('amendment/evaluation/revert_modal',$data);
-                  // $this->load->view('amendment/evaluation/defer_modal_cooperative',$data);
                   $this->load->view('templates/admin_footer');
             }
             else
@@ -751,7 +745,7 @@ class Amendment_update extends CI_Controller{
                      {
                         $bylaw_info_coop = $this->amendment_update_model->cooperative_by_laws($cooperative_id,$decoded_id);
                         if($bylaw_info_coop !=NULL)
-                        {  echo'ss';
+                        {  
                            unset($bylaw_info_coop['directors_term']);
                            if($this->db->insert('amendment_bylaws',$bylaw_info_coop))
                            {
@@ -780,7 +774,7 @@ class Amendment_update extends CI_Controller{
                           ); 
                             // $this->debug($temp_purpose);
                         } 
-                        if($this->db->delete('amendment_purposes',array('amendment_id'=>$decoded_id)))
+                        if(!$this->amendment_update_model->check_purposes($decoded_id))
                         {
                           $this->db->insert_batch('amendment_purposes',$temp_purpose);
                         }
@@ -1422,7 +1416,7 @@ class Amendment_update extends CI_Controller{
 
      public function list_of_majorindustry($cooperativetype_id)
     {
-      $cooperativetype_id = implode(',',$cooperativetype_id);
+    $cooperativetype_id = implode(',',$cooperativetype_id);
       // var_dump($cooperativetype_id);
       $qry = $this->db->query("select distinct major_industry_id from industry_subclass_by_coop_type where cooperative_type_id in(".$cooperativetype_id.")");
       if($qry->num_rows()>0)
@@ -1965,6 +1959,72 @@ class Amendment_update extends CI_Controller{
       echo json_encode($result);
     }
     
+    public function excel_()
+    {
+
+      $this->load->view('upload_excel');
+    }
+    public function importcptr()
+    {
+    if ($this->input->post('submit')) {
+   
+          $upload_file =  $_FILES['excel_file']['name'];
+          $extension = pathinfo($upload_file,PATHINFO_EXTENSION);
+
+          if($extension == 'xlsx')
+          {
+            $reader =new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+            $spreadsheet = $reader->load($_FILES['excel_file']['tmp_name']);
+            $sheetData = $spreadsheet->getActiveSheet()->toArray();
+            // echo '<pre>'; print_r($sheetData);
+            $sheetCount = count($sheetData);
+            // echo $sheetCount;
+            if($sheetCount>1)
+            {
+              for ($i=1; $i < $sheetCount; $i++) { 
+                // $amendment_id = $sheetData[$i][0];
+                $regNo= $sheetData[$i][0];
+                $dateRegistered= $sheetData[$i][1];
+                $category= $sheetData[$i][2];
+                $type= $sheetData[$i][3];
+                $coopName = $sheetData[$i][4];
+                // $comp_of_membership = $sheetData[$i][5];
+
+                $data_array[] =array(
+                  'regNo'=>$regNo,
+                  'dateRegistered'=> $dateRegistered,
+                  'category'=> $category,
+                  'type'=> $type,
+                  'coopName'=> $coopName,
+                  // 'comp_membership'=> $comp_of_membership,
+                 
+                );
+              }
+              
+            }
+            // $this->debug($data_array);
+            if($this->db->insert_batch('excel_table',$data_array))
+            {
+              echo'success';
+            }
+
+          }
+
+    }//end of submit
+    
+   } //end of public
+
+   public function update_registeredNo()
+   {
+    $query = $this->db->query("SELECT regNo from excel_table WHERE regNo NOT IN (SELECT regno FROM registeredcoop) limit 5");
+    if($query->num_rows()>0)
+    {
+      foreach($query->result() as $row)
+      {
+        echo $row->regNo.'<br>';
+      }
+    }
+   }
     public function debug($array)
     {
     	echo"<pre>";

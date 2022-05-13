@@ -1424,7 +1424,8 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15  order by amend_coop.
       //delete if not occupational
       $this->db->delete('amendment_members_composition_of_cooperative',array('amendment_id'=>$amendment_id));
     }
- 
+    
+
 
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
@@ -1435,6 +1436,16 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15  order by amend_coop.
     }
   }
 
+  public function check_purposes($amendment_id)
+  {
+    $data = false;
+    $check_purposes = $this->db->get_where('amendment_purposes',array('amendment_id'=>$amendment_id));
+    if($check_purposes->num_rows()==1)
+    {
+      $data =true;
+    }
+    return $data;
+  }
   public function check_has_bylaws($amendment_id)
   {
     $query = $this->db->get_where('amendment_bylaws',array('amendment_id'=>$amendment_id));
