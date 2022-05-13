@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 | This route indicates which controller class should be loaded if the
 | URI contains no data. In the above example, the "welcome" class
-| would be loaded.
+| would be loaded. 
 |
 |	$route['404_override'] = 'errors/page_missing';
 |
@@ -51,7 +51,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //$route['default_controller'] = 'cooperatives';
 //$route['default_controller'] = 'welcome';
 $route['default_controller'] = 'users/index';
-$route['amendment_update/replicate'] = 'amendment_update/replicate';
+// $route['amendment_update/replicate'] = 'amendment_update/replicate';
+// $route['amendment_update/update_registeredNo'] = 'amendment_update/update_registeredNo';
 $route['amendment_update/authorized_user_submission'] = 'amendment_update/authorized_user_submission';
 	$route['amendment_update/seed_data'] = 'amendment_update/seed_data';
 
@@ -71,6 +72,7 @@ $route['branches/deny_branch'] = 'branches/deny_branch';
 $route['branches/defer_branch'] = 'branches/defer_branch';
 $route['branches/approve_branch'] = 'branches/approve_branch';
 $route['branches/(:any)'] = 'branches/view/$1';
+$route['branches/(:any)/bns_closure'] = 'bns_closure/index/$1';
 $route['branches/(:any)/cooperative_tool/branch']='cooperative_tool/branch/$1';
 $route['branches/(:any)/bupdate']  =  'branches/bupdate/$1';
 $route['branches/(:any)/composition'] = 'branches/composition';
@@ -78,6 +80,16 @@ $route['branches/delete_branches'] = 'branches/delete_branches';
 $route['branches/business_activity/(:any)'] = 'branches/business_activity/$1';
 $route['branches/(:any)/business_activity/(:any)'] = 'branches/business_activity/$2/$1';
 $route['branches/coop_info/(:any)'] = 'branches/coop_info/$1';
+
+$route['for_closure/approve_branch'] = 'for_closure/approve_branch';
+$route['branches/(:any)/documents_closure'] = 'documents_closure/branch/$1';
+$route['branches/(:any)/documents_closure_submission'] = 'documents_closure_submission/branch/$1';
+$route['branches/(:any)/documents_closure/upload_document_letter_of_intent'] = 'documents_closure/upload_document_letter_of_intent/$1';
+$route['bns_closure/(:any)/evaluate'] = 'bns_closure/evaluate/$1';
+$route['bns_closure/(:any)/evaluatation_for_submission'] = 'bns_closure/evaluatation_for_submission/$1';
+$route['branches/(:any)/documents_closure_submission/upload_document_44'] = 'documents_closure_submission/upload_document_44/$1';
+$route['branches/(:any)/documents_closure_submission/upload_document_45'] = 'documents_closure_submission/upload_document_45/$1';
+$route['branches/(:any)/documents_closure_submission/upload_document_46'] = 'documents_closure_submission/upload_document_46/$1';
 
 $route['branches/(:any)/documents'] = 'documents/branch/$1';
 $route['branches/(:any)/documents/view_document_one/(:any)'] = 'documents/view_document_one/$1/$2';
@@ -546,11 +558,12 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 	//FEDERATION
 
 	$route['amendment_update/(:any)/bylaw_update_federation'] = 'amendment_bylaw_update/federation/$1';
-	$route['amendment_update/(:any)/affiliators_update'] = 'Amendment_affiliators_update/index/$1';
+	$route['amendment_update/(:any)/update_affiliators'] = 'amendment_affiliators_update/index/$1';
 
 	$route['amendment_update/(:any)/capitalization'] = 'amendment_update_capitalization/index/$1';
 	//COOPERATORS
 	$route['amendment_update/(:any)/amendment_cooperators'] = 'amendment_update_cooperator/index/$1';
+	$route['amendment_update/(:any)/amendment_cooperators/(:num)'] = 'amendment_update_cooperator/index/$1/$2';
 	$route['amendment_update/(:any)/amendment_cooperator/add'] = 'amendment_update_cooperator/add/$1';
 	$route['amendment_update/(:any)/amendment_cooperator/(:any)/edit'] = 'amendment_update_cooperator/edit/$1/$2';
 	$route['amendment/(:any)/amendment_cooperators/(:any)/edit'] = 'amendment_cooperators/edit/$1/$2';
@@ -559,6 +572,7 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 	$route['amendment_update/(:any)/amendment_purposes/edit'] = 'amendment_update_purposes/edit/$1';
 	//Articles of Cooperation	
 	$route['amendment_update/(:any)/articles_update'] = 'amendment_articles_update/index/$1';
+	$route['amendment_update/(:any)/article_union'] = 'amendment_articles_update/union/$1';
 	$route['amendment_update/(:any)/articles_update'] = 'amendment_articles_update/primary/$1';
 	$route['amendment_update/(:any)/articles_update/primary'] = 'amendment_articles_update/primary/$1';
 	//Committees
@@ -571,7 +585,12 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 	$route['amendment_update/(:any)/amendment_update_documents/list_upload_pdf'] = 'amendment_update_documents/list_upload_pdf/$1/$2';
 	//UNION
 	$route['amendment_update/(:any)/union_update'] = 'amendment_union_update/index/$1';
-
+	$route['amendment_update/(:any)/union_update/(:num)'] = 'amendment_union_update/index/$1/$2';
+	$route['amendment_upload/(:any)/upload']  = 'amendment_upload/index/$1';
+	$route['updated_amendment_info/(:num)'] = 'updated_amendment_info';
+	$route['registered_updated'] = 'updated_amendment_info/registered_updated';
+	$route['registered_updated/(:num)'] = 'updated_amendment_info/registered_updated';
+	// $route['amendment_upload/(:any)/upload']  = 'amendment_upload/export/$1';
 	// $route['union_update/update_cc']='union_update/update_cc';
 
 $route['reset_migration'] = 'migrate/resetMigration';
