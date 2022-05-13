@@ -309,7 +309,7 @@ class Amendment_committees_update extends CI_Controller{
                     // if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                       if(!$data['article_complete']) {
-                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($cooperative_id,$decoded_id) : true;
+                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_update_model->check_article_primary_complete($decoded_id) : true;
                       }
                       // if($data['article_complete']){
                       //   if(!$this->amendment_model->check_submitted_for_evaluation_client($cooperative_id,$decoded_id)){

@@ -144,14 +144,14 @@ if(isset($capitalization_info))
               if(!$is_original_cptr)
               {
               ?>  
-              <input type="number" value="<?= $cooperator_info->number_of_subscribed_shares ?>"  class="form-control validate[required]" id="amd_subscribedShares" name="amd_subscribedShares">
+              <input type="number" value="<?= $cooperator_info->number_of_subscribed_shares ?>"  class="form-control " id="amd_subscribedShares" name="amd_subscribedShares">
               <?php 
               }
               else
               { 
               ?>
 
-              <input type="number" value="<?=$cooperator_info->number_of_subscribed_shares ?>"  class="form-control validate[required]" id="subscribedShares" name="amd_subscribedShares">
+              <input type="number" value="<?=$cooperator_info->number_of_subscribed_shares ?>"  class="form-control " id="subscribedShares" name="amd_subscribedShares">
 
               <?php  
               }
@@ -184,7 +184,7 @@ if(isset($capitalization_info))
           <div class="col-sm-12 col-md-2">
             <div class="form-group">
               <label for="gender">Gender:</label>
-              <select class="custom-select validate[required]" name="gender">
+              <select class="custom-select " name="gender">
                 <option value="" selected>--</option>
                 <option value="Male" <?php if($cooperator_info->gender == "Male") echo "selected"; ?>>Male</option>
                 <option value="Female" <?php if($cooperator_info->gender == "Female") echo "selected"; ?>>Female</option>
@@ -229,7 +229,7 @@ if(isset($capitalization_info))
                 <div class="form-group"> 
                   <label for="barangay">Barangay</label>
                    <?php if($is_original_cptr): ?>
-                    <select class="custom-select barangay validate[required]" id="barangay" name="barangay" disabled>
+                    <select class="custom-select barangay validate[required]" id="barangay" name="barangay" >
                        <?php
                     foreach($list_of_brgys as $brgy_list)
                     {
@@ -240,7 +240,7 @@ if(isset($capitalization_info))
                     ?>
                   </select>
                   <?php else: ?>
-                  <select class="custom-select barangay validate[required]" id="barangay"  disabled>
+                  <select class="custom-select barangay validate[required]" id="barangay"  >
                        <?php
                     foreach($list_of_brgys as $brgy_list)
                     {
@@ -258,7 +258,7 @@ if(isset($capitalization_info))
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
                    <?php if($is_original_cptr): ?>
-                    <select class="custom-select validate[required]" name="city" id="city" disabled>
+                    <select class="custom-select validate[required]" name="city" id="city" >
                         <?php
                         foreach($list_of_cities as $city_list)
                         {
@@ -269,7 +269,7 @@ if(isset($capitalization_info))
                         ?>
                       </select>
                   <?php else: ?>
-                      <select class="custom-select validate[required]" name="city" id="city" disabled>
+                      <select class="custom-select validate[required]" name="city" id="city" >
                         <?php
                         foreach($list_of_cities as $city_list)
                         {
@@ -333,7 +333,7 @@ if(isset($capitalization_info))
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="validIdType">Proof of Identity: </label>
-              <select class="custom-select validate[required]" id="validIdType" name="validIdType">
+              <select class="custom-select " id="validIdType" name="validIdType">
                 <option value ="" selected></option>
                 <option value="Digitized Postal ID" <?php if($cooperator_info->proof_of_identity == "Digitized Postal ID") echo "selected"; ?>>Digitized Postal ID</option>
                 <option value="Driver's License" <?php if($cooperator_info->proof_of_identity == "Driver's License") echo "selected"; ?>>Driver's License</option>
@@ -357,7 +357,7 @@ if(isset($capitalization_info))
           <div class="col-sm-12 col-md-4">
             <div class="form-group form-group-validIdNo">
               <label for="validIdNo">Valid ID No.</label>
-              <input type="text" class="form-control validate[required]" id="validIdNo" name="validIdNo" value="<?=$cooperator_info->proof_of_identity_number ?>">
+              <input type="text" class="form-control " id="validIdNo" name="validIdNo" value="<?=$cooperator_info->proof_of_identity_number ?>">
             </div>
           </div>
           <div class="col-sm-12 col-md-4">
@@ -368,7 +368,7 @@ if(isset($capitalization_info))
                <input type="date" class="form-control" id="dateIssued" name="dateIssued" disabled>
                 <input type="checkbox" name="dateIssued_chk" value="N/A" id="chkID" checked> <small>ID Date Issued not available</small>
               <?php else: ?>
-                    <input type="date" class="form-control  validate[required,custom[date],past[now]] " id="dateIssued" name="dateIssued"  value="<?=$cooperator_info->proof_date_issued?>">
+                    <input type="date" class="form-control"  id="dateIssued" name="dateIssued"  value="<?=$cooperator_info->proof_date_issued?>">
                      <input type="checkbox" name="dateIssued_chk" value="N/A" id="chkID"> <small>ID Date Issued not available</small>
               <?php endif;?>
               <!-- <input type="date" class="form-control validate[required,custom[date],past[now]" id="dateIssued" name="dateIssued" value="<?=$cooperator_info->proof_date_issued ?>"> -->
@@ -377,7 +377,7 @@ if(isset($capitalization_info))
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
               <label for="placeIssuance">Place of Issuance: </label>
-              <textarea class="form-control validate[required]" style="resize: none;" id="placeIssuance" name="placeIssuance" rows="1"><?=$cooperator_info->place_of_issuance ?></textarea>
+              <textarea class="form-control " style="resize: none;" id="placeIssuance" name="placeIssuance" rows="1"><?=$cooperator_info->place_of_issuance ?></textarea>
             </div>
           </div>
         </div>
