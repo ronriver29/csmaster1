@@ -474,16 +474,16 @@ class Amendment_update_cooperator extends CI_Controller{
                              $data['regNo'] = $this->amendment_model->load_regNo_reg($user_id);
                           }
 
-                          if($this->amendment_model->if_had_amendment_new($data['regNo']))
-                          {
-                             $last_amendment_info = $this->amendment_model->get_last_amendment_info($cooperative_id,$decoded_id);
-                             $data['last_share_amount']=$this->amendment_update_cooperator_model->get_last_amount_share_amd($data['cooperator_info']->full_name,$last_amendment_info->id);
+                          // if($this->amendment_model->if_had_amendment_new($data['regNo']))
+                          // {
+                          //    $last_amendment_info = $this->amendment_model->get_last_amendment_info($cooperative_id,$decoded_id);
+                          //    $data['last_share_amount']=$this->amendment_update_cooperator_model->get_last_amount_share_amd($data['cooperator_info']->full_name,$last_amendment_info->id);
 
-                          }
-                          else
-                          { 
+                          // }
+                          // else
+                          // { 
                             $data['last_share_amount']=$this->amendment_update_cooperator_model->get_last_amount_share_coop($data['cooperator_info']->full_name);
-                          }
+                          // }
 
                           $data['list_cooperators'] = $this->amendment_update_cooperator_model->get_all_cooperator_of_coop($cooperative_id,$decoded_id);
                            $data['list_cooperators_orig'] = $this->cooperator_model->get_all_cooperator_of_coop($cooperative_id);
