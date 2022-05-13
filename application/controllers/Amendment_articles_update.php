@@ -161,7 +161,6 @@ class Amendment_articles_update extends CI_Controller{
                                   'par_value_preferred' =>str_replace(',','',$this->input->post('parValuePreferred')),
                                   'guardian_cooperative' => $this->input->post('guardian_cooperative')
                                 );
-                                $this->debug($datas);
                                
                                 if($this->amendment_update_articles_model->update_article_primary($decoded_id,$datas)){
                                   
