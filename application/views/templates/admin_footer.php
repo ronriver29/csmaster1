@@ -32,7 +32,7 @@
 <?php if($this->uri->segment(3) == "amendment_update")   : ?><script src="<?=base_url();?>assets/js/update-amendment.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(3) == "amendment_purposes" && $this->uri->segment(4)=="edit")   : ?><script src="<?=base_url();?>assets/js/update_amendment_purposes.js"></script> <?php endif; ?>
 <?php if($this->uri->segment(1) == "amendment_update" && $this->uri->segment(3)=="update"): ?><script src="<?=base_url();?>assets/js/amendment_update.js"></script> <?php  endif; ?>
-
+<?php if($this->uri->segment(3) == "amendment_cooperator" && $this->uri->segment(4)=="add")   : ?><script src="<?=base_url();?>assets/js/add_cooperator_update_amendment.js"></script> <?php endif; ?>
 <script type="text/javascript">
         $(document).ready(function () {
             $("#sidebar").mCustomScrollbar({

@@ -177,6 +177,10 @@
 
             <a href="<?php echo base_url();?>branches"><i class="fas fa-handshake"></i> Branches and Satellites</a>
           </li>
+            <li>   
+
+            <a href="<?php echo base_url();?>For_closure"><i class="fas fa-handshake"></i> Closure of Branches and Satellites</a>
+          </li>
           <li>   
             <a href="<?php echo base_url();?>laboratories"><i class="fas fa-handshake"></i> Laboratories</a>
           </li>
@@ -201,15 +205,25 @@
               </li>
             </ul>
           </li>
-          <!-- <li>   
-            <a href="<?php echo base_url();?>updated_cooperative_info"><i class="fas fa-handshake"></i> Updated Cooperative Info</a>
-          </li>  -->
-           <li>   
+     
+          <!--  <li>   
             <a href="<?php echo base_url();?>updated_amendment_info"><i class="fas fa-handshake"></i> Updated Amendment Info</a>
-          </li> 
+          </li>  -->
+          <li>
+           <a href="#pageSubmenuamd" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-handshake"></i> Updated Amendment Info</a>
+            <ul class="collapse list-unstyled" id="pageSubmenuamd">
+                <li>
+                <a href="<?php echo base_url();?>updated_amendment_info"><i class="fas fa-handshake"></i> Ongoing</a>
+              </li>
+              <li>
+                <a href="<?php echo base_url();?>registered_updated"><i class="fas fa-handshake"></i> Registered</a>
+              </li>
+            </ul>
+          </li>
         <?php endif; ?>
        
         <li>
+
           <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> Settings</a>
           <ul class="collapse list-unstyled" id="pageSubmenu">
              <li>
