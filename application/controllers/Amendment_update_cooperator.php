@@ -368,6 +368,15 @@ class Amendment_update_cooperator extends CI_Controller{
                         $this->load->view('./templates/admin_footer');
                       }else{
                         $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
+                         $dateIssued_ = '';
+                          if($this->input->post('dateIssued'))
+                          {
+                             $dateIssued_ =$this->input->post('dateIssued');
+                          }
+                          if($this->input->post('dateIssued_chks'))
+                          {
+                            $dateIssued_  = $this->input->post('dateIssued_chks');
+                          }
                         $data = array( 
                         'cooperatives_id' => $cooperative_id,
                         'amendment_id' => $decoded_id,
