@@ -47,7 +47,7 @@ if(isset($list_cooperators))
         <div class="row">
           <input type="hidden" class="form-control" id="amd_id" name="amd_id" value="<?=$encrypted_id ?>">
           <input type="hidden" class="form-control" value="<?=$encrypted_coop_id?>" id="cooperative_id" name="cooperative_id"/>
-          <input type="hidden" class="form-control validate[required]" id="userID" name="userID" value="<?= $encrypted_user_id ?>">
+          <input type="hidden" class="form-control " id="userID" name="userID" value="<?= $encrypted_user_id ?>">
           <input type='hidden' id='available_subscribed_capital' value="<?=isset($capitalization_info->total_no_of_subscribed_capital) ? $capitalization_info->total_no_of_subscribed_capital - $total_subscribed: ''?>" />
           <input type='hidden' id='available_paid_up_capital' value="<?=isset($capitalization_info->total_no_of_paid_up_capital) ? $capitalization_info->total_no_of_paid_up_capital - $total_paid: ''?>" />
           <input type='hidden' id='minimum_subscribed_share_regular' value="<?=isset($capitalization_info->minimum_subscribed_share_regular) ? $capitalization_info->minimum_subscribed_share_regular: ''?>" />
@@ -105,7 +105,7 @@ if(isset($list_cooperators))
           <div class="col-sm-12 col-md-2">
             <div class="form-group">
               <label for="gender">Gender:</label>
-              <select class="custom-select validate[required]" name="gender">
+              <select class="custom-select " name="gender">
                 <option value="" selected>--</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -115,7 +115,7 @@ if(isset($list_cooperators))
           <div class="col-sm-12 col-md-3">
             <div class="form-group">
               <label for="bDate"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>Age must be 18 years old and above.</li>"></i> Birth Date:</label>
-              <input type="date" class="form-control validate[required,custom[date]]" id="bDate" name="bDate">
+              <input type="date" class="form-control " id="bDate" name="bDate">
             </div>
           </div>
           <div class="col-sm-12 col-md-12">
