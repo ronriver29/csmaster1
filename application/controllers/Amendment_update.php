@@ -1074,7 +1074,7 @@ class Amendment_update extends CI_Controller{
                       'house_blk_no' => $this->input->post('blkNo'),
                       'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
                     );
-                    $reg_id = $this->amendment_update_model->reg_id($data['coop_info2']->regNo)->id;
+                    $reg_id = $this->amendment_update_model->reg_id($data['coop_info']->regNo)->id;
                     $dateRegistered = $this->input->post('dateRegistered');     
                     $coopName = $this->input->post('proposed_name');
                     $this->db->update('registeredamendment',array('dateRegistered'=>$dateRegistered,'coopName'=>$coopName),array('id'=>$reg_id));
