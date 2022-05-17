@@ -259,7 +259,7 @@ public function add_admin_director($data,$raw_pass){
       }
       else
       {  
-          $chk_qry2 = $this->db->get_where('admin',array('region_code'=>$data['region_code'],'access_name'=>"Acting Regional Director"));
+          $chk_qry2 = $this->db->get_where('admin',array('region_code'=>$data['region_code'],'access_name'=>"Acting Regional Director",'active'=>1));
           if($chk_qry2->num_rows()>0)
           {
              return array('status'=>0,'msg'=>"Acting Regional Director already exist");
