@@ -2420,7 +2420,9 @@ public function check_if_denied($coop_id){
     return $token;
   }
 
-  public function  get_purpose_content($coop_type){
+  public function  get_purpose_content($coop_type,$grouping){
+  if($grouping =='Prirmary')
+  {  
     $data = array(
       'Advocacy'=> 'Promoting and advocating cooperativism among its members and the public through socially oriented projects, education and training, research and communication and other similar activities to reach out to its intended beneficiaries;'.
         'Promoting and advancing the economic and social status of the members;'.
@@ -2616,10 +2618,16 @@ public function check_if_denied($coop_id){
         'Advocating for the cause of the cooperative movements;'.
         'Ensuring the viability of cooperatives through the utilization of new technologies;'.
         'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-        'Union' => '',
-        'Federation'=>''
+        'Union' => ''
+        // 'Federation'=>''
     );
-      return $data[$coop_type];
+    return $data[$coop_type];
+  }elseif ($grouping =='Federation') {
+    $data =
+      '-----------------------';
+    return $data;
+  }
+     
   }
 
 
