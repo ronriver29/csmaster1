@@ -2419,7 +2419,6 @@ public function check_if_denied($coop_id){
     }
     return $token;
   }
-
   public function  get_purpose_content($coop_type,$grouping){
   if($grouping =='Prirmary')
   {  
