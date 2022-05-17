@@ -95,7 +95,7 @@
                       {
                           $access_level  ="Senior Cooperative Development Specialist";
                       }
-                      else if($admin['access_level'] == 3 && $admin['access_name'] == 'Director')
+                      else if($admin['access_level'] == 3)
                       {
                             $access_level ="Director";
                       }else if($admin['access_level'] == 3 && $admin['access_name'] == 'Acting Regional Director')
