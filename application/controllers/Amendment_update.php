@@ -978,7 +978,7 @@ class Amendment_update extends CI_Controller{
 
                   $decoded_id =$this->encryption->decrypt(decrypt_custom($this->input->post('amendment_id')));  
                    $cooperative_id = $this->coop_dtl($decoded_id);
-                  $data['coop_info2'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$decoded_id);
+                  $data['coop_info'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$decoded_id);
                     $major_industry = $this->input->post('majorIndustry');
                     $members_composition = $this->input->post('compositionOfMembers');
              
