@@ -165,7 +165,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->where('cooperatives.status NOT IN (1,15) AND cooperatives.proposed_name LIKE "%'.$coopName.'%"');
+    $this->db->where('cooperatives.status NOT IN (1,15,39,40) AND cooperatives.proposed_name LIKE "%'.$coopName.'%"');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
