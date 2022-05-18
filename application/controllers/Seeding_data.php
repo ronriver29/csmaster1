@@ -248,7 +248,7 @@ class Seeding_data extends CI_Controller{
 
 
 
-    if($this->db->insert('users',$users))
+    if($this->db->insert_batch('users',$users))
     {
       echo" Successfully added users deleted account";
     }
