@@ -111,7 +111,7 @@ class Seeding_data extends CI_Controller{
 
   public function seed_coop_users_deleted()
   {
-    $users = 
+    $users = array(
   array(
     "id" => 11006,
     "last_name" => "Nayeli",
@@ -243,11 +243,12 @@ class Seeding_data extends CI_Controller{
     "is_taken" => NULL,
     "addrCode" => NULL,
     "chairperson" => NULL,
-  );
+  ),
+);
 
 
 
-    if($this->db->insert('users',$users))
+    if($this->db->insert_batch('users',$users))
     {
       echo" Successfully added users deleted account";
     }
