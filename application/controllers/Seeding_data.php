@@ -111,7 +111,7 @@ class Seeding_data extends CI_Controller{
 
   public function seed_coop_users_deleted()
   {
-    $users = array(
+    $users = 
   array(
     "id" => 11006,
     "last_name" => "Nayeli",
@@ -243,8 +243,7 @@ class Seeding_data extends CI_Controller{
     "is_taken" => NULL,
     "addrCode" => NULL,
     "chairperson" => NULL,
-  ),
-);
+  );
 
 
 
