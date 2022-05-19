@@ -753,7 +753,7 @@ class Amendment_update extends CI_Controller{
 
 
                     //  $coo_info_by_admin= $this->amendment_update_model->get_coop_info2($decoded_id);
-                    if($coo_info_by_admin->type_of_cooperative != $field_data['type_of_cooperative'] || ($grouping_ !=$data['coop_info']->grouping))
+                    if($coop_info_by_admin->type_of_cooperative != $field_data['type_of_cooperative'] || ($grouping_ !=$data['coop_info']->grouping))
                     {
                         $cooptypess = explode(',',$field_data['type_of_cooperative']); 
                         foreach($cooptypess as $type_coop)
