@@ -269,7 +269,7 @@ e. ".$email."<br>
   public function get_all_users()
   {
     $data=null;
-    $query = $this->db->query("select id,email,regno from users");
+    $query = $this->db->query("select id,email,regno from users where regno is not null order by email asc");
     if($query->num_rows()>0)
     {
       $data = $query->result();

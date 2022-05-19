@@ -1216,12 +1216,12 @@ class Amendment_update extends CI_Controller{
             if($this->amendment_update_model->add_to_Regcoop($field_regcoop))
             {
              if($this->amendment_update_model->replicate_to_temp_table($this->input->post('regNo'),$this->input->post('user_id')))
-             {
-                 $this->session->set_flashdata(array('msg_class'=>'success','amendment_msg'=>'Successfully migrate basic information.'));
+             { echo'success';
+                 // $this->session->set_flashdata(array('msg_class'=>'success','amendment_msg'=>'Successfully migrate basic information.'));
              }
              else
-             {
-                $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Unable to migrate cooperative basic information.'));
+             {echo 'failed';
+                // $this->session->set_flashdata(array('msg_class'=>'danger','amendment_msg'=>'Unable to migrate cooperative basic information.'));
              }
             }
         }

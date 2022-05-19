@@ -3881,6 +3881,195 @@ where coop.users_id = '$user_id' and coop.status =15");
     $query = $this->db->query("select id from registeredamendment where regNo='$regNo' order by id desc limit 1");
     return $query->row();
   }
+
+  public function add_to_coop($data)
+  {
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+    $this->db->insert('cooperatives',$data);
+    if ($this->db->trans_status() === FALSE)
+    {
+        $this->db->trans_rollback();
+        return false;
+    }
+    else
+    {
+        $this->db->trans_commit();
+        return true;
+    }
+  }
+
+  public function add_to_Regcoop($data)
+  {
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+    $this->db->insert('registeredcoop',$data);
+    if ($this->db->trans_status() === FALSE)
+    {
+        $this->db->trans_rollback();
+        return false;
+    }
+    else
+    {
+        $this->db->trans_commit();
+        return true;
+    }
+  }
+  public function replicate_to_temp_table($regNo,$user_id)
+  { 
+     $user_id = $this->security->xss_clean($user_id);
+    $regNo = $this->security->xss_clean($regNo);
+     $this->db->trans_begin();
+    $query = $this->db->query("select * from registeredcoop where regNo='$regNo'");
+    if($query->num_rows()>0)
+    {
+      foreach($query->result_array() as $row)
+      {
+        unset($row['grouping']);
+        unset($row['migrated']);
+        $data[] = $row;
+      }
+       
+        $this->db->delete('temp_registeredcoop',array('regNo'=>$regNo));
+        $this->db->insert_batch('temp_registeredcoop',$data);
+        if($this->seed_migration($regNo,$user_id))
+        {
+          if ($this->db->trans_status() === FALSE)
+          {
+              $this->db->trans_rollback();
+              return false;
+          }
+          else
+          {
+              $this->db->trans_commit();
+              return true;
+          }
+        }
+        else
+        {
+          return false;
+        }  
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+public function seed_migration($regNo,$user_id)
+{
+  $regNo = $this->security->xss_clean($regNo);
+  $user_id = $this->security->xss_clean($user_id);
+   $this->db->trans_begin();
+  $qry = $this->db->query("select application_id,coopName,acronym,regNo,category,type,commonBond,areaOfOperation,noStreet,Street,addrCode,compliant, DATE(CASE WHEN LOCATE('-', temp_registeredcoop.dateRegistered) = 3 THEN STR_TO_DATE(temp_registeredcoop.dateRegistered, '%m-%d-%Y') WHEN LOCATE('-', temp_registeredcoop.dateRegistered) = 5 THEN STR_TO_DATE(temp_registeredcoop.dateRegistered, '%Y-%m-%d') ELSE STR_TO_DATE(temp_registeredcoop.dateRegistered, '%d/%m/%Y') END) as dateRegistered from temp_registeredcoop  where dateRegistered <> '0000-00-00' AND  regNo='$regNo'");
+  $process = 0;
+  $success =0;
+  if($qry->num_rows()>0)
+  {
+    foreach($qry->result_array() as $row)
+    {
+    unset($row['id']);
+    $data=Array (
+    'cooperative_id' => $row['application_id'],
+    // 'amendment_no' => $row['']
+    'coopName' =>$row['coopName'],
+    'acronym' => $row['acronym'],
+    'regNo' => $row['regNo'],
+    'category' => $row['category'],
+    'type' => $row['type'],
+    'date_printed' => $row['dateRegistered'],
+    'dateRegistered' =>$row['dateRegistered'],
+    'commonBond' =>$row['commonBond'],
+    'areaOfOperation' => $row['areaOfOperation'],
+    'noStreet' => $row['noStreet'],
+    'Street' => $row['Street'],
+    'addrCode' => $row['addrCode'],
+    'compliant' => $row['compliant'],
+    'migrated'=>1
+    );
+    
+      if($row['dateRegistered']!=null)
+      {
+         $process++;
+        if($this->db->insert('registeredamendment',$data))
+        {
+         $success++;
+        }
+      }
+    }
+
+      //amend coop table
+      $query2 = $this->db->query("select registeredamendment.regNo,cooperatives.id,cooperatives.users_id, cooperatives.category_of_cooperative,cooperatives.type_of_cooperative,cooperatives.grouping,cooperatives.proposed_name,cooperatives.acronym_name,cooperatives.common_bond_of_membership,cooperatives.field_of_membership,cooperatives.name_of_ins_assoc,cooperatives.area_of_operation,cooperatives.refbrgy_brgyCode,cooperatives.interregional,cooperatives.regions,cooperatives.street,cooperatives.house_blk_no,cooperatives.status from registeredamendment left join cooperatives on registeredamendment.cooperative_id = cooperatives.id where registeredamendment.regNo = '$regNo'");
+    $process2=0;
+    $success2 =0;
+      if($query2->num_rows()>0)
+      {
+          foreach($query2->result_array() as $rows)
+          {
+          $data_amendment =array(
+          'cooperative_id' =>  $rows['id'],
+          'regNo'=>$rows['regNo'],
+          'amendmentNo' =>'' ,
+          'users_id' => $user_id,
+          'category_of_cooperative' => $rows['category_of_cooperative'],
+          'type_of_cooperative' =>$rows['type_of_cooperative'],
+          'cooperative_type_id'=>'',
+          'grouping' =>$rows['grouping'],
+          'proposed_name' => $rows['proposed_name'],
+          'acronym' => $rows['acronym_name'],
+          'common_bond_of_membership' => $rows['common_bond_of_membership'],
+          // 'comp_of_membership',
+          // 'field_of_membership',
+          // 'name_of_ins_assoc',
+          'area_of_operation' => $rows['area_of_operation'],
+          'refbrgy_brgyCode' => $rows['refbrgy_brgyCode'],
+          // 'interregional',
+          'regions' => $rows['regions'],
+          'street' => $rows['street'],
+          'house_blk_no'=> $rows['house_blk_no'],
+          'status' => 15,
+          'created_at' => date('Y-m-d h:i:s',now('Asia/Manila')),
+          'ho'=>0,
+          'migrated'=>1
+          );
+          $process2++;
+            if($this->db->insert('amend_coop',$data_amendment))
+            {
+              $success2++;
+            }
+          }
+        $reg_amendment_success = false;
+        $amendment_success = false;
+        if($success2 == $process2 && ($success == $process))
+        {
+           $reg_amendment_success = true;
+           $amendment_success = true;
+           if ($this->db->trans_status() === FALSE)
+          {
+              $this->db->trans_rollback();
+              return false;
+          }
+          else
+          {
+              $this->db->trans_commit();
+              return true;//array('registeredamendment'=>$reg_amendment_success,'amend_coop'=>$amendment_success);
+          }
+        }
+        else
+        {
+          return false;
+        }
+      } //end num rows amendment
+
+  }  //end num rows
+  else
+  {
+  return false;
+  }
+
+}
+
+
    public function debug($array)
     {
         echo"<pre>";
