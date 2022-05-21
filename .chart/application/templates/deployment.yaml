@@ -61,6 +61,7 @@ spec:
             mountPath: /var/www/html
           - name: shared-volume
             mountPath: /var/www/shared-volume
+            subPath: uploads-ris
         #command: ["/bin/sh"]
         #args: ["-c", "/bin/sh /srv/site/post-start.sh && php-fpm"]
         lifecycle:
@@ -86,6 +87,7 @@ spec:
             subPath: nginx.conf
           - name: shared-volume
             mountPath: /var/www/shared-volume
+            subPath: uploads-ris
         resources:
           limits:
             cpu: "0.5"
