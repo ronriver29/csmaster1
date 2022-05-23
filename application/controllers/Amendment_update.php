@@ -631,7 +631,7 @@ class Amendment_update extends CI_Controller{
                   // $cooperative_id = $this->coop_dtl($decoded_id);
                   // if(!$this->amendment_update_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
                     $decoded_id =$this->encryption->decrypt(decrypt_custom($this->input->post('amendment_id')));  
-                    // $subclass_array = $this->input->post('subClass');
+                    $data['coop_info'] = $this->amendment_update_model->get_coop_info2($decoded_id);
                     $major_industry = $this->input->post('majorIndustry');
                     // $members_composition = $this->input->post('compositionOfMembers');
              
@@ -753,7 +753,7 @@ class Amendment_update extends CI_Controller{
 
 
                     //  $coo_info_by_admin= $this->amendment_update_model->get_coop_info2($decoded_id);
-                    if($coop_info_by_admin->type_of_cooperative != $field_data['type_of_cooperative'] || ($grouping_ !=$data['coop_info']->grouping))
+                    if($data['coop_info']->type_of_cooperative != $field_data['type_of_cooperative'] || ($grouping_ !=$data['coop_info']->grouping))
                     {
                         $cooptypess = explode(',',$field_data['type_of_cooperative']); 
                         foreach($cooptypess as $type_coop)
