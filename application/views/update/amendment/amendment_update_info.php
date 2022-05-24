@@ -151,7 +151,7 @@ if(isset($bylaw_info))
                   { 
                   ?>
                   <div class="list_cooptype">
-                    <select class="custom-select coop-type" name="typeOfCooperative[]" id="typeOfCooperatives<?=$indx  ++?>" style="margin-bottom: 2px;">
+                    <select class="custom-select coop-type validate[required]" name="typeOfCooperative[]" id="typeOfCooperatives<?=$indx  ++?>" style="margin-bottom: 2px;">
                        <option value=""> </option>
                       <?php
                       foreach($list_type_coop as  $coop)

@@ -19,6 +19,7 @@ $region='';
     $region = $coop_info2->region;
   }
 ?>
+
 <div class="row mb-2">
   <div class="col-sm-12 col-md-2">
     <?php if($is_client){ ?>
@@ -29,6 +30,7 @@ $region='';
      <?php } ?>
   </div>
 </div>
+
 <div class="row">
   <div class="col-md-12">
 <?php if($this->session->flashdata('amendment_msg')) :?>   
@@ -62,6 +64,7 @@ $region='';
   </div>
 </div>
 <?php endif; ?>
+
 <?php if($coop_info->status==0): ?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
@@ -519,7 +522,14 @@ $region='';
   </div>
 <?php endif; ?>
 
-<hr>
+
+<div class="row">
+  <div class="col-sm-12 col-md-12">
+    <div class="alert alert-info text-center" role="alert">
+      Basic Information such as Category, Cooperative Type, Area of Operation and Address must be filled out first before you can submit your application.
+    </div>
+  </div>
+</div>
 <div class="row mb-2">
   <div class="col-sm-12 col-md-4">
     <div class="card border-top-blue shadow-sm mb-4">
@@ -1215,8 +1225,11 @@ $region='';
               </small>
             </div>
             <p class="mb-1 font-italic">Finalize and review all the information you provide. After reviewing your application, click proceed for evaluation of your application.</p>
-            <?php $status_array= array(40,41);
-             if(!in_array($coop_info->status,$status_array)){?>
+            <?php //$status_array= array(40,41); 
+             //if(!in_array($coop_info->status,$status_array) ){
+           if(($coop_info->status != 40 && strlen($coop_info->refbrgy_brgyCode)) == 9 && strlen($coop_info->type_of_cooperative) != 0 && strlen($coop_info->category_of_cooperative) != 0 && strlen($coop_info->area_of_operation) != 0 && $coop_info->status != 41){
+              ?>
+
               <small class="text-muted">
                 <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
               </small>
