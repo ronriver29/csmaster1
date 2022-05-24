@@ -74,6 +74,11 @@ class amendment_update_model extends CI_Model{
 
   //done updating process
    public function get_all_registered_amendment($regcode,$limit,$start,$coopName,$regNo){
+     $ho=0;
+    if($regcode=='00')
+    {
+      $ho=1;
+    }
     $coopName = (strlen($coopName)>0 ? " AND amend_coop.proposed_name like '%".$coopName."%'" : '');
     $regNo = (strlen($regNo)>0 ? " AND amend_coop.regNo='$regNo'"  : '');
     $this->db->limit($limit, $start);
@@ -85,7 +90,7 @@ class amendment_update_model extends CI_Model{
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status = 41 AND ho=0 AND amend_coop.migrated=1'.$coopName.$regNo);
+    $this->db->where('status = 41 AND ho='.$ho.' AND amend_coop.migrated=1'.$coopName.$regNo);
     $query = $this->db->get();
     $data = $query->result_array();
     unset($query);
@@ -93,6 +98,11 @@ class amendment_update_model extends CI_Model{
   }
 
    public function get_all_registered_amendment_count($regcode,$coopName,$regNo){
+    $ho=0;
+    if($regcode=='00')
+    {
+      $ho=1;
+    }
      $coopName = (strlen($coopName)>0 ? " AND amend_coop.proposed_name like '%".$coopName."%'" : '');
       $regNo = (strlen($regNo)>0 ? " AND amend_coop.regNo='$regNo'"  : '');
     $this->db->select('amend_coop.*,registeredamendment.dateRegistered as dateRegistered,registeredamendment.coopName, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
@@ -103,8 +113,11 @@ class amendment_update_model extends CI_Model{
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('status = 41 AND ho=0 AND amend_coop.migrated=1'.$coopName.$regNo);
+    $this->db->where('status = 41 AND ho='.$ho.' AND amend_coop.migrated=1'.$coopName.$regNo);
     return $this->db->count_all_results();
+    unset($coopName);
+    unset($regNo);
+    unset($ho);
   }
 
 
@@ -3713,6 +3726,7 @@ where coop.users_id = '$user_id' and coop.status =15");
 
   public function get_all_updated_coop_info($regcode,$limit,$start,$coopName,$regNo){
     // Get Coop Type for HO
+    $ho =0;
     $this->db->select('name');
     $this->db->from('head_office_coop_type');
     $query = $this->db->get();
@@ -3720,9 +3734,15 @@ where coop.users_id = '$user_id' and coop.status =15");
     foreach($typeofcoop as $typesofcoop){
       $cooparray[] = $typesofcoop['name'];
     }
-
+    
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
     unset($cooparray);
+    // $typeCooperative = " AND amend_coop.type_of_cooperative NOT IN (".$typeofcoopimp.")";
+    if($regcode =='00')
+    {
+      $ho=1;
+       // $typeCooperative = " AND amend_coop.type_of_cooperative IN (".$typeofcoopimp.")";
+    }
     // End Get Coop Type for HO
      $coopName = (strlen($coopName)>0 ? " AND amend_coop.proposed_name like '%".$coopName."%'" : '');
       $regNo = (strlen($regNo)>0 ? " AND amend_coop.regNo='$regNo'"  : '');
@@ -3735,7 +3755,7 @@ where coop.users_id = '$user_id' and coop.status =15");
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('amend_coop.status = 40 AND amend_coop.migrated=1 AND ho=0'.$coopName.$regNo);
+    $this->db->where('amend_coop.status = 40 AND amend_coop.migrated=1 AND ho='.$ho.$coopName.$regNo);
     $query = $this->db->get();
       $datas =[];
     if($query->num_rows()>0)
@@ -3774,16 +3794,24 @@ where coop.users_id = '$user_id' and coop.status =15");
      $coopName = (strlen($coopName)>0 ? " AND amend_coop.proposed_name like '%".$coopName."%'" : '');
       $regNo = (strlen($regNo)>0 ? " AND amend_coop.regNo='$regNo'"  : '');
     // Get Coop Type for HO
-    $this->db->select('name');
-    $this->db->from('head_office_coop_type');
-    $query = $this->db->get();
-    $typeofcoop = $query->result_array();
-    foreach($typeofcoop as $typesofcoop){
-      $cooparray[] = $typesofcoop['name'];
+    // $this->db->select('name');
+    // $this->db->from('head_office_coop_type');
+    // $query = $this->db->get();
+    // $typeofcoop = $query->result_array();
+    // foreach($typeofcoop as $typesofcoop){
+    //   $cooparray[] = $typesofcoop['name'];
+    // }
+    // $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+    // unset($cooparray);
+    // // End Get Coop Type for HO
+    //  $typeCooperative = " AND amend_coop.type_of_cooperative NOT IN (".$typeofcoopimp.")";
+      $ho =0;
+     if($regcode =='00')
+    {
+      $ho=1;
+       // $typeCooperative = " AND amend_coop.type_of_cooperative IN (".$typeofcoopimp.")";
     }
-    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
-    unset($cooparray);
-    // End Get Coop Type for HO
+
     $this->db->select('amend_coop.*,registeredamendment.coopName,registeredamendment.dateRegistered, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('amend_coop');
     $this->db->join('registeredamendment', 'registeredamendment.cooperative_id = amend_coop.cooperative_id','left');
@@ -3792,7 +3820,7 @@ where coop.users_id = '$user_id' and coop.status =15");
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('amend_coop.status = 40 AND amend_coop.migrated=1 AND ho=0'.$coopName.$regNo);
+    $this->db->where('amend_coop.status = 40 AND amend_coop.migrated=1 AND ho='.$ho.$coopName.$regNo);
     // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
     return  $this->db->count_all_results();
   }
