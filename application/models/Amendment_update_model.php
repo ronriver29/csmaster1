@@ -2433,7 +2433,7 @@ public function check_if_denied($coop_id){
     return $token;
   }
   public function  get_purpose_content($coop_type,$grouping){
-  if($grouping =='Prirmary')
+  if($grouping =='Primary')
   {  
     $data = array(
       'Advocacy'=> 'Promoting and advocating cooperativism among its members and the public through socially oriented projects, education and training, research and communication and other similar activities to reach out to its intended beneficiaries;'.
