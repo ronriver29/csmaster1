@@ -169,7 +169,7 @@ class Amendment_committees_update extends CI_Controller{
                     // if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$decoded_id);
                       // if($data['purposes_complete']){
-                        $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
+                       
                         // if($data['article_complete']){
                           // $data['gad_count'] = $this->amendment_committees_update_model->get_all_gad_count($user_id);
                            $data['gad_count'] = $this->amendment_committees_update_model->get_all_gad_count2($decoded_id);
@@ -394,10 +394,10 @@ class Amendment_committees_update extends CI_Controller{
                 // if($data['cooperator_complete']){
                 $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$decoded_id);
                 // if($data['purposes_complete']){
-                $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                if(!$data['article_complete']) {
-                $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                }
+                // $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
+                // if(!$data['article_complete']) {
+                // $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
+                // }
                 // if($data['article_complete']){
                 if(!isset($_POST['addCommitteeBtn'])){
                   $data['admin_info'] = $this->admin_model->get_admin_info($user_id);

@@ -7,24 +7,36 @@ class Amendment_article_update_model extends CI_Model{
     parent::__construct();
     //Codeigniter : Write Less Do More
   }
-  public function get_article_by_coop_id($coop_id,$amendment_id){
-    $data_coop_id = $this->security->xss_clean($coop_id);
+  public function get_article_by_coop_id($amendment_id){
+    // $data_coop_id = $this->security->xss_clean($coop_id);
     $data_amendment_id = $this->security->xss_clean($amendment_id);
-    $query = $this->db->get_where('amendment_articles_of_cooperation',array('cooperatives_id'=>$data_coop_id,'amendment_id'=>$data_amendment_id));
-    return $query->row();
+    $query = $this->db->get_where('amendment_articles_of_cooperation',array('amendment_id'=>$data_amendment_id));
+    if($query->num_rows()==1)
+    {
+      $data = $query->row();
+    }
+    else
+    {
+      $data =null;
+    }
+    return $data;
   }
   public function update_article_primary($amendment_id,$article_info){
    $amendment_id = $this->security->xss_clean($amendment_id);
     $article_info = $this->security->xss_clean($article_info);
-    /*check record first if existing if not then create*/
-    // $get_record = $this->db->where("id",$article_coop_id)->get("amendment_articles_of_cooperation");
-    // if($get_record->num_rows()==0) {
-    //     $this->db->insert('amendment_articles_of_cooperation', array('cooperatives_id'=>$article_coop_id));
-    //     $this->db->trans_commit();
-    // }
-    $this->db->trans_begin();
-    // $this->db->where('id', $article_coop_id);
-    $this->db->update('amendment_articles_of_cooperation',$article_info,array('amendment_id'=>$amendment_id));
+
+    $check_article = $this->db->query("select id from amendment_articles_of_cooperation where amendment_id ='$amendment_id'");
+    if($check_article->num_rows()==1)
+    {
+      $this->db->trans_begin();
+      $this->db->update('amendment_articles_of_cooperation',$article_info,array('amendment_id'=>$amendment_id));
+    }
+    else
+    {
+       $this->db->trans_begin();
+       $this->db->insert('amendment_articles_of_cooperation',$article_info);
+    }
+   
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;

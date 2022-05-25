@@ -161,6 +161,7 @@ class Amendment_articles_update extends CI_Controller{
                                   'par_value_preferred' =>str_replace(',','',$this->input->post('parValuePreferred')),
                                   'guardian_cooperative' => $this->input->post('guardian_cooperative')
                                 );
+                                
                                
                                 if($this->amendment_update_articles_model->update_article_primary($decoded_id,$datas)){
                                   
@@ -220,8 +221,8 @@ class Amendment_articles_update extends CI_Controller{
                             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                             $data['encrypted_id'] = $id;
                             $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$decoded_id);
-                            $data['articles_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
-                        
+                            $data['articles_info'] = $this->amendment_article_update_model->get_article_by_coop_id($decoded_id);
+                        // echo $this->db->last_query();
                         // Added By Anjury
                             $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
                                 if($data['total_regular']==0){
@@ -236,7 +237,7 @@ class Amendment_articles_update extends CI_Controller{
 //                            $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id); // Comment By Anjury
 //                            $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id); // Comment By Anjury
 
-                             $data['encrypted_articles_id'] = encrypt_custom($this->encryption->encrypt($data['articles_info']->id)); //modified
+                             $data['encrypted_articles_id'] ='';// encrypt_custom($this->encryption->encrypt($data['articles_info']->id)); //modified
                              $capitalinfo = null;
                              
                             $qry_capital = $this->db->get_where('amendment_capitalization',array('amendment_id'=>$decoded_id));
@@ -247,7 +248,7 @@ class Amendment_articles_update extends CI_Controller{
                              $data['capitalization_info'] = $capitalinfo;
                            
                             $this->load->view('templates/admin_header', $data);
-                            $this->load->view('update/amendment/articles/articles_primary_form.php', $data);
+                            $this->load->view('update/amendment/articles/articles_primary_form', $data);
                             $this->load->view('templates/admin_footer', $data);
                           }else{
                            
@@ -258,6 +259,7 @@ class Amendment_articles_update extends CI_Controller{
                                     $this->db->trans_commit();
                                 }
                               $data = array(
+                                'amendment_id' =>$decoded_id,
                                 'years_of_existence' => $this->input->post('cooperativeExistence'),
                                 'directors_turnover_days' => $this->input->post('turnOverDirectors'),
                                 'authorized_share_capital' => str_replace(',','',$this->input->post('authorizedShareCapital')),
@@ -269,7 +271,7 @@ class Amendment_articles_update extends CI_Controller{
                               );
                               // $this->debug($data);
                               // echo $article_coop_id;
-                              if($this->amendment_article_of_cooperation_model->update_article_primary($article_coop_id,$data)){
+                              if($this->amendment_article_update_model->update_article_primary($decoded_id,$data)){
                                 $this->session->set_flashdata('article_success', 'Successfully Updated.');
                                 redirect('amendment_update/'.$this->input->post('article_coop_id').'/articles_update');
                               }else{
