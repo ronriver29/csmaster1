@@ -689,7 +689,7 @@ class Amendment_update extends CI_Controller{
 
                         $commonBondOFmembership =  $this->input->post('commonBondOfMembership');
                     
-                        $grouping_ ='';
+                        $grouping_ ='Primary';
                         if(($type_of_cooperativeName =='Union') && $this->input->post('categoryOfCooperative')=='Others')
                         {
                           $grouping_='Union';
