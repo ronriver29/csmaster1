@@ -108,7 +108,7 @@ if(isset($bylaw_info))
              <div class="row">
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
-                  <label for="regNo">Registration Date:</label>
+                  <label for="regNo">Amendment Date:</label>
                   <input type="date" class="form-control" name="dateRegistered" id="regNo"value="<?=$coop_info2->dateRegistered?>">
                 </div>
               </div>
