@@ -565,7 +565,7 @@ class amendment_update_model extends CI_Model{
   {
     $query = $this->db->query("select application_id from registeredcoop where regNo = '$regNo'");
     $data =null;
-    if($query->num_rows()==1)
+    if($query->num_rows()>0)
     {
       foreach($query->result_array() as $row)
       {
@@ -3941,6 +3941,19 @@ where coop.users_id = '$user_id' and coop.status =15");
     {
         $this->db->trans_commit();
         return true;
+    }
+  }
+
+  public function check_exist_coop($cooperative_id)
+  {
+    $query = $this->db->query("select id from cooperatives where id='$cooperative_id'");
+    if($query->num_rows()>0)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
     }
   }
   public function replicate_to_temp_table($regNo,$user_id)
