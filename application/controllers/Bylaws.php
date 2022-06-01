@@ -126,10 +126,10 @@ class Bylaws extends CI_Controller{
                         }
                       $additionalRequirementsForMembership = substr_replace($additionalRequirementsForMembership, "", -1);
                     }
-
-                    $additionaldelegatePowers = '';
+                    
                     if($this->input->post('additionaldelegatePowers')){
                       $regQualificationsLength = sizeof($this->input->post('additionaldelegatePowers'));
+                      $additionaldelegatePowers = '';
                       for($i = 0; $i< $regQualificationsLength;$i++){
                         $additionaldelegatePowers .=  $this->input->post('additionaldelegatePowers')[$i].';';
                         }
@@ -645,7 +645,7 @@ class Bylaws extends CI_Controller{
                     
                     if($this->input->post('kindsOfMember') == 1){
                       $this->cooperator_model->delete_cooperator_assoc($decoded_id);
-                      echo '<script>alert('.$this->input->post('kindsOfMember').');</script>';
+                      // echo '<script>alert('.$this->input->post('kindsOfMember').');</script>';
                     }
 
                     if($this->input->post('kindsOfMember') == 1){
