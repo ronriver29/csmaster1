@@ -106,7 +106,7 @@ class Bylaws extends CI_Controller{
                         }
                       $regQualicationsTemp = substr_replace($regQualicationsTemp, "", -1);
                     }
-                    if($this->input->post('associateQualifications')){
+                    if($this->input->post('associateQualifications') != ''){
                       $ascQualificationsLength = sizeof($this->input->post('associateQualifications'));
                       $ascQualicationsTemp = '';
                       for($i = 0; $i< $ascQualificationsLength;$i++){
