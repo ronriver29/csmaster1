@@ -197,6 +197,7 @@ class Admins extends CI_Controller{
           $data['verification_list'] = $this->admin_model->get_all_for_verifications();
           $this->load->view('./templates/admin_header', $data);
           $this->load->view('admin/list_of_verifications', $data);
+          $this->load->view('admin/delete_modal_for_verification', $data);
           // $this->load->view('admin/resetpassword_modal_new_user', $data);
           // $this->load->view('admin/edit_reg_date_status', $data);
           // $this->load->view('admin/delete_modal_new_user', $data);
@@ -687,6 +688,48 @@ class Admins extends CI_Controller{
           }else{
             $this->session->set_flashdata('redirect_admin_applications_message', 'Unauthorized!!.');
             redirect('admins/all_user');
+          }
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('cooperatives');
+      }
+    }
+  }
+  public function delete_for_verification(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        if(!$this->session->userdata('access_level')==5){
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }else{
+          if($this->input->post('deleteAdministratorBtn')){
+            $data_field = array(
+              "user_id" => $this->encryption->decrypt(decrypt_custom($this->input->post('adminID'))),
+              "full_name" => $this->input->post('name'),
+              "regno" => $this->input->post('regno'),
+              "email" => $this->input->post('email'),
+              "date_deleted" => date("Y-m-d H:i:s"),
+              "deleted_by" => $this->session->userdata('access_level')
+            );
+
+            $decoded_aid = $this->encryption->decrypt(decrypt_custom($this->input->post('adminID')));
+
+            $this->admin_model->insert_deleted_users($data_field);
+
+            // echo $this->db->last_query();
+              if($this->admin_model->delete_user($decoded_aid)){
+                $this->session->set_flashdata('delete_admin_success', 'Successfully deleted an user.');
+                redirect('admins/for_verifications');
+              }else{
+                $this->session->set_flashdata('delete_admin_error', 'Unable to delete administrator.');
+                redirect('admins/for_verifications');
+              }
+          }else{
+            $this->session->set_flashdata('redirect_admin_applications_message', 'Unauthorized!!.');
+            redirect('admins/for_verifications');
           }
         }
       }else{
