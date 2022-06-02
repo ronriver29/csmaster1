@@ -1659,8 +1659,6 @@ public function submit_to_authorized_user($amendment_id,$region_code,$user_id,$c
       {
         // $process++;
           $admin_authorized_email =  $row['email'];
-          // echo $senior_email;
-          
              if($this->email_model->sendEmailtoAuthorized($admin_authorized_email,$coop_info,$client_info)){
              $this->db->trans_commit();
              // $success++;
