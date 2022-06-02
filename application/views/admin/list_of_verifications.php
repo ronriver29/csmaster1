@@ -78,6 +78,7 @@
                 <th>Valid ID No.</th>
                 <th>Reg No.</th>
                 <th>Status</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -105,6 +106,7 @@
                     } else {
                       echo 'For Verification of Senior';
                     }?></td>
+                    <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAdministratorModal" data-fname="<?= $users['first_name'].' '.$users['last_name'].' '.$users['middle_name']?>" data-email="<?=$users['email']?>" data-regno="<?= $users['regno'];?>" data-adid="<?= encrypt_custom($this->encryption->encrypt($users['id']))?>"><i class='fas fa-trash'></i> Delete</button></td>
                 </tr>
               <?php endforeach; ?>
             </tbody>
