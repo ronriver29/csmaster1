@@ -106,14 +106,14 @@ class Bylaws extends CI_Controller{
                         }
                       $regQualicationsTemp = substr_replace($regQualicationsTemp, "", -1);
                     }
-                    if($this->input->post('associateQualifications') != ''){
-                      $ascQualificationsLength = sizeof($this->input->post('associateQualifications'));
-                      $ascQualicationsTemp = '';
-                      for($i = 0; $i< $ascQualificationsLength;$i++){
-                          $ascQualicationsTemp .=  $this->input->post('associateQualifications')[$i].';';
-                      }
-                      $ascQualicationsTemp = substr_replace($ascQualicationsTemp, "", -1);
-                    }
+                    // if($this->input->post('associateQualifications') != ''){
+                    //   $ascQualificationsLength = sizeof($this->input->post('associateQualifications'));
+                    //   $ascQualicationsTemp = '';
+                    //   for($i = 0; $i< $ascQualificationsLength;$i++){
+                    //       $ascQualicationsTemp .=  $this->input->post('associateQualifications')[$i].';';
+                    //   }
+                    //   $ascQualicationsTemp = substr_replace($ascQualicationsTemp, "", -1);
+                    // }
 
                     $membership_fee=str_replace(',','',$this->input->post('membershipFee'));
                     $investPerMonth=str_replace(',','',$this->input->post('investPerMonth'));
