@@ -30,6 +30,27 @@ class User_model extends CI_Model{
     $row = $query->row();
     return $row;
   }
+  public function add_user_normal($data){
+    $data = $this->security->xss_clean($data);
+    $this->db->trans_begin();
+    if($this->db->insert('users',$data))
+    {
+      $query_last_user_id = $this->db->query("select id from users order by id desc limit 1");
+      foreach($query_last_user_id->result_array() as $user_row)
+      {
+        $user_last_id = $user_row['id'];
+      }
+    }
+
+    // $this->db->trans_commit();
+
+    if($this->db->trans_status() === FALSE){
+      $this->db->trans_rollback();
+      return false;
+    }
+    $this->db->trans_commit();
+    return true;
+  }
   public function add_user($data){
     $data = $this->security->xss_clean($data);
     $this->db->trans_begin();
@@ -265,11 +286,10 @@ e. ".$email."<br>
       return false;
     }
   }
-
   public function get_all_users()
   {
     $data=null;
-    $query = $this->db->query("select id,email,regno from users where regno is not null order by email asc");
+     $query = $this->db->query("select id,email,regno from users where regno is not null order by email asc");
     if($query->num_rows()>0)
     {
       $data = $query->result();

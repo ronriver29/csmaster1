@@ -618,7 +618,7 @@ class Bylaws extends CI_Controller{
                       $additionalConditionsForVoting = substr_replace($additionalConditionsForVoting, "", -1);
                     }
                      $ascQualicationsTemp = '';
-                    if($this->input->post('associateQualifications')){
+                    if($this->input->post('associateQualifications') != ''){
                       $ascQualificationsLength = sizeof($this->input->post('associateQualifications'));
                      
                       for($i = 0; $i< $ascQualificationsLength;$i++){
