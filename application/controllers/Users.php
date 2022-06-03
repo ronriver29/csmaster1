@@ -286,7 +286,7 @@ class Users extends CI_Controller{
         {
 
         $coop_exist = $this->db->where(array('regNo'=>$this->input->post('regno')))->get('registeredcoop');
-        $coop_exist_taken = $this->db->where(array('regNo'=>$this->input->post('regno'),'is_taken'=>1))->get('users');
+        $coop_exist_taken = $this->db->where(array('regno'=>$this->input->post('regno')))->get('users');
         $email_taken = $this->db->where(array('email'=>$this->input->post('eAddress')))->get('users');
         // $coop_exist = $this->db->get_where('registeredcoop',array('regNo'=>$this->input->post('regno')));
         if($coop_exist->num_rows() == 0){
@@ -299,8 +299,7 @@ class Users extends CI_Controller{
         elseif($email_taken->num_rows() > 0) {
           $this->session->set_flashdata(array('email_sent_warning'=>'Email already Taken.'));
                 redirect('users/create_new_email_account');
-        } 
-        else {
+        } else {
 
           $getRegCoop = $this->db->get_where('registeredcoop',array('regNo'=>$this->input->post('regno')));
           if($getRegCoop->num_rows() != 0){
