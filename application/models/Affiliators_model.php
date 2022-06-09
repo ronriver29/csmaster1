@@ -10,7 +10,18 @@ class Affiliators_model extends CI_Model{
     $this->load->database();
   }
  
-  public function get_registered_coop($area_of_operation,$addresscode,$type_of_cooperative){
+  public function get_registered_coop($area_of_operation,$addresscode,$type_of_cooperative,$coopname,$regno){
+    $where_array = array();
+    if($coopname != '') {
+       $where_array[] = "registeredcoop.coopName LIKE '%".$coopname."%'";
+    }
+    if($regno != '') {
+       $where_array[] = "registeredcoop.regNo LIKE '%".$regno."%'";
+    }
+    $and_where = "";
+    if(count($where_array)>0) {
+       $and_where = " AND ".join(" OR ",$where_array);
+    }
     if($area_of_operation == 'Barangay'){
         $this->db->select('registeredcoop.*, registeredcoop.id as registered_id,cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
         $this->db->from('cooperatives');
@@ -19,7 +30,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
+        $this->db->where('(cooperatives.status = 39 OR cooperatives.status = 15) AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"' .$and_where);
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -32,7 +43,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
+        $this->db->where('(cooperatives.status = 39 OR cooperatives.status = 15) AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"' .$and_where);
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -45,7 +56,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
+        $this->db->where('(cooperatives.status = 39 OR cooperatives.status = 15) AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"' .$and_where);
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -58,7 +69,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
+        $this->db->where('(cooperatives.status = 39 OR cooperatives.status = 15) AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"' .$and_where);
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -70,7 +81,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
-        $this->db->where('(cooperatives.status IS NULL OR cooperatives.status = 15 OR cooperatives.status = 39)');
+        $this->db->where('(cooperatives.status IS NULL OR cooperatives.status = 15 OR cooperatives.status = 39)' .$and_where);
         // $this->db->limit('10');
         $query = $this->db->get();
         $data = $query->result_array();
@@ -84,7 +95,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','right');
-        $this->db->where('registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND (cooperatives.status IS NULL OR cooperatives.status = 15) AND length(registeredcoop.addrCode)=9');
+        $this->db->where('registeredcoop.type LIKE "'.$type_of_cooperative.'%" AND (cooperatives.status IS NULL OR cooperatives.status = 15) AND length(registeredcoop.addrCode)=9'.$and_where);
         // $this->db->limit('10');
         $query = $this->db->get();
         $data = $query->result_array();
@@ -257,6 +268,18 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         }
     }
 
+    public function get_all_cooperator_of_coop_ts($cooperatives_id){
+        $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+        $this->db->select('affiliators.*');
+        $this->db->from('affiliators');
+        $this->db->where('cooperatives_id', $cooperatives_id);
+        $this->db->order_by('representative','asc');
+        $query=$this->db->get();
+        $this->last_query = $this->db->last_query();
+        $data = $query->result_array();
+        return $data;
+      }
+
     public function get_all_cooperator_of_coop($cooperatives_id){
         $cooperatives_id = $this->security->xss_clean($cooperatives_id);
         $this->db->select('affiliators.*');
@@ -269,7 +292,18 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         return $data;
       }
 
-    public function get_registered_coop_secondary($area_of_operation,$addresscode,$type_of_cooperative){
+    public function get_registered_coop_secondary($area_of_operation,$addresscode,$type_of_cooperative,$coopname,$regno){
+    $where_array = array();
+    if($coopname != '') {
+       $where_array[] = "registeredcoop.coopName LIKE '%".$coopname."%'";
+    }
+    if($regno != '') {
+       $where_array[] = "registeredcoop.regNo LIKE '%".$regno."%'";
+    }
+    $and_where = "";
+    if(count($where_array)>0) {
+       $and_where = " AND ".join(" OR ",$where_array);
+    }
     if($area_of_operation == 'Barangay'){
         $this->db->select('registeredcoop.*, registeredcoop.id as registered_id,cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
         $this->db->from('cooperatives');
@@ -278,7 +312,7 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.category = "Secondary" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
+        $this->db->where('(cooperatives.status = 15 OR cooperatives.status = 39) AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"'.$and_where);
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -291,7 +325,7 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.category = "Secondary" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
+        $this->db->where('(cooperatives.status = 15 OR cooperatives.status = 39) AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"'.$and_where);
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -304,7 +338,7 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.category = "Secondary" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
+        $this->db->where('(cooperatives.status = 15 OR cooperatives.status = 39) AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"'.$and_where);
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -317,7 +351,7 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-        $this->db->where('cooperatives.status = 15 AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.category = "Secondary" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"');
+        $this->db->where('(cooperatives.status = 15 OR cooperatives.status = 39) AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"'.$and_where);
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -329,7 +363,7 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
-        $this->db->where('registeredcoop.category = "Secondary" AND (cooperatives.status IS NULL OR cooperatives.status = 15) AND registeredcoop.type != "Union"');
+        $this->db->where('(cooperatives.status IS NULL OR cooperatives.status = 15 OR cooperatives.status = 39) AND registeredcoop.type != "Union"'.$and_where);
         // $this->db->limit('10');
         $query = $this->db->get();
         $data = $query->result_array();
@@ -359,6 +393,21 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','left');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','left');
         $this->db->where('user_id ='.$user_id);
+        $query = $this->db->get();
+        $data = $query->result_array();
+        return $data;
+    }
+
+    public function get_applied_coop_ts($user_id){
+        $this->db->select("affiliators.*, affiliators.id AS aff_id, registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region");
+        $this->db->from('affiliators');
+        $this->db->join('cooperatives', 'affiliators.application_id = cooperatives.id','left');
+        $this->db->join('registeredcoop','registeredcoop.id = affiliators.registeredcoop_id','right');
+        $this->db->join('refbrgy' , 'refbrgy.brgyCode = registeredcoop.addrCode','left');
+        $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','left');
+        $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','left');
+        $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','left');
+        $this->db->where('cooperatives_id ='.$user_id);
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -617,6 +666,43 @@ $this->last_query = $this->db->last_query();
     return array('total_subscribed' => $totalSubscribed,'total_paid'=> $totalPaid, 'capitalization_no_of_subscribed'=>$capitalization_no_of_subscribed, 'capitalization_no_of_paid'=>$capitalization_no_of_paid);
   }
 
+  public function get_total_regular_ts($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+
+    $this->db->select('SUM(number_of_subscribed_shares) as total_subscribed, SUM(number_of_paid_up_shares) as total_paid');
+    $query = $this->db->get_where('affiliators',array('cooperatives_id' => $cooperatives_id));
+    $data = $query->row();
+
+    // print_r($data);
+    //    $query2 = $this->db->get_where('articles_of_cooperation',array('cooperatives_id' => $cooperatives_id));
+//    $article = $query2->row();
+    $query2 = $this->db->get_where('capitalization',array('cooperatives_id' => $cooperatives_id));
+    $capitalization_info = $query2->row();
+    $capitalization_no_of_subscribed = 0;
+    $capitalization_no_of_paid = 0;
+    
+    // Jiee
+        $this->db->where(array('cooperatives_id' => $cooperatives_id));
+        $this->db->from('capitalization');
+        if($this->db->count_all_results()==0){
+          $capitalization_no_of_subscribed = 0;
+        $capitalization_no_of_paid = 0;
+        }else{
+          $capitalization_no_of_subscribed = $capitalization_info->total_no_of_subscribed_capital;
+        $capitalization_no_of_paid = $capitalization_info->total_no_of_paid_up_capital;
+        }
+    //
+    
+    $totalSubscribed = 0;
+    $totalPaid = 0;
+    
+    $totalPaid = ($data->total_paid==null) ? 0 : $data->total_paid;
+    $totalSubscribed = ($data->total_subscribed==null) ? 0 : $data->total_subscribed;
+//    $totalSubscribed = $data->total_subscribed;
+//    $totalPaid = $data->total_paid;
+    return array('total_subscribed' => $totalSubscribed,'total_paid'=> $totalPaid, 'capitalization_no_of_subscribed'=>$capitalization_no_of_subscribed, 'capitalization_no_of_paid'=>$capitalization_no_of_paid);
+  }
+
   public function get_list_of_directors($cooperatives_id){
     $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
@@ -631,6 +717,15 @@ $this->last_query = $this->db->last_query();
     $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $this->db->where('user_id',$cooperatives_id);
+    $this->db->where('(position LIKE "Chairperson%" OR position LIKE "Vice-Chairperson%" OR position LIKE "Board of Director%")');
+    $this->db->from('affiliators');
+    return $this->db->count_all_results();
+  }
+
+  public function no_of_directors_ts($cooperatives_id){
+    $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->where('cooperatives_id',$cooperatives_id);
     $this->db->where('(position LIKE "Chairperson%" OR position LIKE "Vice-Chairperson%" OR position LIKE "Board of Director%")');
     $this->db->from('affiliators');
     return $this->db->count_all_results();
@@ -779,10 +874,23 @@ $this->last_query = $this->db->last_query();
     $data = $query->row();
     return $data;
   }
+  public function get_chairperson_of_coop_ts($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $query = $this->db->get_where('affiliators','cooperatives_id = '.$cooperatives_id.' AND (position LIKE "Chairperson%" OR position LIKE "%Chairperson")');
+    $data = $query->row();
+    return $data;
+  }
 
   public function get_vicechairperson_of_coop($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $query = $this->db->get_where('affiliators','user_id = '.$cooperatives_id.' AND (position LIKE "Vice-Chairperson%" OR position LIKE "%Vice-Chairperson")');
+    // 'user_id = '.$cooperatives_id.' AND (position LIKE "Treasurer%" OR position LIKE "%Treasurer")'
+    $data = $query->row();
+    return $data;
+  }
+  public function get_vicechairperson_of_coop_ts($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $query = $this->db->get_where('affiliators','cooperatives_id = '.$cooperatives_id.' AND (position LIKE "Vice-Chairperson%" OR position LIKE "%Vice-Chairperson")');
     // 'user_id = '.$cooperatives_id.' AND (position LIKE "Treasurer%" OR position LIKE "%Treasurer")'
     $data = $query->row();
     return $data;
