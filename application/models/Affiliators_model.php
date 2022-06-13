@@ -48,7 +48,7 @@ class Affiliators_model extends CI_Model{
         $data = $query->result_array();
         return $data;
     } else if($area_of_operation == 'Provincial'){
-        $addresscode = substr($addresscode, 0, 3);
+        $addresscode = substr($addresscode, 0, 4);
         $this->db->select('registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
         $this->db->from('cooperatives');
         $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
