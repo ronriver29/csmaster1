@@ -1782,7 +1782,7 @@ public function submit_by_authorized_user($amendment_id,$region_code){
  public function authorized_user($region_code)
     {
       $data = null;
-      $query= $this->db->get_where('admin',array('region_code'=>$region_code,'access_level'=>6));
+      $query= $this->db->get_where('admin',array('region_code'=>$region_code,'access_level'=>6,'active'=>1));
       if($query->num_rows()>0)
       {
         foreach($query->result_array() as $row)
