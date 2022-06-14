@@ -56,6 +56,8 @@ class amendment_update_model extends CI_Model{
         $data = $row['regNo'];
       }
     }
+    unset($row);
+    unset($query);
     return $data;
   }
   public function get_all_cooperatives_registration($regcode){
@@ -69,6 +71,8 @@ class amendment_update_model extends CI_Model{
     $this->db->where('status = 15 AND ho=0');
     $query = $this->db->get();
     $data = $query->result_array();
+    unset($query);
+    unset($regcode);
     return $data;
   }
 
@@ -1789,6 +1793,8 @@ public function submit_by_authorized_user($amendment_id,$region_code){
         {
           $data[] = $row;
         }
+        unset($row);
+        unset($query);
       }
       return $data;
     }
@@ -1833,13 +1839,14 @@ public function submit_for_reevaluation($user_id,$amendment_id,$region_code){
         {
           return false;
         } 
-     // if($this->email_model->sendEmailDefferedtoSenior($client_info,$admin_info,$amendment_info)){
-     //   $this->db->trans_commit();
-     //   return true;
-     //  }else{
-     //   $this->db->trans_rollback();
-     //   return false;
-     //  }
+        unset($user_id);
+        unset($amendment_id);
+        unset($cooperative_id);
+        unset($amendment_info); 
+        unset($client_qry);
+        unset($client_info);
+        unset($admin_info);
+        unset($senior_info); 
   }
 }
 public function assign_to_specialist($amendment_id,$specialist_id){
