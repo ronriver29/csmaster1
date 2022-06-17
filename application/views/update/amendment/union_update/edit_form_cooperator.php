@@ -13,8 +13,8 @@
             <div class="modal-body">
               <!-- <input type="hidden" class="form-control" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_id ?>"> -->
 
-              <input type="hidden" class="validate[required]" id="cooperatorID" name="cooperatorID">
-              <input type="hidden" class="validate[required]" id="cooperativeID" name="cooperativesID">
+              <input type="hidden" class="" id="cooperatorID" name="cooperatorID">
+              <input type="hidden" class="" id="cooperativeID" name="cooperativesID">
               
               <input type='hidden' id='maxvalue2'/>
               <input type='hidden' id='maxvalue_apuc' value="<?=$coop_info->capital_contribution - $cc_count->total_cc?>"/>
@@ -44,7 +44,7 @@
               <div class="col-md-4">
                 <div class="form-group"> 
                   <label for="position">Position:</label>
-                  <select class="custom-select validate[required]" id="position" name="position" >
+                  <select class="custom-select " id="position" name="position" >
                     <option value="" selected>--</option>
                     <option value="Chairperson">Chairperson</option>
                     <option value="Vice-Chairperson">Vice-Chairperson</option>
@@ -58,14 +58,14 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="paidShares">Name of Representative:</label>
-                  <input type="text" class="form-control validate[required]" id="repre" name="repre">
+                  <input type="text" class="form-control " id="repre" name="repre">
                   <!-- <input type="text" id="repre" name="repre" class="form-control validate[required]"> -->
                 </div>
               </div>
               <div class="col-md-4">
                   <div class="form-group">
                     <label for="validIdType">Proof of Identity: </label>
-                    <select class="custom-select validate[required]" id="validIdType" name="validIdType">
+                    <select class="custom-select " id="validIdType" name="validIdType">
                       <option selected>--</option>
                       <option value="Digitized Postal ID">Digitized Postal ID</option>
                       <option value="Driver's License">Driver's License</option>
@@ -91,13 +91,13 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group form-group-validIdNo">
                   <label for="validIdNo">Valid ID No.</label>
-                  <input type="text" class="form-control validate[required]" id="validIdNo" name="validIdNo">
+                  <input type="text" class="form-control " id="validIdNo" name="validIdNo">
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">
                   <div class="form-group">
                     <label for="dateIssued"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>In Accordance with Notarial Law.</li>"></i> Date Issued:</label>
-                    <input type="date" class="form-control validate[required,custom[date],past[now]]" id="dateIssued" name="dateIssued">
+                    <input type="date" class="form-control" id="dateIssued" name="dateIssued">
                    <!-- <input type="text" class="form-control validate[required]" id="dateIssued" name="dateIssued"> -->
                     <!-- <small style="margin-left: 20px;"><span><i>  yyyy-mm-dd </i></span></small> -->
                     <input type="checkbox" name="dateIssued_chk" id="chkID" value="N/A"> <small>ID Date Issued not available</small>
@@ -106,7 +106,7 @@
                 <div class="col-sm-12 col-md-4">
                   <div class="form-group">
                     <label for="placeIssuance">Place of Issuance: </label>
-                    <textarea class="form-control validate[required]" id="place_of_issuance" name="place_of_issuance" rows="1"></textarea>
+                    <textarea class="form-control" id="place_of_issuance" name="place_of_issuance" rows="1"></textarea>
                   </div>
                 </div>
             </div>
@@ -119,13 +119,13 @@
                 <div class="col-sm-12 col-md-4">
                   <div class="form-group">
                     <label for="validIdNo">Capital Contribution</label>
-                    <input type="text" class="form-control validate[required,min[1],max[]]" id="capitalcontri" name="cc">
+                    <input type="text" class="form-control " id="capitalcontri" name="cc">
                   </div>
                 </div>
               </div>
 
             <div class="modal-footer deleteCooperatorFooter">
-              <input class="btn btn-color-blue btn-block" type="submit" id="deleteCooperatorBtn" name="deleteCooperatorBtn" value="Add">
+              <input class="btn btn-color-blue btn-block" type="submit" id="deleteCooperatorBtn" name="deleteCooperatorBtn" value="submit">
             </div>
              </div>
           </form>
@@ -149,7 +149,7 @@
             var str_total = parseInt(str4)+parseInt(str5);
             $('#maxvalue2').val(str_total);
 
-            $('#capitalcontri').attr({'class':'form-control validate[required,min[1],max['+str_total+'],custom[integer]]'});
+            // $('#capitalcontri').attr({'class':'form-control validate[required,min[1],max['+str_total+'],custom[integer]]'});
 
             // $("#capitalcontri").attr({
             //    "max" : str_total,        // substitute your own
@@ -161,7 +161,7 @@
         $("#capitalcontri").one('click',function(){
           var capitalcontri = parseInt($(this).val());
           // alert(capitalcontri);
-          $('#capitalcontri').attr({'class':'form-control validate[required,min[1],max['+capitalcontri+'],custom[integer]]'});
+          // $('#capitalcontri').attr({'class':'form-control validate[required,min[1],max['+capitalcontri+'],custom[integer]]'});
         });
       }
 

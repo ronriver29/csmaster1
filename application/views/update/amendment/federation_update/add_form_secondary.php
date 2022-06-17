@@ -18,7 +18,7 @@
 
 <div class="row">
   <div class="col-sm-12 col-md-12">
-    <div class="modal fade" id="addAffiliatorModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="addAffiliatorModalamdFed" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl" style="width:90% !important;max-width:1360px;">
         <div class="modal-content">
           <?php echo form_open('amendment_affiliators_update/add_amendment_affiliators',array('id'=>'deleteCooperatorForm','name'=>'deleteCooperatorForm')); ?>
@@ -29,20 +29,31 @@
               </button>
             </div>
             <div class="modal-body">
-              <input type="hidden" class="form-control" id="userid" name="userid" value="<?=$this->encryption->decrypt(decrypt_custom($user_id)) ?>">
-              <input type="hidden" class="form-control" id="amendment" name="amendment_id" value="<?=$encrypted_id ?>">
-              
+            <!--   <input type="hidden" class="form-control" id="userid" name="userid" value="<?=$this->encryption->decrypt(decrypt_custom($user_id)) ?>"> -->
+             
               <input type='hidden' id='available_subscribed_capital' value="<?=isset($capitalization_info->total_no_of_subscribed_capital) ? $capitalization_info->total_no_of_subscribed_capital - $total_subscribed: ''?>" />
               <input type='hidden' id='available_paid_up_capital' value="<?=isset($capitalization_info->total_no_of_paid_up_capital) ? $capitalization_info->total_no_of_paid_up_capital - $total_paid: ''?>" />
               <input type='hidden' id='minimum_subscribed_share_regular' value="<?=isset($capitalization_info->minimum_subscribed_share_regular) ? $capitalization_info->minimum_subscribed_share_regular: ''?>" />
               <input type='hidden' id='minimum_paid_up_share_regular' value="<?=isset($capitalization_info->minimum_paid_up_share_regular) ? $capitalization_info->minimum_paid_up_share_regular: ''?>" />
               <input type='hidden' id='minimum_subscribed_share_associate' value="<?=isset($capitalization_info->minimum_subscribed_share_associate) ? $capitalization_info->minimum_subscribed_share_associate: ''?>" />
-              <input type='hidden' id='minimum_paid_up_share_associate' value="<?=isset($capitalization_info->minimum_paid_up_share_associate) ? $capitalization_info->minimum_paid_up_share_associate: ''?>" />
-              <input type="hidden" class="validate[required]" id="cooperativeID" name="cooperativesID">
-              <input type="hidden" class="validate[required]" id="application_id" name="applicationid">
-              <input type="hidden" class="validate[required]" id="coopname" name="coopName">
-              <input type="hidden" class="validate[required]" id="regno" name="regNo">
-              <input type="hidden" class="validate[required]" id="regid" name="registered_id">
+                <input type='hidden' id='minimum_paid_up_share_associate' value="<?=isset($capitalization_info->minimum_paid_up_share_associate) ? $capitalization_info->minimum_paid_up_share_associate: ''?>" />
+                <input type="hidden" class="validate[required]" id="amd_fed_id" name="amd_fed_id">
+                <input type="hidden" class="validate[required]" id="application_id" name="application_id">
+                <input type="hidden" class="validate[required]" id="amd_id" name="amd_id">
+                <input type="hidden" class="validate[required]" id="source" name="source">
+                <input type="hidden" class="validate[required]" id="coopname" name="coopName">
+                <input type="hidden" class="validate[required]" id="type" name="type">
+                <input type="hidden" class="validate[required]" id="commonBond" name="commonBond">
+                <input type="hidden" class="validate[required]" id="regno" name="regNo">
+                <input type="hidden" class="validate[required]" id="regid" name="registered_id">
+                <input type="hidden" id="dateRegistered" name="dateRegistered">
+                <input type="hidden" id="addrCode" name="addrCode">
+                <input type="hidden" id="street" name="street">
+                <input type="hidden" id="nostreet" name="nostreet">
+                <input type="hidden" id="brgy" name="brgy">
+                <input type="hidden" id="city" name="city">
+                <input type="hidden" id="province" name="province">
+                <input type="hidden" id="region" name="region">
               <div class="alert alert-info" role="alert">
                 <p> Are you sure you want to add <strong class="cooperator-name-text">test</strong> Cooperative?</p>
               </div> 
@@ -125,7 +136,7 @@
                 <div class="col-sm-12 col-md-4">
                   <div class="form-group form-group-validIdNo">
                     <label for="validIdNo">Valid ID No.</label>
-                    <input type="text" class="form-control validate[required]" id="validIdNo" name="validIdNo" required>
+                    <input type="text" class="form-control" id="validIdNo" name="validIdNo">
                   </div>
                 </div>
               </div>
@@ -142,7 +153,7 @@
                 <div class="col-sm-12 col-md-9">
                   <div class="form-group">
                     <label for="placeIssuance">Place of Issuance: </label>
-                    <textarea class="form-control validate[required]" style="resize: none;" id="placeIssuance" name="placeIssuance" rows="1" required></textarea>
+                    <textarea class="form-control " style="resize: none;" id="placeIssuance" name="placeIssuance" rows="1" ></textarea>
                   </div>
                 </div>
               </div>

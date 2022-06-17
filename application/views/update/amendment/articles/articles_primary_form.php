@@ -10,13 +10,15 @@ if(isset($articles_info))
 }
 
 $common_share = '';
-$par_value = '';
-$authorized_share_capital  ='';
+$par_value = 0;
+$authorized_share_capital  =0;
+$preferred_share='';
 if(isset($capitalization_info))
 {
   $common_share=$capitalization_info->common_share;
   $par_value = $capitalization_info->par_value;
   $authorized_share_capital = $capitalization_info->authorized_share_capital;
+  $preferred_share =$capitalization_info->preferred_share;
 }
 
 $kinds_of_members='';
@@ -142,7 +144,7 @@ if(isset($bylaw_info))
           <div class="col-sm-12 col-md-7">
             <div class="form-group">
             <label for="commonShares"><strong>Authorized Shared Capital will be divided into how many common shares ?</strong></label>
-             <input type="number" step="any" value="<?= $capitalization_info->common_share?>" class="form-control"  id="commonShares" name="commonShares" placeholder="Shares" disabled readonly="readonly">
+             <input type="number" step="any" value="<?= $common_share?>" class="form-control"  id="commonShares" name="commonShares" placeholder="Shares" disabled readonly="readonly">
            </div>
           </div>
           <div class="col-sm-12 col-md-5">
@@ -155,13 +157,13 @@ if(isset($bylaw_info))
           <div class="col-sm-12 col-md-7">
             <div class="form-group">
             <label for="preferredShares"><strong>Authorized Shared Capital will be divided into how many preferred shares ?</strong></label>
-             <input type="number" min="1" step="any" value="<?= $capitalization_info->preferred_share?>" class="form-control validate[required,min[<?=$total_associate['total_subscribed'] ?>],custom[number]]" id="preferredShares" name="preferredShares" placeholder="Shares" disabled readonly="readonly">
+             <input type="number" min="1" step="any" value="<?= $preferred_share?>" class="form-control" id="preferredShares" name="preferredShares" placeholder="Shares" disabled readonly="readonly">
            </div>
           </div>
           <div class="col-sm-12 col-md-5">
             <div class="form-group">
             <label for="parValuePreferred"><strong>What is the Par value per preferred share?</strong></label>
-             <input type="text"  step="any" value="<?= number_format($capitalization_info->par_value)?>" class="form-control " id="parValuePreferred" name="parValuePreferred" placeholder="&#8369;" disabled readonly="readonly">
+             <input type="text"  step="any" value="<?= number_format($par_value)?>" class="form-control " id="parValuePreferred" name="parValuePreferred" placeholder="&#8369;" disabled readonly="readonly">
            
            </div>
           </div>
@@ -169,7 +171,7 @@ if(isset($bylaw_info))
         <div class="col-sm-12 col-md-12">
           <div class="form-group">
           <label for="authorizedShareCapital"><strong>The Authorized Share Capital of the Cooperative</strong></label>
-          <input type="text"  step="any" min="1" value="<?= number_format($capitalization_info->authorized_share_capital)?>"  class="form-control validate[required,min[1],custom[number]<?php if($bylaw_info->kinds_of_members==2) echo ",funcCall[validateRegularAssociateAuthorizedCapitalCustom]";?>]"  id="authorizedShareCapital" name="authorizedShareCapital" placeholder="&#8369;" readonly>
+          <input type="text"  step="any" min="1" value="<?= number_format($authorized_share_capital)?>"  class="form-control"  id="authorizedShareCapital" name="authorizedShareCapital" placeholder="&#8369;" readonly>
          </div>
         </div>
         </div>

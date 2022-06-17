@@ -59,9 +59,9 @@ if($is_client && !$has_registered_coop):?>
 <div class="row">
   <?php if($is_client && $has_registered_coop) : ?>
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
-    <?php /*) if(!$check_pending): ?>
+    <?php  if($is_coop_updated && $is_amendment_updated): ?>
     <a class="btn btn-color-blue btn-block" href="<?php echo base_url();?>amendment/application" role="button">Amend a Cooperative</a>
-   <?php endif; */?>
+   <?php endif; ?>
   </div>
   <?php endif; ?>
   <?php if(!$is_client && $admin_info->access_level == 3) : ?>

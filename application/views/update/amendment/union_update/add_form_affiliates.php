@@ -5,7 +5,7 @@
         <div class="modal-content">
           <?php echo form_open('amendment_union_update/add_affiliates',array('id'=>'deleteCooperatorForm','name'=>'deleteCooperatorForm')); ?>
             <div class="modal-header">
-              <h4 class="modal-title" id="deleteModalLabel">Are you sure you want to add this?asfdasd</h4>
+              <h4 class="modal-title" id="deleteModalLabel">Are you sure you want to add this?</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -73,7 +73,7 @@
                 <div class="col-sm-12 col-md-4">
                   <div class="form-group form-group-validIdNo">
                     <label for="validIdNo">Valid ID No.</label>
-                    <input type="text" class="form-control validate[required]" id="validIdNo" name="validIdNo">
+                    <input type="text" class="form-control " id="validIdNo" name="validIdNo">
                   </div>
                 </div>
                 <div class="col-sm-12 col-md-4">
@@ -88,7 +88,7 @@
                 <div class="col-sm-12 col-md-4">
                   <div class="form-group">
                     <label for="placeIssuance">Place of Issuance: </label>
-                    <textarea class="form-control validate[required]" id="placeIssuance" name="placeIssuance" rows="1"></textarea>
+                    <textarea class="form-control" id="placeIssuance" name="placeIssuance" rows="1"></textarea>
                   </div>
                 </div>
               </div>
@@ -108,7 +108,7 @@
               </div>
 
             <div class="modal-footer deleteCooperatorFooter">
-              <input class="btn btn-color-blue btn-block" type="submit" id="deleteCooperatorBtn" name="deleteCooperatorBtn" value="Add">
+              <input class="btn btn-color-blue btn-block" type="submit" id="deleteCooperatorBtn" name="deleteCooperatorBtn" value="submit">
             </div>
           </form>
         </div>

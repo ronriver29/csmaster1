@@ -366,6 +366,49 @@ $('#addAffiliatorModalamd').on('show.bs.modal', function (event) {
   modal.find('.modal-body #regno').val(regno);
   modal.find('.modal-body #regid').val(regid);
 });
+
+$('#addAffiliatorModalamdFed').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var full_name = button.data('fname');
+  var type = button.data('type');
+  var commonBond = button.data('commonBond');
+  var amd_fed_id = button.data('amd_fed_id');
+  var types = button.data('source'); 
+  var amendment_id = button.data('amendment_id'); 
+  var application_id = button.data('application_id');
+  var regno = button.data('regno');
+  var regid = button.data('reg_id');
+  var addrCode =button.data('addrcode');
+  var street = button.data('street');
+  var nostreet = button.data('nostreet');
+  var brgy = button.data('brgy');
+  var city = button.data('city');
+  var province = button.data('province');
+  var region = button.data('region');
+  var dateRegistered = button.data('datereg');
+  var modal = $(this);
+  modal.find('.modal-body #amd_fed_id').val(amd_fed_id);
+  modal.find('.modal-body #source').val(types);
+  modal.find('.modal-body #application_id').val(application_id);
+  modal.find('.modal-body #amd_id').val(amendment_id);
+  modal.find('.modal-body #source').val(types);
+  modal.find('.modal-body #coopname').val(full_name);
+  modal.find('.modal-body #type').val(type);
+  modal.find('.modal-body #addrCode').val(addrCode);
+  modal.find('.modal-body #street').val(street);
+  modal.find('.modal-body #nostreet').val(nostreet);
+  modal.find('.modal-body #brgy').val(brgy);
+  modal.find('.modal-body #city').val(city);
+  modal.find('.modal-body #province').val(province);
+  modal.find('.modal-body #region').val(region);
+  modal.find('.modal-body #commonBond').val(commonBond);
+  modal.find('.modal-body .cooperator-name-text').text(full_name);
+  modal.find('.modal-body #regno').val(regno);
+  modal.find('.modal-body #regid').val(regid);
+  modal.find('.modal-body #dateRegistered').val(dateRegistered);
+  
+});
+
 $('#addAffiliatorModalcoop').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget);
   var full_name = button.data('fname');
@@ -513,6 +556,40 @@ $('#fullInfoRegisteredModal').on('show.bs.modal', function (event) {
   modal.find('.modal-body .brgy').text(brgy);
   modal.find('.modal-body .type').text(type);
 });
+
+$('#fullInfoRegisteredModalAmdFedSecondary').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var full_name = button.data('fname');
+  var placeissuance = button.data('placeissuance');
+  var dateregistered = button.data('dateregistered');
+  var regno = button.data('regno');
+  var business_activity = button.data('business_activity');
+  var business_activity_sub = button.data('business_activity_sub');
+  var common_bond_membership = button.data('common_bond_membership');
+  var house_blk_no = button.data('house_blk_no');
+  var street = button.data('street');
+  var region = button.data('region');
+  var city = button.data('city');
+  var province = button.data('province');
+  var brgy = button.data('brgy');
+  var type = button.data('type');
+  var modal = $(this);
+  modal.find('.modal-body .fname').text(full_name);
+  modal.find('.modal-body .place-issuance').text(placeissuance);
+  modal.find('.modal-body .dateregistered').text(dateregistered);
+  modal.find('.modal-body .regno').text(regno);
+  modal.find('.modal-body .business_activity').text(business_activity);
+  modal.find('.modal-body .business_activity_sub').text(business_activity_sub);
+  modal.find('.modal-body .common_bond_membership').text(common_bond_membership);
+  modal.find('.modal-body .house_blk_no').text(house_blk_no);
+  modal.find('.modal-body .street').text(street);
+  modal.find('.modal-body .region').text(region);
+  modal.find('.modal-body .city').text(city);
+  modal.find('.modal-body .province').text(province);
+  modal.find('.modal-body .brgy').text(brgy);
+  modal.find('.modal-body .type').text(type);
+});
+
 
 $('#fullInfoRegisteredModalamd').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget);
@@ -1030,28 +1107,28 @@ $("#deleteStaffForm").validationEngine('attach',
                 /*
               Start add committee form amendment
               */
-              $('#addCommitteeFormAmendment #committeeName').on('change', function(){
-                if($(this).val()=="Others"){ 
-                  // var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
-                  //           '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
-                  //           '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhpAmendment]]" name="committeeNameSpecify" id="committeeNameSpecify">' +
-                  //           '</div></div>');
+              // $('#addCommitteeFormAmendment #committeeName').on('change', function(){
+              //   if($(this).val()=="Others"){ 
+              //     // var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+              //     //           '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
+              //     //           '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhpAmendment]]" name="committeeNameSpecify" id="committeeNameSpecify">' +
+              //     //           '</div></div>');
 
-                   var committeeSpecifyOthers = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
-                            '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
-                            '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhpAmendment]]" name="committeeNameSpecify" id="committeeNameSpecify">' +
-                            '</div></div>');
-                   var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
-                            '<div class="form-group"><label for="committeeNameSpecify">Function and Responsibilities:</label>' +
-                             '<textarea class="form-control validate[required]" name="func_and_respons" id="func_and_respons" rows="5"></textarea>' +
-                            '<input type="hidden" value="others" name="type">' +
-                            '</div></div>');
+              //      var committeeSpecifyOthers = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+              //               '<div class="form-group"><label for="committeeNameSpecify">Specify Others:</label>' +
+              //               '<input type="text" class="form-control validate[required,funcCall[validateOthersInCommitteeNameCustom],ajax[ajaxCommitteeNameCallPhpAmendment]]" name="committeeNameSpecify" id="committeeNameSpecify">' +
+              //               '</div></div>');
+              //      var committeeNameSpecify = $('<div class="col-sm-12 col-md-4 col-committee-specify">' +
+              //               '<div class="form-group"><label for="committeeNameSpecify">Function and Responsibilities:</label>' +
+              //                '<textarea class="form-control validate[required]" name="func_and_respons" id="func_and_respons" rows="5"></textarea>' +
+              //               '<input type="hidden" value="others" name="type">' +
+              //               '</div></div>');
 
-                  $('#addCommitteeFormAmendment .ac-row').append(committeeSpecifyOthers,committeeNameSpecify);
-                }else{
-                  $('#addCommitteeFormAmendment .col-committee-specify').remove();
-                }
-              });
+              //     $('#addCommitteeFormAmendment .ac-row').append(committeeSpecifyOthers,committeeNameSpecify);
+              //   }else{
+              //     $('#addCommitteeFormAmendment .col-committee-specify').remove();
+              //   }
+              // });
 
               $('#addCommitteeFormAmendment #cooperator_ID').on('change', function(){
                 $("#addCommitteeFormAmendment .ac-info-row input,textarea").val("");
@@ -1102,24 +1179,24 @@ $("#deleteStaffForm").validationEngine('attach',
                 }
               });
 
-              $("#addCommitteeFormAmendment").validationEngine('attach',
-                  {promptPosition: 'inline',
-                  scroll: false,
-                  focusFirstField : false,
-                  onValidationComplete: function(form,status){
-                    if(status==true){
-                      if($("#addCommitteeLoadingBtn").length <= 0){
-                        $("#addCommitteeBtn").hide();
-                        $(".addCommitteeFooter").append($('<button></button>').attr({'id':'addCommitteeLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
-                        return true;
-                      }else{
-                        return false;
-                      }
-                    }else{
-                      return false;
-                    }
-                  }
-              });
+              // $("#addCommitteeFormAmendment").validationEngine('attach',
+              //     {promptPosition: 'inline',
+              //     scroll: false,
+              //     focusFirstField : false,
+              //     onValidationComplete: function(form,status){
+              //       if(status==true){
+              //         if($("#addCommitteeLoadingBtn").length <= 0){
+              //           $("#addCommitteeBtn").hide();
+              //           $(".addCommitteeFooter").append($('<button></button>').attr({'id':'addCommitteeLoadingBtn','disabled':'disabled','class':'btn btn-block btn-secondary'}).text("Loading"));
+              //           return true;
+              //         }else{
+              //           return false;
+              //         }
+              //       }else{
+              //         return false;
+              //       }
+              //     }
+              // });
               //end add amendment committee
 
               //json
@@ -1829,14 +1906,14 @@ $("#deleteStaffForm").validationEngine('attach',
 
     // October 15, 2019
         // Union JS
-            $('#bylawsUnionForm #addMoreRequirementsBtn').on('click', function(){
+            $('#bylawsUnionForm #addMoreRequirementsBtn').on('click', function(){ 
                 var lastCountOfadditionalRequirementsForMembership = $('textarea[name="additionalRequirementsForMembership[]"').last().attr('id');
                 var intLastCount = parseInt(lastCountOfadditionalRequirementsForMembership.substr(-1));
                 var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn regularQualificationRemoveBtn float-right text-danger'}).click(function(){
 
                   $(this).parent().parent().remove();
                   $('#bylawsUnionForm input[name="additionalRequirementsForMembership[]"').each(function(index){
-                    $(this).siblings('label').text("Requirements for Membership " + (index+4));
+                    $(this).siblings('label').text("Requirements for Membership " + (index+1));
                   });
                 });
                 var labeladditionalRequirementsForMembership = $('<label></label>').attr({'for': 'additionalRequirementsForMembership'+(intLastCount + 1)}).text('Regular member qualification ' + (intLastCount + 1));
@@ -1847,11 +1924,11 @@ $("#deleteStaffForm").validationEngine('attach',
                 $(divColadditionalRequirementsForMembership).append(divFormGroupadditionalRequirementsForMembership);
                 $('.additionalRequirementsForMembership').append(divColadditionalRequirementsForMembership);
                 $('#bylawsUnionForm input[name="additionalRequirementsForMembership[]"').each(function(index){
-                  $(this).siblings('label').text("Requirements for Membership " + (index+4));
+                  $(this).siblings('label').text("Requirements for Membership " + (index+1));
                 });
             });
             
-            $('#bylawsUnionForm #addMoredelegatePowersBtn').on('click', function(){
+            $('#bylawsUnionForm #addMoredelegatePowersBtn').on('click', function(){ 
                 var lastCountOfadditionalRequirementsForMembership = $('textarea[name="additionaldelegatePowers[]"').last().attr('id');
                 var intLastCount = parseInt(lastCountOfadditionalRequirementsForMembership.substr(-1));
                 var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn delegatePowersRemoveBtn float-right text-danger'}).click(function(){
@@ -1894,30 +1971,55 @@ $("#deleteStaffForm").validationEngine('attach',
                 });
             });
 
-            $('#bylawsPrimaryForm #addMoredelegatePowersBtn').on('click', function(){
-                var lastCountOfadditionalRequirementsForMembership = $('textarea[name="additionaldelegatePowers[]"').last().attr('id');
-                var intLastCount = parseInt(lastCountOfadditionalRequirementsForMembership.substr(-1));
-                var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn delegatePowersRemoveBtn float-right text-danger'}).click(function(){
-                  $(this).parent().parent().remove();
-                  $('#bylawsPrimaryForm input[name="additionaldelegatePowers[]"').each(function(index){
-                    $(this).siblings('label').text("General Assembly " + (index));
-                  });
-                });
-                var labeladditionalRequirementsForMembership = $('<label></label>').attr({'for': 'additionaldelegatePowers'+(intLastCount + 1)}).text('Regular member qualification ' + (intLastCount + 1));
-                var inputadditionalRequirementsForMembership = $('<textarea></textarea>').attr({'type':'text','class': 'form-control','placeholder':'Must be in a sentence','name': 'additionaldelegatePowers[]', 'id': 'additionaldelegatePowers' + (intLastCount + 1)});
-                var divFormGroupadditionalRequirementsForMembership = $('<div></div>').attr({'class':'form-group'});
-                var divColadditionalRequirementsForMembership = $('<div></div>').attr({'class':'col-sm-12 col-md-12'});
-                $(divFormGroupadditionalRequirementsForMembership).append(deleteSpan,labeladditionalRequirementsForMembership,inputadditionalRequirementsForMembership);
-                $(divColadditionalRequirementsForMembership).append(divFormGroupadditionalRequirementsForMembership);
-                $('.delegatePowers').append(divColadditionalRequirementsForMembership);
-                $('#bylawsPrimaryForm input[name="additionaldelegatePowers[]"').each(function(index){
-                  $(this).siblings('label').text("General Assembly " + (index));
-                });
-            });
+            // $('#bylawsPrimaryForm #addMoredelegatePowersBtn').on('click', function(){  
+            //     var lastCountOfadditionalRequirementsForMembership = $('textarea[name="additionaldelegatePowers[]"').last().attr('id');
+            //     var intLastCount = parseInt(lastCountOfadditionalRequirementsForMembership.substr(-1));
+            //     var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn delegatePowersRemoveBtn float-right text-danger'}).click(function(){
+            //       $(this).parent().parent().remove();
+            //       $('#bylawsPrimaryForm input[name="additionaldelegatePowers[]"').each(function(index){
+            //         $(this).siblings('label').text("General Assembly " + (index));
+            //       });
+            //     });
+            //     // var labeladditionalRequirementsForMembership = $('<label></label>').attr({'for': 'additionaldelegatePowers'+(intLastCount + 1)}).text('Regular member qualification ' + (intLastCount + 1));
+            //     var labeladditionalRequirementsForMembershipa = $('<label></label>').attr({'for': 'additionaldelegatePowers'+(intLastCount + 1)}).text("General Assembly " + (intLastCount + 1));
+            //     var inputadditionalRequirementsForMembership = $('<textarea></textarea>').attr({'type':'text','class': 'form-control','placeholder':'Must be in a sentence','name': 'additionaldelegatePowers[]', 'id': 'additionaldelegatePowers' + (intLastCount + 1)});
+            //     var divFormGroupadditionalRequirementsForMembership = $('<div></div>').attr({'class':'form-group'});
+            //     var divColadditionalRequirementsForMembership = $('<div></div>').attr({'class':'col-sm-12 col-md-12'});
+            //     $(divFormGroupadditionalRequirementsForMembership).append(deleteSpan,labeladditionalRequirementsForMembershipa,inputadditionalRequirementsForMembership);
+            //     $(divColadditionalRequirementsForMembership).append(divFormGroupadditionalRequirementsForMembership);
+            //     $('.delegatePowers').append(divColadditionalRequirementsForMembership);
+            //     $('#bylawsPrimaryForm input[name="additionaldelegatePowers[]"').each(function(index){
+            //       $(this).siblings('label').text("General Assembly " + (index));
+            //     });
+            // });
             
 
         // END Union JS
-        
+      
+      //AMENDMENT SECONDARY FEDERATION
+      // $('#bylawsFedFormAmd #addMoredelegatePowersBtn').on('click', function(){ alert('ire')
+      //   var lastCountOfadditionalRequirementsForMembership = $('textarea[name="additionaldelegatePowers[]"').last().attr('id');
+      //   var intLastCount = parseInt(lastCountOfadditionalRequirementsForMembership.substr(-1));
+      //   var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn delegatePowersRemoveBtn float-right text-danger'}).click(function(){
+      //     $(this).parent().parent().remove();
+      //     $('#bylawsFedFormAmd input[name="additionaldelegatePowers[]"').each(function(index){
+      //       $(this).siblings('label').text("General Assembly " + (index));
+      //     });
+      //   });
+      //   var labeladditionalRequirementsForMembership = $('<label></label>').attr({'for': 'additionaldelegatePowers'+(intLastCount + 1)}).text('Regular member qualification ' + (intLastCount + 1));
+      //   var inputadditionalRequirementsForMembership = $('<textarea></textarea>').attr({'type':'text','class': 'form-control','placeholder':'Must be in a sentence','name': 'additionaldelegatePowers[]', 'id': 'additionaldelegatePowers' + (intLastCount + 1)});
+      //   var divFormGroupadditionalRequirementsForMembership = $('<div></div>').attr({'class':'form-group'});
+      //   var divColadditionalRequirementsForMembership = $('<div></div>').attr({'class':'col-sm-12 col-md-12'});
+      //   $(divFormGroupadditionalRequirementsForMembership).append(deleteSpan,labeladditionalRequirementsForMembership,inputadditionalRequirementsForMembership);
+      //   $(divColadditionalRequirementsForMembership).append(divFormGroupadditionalRequirementsForMembership);
+      //   $('.delegatePowers').append(divColadditionalRequirementsForMembership);
+      //   $('#bylawsFedFormAmd input[name="additionaldelegatePowers[]"').each(function(index){
+      //   $(this).siblings('label').text("General Assembly " + (index));
+      //   });
+      // });
+      //END AMENDMENT SECONDARY FEDERATION  
+
+
     $('#bylawsPrimaryForm #addMoredelegatePowersBtn').on('click', function(){
       var lastCountOfadditionalRequirementsForMembership = $('textarea[name="additionaldelegatePowers[]"').last().attr('id');
       var intLastCount = parseInt(lastCountOfadditionalRequirementsForMembership.substr(-1));
@@ -1927,7 +2029,7 @@ $("#deleteStaffForm").validationEngine('attach',
           $(this).siblings('label').text("General Assembly " + (index+1));
         });
       });
-      var labeladditionalRequirementsForMembership = $('<label></label>').attr({'for': 'additionaldelegatePowers'+(intLastCount + 1)}).text('Regular member qualification ' + (intLastCount + 1));
+      var labeladditionalRequirementsForMembership = $('<label></label>').attr({'for': 'additionaldelegatePowers'+(intLastCount + 1)}).text('General Assembly ' + (intLastCount + 1));
       var inputadditionalRequirementsForMembership = $('<textarea></textarea>').attr({'type':'text','class': 'form-control','placeholder':'Must be in a sentence','name': 'additionaldelegatePowers[]', 'id': 'additionaldelegatePowers' + (intLastCount + 1)});
       var divFormGroupadditionalRequirementsForMembership = $('<div></div>').attr({'class':'form-group'});
       var divColadditionalRequirementsForMembership = $('<div></div>').attr({'class':'col-sm-12 col-md-12'});
@@ -1960,7 +2062,7 @@ $("#deleteStaffForm").validationEngine('attach',
       });
     });
             
-    $('#bylawsPrimaryForm #addMoreRequirementsBtn').on('click', function(){
+    $('#bylawsPrimaryForm #addMoreRequirementsBtn').on('click', function(){ 
       var lastCountOfadditionalRequirementsForMembership = $('textarea[name="additionalRequirementsForMembership[]"').last().attr('id');
       var intLastCount = parseInt(lastCountOfadditionalRequirementsForMembership.substr(-1));
       var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn regularQualificationRemoveBtn float-right text-danger'}).click(function(){
@@ -1980,6 +2082,112 @@ $("#deleteStaffForm").validationEngine('attach',
         $(this).siblings('label').text("Requirements for Membership " + (index+4));
       });
     });
+
+     $('#bylawsFedFormAmd #addMoreRequirementsBtn').on('click', function(){ 
+      var lastCountOfadditionalRequirementsForMembership = $('textarea[name="additionalRequirementsForMembership[]"').last().attr('id');
+      var intLastCount = parseInt(lastCountOfadditionalRequirementsForMembership.substr(-1));
+      var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn regularQualificationRemoveBtn float-right text-danger'}).click(function(){
+        $(this).parent().parent().remove();
+        $('#bylawsFedFormAmd textarea[name="additionalRequirementsForMembership[]"').each(function(index){
+          $(this).siblings('label').text("Regular member qualification " + (index+1));
+        });
+      });
+      var labeladditionalRequirementsForMembership = $('<label></label>').attr({'for': 'additionalRequirementsForMembership'+(intLastCount + 1)}).text('Requirements for membership ' + (intLastCount + 1));
+      var inputadditionalRequirementsForMembership = $('<textarea></textarea>').attr({'type':'text','class': 'form-control','placeholder':'Must be in a sentence','name': 'additionalRequirementsForMembership[]', 'id': 'additionalRequirementsForMembership' + (intLastCount + 1)});
+      var divFormGroupadditionalRequirementsForMembership = $('<div></div>').attr({'class':'form-group'});
+      var divColadditionalRequirementsForMembership = $('<div></div>').attr({'class':'col-sm-12 col-md-12'});
+      $(divFormGroupadditionalRequirementsForMembership).append(deleteSpan,labeladditionalRequirementsForMembership,inputadditionalRequirementsForMembership);
+      $(divColadditionalRequirementsForMembership).append(divFormGroupadditionalRequirementsForMembership);
+      $('.additionalRequirementsForMembership').append(divColadditionalRequirementsForMembership);
+      $('#bylawsFedFormAmd textarea[name="additionalRequirementsForMembership[]"').each(function(index){
+        $(this).siblings('label').text("Requirements for Membership " + (index+1));
+      });
+    });
+
+     $('#bylawsFedFormAmd #addMoreQualificationsRegularBtn').on('click', function(){
+    var lastCountOfRegularQualifications = $('textarea[name="regularQualifications[]"').last().attr('id');
+    var intLastCount = parseInt(lastCountOfRegularQualifications.substr(-1));
+    var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn regularQualificationRemoveBtn float-right text-danger'}).click(function(){
+      $(this).parent().parent().remove();
+      $('#bylawsFedFormAmd input[name="regularQualifications[]"').each(function(index){
+        $(this).siblings('label').text("Regular member qualification " + (index+1));
+      });
+    });
+    var labelRegularQualifications = $('<label></label>').attr({'for': 'regularQualifications'+(intLastCount + 1)}).text('Regular member qualification ' + (intLastCount + 1));
+    var inputRegularQualifications = $('<textarea></textarea>').attr({'type':'text','class': 'form-control','placeholder':'Must be in a sentence','name': 'regularQualifications[]', 'id': 'regularQualifications' + (intLastCount + 1)});
+    var divFormGroupRegularQualifications = $('<div></div>').attr({'class':'form-group'});
+    var divColRegularQualifications = $('<div></div>').attr({'class':'col-sm-12 col-md-12'});
+    $(divFormGroupRegularQualifications).append(deleteSpan,labelRegularQualifications,inputRegularQualifications);
+    $(divColRegularQualifications).append(divFormGroupRegularQualifications);
+    $('.row-regular-qualifications').append(divColRegularQualifications);
+    $('#bylawsFedFormAmd input[name="regularQualifications[]"').each(function(index){
+      $(this).siblings('label').text("Regular member qualification " + (index+1));
+    });
+  });
+
+     $('#bylawsFedFormAmd #addMoreMembersEntitledtoVoteBtn').on('click', function(){
+      var lastCountOfadditionalConditionsForVoting = $('textarea[name="additionalConditionsForVoting[]"').last().attr('id');
+      var intLastCount = parseInt(lastCountOfadditionalConditionsForVoting.substr(-1));
+      var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn regularQualificationRemoveBtn float-right text-danger'}).click(function(){
+        $(this).parent().parent().remove();
+        $('#bylawsFedFormAmd textarea[name="additionalConditionsForVoting[]"').each(function(index){
+          $(this).siblings('label').text("Members Entitled to Vote " + (index+1));
+        });
+      });
+      var labeladditionalConditionsForVoting = $('<label></label>').attr({'for': 'additionalConditionsForVoting'+(intLastCount + 1)}).text('Regular member qualification ' + (intLastCount + 1));
+      var inputadditionalConditionsForVoting = $('<textarea></textarea>').attr({'type':'text','class': 'form-control','placeholder':'Must be in a sentence','name': 'additionalConditionsForVoting[]', 'id': 'additionalConditionsForVoting' + (intLastCount + 1)});
+      var divFormGroupadditionalConditionsForVoting = $('<div></div>').attr({'class':'form-group'});
+      var divColadditionalConditionsForVoting = $('<div></div>').attr({'class':'col-sm-12 col-md-12'});
+      $(divFormGroupadditionalConditionsForVoting).append(deleteSpan,labeladditionalConditionsForVoting,inputadditionalConditionsForVoting);
+      $(divColadditionalConditionsForVoting).append(divFormGroupadditionalConditionsForVoting);
+      $('.additionalConditionsForVoting').append(divColadditionalConditionsForVoting);
+      $('#bylawsFedFormAmd textarea[name="additionalConditionsForVoting[]"').each(function(index){
+        $(this).siblings('label').text("Members Entitled to Vote " + (index+1));
+      });
+    });
+
+     $('#bylawsFedFormAmd #addMoredelegatePowersBtn').on('click', function(){
+      var lastCountOfadditionalRequirementsForMembership = $('textarea[name="additionaldelegatePowers[]"').last().attr('id');
+      var intLastCount = parseInt(lastCountOfadditionalRequirementsForMembership.substr(-1));
+      var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn delegatePowersRemoveBtn float-right text-danger'}).click(function(){
+        $(this).parent().parent().remove();
+        $('#bylawsFedFormAmd input[name="additionaldelegatePowers[]"').each(function(index){
+          $(this).siblings('label').text("General Assembly " + (index+1));
+        });
+      });
+      var labeladditionalRequirementsForMembership = $('<label></label>').attr({'for': 'additionaldelegatePowers'+(intLastCount + 1)}).text('General Assembly ' + (intLastCount + 1));
+      var inputadditionalRequirementsForMembership = $('<textarea></textarea>').attr({'type':'text','class': 'form-control','placeholder':'Must be in a sentence','name': 'additionaldelegatePowers[]', 'id': 'additionaldelegatePowers' + (intLastCount + 1)});
+      var divFormGroupadditionalRequirementsForMembership = $('<div></div>').attr({'class':'form-group'});
+      var divColadditionalRequirementsForMembership = $('<div></div>').attr({'class':'col-sm-12 col-md-12'});
+      $(divFormGroupadditionalRequirementsForMembership).append(deleteSpan,labeladditionalRequirementsForMembership,inputadditionalRequirementsForMembership);
+      $(divColadditionalRequirementsForMembership).append(divFormGroupadditionalRequirementsForMembership);
+      $('.additionaldelegatePowers').append(divColadditionalRequirementsForMembership);
+      $('#bylawsFedFormAmd input[name="additionaldelegatePowers[]"').each(function(index){
+        $(this).siblings('label').text("General Assembly " + (index+1));
+      });
+    });
+
+    $('#bylawsFedFormAmd #addMorePrimaryConsiderationBtn').on('click', function(){
+      var lastCountOfadditionalRequirementsForMembership = $('textarea[name="additionalPrimaryConsideration[]"').last().attr('id');
+      var intLastCount = parseInt(lastCountOfadditionalRequirementsForMembership.substr(-1));
+      var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn regularQualificationRemoveBtn float-right text-danger'}).click(function(){
+        $(this).parent().parent().remove();
+        $('#bylawsFedFormAmd input[name="additionalPrimaryConsideration[]"').each(function(index){
+          $(this).siblings('label').text("a. " + (index+1));
+        });
+      });
+      var labeladditionalRequirementsForMembership = $('<label></label>').attr({'for': 'additionalPrimaryConsideration'+(intLastCount + 1)}).text('a. ' + (intLastCount + 1));
+      var inputadditionalRequirementsForMembership = $('<textarea></textarea>').attr({'type':'text','class': 'form-control','placeholder':'Must be in a sentence','name': 'additionalPrimaryConsideration[]', 'id': 'additionalPrimaryConsideration' + (intLastCount + 1)});
+      var divFormGroupadditionalRequirementsForMembership = $('<div></div>').attr({'class':'form-group'});
+      var divColadditionalRequirementsForMembership = $('<div></div>').attr({'class':'col-sm-12 col-md-12'});
+      $(divFormGroupadditionalRequirementsForMembership).append(deleteSpan,labeladditionalRequirementsForMembership,inputadditionalRequirementsForMembership);
+      $(divColadditionalRequirementsForMembership).append(divFormGroupadditionalRequirementsForMembership);
+      $('.additionalPrimaryConsideration').append(divColadditionalRequirementsForMembership);
+      $('#bylawsFedFormAmd input[name="additionalPrimaryConsideration[]"').each(function(index){
+        $(this).siblings('label').text("a. " + (index+1));
+      });
+    });
+     
 
     $('#bylawsPrimaryForm #addMoreMembersEntitledtoVoteBtn').on('click', function(){
       var lastCountOfadditionalConditionsForVoting = $('textarea[name="additionalConditionsForVoting[]"').last().attr('id');
@@ -2103,6 +2311,19 @@ $("#deleteStaffForm").validationEngine('attach',
     $(".bylawsPrimaryFooter").show();
     $("#bylawsPrimaryForm select,input,textarea,button").prop('disabled', false);
   });
+
+    $('#btnEditbylawsFedFormAmd').on('click', function(){
+    $(this).hide();
+    var btnGroup = $('<div></div>').attr({'id':'bylawsPrimaryCancelBtn','class':'btn-group','role':'group','aria-label':'Basic-example'});
+    var btnCancel = $('<a></a>').attr({'class':'btn btn-secondary btn-sm float-right text-white','role':'button'}).html("<i class='fas fa-times'></i> Cancel").click(function(){
+      location.reload(true);
+    });
+    $('.col-btn-action-bylaws-primary').append(btnCancel);
+    $(".bylawsPrimaryFooter").show();
+    $("#bylawsFedFormAmd select,input,textarea,button").prop('disabled', false);
+    $("#bylawsFedFormAmd #amendmentMembersWith").prop('disabled',false);
+  });
+
   /* END PRIMARY BYLAWS FORM*/
   /* START PRIMARY ARTICLES FORM*/
   $("#articlesPrimaryForm").validationEngine('attach',
@@ -3217,7 +3438,14 @@ $('#editStaffForm #position').on('change', function(){
   //     });
   //   }
   // });
-
+  $('#TransferRegionModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var coop_name = button.data('cname');
+    var coop_id = button.data('coopid');
+    var modal = $(this)
+    modal.find('.modal-body #cooperativesID').val(coop_id);
+    modal.find('.modal-body #cooperativeName').val(coop_name);
+  });
   $('#changestatusModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
     var coop_name = button.data('cname');

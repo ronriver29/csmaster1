@@ -19,7 +19,6 @@ $region='';
     $region = $coop_info2->region;
   }
 ?>
-
 <div class="row mb-2">
   <div class="col-sm-12 col-md-2">
     <?php if($is_client){ ?>
@@ -30,7 +29,6 @@ $region='';
      <?php } ?>
   </div>
 </div>
-
 <div class="row">
   <div class="col-md-12">
 <?php if($this->session->flashdata('amendment_msg')) :?>   
@@ -64,7 +62,6 @@ $region='';
   </div>
 </div>
 <?php endif; ?>
-
 <?php if($coop_info->status==0): ?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
@@ -522,7 +519,6 @@ $region='';
   </div>
 <?php endif; ?>
 
-
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="alert alert-info text-center" role="alert">
@@ -785,6 +781,7 @@ $region='';
         
       </li>
        <?php if($coop_info->grouping !=='Union') :?>
+
       <li class="list-group-item  flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1 font-weight-bold">Additional Information: Capitalization</h5>
@@ -873,8 +870,15 @@ $region='';
             <?php endif; ?>
           </small>
         </div>
+        <?php
+          $article_link ='articles_update ';
+          if($coop_info->grouping =='Union')
+          {
+            $article_link = 'article_union';
+          }
+        ?>
      <small class="text-muted">
-            <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/articles_update" class="btn btn-info btn-sm">View</a>
+            <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/<?=$article_link ?>" class="btn btn-info btn-sm">View</a>
           </small> 
       </li>
       <li class="list-group-item  flex-column align-items-start">
@@ -924,14 +928,17 @@ $region='';
           </div> 
             <small class="text-muted">
             <div class="btn-group" role="group" aria-label="Basic example">
-              <?php if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){?>
+             <!--  <?php /*if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){?>
                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->grouping?> Of <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>">Submit</button>
-              <?php } else {?>
+              <?php } else { */?> -->
                 <?php
               if(($coop_info->status == 40 && $coop_info->status != 41)):
             ?>
                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveAmendmentModal"  data-cname="<?= $coop_info->coopName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" >Submit All</button>
-              <?php endif; }?>
+              <?php
+               endif; 
+                //}
+            ?>
             </div>
           </small>
 
@@ -1041,9 +1048,8 @@ $region='';
           </small>  
         </li>
    
-
-      <?php if($coop_info->grouping !=='Union') :?>
-         
+   
+      <?php if($coop_info->grouping !=='Union') :?>  
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 font-weight-bold"> Step 3 </h5>
@@ -1136,9 +1142,15 @@ $region='';
             </small>
           </div>
           <p class="mb-1 font-italic">Additional Information: Articles of Cooperation</p>
-        
+             <?php
+          $article_link ='articles_update ';
+          if($coop_info->grouping =='Union')
+          {
+            $article_link = 'article_union';
+          }
+        ?>
           <small class="text-muted">
-            <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/articles_update" class="btn btn-info btn-sm">View</a>
+            <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/<?=$article_link?>" class="btn btn-info btn-sm">View</a>
           </small>  
        
         </li>
@@ -1225,9 +1237,8 @@ $region='';
               </small>
             </div>
             <p class="mb-1 font-italic">Finalize and review all the information you provide. After reviewing your application, click proceed for evaluation of your application.</p>
-            <?php //$status_array= array(40,41); 
-             //if(!in_array($coop_info->status,$status_array) ){
-           if(($coop_info->status != 40 && strlen($coop_info->refbrgy_brgyCode)) == 9 && strlen($coop_info->type_of_cooperative) != 0 && strlen($coop_info->category_of_cooperative) != 0 && strlen($coop_info->area_of_operation) != 0 && $coop_info->status != 41){
+            <?php 
+               if(($coop_info->status != 40 && strlen($coop_info->refbrgy_brgyCode)) == 9 && strlen($coop_info->type_of_cooperative) != 0 && strlen($coop_info->category_of_cooperative) != 0 && strlen($coop_info->area_of_operation) != 0 && $coop_info->status != 41){
               ?>
 
               <small class="text-muted">

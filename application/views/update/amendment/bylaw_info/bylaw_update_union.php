@@ -131,14 +131,14 @@ if(isset($bylaw_info))
                 <label for="additionalRequirementsForMembership"><strong>List down any additional requirements for membership in your cooperative</strong><br></label> 
               </div>
             </div>
-            <?php if(isset($add_membership)){ foreach($add_membership as $key => $add_memberships) : ?>
+            <?php $count = 4;if(isset($add_membership)){ foreach($add_membership as $key => $add_memberships) : $count++;?>
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
-                  <?php if($key>=1) :?>
+                  <?php if($key>=1) : ?>
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <?php endif; ?>
-                  <label for="regularQualifications<?= $key + 4?>">Requirements for membership <?= $key + 4?></label>
-                  <textarea type="text" value="" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 4?>" disabled><?= $add_memberships?></textarea>
+                  <label for="regularQualifications<?= $key?>">Requirements for membership <?= $count?></label>
+                  <textarea type="text" value="" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $count?>" disabled><?= $add_memberships?></textarea>
                 </div>
               </div>
             <?php endforeach; ?>
@@ -246,19 +246,6 @@ if(isset($bylaw_info))
                 </div>
             <?php }?>  
 
-<!--          End Delegate Powers-->
-<!--          <div class="delegatePowers">
-            <div class="col-sm-12 col-md-12">
-              <div class="form-group">
-                <label for="delegatePowers"><strong>Powers of the General Assembly.</strong> <br>Subject to the pertinent provisions of the Cooperative Code and the rules issued thereunder, the General Assembly shall have the following exclusive powers which cannot be delegated:<br><small>To delegate the following power/s to a smaller body of the Cooperative Union: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label>
-                <textarea class="form-control" style="resize: none;" id="delegatePowers" name="delegatePowers" placeholder="Ex. &#10;item 1;&#10;item2;&#10;itemlast."rows="10"></textarea>
-                <input class="form-control " style="resize: none;" id="delegatePowers" name="delegatePowers[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->delegate_powers ?>">
-              </div>
-                <div class="col-sm-12 offset-md-8 col-md-4">
-               <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoredelegatePowersBtn"><i class="fas fa-plus"></i> Add More General Assembly</button>
-             </div>
-            </div>
-          </div>-->
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
               <label for="quorumPercentage"><strong style="color: red;">*</strong><strong> How many percent of the members are entitled to vote to constitute the quorum?</strong></label>
@@ -283,36 +270,34 @@ if(isset($bylaw_info))
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                   <small>
-                    Adhering to the principle of service over and above profit, the Union shall endeavor to:
+                  Adhering to the principle of service over and above profit, the Union shall endeavor to:
                   <ol type="a">
                     <li>Engage in:</li>
                   </ol>
-                </small>
+                  </small>
                 </div>
               </div>
-            <?php if(isset($primary_consideration)){ foreach($primary_consideration as $key => $add_members_votes) : ?>
-                <div class="col-sm-12 col-md-12">
-                  <div class="form-group">
-                    <?php if($key>=1) :?>
-                      <a class="customDeleleBtn delegatePowersRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
-                    <?php endif; ?>
-                    <label for="additionalPrimaryConsideration<?= $key + 5?>">a.<?=$key+1?></label>
-                    <textarea type="text" value="" class="form-control" name="additionalPrimaryConsideration[]" id="additionalPrimaryConsideration<?= $key + 1?>" disabled><?= $add_members_votes?></textarea>
-                  </div>
+              <?php if(isset($primary_consideration)){ foreach($primary_consideration as $key => $add_members_votes) : ?>
+              <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                  <?php if($key>=1) :?>
+                  <a class="customDeleleBtn delegatePowersRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                  <?php endif; ?>
+                  <label for="additionalPrimaryConsideration<?= $key + 5?>">a.<?=$key+1?></label>
+                  <textarea type="text" value="" class="form-control" name="additionalPrimaryConsideration[]" id="additionalPrimaryConsideration<?= $key + 1?>" disabled><?= $add_members_votes?></textarea>
                 </div>
-                <?php endforeach;?>
-                <?php }else {?>
-
-                  <div class="col-sm-12 col-md-12">
-                  <div class="form-group">
-                      <a class="customDeleleBtn delegatePowersRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
-                    <label for="additionalPrimaryConsideration">a.</label>
-                    <textarea type="text" value="" class="form-control" name="additionalPrimaryConsideration[]" id="additionalPrimaryConsideration1" disabled></textarea>
-                  </div>
+              </div>
+              <?php endforeach;?>
+              <?php }else {?>
+              <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                  <a class="customDeleleBtn delegatePowersRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                  <label for="additionalPrimaryConsideration">a.</label>
+                  <textarea type="text" value="" class="form-control" name="additionalPrimaryConsideration[]" id="additionalPrimaryConsideration1" disabled></textarea>
                 </div>
-                <?php }?>
-           </div>
-
+              </div>
+              <?php }?>
+          
             <div class="col-sm-12 offset-md-8 col-md-4">
                 <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreprimaryConsiderationBtn" disabled><i class="fas fa-plus"></i> Add More Primary Consideration</button>
             </div>

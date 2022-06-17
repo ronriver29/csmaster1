@@ -120,6 +120,20 @@ if(isset($bylaw_info))
       		</div>
         </div>
         
+         <div class="row">
+          <div class="col-sm-12 col-md-12 text-center">
+            <p class="font-weight-bold h5 text-color-blue-custom">Article IX. Board of Directors</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 col-md-12">
+            <div class="form-group">
+              <label for="turnOverDirectors"><strong>The Board of Directors shall serve until their successors shall have been elected and qualified within ___ days from the date of registration as provided in the By-laws.</strong></label>
+              <input type="number" value="<?= $directors_turnover_days?>"class="form-control"  step="any" name="turnOverDirectors" id="turnOverDirectors" placeholder="Days" disabled>
+           </div>
+          </div>
+        </div>
+        
         </div>
       </div>
       <div class="card-footer articlesPrimaryFooter" style="display: none;">

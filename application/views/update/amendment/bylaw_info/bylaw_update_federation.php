@@ -58,13 +58,13 @@
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">
-      <?php echo form_open('amendment_update/'.$encrypted_id.'/bylaw_update_federation',array('id'=>'bylawsPrimaryForm','name'=>'bylawsPrimaryForm')); ?>
+      <?php echo form_open('amendment_update/'.$encrypted_id.'/bylaw_update_federation',array('id'=>'bylawsFedFormAmd','name'=>'bylawsPrimaryForm')); ?>
       <div class="card-header">
         <div class="row d-flex">
           <div class="col-sm-12 col-md-12 col-btn-action-bylaws-primary">
             <h4 class="float-left">Details:</h4>
-            <?php if($is_update_cooperative): ?>
-            <a class="btn btn-primary btn-sm float-right text-white" id="btnEditBylawsPrimary"><i class="fas fa-edit"></i> Edit</a>
+            <?php  if(($is_client && $is_update_cooperative && $coop_info->status==15) || ($this->session->userdata('access_level')==6)): ?> 
+            <a class="btn btn-primary btn-sm float-right text-white" id="btnEditbylawsFedFormAmd"><i class="fas fa-edit"></i> Edit</a>
             <?php endif; ?>
           </div>
         </div>
@@ -137,7 +137,7 @@
             </div>
           </div>
         <?php endif;?>
-            <div class="row row-assoc" style="<?php echo ($bylaw_info->kinds_of_members == 1) ? "display: none;" : "" ?>">
+            <!-- <div class="row row-assoc" style="<?php echo ($bylaw_info->kinds_of_members == 1) ? "display: none;" : "" ?>">
               <div class="col-sm-12 col-md-12">
                 <div class="row">
                   <div class="col-sm-12 col-md-12">
@@ -180,16 +180,16 @@
                   </div>
                 <?php endif;?>
               </div>
-            </div>
+            </div> -->
         <div class="row">
           <div class="col-sm-12 col-md-12">
             <p class="h6 font-weight-bold text-color-blue-custom">Section 3. <em>Requirements for Membership</em></p>
           </div>
         </div>
-        <?php if(strlen($bylaw_info->regular_qualifications) <= 0) : ?>
-        <div class="row additionalRequirementsForMembership">
+        <?php if(strlen($bylaw_info->additional_requirements_for_membership)> 0) : ?>
+        <div class="row">
           <div class="col-sm-12 col-md-12">
-            <div class="form-group">
+           
               <small>
                 A member must have complied with the following requirements:
               <ol type="a">
@@ -200,43 +200,43 @@
                 <li> Subscribed and paid the required minimum share capital and membership fee; and </li>
               </ol>
             </small>
+          </div>  
               <!-- <label for="additionalRequirementsForMembership"><strong>List down any additional requirements for membership in your cooperative</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> -->
-        
-              <textarea class="form-control " style="resize: none;" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" placeholder="Must be in a sentence" rows="8" value="<?= $bylaw_info->additional_requirements_for_membership ?>" disabled></textarea>
-            </div>
+
+             <!--  <?php 
+                if(strlen($bylaw_info->additional_requirements_for_membership)>0):
+                  $additional_re_memship = explode(';',$bylaw_info->additional_requirements_for_membership);
+                  foreach($additional_re_memship as $arm){
+              ?>
+              <div class="col-md-12 col-sm-12">
+               <div class="form-group">
+                <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+              <textarea class="form-control " style="resize: none;" id="additionalRequirementsForMembership" name="additionalRequirementsForMembership[]" value="<?=$arm?>" placeholder="Must be in a sentence" rows="3"  disabled> <?=$arm?></textarea>
+                </div>
+              </div>
+            <?php }
+              endif;?> -->
+          
           </div>
-        </div>
+        
 
         <div class="row">
-            <div class="col-sm-12 offset-md-8 col-md-4">
+            <!-- <div class="col-sm-12 offset-md-8 col-md-4">
               <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreRequirementsBtn" disabled><i class="fas fa-plus"></i> Add More Requirements for Membership</button>
-            </div>
+            </div> -->
           </div>
           <?php endif; ?>
           <?php if(strlen($bylaw_info->regular_qualifications) > 0) : ?>
           <div class="row additionalRequirementsForMembership">
-            <div class="col-sm-12 col-md-12">
-              <div class="form-group">
-                <small>
-                  This is the general requirements for membership.
-                <ol type="1">
-                  <li> Approved application for membership; </li>
-                  <li> General Assembly Resolution indicating membership and share capital contribution to this Federation of Cooperatives; </li>
-                  <li> Board of Directors Resolution on authorized representative; </li>
-                  <li> Certification of line of business activities engaged in; </li>
-                  <li> Subscribed and paid the required minimum share capital and membership fee; and </li>
-                </ol>
-              </small>
-              </div>
-            </div>
-            <?php foreach($add_membership as $key => $add_memberships) : ?>
+      
+            <?php foreach($add_membership as $key => $add_memberships) : $key++?>
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                   <?php if($key>=1) :?>
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <?php endif; ?>
-                  <label for="regularQualifications<?= $key + 4?>">Requirements for membership <?= $key + 6?></label>
-                  <textarea type="text" value="" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key + 4?>" disabled><?= $add_memberships?></textarea>
+                  <label for="regularQualifications<?= $key?>">Requirements for membership <?= $key?></label>
+                  <textarea type="text" value="" class="form-control" name="additionalRequirementsForMembership[]" id="additionalRequirementsForMembership<?= $key?>" disabled><?= $add_memberships?></textarea>
                 </div>
               </div>
             <?php endforeach; ?>
@@ -358,14 +358,14 @@
                 </small>
                 </div>
               </div>
-            <?php foreach($add_members_vote as $key => $add_members_votes) : ?>
+            <?php foreach($add_members_vote as $key => $add_members_votes) : $key++; ?>
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
                   <?php if($key>=1) :?>
                     <a class="customDeleleBtn regularQualificationRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                   <?php endif; ?>
-                  <label for="additionalConditionsForVoting<?= $key + 5?>">Entitled to vote <?= $key + 7?></label>
-                  <textarea type="text" value="" class="form-control" name="additionalConditionsForVoting[]" id="additionalConditionsForVoting<?= $key + 5?>" disabled><?= $add_members_votes?></textarea>
+                  <label for="additionalConditionsForVoting<?= $key?>">Entitled to vote <?= $key?></label>
+                  <textarea type="text" value="" class="form-control" name="additionalConditionsForVoting[]" id="additionalConditionsForVoting<?= $key?>" disabled><?= $add_members_votes?></textarea>
                 </div>
               </div>
             <?php endforeach; ?>
@@ -400,17 +400,17 @@
                 </small>
                 </div>
               </div>
-            <!-- <?php foreach($delegate_powers as $key => $add_members_votes) : ?>
+            <?php foreach($delegate_powers as $key => $add_members_votes) : ?>
                 <div class="col-sm-12 col-md-12">
                   <div class="form-group">
                     <?php if($key>=1) :?>
                       <a class="customDeleleBtn delegatePowersRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
                     <?php endif; ?>
-                    <label for="additionaldelegatePowers<?= $key + 5?>">General Assembly</label>
-                    <textarea type="text" value="" class="form-control" name="additionaldelegatePowers[]" id="additionaldelegatePowers<?= $key + 5?>" disabled><?= $add_members_votes?></textarea>
+                    <label for="additionaldelegatePowers<?= $key + 5?>">General Assembly <?=$key+1?></label>
+                    <textarea type="text" class="form-control" name="additionaldelegatePowers[]" id="additionaldelegatePowers<?= $key + 1?>" disabled><?= $add_members_votes?></textarea>
                   </div>
                 </div>
-                <?php endforeach; ?> -->
+                <?php endforeach; ?> 
           </div>
           <div class="row">
             <div class="col-sm-12 offset-md-8 col-md-4">
@@ -476,14 +476,14 @@
               <p class="h6 font-weight-bold text-color-blue-custom">Section 1. <em>Composition of the Board of Directors (BOD)</em></p>
             </div>
           </div>
-         <!--  <div class="row"> 
+          <div class="row"> 
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
                    <label for="compositionoftheboard"><strong>The Board of Directors shall be composed of _____________() members.</strong></label>
                  <input type="number" value="<?=$bylaw_info->composition_of_bod?>" class="form-control" id="compositionoftheboard" name="compositionoftheboard" placeholder="Enter Number" disabled>
               </div>
             </div>
-          </div> -->
+          </div> 
           <div class="row">
             <div class="col-sm-12 col-md-12">
               <p class="h6 font-weight-bold text-color-blue-custom">Section 4. <em>Disqualifications</em></p>
@@ -522,7 +522,7 @@
           <div class="row">
             <div class="col-sm-12 col-md-12">
               <p class="h6 font-weight-bold text-color-blue-custom">Section 2. <em>Continuous Capital Build-Up</em></p>
-              <p style="font-size:80%;" class="text-color-blue-custom"">*Note: Atleast one of the three is required.</p>
+              <p style="font-size:80%;" class="text-color-blue-custom">*Note: Atleast one of the three is required.</p>
             </div>
           </div>
           <div class="row">
@@ -655,11 +655,11 @@
           <div class="row">
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
+
               <label for="amendmentMembersWith"><strong>Amendments to the Articles of Cooperation and this By-Laws may be adopted by at least two-thirds (2/3) votes of all members with_________, present and constituting a quorum.</strong></label>
               <select class="custom-select " name="amendmentMembersWith" id="amendmentMembersWith" disabled>
                 <option value="" selected>--</option>
                 <option value="Voting Rights" <?php if($bylaw_info->amendment_votes_members_with == "Voting Rights") echo "selected"; ?>>Voting Rights</option>
-                <!-- <option value="Members Entitled to Vote" <?php if($bylaw_info->amendment_votes_members_with == "Members Entitled to Vote") echo "selected"; ?>>Members Entitled to Vote</option> -->
               </select>
              </div>
             </div>

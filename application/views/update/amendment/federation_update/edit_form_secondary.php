@@ -21,7 +21,7 @@
     <div class="modal fade" id="editAffiliatorModal" data-backdrop="static" data-hidden.bs.modal="this.form.reset();"tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl" style="width:90% !important;max-width:1360px;">
         <div class="modal-content">
-          <?php echo form_open('affiliators/edit_affiliators',array('id'=>'editAffiliatorForm','name'=>'editAffiliatorForm')); ?>
+          <?php echo form_open('amendment_affiliators_update/edit_amendment_affiliators',array('id'=>'editAffiliatorForm','name'=>'editAffiliatorForm')); ?>
             <div class="modal-header">
               <h4 class="modal-title" id="editModalLabel">Edit</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -59,7 +59,7 @@
               <input type='hidden' id='minimum_subscribed_share_regular2' value="<?=isset($capitalization_info->minimum_subscribed_share_regular) ? $capitalization_info->minimum_subscribed_share_regular: ''?>" />
               <input type='hidden' id='minimum_paid_up_share_regular2' value="<?=isset($capitalization_info->minimum_paid_up_share_regular) ? $capitalization_info->minimum_paid_up_share_regular: ''?>" />
 
-              <input type="hidden" class="validate[required]" id="cooperatorID" name="cooperatorID">
+              <input type="hidden" class="" id="cooperatorID" name="cooperatorID">
               <div class="alert alert-info" role="alert">
                 <strong>Reminder: <small>(The information below is in your bylaws (capitalization))</small></strong>
                  <ul>
@@ -112,15 +112,15 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="subscribedShares2">No of subscribed shares:</label>
-                  <input type="number" min="1" max="<?=$available_subscribed_capital?>" class="form-control validate[required,min[1],custom[integer],funCall[validateAddNumberOfSubsribedGreaterCustom]]" id="subscribedShares2" name="subscribedShares2">
+                  <input type="number" min="1" max="<?=$available_subscribed_capital?>" class="form-control" id="subscribedShares2" name="subscribedShares2">
                   <div style="color: red; font-size: 12px;" id="clicktoverify"><i>* Click the field to verify</i></div>
                   <div id="subscribed-note2" style="color: red; font-size: 12px;" required></div>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="paidShares2">No of paid-up Shares:</label>
-                  <input type="number" min="1" max="<?=$available_subscribed_capital?>" class="form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom]]" id="paidShares2" name="paidShares2" required>
+                  <label for="paidShares2">No of paid-up Shares:ddd</label>
+                  <input type="number"  class="form-control" id="paidShares2" name="paidShares2" >
                   <div style="color: red; font-size: 12px;" id="clicktoverify2"><i>* Click the field to verify</i></div>
                   <div id="paid-note2" style="color: red; font-size:12px;"></div>
                 </div>
@@ -131,14 +131,14 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="paidShares">Name of Representative:</label>
-                  <input type="text" class="form-control validate[required]" id="repre" name="repre" required>
+                  <input type="text" class="form-control " id="repre" name="repre">
                   <!-- <input type="text" id="repre" name="repre" class="form-control validate[required]"> -->
                 </div>
               </div>
               <div class="col-md-4">
                   <div class="form-group">
                     <label for="validIdType">Proof of Identity: </label>
-                    <select class="custom-select validate[required]" id="validIdType" name="validIdType" required>
+                    <select class="custom-select " id="validIdType" name="validIdType" >
                       <option selected>--</option>
                       <option value="Digitized Postal ID">Digitized Postal ID</option>
                       <option value="Driver's License">Driver's License</option>
@@ -162,7 +162,7 @@
                 <div class="col-sm-12 col-md-4">
                   <div class="form-group form-group-validIdNo">
                     <label for="validIdNo">Valid ID No.</label>
-                    <input type="text" class="form-control validate[required]" id="validIdNo" name="validIdNo" required>
+                    <input type="text" class="form-control" id="validIdNo" name="validIdNo" >
                   </div>
                 </div>
               </div>
@@ -170,7 +170,7 @@
                 <div class="col-sm-12 col-md-3">
                   <div class="form-group">
                     <label for="dateIssued"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>In Accordance with Notarial Law.</li>"></i> Date Issued:</label>
-                    <input type="date" class="form-control validate[required,custom[date],past[now]]" id="dateIssued" name="dateIssued">
+                    <input type="date" class="form-control " id="dateIssued" name="dateIssued">
                    <!-- <input type="text" class="form-control validate[required]" id="dateIssued" name="dateIssued"> -->
                     <!-- <small style="margin-left: 20px;"><span><i>  yyyy-mm-dd </i></span></small> -->
                     <input type="checkbox" name="dateIssued_chk" id="chkID" value="N/A"> <small>ID Date Issued not available</small>
@@ -179,7 +179,7 @@
                 <div class="col-sm-12 col-md-9">
                   <div class="form-group">
                     <label for="placeIssuance">Place of Issuance: </label>
-                    <textarea class="form-control validate[required]" style="resize: none;" id="place_of_issuance" name="place_of_issuance" rows="1" required></textarea>
+                    <textarea class="form-control " style="resize: none;" id="place_of_issuance" name="place_of_issuance" rows="1" ></textarea>
                   </div>
                 </div>
               </div>
@@ -305,14 +305,14 @@
 
       if($(this).is(":checked"))
       {
-          $( "#dateIssued" ).prop( "disabled", true );
+          // $( "#dateIssued" ).prop( "disabled", true );
           $("#dateIssued").prop('required',false);
             $("#dateIssued").val('');
       }
       else
       {
            $( "#dateIssued" ).prop( "disabled", false );
-            $("#dateIssued").prop('required',true);
+            // $("#dateIssued").prop('required',true);
       }
 
     });

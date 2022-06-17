@@ -114,6 +114,83 @@ if($business_activities !=null){
   </div>
 </div>
 
+  <div class="row">
+  <div class="col-sm-12 col-md-12">
+      
+    <?php // echo form_open('cooperatives/'.$encrypted_id.'/affiliators/add_affiliators',array('id'=>'addCooperatorForm','name'=>'addCooperatorForm')); ?>
+    <div class="card border-top-blue">
+      <div class="card-body">
+
+        <?php echo form_open('amendment_update/'.$encrypted_id.'/union_update',array('id'=>'amendmentAddForm','name'=>'amendmentAddForm')); ?>
+        <div class="row rd-row">
+           <div class="col-sm-12 col-md-4">
+            <div class="form-group">
+              <label for="areaOfOperation">Cooperative Name: </label>
+              <input type="text" name="coopName" class="form-control"/>
+            </div>
+          </div> 
+          <div class="col-sm-12 col-md-4">
+            <div class="form-group">
+              <label for="areaOfOperation">Registration No: </label>
+              <input type="text" name="regNo" class="form-control">
+            </div>
+          </div>
+          <div class="col-md-2"></div>
+           <div class="col-sm-12 col-md-4">
+            <p style="padding-top: 2.5rem;font-style: italic;color:red;"><?=$msg?></p>
+          </div>
+        </div>
+         <?php   if(($is_client && $coop_info->status==15) || ($this->session->userdata('access_level')==6)):?>
+        <div class="row col-sm-6 col-md-1 align-self-center col-reserve-btn">
+          <input class="btn btn-color-blue" type="submit" name="btn-filter" value="search" style="float:left;">
+        </div>
+      <?php endif;?>
+        <?php echo form_close(); ?>
+        <hr>
+
+        <div class="table-responsive">
+          <table class="table table-bordered" >
+            <thead>
+              <tr>
+                <th>Coop Name</th>
+                <th>Registered Number</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+              <?php  if(!empty($registered_coop['result'])):?>
+
+              <?php foreach ($registered_coop['result'] as $registeredcoop) : ?>
+                <tr>
+                  <td><?= $registeredcoop['coopName']?></td>
+                  <td><?= $registeredcoop['regNo']?></td>
+                  <td> 
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-info" data-regno="<?=$registeredcoop['regNo']?>" data-fname="<?=$registeredcoop['coopName']?>" data-placeissuance="<?= $registeredcoop['dateRegistered']?>" data-business_activity="<?=$business_activity?>" data-business_activity_sub="<?=$business_activity_sub?>" data-common_bond_membership="<?=$registeredcoop['commonBond']?>" data-region="<?=$registeredcoop['region']?>" data-province="<?=$registeredcoop['province']?>" data-city="<?=$registeredcoop['city']?>" data-brgy="<?=$registeredcoop['brgy']?>" data-street="<?=$registeredcoop['Street']?>" data-house_blk_no="<?=$registeredcoop['noStreet']?>" data-type="<?=$registeredcoop['type']?>" data-toggle="modal" data-target="#fullInfoRegisteredModalamd" ><i class='fas fa-eye'></i> View</button>
+
+                        <?php if($registeredcoop['source'] =='amendment'):?>
+                          <button type="button" id="add_members" class="btn btn-success" data-types="<?=$registeredcoop['source']?>" data-reg_id="<?=$this->encryption->encrypt(encrypt_custom($registeredcoop['registered_id']));?>" data-fname="<?=$registeredcoop['coopName'];?>" data-amendment_id="<?=$this->encryption->encrypt(encrypt_custom($registeredcoop['amendment_id']));?>" data-regno="<?= $registeredcoop['regNo']?>" data-coopid="<?=$this->encryption->encrypt(encrypt_custom($registeredcoop['application_id']));?>" data-amd_union_id ="<?=$encrypted_id?>" data-toggle="modal" data-target="#addAffiliatorModalamd"><i class='fas fa-plus'></i> Add </button>
+                        <?php endif;?>
+
+                        <?php if($registeredcoop['source']=='cooperative'):?>
+                           <button type="button" id="add_members" class="btn btn-success" data-types="<?=$registeredcoop['source']?>" data-reg_id="<?=$this->encryption->encrypt(encrypt_custom($registeredcoop['registered_id']));?>" data-fname="<?=$registeredcoop['coopName'];?>" data-amendment_id="<?=$this->encryption->encrypt(encrypt_custom($registeredcoop['amendment_id']));?>" data-regno="<?= $registeredcoop['regNo']?>" data-coopid="<?=$this->encryption->encrypt(encrypt_custom($registeredcoop['application_id']));?>" data-amd_union_id ="<?=$encrypted_id?>" data-toggle="modal" data-target="#addAffiliatorModalamd"><i class='fas fa-plus'></i> Add</button>
+
+                        <?php endif;?>
+                      <?php // endif;?>
+                    </div>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            <?php endif;?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <!--</form>-->
+  </div>
+</div> <!-- end row -->
+<br>
 <?php // if($coop_info->capital_contribution != $cc_count->total_cc){ ?>
 <div class="row">
   <div class="col-sm-12 col-md-12">
@@ -148,7 +225,7 @@ if($business_activities !=null){
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-info" data-regno="<?=$applied_coops['regNo']?>" data-fname="<?=$applied_coops['coopName']?>" data-placeissuance="<?= $applied_coops['dateRegistered']?>" data-business_activity="<?=$business_activity?>" data-business_activity_sub="<?=$business_activity_sub?>" data-common_bond_membership="<?=$applied_coops['common_bond_of_membership']?>" data-region="<?=$applied_coops['region']?>" data-province="<?=$applied_coops['province']?>" data-city="<?=$applied_coops['city']?>" data-brgy="<?=$applied_coops['brgy']?>" data-street="<?=$applied_coops['street']?>" data-house_blk_no="<?=$applied_coops['house_blk_no']?>" data-type="<?=$applied_coops['types']?>" data-toggle="modal" data-target="#fullInfoRegisteredModalamd" ><i class='fas fa-eye'></i> View</button>
 
-                      <?php if($is_client || ($admin_info->access_level ==6)){ ?>
+                      <?php if(($is_client && $coop_info->status==15) || ($this->session->userdata('access_level')==6)){ ?>
                           <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editAffiliatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($applied_coops['aff_id']))?>" data-representative="<?=$applied_coops['representative']?>" data-pos="<?=$applied_coops['position']?>" data-proofofidentity="<?=$applied_coops['proof_of_identity']?>" data-validid="<?=$applied_coops['valid_id']?>" data-placeissuance="<?=$applied_coops['place_of_issuance']?>" data-dateissued="<?=$applied_coops['date_issued']?>" data-capitalcontribution="<?=$applied_coops['cc']?>"><i class='fas fa-eye'></i> Edit</button>
                       
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCooperatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($applied_coops['aff_id']))?>"><i class='fas fa-minus'></i> Remove</button>
@@ -167,80 +244,8 @@ if($business_activities !=null){
     </div>
   </div>
 </div>
-<br>
-<div class="row">
-  <div class="col-sm-12 col-md-12">
-      
-    <?php // echo form_open('cooperatives/'.$encrypted_id.'/affiliators/add_affiliators',array('id'=>'addCooperatorForm','name'=>'addCooperatorForm')); ?>
-    <div class="card border-top-blue">
-      <div class="card-body">
 
-        <?php echo form_open('amendment_update/'.$encrypted_id.'/union_update',array('id'=>'amendmentAddForm','name'=>'amendmentAddForm')); ?>
-        <div class="row rd-row">
-         <!--  <div class="col-sm-12 col-md-4">
-            <div class="form-group">
-              <label for="areaOfOperation">Cooperative Name: </label>
-              <input type="text" name="coopName" class="form-control"/>
-            </div>
-          </div> -->
-          <div class="col-sm-12 col-md-4">
-            <div class="form-group">
-              <label for="areaOfOperation">Registration No: </label>
-              <input type="text" name="regNo" class="form-control">
-            </div>
-          </div>
-           <div class="col-sm-12 col-md-4">
-            <p style="padding-top: 2.5rem;font-style: italic;color:red;"><?=$msg?></p>
-          </div>
-        </div>
-        <div class="row col-sm-6 col-md-1 align-self-center col-reserve-btn">
-          <input class="btn btn-color-blue" type="submit" name="btn-filter" value="search" style="float:left;">
-        </div>
-        <?php echo form_close(); ?>
-        <hr>
 
-        <div class="table-responsive">
-          <table class="table table-bordered" >
-            <thead>
-              <tr>
-                <th>Coop Name</th>
-                <th>Registered Number</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-              <?php  if(!empty($registered_coop)):?>
-
-              <?php foreach ($registered_coop as $registeredcoop) : ?>
-                <tr>
-                  <td><?= $registeredcoop['coopName']?></td>
-                  <td><?= $registeredcoop['regNo']?></td>
-                  <td> 
-                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-info" data-regno="<?=$registeredcoop['regNo']?>" data-fname="<?=$registeredcoop['coopName']?>" data-placeissuance="<?= $registeredcoop['dateRegistered']?>" data-business_activity="<?=$business_activity?>" data-business_activity_sub="<?=$business_activity_sub?>" data-common_bond_membership="<?=$registeredcoop['common_bond_of_membership']?>" data-region="<?=$registeredcoop['region']?>" data-province="<?=$registeredcoop['province']?>" data-city="<?=$registeredcoop['city']?>" data-brgy="<?=$registeredcoop['brgy']?>" data-street="<?=$registeredcoop['street']?>" data-house_blk_no="<?=$registeredcoop['house_blk_no']?>" data-type="<?=$registeredcoop['type']?>" data-toggle="modal" data-target="#fullInfoRegisteredModalamd" ><i class='fas fa-eye'></i> View</button>
-
-                        <?php if($registeredcoop['types'] =='amendment'):?>
-                          <button type="button" id="add_members" class="btn btn-success" data-types="<?=$registeredcoop['types']?>" data-reg_id="<?=$this->encryption->encrypt(encrypt_custom($registeredcoop['registered_id']));?>" data-fname="<?=$registeredcoop['coopName'];?>" data-amendment_id="<?=$this->encryption->encrypt(encrypt_custom($registeredcoop['amendment_id']));?>" data-regno="<?= $registeredcoop['regNo']?>" data-coopid="<?=$this->encryption->encrypt(encrypt_custom($registeredcoop['application_id']));?>" data-amd_union_id ="<?=$encrypted_id?>" data-toggle="modal" data-target="#addAffiliatorModalamd"><i class='fas fa-plus'></i> Add </button>
-                        <?php endif;?>
-
-                        <?php if($registeredcoop['types']=='cooperative'):?>
-                           <button type="button" id="add_members" class="btn btn-success" data-types="<?=$registeredcoop['types']?>" data-reg_id="<?=$this->encryption->encrypt(encrypt_custom($registeredcoop['registered_id']));?>" data-fname="<?=$registeredcoop['coopName'];?>" data-amendment_id="<?=$this->encryption->encrypt(encrypt_custom($registeredcoop['amendment_id']));?>" data-regno="<?= $registeredcoop['regNo']?>" data-coopid="<?=$this->encryption->encrypt(encrypt_custom($registeredcoop['application_id']));?>" data-amd_union_id ="<?=$encrypted_id?>" data-toggle="modal" data-target="#addAffiliatorModalamd"><i class='fas fa-plus'></i> Add</button>
-
-                        <?php endif;?>
-                      <?php // endif;?>
-                    </div>
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-            <?php endif;?>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  <!--</form>-->
-  </div>
-</div> <!-- end row -->
 <?php endif; ?>
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>

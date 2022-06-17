@@ -8,14 +8,20 @@ class Amendment_update_purposes_model extends CI_Model{
     parent::__construct();
     //Codeigniter : Write Less Do More
   }
-  public function get_all_purposes($cooperatives_id,$amendment_id){
-    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+  public function get_all_purposes($amendment_id){
      $amendment_id = $this->security->xss_clean($amendment_id);
-    $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id));
-    foreach($query->result_array() as $row)
+    $query = $this->db->get_where('amendment_purposes',array('amendment_id'=>$amendment_id));
+    $data =null;
+    if($query->num_rows()>0)
     {
-      $data[] = $row;
+       foreach($query->result_array() as $row)
+      {
+        $data[] = $row;
+      }
     }
+    unset($row);
+    unset($query);
+    unset($amendment_id);
     return $data;
   }
   public function edit_purposes($amendment_id,$id,$data){
@@ -65,35 +71,51 @@ class Amendment_update_purposes_model extends CI_Model{
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $amendment_id = $this->security->xss_clean($amendment_id );
     $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id));
-    $data = $query->row();
-    if(strlen($data->content) > 0){
-      return true;
-    }else{
+    if($query->num_rows()>0)
+    {
+       $data = $query->row();
+      if(strlen($data->content) > 0){
+        return true;
+      }else{
+        return false;
+      }
+    }
+    else
+    {
       return false;
     }
+   
   }
   public function check_blank_not_exists($cooperatives_id,$amendment_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $amendment_id = $this->security->xss_clean($amendment_id);
+    $data=null;
     $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id));
-    foreach($query->result() as $row)
+    if($query->num_rows()>0)
     {
-      // $data[] = $row->content;
-      if(strpos($row->content,'_') === false){
-       $row->status= 'true';
-      }else{
-        $row->status = 'false';
-      }
-      $data[] = $row->status;
-    } 
-    if(in_array('false',$data))
-    {
-      return false;
-    } 
-    else
-    {
-      return true;
+      foreach($query->result() as $row)
+      {
+        if(strpos($row->content,'_') === false)
+        {
+          $row->status= 'true';
+        }
+        else
+        {
+          $row->status = 'false';
+        }
+        $data[] = $row->status;
+        }
+
+        if(in_array('false',$data))
+        {
+        return false;
+        }
+        else
+        {
+        return true;
+        }
     }
+  
   }
   public function check_purpose_complete($cooperatives_id,$amendment_id){
     $query = $this->db->query("select * from amendment_purposes where amendment_id ='$amendment_id'");

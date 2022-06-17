@@ -1,3 +1,4 @@
+
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -7,7 +8,7 @@ class Amendment_update_capitalization extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
-    // $this->load->model("amendment_update_capitalization_model");
+    $this->load->model("amendment_affiliators_update_model");
   }
 
   function index($id = null)
@@ -61,12 +62,17 @@ class Amendment_update_capitalization extends CI_Controller{
 
                     $data['capitalization_info'] = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$decoded_id);
 
+                    
                     //modified
                     $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
+                    if($data['coop_info']->grouping=='Federation')
+                    {
+                      $data['total_regular'] =$this->amendment_affiliators_update_model->total_regular($decoded_id);
+                    }
                     $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
                     $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$decoded_id);
                     //end modified
-                   
+                  
                     $this->load->view('./template/header', $data);
                     $this->load->view('update/amendment/bylaw_info/capitalization_update_form', $data);
                     $this->load->view('./template/footer');
@@ -81,11 +87,9 @@ class Amendment_update_capitalization extends CI_Controller{
             //   $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
             //   redirect('amendment');
             // }
-          }else{ $access_array = array(6);
-            if($this->session->userdata('access_level')==5){
+          }else{ 
+            if($this->session->userdata('access_level')!=6){
               redirect('admins/login');
-            }else if(!in_array($this->session->userdata('access_level'),$access_array)){
-               redirect('amendment');
             }else{
               // if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){
               //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
@@ -108,6 +112,13 @@ class Amendment_update_capitalization extends CI_Controller{
 
                           //modified
                     $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$decoded_id);
+                    if($data['coop_info']->category_of_cooperative =='Secondary')
+                    {
+                      $data['total_regular'] = $this->amendment_affiliators_update_model->total_regular($decoded_id);
+
+                    }
+
+                  
                     $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);
                     $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$decoded_id);
                     //end modified

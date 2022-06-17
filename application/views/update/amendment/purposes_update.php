@@ -42,7 +42,7 @@
 <div class="row mt-2 mb-4"> 
   <?php if(($is_client && $is_update_cooperative && $coop_info->status ==15) || $this->session->userdata('access_level')==6):// if(($is_client && $coop_info->status<=1) || (!$is_client &&  $coop_info->status==3)): ?>
     <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
-      <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/amendment_purposes/edit" class="btn btn-color-blue btn-block" id="btnEditPurposes"><i class="fas fa-<?php echo (count(array_filter($contents)) > 0) ? "edit":"plus"?>"></i> <?php echo (count(array_filter($contents)) > 0) ? "Edit":"Add"?> Purposes</a>
+      <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/amendment_purposes/edit" class="btn btn-color-blue btn-block" id="btnEditPurposes"><i class="fas fa-<?php echo (count($contents) > 0) ? "edit":"plus"?>"></i> <?php echo (count($contents) > 0) ? "Edit":"Add"?> Purposes</a>
     </div>
   <?php endif;?>
   <div class="col-sm-12 col-md-12">
@@ -58,13 +58,15 @@
         <div class="row">
           <div class="col-sm-12 col-md-12">
           
-             <?php if(count(array_filter($contents)) > 0) :?>
+             <?php if(count($contents) > 0) :?>
             
               <?php foreach ($contents as $type_names) : ?>
                   <ol class="text-justified" type="1">
              <strong><span style="margin-left:-20px;"> <?php echo $type_names['cooperative_type'];?></span></strong><br><br>
-                   <?php foreach  ($type_names['content_purpose'] as $row_content){?> 
-                 <li class="mb-3"> <?= $row_content?></li> 
+                   <?php foreach($type_names['content_purpose'] as $row_content){ ?> 
+                    <?php if(strlen( $row_content)>0) { ?>
+                 <li class="mb-3"> <?= $row_content?></li>
+                    <?php }?>
                 <?php }//end foreac?> 
                   </ol>
                   <hr style="margin-top:40px;margin-bottom:40px;">
