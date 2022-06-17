@@ -3177,7 +3177,7 @@ public function check_if_denied($coop_id){
     public function reg_coop_migrated_data_updates($user_regNo)
   {
     $this->reg_coop_migrated_data_update($user_regNo);
-     $query = $this->db->query("select amend_coop.*,registeredamendment.coopName,registeredamendment.dateRegistered from amend_coop left join registeredamendment on amend_coop.cooperative_id = registeredamendment.cooperative_id where amend_coop.status IN(15,40,41) and amend_coop.regNo='$user_regNo' order by amend_coop.id desc limit 1");
+     $query = $this->db->query("select amend_coop.*,registeredamendment.coopName,registeredamendment.dateRegistered from amend_coop left join registeredamendment on amend_coop.regNo = registeredamendment.regNo where amend_coop.status IN(15,40,41) and amend_coop.regNo='$user_regNo' order by registeredamendment.id desc limit 1");
      if($query->num_rows()>0)
      {
        $data = $query->result_array();

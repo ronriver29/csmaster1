@@ -440,7 +440,7 @@ class amendment_update_model extends CI_Model{
   public function get_coop_info2($amendment_id)
   {
     $data =null;
-    $query = $this->db->query("select amend_coop.*,registeredamendment.coopName,registeredamendment.Street from amend_coop left join registeredamendment on amend_coop.regNo = registeredamendment.regNo where amend_coop.id='$amendment_id' order by registeredamendment.regNo desc limit 1");
+    $query = $this->db->query("select amend_coop.*,registeredamendment.coopName,registeredamendment.Street from amend_coop left join registeredamendment on amend_coop.regNo = registeredamendment.regNo where amend_coop.id='$amendment_id' order by registeredamendment.id desc limit 1");
     if($query->num_rows()==1)
     {
       $data = $query->row();
