@@ -1,4 +1,4 @@
-const num2text = {
+var num2text = {
   ones: ['', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN', 'SIXTEEN', 'SEVENTEEN', 'EIGHTEEN', 'NINETEEN'],
   tens: ['', '', 'TWENTY', 'THIRTY', 'FOURTH', 'FIFTY', 'SIXTY', 'SEVENTY', 'EIGHTY', 'NINETY'],
   sep: ['', ' THOUSAND ', ' MILLION ', ' BILLION ', ' TRILLION ', ' QUADRILLION ', ' QUINTILLION ', ' SEXTILLION ']
