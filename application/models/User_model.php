@@ -89,7 +89,7 @@ class User_model extends CI_Model{
   public function get_user_id_by_reg($regNo)
   {
     $data =0;
-    $query = $this->db->query("select id from users where regNo='$regNo' order by id desc limit 1");
+    $query = $this->db->query("select id from users where regno='$regNo' order by id desc limit 1");
     if($query->num_rows()==1)
     {
       foreach($query->result_array() as $row)
