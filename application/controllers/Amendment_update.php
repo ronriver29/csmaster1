@@ -27,8 +27,7 @@ class Amendment_update extends CI_Controller{
               $data['client_info'] = $this->user_model->get_user_info($user_id);
               $data['title'] = 'Amendment Details';
               $data['header'] = 'Amendment Information';
-              $data['coop_info'] = $this->amendment_update_model->get_coop_info2($this->decoded_id);
-            
+              $data['coop_info'] = $this->amendment_update_model->get_coop_info2($this->decoded_id);//for migration
               $data['coop_info2'] = $this->amendment_update_model->get_cooperative_info($coop_id,$this->decoded_id);
               $data['coop_info_primary'] = $this->cooperatives_model->get_cooperative_info_by_admin($coop_id);
             
@@ -1052,6 +1051,7 @@ class Amendment_update extends CI_Controller{
                       'users_id' =>   $user_id,
                       'cooperative_id'=> $cooperative_id,
                       'category_of_cooperative' => $this->input->post('categoryOfCooperative'),
+                      'regNo'=>$this->input->post('regNo'),
                       'proposed_name' => $this->input->post('proposed_name'),
                       'acronym' => $this->input->post('acronym_names'),
                       'type_of_cooperative' =>   $type_of_cooperativeName,
