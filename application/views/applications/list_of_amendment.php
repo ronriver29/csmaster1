@@ -80,8 +80,26 @@ if($is_client && !$has_registered_coop):?>
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue shadow-sm mb-4">
       <div class="card-body">
+        <?php if(!$is_client) { ?>
+          <?php echo form_open('amendment',array('id'=>'cooperativesAddForm','name'=>'cooperativesAddForm')); ?> 
+           <div class="row rd-row">
+          
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label for="areaOfOperation">Proposed Name: </label>
+                <input type="text" name="coopName" class="form-control"/>
+              </div>
+            </div>
+          </div> 
+           <div class="row col-sm-6 col-md-1 align-self-center col-reserve-btn">
+                <input class="btn btn-color-blue" type="submit" name="submit" value="submit" style="float:left;">
+            </div>
+        <?php echo form_close(); ?>
+        <hr>
+      <?php } ?>
+        <?php //echo"<pre>";print_r($list_cooperatives);?>
         <div class="table-responsive">
-          <table class="table table-bordered" id="cooperativesTable">
+          <table class="table table-bordered">
             <thead>
               <tr>
                 <th>Amendment No.</th>
@@ -115,11 +133,25 @@ if($is_client && !$has_registered_coop):?>
                     if(count($count_tYpe)>1)
 
                     {
+                      if($cooperative['migrated']!=1)
+                      {
                       $proposeNames = $cooperative['proposed_name'].' Multipurpose Cooperative '.$acronym_.' '.$cooperative['grouping'];
+                      }
+                      else
+                      {
+                         $proposeNames = $cooperative['proposed_name'];//.' Multipurpose Cooperative '.$acronym_.' '.$cooperative['grouping'];
+                      }
                     }
                     else
                     {
+                      if($cooperative['migrated']!=1)
+                      {  
                       $proposeNames = $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative']. ' Cooperative '.$acronym_.' '.$cooperative['grouping'];
+                      }
+                      else
+                      {
+                         $proposeNames = $cooperative['proposed_name'];
+                      }
                     }
                     //echo $proposeNames;
                     echo $this->amendment_model->proposed_name_comparison($cooperative['regNo'],$cooperative['amendmentNo'],$proposeNames);
@@ -150,7 +182,8 @@ if($is_client && !$has_registered_coop):?>
                         else if($cooperative['status']==14) echo "GET YOUR CERTIFICATE";
                         else if($cooperative['status']==15) echo "REGISTERED";
                         else if($cooperative['status']==16) echo "FOR PAYMENT";
-                        else if($cooperative['status']==17) echo "FOR REVERSION-FOR RE-EVALUATION"; ?>
+                        else if($cooperative['status']==17) echo "FOR REVERSION-FOR RE-EVALUATION"; 
+                        else if($cooperative['status']==41) echo "UPDATED"; ?>
                       <?php else : ?>
                         <?php /*if($cooperative['status']==2)echo "FOR VALIDATION"; 
                          else if($cooperative['status']==3) echo "FOR VALIDATION";
@@ -199,9 +232,16 @@ if($is_client && !$has_registered_coop):?>
                     </td>
 
                   <?php if($is_client) :?> 
-                    <td>
+                    <?php
+                      $url_ = 'amendment';
+                      if($cooperative['status'] ==41)
+                      {
+                        $url_ ='amendment_update';
+                      }
+                    ?>
+                    <td> 
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                        <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View </a>
+                        <a href="<?php echo base_url();?><?=$url_?>/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View </a>
                       <?php if($cooperative['status']<2 || $cooperative['status']==10|| $cooperative['status']==11) : ?>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAmendmentForm" data-cname="<?= $cooperative['proposed_name']?> <?= $cooperative['type_of_cooperative']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>"><i class='fas fa-trash'></i><?php echo ($cooperative['status']==10 || $cooperative['status']==11) ? "Delete": "Cancel" ?></button>
                       <?php endif;?>
@@ -271,13 +311,15 @@ if($is_client && !$has_registered_coop):?>
             <?php } //end not null ?>
             </tbody>
           </table>
+          <?php if(!$is_client){echo $links;}?>
         </div>
       </div>
     </div>
   </div> 
 </div>
-<?php endif; //end if has registered coop?>    
-<?php if(!$is_client && $admin_info->region_code != '00' && $admin_info->access_level==2) :?>
+<?php endif; //end if has registered coop?>   
+
+<?php /* if(!$is_client && $admin_info->region_code != '00' && $admin_info->access_level==2) :?>
 <h4 style="
 padding: 15px 10px;
 background: #fff;
@@ -369,12 +411,12 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Deferred/Denied</h4>
     </div>
   </div>
 </div>
-<?php endif;?>          
+<?php endif; */?>          
 
 
 
 
-<?php if(!$is_client && $admin_info->region_code != '00') :?>
+<?php /*if(!$is_client && $admin_info->region_code != '00') :?>
 <h4 style="
 padding: 15px 10px;
 background: #fff;
@@ -461,9 +503,9 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
         </div>
       </div>
     </div>
-  </div><?endif;?>
+  </div><?endif; */?>
 
-  <?php if(!$is_client && $admin_info->region_code != '00') :?>
+  <?php /*if(!$is_client && $admin_info->region_code != '00') :?>
 <div class="col-md-12">    
 <h4 style="
 padding: 15px 10px;
@@ -551,10 +593,10 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
           </table>
         </div>
       </div>
-    </div> <?endif;?>
+    </div> <?endif; */?>
 
     <!-- HO PROCESS -->
-    <?php if(!$is_client  && $admin_info->region_code == '00') :?>
+    <?php /* if(!$is_client  && $admin_info->region_code == '00') :?>
     <div class="col-sm-12 col-md-12">
         <h4 style="
         padding: 15px 10px;
@@ -629,11 +671,11 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
       </div>
     </div>
     </div>
-     <?php endif;?>
+     <?php endif; */?>
     <!-- END HO PROCESS -->
 
     <!-- PROCESS BY HO -->
-    <?php if(!$is_client  && $admin_info->region_code != '00') :?>
+    <?php /* if(!$is_client  && $admin_info->region_code != '00') :?>
     <div class="col-sm-12 col-md-12">
         <h4 style="
         padding: 15px 10px;
@@ -709,7 +751,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
         </div>
       </div>
     </div>
-    <?php endif;?>
+    <?php endif; */?>
     <!-- END PROCESS BY HO -->
 </div>
 <!-- Bootstrap modal -->

@@ -103,7 +103,7 @@
                   <th>Office Address</th>
                 <?php endif;?>
                 <th>Status</th>
-                <th>Date Registered</th>
+                <th>Date Amendment</th>
                 <th>Action </th>
               </tr>
             </thead>
