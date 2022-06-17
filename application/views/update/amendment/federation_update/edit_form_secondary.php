@@ -119,7 +119,7 @@
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="paidShares2">No of paid-up Shares:ddd</label>
+                  <label for="paidShares2">No of paid-up Shares:</label>
                   <input type="number"  class="form-control" id="paidShares2" name="paidShares2" >
                   <div style="color: red; font-size: 12px;" id="clicktoverify2"><i>* Click the field to verify</i></div>
                   <div id="paid-note2" style="color: red; font-size:12px;"></div>

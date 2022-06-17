@@ -57,9 +57,11 @@
 <?php if($this->uri->segment(3) == "cooperators_update" && $this->uri->segment(4)=="add"): ?><script src="<?=base_url();?>assets/js/add_cooperator_update_custom.js"></script> <?php  endif; ?>
 
 <?php if($this->uri->segment(1) == "amendment_update" && $this->uri->segment(3)=="update"): ?><script src="<?=base_url();?>assets/js/amendment_update.js"></script> <?php  endif; ?>
-
+<?php if($this->uri->segment(3) == "amendment_affiliators") : ?><script src="<?=base_url();?>assets/js/edit_affiliator_custom.js"></script>
+<script src="<?=base_url();?>assets/js/add_affiliator_amendment_custom.js"></script><?php endif; ?>
 <?php if($this->uri->segment(3) == "amendment_cooperator" && $this->uri->segment(4)=="add")   : ?><script src="<?=base_url();?>assets/js/add_cooperator_update_amendment.js"></script> <?php endif; ?>
-
+<?php if($this->uri->segment(3) == "update_affiliators") : ?><script src="<?=base_url();?>assets/js/edit_affiliator_update_custom.js"></script>
+<script src="<?=base_url();?>assets/js/update_affiliators_amd.js"></script><?php endif; ?>
 <script type="text/javascript"> 
         $(document).ready(function () {
             $("#sidebar").mCustomScrollbar({

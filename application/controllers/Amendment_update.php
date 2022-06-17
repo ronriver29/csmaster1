@@ -176,28 +176,11 @@ class Amendment_update extends CI_Controller{
                   }
                  
                 
-                  if($this->amendment_update_model->if_had_amendment($data['coop_info']->regNo,$this->decoded_id))
-                  { //next amendment
-                    $data['coop_info_orig']= $this->amendment_update_model->get_last_amendment_info($data['coop_info']->regNo);
-                 
-                    $coop_info_orig = $data['coop_info_orig'];
-                    $acronym='';
-                    if(strlen($coop_info_orig->acronym)>0)
+             
+                    $data['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($coop_id); 
+                    $data['orig_proposedName_formated']='';
+                    if( $data['coop_info_orig']!=NULL)
                     {
-                    $acronym='('.$coop_info_orig->acronym.')';
-                    }
-                    if(count(explode(',',$coop_info_orig->type_of_cooperative))>1)
-                    {
-                    $data['orig_proposedName_formated'] = ltrim(rtrim($coop_info_orig->proposed_name)).' Multipurpose Cooperative '.$acronym;
-                    }
-                    else
-                    {
-                    $data['orig_proposedName_formated'] = ltrim(rtrim($coop_info_orig->proposed_name)).' '.$coop_info_orig->type_of_cooperative.' Cooperative '.$acronym;
-                    }
-                  }
-                  else
-                  { //first amendment
-                    $data['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($coop_id);
                     $coop_info_orig = $data['coop_info_orig'];
                     $acronym='';
                     if(strlen($coop_info_orig->acronym_name)>0)
@@ -205,7 +188,9 @@ class Amendment_update extends CI_Controller{
                     $acronym='('.$coop_info_orig->acronym_name.')';
                     }
                     $data['orig_proposedName_formated'] = ltrim(rtrim($coop_info_orig->proposed_name)).' '.$coop_info_orig->type_of_cooperative.' Cooperative '.$acronym;
-                  }
+                    }
+                    unset($acronym);
+                 
 
                    // $data['acting_director'] = $this->admin_model->check_director_supervising($data['coop_info']->rCode);
                   //end of download payment   
@@ -378,36 +363,24 @@ class Amendment_update extends CI_Controller{
                   }
                  
                 
-                  if($this->amendment_update_model->if_had_amendment($data['coop_info']->regNo,$this->decoded_id))
-                  { //next amendment
-                    $data['coop_info_orig']= $this->amendment_update_model->get_last_amendment_info($data['coop_info']->regNo);
-                   
-                    $coop_info_orig = $data['coop_info_orig'];
-                    $acronym='';
-                    if(strlen($coop_info_orig->acronym)>0)
-                    {
-                    $acronym='('.$coop_info_orig->acronym.')';
-                    }
-                    if(count(explode(',',$coop_info_orig->type_of_cooperative))>1)
-                    {
-                    $data['orig_proposedName_formated'] = ltrim(rtrim($coop_info_orig->proposed_name)).' Multipurpose Cooperative '.$acronym;
-                    }
-                    else
-                    {
-                    $data['orig_proposedName_formated'] = ltrim(rtrim($coop_info_orig->proposed_name)).' '.$coop_info_orig->type_of_cooperative.' Cooperative '.$acronym;
-                    }
-                  }
-                  else
-                  { //first amendment
+                
                     $data['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($coop_id);
-                    $coop_info_orig = $data['coop_info_orig'];
-                    $acronym='';
+                     $acronym='';
+                      $data['orig_proposedName_formated'] ='';
+                    if($data['coop_info_orig']!=NULL)
+                    {
+                      $coop_info_orig = $data['coop_info_orig'];
+                   
                     if(strlen($coop_info_orig->acronym_name)>0)
                     {
                     $acronym='('.$coop_info_orig->acronym_name.')';
                     }
                     $data['orig_proposedName_formated'] = ltrim(rtrim($coop_info_orig->proposed_name)).' '.$coop_info_orig->type_of_cooperative.' Cooperative '.$acronym;
-                  }
+                    }
+                    unset($acronym);
+                    unset($coop_info_orig);
+                    
+                  
 
                   if($data['coop_info']->area_of_operation == 'Interregional'){
                     $data['regions_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);

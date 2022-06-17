@@ -55,7 +55,7 @@
         <li>   
           <a href="<?php echo base_url();?>laboratories"><i class="fas fa-handshake"></i> Laboratories</a>
         </li>
-        <li>   
+       <li>   
           <a href="<?php echo base_url();?>amendment"><i class="fas fa-handshake"></i> Amendment</a>
         </li>   
         <li> 

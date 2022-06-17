@@ -9,15 +9,17 @@ class Amendment_update_capitalization_model extends CI_Model{
     //Codeigniter : Write Less Do More
 //    $this->load->database();
   }
-  public function get_capitalization_by_coop_id($coop_id,$amendment_id){
-    $data_coop_id = $this->security->xss_clean($coop_id);
+  public function get_capitalization_by_coop_id($amendment_id){
      $data_amendment_id = $this->security->xss_clean($amendment_id);
      $data =null;
-    $query = $this->db->get_where('amendment_capitalization',array('cooperatives_id'=>$data_coop_id,'amendment_id'=>$data_amendment_id));
+    $query = $this->db->get_where('amendment_capitalization',array('amendment_id'=>$data_amendment_id));
     if($query->num_rows()>0)
     {
       $data = $query->row();
     }
+    unset($data_amendment_id);
+    unset($amendment_id);
+    unset($query);
     return $data;
   }
   public function amend_get_capitalization_by_coop_id($coop_id){
@@ -31,24 +33,26 @@ class Amendment_update_capitalization_model extends CI_Model{
     return $query->num_rows();
   }
 
-  public function update_capitalization($amendment_id,$capitalization_coop_id,$capitalization_info){
-      $capitalization_coop_id = $this->security->xss_clean($capitalization_coop_id);
+  public function update_capitalization($amendment_id,$capitalization_info){
+      // $capitalization_coop_id = $this->security->xss_clean($capitalization_coop_id);
       $capitalization_info = $this->security->xss_clean($capitalization_info);
         $amendment_id = $this->security->xss_clean($amendment_id);
-      $query= $this->db->get_where('amendment_capitalization',array('cooperatives_id'=>$capitalization_coop_id,'amendment_id'=>$amendment_id));
+      $query= $this->db->get_where('amendment_capitalization',array('amendment_id'=>$amendment_id));
       if($query->num_rows()>0)
        {
         $this->db->trans_begin();
-        $this->db->where('cooperatives_id', $capitalization_coop_id);
+        // $this->db->where('cooperatives_id', $capitalization_coop_id);
         $this->db->where('amendment_id',$amendment_id);
         $this->db->update('amendment_capitalization',$capitalization_info);
       } 
       else
       {
-      	$capitalization_info['cooperatives_id'] = $capitalization_coop_id;
+      	// $capitalization_info['cooperatives_id'] = $capitalization_coop_id;
       	$capitalization_info['amendment_id'] = $amendment_id;
       	$this->db->insert('amendment_capitalization',$capitalization_info);
       }
+      unset($amendment_id);
+      unset($capitalization_info);
       // return $capitalization_info;
         if($this->db->trans_status() === FALSE){
           $this->db->trans_rollback();
