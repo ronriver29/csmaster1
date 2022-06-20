@@ -3742,41 +3742,7 @@ where coop.users_id = '$user_id' and coop.status =15");
       return $data;
     }
 
-//     public function get_all_updated_coop_info($regcode){
-//     // Get Coop Type for HO
-//     $this->db->select('name');
-//     $this->db->from('head_office_coop_type');
-//     $query = $this->db->get();
-//     $typeofcoop = $query->result_array();
-//     foreach($typeofcoop as $typesofcoop){
-//       $cooparray[] = $typesofcoop['name'];
-//     }
 
-//     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
-//     unset($cooparray);
-//     // End Get Coop Type for HO
-   
-//     // $this->db->select('amend_coop.*,registeredamendment.coopName,registeredamendment.dateRegistered, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
-//     // $this->db->from('amend_coop');
-//     // $this->db->join('registeredamendment', 'registeredamendment.cooperative_id = amend_coop.cooperative_id','left');
-//     // $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
-//     // $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
-//     // $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
-//     // $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
-//     // $this->db->like('refregion.regCode', $regcode);
-//     // $this->db->where('amend_coop.status = 40 AND amend_coop.migrated=1 AND ho=0 ');
-//     $this->db->query("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));");
-//     $query =$this->db->query("
-// SELECT `amend_coop`.*,r.`coopName`,r.`dateRegistered`, `refbrgy`.`brgyDesc` as `brgy`, `refcitymun`.`citymunDesc` as `city`, `refprovince`.`provDesc` as `province`, `refregion`.`regDesc` as `region` FROM `registeredamendment` AS r
-//       JOIN `amend_coop`  ON  r.`cooperative_id` = `amend_coop`.`cooperative_id`
-//         INNER JOIN `refbrgy` ON `refbrgy`.`brgyCode` = `amend_coop`.`refbrgy_brgyCode` INNER JOIN `refcitymun` ON `refcitymun`.`citymunCode` = `refbrgy`.`citymunCode` INNER JOIN `refprovince` ON `refprovince`.`provCode` = `refcitymun`.`provCode` INNER JOIN `refregion` ON `refregion`.`regCode` = `refprovince`.`regCode` 
-       
-//         WHERE `refregion`.`regCode` LIKE '%".$regcode."%' ESCAPE '!' AND `amend_coop`.`status` = 40 AND `amend_coop`.`migrated` = 1 AND `ho` = 0 GROUP BY r.regNo ORDER BY r.id ASC");
-   
-//     // $query = $this->db->get();
-//     $data = $query->result_array();
-//     return $data;
-//   }
 
   public function get_all_updated_coop_info($regcode,$limit,$start,$coopName,$regNo){
     // Get Coop Type for HO
@@ -3831,19 +3797,7 @@ where coop.users_id = '$user_id' and coop.status =15");
     }
    return $datas;
   }
-  public function get_coopname_dateRegistered($regNo,$column)
-  {
-    $data ='';
-    $query = $this->db->query("select {$column} from registeredamendment where regNo='$regNo' order by id desc limit 1");
-    if($query->num_rows()==1)
-    {
-      foreach($query->result_array() as $row)
-      {
-        $data=$row[$column];
-      }
-    }
-    return $data;
-  }
+  
   public function get_all_submitted_coop_count($regcode,$coopName,$regNo){
      $coopName = (strlen($coopName)>0 ? " AND amend_coop.proposed_name like '%".$coopName."%'" : '');
       $regNo = (strlen($regNo)>0 ? " AND amend_coop.regNo='$regNo'"  : '');
@@ -3866,9 +3820,9 @@ where coop.users_id = '$user_id' and coop.status =15");
        // $typeCooperative = " AND amend_coop.type_of_cooperative IN (".$typeofcoopimp.")";
     }
 
-    $this->db->select('amend_coop.*,registeredamendment.coopName,registeredamendment.dateRegistered, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->select('amend_coop.*,refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('amend_coop');
-    $this->db->join('registeredamendment', 'registeredamendment.cooperative_id = amend_coop.cooperative_id','left');
+    // $this->db->join('registeredamendment', 'registeredamendment.cooperative_id = amend_coop.cooperative_id','left');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
@@ -3878,6 +3832,21 @@ where coop.users_id = '$user_id' and coop.status =15");
     // $this->db->where_in('status',array('2','3','4','5','6','12','13','14','16'));
     return  $this->db->count_all_results();
   }
+
+  public function get_coopname_dateRegistered($regNo,$column)
+  {
+    $data ='';
+    $query = $this->db->query("select {$column} from registeredamendment where regNo='$regNo' order by id desc limit 1");
+    if($query->num_rows()==1)
+    {
+      foreach($query->result_array() as $row)
+      {
+        $data=$row[$column];
+      }
+    }
+    return $data;
+  }
+
   public function get_all_updated_coop_info_ho($regcode){
     // Get Coop Type for HO
     $this->db->select('name');

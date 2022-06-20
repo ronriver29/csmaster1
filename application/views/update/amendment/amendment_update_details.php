@@ -1048,11 +1048,13 @@ $region='';
           </small>  
         </li>
    
-   
+      <?php
+        $teps_ =2;
+      ?>
       <?php if($coop_info->grouping !=='Union') :?>  
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 font-weight-bold"> Step 3 </h5>
+            <h5 class="mb-1 font-weight-bold"> Step <?=++$teps_?> </h5>
             <small class="text-muted">
               <?php if($capitalization_complete): ?>
                 <span class="badge badge-success">COMPLETE</span>
@@ -1074,7 +1076,7 @@ $region='';
         
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 font-weight-bold"> Step 4</h5>
+            <h5 class="mb-1 font-weight-bold"> Step <?=++$teps_?></h5>
             <small class="text-muted">
               <?php if($cooperator_complete): ?>
                 <span class="badge badge-success">COMPLETE</span>
@@ -1112,7 +1114,7 @@ $region='';
        
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 font-weight-bold">Step 5</h5>
+            <h5 class="mb-1 font-weight-bold">Step <?=++$teps_?></h5>
             <small class="text-muted">
               <?php if($purposes_complete): ?>
                 <span class="badge badge-success">COMPLETE</span>

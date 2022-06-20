@@ -140,7 +140,7 @@ if($business_activities !=null){
             <p style="padding-top: 2.5rem;font-style: italic;color:red;"><?=$msg?></p>
           </div>
         </div>
-         <?php   if(($is_client && $coop_info->status==15) || ($this->session->userdata('access_level')==6)):?>
+         <?php if(($is_client && $coop_info->status==15 || ($this->session->userdata('access_level')==6)) && $coop_info->capital_contribution!=0):?>
         <div class="row col-sm-6 col-md-1 align-self-center col-reserve-btn">
           <input class="btn btn-color-blue" type="submit" name="btn-filter" value="search" style="float:left;">
         </div>

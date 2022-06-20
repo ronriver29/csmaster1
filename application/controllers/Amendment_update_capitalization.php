@@ -69,14 +69,14 @@ class Amendment_update_capitalization extends CI_Controller{
 
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
               
-                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
+                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
 
                         $data['title'] = 'Capitalization';
                         $data['header'] = 'Capitalization';
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                         $data['encrypted_id'] = $id;
 //                        $data['requirements_complete'] = $this->capitalization_model->is_requirements_complete($this->decoded_id);
-                        $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
+                        $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
                         $data['capitalization_info'] = $this->amendment_update_capitalization_model    ->get_capitalization_by_coop_id($this->decoded_id);
 
                           //modified
