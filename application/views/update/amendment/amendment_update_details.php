@@ -1013,7 +1013,7 @@ $region='';
       <ul class="list-group">
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 font-weight-bold "> Step 1 </h5>
+            <h5 class="mb-1 font-weight-bold ">  </h5>
             <small>
               <?php if($coop_info->status!=0): ?>
                 <span class="badge badge-success">COMPLETE</span>
@@ -1032,7 +1032,7 @@ $region='';
  
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 font-weight-bold">Step 2 </h5>
+            <h5 class="mb-1 font-weight-bold"> </h5>
             <small class="text-muted">
               <?php if($bylaw_complete): ?>
                 <span class="badge badge-success">COMPLETE</span>
@@ -1054,7 +1054,7 @@ $region='';
       <?php if($coop_info->grouping !=='Union') :?>  
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 font-weight-bold"> Step <?=++$teps_?> </h5>
+            <h5 class="mb-1 font-weight-bold">  </h5>
             <small class="text-muted">
               <?php if($capitalization_complete): ?>
                 <span class="badge badge-success">COMPLETE</span>
@@ -1076,7 +1076,7 @@ $region='';
         
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 font-weight-bold"> Step <?=++$teps_?></h5>
+            <h5 class="mb-1 font-weight-bold"> </h5>
             <small class="text-muted">
               <?php if($cooperator_complete): ?>
                 <span class="badge badge-success">COMPLETE</span>
@@ -1114,7 +1114,7 @@ $region='';
        
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 font-weight-bold">Step <?=++$teps_?></h5>
+            <h5 class="mb-1 font-weight-bold"></h5>
             <small class="text-muted">
               <?php if($purposes_complete): ?>
                 <span class="badge badge-success">COMPLETE</span>
@@ -1133,7 +1133,7 @@ $region='';
 
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 font-weight-bold">Step 6</h5>
+            <h5 class="mb-1 font-weight-bold"></h5>
             <small class="text-muted">
               <?php if($article_complete): ?>
                 <span class="badge badge-success">COMPLETE</span>
@@ -1158,7 +1158,7 @@ $region='';
         </li>
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 font-weight-bold">Step 7</h5>
+            <h5 class="mb-1 font-weight-bold"></h5>
             <small class="text-muted">
               <?php if($complete_position): ?>
                 <span class="badge badge-success">COMPLETE</span>
@@ -1179,7 +1179,7 @@ $region='';
 
       <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 font-weight-bold">Step 8</h5>
+            <h5 class="mb-1 font-weight-bold"></h5>
             <small class="text-muted"> 
           
             <?php /*  $count_coop_type= explode(',',$coop_info->type_of_cooperative); ?>
