@@ -92,7 +92,7 @@ class Amendment_update_capitalization extends CI_Controller{
                      if($this->input->post('capitalizationPrimaryBtn')) {
                       $data = $this->input->post('item');
 
-                       if($this->amendment_update_capitalization_model->update_capitalization($this->decoded_id,$cooperative_id,$data)){
+                       if($this->amendment_update_capitalization_model->update_capitalization($this->decoded_id,$data)){
                             $this->session->set_flashdata('capitalization_success', 'Successfully Updated');
                             redirect('amendment_update/'.$id.'/capitalization');
                         }else{
