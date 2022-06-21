@@ -246,7 +246,7 @@ class amendment_update_model extends CI_Model{
   }
   public function name_coop_primary($regNo)
   {
-    $query = $this->db->query("select coopName from registeredcoop where regNo='$regNo' limit 1");
+    $query = $this->db->query("select coopName from registeredcoop where regNo='$regNo' order by id asc limit 1");
     return $query->row();
   }
   public function get_payment_info($amendment_id){
