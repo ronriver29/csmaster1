@@ -124,7 +124,7 @@ class User_model extends CI_Model{
   public function get_search_reg($regno){
     $this->db->select('*');
     $this->db->from('registeredcoop');
-    $this->db->where(array('regNo'=>$regno));
+    $this->db->where('regNo ="'.$regno.'" AND regNo != ""');
     $query = $this->db->get();
     return $query->row();
   }
