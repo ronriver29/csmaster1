@@ -803,6 +803,7 @@ class amendment extends CI_Controller{
                 unset($coop_id);
                 if($this->amendment_model->if_had_amendment_new($this->input->post('regNo')))
                 {
+                  // var_dump($this->amendment_model->add_amendment($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative,$data_bylaws));
              
                   if($this->amendment_model->add_amendment($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative,$data_bylaws))
                   {
