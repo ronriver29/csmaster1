@@ -3809,9 +3809,15 @@ where coop.users_id = '$user_id' and coop.status =15");
       else
       {
         $amendmentNo = $amendmentNo -1;
-        $query = $this->db->query("select proposed_name,acronym,type_of_cooperative from amend_coop where regNo='$regNo' and amendmentNo='$amendmentNo'");
+        $query = $this->db->query("select migrated,proposed_name,acronym,type_of_cooperative from amend_coop where regNo='$regNo' and amendmentNo='$amendmentNo'");
         foreach($query->result_array() as $row)
         {
+          if($row['migrated']==1)
+          {
+            $data =$this->coopName_from_migration($amendmentNo,$regNo); 
+          }
+          else
+          {
             $acronym='';
             if(strlen($row['acronym'])>0)
             {
@@ -3827,7 +3833,24 @@ where coop.users_id = '$user_id' and coop.status =15");
               $proposedName = ltrim(rtrim($row['proposed_name'])).' '.$row['type_of_cooperative'].' Cooperative '.$acronym;
             }
             $data = $proposedName;
+          }
         }
+      }
+      return $data;
+    }
+
+     public function coopName_from_migration($amendment_no,$regNo)
+    {
+      $data='';
+      $query = $this->db->query("select coopName from registeredamendment where regNo='$regNo' and amendment_no='$amendment_no'");
+      if($query->num_rows()==1)
+      {
+        foreach($query->result() as $row)
+        {
+          $data = $row->coopName;
+        }
+        unset($row);
+        unset($query);
       }
       return $data;
     }
@@ -3844,7 +3867,7 @@ where coop.users_id = '$user_id' and coop.status =15");
       {
         $data = $proposed_name;
       }
-      return $data;
+     return $data;
     }
     public function format_amendmentNo_byregNo($regNo)
     {

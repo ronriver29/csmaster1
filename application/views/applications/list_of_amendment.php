@@ -1,4 +1,3 @@
-
 <div class="row"> 
   <div class="col-md-12">
 <?php if($this->session->flashdata('amendment_msg')) :?>       
