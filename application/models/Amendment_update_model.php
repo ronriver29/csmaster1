@@ -480,7 +480,8 @@ class amendment_update_model extends CI_Model{
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->join('registeredamendment', 'registeredamendment.regNo = amend_coop.regNo');
-    $this->db->where(array('registeredamendment.regNo'=>$regNo,'amend_coop.status'=>15));
+    $this->db->where(array('registeredamendment.regNo'=>$regNo));
+    $this->db->where("amend_coop.status IN (15,41)");
    $this->db->order_by('id', 'DESC');
    $this->db->limit(1);
     $query = $this->db->get();
@@ -2687,7 +2688,7 @@ public function check_if_denied($coop_id){
   public function get_updated_coop_id($regNo)
   {
     $data =0;
-    $query = $this->db->query("select application_id from registeredcoop where regNo='$regNo' order by id desc limit 1");
+    $query = $this->db->query("select application_id from registeredcoop where regNo='$regNo' order by id asc limit 1");
     if($query->num_rows()==1)
     {
       foreach($query->result() as $row)
@@ -2736,7 +2737,7 @@ public function check_if_denied($coop_id){
     }
 
     //last amendment detail for print
-    public function amendment_info_not_own_id($cooperative_id,$amendment_id)
+    public function amendment_info_not_own_id($amendment_id)
     {
       $query = $this->db->query("select * from amend_coop where id <> '$amendment_id' and status =15 and status=14 order by id desc limit 1");
        if($query->num_rows()>0)
@@ -3250,7 +3251,7 @@ public function check_if_denied($coop_id){
     if($this->if_had_amendment($amendment_info->regNo,$amendment_id))
     {
     //next amendment
-      $coop_info_orig= $this->amendment_info_not_own_id($last_amendment_info->cooperative_id,$last_amendment_info->id);
+      $coop_info_orig= $this->amendment_info_not_own_id($last_amendment_info->id);
       $capitalization_info_orig = $this->amendment_capitalization_model->get_capitalization_by_coop_id($last_amendment_info->cooperative_id,$last_amendment_info->id);
       $no_of_bod_orig = $this->amendment_cooperator_model->check_directors_odd_number($last_amendment_info->cooperative_id,$last_amendment_info->id);
      $purposes_orig=$this->amendment_purpose_model->get_purposes($last_amendment_info->id);
