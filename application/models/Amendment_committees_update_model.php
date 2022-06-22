@@ -64,6 +64,25 @@ class Amendment_committees_update_model extends CI_Model{
 	        }
    
   }
+    public function check_position_($amendment_id)
+    {
+    $data=[];
+    $this->db->select('name');
+    $this->db->from('amendment_committees');
+    $this->db->where(array('amendment_id'=>$amendment_id));
+    $qry = $this->db->get();
+    if($qry->num_rows()>0)
+    {
+      foreach($qry->result_array() as $row)
+      {
+        $data[] =$row['name'];
+      }
+    }
+    unset($qry);
+    return $data;
+    }
+
+
   public function edit_committee($committee_id,$committee_info){
     // $committee_id = $this->security->xss_clean($committee_id);
     // $cooperator_info = $this->security->xss_clean($committee_info);
