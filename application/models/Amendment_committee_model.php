@@ -52,6 +52,25 @@ class Amendment_committee_model extends CI_Model{
     } 
    
   }
+
+  public function check_position_($amendment_id)
+    {
+    $data=[];
+    $this->db->select('name');
+    $this->db->from('amendment_committees');
+    $this->db->where(array('amendment_id'=>$amendment_id));
+    $qry = $this->db->get();
+    if($qry->num_rows()>0)
+    {
+      foreach($qry->result_array() as $row)
+      {
+        $data[] =$row['name'];
+      }
+    }
+    unset($qry);
+    return $data;
+    }
+    
   public function edit_committee($committee_id,$committee_info){
     // $committee_id = $this->security->xss_clean($committee_id);
     // $cooperator_info = $this->security->xss_clean($committee_info);
@@ -234,64 +253,20 @@ class Amendment_committee_model extends CI_Model{
   }
   public function get_all_committees_of_coop($amendment_id){
     $data = array();
+    
     // $this->db->select('amendment_committees.id as comid, amendment_committees.* ,amendment_cooperators.*');
     // $this->db->from('amendment_committees');
     // $this->db->join('amendment_cooperators', 'amendment_cooperators.id = amendment_committees.amendment_cooperators_id', 'inner');
-    // $this->db->where('amendment_cooperators.amendment_id', $amendment_id);
-    // $query = $this->db->get();
-
-//    if($query->num_rows()>0) {
-//        foreach($query->result_array() AS $key =>$row) {
-//            $this->db->select('amendment_committees.id as comid, amendment_committees.* ,cooperators.*');
-//            $this->db->from('amendment_committees');
-//            $this->db->join('cooperators', 'cooperators.id = amendment_committees.cooperators_id', 'inner');
-//            $this->db->where('cooperators.cooperatives_id', $coop_id);
-//            $this->db->where('amendment_committees.orig_committee_id', $row['id']);
-//            $query2 = $this->db->get();
-//            if($query2->num_rows()>0) {
-//                $row2 = $query2->row_array();
-//                $data[$key] = $row2; 
-//            } else {
-//                $this->db->select('amendment_committees.id as comid, amendment_committees.* ,amendment_cooperators.*');
-//                $this->db->from('amendment_committees');
-//                $this->db->join('amendment_cooperators', 'amendment_cooperators.id = amendment_committees.cooperators_id', 'inner');
-//                $this->db->where('amendment_cooperators.cooperatives_id', $coop_id);
-//                $this->db->where('amendment_committees.orig_committee_id', $row['id']);
-//                $query3 = $this->db->get();
-//                if($query3->num_rows()>0) {
-//                    $row3 = $query2->row_array();
-//                    $data[$key] = $row3; 
-//                } else {
-//                    $data[$key] = $row;
-//                }
-//            }
-//        }
-//    }
-    
-    $this->db->select('amendment_committees.id as comid, amendment_committees.* ,amendment_cooperators.*');
-    $this->db->from('amendment_committees');
-    $this->db->join('amendment_cooperators', 'amendment_cooperators.id = amendment_committees.amendment_cooperators_id', 'inner');
-    $this->db->where('amendment_committees.amendment_id', $amendment_id);
-    // $this->db->where("CHAR_LENGTH(orig_committee_id)=0 OR orig_committee_id IS NULL");
-    $query_new = $this->db->get();
-    if($query_new->num_rows()>0) {
-        foreach($query_new->result_array() as $rownew) {
+    // $this->db->where('amendment_committees.amendment_id', $amendment_id);
+    // // $this->db->where("CHAR_LENGTH(orig_committee_id)=0 OR orig_committee_id IS NULL");
+    // $query_new = $this->db->get();
+    $query = $this->db->get_where('amendment_committees',array('amendment_id'=>$amendment_id));
+    if($query->num_rows()>0) {
+        foreach($query->result_array() as $rownew) {
             $data[] = $rownew;
         }
     }
-    // $this->db->select('amendment_committees.id as comid, amendment_committees.* ,amendment_cooperators.*');
-    // $this->db->from('amendment_committees');
-    // $this->db->join('amendment_cooperators', 'amendment_cooperators.id = amendment_committees.cooperators_id', 'inner');
-    // $this->db->where('amendment_cooperators.cooperatives_id', $coop_id);
-    // $this->db->where("CHAR_LENGTH(orig_committee_id)=0 OR orig_committee_id IS NULL");
-    // $query_new2 = $this->db->get();
-    // if($query_new2->num_rows()>0) {
-    //     foreach($query_new2->result_array() as $rownew2) {
-    //         $data[] = $rownew2;
-    //     }
-    // }
-    
-//    $data =  $query->result_array();
+
     return $data;
   }
   
@@ -328,8 +303,8 @@ class Amendment_committee_model extends CI_Model{
     $data =  $query->result_array();
     return $data;
   }
-  
-  public function get_all_custom_committee_names_of_coop($amendment_id){
+
+   public function get_all_custom_committee_names_of_coop($amendment_id){
     $list_committee_names = array(
       "Audit",
       // "Accounting",
@@ -341,8 +316,6 @@ class Amendment_committee_model extends CI_Model{
       "Gender and Development");
     $this->db->select('amendment_committees.name');
     $this->db->from('amendment_committees');
-    $this->db->join('amendment_cooperators' , 'amendment_cooperators.id = amendment_committees.amendment_cooperators_id','inner');
-    // $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id');
     $this->db->distinct();
     $this->db->where_not_in('amendment_committees.name',$list_committee_names);
     $this->db->where('amendment_committees.amendment_id',$amendment_id);
@@ -350,6 +323,29 @@ class Amendment_committee_model extends CI_Model{
     $data = $query->result_array();
     return $data;
   }
+
+  
+  // public function get_all_custom_committee_names_of_coop($amendment_id){
+  //   $list_committee_names = array(
+  //     "Audit",
+  //     // "Accounting",
+  //     "Election",
+  //     "Education and Training",
+  //     "Mediation and Conciliation",
+  //     "Ethics",
+  //     "Credit",
+  //     "Gender and Development");
+  //   $this->db->select('amendment_committees.name');
+  //   $this->db->from('amendment_committees');
+  //   $this->db->join('amendment_cooperators' , 'amendment_cooperators.id = amendment_committees.amendment_cooperators_id','inner');
+  //   // $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id');
+  //   $this->db->distinct();
+  //   $this->db->where_not_in('amendment_committees.name',$list_committee_names);
+  //   $this->db->where('amendment_committees.amendment_id',$amendment_id);
+  //   $query = $this->db->get();
+  //   $data = $query->result_array();
+  //   return $data;
+  // }
   public function get_all_committee_names_of_coop_multi($amendment_id){
     $this->db->select('amendment_committees.name');
     $this->db->order_by('amendment_committees.name','asc');
@@ -396,9 +392,7 @@ class Amendment_committee_model extends CI_Model{
   public function check_committee_in_cooperative($committee_id,$amendment_id){
     $this->db->select('amendment_committees.id');
     $this->db->from('amendment_committees');
-    $this->db->join('amendment_cooperators' , 'amendment_committees.amendment_cooperators_id = amendment_cooperators.id','inner');
-    $this->db->join('amend_coop', 'amend_coop.id = amendment_committees.amendment_id','inner');
-    $this->db->where(array('amend_coop.id'=>$amendment_id,'amendment_committees.id'=>$committee_id));
+    $this->db->where(array('amendment_id'=>$amendment_id,'amendment_committees.id'=>$committee_id));
     $count = $this->db->count_all_results();
     if($count>0){
       return true;
