@@ -1437,7 +1437,7 @@
       </li>
 
       
-
+      <?php if($coop_info->grouping !='Union') :?>
       <li class="list-group-item  flex-column align-items-start">
 
         <div class="d-flex w-100 justify-content-between">
@@ -1473,14 +1473,31 @@
         <?php endif;?>
 
       </li>
-
+    <?php endif; //!union ?>
       
 
       <li class="list-group-item  flex-column align-items-start">
 
         <div class="d-flex w-100 justify-content-between">
+           <?php 
+       
+          switch ($coop_info->grouping) {
+            case 'Union':
+                 $module = 'Members';
+                 $moduleUrl = 'amendment_union';
+              break;
+            case 'Federation':
+                   $module = 'Members';
+                 $moduleUrl = 'amendment_affiliators';
+            break;
+            default:
+                 $module ='Cooperators';
+                 $moduleUrl ='amendment_cooperators';
+              break;
+          }
+          ?>
 
-          <h5 class="mb-1 font-weight-bold">List of Cooperators</h5>
+          <h5 class="mb-1 font-weight-bold">List of <?=$module?></h5>
 
           <small class="text-muted">
 
@@ -1504,7 +1521,7 @@
 
         <small class="text-muted">
 
-          <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_cooperators" class="btn btn-info btn-sm">View</a>
+          <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/<?=$moduleUrl?>" class="btn btn-info btn-sm">View</a>
 
         </small>
 
@@ -1969,6 +1986,7 @@
 
         </li>
 
+        <?php if($coop_info->grouping !=='Union') :?>
         <li class="list-group-item  flex-column align-items-start">
 
           <div class="d-flex w-100 justify-content-between">
@@ -2010,6 +2028,7 @@
         <?php endif;?>
 
         </li>
+      <?php endif;  //!union?>
 
         <li class="list-group-item  flex-column align-items-start">
 
@@ -2034,14 +2053,30 @@
             </small>
 
           </div>
-
-          <p class="mb-1 font-italic">List of Cooperators</p>
+           <?php 
+       
+          switch ($coop_info->grouping) {
+            case 'Union':
+                 $module = 'Members';
+                 $moduleUrl = 'amendment_union';
+              break;
+            case 'Federation':
+                   $module = 'Members';
+                 $moduleUrl = 'amendment_affiliators';
+            break;
+            default:
+                 $module ='Cooperators';
+                 $moduleUrl ='amendment_cooperators';
+              break;
+          }
+          ?>
+          <p class="mb-1 font-italic">List of <?=$module?></p>
 
           <?php if($coop_info->status!= 0 && $bylaw_complete && $capitalization_complete): ?>
 
           <small class="text-muted">
 
-            <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_cooperators" class="btn btn-info btn-sm">View</a>
+            <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/<?=$moduleUrl?>" class="btn btn-info btn-sm">View</a>
 
           </small>
 

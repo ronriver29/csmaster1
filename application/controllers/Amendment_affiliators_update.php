@@ -41,7 +41,7 @@ class Amendment_affiliators_update extends CI_Controller{
                     $data['directors_count_odd'] = $this->affiliator_model->check_directors_odd_number($this->decoded_id);
                     $data['total_directors'] = $this->affiliator_model->no_of_directors($this->decoded_id);
                     $data['chairperson_count'] = $this->affiliator_model->check_chairperson($this->decoded_id);
-                    $data['associate_not_exists'] = $this->cooperators_model->check_associate_not_exists($cooperative_id,$this->decoded_id);
+                    // $data['associate_not_exists'] = $this->cooperators_model->check_associate_not_exists($cooperative_id,$this->decoded_id);
                     $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
                     $data['capitalization_info'] = $this->amd_capitalization_model->get_capitalization_by_coop_id($this->decoded_id);
                     // echo $this->db->last_query();
@@ -60,8 +60,6 @@ class Amendment_affiliators_update extends CI_Controller{
                 
                     $data['total_regular'] = $this->affiliator_model->total_regular($this->decoded_id);
                     $data['total_associate'] = $this->cooperators_model->get_total_associate($cooperative_id,$this->decoded_id);
-                    // $data['check_regular_paid'] = $this->cooperators_model->check_regular_total_shares_paid_is_correct($data['total_regular']);
-                    // $data['check_with_associate_paid'] = $this->cooperators_model->check_with_associate_total_shares_paid_is_correct($data['total_regular'],$data['total_associate']);
                     $data['vice_count'] = $this->affiliator_model->check_vicechairperson($this->decoded_id);
                     $data['treasurer_count'] = $this->affiliator_model->check_treasurer($this->decoded_id);
                     $data['secretary_count'] = $this->affiliator_model->check_secretary($this->decoded_id);
@@ -76,15 +74,11 @@ class Amendment_affiliators_update extends CI_Controller{
                     $this->regNo=$this->input->post('regNo');
                     $this->coopName = $this->input->post('coopName');
 
-                      // if($data['coop_info']->area_of_operation == 'Interregional'){
-                    // $data['registered_coop'] = $this->affiliator_model->get_registered_interregion($data['coop_info']->regions);
-                    // } else {
-                    
+        
                       if($data['coop_info']->category_of_cooperative=='Secondary')
                       {
                          $data['registered_coop'] = $this->affiliator_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative,$this->regNo,$this->coopName);  
-                       
-                      // $this->debug($data['registered_coop']);
+
                       }
                       if($data['coop_info']->category_of_cooperative=='Tertiary')
                       {
@@ -377,7 +371,7 @@ class Amendment_affiliators_update extends CI_Controller{
       
         if($found=='found'){
           $this->session->set_flashdata('cooperator_error', 'Position already exists.');
-            redirect('cooperatives/'.$encryptedcoopid.'/amendment_affiliators');
+            redirect('amendment_update/'.$encryptedcoopid.'/update_affiliators');
         }
 
         // $position_exists = $this->db->where('(position LIKE "%Chairperson%") AND id != '.$encrypted_post_coop_id.' AND user_id ='.$user_id.' AND position NOT IN  ("Member","Board of Director")')->get('amendment_affiliators');

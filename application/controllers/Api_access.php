@@ -143,6 +143,46 @@ class Api_access extends CI_Controller {
         }
     }
 
+    public function request()
+    {
+  
+    $admin_user_id = $this->session->userdata('user_id');
+    $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
+
+      $data['title'] = 'Davao API';
+      $data['header'] = 'Davao API';
+      $this->load->view('./templates/admin_header', $data);
+      $this->load->view('davao/sample_form', $data);
+      $this->load->view('./templates/admin_footer');
+ 
+     }
+    public function result()
+    {
+      if(!isset($_POST['submit']))
+      {
+        $token = $this->input->post('token');
+        $regNo = $this->input->post('regNo');
+        $table = 'registeredcoop';
+        if($this->api_access_model->check_table_access($table))
+        {
+          if($this->token() == $token)
+          {
+            $result = $this->api_access_model->get_coop_by_regNo($regNo);
+            echo json_encode($result);
+          }
+          else
+          {
+           echo json_encode("Unauthorized");
+          }
+        }
+        else
+        {
+          echo json_encode("Fobidden to accesss data. Please contact system administrator.");
+        }
+       }
+    }
+   
+    
     public function debug($array)
     {
         echo"<pre>";

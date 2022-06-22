@@ -828,7 +828,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
 
   public function last_insert_id($users_id)
   {
-    $query = $this->db->query("Select id from amend_coop where users_id = '$users_id' order by id desc limit 1");
+    $query = $this->db->query("select id from amend_coop where users_id = '$users_id' order by id desc limit 1");
     return $query->row();
   }
   public function add_amendment($data_amendment,$major_industry,$subtypes_array,$members_composition,$type_of_coop_id_array,$data_bylaws)
@@ -860,8 +860,10 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
             }
             $data_major_and_subclasses[] = array('cooperatives_id'=> $cooperative_ID,'amendment_id'=>$id,'industry_subclass_by_coop_type_id'=>$industry_subclassID,'cooperative_type_id'=>$cooperative_typeID,'major_industry_id'=>$major,'subclass_id'=>$subclasses);
           }
+          unset($r);
          unset($subclasses);
           $this->db->insert_batch('business_activities_cooperative_amendment', $data_major_and_subclasses);
+          unset($data_major_and_subclasses);
     }
 
 
@@ -905,22 +907,60 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
        $this->db->insert_batch('amendment_cooperators',$data_cooperators);
     }
  
-   
+
 
     //committees 
-    $query_comittees=$this->db->query("select name from amendment_committees where amendment_id='$id'");
+    $query_comittees=$this->db->query("select * from amendment_committees where amendment_id='$last_amendment_dtl->id'"); 
      if($query_comittees->num_rows()>0)
-      {
+      { 
         foreach($query_comittees->result_array() as $row_committees)
-        {
+        { 
           $row_committees['amendment_id']=$id;
           unset($row_committees['id']);
-          $data_committees = array('amendment_id'=>$id,'name'=>$row_committees);
-         $this->db->insert('amendment_committees',$data_commitees);
-
-        }
+          $row_committees['user_id'] = $this->session->userdata('user_id');;
+          $data_committees[] = $row_committees;
+        } 
+          $this->db->insert_batch('amendment_committees',$data_committees);
         unset($row_committees);
       }   
+
+      //affiliators
+      if($data['grouping'] =='Federation')
+      {
+        $qry_affiliates = $this->db->get_where('amendment_affiliators',array('amendment_fed_id'=>$last_amendment_dtl->id)); 
+        if($qry_affiliates->num_rows()>0)
+        {
+          foreach($qry_affiliates->result_array() as $afrow)
+          {
+            unset($afrow['id']);
+            $afrow['amendment_fed_id'] = $id;
+            $data_affiliators[] = $afrow;
+          }
+          unset($afrow);
+          $this->db->insert_batch('amendment_affiliators',$data_affiliators);
+          // return $data_affiliators;
+          unset($data_affiliators);
+        }
+      }
+
+      if($data['grouping'] =='Union')
+      {
+        $qry_union = $this->db->get_where('amendment_unioncoop',array('amd_union_id'=>$last_amendment_dtl->id));
+        if($qry_union->num_rows()>0)
+        {
+          foreach($qry_union->result_array() as $urow)
+          {
+            unset($urow['id']);
+             $urow['amd_union_id'] = $id;
+            $data_affiliators[] = $urow;
+          }
+          unset($usrow);
+          // return $data_affiliators;
+          $this->db->insert_batch('amendment_unioncoop',$data_affiliators);
+          unset($data_affiliators);
+        }
+      }
+
     // foreach($original_cooperators_id as $cooperators_ID)
     // {
     
@@ -984,9 +1024,10 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
         $data_articles_cooperation = $article_rows;
       }
       unset($article_rows);
+      $this->db->insert('amendment_articles_of_cooperation',$data_articles_cooperation);
     }
-    // return $data_articles_cooperation;
-    $this->db->insert('amendment_articles_of_cooperation',$data_articles_cooperation);
+
+   
 
     $compo = explode(',',$members_composition);
     $this->db->select('id');
@@ -994,8 +1035,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     $this->db->from('composition_of_members');
     $query = $this->db->get();
     $members = $query->result_array();
-    // return $this->db->last_query();
-    // return $members;
+
     if($query->num_rows()>0)
     {
        $batch_composition = array();

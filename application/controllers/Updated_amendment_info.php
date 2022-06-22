@@ -40,7 +40,7 @@
                   );
                   
                  $data['links']=$this->paginate($array);
-                 $data['list_cooperatives']=$this->amendment_update_model->get_all_updated_coop_info($data['admin_info']->region_code,$config['per_page'],$page,$this->coopName,$this->regNo); 
+                 $data['list_cooperatives']=$this->amendment_update_model->get_all_updated_coop_info($data['admin_info']->region_code,$config['per_page'],$page,$this->coopName,$this->regNo);  
                 $this->benchmark->mark('code_end');
               // }
             $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage());

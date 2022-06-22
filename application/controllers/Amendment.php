@@ -679,21 +679,8 @@ class amendment extends CI_Controller{
                 $subclass_array = $this->input->post('subClass');
                 $major_industry = $this->input->post('majorIndustry');
                 $members_composition = $this->input->post('composition_of_membersa');
-                if ($this->input->post('categoryOfCooperative')=='Primary'){
-                  $category ='Primary';
-                  // $group='';
-                }else{
-                  $category = substr($this->input->post('categoryOfCooperative'),0,strpos($this->input->post('categoryOfCooperative'),'-')-1);
-                  // $group = substr($this->input->post('categoryOfCooperative'), strpos($this->input->post('categoryOfCooperative'),'-')+2 , strlen($this->input->post('categoryOfCooperative')) - strpos($this->input->post('categoryOfCooperative'),'-')-2);
-                }
                 $regNo = $this->input->post('regNo');
                 $coop_id = $this->amendment_model->coop_info_by_regno($regNo)->application_id;
-
-                // $query_coop_id =// $this->db->select("application_id")->where("regNo",$regNo)->get("registeredcoop");
-                // if($query_coop_id->num_rows()>0) {
-                //     $rowd = $query_coop_id->row_array();
-                //     $coop_id = $rowd['application_id'];
-                // }
                 $amendmentNo = $this->amendment_model->format_amendmentNo_byregNo($this->input->post('regNo'));
                 
                 $typeOfCooperativeID = $this->input->post('typeOfCooperative');
@@ -766,7 +753,7 @@ class amendment extends CI_Controller{
                   'cooperative_id' => $coop_id, 
                   'regNo' => $this->input->post('regNo'),
                   'amendmentNo' =>  $amendmentNo,
-                  'category_of_cooperative' => $category,
+                  'category_of_cooperative' => $this->input->post('categoryOfCooperative'),
                   'proposed_name' => $proposeName,
                   'acronym' => strtoupper($this->input->post('acronym_names')),
                   'type_of_cooperative' => $type_of_cooperativeName,
@@ -803,7 +790,7 @@ class amendment extends CI_Controller{
                 unset($coop_id);
                 if($this->amendment_model->if_had_amendment_new($this->input->post('regNo')))
                 {
-                  // var_dump($this->amendment_model->add_amendment($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative,$data_bylaws));
+                // $this->debug($this->amendment_model->add_amendment($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative,$data_bylaws));
              
                   if($this->amendment_model->add_amendment($field_data,$major_industry,$subclass_array,$occu_comp_of_membship,$typeOfCooperative,$data_bylaws))
                   {

@@ -310,7 +310,7 @@ class Amendment_union_update_model extends CI_Model{
                                 }
                                 else //NOT MIGRATED
                                 {
-                                    $updated_amendment_qry =$this->db->select('registeredamendment.id as registered_id,registeredamendment.coopName,registeredamendment.dateRegistered,registeredamendment.type,registeredamendment.amendment_id,registeredamendment.commonBond,registeredamendment.Street,registeredamendment.noStreet,registeredamendment.addrCode, amend_coop.regNo, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+                                    $this->db->select('registeredamendment.id as registered_id,registeredamendment.coopName,registeredamendment.dateRegistered,registeredamendment.type,registeredamendment.amendment_id,registeredamendment.commonBond,registeredamendment.Street,registeredamendment.noStreet,registeredamendment.addrCode, amend_coop.regNo, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
                                     $this->db->from('amend_coop');
                                     $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
                                     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -318,6 +318,7 @@ class Amendment_union_update_model extends CI_Model{
                                     $this->db->join('registeredamendment','registeredamendment.amendment_id = amend_coop.id','inner');
                                     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
                                     $this->db->where('amend_coop.status = 15 AND addrCode LIKE "'.$addresscode.'%"'.$AmendmentName.$AmendmentregNo);
+                                    $updated_amendment_qry =$this->db->get();
                                     if($updated_amendment_qry->num_rows()==1)
                                     {
                                         foreach($updated_amendment_qry->result_array() as $row)
