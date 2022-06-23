@@ -1458,7 +1458,7 @@ class amendment extends CI_Controller{
                        $data['list_of_provinces'] = $this->amendment_model->get_provinces($data['coop_info']->rCode);
                         $data['list_of_cities'] = $this->amendment_model->get_cities($data['coop_info']->pCode);
                         $data['list_of_brgys'] = $this->amendment_model->get_brgys($data['coop_info']->cCode);
-                      $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$this->decoded_id);  
+                      $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);  
                       $this->load->view('./templates/admin_header', $data);
                       $this->load->view('cooperative/amendment_reservation_update', $data);
                       $this->load->view('./templates/admin_footer', $data);
@@ -1733,7 +1733,7 @@ class amendment extends CI_Controller{
                   $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
                   $data['encrypted_id'] = $id;
                   $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($coop_id,$this->decoded_id);
-                  $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count($this->decoded_id);
+                  $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count($this->decoded_id); 
                   // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($this->decoded_id);
                   $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($coop_id,$this->decoded_id); 
                   // $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($this->decoded_id);

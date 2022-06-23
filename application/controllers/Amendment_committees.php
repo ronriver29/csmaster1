@@ -24,9 +24,9 @@ class Amendment_committees extends CI_Controller{
               if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
                 $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
-                if(!$data['bylaw_complete']) {
-                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
-                }
+                // if(!$data['bylaw_complete']) {
+                //     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
+                // }
                 if($data['bylaw_complete']){
                   $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
                   // if(!$data['cooperator_complete']) {
@@ -50,27 +50,16 @@ class Amendment_committees extends CI_Controller{
                         $data['header'] = 'Committees';
                         $data['encrypted_id'] = $id;
                         $data['committees'] = $this->amendment_committee_model->get_all_committees_of_coop($this->decoded_id);
-                        // echo $this->db->last_query();
-                        // $this->debug(  $data['committees']);
-                        if(!$data['committees']) {
-                            $data['committees'] = $this->amendment_committee_model->get_all_committees_of_coop($this->decoded_id);
-                        }
-
+                      
                       
                         $data['committeescount'] = $this->amendment_committee_model->get_all_committees_of_coop_gad_amendment($this->decoded_id);
-                        // if($data['committeescount']==0) {
-                        //     $data['committeescount'] = $this->committee_model->get_all_committees_of_coop_gad_amendment($this->decoded_id);
-                        // }
-
-                        // $this->debug( $data['committeescount']);
                         //check position
-                        $data['election'] = $this->committee_model->check_position($this->decoded_id,"Election");
-                        $data['ethics'] = $this->committee_model->check_position($this->decoded_id,"Ethics");
-                        $data['media_concil'] = $this->committee_model->check_position($this->decoded_id,"Mediation and Conciliation");
-                        $gender_dev = $this->committee_model->check_position($this->decoded_id,"Gender and Development");
-                        $data['audit'] = $this->committee_model->check_position($this->decoded_id,"Audit");
-                       
-                        $data['gender_dev'] = $gender_dev;
+                      $exist_position = $this->amendment_committee_model->check_position_($this->decoded_id);
+                      $data['election'] = (in_array('Election',$exist_position) ? true : false);
+                      $data['ethics'] = (in_array('Ethics',$exist_position) ? true : false);
+                      $data['media_concil'] = (in_array("Mediation and Conciliation",$exist_position) ? true : false);
+                      $data['gender_dev'] = (in_array('Gender and Development',$exist_position) ? true : false);
+                      $data['audit'] = (in_array('Audit',$exist_position) ? true : false);
              
                         $type_coop_array_ = explode(',',$data['coop_info']->type_of_cooperative);
                         $count_type ='';
@@ -81,7 +70,7 @@ class Amendment_committees extends CI_Controller{
                         {
                              if(in_array('Credit', $type_coop_array_))
                             {
-                               $data['credit'] = $this->committee_model->check_position($this->decoded_id,"Credit");
+                              $data['credit'] = (in_array('Credit',$exist_position) ? true : false);
                               if($data['credit'] && $data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])
                               {
                                 $data['complete_position']=true;
@@ -177,20 +166,18 @@ class Amendment_committees extends CI_Controller{
                           $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                           $data['encrypted_id'] = $id;
                           $data['committees'] = $this->amendment_committee_model->get_all_committees_of_coop($this->decoded_id);
-                        if(!$data['committees']) {
-                            $data['committees'] = $this->amendment_committee_model->get_all_committees_of_coop($this->decoded_id);
-                        }
+                        // if(!$data['committees']) {
+                        //     $data['committees'] = $this->amendment_committee_model->get_all_committees_of_coop($this->decoded_id);
+                        // }
 
-                        $data['election'] = $this->committee_model->check_position($this->decoded_id,"Election");
-                        $data['ethics'] = $this->committee_model->check_position($this->decoded_id,"Ethics");
-                        $data['media_concil'] = $this->committee_model->check_position($this->decoded_id,"Mediation and Conciliation");
-                        $gender_dev = $this->committee_model->check_position($this->decoded_id,"Gender and Development");
+                       $exist_position = $this->amendment_committee_model->check_position_($this->decoded_id);
+                      $data['election'] = (in_array('Election',$exist_position) ? true : false);
+                      $data['ethics'] = (in_array('Ethics',$exist_position) ? true : false);
+                      $data['media_concil'] = (in_array("Mediation and Conciliation",$exist_position) ? true : false);
+                      $data['gender_dev'] = (in_array('Gender and Development',$exist_position) ? true : false);
+                      $data['audit'] = (in_array('Audit',$exist_position) ? true : false);
 
-                        $data['audit'] = $this->committee_model->check_position($this->decoded_id,"Audit");
-
-                        $data['gender_dev'] = $gender_dev;
-
-                        if($data['election'] && $data['ethics'] && $data['media_concil'] && $gender_dev && $data['audit'])
+                        if($data['election'] && $data['ethics'] && $data['media_concil'] && $data['gender_dev'] && $data['audit'])
                         {
                           $data['complete_position']=true;
                         }

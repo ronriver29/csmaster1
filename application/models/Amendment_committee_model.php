@@ -118,37 +118,7 @@ class Amendment_committee_model extends CI_Model{
         }
     }
   }
-    // if(strcmp($data->name, $committee_info['name'])===0){
-    //   $this->db->trans_begin();
-    //   $this->db->where('id', $committee_id);
-    //   $this->db->update('amendment_committees',$committee_info);
-    //   if($this->db->trans_status() === FALSE){
-    //     $this->db->trans_rollback();
-    //     return array('success'=>false,'message'=>'Unable to updated committee');
-    //   }else{
-    //     $this->db->trans_commit();
-    //     return array('success'=>true,'message'=>'Committee has been successfully updated');
-    //   }
-    // }else{
-    //   $this->db->where($committee_info);
-    //   $this->db->where(array('amendment_cooperators_id'=>$data->cooperators_id));
-    //   $this->db->from('amendment_committees');
-    //   $count = $this->db->count_all_results();
-    //   if(!$count>=3){
-    //     $this->db->trans_begin();
-    //     $this->db->where(array('id'=>$committee_id));
-    //     $this->db->update('amendment_committees',$committee_info);
-    //     if($this->db->trans_status() === FALSE){
-    //       $this->db->trans_rollback();
-    //       return array('success'=>false,'message'=>'Unable to update committee');
-    //     }else{
-    //       $this->db->trans_commit();
-    //       return array('success'=>true,'message'=>'Committee has been successfully updated');
-    //     }
-    //   }else{
-    //     return array('success'=>false,'message'=>'Committee already has 3 '.$committee_info['name'].' committee');
-    //   }
-    // }
+
   }
 
   public function delete_committee($data){
