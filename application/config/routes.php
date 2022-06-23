@@ -95,6 +95,11 @@ $route['branches/business_activity/(:any)'] = 'branches/business_activity/$1';
 $route['branches/(:any)/business_activity/(:any)'] = 'branches/business_activity/$2/$1';
 $route['branches/coop_info/(:any)'] = 'branches/coop_info/$1';
 
+$route['branch_update/(:any)/evaluate'] = 'branch_update/evaluate/$1';
+$route['branch_update/(:any)/documents_branch_update'] = 'documents_branch_update/branch/$1';
+$route['branch_update/(:any)/view'] = 'branch_update/view/$1';
+$route['branch_update/(:any)/bupdate']  =  'branch_update/bupdate/$1';
+
 $route['for_transfer/(:any)/Payments_branch_for_transfer'] = 'Payments_branch_for_transfer/index/$1';
 $route['for_conversion/(:any)/Payments_branch_for_conversion'] = 'Payments_branch_for_conversion/index/$1';
 $route['for_transfer/deny_branch_for_transfer'] = 'for_transfer/deny_branch_for_transfer';
@@ -154,6 +159,7 @@ $route['branches/(:any)/registration'] = 'registration/branch/$1';
 $route['branches/get_cooperative_info'] = 'branches/get_cooperative_info';
 $route['branches/(:any)/forpaymentbranches'] = 'forpaymentbranches/index/$1';
 $route['branches/(:any)/forpaymentbranches_for_conversion'] = 'forpaymentbranches_for_conversion/index/$1';
+$route['branches/(:any)/forpaymentbranches_for_transfer'] = 'forpaymentbranches_for_transfer/index/$1';
 $route['branches/(:any)/branch_registered'] = 'branch_registered/index/$1';
 
 $route['laboratories/(:any)/laboratory_registered'] = 'laboratory_registered/index/$1';
@@ -625,6 +631,7 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 	//Committees
 	$route['amendment_update/(:any)/committees_update'] = 'amendment_committees_update/index/$1';
 	$route['amendment_update/(:any)/committees_update/add'] = 'amendment_committees_update/add/$1';
+	$route['amendment_update/(:any)/committees_update/(:any)/edit'] = 'amendment_committees_update/edit/$1/$2';
 	//Documents
 	$route['amendment_update/(:any)/amendment_documents'] = 'amendment_update_documents/index/$1';
 	$route['amendment_update/(:any)/amendment_update_documents/upload_document_other'] = 'amendment_update_documents/upload_document_other/$1';
