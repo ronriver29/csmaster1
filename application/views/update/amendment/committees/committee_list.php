@@ -109,6 +109,7 @@ if(!$complete_position):
                 <td>
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                   <?php if(($is_client && $coop_info->status==15) || $this->session->userdata('access_level')==6): ?> 
+                    <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/committees_update/<?= encrypt_custom($this->encryption->encrypt($committee['id']))?>/edit" class="btn btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCommitteeModal" data-comname="<?= $committee['name'] ?>" data-fname="" data-coopid="<?= $encrypted_id ?>" data-committeeid="<?= encrypt_custom($this->encryption->encrypt($committee['id']))?>"><i class='fas fa-trash'></i> Delete</button>
                   <?php endif; ?>
                   </div>

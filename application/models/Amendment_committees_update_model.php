@@ -424,11 +424,12 @@ class Amendment_committees_update_model extends CI_Model{
   //   return $query->result();
   // }
   public function check_committee_in_cooperative($committee_id,$amendment_id){
-    $this->db->select('amendment_committees.id');
-    $this->db->from('amendment_committees');
-    $this->db->join('amendment_cooperators' , 'amendment_committees.amendment_cooperators_id = amendment_cooperators.id','inner');
-    $this->db->join('amend_coop', 'amend_coop.id = amendment_committees.amendment_id','inner');
-    $this->db->where(array('amend_coop.id'=>$amendment_id,'amendment_committees.id'=>$committee_id));
+    // $this->db->select('amendment_committees.id');
+    // $this->db->from('amendment_committees');
+    // $this->db->join('amendment_cooperators' , 'amendment_committees.amendment_cooperators_id = amendment_cooperators.id','inner');
+    // $this->db->join('amend_coop', 'amend_coop.id = amendment_committees.amendment_id','inner');
+    // $this->db->where(array('amend_coop.id'=>$amendment_id,'amendment_committees.id'=>$committee_id));
+    $this->db->get_where('amendment_committees',array('amendment_id'=>$amendment_id,'id'=>$committee_id));
     $count = $this->db->count_all_results();
     if($count>0){
       return true;
