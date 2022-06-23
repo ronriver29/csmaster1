@@ -95,9 +95,8 @@ class Amendment_capitalization extends CI_Controller{
                         $data['header'] = 'Capitalization';
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                         $data['encrypted_id'] = $id;
-//                        $data['requirements_complete'] = $this->capitalization_model->is_requirements_complete($this->decoded_id);
                         $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
-                        $data['capitalization_info'] = $this->amendment_capitalization_model    ->get_capitalization_by_coop_id($cooperative_id,$this->decoded_id);
+                        $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($this->decoded_id);
 
                           //modified
                     $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$this->decoded_id);
