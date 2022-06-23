@@ -77,6 +77,7 @@ if(isset($bylaw_info))
     <div class="card border-top-blue mb-4">
       <?php echo form_open('amendment_update/'.$encrypted_id.'/articles_update/primary',array('id'=>'articlesPrimaryForm','name'=>'articlesPrimaryForm')); ?>
       <div class="card-header">
+
         <div class="row d-flex">
           <div class="col-sm-12 col-md-12 col-btn-action-articles-primary">
             <h4 class="float-left">Details:</h4>
@@ -87,6 +88,7 @@ if(isset($bylaw_info))
           </div>
         </div>
       </div>
+
       <div class="card-body">
         <input type="hidden" class="form-control" id="article_coop_id" name="article_coop_id" value="<?=$encrypted_id ?>">
          <input type="hidden" class="form-control" id="article_coop_id" name="article_amendment_id" value="<?=$encrypted_articles_id ?>">
@@ -135,11 +137,13 @@ if(isset($bylaw_info))
            </div>
           </div>
         </div>
+
         <div class="row">
           <div class="col-sm-12 col-md-12 text-center">
             <p class="font-weight-bold h5 text-color-blue-custom">Article X. Capitalization</p>
           </div>
         </div>
+
         <div class="row">
           <div class="col-sm-12 col-md-7">
             <div class="form-group">
@@ -160,6 +164,7 @@ if(isset($bylaw_info))
              <input type="number" min="1" step="any" value="<?= $preferred_share?>" class="form-control" id="preferredShares" name="preferredShares" placeholder="Shares" disabled readonly="readonly">
            </div>
           </div>
+
           <div class="col-sm-12 col-md-5">
             <div class="form-group">
             <label for="parValuePreferred"><strong>What is the Par value per preferred share?</strong></label>
@@ -174,14 +179,16 @@ if(isset($bylaw_info))
           <input type="text"  step="any" min="1" value="<?= number_format($authorized_share_capital)?>"  class="form-control"  id="authorizedShareCapital" name="authorizedShareCapital" placeholder="&#8369;" readonly>
          </div>
         </div>
-        </div>
+
+        </div> <!-- row -->
+      </div> <!-- body -->
       </div>
-        </div>
-      </div>
+
+      
       <div class="card-footer articlesPrimaryFooter" style="display: none;">
         <input class="btn btn-primary btn-block" type="submit" id="articlesPrimaryBtn" name="articlesPrimaryBtn" value="Submit">
       </div>
     </form>
-    </div>
+
   </div>
 </div>

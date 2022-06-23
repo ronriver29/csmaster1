@@ -23,7 +23,7 @@
       <div class="card-body">
         <div class="row ac-row">  
         
-          <div class="col-sm-12 col-md-4">
+         <?php /* <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="cooperatorID">Name of Cooperator:</label>
               <select class="custom-select validate[required] cooperator_id" name="cooperatorID" id="cooperator_ID">
@@ -32,8 +32,8 @@
                   <option value ="<?php echo encrypt_custom($this->encryption->encrypt($cooperator['id']));?>"><?php echo $cooperator['full_name']?></option>
                 <?php endforeach; ?>
               </select>
-            </div>
-          </div>
+            </div> 
+          </div>*/?>
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <?php 
@@ -49,7 +49,7 @@
                 <option id="C" value="Education and Training">Education and Training</option>
                 <option id="A" value="Mediation and Conciliation">Mediation and Conciliation</option>
                 <option id="A" value="Ethics">Ethics</option>
-                <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture' || $coop_info->type =='Multipurpose' || $coop_info->type_of_cooperative =='Advocacy' || $coop_info->type_of_cooperative =='Agrarian Reform' || $coop_info->type_of_cooperative == 'Consumers' || $count_type>1){?>
+                <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture' || $coop_info->type =='Multipurpose' || $coop_info->type_of_cooperative =='Advocacy' || $coop_info->type_of_cooperative =='Agrarian Reform' || $coop_info->type_of_cooperative =='Consumers' || $count_type>1){?>
                   <option id="A" value="Credit">Credit</option>
                 <?php } ?>
                 <option id="B" value="Gender and Development">Gender and Development</option>
@@ -68,6 +68,7 @@
             </div>
           </div>
         </div>
+        <?php /*
         <div class="row ac-info-row">
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
@@ -98,9 +99,9 @@
               <label for="pAddress">Postal Address: </label>
               <textarea class="form-control validate[required]" style="resize: none;" id="pAddress" name="pAddress" rows="1" disabled></textarea>
             </div>
-      		</div>
+      		</div>*/ ?>
         </div>
-      </div>
+      </div> 
       <div class="card-footer addCommitteeFooter">
         <input class="btn btn-color-blue btn-block" type="submit" id="addCommitteeBtn" name="addCommitteeBtn" value="Submit">
       </div>

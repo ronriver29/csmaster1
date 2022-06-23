@@ -9,7 +9,8 @@ class Amendment_committees_update extends CI_Controller{
     //Codeigniter : Write Less Do More
     $this->load->model('amendment_committees_update_model');
     $this->load->model('amendment_update_cooperator_model');
-     $this->load->model('amendment_article_update_model');
+    $this->load->model('amendment_article_update_model');
+    $this->load->model('amendment_update_purposes_model');
   }
 
   function index($id = null)
@@ -116,10 +117,8 @@ class Amendment_committees_update extends CI_Controller{
             }
           }else{
             $access_array = array(6);
-            if($this->session->userdata('access_level')==5){
+            if($this->session->userdata('access_level')!=6){
               redirect('admins/login');
-            }else if(!in_array($this->session->userdata('access_level'),$access_array)){
-              redirect('amendment');
             }else{
               // if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$this->decoded_id)){
               //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
@@ -389,16 +388,12 @@ class Amendment_committees_update extends CI_Controller{
                 $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
 
-                // if($data['bylaw_complete']){
                   $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
-                  // if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
-                    // if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_update_model->check_article_primary_complete($this->decoded_id) : true;
-                      // if($data['article_complete']){
                         
                         if($this->amendment_committees_update_model->check_committee_in_cooperative($decoded_committee_id,$this->decoded_id)){ //check if committee is in cooperative
-                          // if(!$this->amendment_model->check_submitted_for_evaluation_client($cooperative_id,$this->decoded_id)){
+
                             if(!isset($_POST['editCommitteeBtn'])){
                               $data['client_info'] = $this->user_model->get_user_info($user_id);
                               $data['title'] = 'List of Committees';
@@ -407,9 +402,7 @@ class Amendment_committees_update extends CI_Controller{
                               $data['encrypted_committee_id'] = $committee_id;
                               $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
                               $data['committee_info'] = $this->amendment_committees_update_model->get_committee_info($decoded_committee_id);
-                              $committee_dtl = $this->amendment_committees_update_model->   get_committee_info_edit($decoded_committee_id);
-                             
-
+                              $committee_dtl = $this->amendment_committees_update_model->get_committee_info_edit($decoded_committee_id);
                               $data['custom_committees'] = $this->amendment_committees_update_model->get_all_custom_committee_names_of_coop($this->decoded_id);
                               $data['cooperators'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop_for_committee($this->decoded_id);
                               $this->load->view('./template/header', $data);
@@ -428,7 +421,7 @@ class Amendment_committees_update extends CI_Controller{
                                 );
                                // $this->debug($data_com);
                               $success = $this->amendment_committees_update_model->edit_committee($decoded_post_committee_id,$data_com);
-                              // $this->debug($success);
+                         
                               if($success['success']){
                                 $this->session->set_flashdata('committee_success', $success['message']);
                                 redirect('amendment_update/'.$this->input->post('cooperativesID').'/committees_update');
@@ -437,30 +430,11 @@ class Amendment_committees_update extends CI_Controller{
                                 redirect('amendment_update/'.$this->input->post('cooperativesID').'/committees_update');
                               }
                             }
-                          // }else{
-                          //   $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
-                          //   redirect('amendment_update/'.$id).'/commitees_update';
-                          // }
                         }else{
                           $this->session->set_flashdata('committee_redirect', 'Unauthorized!!.');
                           redirect('amendment_update/'.$id.'/committees_update');
                         }
-                      // }else{
-                      //   $this->session->set_flashdata('redirect_message', 'Please complete first your article of cooperation additional information.');
-                      //   redirect('amendment/'.$id);
-                      // }
-                    // }else{
-                    //   $this->session->set_flashdata('redirect_message', 'Please complete first your cooperative&apos;s purpose .');
-                    //   redirect('amendment/'.$id);
-                    // }
-                  // }else{
-                  //   $this->session->set_flashdata('redirect_message', 'Please complete first your list of cooperator.');
-                  //   redirect('amendment/'.$id);
-                  // }
-                // }else{
-                //   $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
-                //   redirect('amendment/'.$id);
-                // }
+      
               }else{
                 redirect('amendment_update/'.$id);
               }
@@ -472,81 +446,64 @@ class Amendment_committees_update extends CI_Controller{
              if($this->session->userdata('access_level')!=6){
               redirect('amendment');
             }else{
-              if($this->amendment_model->check_expired_reservation_by_admin($this->decoded_id)){
-                $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
-                redirect('amendment');
-              }else{
-                if($this->amendment_model->check_submitted_for_evaluation($this->decoded_id)){
-                  if($this->amendment_model->check_first_evaluated($this->decoded_id)){
-                    $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
-                    redirect('amendment');
-                  }else{
+              // if($this->amendment_model->check_expired_reservation_by_admin($this->decoded_id)){
+              //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
+              //   redirect('amendment');
+              // }else{
+                // if($this->amendment_model->check_submitted_for_evaluation($this->decoded_id)){
+                //   if($this->amendment_model->check_first_evaluated($this->decoded_id)){
+                //     $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
+                //     redirect('amendment');
+                //   }else{
                     $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
                     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;
-                    if($data['bylaw_complete']){
-                      $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($this->decoded_id);
-                      if($data['cooperator_complete']){
-                        $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($this->decoded_id);
-                        if($data['purposes_complete']){
-                          $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
-                          if($data['article_complete']){
+                    // if($data['bylaw_complete']){
+                      $data['cooperator_complete'] = $this->amendment_update_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
+                      // if($data['cooperator_complete']){
+                        $data['purposes_complete'] = $this->amendment_update_purposes_model->check_purpose_complete($cooperative_id,$this->decoded_id);
+                        // if($data['purposes_complete']){
+                          $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_update_model->check_article_primary_complete($this->decoded_id) : true;
+                          // if($data['article_complete']){
                             $decoded_committee_id = $this->encryption->decrypt(decrypt_custom($committee_id));
                             if($this->amendment_committees_update_model->check_committee_in_cooperative($decoded_committee_id,$this->decoded_id)){ //check if committee is in cooperative
-                              if($this->form_validation->run() == FALSE){
+                              if(!isset($_POST['editCommitteeBtn'])){
                                 $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                                 $data['title'] = 'List of Committees';
                                 $data['header'] = 'Committee';
                                 $data['encrypted_id'] = $id;
                                 $data['encrypted_committee_id'] = $committee_id;
-                                $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
+                                $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
                                 $data['committee_info'] = $this->amendment_committees_update_model->get_committee_info($decoded_committee_id);
-                                $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($data['committee_info']->cooperators_id);
+                                // $data['cooperator_info'] = $this->amendment_update_cooperator_model->get_cooperator_info($data['committee_info']->cooperators_id);
                                 $data['custom_committees'] = $this->amendment_committees_update_model->get_all_custom_committee_names_of_coop($this->decoded_id);
-                                $data['cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee($this->decoded_id);
+                                
                                 $this->load->view('./templates/admin_header', $data);
-                                $this->load->view('amendment/edit_form_committee', $data);
+                                 $this->load->view('update/amendment/committees/edit_form_committee', $data); 
                                 $this->load->view('./templates/admin_footer');
                               }else{
                                 $this->decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
                                 $decoded_post_committee_id = $this->encryption->decrypt(decrypt_custom($this->input->post('committeeID')));
-                                $data = array(
-                                  'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName')
-                                  );
-                                $success = $this->amendment_committees_update_model->edit_committee($decoded_post_committee_id,$data);
+                               $data_com = array(
+                                 'name'=> ($this->input->post('committeeName')=="Others") ? ucfirst(strtolower($this->input->post('committeeNameSpecify'))) : $this->input->post('committeeName'),
+                                  'func_and_respons' => $this->input->post('func_and_respons'),
+                                  // 'type' =>$this->input->post('type'),
+                                'amendment_id' => $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID'))),
+                                'id' => $this->encryption->decrypt(decrypt_custom($this->input->post('committeeID')))
+                                );
+                                $success = $this->amendment_committees_update_model->edit_committee($decoded_post_committee_id,$data_com);
                                 if($success['success']){
                                   $this->session->set_flashdata('committee_success', $success['message']);
-                                  redirect('amendment/'.$this->input->post('cooperativesID').'/committees');
+                                  redirect('amendment_update/'.$this->input->post('cooperativesID').'/committees_update');
                                 }else{
                                   $this->session->set_flashdata('committee_error', $success['message']);
-                                  redirect('amendment/'.$this->input->post('cooperativesID').'/committees');
+                                   redirect('amendment_update/'.$this->input->post('cooperativesID').'/committees_update');
                                 }
                               }
                             }else{
                               $this->session->set_flashdata('committee_redirect', 'Unauthorized!!.');
-                              redirect('amendment/'.$id.'/committees');
+                               redirect('amendment_update/'.$this->input->post('cooperativesID').'/committees_update');
                             }
-                          }else{
-                            $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
-                            redirect('amendment/'.$id);
-                          }
-                        }else{
-                          $this->session->set_flashdata('redirect_message', 'Please complete first the cooperative&apos;s purpose .');
-                          redirect('amendment/'.$id);
-                        }
-                      }else{
-                        $this->session->set_flashdata('redirect_message', 'Please complete first the list of cooperator.');
-                        redirect('amendment/'.$id);
-                      }
-                    }else{
-                      $this->session->set_flashdata('redirect_message', 'Please complete first the bylaw additional information.');
-                      redirect('amendment/'.$id);
-                    }
-                  }
-                }else{
-                  $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.');
-                  redirect('amendment');
-                }
-              }
+                         
             }
           }
         }else{

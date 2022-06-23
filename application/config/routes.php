@@ -435,6 +435,7 @@ $route['amendment/(:any)/amendmentbylaws/check_minimum_associate_pay_amendment']
 
 $route['amendment/(:any)/amendment_cooperators/add'] = 'amendment_cooperators/add/$1';
 $route['amendment/(:any)/amendment_cooperators/edit'] = 'amendment_cooperators/edit/$1';
+$route['amendment/(:any)/amendment_cooperators/(:num)'] = 'amendment_cooperators/index/$1/$2';
 $route['amendment/(:any)/amendment_cooperators'] = 'amendment_cooperators/index/$1';
 $route['amendment/(:any)/bylaws_federation'] = 'amendmentbylaws/federation/$1';
 $route['amendment/(:any)/bylaws_union'] = 'amendmentbylaws/union/$1';

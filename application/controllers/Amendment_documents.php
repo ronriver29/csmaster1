@@ -34,9 +34,9 @@ class Amendment_documents extends CI_Controller{
                 }
 
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
-                if(!$data['bylaw_complete']) {
-                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;
-                }
+                // if(!$data['bylaw_complete']) {
+                //     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;
+                // }
                 if($data['bylaw_complete']){
                   $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
       
@@ -46,10 +46,10 @@ class Amendment_documents extends CI_Controller{
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
                 
-                      if(!$data['article_complete']) {
-                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
+                      // if(!$data['article_complete']) {
+                      // $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
 
-                      }
+                      // }
                       if($data['article_complete']){
                         $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
                         if($data['committees_complete']){
@@ -159,24 +159,24 @@ class Amendment_documents extends CI_Controller{
                    
                     if($data['bylaw_complete']){
                       $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
-                      if(!$data['cooperator_complete']) {
-                        $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
-                      }
+                      // if(!$data['cooperator_complete']) {
+                      //   $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
+                      // }
                       if($data['cooperator_complete']){
                         $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
-                        if(!$data['purposes_complete']) {
-                            $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
-                        }
+                        // if(!$data['purposes_complete']) {
+                        //     $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
+                        // }
                         if($data['purposes_complete']){
                           $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
-                          if(!$data['article_complete']) {
-                          $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
-                          }
+                          // if(!$data['article_complete']) {
+                          // $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
+                          // }
                           if($data['article_complete']){
                             $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
-                            if(!$data['committees_complete']) {
-                              $data['committees_complete'] = $this->committee_model->committee_complete_count_amendment($this->decoded_id);
-                            }
+                            // if(!$data['committees_complete']) {
+                            //   $data['committees_complete'] = $this->committee_model->committee_complete_count_amendment($this->decoded_id);
+                            // }
                             if($data['committees_complete']){
 
                                       $data['title'] = 'List of Documents';
@@ -1050,7 +1050,7 @@ public function count_documents_coop($coop_id,$num)
                              
                               // $data['treasurer_of_coop'] = $this->amendment_cooperator_model->get_treasurer_of_coop($this->decoded_id);
                                 $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($cooperative_id);
-                                var_dump($this->db->last_query());
+                              
                               // $data['cooperators_list_board']=$this->amendment_cooperator_model->get_all_cooperator_of_coop_regular($cooperative_id,$this->decoded_id);
 
                                $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($this->decoded_id);
@@ -3234,7 +3234,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
 //                  if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
                     if($data['purposes_complete']){
-                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($cooperative_id,$this->decoded_id) : true;
+                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
                       if($data['article_complete']){
                         $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
                         if($data['committees_complete']){
@@ -3403,7 +3403,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
 //                  if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($this->decoded_id);
                     if($data['purposes_complete']){
-                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
+                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
                       if($data['article_complete']){
                         $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
                         if($data['committees_complete']){

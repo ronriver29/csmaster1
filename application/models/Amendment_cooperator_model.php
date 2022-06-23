@@ -62,8 +62,10 @@ public $last_query = "";
   }
 
 
-   public function get_all_cooperator_of_coop_regular($cooperatives_id,$amendment_id){
+   public function get_all_cooperator_of_coop_regular($cooperatives_id,$amendment_id,$limit,$start){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+     $amendment_id = $this->security->xss_clean($amendment_id);
+     $this->db->limit($limit,$start);
     $this->db->select('amendment_cooperators.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region');
     $this->db->from('amendment_cooperators');
     $this->db->join('refbrgy','refbrgy.brgycode=amendment_cooperators.addrCode','left');
@@ -73,10 +75,21 @@ public $last_query = "";
     $this->db->where('type_of_member = "Regular" AND cooperatives_id = '.$cooperatives_id.' AND amendment_id='.$amendment_id);
     $this->db->order_by('full_name','asc');
     $query=$this->db->get();
-$this->last_query = $this->db->last_query();
+// $this->last_query = $this->db->last_query();
     $data = $query->result_array();
     return $data;
   }
+
+  public function cooperator_regular_count($amendment_id){
+    $amendment_id = $this->security->xss_clean($amendment_id);
+    $this->db->select('type_of_member');
+    $this->db->from('amendment_cooperators');
+    $this->db->where('type_of_member = "Regular" AND  amendment_id='.$amendment_id);
+    unset($amendment_id);
+    return $this->db->count_all_results();
+
+  }
+
   public function count_total_cptr_capitalization($amendment_id)
   {
     $total = 0;

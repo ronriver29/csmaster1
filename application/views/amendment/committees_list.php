@@ -99,10 +99,10 @@ if(!$complete_position):
             <thead>
               <tr>
                 <th>Committee</th>
-                <th>Full Name</th>
+              <!--   <th>Full Name</th>
                 <th>Gender</th>
                 <th>Birth Date</th>
-                <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
+                <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?> -->
                 <th>Action</th>
               <?php endif;?>
               </tr>
@@ -111,14 +111,14 @@ if(!$complete_position):
             <?php foreach($committees as $committee) : ?>
               <tr>
                 <td><?= $committee['name']?></td>
-                <td><?= $committee['full_name']?></td>
+              <!--   <td><?= $committee['full_name']?></td>
                 <td><?= $committee['gender']?></td>
-                <td><?= $committee['birth_date']?></td>
+                <td><?= $committee['birth_date']?></td> -->
                 <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
                 <td>
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                    <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_committees/<?= encrypt_custom($this->encryption->encrypt($committee['comid'])) ?>/edit" class="btn btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCommitteeModal" data-comname="<?= $committee['name'] ?>" data-fname="<?=$committee['full_name']?>" data-coopid="<?= $encrypted_id ?>" data-committeeid="<?= encrypt_custom($this->encryption->encrypt($committee['comid']))?>"><i class='fas fa-trash'></i> Delete</button>
+                    <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_committees/<?= encrypt_custom($this->encryption->encrypt($committee['id'])) ?>/edit" class="btn btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCommitteeModal" data-comname="<?= $committee['name'] ?>"  data-coopid="<?= $encrypted_id ?>" data-committeeid="<?= encrypt_custom($this->encryption->encrypt($committee['id']))?>"><i class='fas fa-trash'></i> Delete</button>
                   </div>
                 </td>
                 <?php endif;?>

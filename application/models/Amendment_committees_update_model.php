@@ -89,12 +89,12 @@ class Amendment_committees_update_model extends CI_Model{
     // $query = $this->db->get_where('amendment_committees',array('id'=>$committee_id));
     // $data = $query->row();
   
-  $committee_id = $committee_info['id'];
-  $position =  $committee_info['name'];
-  $amendment_id = $committee_info['amendment_id'];
+  // $committee_id = $committee_info['id'];
+  // $position =  $committee_info['name'];
+  // $amendment_id = $committee_info['amendment_id'];
 
   //if no changes 
-  $qry = $this->db->get_where('amendment_committees',array('id'=>$committee_id,'name'=>$position));
+  $qry = $this->db->get_where('amendment_committees',array('id'=>$committee_id));
   if($qry->num_rows()>0)
   {
    
@@ -371,7 +371,7 @@ class Amendment_committees_update_model extends CI_Model{
       "Gender and Development");
     $this->db->select('amendment_committees.name');
     $this->db->from('amendment_committees');
-    $this->db->join('amendment_cooperators' , 'amendment_cooperators.id = amendment_committees.amendment_cooperators_id','inner');
+    // $this->db->join('amendment_cooperators' , 'amendment_cooperators.id = amendment_committees.amendment_cooperators_id','inner');
     // $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id');
     $this->db->distinct();
     $this->db->where_not_in('amendment_committees.name',$list_committee_names);

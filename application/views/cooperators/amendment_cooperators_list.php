@@ -5,7 +5,7 @@
       <?php if($is_client): ?>
       Step 4
       <?php endif; ?>
-    </h5>
+    </h5> 
   </div>
 </div>
 <?php $total_subscribed = 0;?>
@@ -127,7 +127,7 @@
     <div class="card">
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table table-bordered" id="cooperatorsTable">
+          <table class="table table-bordered">
             <thead>
               <tr>
                 <th>Full Name</th>
@@ -163,6 +163,7 @@
               <?php endforeach; ?>
             </tbody>
           </table>
+          <?=$links?>
         </div>
       </div>
     </div>
