@@ -9,11 +9,17 @@ class Amendment_bylaw_model extends CI_Model{
     //Codeigniter : Write Less Do More
     $this->load->database();
   }
-  public function get_bylaw_by_coop_id($coop_id,$amendment_id){
-    $data_coop_id = $this->security->xss_clean($coop_id);
+  public function get_bylaw_by_coop_id($amendment_id){
     $data_amendment_id = $this->security->xss_clean($amendment_id);
-    $query = $this->db->get_where('amendment_bylaws',array('amendment_id'=>$data_amendment_id,'cooperatives_id'=>$data_coop_id));
-    return $query->row();
+    $data = null;
+    $query = $this->db->get_where('amendment_bylaws',array('amendment_id'=>$data_amendment_id));
+    unset($data_amendment_id);
+    if($query->num_rows()>0)
+    {
+      $data = $query->row();
+    }
+    unset($query);
+    return $data;
   }
   public function update_bylaw_primary($bylaw_coop_id,$bylaw_info){
     $bylaw_coop_id = $this->security->xss_clean($bylaw_coop_id);
