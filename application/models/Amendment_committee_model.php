@@ -403,7 +403,7 @@ class Amendment_committee_model extends CI_Model{
   public function committee_complete_count($amendment_id){
     $this->db->select('amendment_committees.name');
     $this->db->from('amendment_committees');
-    $this->db->join('amendment_cooperators', 'amendment_cooperators.id = amendment_committees.amendment_cooperators_id', 'inner');
+    // $this->db->join('amendment_cooperators', 'amendment_cooperators.id = amendment_committees.amendment_cooperators_id', 'inner');
     // $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id', 'inner');
     $this->db->where('amendment_committees.amendment_id', $amendment_id);
     $count = $this->db->count_all_results();

@@ -84,22 +84,22 @@
          else
             echo ucwords(num_format_custom($subscribed_shared_capitals_inwords)).' Pesos';
           ?>
-           (Php <?php 
+           (Php <?php  
            $subscribed_shared_capitals_num =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$capitalization_info->par_value)),2) : number_format(((str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$capitalization_info->par_value)) + (str_replace(',','',$total_associate['total_subscribed']) * str_replace(',','',$capitalization_info->par_value))),2);
-           $subscribed_shared_capitals_num_orig =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular_orig['total_subscribed']) * str_replace(',','',$capitalization_info->par_value)),2) : number_format(((str_replace(',','',$total_regular_orig['total_subscribed']) * str_replace(',','',$capitalization_info_orig->par_value)) + (str_replace(',','',$total_associate_orig['total_subscribed']) * str_replace(',','',$capitalization_info_orig->par_value))),2);
+           $subscribed_shared_capitals_num_orig =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',($total_regular_orig['total_subscribed']!=NULL ? $total_regular_orig['total_subscribed'] :0)) * str_replace(',','',$capitalization_info->par_value)),2) : number_format(((str_replace(',','',($total_regular_orig['total_subscribed']!=NULL ? $total_regular_orig['total_subscribed'] : 0)) * str_replace(',','',$capitalization_info_orig->par_value)) + (str_replace(',','',$total_associate_orig['total_subscribed']) * str_replace(',','',$capitalization_info_orig->par_value))),2);
            echo ($subscribed_shared_capitals_num!=$subscribed_shared_capitals_num_orig ? "<b>".$subscribed_shared_capitals_num."</b>" : $subscribed_shared_capitals_num);
             ?>) which is at least twenty five (25%) percent of the authorized capital;</li>
-        <li>That the paid-up share capital of the cooperative is 
+        <li>That the paid-up share capital of the cooperative is <?php
           $paid_up = ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? ucwords(num_format_custom($total_regular['total_paid'] * $capitalization_info->par_value)) : ucwords(num_format_custom($total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] * $capitalization_info->par_value));
            $paid_up_orig = ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? ucwords(num_format_custom($total_regular_orig['total_paid'] *  $capitalization_info->par_value)) : ucwords(num_format_custom($total_regular_orig['total_paid'] * $capitalization_info->par_value + $total_associate_orig['total_paid'] *  $capitalization_info->par_value));
-           echo ($paid_up!=$paid_up_orig ? "<b>".$paid_up."</b>" : $paid_up).' Pesos';
+           echo ($paid_up!=$paid_up_orig ? "<b>".$paid_up."</b>" : $paid_up).' Pesos'; ?>
            (Php 
            <?php 
            $paid_up_num =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular['total_paid']) * str_replace(',','', $capitalization_info->par_value)),2) : number_format(((str_replace(',','',$total_regular['total_paid']) * str_replace(',','', $capitalization_info->par_value)) + (str_replace(',','',$total_associate['total_paid']) * str_replace(',','', $capitalization_info->par_value))),2);
-             $paid_up_num_orig =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular_orig['total_paid']) * str_replace(',','',$capitalization_info->par_value)),2) : number_format(((str_replace(',','',$total_regular_orig['total_paid']) * str_replace(',','',$capitalization_info->par_value)) + (str_replace(',','',$total_associate_orig['total_paid']) * str_replace(',','',$capitalization_info->par_value))),2);
+             $paid_up_num_orig =  ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',($total_regular_orig['total_paid']!=NULL ? $total_regular_orig['total_paid'] : 0 )) * str_replace(',','',$capitalization_info->par_value)),2) : number_format(((str_replace(',','',($total_regular_orig['total_paid']!=NULL ? $total_regular_orig['total_paid'] : 0)) * str_replace(',','',$capitalization_info->par_value)) + (str_replace(',','',$total_associate_orig['total_paid']) * str_replace(',','',$capitalization_info->par_value))),2);
             echo ($paid_up_num!= $paid_up_num_orig ? "<b>".$paid_up_num."</b>" : $paid_up_num); 
            ?>) which is at least twenty five (25%) percent of the subscribed capital; and</li>
-        <li>That the total membership fees paid is 
+        <li>That the total membership fees paid is <?php
           // $total_memship_fee = ucwords(num_format_custom($no_of_cooperator * $bylaw_info->membership_fee));
           //  $total_memship_fee_orig = ucwords(num_format_custom($no_of_cooperator_orig * $bylaw_info_orig->membership_fee));
           $total_memship_fee = $total_new_cooperators_added * $bylaw_info->membership_fee;
