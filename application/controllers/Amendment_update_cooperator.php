@@ -577,7 +577,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
 
 
-                      $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
+                      $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
 
                       $data['capitalization_info'] = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$this->decoded_id); 
 
@@ -863,7 +863,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
                           $data['encrypted_cooperator_id'] = $cooperator_id;
 
-                          $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
+                          $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
 
                           $data['bylaw_info_orig'] = $this->bylaw_model->get_bylaw_by_coop_id($cooperative_id);
 
