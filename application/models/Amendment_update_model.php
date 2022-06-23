@@ -3913,7 +3913,8 @@ where coop.users_id = '$user_id' and coop.status =15");
   }
   public function major_industry_description2($major_id)
     {
-      $query = $this->db->query("select * from major_industry where id=".$major_id);
+      $major_id = (strlen($major_id)>0 ? " where id ='$major_id'" : "");
+      $query = $this->db->query("select * from major_industry ".$major_id);// where id=".$major_id);
       if($query->num_rows()>0)
       {
         foreach($query->result_array() as $row)
