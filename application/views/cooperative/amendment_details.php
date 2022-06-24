@@ -2569,6 +2569,11 @@
             if(($coop_info->status ==13) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $status_document_cooptype && $complete_position)
 
               {   
+                $coop_total_amount_of_paid_up_capital=0;
+                if($coop_capitalization!=null)
+                {
+                $coop_total_amount_of_paid_up_capital= $coop_capitalization->total_amount_of_paid_up_capital;
+                }
 
                 if ($pay_from=='reservation'){
 
@@ -2640,7 +2645,7 @@
 
                     //fixed amount
 
-                    $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_capitalization->total_amount_of_paid_up_capital;
+                    $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_total_amount_of_paid_up_capital;
 
                     //amendment paid up is greater than coop total paid up
 
@@ -2726,7 +2731,7 @@
 
                 <?php if($name_reservation_fee>0):?>
 
-                <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Amendment Fee - Primary<br>(1/10 of 1% of Php '<?=number_format($diff_amount,2)?>' increased in paid up capital<br> amounted to Php '<?=number_format($percentage_amount,2)?>' or a minimum of<br> Php 300.00 whichever is higher)<br>Legal and Research Fund Fee">
+                <input type="hidden" class="form-control" id="particulars" name="particulars" value="Name Reservation Fee<br/>Amendment Fee - Primary<br>(1/10 of 1% of Php <?=number_format($diff_amount,2)?> increased in paid up capital<br> amounted to Php <?=number_format($percentage_amount,2)?> or a minimum of<br> Php 300.00 whichever is higher)<br>Legal and Research Fund Fee">
 
                  <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($total_amendment_fee,2).'<br/><br><br><br>'.number_format($lrf,2) ?>">
 

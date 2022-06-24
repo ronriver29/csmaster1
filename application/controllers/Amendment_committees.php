@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Amendment_committees extends CI_Controller{
   public $decoded_id=null;
   public function __construct()
@@ -8,7 +7,6 @@ class Amendment_committees extends CI_Controller{
     parent::__construct();
     //Codeigniter : Write Less Do More
   }
-
   function index($id = null)
   {
     if(!$this->session->userdata('logged_in')){
@@ -24,14 +22,10 @@ class Amendment_committees extends CI_Controller{
               if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
                 $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
-                // if(!$data['bylaw_complete']) {
-                //     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
-                // }
+
                 if($data['bylaw_complete']){
                   $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
-                  // if(!$data['cooperator_complete']) {
-                  //   $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($this->decoded_id);
-                  // }
+
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
                     if(!$data['purposes_complete']) {
@@ -64,7 +58,7 @@ class Amendment_committees extends CI_Controller{
                         $type_coop_array_ = explode(',',$data['coop_info']->type_of_cooperative);
                         $count_type ='';
                         $count_type = count($type_coop_array_);
-                        // var_dump( $type_coop_array_)
+
                         $data['complete_position']=false;
                         if($count_type > 1)
                         {
@@ -90,7 +84,6 @@ class Amendment_committees extends CI_Controller{
                            
                           if($data['coop_info']->type_of_cooperative == 'Credit')
                           {
-                            // $data['credit'] = $this->committee_model->check_position($this->decoded_id,"Credit");
                             $data['credit'] = true;
                             if($data['credit'] && $data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])
                               {
@@ -107,8 +100,6 @@ class Amendment_committees extends CI_Controller{
                           }       
                         }
                        
-                        
-                        
                         //end position
                         $this->load->view('./template/header', $data);
                         $this->load->view('amendment/committees_list', $data);
@@ -166,9 +157,6 @@ class Amendment_committees extends CI_Controller{
                           $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                           $data['encrypted_id'] = $id;
                           $data['committees'] = $this->amendment_committee_model->get_all_committees_of_coop($this->decoded_id);
-                        // if(!$data['committees']) {
-                        //     $data['committees'] = $this->amendment_committee_model->get_all_committees_of_coop($this->decoded_id);
-                        // }
 
                        $exist_position = $this->amendment_committee_model->check_position_($this->decoded_id);
                       $data['election'] = (in_array('Election',$exist_position) ? true : false);

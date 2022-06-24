@@ -1939,7 +1939,7 @@ class amendment extends CI_Controller{
           {
             unlink($file);
           }
-          // $data_file[]=$row_file;
+
         }
       }
     }
@@ -1966,16 +1966,7 @@ class amendment extends CI_Controller{
                       if($data['article_complete']){
                         $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
                         if($data['committees_complete']){
-                          // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($this->decoded_id);
-                          // if($data['economic_survey_complete']){
-                            // $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($this->decoded_id);
-                            // if($data['staff_complete']){
-                              // $data['document_one'] = $this->amendment_uploaded_document_model->get_document_one_info($cooperative_id,$this->decoded_id);
-                              // $data['document_two'] = $this->amendment_uploaded_document_model->get_document_two_info($this->decoded_id);
-                              //  $data['status_document_one'] =$this->check_is_uploaded($this->decoded_id,1);
-                              //   $data['status_document_two'] =$this->check_is_uploaded($this->decoded_id,2);
-
-                              // if($data['status_document_one'] && $data['status_document_two']){
+                        
                                 if($this->amendment_model->check_if_deferred($this->decoded_id)){
                                   if($this->amendment_model->submit_for_reevaluation($user_id,$this->decoded_id,$data['coop_info']->rCode)){
                                     $this->session->set_flashdata('cooperative_success','Successfully resubmitted your application. Please wait again for an e-mail of either the payment procedure or the list of documents for compliance');
@@ -1988,7 +1979,7 @@ class amendment extends CI_Controller{
                                     
                                   if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$this->decoded_id)){
                                     $success = $this->amendment_model->submit_for_evaluation($user_id,$this->decoded_id,$data['coop_info']->rCode);
-                                    // $this->debug($success);
+                                   
                                     if($success){
                                       $this->session->set_flashdata('cooperative_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
                                       redirect('amendment/'.$id);
@@ -2001,24 +1992,7 @@ class amendment extends CI_Controller{
                                     redirect('amendment/'.$id);
                                   }
                                 }
-                              // }else if(!$data['status_document_one'] && !$data['status_document_two']){
-                              //   $this->session->set_flashdata('redirect_message', 'Please upload first your two other documents.');
-                              //   redirect('amendment/'.$id);
-                              // }else if(!$data['document_one']){
-                              //   $this->session->set_flashdata('redirect_message', 'Please upload first your document one.');
-                              //   redirect('amendment/'.$id);
-                              // }else{
-                              //   $this->session->set_flashdata('redirect_message', 'Please upload first your document two.');
-                              //   redirect('amendment/'.$id);
-                              // }
-                            // }else{
-                            //   $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                            //   redirect('amendment/'.$id);
-                            // }
-                          // }else{
-                          //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                          //   redirect('amendment/'.$id);
-                          // }
+                          
                         }else{
                           $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
                           redirect('amendment/'.$id);
@@ -3749,14 +3723,11 @@ class amendment extends CI_Controller{
 
     public function coop_capitalization($cooperative_id)
     {
+      $data =null;
       $qry =$this->db->query("select * from capitalization where cooperatives_id='$cooperative_id'");
       if($qry->num_rows()>0)
       {
         $data = $qry->row();
-      }
-      else
-      {
-        $data  ='No data found.';
       }
       return $data;
     }

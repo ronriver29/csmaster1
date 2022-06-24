@@ -71,12 +71,7 @@ class Amendment_committee_model extends CI_Model{
     return $data;
     }
     
-  public function edit_committee($committee_id,$committee_info){
-    // $committee_id = $this->security->xss_clean($committee_id);
-    // $cooperator_info = $this->security->xss_clean($committee_info);
-    // $query = $this->db->get_where('amendment_committees',array('id'=>$committee_id));
-    // $data = $query->row();
-  
+  public function edit_committee($committee_id,$committee_info){  
   $committee_id = $committee_info['id'];
   $position =  $committee_info['name'];
   $amendment_id = $committee_info['amendment_id'];

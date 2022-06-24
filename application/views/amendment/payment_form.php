@@ -66,7 +66,12 @@
               <td class="bord" colspan="3"><b><?= date("d-m-Y", strtotime($date_ok_for_payment)); ?></b></td>
             </tr>
 
-            <?php
+            <?php 
+             $coop_total_amount_of_paid_up_capital=0;
+              if($coop_capitalization!=null)
+              {
+                $coop_total_amount_of_paid_up_capital= $coop_capitalization->total_amount_of_paid_up_capital;
+              }
               if ($pay_from=='reservation'){
                
                  $basic_reservation_fee =300;
@@ -92,13 +97,9 @@
                    
               $orig_proposedName_formated = trim(preg_replace('/\s\s+/', ' ', $orig_proposedName_formated));
                $proposeName = trim(preg_replace('/\s\s+/', ' ', $proposeName));
-              // var_dump($orig_proposedName_formated);
-              // var_dump($proposeName);
                 $name_comparison = strcasecmp($orig_proposedName_formated,$proposeName);
-                // var_dump($original_coop_name); var_dump($proposeName);
                 if($name_comparison!=0)
                 {
-                
                   $name_reservation_fee = 100;
                 }
                 
@@ -107,7 +108,8 @@
                  $percentage_amount = 0;
                  $total_amendment_fee = 0;
                 //fixed amount
-                $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_capitalization->total_amount_of_paid_up_capital;
+
+                $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_total_amount_of_paid_up_capital;
                 //amendment paid up is greater than coop total paid up
                 if($diff_amount>0)
                 {
@@ -221,17 +223,18 @@
                         by the applicant.</li>
                 </ol>
         </div>
+
           <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=$encrypted_id ?>">
           <input type="hidden" class="form-control" id="ref_no" name="ref_no" value="<?=$ref_no?>">
          <!--  <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=date('Y-m-d',now('Asia/Manila')); ?>"> -->
           <input type="hidden" class="form-control" id="payor" name="payor" value="<?=$proposeName?>">
           <input type="hidden" class="form-control" id="nature" name="nature" value="Amendment">
           <?php if($name_comparison!=0):?>
-          <input type="hidden" class="form-control" id="particulars" name="particulars" value="<b>Name Reservation Fee<br><br/>Amendment Fee</b> <br>(1/10 of 1% of Php <?=number_format($diff_amount,2)?> increased in paid up capital<br> amounted to Php <?=number_format($percentage_amount,2)?> plus Php 300.00 basic fee)<br><b>Legal and Research Fund Fee<b>">
-           <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br><br><br><br><br>'.number_format($total_amendment_fee,2).'<br><br>'.number_format($lrf,2) ?>">
+          <input type="hidden" class="form-control" id="particulars" name="particulars" value="<b>Name Reservation Fee<br><br/>Amendment Fee</b> <br>(1/10 of 1% of Php <?=number_format($diff_amount,2)?> increased in paid up capital<br> amounted to Php <?=number_format($percentage_amount,2)?> plus Php 300.00 basic fee)<br><br><b>Legal and Research Fund Fee<b>">
+           <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br><br><br><br>'.number_format($total_amendment_fee,2).'<br><br><br>'.number_format($lrf,2) ?>">
           <?php else: ?>
           <input type="hidden" class="form-control" id="particulars" name="particulars" value="<b>Amendment Fee<b> <br/>(1/10 of 1% of Php <?=number_format($diff_amount,2)?> increased in paid up capital<br> amounted to Php <?=number_format($percentage_amount,2)?> plus Php 300.00 basic fee)<br><br><b>Legal and Research Fund Fee</b>">
-          <input type="hidden" class="form-control" id="amount" name="amount" value="<br><?=number_format($total_amendment_fee,2).'<br><br><br>'.number_format($lrf,2) ?>">
+          <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($total_amendment_fee,2).'<br><br><br>'.number_format($lrf,2) ?>">
           <?php endif;?>
          
           <input type="hidden" class="form-control" id="total" name="total" value="<?= $total_?>">

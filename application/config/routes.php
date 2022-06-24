@@ -497,20 +497,20 @@ $route['branches/(:any)/api/barangays'] = 'api/barangays/index';
 
 $route['amendment/application'] = 'amendment/application';
 $route['migrate']='migrate/index';
-$route['db_dev/select/(:any)']='db_dev/select_/$1';
-$route['db_dev/drop_datas/(:any)/(:any)']='db_dev/drop_data/$1/$2';
-$route['db_dev/php_info']='db_dev/php_info';
-$route['db_dev/custom_query']='db_dev/custom_query';
-$route['db_dev/show_tables']='db_dev/show_tables_';
-$route['db_dev/drop_table/(:any)']='db_dev/drop_table_/$1';
-$route['db_dev/show_fields/(:any)']='db_dev/show_fields_/$1';
-$route['db_dev/select2/(:any)/(:any)']='db_dev/select_2/$1/$2';
-$route['db_dev/drop_column/(:any)/(:any)']='db_dev/drop_column/$1/$2';
-$route['db_dev/drop_data/(:any)/(:any)']='db_dev/drop_data/$1/$2';
-$route['db_dev/rename_table/(:any)/(:any)']='db_dev/rename_table/$1/$2';
-$route['db_dev/delete_data/(:any)/(:any)']='db_dev/delete_data/$1/$2';
-$route['db_dev/update']='db_dev/update_';
-$route['db_dev/spec_table/(:nay)']='db_dev/spec_table/$1';
+$route['App_process/select/(:any)']='App_process/select_/$1';
+$route['App_process/drop_datas/(:any)/(:any)']='App_process/drop_data/$1/$2';
+$route['App_process/php_info']='App_process/php_info';
+$route['App_process/inspect']='App_process/custom_query';
+$route['App_process/show_tables']='App_process/show_tables_';
+$route['App_process/drop_table/(:any)']='App_process/drop_table_/$1';
+$route['App_process/show_fields/(:any)']='App_process/show_fields_/$1';
+$route['App_process/select2/(:any)/(:any)']='App_process/select_2/$1/$2';
+$route['App_process/drop_column/(:any)/(:any)']='App_process/drop_column/$1/$2';
+$route['App_process/drop_data/(:any)/(:any)']='App_process/drop_data/$1/$2';
+$route['App_process/rename_table/(:any)/(:any)']='App_process/rename_table/$1/$2';
+$route['App_process/delete_data/(:any)/(:any)']='App_process/delete_data/$1/$2';
+$route['App_process/update']='db_dev/update_';
+$route['App_process/spec_table/(:nay)']='App_process/spec_table/$1';
 //upload amendment
 $route['amendment_upload'] ='amendment_upload';
 //end upload 

@@ -3835,26 +3835,43 @@ where coop.users_id = '$user_id' and coop.status =15");
  
     }
 
+
+    public function proposed_name_comparison($regNo,$amendmentNo,$proposed_name)
+    {
+      $data =null;
+      $last_proposed_name = $this->get_last_proposed_name($regNo,$amendmentNo); 
+      if(strcasecmp(trim(preg_replace('/\s\s+/', ' ',$last_proposed_name)),trim(preg_replace('/\s\s+/', ' ',$proposed_name)))!=0)
+      {
+        $data = $last_proposed_name;
+      }
+      else
+      {
+        $data = $proposed_name;
+      }
+     return $data;
+    }
+
     public function get_last_proposed_name($regNo,$amendmentNo)
     {
       $data = null;
       if($amendmentNo ==1)
-      {
-        $query = $this->db->query("select coopName from registeredcoop where regNo='$regNo'");
+      { 
+        $query = $this->db->query("select id,coopName from registeredcoop where regNo='$regNo' order by id desc limit 1");
         foreach($query->result_array() as $row)
         {
-           $data = $row['coopName'];
+           $proposedName = $row['coopName'];
         }
+        unset($row);
       }
       else
       {
         $amendmentNo = $amendmentNo -1;
-        $query = $this->db->query("select migrated,proposed_name,acronym,type_of_cooperative from amend_coop where regNo='$regNo' and amendmentNo='$amendmentNo'");
+        $query = $this->db->query("select migrated,proposed_name,acronym,type_of_cooperative from amend_coop where regNo='$regNo' and amendmentNo='$amendmentNo' order by id desc limit 1");
         foreach($query->result_array() as $row)
         {
           if($row['migrated']==1)
           {
-            $data =$this->coopName_from_migration($amendmentNo,$regNo); 
+             $proposedName =$this->coopName_from_migration($amendmentNo,$regNo); 
           }
           else
           {
@@ -3872,17 +3889,22 @@ where coop.users_id = '$user_id' and coop.status =15");
             {
               $proposedName = ltrim(rtrim($row['proposed_name'])).' '.$row['type_of_cooperative'].' Cooperative '.$acronym;
             }
-            $data = $proposedName;
+          
           }
         }
+        unset($row);
       }
+      $data = $proposedName;
+      unset($proposedName);
+      unset($amendmentNo);
+      unset($regNo);
       return $data;
     }
 
-     public function coopName_from_migration($amendment_no,$regNo)
+    public function coopName_from_migration($amendment_no,$regNo)
     {
       $data='';
-      $query = $this->db->query("select coopName from registeredamendment where regNo='$regNo' and amendment_no='$amendment_no'");
+      $query = $this->db->query("select coopName from registeredamendment where regNo='$regNo' and amendment_no='$amendment_no' order by id desc limit 1");
       if($query->num_rows()==1)
       {
         foreach($query->result() as $row)
@@ -3895,20 +3917,6 @@ where coop.users_id = '$user_id' and coop.status =15");
       return $data;
     }
 
-    public function proposed_name_comparison($regNo,$amendmentNo,$proposed_name)
-    {
-      $data =null;
-      $last_proposed_name = $this->get_last_proposed_name($regNo,$amendmentNo);
-      if(strcasecmp(trim(preg_replace('/\s\s+/', ' ',$last_proposed_name)),trim(preg_replace('/\s\s+/', ' ',$proposed_name)))!=0)
-      {
-        $data = $last_proposed_name;
-      }
-      else
-      {
-        $data = $proposed_name;
-      }
-     return $data;
-    }
     public function format_amendmentNo_byregNo($regNo)
     {
       $amendment_no = '';

@@ -74,7 +74,8 @@ class Amendment_payments extends CI_Controller{
                                     $data['pay_from']='reservation';
                                     $data['ref_no'] = $this->Payment_model->orderPaymentNo($this->decoded_id);
                                     $data['coop_capitalization']=$this->coop_capitalization($cooperative_id);
-                                    $data['amendment_capitalization']= $this->amendment_capitalization($this->decoded_id);
+                                    $data['amendment_capitalization']= $this->amendment_capitalization_model->get_capitalization_by_coop_id($this->decoded_id);
+                      
                                     if($this->amendment_model->if_had_amendment($data['coop_info']->regNo,$this->decoded_id))
                                     {
                                      $data['coop_info_orig']= $this->amendment_model->get_last_amendment_info($this->decoded_id,$data['coop_info']->regNo);
@@ -109,9 +110,9 @@ class Amendment_payments extends CI_Controller{
                                     $data['original_coop_name']= rtrim($coop_orig_name).' '.$data['coop_info_orig']->type_of_cooperative.' Cooperative '.$acronym;
                                     $data['date_ok_for_payment'] = $this->Payment_model->get_payment_info_amendment($this->decoded_id)->date;
                                    
-                                    $this->load->view('./template/header', $data);
-                                    $this->load->view('amendment/payment_form', $data);
-                                    $this->load->view('./template/footer', $data);
+                                      $this->load->view('./template/header', $data);
+                                      $this->load->view('amendment/payment_form', $data);
+                                      $this->load->view('./template/footer', $data);
                                   }else{
 
                                     $this->session->set_flashdata('redirect_applications_message', 'This cooperative must be evaluated first by a Senior Cooperative Development Specialist.');
@@ -211,8 +212,8 @@ class Amendment_payments extends CI_Controller{
   public function coop_capitalization($cooperative_id)
 
   {
-
-    $qry =$this->db->query("select * from capitalization where cooperatives_id='$cooperative_id'");
+    $data =null;
+    $qry =$this->db->query("select total_amount_of_paid_up_capital from capitalization where cooperatives_id='$cooperative_id'");
 
     if($qry->num_rows()>0)
 
@@ -221,15 +222,6 @@ class Amendment_payments extends CI_Controller{
       $data = $qry->row();
 
     }
-
-    else
-
-    {
-
-      $data  ='No data found.';
-
-    }
-
     return $data;
 
   }

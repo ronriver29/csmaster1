@@ -1,11 +1,7 @@
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
-    <h5 class="text-primary text-right">
-      <?php if($is_client) : ?>
-      Step 7
-      <?php endif;?>
-    </h5>
+
   </div>
 </div>
 <?php if($this->session->flashdata('committee_redirect')): ?>
@@ -94,15 +90,12 @@ if(!$complete_position):
   <div class="col-sm-12 col-md-12">
     <div class="card">
       <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered" id="committeesTable">
+        <div class="table-responsive"> 
+          <table class="table table-bordered" >
             <thead>
               <tr>
                 <th>Committee</th>
-              <!--   <th>Full Name</th>
-                <th>Gender</th>
-                <th>Birth Date</th>
-                <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?> -->
+                <?php if($is_client):?>
                 <th>Action</th>
               <?php endif;?>
               </tr>
@@ -111,9 +104,7 @@ if(!$complete_position):
             <?php foreach($committees as $committee) : ?>
               <tr>
                 <td><?= $committee['name']?></td>
-              <!--   <td><?= $committee['full_name']?></td>
-                <td><?= $committee['gender']?></td>
-                <td><?= $committee['birth_date']?></td> -->
+             
                 <?php if(($is_client && $coop_info->status<=1) || $coop_info->status==11): ?>
                 <td>
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
@@ -123,7 +114,7 @@ if(!$complete_position):
                 </td>
                 <?php endif;?>
               </tr>
-            <?php endforeach; ?>
+            <?php endforeach; unset($committee) ?>
             </tbody>
           </table>
         </div>

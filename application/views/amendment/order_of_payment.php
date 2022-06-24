@@ -43,6 +43,12 @@
       <td class="bord" colspan="3"><b><?=$tDate?></b></td>
     </tr>
     <?php
+        $coop_total_amount_of_paid_up_capital=0;
+        if($coop_capitalization!=null)
+        {
+        $coop_total_amount_of_paid_up_capital= $coop_capitalization->total_amount_of_paid_up_capital;
+        }
+
       if ($nature=='Amendment'){ 
         $rf=0;
         $basic_reservation_fee =300; //fixed amount
@@ -67,7 +73,7 @@
                 
                  $orig_proposedName_formated = trim(preg_replace('/\s\s+/', ' ', $orig_proposedName_formated));
                  $proposeName = trim(preg_replace('/\s\s+/', ' ', $proposeName));
-                 var_dump($orig_proposedName_formated);var_dump($proposeName);
+               
                 $name_comparison = strcasecmp($orig_proposedName_formated,$proposeName);
                  if($name_comparison!=0)
                 {
@@ -78,7 +84,7 @@
         $rf=0;
         $percentage_amount = 0;
         $total_amendment_fee = 0;
-        $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_capitalization->total_amount_of_paid_up_capital;
+        $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_total_amount_of_paid_up_capital;
         //amendment paid up is greater than coop total paid up
         if($diff_amount>0)
         {
