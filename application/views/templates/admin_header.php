@@ -96,6 +96,28 @@
            <li>   
             <a href="<?php echo base_url();?>admins/branches_list"><i class="fas fa-handshake"></i> All Branches List</a>
           </li> 
+
+           <li>
+          <a href="#pageSubmenu7" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> API</a>
+          <ul class="collapse list-unstyled" id="pageSubmenu7">
+            <li>
+               <a href="#pageSubmenu8" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> Davao</a>
+                <ul class="collapse list-unstyled" id="pageSubmenu8">
+                 
+                      <li>
+                        <a href="<?php echo base_url();?>api_access" style="padding-left:5%;"><i class="fas fa-cog"></i> Settings</a>
+                      </li>
+                      <li>
+                        <a href="<?php echo base_url();?>api_access/request"><i class="fas fa-cog"></i> Api request </a>
+                      </li>
+                 
+                </ul>
+            </li>
+          </ul>
+        </li>
+          <li>
+              <a href="http://ecoopris.cmvsd.com/cda_reports/QueryBuilder/"><i class="fas fa-cog"></i> Query Builder</a>
+            </li>
           <li>
           <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> SMS Settings</a>
           <ul class="collapse list-unstyled" id="pageSubmenu2">
@@ -177,16 +199,42 @@
 
             <a href="<?php echo base_url();?>branches"><i class="fas fa-handshake"></i> Branches and Satellites</a>
           </li>
-           <?php /* <li>   
+            <li>   
 
             <a href="<?php echo base_url();?>For_closure"><i class="fas fa-handshake"></i> Closure of Branches and Satellites</a>
-          </li> */?>
+          </li>
+          <li>   
+
+            <a href="<?php echo base_url();?>For_transfer"><i class="fas fa-handshake"></i> Transfer of Branches and Satellites</a>
+          </li>
+          <li>   
+
+            <a href="<?php echo base_url();?>For_conversion"><i class="fas fa-handshake"></i> Conversion of Branches and Satellites</a>
+          </li>
           <li>   
             <a href="<?php echo base_url();?>laboratories"><i class="fas fa-handshake"></i> Laboratories</a>
           </li>
-          <li>   
-            <a href="<?php echo base_url();?>amendment"><i class="fas fa-handshake"></i> Amendment</a>
-          </li>  
+
+             <li>
+            <a href="#pageSubmenu10" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-handshake"></i> Amendment</a>
+            <ul class="collapse list-unstyled" id="pageSubmenu10">
+              <li>
+                <a href="<?php echo base_url();?>amendment"><i class="fas fa-cog"></i> For Validation</a>
+              </li>
+              <?php if($admin_info->access_level == 2) : ?>
+              <li>
+                <a href="<?php echo base_url();?>amendment/deferred_denied"><i class="fas fa-cog"></i> Deferred / Denied</a>
+              </li>
+              <?php endif; ?>
+              <li>
+                <a href="<?php echo base_url();?>amendment/registered"><i class="fas fa-cog"></i> Registered</a>
+              </li>
+              <li>
+                <a href="<?php echo base_url();?>amendment/registered_ho"><i class="fas fa-cog"></i> Registered Coop Processed by Head Office</a>
+              </li>
+            </ul>
+          </li>
+
           <?php if($admin_info->access_level == 2) : ?>
           <li>   
             <a href="<?php echo base_url();?>account_approval"><i class="fas fa-handshake"></i> Account Approval</a>
@@ -205,7 +253,17 @@
               </li>
             </ul>
           </li>
-     
+          <li>
+            <a href="#pageSubmenubns" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-handshake"></i> Updated Branch/Satellite Info</a>
+            <ul class="collapse list-unstyled" id="pageSubmenubns">
+              <li>
+                <a href="<?php echo base_url();?>updated_branch_info"><i class="fas fa-handshake"></i> Ongoing</a>
+              </li>
+              <li>
+                <a href="<?php echo base_url();?>updated_branch_info_registered"><i class="fas fa-handshake"></i> Registered</a>
+              </li>
+            </ul>
+          </li>
           <!--  <li>   
             <a href="<?php echo base_url();?>updated_amendment_info"><i class="fas fa-handshake"></i> Updated Amendment Info</a>
           </li>  -->
