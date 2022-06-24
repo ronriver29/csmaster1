@@ -237,7 +237,7 @@
           <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($total_amendment_fee,2).'<br><br><br>'.number_format($lrf,2) ?>">
           <?php endif;?>
          
-          <input type="hidden" class="form-control" id="total" name="total" value="<?= $total_?>">
+          <input type="hidden" class="form-control" id="total" name="total" value="<?= $total_amendment_fee+$lrf+$name_reservation_fee?>">
           <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
       </div>
       <br><br>
