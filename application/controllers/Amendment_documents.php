@@ -1293,7 +1293,8 @@ public function count_documents_coop($coop_id,$num)
                                    $coop_info_orig->acronym_name = $coop_info_orig->acronym;
                                     $data['coop_info_orig'] = $coop_info_orig;
                                     $data['article_info_orig'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($last_amendment_dtl->cooperative_id,$last_amendment_dtl->id);
-                                    $purposes_orig=$this->amendment_purpose_model->get_all_purposes($last_amendment_dtl->cooperative_id,$last_amendment_dtl->id);
+                                    $purposes_orig=$this->amendment_purpose_model->get_purposes_($last_amendment_dtl->id);
+                                    
                                     $data['purposes_list_orig'] =$purposes_orig;
                                     $data['total_regular_orig'] = $this->amendment_cooperator_model->get_total_regular($last_amendment_dtl->cooperative_id,$last_amendment_dtl->id);
                                      $data['directors_list_orig'] = $this->amendment_cooperator_model->get_list_of_directors($last_amendment_dtl->id); 
@@ -1310,8 +1311,7 @@ public function count_documents_coop($coop_id,$num)
                                   }    
                               }
                               else
-                              { //echo"first";
-                                    //First Amendment
+                              { 
                                     // $fisrt_amendment=true;
                                     $data['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
                                      $acronym='';
@@ -1326,7 +1326,7 @@ public function count_documents_coop($coop_id,$num)
                                     $purposes_orig=$this->amendment_purpose_model->get_all_purposes2($cooperative_id);
                                     $data['purposes_list_orig'] =$purposes_orig;
                                     $data['directors_list_orig'] = $this->cooperator_model->get_list_of_directors($cooperative_id);
-                                    // $this->debug( $data['purposes_list_orig']);
+                             
                                     $data['total_regular_orig'] = $this->cooperator_model->get_total_regular($cooperative_id);
                                     $data['regular_cooperator_list_orig'] = $this->cooperator_model->get_all_regular_cooperator_of_coop($cooperative_id);
                                     $data['associate_cooperator_list_orig'] = $this->cooperator_model->get_all_associate_cooperator_of_coop($cooperative_id);
@@ -1350,6 +1350,7 @@ public function count_documents_coop($coop_id,$num)
                                if($data['coop_info']->area_of_operation == 'Interregional'){
                                 $data['regions_island_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
                               }
+                              unset($coop_info_orig );
                                // $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data);
                               // $check_date_reg_new = false;
                               // if($this->amendment_model->newly_registered_date_of_primary($cooperative_id)->date_difference>0)
@@ -1357,7 +1358,7 @@ public function count_documents_coop($coop_id,$num)
                               //   $check_date_reg_new =true;
                               // }
                               // $data['new_reg_coop'] = $check_date_reg_new ;
-                            $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data);
+                               
                                 $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data, TRUE);
                                 $f = new pdf();
                                 $f->set_option("isPhpEnabled", true);
