@@ -47,10 +47,9 @@ public $decoded_id =null;
       for($a=strlen($x);$a<8;$a++) //modify by json from 12 to 8
       $j=$j.'0';
       $j=$j.$x;
+      unset($a);
 
-      // $amendment_no =1;
-
-      $amendment_no = $this->amendment_registration_model->get_last_reg_amendment($coop_info->regNo);
+      // $amendment_no = $this->amendment_registration_model->get_last_reg_amendment($coop_info->regNo);
       if(!$this->amendment_registration_model->in_registeredamendment($this->decoded_id))
       {
         $type_Coop = '';
@@ -77,7 +76,7 @@ public $decoded_id =null;
 
               'regNo'=> $coop_info->regNo,
 
-              'amendment_no'=>$amendment_no,
+              // 'amendment_no'=>$amendment_no,
 
               'category'=> $coop_info->category_of_cooperative,
 
@@ -119,15 +118,9 @@ public $decoded_id =null;
 
           {
 
-            $this->db->update('amend_coop',array('status'=>15,'amendmentNo'=>$amendment_no),array('id'=>$this->decoded_id));
+            $this->db->update('amend_coop',array('status'=>15),array('id'=>$this->decoded_id));
 
           }
-
-      // echo $amendment_no
-
-            
-
-            // $this->debug($this->registration_model->register_coop_amendment($this->decoded_id,$coop_info->rCode,$pst));
 
             $cName=$coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping;
 
@@ -246,7 +239,7 @@ public $decoded_id =null;
             $date_OR = $o['date_of_or'];
 
           }
-
+          unset($o);
         }
 
         else
