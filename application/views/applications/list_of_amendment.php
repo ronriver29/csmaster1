@@ -152,10 +152,11 @@ if($is_client && !$has_registered_coop):?>
                          $proposeNames = $cooperative['proposed_name'];
                       }
                     }
-                    //echo $proposeNames;
-                    echo $this->amendment_model->proposed_name_comparison($cooperative['regNo'],$cooperative['amendmentNo'],$proposeNames);
+                  
+                    echo ($this->amendment_model->proposed_name_comparison($cooperative['regNo'],$cooperative['id'],$proposeNames));
                     ?>  
-                    <td><?= (strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($cooperative['regNo'],$cooperative['amendmentNo']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?></td>
+                  </td>
+                    <td><?=(strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($cooperative['regNo'],$cooperative['id']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?> </td>
                   <?php if(!$is_client) : ?>
                     <td>
                       <?php if($cooperative['house_blk_no']==null && $cooperative['street']==null) $x=''; else $x=', ';?>

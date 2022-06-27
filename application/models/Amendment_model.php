@@ -1701,7 +1701,6 @@ public function submit_for_evaluation($user_id,$amendment_id,$region_code){
   $client_qry = $this->db->get_where('users',array('id'=>$user_id));
   $client_info = $client_qry->row();
   $previous_coop_info = $this->previous_coop_info($cooperative_id,$amendment_id,$amendment_info->regNo);
-  // return $previous_coop_info;
     if($previous_coop_info->area_of_operation == 'Interregional')
     {
         $previous_regions_array = explode(',',$previous_coop_info->regions);
@@ -1728,23 +1727,6 @@ public function submit_for_evaluation($user_id,$amendment_id,$region_code){
     $this->db->update('amend_coop',array('status'=>2,'in_change_region'=>1,'previous_region'=>$previous_region,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(30*24*60*60)))));
 
   }
-
-  
- 
- 
-  // return $amendment_info;
-    //HO checking
-    // $type_coop_array = explode(',',$amendment_info->type_of_cooperative);
-    // $ho_arr = $this->amendment_model->get_ho_list();
-    // $result = count(array_intersect($type_coop_array, $ho_arr)) ? true : false;
-    // if($result)
-    // {
-    //    return "HO";
-    // }
-    // else
-    // {
-    //   return "Not HO";
-    // }  
      $success = 0;
      $process = 0;
     if($this->db->trans_status() === FALSE){
@@ -1756,7 +1738,7 @@ public function submit_for_evaluation($user_id,$amendment_id,$region_code){
       {
         $process++;
           $senior_email =  $row['email'];
-          // echo $senior_email;
+          
            if($this->email_model->sendEmailfirstSubmissionAmendment($client_info,$senior_email,$amendment_info)){
            $this->db->trans_commit();
            $success++;
@@ -1765,7 +1747,7 @@ public function submit_for_evaluation($user_id,$amendment_id,$region_code){
            $this->db->trans_rollback();
            return false;
           }
-      }
+      }unset($row);
         if($process == $success && $this->email_model->sendEmailClientFirstSubmission($client_info))
         {
           return true;
@@ -1814,7 +1796,7 @@ public function previous_coop_info($coop_id,$amendment_id,$regNo)
     return $previous_coop_info;
 }
 public function submit_for_reevaluation($user_id,$amendment_id,$region_code){
-   $user_id = $this->security->xss_clean($user_id);
+  $user_id = $this->security->xss_clean($user_id);
   $amendment_id = $this->security->xss_clean($amendment_id);
   $cooperative_id = $this->coop_dtl($amendment_id);
   $amendment_info =$this->get_cooperative_info23($cooperative_id,$amendment_id);
@@ -1823,10 +1805,7 @@ public function submit_for_reevaluation($user_id,$amendment_id,$region_code){
   $admin_info = $this->admin_info_by_region($region_code);
 
    $previous_coop_info = $this->previous_coop_info($cooperative_id,$amendment_id,$amendment_info->regNo);
-  // return $previous_coop_info;
   $previous_regions_array = explode(',',$previous_coop_info->regions);
- 
-
   $this->db->trans_begin();
    //not in change region
    if(in_array($region_code,$previous_regions_array))
@@ -1838,8 +1817,6 @@ public function submit_for_reevaluation($user_id,$amendment_id,$region_code){
     $senior_info =$this->senior_info($previous_coop_info->rCode); 
   }
 
-  // $senior_info =$this->senior_info($region_code);
-  // $this->db->trans_begin();
   $this->db->where(array('users_id'=>$user_id,'id'=> $amendment_id));
   $this->db->update('amend_coop',array('status'=>6));
   if($this->db->trans_status() === FALSE){
@@ -1860,8 +1837,7 @@ public function submit_for_reevaluation($user_id,$amendment_id,$region_code){
              $this->db->trans_rollback();
              return false;
             }
-      }   
-      // return $process.':'.$success;
+      } unset($row);  
        if($process == $success && $this->email_model->sendEmailtoClientResubmission($client_info))
         {
           return true;
@@ -1870,39 +1846,32 @@ public function submit_for_reevaluation($user_id,$amendment_id,$region_code){
         {
           return false;
         } 
-     // if($this->email_model->sendEmailDefferedtoSenior($client_info,$admin_info,$amendment_info)){
-     //   $this->db->trans_commit();
-     //   return true;
-     //  }else{
-     //   $this->db->trans_rollback();
-     //   return false;
-     //  }
+
   }
 }
 public function assign_to_specialist($amendment_id,$specialist_id){
   $specialist_id = $this->security->xss_clean($specialist_id);
   $amendment_id = $this->security->xss_clean($amendment_id);
-
   $cooperative_id = $this->coop_dtl($amendment_id);
   $amendment_info =$this->get_cooperative_info23($cooperative_id,$amendment_id);
-  // return $amendment_info;
   $client_qry = $this->db->get_where('users',array('id'=>$amendment_info->users_id));
   $client_info = $client_qry->row();
-  // return $client_info;
   $this->db->trans_begin();
   $query = $this->db->get_where('admin',array('id'=>$specialist_id));
   $admin_info = $query->row();
-// return $admin_info;
   $this->db->where(array('id'=>$amendment_id));
   $this->db->update('amend_coop',array('status'=>3,'evaluated_by'=>$specialist_id));
- 
+  unset($amendment_id);
+  unset($specialist_id);
+  unset($query);
+  unset($client_qry);
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
        return false; 
   }else{
 
-    // return $this->email_model->sendEmailToSpecialistAmendment($admin_info,$client_info,$amendment_info);
      if($this->email_model->sendEmailToSpecialistAmendment($admin_info,$client_info,$amendment_info)){
+      unset($admin_info);unset($client_info);unset($amendment_info);
        $this->db->trans_commit();
        return true;
      }else{
@@ -1919,8 +1888,6 @@ public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$coop
                $amendment_id  = array();
              
                  $types_coop = explode(',',$coop_type);
-                 // return $types_coop; 
-
                  $ho_arr = $this->get_ho_list();
                  $result = count(array_intersect($types_coop, $ho_arr)) ? true : false;
                  if($result)
@@ -3836,10 +3803,10 @@ where coop.users_id = '$user_id' and coop.status =15");
     }
 
 
-    public function proposed_name_comparison($regNo,$amendmentNo,$proposed_name)
+    public function proposed_name_comparison($regNo,$amendment_id,$proposed_name)
     {
       $data =null;
-      $last_proposed_name = $this->get_last_proposed_name($regNo,$amendmentNo); 
+      $last_proposed_name = $this->get_last_proposed_name($regNo,$amendment_id); 
       if(strcasecmp(trim(preg_replace('/\s\s+/', ' ',$last_proposed_name)),trim(preg_replace('/\s\s+/', ' ',$proposed_name)))!=0)
       {
         $data = $last_proposed_name;
@@ -3851,60 +3818,79 @@ where coop.users_id = '$user_id' and coop.status =15");
      return $data;
     }
 
-    public function get_last_proposed_name($regNo,$amendmentNo)
+    public function get_last_proposed_name($regNo,$amendment_id)
     {
       $data = null;
-      if($amendmentNo ==1)
-      { 
-        $query = $this->db->query("select id,coopName from registeredcoop where regNo='$regNo' order by id desc limit 1");
-        foreach($query->result_array() as $row)
-        {
-           $proposedName = $row['coopName'];
-        }
-        unset($row);
-      }
-      else
-      {
-        $amendmentNo = $amendmentNo -1;
-        $query = $this->db->query("select migrated,proposed_name,acronym,type_of_cooperative from amend_coop where regNo='$regNo' and amendmentNo='$amendmentNo' order by id desc limit 1");
-        foreach($query->result_array() as $row)
-        {
-          if($row['migrated']==1)
-          {
-             $proposedName =$this->coopName_from_migration($amendmentNo,$regNo); 
-          }
-          else
-          {
-            $acronym='';
-            if(strlen($row['acronym'])>0)
-            {
-            $acronym="(".$row['acronym'].")";
-            }
 
-            if(count(explode(',',$row['type_of_cooperative']))>1)
+        $query = $this->db->query("select amendmentNo,migrated,proposed_name,acronym,type_of_cooperative from amend_coop where regNo='$regNo' and id <> '$amendment_id' order by id desc limit 1");
+        if($query->num_rows()==1)
+        {
+          foreach($query->result_array() as $row)
+          {
+            
+            if($row['amendmentNo'] ==0)
             {
-              $proposedName = ltrim(rtrim($row['proposed_name'])).' Multipurpose Cooperative '.$acronym;
+              $proposedName = $this->primary_name($regNo);
             }
             else
             {
-              $proposedName = ltrim(rtrim($row['proposed_name'])).' '.$row['type_of_cooperative'].' Cooperative '.$acronym;
+              if($row['migrated']==1)
+              {
+                 $proposedName =$this->coopName_from_migration($amendment_id,$regNo); 
+              }
+              else
+              {
+                $acronym='';
+                if(strlen($row['acronym'])>0)
+                {
+                $acronym="(".$row['acronym'].")";
+                }
+
+                if(count(explode(',',$row['type_of_cooperative']))>1)
+                {
+                  $proposedName = ltrim(rtrim($row['proposed_name'])).' Multipurpose Cooperative '.$acronym;
+                }
+                else
+                {
+                  $proposedName = ltrim(rtrim($row['proposed_name'])).' '.$row['type_of_cooperative'].' Cooperative '.$acronym;
+                }
+              
+              }
             }
-          
           }
+          unset($row);
         }
-        unset($row);
-      }
+        else
+        {
+          $proposeName = $this->primary_name($regNo);
+        }
+
       $data = $proposedName;
       unset($proposedName);
-      unset($amendmentNo);
+      unset($acronym);
       unset($regNo);
       return $data;
     }
 
-    public function coopName_from_migration($amendment_no,$regNo)
+    public function primary_name($regNo)
+    {
+      $proposeName='unknown';
+       $query = $this->db->query("select coopName from registeredcoop where regNo='$regNo' order by id asc limit 1");
+       if($query->num_rows()==1)
+       {
+           foreach($query->result_array() as $row)
+          {
+             $proposedName = $row['coopName'];
+          }
+          unset($row);
+       }
+         
+      return $proposedName;
+    }
+    public function coopName_from_migration($amendment_id,$regNo)
     {
       $data='';
-      $query = $this->db->query("select coopName from registeredamendment where regNo='$regNo' and amendment_no='$amendment_no' order by id desc limit 1");
+      $query = $this->db->query("select coopName from registeredamendment where regNo='$regNo' and amendment_id='$amendment_id' order by id desc limit 1");
       if($query->num_rows()==1)
       {
         foreach($query->result() as $row)
