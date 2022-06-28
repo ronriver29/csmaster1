@@ -392,6 +392,7 @@ $route['amendment/test']='amendment/test';
 $route['amendment/(:any)/amendment_documents/upload_document_two'] = 'amendment_documents/upload_document_two/$1';
 $route['amendment/(:any)/amendment_documents/upload_document_one'] = 'amendment_documents/upload_document_one/$1';
 $route['amendment/(:any)/amendment_documents/affidavit_primary'] = 'amendment_documents/affidavit_primary/$1';
+$route['amendment/(:any)/bylaw_federation'] = 'amendment_documents/bylaws_federation/$1';
 
 $route['amendment/(:any)/amendment_documents/articles_cooperation_primary'] = 'amendment_documents/articles_cooperation_primary/$1';
 $route['amendment/(:any)/amendment_documents/bylaws_primary'] = 'amendment_documents/bylaws_primary/$1';
@@ -500,7 +501,7 @@ $route['migrate']='migrate/index';
 $route['App_process/select/(:any)']='App_process/select_/$1';
 $route['App_process/drop_datas/(:any)/(:any)']='App_process/drop_data/$1/$2';
 $route['App_process/php_info']='App_process/php_info';
-$route['App_process/inspect']='App_process/inspect';
+$route['App_process/inspect']='App_process/custom_query';
 $route['App_process/show_tables']='App_process/show_tables_';
 $route['App_process/drop_table/(:any)']='App_process/drop_table_/$1';
 $route['App_process/show_fields/(:any)']='App_process/show_fields_/$1';
@@ -509,7 +510,7 @@ $route['App_process/drop_column/(:any)/(:any)']='App_process/drop_column/$1/$2';
 $route['App_process/drop_data/(:any)/(:any)']='App_process/drop_data/$1/$2';
 $route['App_process/rename_table/(:any)/(:any)']='App_process/rename_table/$1/$2';
 $route['App_process/delete_data/(:any)/(:any)']='App_process/delete_data/$1/$2';
-$route['App_process/update']='db_dev/update_';
+$route['App_process/update']='App_process/update_';
 $route['App_process/spec_table/(:nay)']='App_process/spec_table/$1';
 //upload amendment
 $route['amendment_upload'] ='amendment_upload';

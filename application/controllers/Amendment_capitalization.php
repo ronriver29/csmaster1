@@ -8,6 +8,7 @@ class Amendment_capitalization extends CI_Controller{
     parent::__construct();
     //Codeigniter : Write Less Do More
     $this->load->model("amendment_capitalization_model");
+    $this->load->model("amendment_model");
   }
 
   function index($id = null)
@@ -17,6 +18,10 @@ class Amendment_capitalization extends CI_Controller{
     }else{
       $this->output->enable_profiler(TRUE);
       $this->benchmark->mark('code_start');
+      $this->load->model('amendment_bylaw_model'); 
+      $this->load->model('user_model');
+      $this->load->model('amendment_cooperator_model');
+      $this->load->model('amendment_article_of_cooperation_model'); 
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
          $cooperative_id = $this->coop_dtl($this->decoded_id);
         $user_id = $this->session->userdata('user_id');

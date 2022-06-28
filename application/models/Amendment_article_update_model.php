@@ -5,7 +5,7 @@ class Amendment_article_update_model extends CI_Model{
   public function __construct()
   {
     parent::__construct();
-    //Codeigniter : Write Less Do More
+    $this->load->model('amendment_update_cooperator_model');
   }
   public function get_article_by_coop_id($amendment_id){
     // $data_coop_id = $this->security->xss_clean($coop_id);
@@ -64,20 +64,17 @@ class Amendment_article_update_model extends CI_Model{
       }
       if($data->kinds_of_members==1){
         // if($counter<=2){
-          $temp = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$amendment_id);
+          $temp = $this->amendment_update_cooperator_model->get_total_regular($cooperative_id,$amendment_id);
           if($data2->common_share >= $temp['total_subscribed'] && $data2->common_share <= ($temp['total_subscribed']*4)){
             return true;
           }else{
             return false;
           }
-        // }else{
-        //   return false;
-        // }
       }else{
         if($counter<=0){
          
-          $temp = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$amendment_id);
-          $temp2 = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$amendment_id);
+          $temp = $this->amendment_update_cooperator_model->get_total_regular($cooperative_id,$amendment_id);
+          $temp2 = $this->amendment_update_cooperator_model->get_total_associate($cooperative_id,$amendment_id);
           $tempGrandTotal = $data2 ? ($data2->common_share * $data2->par_value_common) + ($data2->preferred_share * $data2->par_value_preferred) : 0;
           if($data2 && $data2->common_share >= $temp['total_subscribed'] && $data2->preferred_share >= $temp2['total_subscribed']){
             return true;

@@ -66,7 +66,7 @@ class Amendment_update_capitalization_model extends CI_Model{
     $counter = 0;
     $query_bylaws = $this->db->get_where('amendment_bylaws',array('cooperatives_id'=>$capitalization_coop_id,'amendment_id'=>$amendment_id));
     $data_bylaws = $query_bylaws->row();
-    $query = $this->db->get_where('amendment_capitalization',array('cooperatives_id'=>$capitalization_coop_id,'amendment_id'=>$amendment_id));
+    $query = $this->db->get_where('amendment_capitalization',array('amendment_id'=>$amendment_id));
     if($query->num_rows()>0) {
      $data = $query->row();
         $required_fields = array(
@@ -89,7 +89,7 @@ class Amendment_update_capitalization_model extends CI_Model{
         }
         foreach ($required_fields as $field){
           if($data->$field=="") $counter++;
-        }
+        }unset($field);
         if($counter==0) {
             return true;
         } else {

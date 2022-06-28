@@ -10,7 +10,16 @@ class amendment extends CI_Controller{
       parent::__construct();
       //Codeigniter : Write Less Do More
       $this->load->model('amendment_uploaded_document_model');
+      $this->load->model('amendment_model');
+      $this->load->model('amendment_committee_model');
+      $this->load->model('amendment_bylaw_model');
+      $this->load->model('amendment_capitalization_model');
+      $this->load->model('amendment_purpose_model');
+      $this->load->model('amendment_article_of_cooperation_model');
+      $this->load->model('amendment_cooperator_model');
       $this->load->model('Amendment_affiliators_model','amendment_affiliators_model');
+      $this->load->model('cooperatives_model');
+      $this->load->model('user_model');
       $this->load->library('pagination');
 
     }
@@ -57,7 +66,6 @@ class amendment extends CI_Controller{
            if($data['is_coop_updated'] && ($data['is_amendment_updated']))
            {
             $this->benchmark->mark('code_end');
-          $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
             $data['list_cooperatives'] = $this->amendment_model->get_all_cooperatives($this->session->userdata('user_id'));
             $this->load->view('applications/list_of_amendment', $data);
            }
@@ -1507,13 +1515,15 @@ class amendment extends CI_Controller{
       }else{
          $this->output->enable_profiler(TRUE);
          $this->benchmark->mark('code_start');
+         $this->load->model('Payment_model');
+         $this->load->model('admin_model');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $coop_id = $this->amendment_model->coop_dtl($this->decoded_id);
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
         if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
           if($this->session->userdata('client')){
-              $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
+              // $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
               $data['client_info'] = $this->user_model->get_user_info($user_id);
               $data['title'] = 'Amendment Details';
               $data['header'] = 'Amendment Information';
@@ -1699,7 +1709,6 @@ class amendment extends CI_Controller{
                 case 'Federation':
                   $data['affiliator_complete'] = $this->amendment_affiliators_model->is_requirements_complete($this->decoded_id);
                    $this->benchmark->mark('code_end');
-          $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
                  $this->load->view('amendment/federation/federation_details', $data);
                   break;
                 

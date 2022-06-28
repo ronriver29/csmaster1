@@ -21,8 +21,11 @@ class Amendment_update_cooperator extends CI_Controller{
     // $this->load->model("amendment_capitalization_model");
 
     $this->load->model("amendment_update_cooperator_model");
-
-     // $this->output->cache(30);
+    $this->load->model("user_model");
+    $this->load->model("admin_model");
+    $this->load->model("amendment_update_model");
+    $this->load->model('amendment_update_bylaw_model');
+    $this->load->model('amendment_update_capitalization_model');
 
   }
 
@@ -103,9 +106,9 @@ class Amendment_update_cooperator extends CI_Controller{
 
           if($this->session->userdata('client')){
 
-            if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
+            if($this->amendment_update_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
 
-              if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
+              if(!$this->amendment_update_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
 
                 $data['coop_info'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$this->decoded_id);
 
@@ -163,11 +166,11 @@ class Amendment_update_cooperator extends CI_Controller{
 
                     if($count_cap>0){
 
-                        $data['capitalization_info'] = $this->amendment_capitalization_model->amend_get_capitalization_by_coop_id($this->decoded_id);
+                        $data['capitalization_info'] = $this->amendment_update_capitalization_model->amend_get_capitalization_by_coop_id($this->decoded_id);
 
                     } else {
 
-                        $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$this->decoded_id);
+                        $data['capitalization_info'] = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($this->decoded_id);
 
                     }
 
@@ -315,7 +318,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
 
 
-                  $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
+                  $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id);
 
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
 
@@ -445,11 +448,11 @@ class Amendment_update_cooperator extends CI_Controller{
 
           if($this->session->userdata('client')){
 
-            if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
+            if($this->amendment_update_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
 
               // if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
 
-                $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
+                $data['coop_info'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$this->decoded_id);
 
                 $new=1;
 
@@ -583,7 +586,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
                       $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
 
-                      $data['capitalization_info'] = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$this->decoded_id); 
+                      $data['capitalization_info'] = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($this->decoded_id); 
 
                       $data['list_cooperators'] = $this->amendment_update_cooperator_model->get_all_cooperator_of_coop($cooperative_id,$this->decoded_id);
 
@@ -655,7 +658,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
                         $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($data['coop_info']->users_id));
 
-                        $data['capitalization_info'] = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$this->decoded_id); 
+                        $data['capitalization_info'] = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($this->decoded_id); 
 
                         $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
 
@@ -805,7 +808,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
               // if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
 
-                $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
+                $data['coop_info'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$this->decoded_id);
 
                 // $this->debug($data['coop_info']);
 
@@ -891,7 +894,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
                           }
 
-                          $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$this->decoded_id);
+                          $data['capitalization_info'] = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($this->decoded_id);
 
                           $data['capitalization_info_orig'] = $this->capitalization_model->get_capitalization_by_coop_id($cooperative_id);
 
@@ -1115,7 +1118,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
             }
 
-            $data['capitalization_info'] = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($cooperative_id,$this->decoded_id); 
+            $data['capitalization_info'] = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($this->decoded_id); 
 
             $data['capitalization_info_orig'] = $this->capitalization_model->get_capitalization_by_coop_id($cooperative_id);
 
@@ -1999,7 +2002,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
             $decoded_user_id = $this->encryption->decrypt(decrypt_custom($this->input->post('user_id')));
 
-            $result = $this->amendment_model->get_cooperative_info($cooperative_id,$decoded_user_id,$this->decoded_id);
+            $result = $this->amendment_update_model->get_cooperative_info($cooperative_id,$this->decoded_id);
 
             echo json_encode($result);
 

@@ -17,7 +17,9 @@ class Amendmentbylaws extends CI_Controller{
     //Codeigniter : Write Less Do More
 
     $this->load->model('amendment_capitalization_model');
-
+    $this->load->model('amendment_model');
+    $this->load->model('user_model');
+    $this->load->model('amendment_bylaw_model');
   }
 
 

@@ -999,6 +999,7 @@ where amd.regNo ='$regNo' and amd.id <> '$amendment_id' and amd.status =15");
     $this->db->where('amendment_id',$amendment_id);
     $this->db->where_in('position', $position);
     $this->db->from('amendment_cooperators');
+    
     if($this->db->count_all_results()>=5 && $this->db->count_all_results()<=15){
       return true;
     }else{
@@ -1259,9 +1260,9 @@ from amendment_cooperators where amendment_cooperators.amendment_id ='$amendment
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     // $temp = $this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id,$amendment_id)->regular_percentage_shares_subscription;
     $temp =0;
-    if($this->amendment_update_capitalization_model->get_capitalization_by_coop_id($cooperatives_id,$amendment_id)!=null)
+    if($this->amendment_update_capitalization_model->get_capitalization_by_coop_id($amendment_id)!=null)
     {
-       $temp = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($cooperatives_id,$amendment_id)->minimum_subscribed_share_regular;
+       $temp = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($amendment_id)->minimum_subscribed_share_regular;
     }
    
       
@@ -1280,9 +1281,9 @@ from amendment_cooperators where amendment_cooperators.amendment_id ='$amendment
   public function check_all_minimum_regular_pay($cooperatives_id,$amendment_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $temp =0;
-    if($this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperatives_id,$amendment_id)!=null)
+    if($this->amendment_update_capitalization_model->get_capitalization_by_coop_id($amendment_id)!=null)
     {
-      $temp = $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperatives_id,$amendment_id)->minimum_paid_up_share_regular;
+      $temp = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($amendment_id)->minimum_paid_up_share_regular;
     }
     
     // $this->db->where(array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id,'type_of_member'=>'Regular'));
@@ -1305,7 +1306,7 @@ from amendment_cooperators where amendment_cooperators.amendment_id ='$amendment
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $amendment_id = $this->security->xss_clean($amendment_id);
     $temp=0;
-    $temp_qry = $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperatives_id,$amendment_id);
+    $temp_qry = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($amendment_id);
     if($temp_qry!=null)
     {
       $temp = $temp_qry->minimum_subscribed_share_associate;
@@ -1327,7 +1328,7 @@ from amendment_cooperators where amendment_cooperators.amendment_id ='$amendment
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $amendment_id = $this->security->xss_clean($amendment_id);
     $temp =0;
-    $temp_qry =  $this->amendment_capitalization_model->get_capitalization_by_coop_id($cooperatives_id,$amendment_id);
+    $temp_qry =  $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($amendment_id);
     if($temp_qry!=null)
     {
       $temp= $temp_qry->minimum_paid_up_share_associate;

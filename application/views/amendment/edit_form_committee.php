@@ -23,14 +23,7 @@
         <div class="row ac-row">
           <input type="hidden" class="form-control" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_id ?>">
           <input type="hidden" class="form-control" id="committeeID" name="committeeID" value="<?=$encrypted_committee_id?>">
-           <div class="col-md-4">
 
-              <div class="form-group"> 
-                <label for="cooperatorID">Name of Cooperator:</label>
-                <input type="text" value="<?= $cooperator_info->full_name?>" class="form-control validate[required]" id="cooperatorName" name="cooperatorName" disabled>
-              </div>
-
-          </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="committeeName">Name of Committee:</label>
@@ -39,6 +32,25 @@
                 $count_type = count(explode(',',$coop_info->type_of_cooperative));
 
               ?>
+               <select class="custom-select validate[required]" name="committeeName" id="committeeName">
+                                <option value="Audit" <?php if($committee_info->name=="Audit") echo "selected";?> >Audit</option>
+                  <option value="Election" <?php if($committee_info->name=="Election") echo "selected";?> <?=($committee_info->type =='others' ? "disabled" : " ")?>>Election</option>
+                  <option value="Education and Training" <?php if($committee_info->name=="Education and Training") echo "selected";?> <?=($committee_info->type =='others' ? "disabled" : " ")?>>Education and Training</option>
+                  <option value="Mediation and Conciliation" <?php if($committee_info->name=="Mediation and Conciliation") echo "selected";?> <?=($committee_info->type =='others' ? "disabled" : " ")?>>Mediation and Conciliation</option>
+                  <option value="Ethics" <?php if($committee_info->name=="Ethics") echo "selected";?> <?=($committee_info->type =='others' ? "disabled" : " ")?>>Ethics</option>
+                 
+                 <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture' || $coop_info->type =='Multipurpose' || $coop_info->type_of_cooperative == 'Advocacy' || $coop_info->type_of_cooperative =='Agrarian Reform'  || $coop_info->type_of_cooperative =='Consumers' || $count_type>1){?>
+                    <option id="A" value="Credit">Credit</option>
+                  <?php } ?>
+
+                    <?php foreach ($custom_committees as $custom_committee) : ?>
+                    <option value="<?= $custom_committee['name'] ?> " <?php if($committee_info->name==$custom_committee['name']) echo "selected";?> > <?= $custom_committee['name'] ?> </option>
+                  <?php endforeach;unset($custom_committee); ?>
+               <!--  <option value="Others">Others</option> -->
+
+                    </select>  
+
+               <?php /*
              <!--  <?= $cooperator_info->position?> -->
               <select class="custom-select validate[required]" name="committeeName" id="committeeName">
                 <option value="" <?php if($committee_info->name=="") echo "selected";?> <?=($committee_info->type =='others' ? "disabled" : " ")?>>--</option>
@@ -108,7 +120,7 @@
                 ?>
               
                
-               <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture' || $coop_info->type =='Multipurpose' || $coop_info->type_of_cooperative == 'Advocacy' || $coop_info->type_of_cooperative =='Agrarian Reform' || $coop_info->type_of_cooperative == 'Consumers' || $count_type>1){?>
+               <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture' || $coop_info->type =='Multipurpose' || $coop_info->type_of_cooperative == 'Advocacy' || $coop_info->type_of_cooperative =='Agrarian Reform'  || $coop_info->type_of_cooperative =='Consumers' || $count_type>1){?>
                   <option id="A" value="Credit">Credit</option>
                 <?php } ?>
 
@@ -117,6 +129,7 @@
                 <?php endforeach; ?>
                <!--  <option value="Others">Others</option> -->
               </select>
+              */?>
             </div>
           </div>
         </div>
@@ -135,39 +148,7 @@
         <?php
           }
         ?>
-        
-        <div class="row ac-info-row">
-          <div class="col-sm-12 col-md-4">
-            <div class="form-group">
-              <label for="position">Position:</label>
-              <input type="text" value="<?= $cooperator_info->position?>" class="form-control validate[required]" id="position" name="position" disabled>
-            </div>
-      		</div>
-          <div class="col-sm-12 col-md-4">
-            <div class="form-group">
-              <label for="membershipType">Type of Membership:</label>
-              <input type="text" value="<?= $cooperator_info->type_of_member?>" class="form-control validate[required]" id="membershipType" name="membershipType" disabled>
-            </div>
-      		</div>
-          <div class="col-sm-12 col-md-4">
-            <div class="form-group">
-              <label for="gender">Gender:</label>
-                <input type="text" value="<?= $cooperator_info->gender?>" class="form-control validate[required]" id="gender" name="gender" disabled>
-            </div>
-      		</div>
-          <div class="col-sm-12 col-md-4">
-            <div class="form-group">
-              <label for="bDate"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>Age must be 18 years old and above.</li>"></i> Birth Date:</label>
-              <input type="date" value="<?= $cooperator_info->birth_date?>"class="form-control validate[required,funcCall[validateAgeCustom]]" id="bDate" name="bDate" disabled>
-            </div>
-          </div>
-      		<div class="col-sm-12 col-md-8">
-            <div class="form-group">
-              <label for="pAddress">Postal Address: </label>
-              <textarea class="form-control validate[required]" style="resize: none;" id="pAddress" name="pAddress" rows="1" disabled><?= $cooperator_info->full_address?></textarea>
-            </div>
-      		</div>
-        </div>
+
       </div>
       <div class="card-footer editCommitteeFooter">
         <input class="btn btn-color-blue btn-block" type="submit" id="editCommitteeBtn" name="editCommitteeBtn" value="Submit">

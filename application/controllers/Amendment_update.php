@@ -7,10 +7,9 @@ class Amendment_update extends CI_Controller{
     public function __construct()
     {
       parent::__construct();
-      //Codeigniter : Write Less Do More
-      // $this->load->model('amendment_update_model');
-      $this->load->model('amendment_uploaded_document_model');
-      $this->load->model('amendment_committees_update_model');
+            
+        
+    
     }
    
     public function view($id = null){ 
@@ -20,6 +19,18 @@ class Amendment_update extends CI_Controller{
       }else{
         $this->output->enable_profiler(TRUE);
         $this->benchmark->mark('code_start');
+        $this->load->model('amendment_uploaded_document_model');
+        $this->load->model('amendment_committees_update_model');
+        $this->load->model('amendment_update_model');
+        $this->load->model('amendment_committees_update_model');
+        $this->load->model('amendment_update_bylaw_model');
+        $this->load->model('cooperatives_model');
+        $this->load->model('user_model');
+        $this->load->model('amendment_update_capitalization_model');
+        $this->load->model('amendment_article_update_model');
+        $this->load->model('amendment_committees_update_model');
+        $this->load->model('amendment_update_cooperator_model');
+        $this->load->model('amendment_update_purposes_model');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $coop_id = $this->amendment_update_model->coop_dtl($this->decoded_id);
         $data['is_client'] = $this->session->userdata('client');
@@ -79,21 +90,20 @@ class Amendment_update extends CI_Controller{
                                 
                                 
                   $data['business_activities'] =  $this->amendment_update_model->get_all_business_activities($this->decoded_id);
-                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($coop_id,$this->decoded_id) : true;
+                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_bylaw_model->check_bylaw_primary_complete($coop_id,$this->decoded_id) : true;
                   $data['cooperative_id']=encrypt_custom($this->encryption->encrypt($coop_id));
                   $data['encrypted_id'] = $id;
                   /*BEGIN: UPDATE FOR CAPITALIZATION --by Fred */
                   $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_capitalization_model->check_capitalization_primary_complete($coop_id,$this->decoded_id) : true;
-
                   $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_update_model->check_article_primary_complete($this->decoded_id) : true;
-                  $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($coop_id,$this->decoded_id);
-                  $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
+                  $data['cooperator_complete'] = $this->amendment_update_cooperator_model->is_requirements_complete($coop_id,$this->decoded_id);
+                  $data['committees_complete'] = $this->amendment_committees_update_model->committee_complete_count_amendment($this->decoded_id);
                   $data['purposes_complete'] = $this->amendment_update_purposes_model->check_purpose_complete($coop_id,$this->decoded_id);
                   $data['submitted'] = $this->amendment_update_model->check_submitted_for_evaluation($coop_id,$this->decoded_id);
                   $data['members_composition'] =  $this->amendment_update_model->amendment_composition($this->decoded_id);//get_coop_composition($this->decoded_id);
-                  $data['committeescount'] = $this->amendment_committee_model->get_all_committees_of_coop_gad_amendment($this->decoded_id);
+                  $data['committeescount'] = $this->amendment_committees_update_model->get_all_committees_of_coop_gad_amendment($this->decoded_id);
                   if($data['committeescount']==0) {
-                  $data['committeescount'] = $this->amendment_committee_model->get_all_committees_of_coop_gad($this->decoded_id);
+                  $data['committeescount'] = $this->amendment_committees_update_model->get_all_committees_of_coop_gad($this->decoded_id);
                   }
                   //position
                   $in_positions = $this->amendment_committees_update_model->check_position_($this->decoded_id);
@@ -145,14 +155,14 @@ class Amendment_update extends CI_Controller{
                   $data['amendment_capitalization']= $this->amendment_capitalization($this->decoded_id);      
                   $data['name_reservation_fee']=100.00;
                   $data['pay_from']='reservation'; 
-                  if($this->Payment_model->get_payment_info_amendment($this->decoded_id)!=NULL)
-                  {
-                   $data['ref_no'] = $this->Payment_model->get_payment_info_amendment($this->decoded_id)->refNo;
-                  }
-                  else
-                  {
-                    $data['ref_no'] = NULL;
-                  }
+                  // if($this->Payment_model->get_payment_info_amendment($this->decoded_id)!=NULL)
+                  // {
+                  //  $data['ref_no'] = $this->Payment_model->get_payment_info_amendment($this->decoded_id)->refNo;
+                  // }
+                  // else
+                  // {
+                  //   $data['ref_no'] = NULL;
+                  // }
                          
                     $data['coop_info_orig']= $this->cooperatives_model->get_cooperative_info_by_admin($coop_id); 
                     $data['orig_proposedName_formated']='';
@@ -244,7 +254,7 @@ class Amendment_update extends CI_Controller{
               $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_capitalization_model->check_capitalization_primary_complete($coop_id,$this->decoded_id) : true;
               // $this->debug(  $data['capitalization_complete']);
               $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_update_model->check_article_primary_complete($this->decoded_id) : true;
-              $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($coop_id,$this->decoded_id);
+              $data['cooperator_complete'] = $this->amendment_update_cooperator_model->is_requirements_complete($coop_id,$this->decoded_id);
 
               $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
               if($data['committees_complete']==false) {
@@ -366,6 +376,19 @@ class Amendment_update extends CI_Controller{
       }else{ 
          $this->output->enable_profiler(TRUE);
         $this->benchmark->mark('code_start');
+        // $this->load->model('amendment_uploaded_document_model');
+        // $this->load->model('amendment_committees_update_model');
+        $this->load->model('amendment_update_model');
+        // $this->load->model('amendment_committees_update_model');
+        $this->load->model('amendment_update_bylaw_model');
+        $this->load->model('cooperatives_model');
+        $this->load->model('user_model');
+        $this->load->model('admin_model');
+        // $this->load->model('amendment_update_capitalization_model');
+        $this->load->model('major_industry_model');
+        $this->load->model('region_model');
+         // $this->load->model('amendment_model');
+
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $cooperative_id = $this->amendment_update_model->coop_dtl($this->decoded_id);
         $data['is_client'] = $this->session->userdata('client');
@@ -548,7 +571,7 @@ class Amendment_update extends CI_Controller{
                   }
 
                   // $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$this->decoded_id);
-                   $data['is_update_cooperative'] = $this->amendment_model->check_date_registered($data['client_info']->regno);
+                   $data['is_update_cooperative'] = $this->amendment_update_model->check_date_registered($data['client_info']->regno);
                     $this->benchmark->mark('code_end');
                   $this->load->view('./template/header', $data);
                   $this->load->view('update/amendment/amendment_update_info', $data);

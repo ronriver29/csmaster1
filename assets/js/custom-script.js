@@ -3,7 +3,7 @@ $(function(){
   /*
     STARTLIST OF DATA TABLES
   */
-  $('#committeesTable').dataTable();
+  // $('#committeesTable').DataTable();
   $('#committeesTable3').DataTable();
   $('#cooperativesTable').DataTable();
   $('#cooperativesTable2').DataTable();

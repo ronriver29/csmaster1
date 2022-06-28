@@ -13,17 +13,23 @@ class Amendment_update_purposes extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+
        $this->output->enable_profiler(TRUE);
        $this->benchmark->mark('code_start');
+       $this->load->model('user_model');
+       $this->load->model('admin_model');
+       $this->load->model('amendment_update_model');
+       $this->load->model('amendment_update_bylaw_model');
+       $this->load->model('amendment_update_purposes_model');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
         $cooperative_id = $this->coop_dtl($this->decoded_id);
         $data['is_client'] = $this->session->userdata('client');
         if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
           if($this->session->userdata('client')){
-            if($this->amendment_model->check_own_cooperative($cooperative_id ,$this->decoded_id,$user_id)){
-                $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id ,$user_id,$this->decoded_id);
-                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
+            if($this->amendment_update_model->check_own_cooperative($cooperative_id ,$this->decoded_id,$user_id)){
+                $data['coop_info'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$this->decoded_id);
+                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
                     $data['title'] = 'List of Purposes';
                     $data['header'] = 'Purposes';
                     $data['client_info'] = $this->user_model->get_user_info($user_id);
@@ -53,7 +59,7 @@ class Amendment_update_purposes extends CI_Controller{
                       unset($purpose_content);
                     }
                     
-                    $data['is_update_cooperative'] = $this->amendment_model->check_date_registered($data['client_info']->regno);
+                    $data['is_update_cooperative'] = $this->amendment_update_model->check_date_registered($data['client_info']->regno);
 
        $this->benchmark->mark('code_end'); 
                     $data['contents'] =$data_contents;
@@ -74,13 +80,13 @@ class Amendment_update_purposes extends CI_Controller{
             }else{
 
        $this->benchmark->mark('code_start');
-              if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$this->decoded_id)){
+              if($this->amendment_update_model->check_expired_reservation_by_admin($cooperative_id,$this->decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('amendment');
               }else{
                 // if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$this->decoded_id)){
-                  $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
-                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
+                  $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id);
+                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
                   // if($data['bylaw_complete']){
                     $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
                     // if($data['cooperator_complete']){
@@ -112,7 +118,7 @@ class Amendment_update_purposes extends CI_Controller{
       
                     $data['contents'] =$data_contents;
 
-                    $data['is_update_cooperative'] = $this->amendment_model->check_date_registered($data['coop_info']->regNo); 
+                    $data['is_update_cooperative'] = $this->amendment_update_model->check_date_registered($data['coop_info']->regNo); 
 
        $this->benchmark->mark('code_end');
                       $this->load->view('templates/admin_header', $data);
@@ -136,7 +142,7 @@ class Amendment_update_purposes extends CI_Controller{
         $data['is_client'] = $this->session->userdata('client');
         if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
           if($this->session->userdata('client')){
-            if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
+            if($this->amendment_update_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
                 $data['coop_info'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$this->decoded_id);
                         if ( isset( $_POST['editPurposesBtn'] ) ) { 
                             $temp = TRUE;
@@ -221,7 +227,7 @@ class Amendment_update_purposes extends CI_Controller{
                redirect('admins/login');
             }else{
   
-                    $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
+                    $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id);
                     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;
          
                         if(isset($_POST['editPurposesBtn']))

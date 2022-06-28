@@ -7,7 +7,7 @@ class Amendment_update_capitalization extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
-    $this->load->model("amendment_affiliators_update_model");
+    // $this->load->model("amendment_affiliators_update_model");
   }
 
   function index($id = null)
@@ -17,6 +17,13 @@ class Amendment_update_capitalization extends CI_Controller{
     }else{
       $this->output->enable_profiler(TRUE);
        $this->benchmark->mark('code_start');
+      $this->load->model('user_model');
+      $this->load->model('admin_model');
+      $this->load->model('amendment_update_model');
+      $this->load->model('amendment_update_bylaw_model');
+      $this->load->model('amendment_update_capitalization_model');
+       $this->load->model('amendment_update_cooperator_model');
+       $this->load->model('amendment_article_update_model');
     	$data['encrypted_id'] =$id;
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
          $cooperative_id = $this->coop_dtl($this->decoded_id);
@@ -25,10 +32,10 @@ class Amendment_update_capitalization extends CI_Controller{
         if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
           if($this->session->userdata('client')){
 
-                $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
+                $data['coop_info'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$this->decoded_id);
               
                     $data['client_info'] = $this->user_model->get_user_info($user_id);
-                     $data['is_update_cooperative'] = $this->amendment_model->check_date_registered($data['client_info']->regno);
+                     $data['is_update_cooperative'] = $this->amendment_update_model->check_date_registered($data['client_info']->regno);
                    
                     $data['title'] = 'Capitalization';
                     $data['header'] = 'Capitalization';
@@ -51,15 +58,16 @@ class Amendment_update_capitalization extends CI_Controller{
                     $data['capitalization_info'] = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($this->decoded_id);
 
                     //modified
-                    $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$this->decoded_id);
+                    $data['total_regular'] = $this->amendment_update_cooperator_model->get_total_regular($cooperative_id,$this->decoded_id);
                     if($data['coop_info']->grouping=='Federation')
                     {
                       $data['total_regular'] =$this->amendment_affiliators_update_model->total_regular($this->decoded_id);
                     }
-                    $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
-                    $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$this->decoded_id);
+                    $data['article_info'] = $this->amendment_article_update_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
+                    $data['total_associate'] = $this->amendment_update_cooperator_model->get_total_associate($cooperative_id,$this->decoded_id);
                     //end modified
                    $this->benchmark->mark('code_end');
+                   // $this->debug($data['coop_info']);
                     $this->load->view('./template/header', $data);
                     $this->load->view('update/amendment/bylaw_info/capitalization_update_form', $data);
                     $this->load->view('./template/footer');
@@ -69,7 +77,7 @@ class Amendment_update_capitalization extends CI_Controller{
               redirect('admins/login');
             }else{
                $this->benchmark->mark('code_start');
-                  $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
+                  $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id);
               
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
 

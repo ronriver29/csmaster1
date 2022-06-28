@@ -6,7 +6,13 @@ class Amendment_articles extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
-    //Codeigniter : Write Less Do More
+    $this->load->model('amendment_model');
+    $this->load->model('amendment_bylaw_model');
+    $this->load->model('amendment_cooperator_model');
+    $this->load->model('amendment_capitalization_model');
+    $this->load->model('amendment_purpose_model');
+    $this->load->model('amendment_article_of_cooperation_model');
+    $this->load->model('user_model');
   }
   function index($id  = null)
   {

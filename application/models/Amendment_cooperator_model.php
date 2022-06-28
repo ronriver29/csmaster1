@@ -48,10 +48,7 @@ public $last_query = "";
 
     $capitalization_no_of_paid = 0;
 
-    
-
-    // Jiee
-
+  
         $this->db->where(array('cooperatives_id' => $cooperatives_id,'amendment_id'=>$amendment_id));
 
         $this->db->from('amendment_capitalization');
@@ -68,11 +65,7 @@ public $last_query = "";
 
         $capitalization_no_of_paid = $capitalization_info->total_no_of_paid_up_capital;
 
-        }
-
-    //
-
-    
+        }    
 
     $totalSubscribed = 0;
 

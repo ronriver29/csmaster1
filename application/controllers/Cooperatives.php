@@ -8,7 +8,9 @@
       parent::__construct();
       $this->load->library('pdf');
       $this->load->library("pagination");
-      //Codeigniter : Write Less Do More
+      $this->load->model('user_model');
+      $this->load->model('cooperatives_model');
+      $this->load->model('cooperatives_update_model');
     }
 
     public function saveor($was){

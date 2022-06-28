@@ -71,7 +71,7 @@ $(function(){
       // console.log(available_subscribed_capital2);
       // console.log(str);
       // console.log(str2);
-      $('#editAffiliatorForm #subscribedShares2').attr({'class':'form-control validate[required,min[1],max['+str2+'],custom[integer],funcCall[validateAddNumberOfSubsribedGreaterCustom],ajax[ajaxMinimumRegularSubscriptionCallPhp]]'});
+      $('#editAffiliatorForm #subscribedShares2').attr({'class':'form-control'});
   });
   $('#editAffiliatorForm #paidShares2').on('change', function(){
       var val = parseInt($(this).val());
@@ -89,7 +89,7 @@ $(function(){
             $("#paid-note2").show().html('Should not exceed the remaining no of paid up share: '+available_paid_up_capital2);
           }
         }
-        $('#editAffiliatorForm #paidShares2').attr({'class':'form-control validate[required,min[1],max['+str4+'],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumRegularPayCallPhp]]'});
+        $('#editAffiliatorForm #paidShares2').attr({'class':'form-control'});
       }
       console.log(str3);
   });
@@ -109,8 +109,8 @@ $(function(){
 //      $('#editAffiliatorForm #paidShares').val(minimum_paid_up_share_regular2);
       // $('#editAffiliatorForm #subscribedShares2').attr('min',minimum_subscribed_share_regular2);
       $('#editAffiliatorForm #paidShares2').attr('min',minimum_paid_up_share_regular2);
-      $('#editAffiliatorForm #subscribedShares2').attr({'class':'form-control validate[required,min[1],custom[integer],ajax[ajaxMinimumRegularSubscription2CallPhp]]'});
-      $('#editAffiliatorForm #paidShares2').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumRegularPayCallPhp]]'});
+      $('#editAffiliatorForm #subscribedShares2').attr({'class':'form-control'});
+      // $('#editAffiliatorForm #paidShares2').attr({'class':'form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom],ajax[ajaxMinimumRegularPayCallPhp]]'});
       if(minimum_subscribed_share_regular2 > available_subscribed_capital2) {
           $(".subscribedSharesformError2").hide().html('');
           $("#subscribed-note2").show().html('Should not exceed the remaining no of subscribed share: '+available_subscribed_capital2);

@@ -7,7 +7,11 @@ class Amendment_bylaw_update extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
-    $this->load->model('amendment_capitalization_model');
+    // $this->load->model('amendment_capitalization_model');
+    $this->load->model('user_model');
+    $this->load->model('admin_model');
+    $this->load->model('amendment_update_model');
+    $this->load->model('amendment_update_bylaw_model');
   }
 
   function index($id  = null)
@@ -605,7 +609,7 @@ class Amendment_bylaw_update extends CI_Controller{
                     $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
                   
             
-                 	 $data['is_update_cooperative'] = $this->amendment_model->check_date_registered($data['client_info']->regno);
+                 	 $data['is_update_cooperative'] = $this->amendment_update_model->check_date_registered($data['client_info']->regno);
                    $this->benchmark->mark('code_end');
                   $this->load->view('template/header', $data);
                   $this->load->view('update/amendment/bylaw_info/bylaw_update_form', $data);
