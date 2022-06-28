@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-use Dompdf\Options;
+// use Dompdf\Options;
 class Amendment_documents extends CI_Controller{
   public $decoded_id=null;
   public function __construct()
@@ -1012,6 +1012,9 @@ public function count_documents_coop($coop_id,$num)
       $regNo= $this->amendment_model->get_regno_by_amd_id($this->decoded_id);
       $fisrt_amendment = false;
       $next_amendment = false;
+      $this->load->library('pdf');
+      $this->load->model('bylaw_model');
+       $this->load->model('cooperator_model');
       if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
         if($this->session->userdata('client')){
           if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
@@ -1481,6 +1484,8 @@ public function count_documents_coop($coop_id,$num)
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+      $this->load->library('pdf');
+      $this->load->model('cooperator_model');
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $user_id = $this->session->userdata('user_id');
       $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
@@ -2067,6 +2072,8 @@ public function count_documents_coop($coop_id,$num)
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+      $this->load->library('pdf');
+      $this->load->model('capitalization_model');
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $user_id = $this->session->userdata('user_id');
       $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);

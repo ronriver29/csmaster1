@@ -14,8 +14,9 @@ public $decoded_id =null;
 
     //Codeigniter : Write Less Do More
 
-    $this->load->library('pdf');
+  
     $this->load->model('user_model', 'user');
+    $this->load->model('amendment_model');
     $this->load->library('ci_qr_code');
     $this->config->load('qr_code');
     $this->load->model('Amendment_registration_model','amendment_registration_model');
@@ -27,6 +28,9 @@ public $decoded_id =null;
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+        $this->load->library('pdf');
+        $this->load->model('amendment_model');
+        $this->load->model('amendment_model');
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $user_id = $this->session->userdata('user_id');
        $cooperative_id =$this->amendment_model->coop_dtl($this->decoded_id);

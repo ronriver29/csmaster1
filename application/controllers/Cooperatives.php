@@ -6,7 +6,7 @@
     public function __construct()
     {
       parent::__construct();
-      $this->load->library('pdf');
+      // $this->load->library('pdf');
       $this->load->library("pagination");
       $this->load->model('user_model');
       $this->load->model('cooperatives_model');

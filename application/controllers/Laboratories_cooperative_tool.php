@@ -1,5 +1,5 @@
 <?php
-use Dompdf\Options;
+// use Dompdf\Options;
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class laboratories_cooperative_tool extends CI_Controller{
@@ -8,7 +8,7 @@ class laboratories_cooperative_tool extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
-    $this->load->library('pdf');
+   
   }
 
   function index($id = null){

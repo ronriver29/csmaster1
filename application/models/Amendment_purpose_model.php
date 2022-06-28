@@ -11,11 +11,12 @@ class Amendment_purpose_model extends CI_Model{
   public function get_all_purposes($cooperatives_id,$amendment_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
      $amendment_id = $this->security->xss_clean($amendment_id);
-    $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id));
+    $query = $this->db->get_where('amendment_purposes',array('amendment_id'=>$amendment_id));
     foreach($query->result_array() as $row)
     {
       $data[] = $row;
     }
+    unset($row);
     return $data;
   }
   public function get_purposes_($amendment_id){

@@ -8,7 +8,7 @@ class Amendment_cooperative_tool extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
-    $this->load->library('pdf');
+    
   }
 
   function index($id = null){

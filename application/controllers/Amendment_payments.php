@@ -1,7 +1,5 @@
 <?php
 
-use Dompdf\Options;
-
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Amendment_payments extends CI_Controller{
   public $decoded_id = null;
@@ -11,7 +9,6 @@ class Amendment_payments extends CI_Controller{
 
     //Codeigniter : Write Less Do More
 
-    $this->load->library('pdf');
 
     $this->load->model('amendment_uploaded_document_model');
   }
@@ -259,7 +256,8 @@ class Amendment_payments extends CI_Controller{
   public function add_payment()
 
   {
-
+    
+    $this->load->library('pdf');
     if ($this->input->post('offlineBtn')){
 
  
