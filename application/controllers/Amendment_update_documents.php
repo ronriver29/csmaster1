@@ -17,6 +17,8 @@ class Amendment_update_documents extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+       $this->output->enable_profiler(TRUE);
+       $this->benchmark->mark('code_start');
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
@@ -84,7 +86,8 @@ class Amendment_update_documents extends CI_Controller{
                                 $data['uid'] = $this->session->userdata('user_id');
                                 $data['cid'] = $decoded_id;
                                 $data['encrypted_id'] = $id;
-                                
+                      
+       $this->benchmark->mark('code_end');
                                 $this->load->view('template/header', $data);
                                 $this->load->view('update/amendment/documents/list_documents', $data);
                                 $this->load->view('template/footer');
@@ -101,6 +104,7 @@ class Amendment_update_documents extends CI_Controller{
               redirect('admins/login');
             }else{
 
+       $this->benchmark->mark('code_start');
                     $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($decoded_id);
                     $data['coop_info_primary'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
                 $data['coop_type_compare'] = false;
@@ -164,6 +168,8 @@ class Amendment_update_documents extends CI_Controller{
                 $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
            
                 $data['amendment_id'] = $decoded_id;
+
+       $this->benchmark->mark('code_end');
                 $this->load->view('templates/admin_header', $data);
                 $this->load->view('update/amendment/documents/list_documents', $data);
                 $this->load->view('templates/admin_footer');

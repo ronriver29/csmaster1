@@ -18,6 +18,8 @@ class Amendment_committees_update extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+       $this->output->enable_profiler(TRUE);
+       $this->benchmark->mark('code_start');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $cooperative_id = $this->amendment_update_model->coop_dtl($this->decoded_id);
         $user_id = $this->session->userdata('user_id');
@@ -102,7 +104,8 @@ class Amendment_committees_update extends CI_Controller{
                               }
                           }       
                         }
-                       
+                      
+                    $this->benchmark->mark('code_end');
                         $this->load->view('./template/header', $data);
                         $this->load->view('update/amendment/committees/committee_list', $data);
                         $this->load->view('update/amendment/committees/delete_modal_committee');
@@ -125,6 +128,8 @@ class Amendment_committees_update extends CI_Controller{
               //   redirect('amendment');
               // }else{
                 // if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$this->decoded_id)){
+
+       $this->benchmark->mark('code_start');
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
                   // if($data['bylaw_complete']){
@@ -198,7 +203,8 @@ class Amendment_committees_update extends CI_Controller{
                               }
                           }       
                         }
-                        
+                       
+       $this->benchmark->mark('code_end');
                           $this->load->view('./templates/admin_header', $data);
                           $this->load->view('update/amendment/committees/committee_list', $data);
                           $this->load->view('update/amendment/committees/delete_modal_committee');

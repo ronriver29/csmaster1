@@ -12,6 +12,8 @@ class Amendment_committees extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+      $this->output->enable_profiler(TRUE);
+        $this->benchmark->mark('code_start');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $cooperative_id = $this->coop_dtl($this->decoded_id);
         $user_id = $this->session->userdata('user_id');
@@ -101,6 +103,7 @@ class Amendment_committees extends CI_Controller{
                         }
                        
                         //end position
+                          $this->benchmark->mark('code_end');
                         $this->load->view('./template/header', $data);
                         $this->load->view('amendment/committees_list', $data);
                         $this->load->view('amendment/delete_modal_committee');

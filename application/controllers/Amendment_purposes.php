@@ -13,6 +13,8 @@ class Amendment_purposes extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+      $this->output->enable_profiler(TRUE);
+        $this->benchmark->mark('code_start');
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
         $cooperative_id = $this->coop_dtl($decoded_id);
@@ -48,6 +50,7 @@ class Amendment_purposes extends CI_Controller{
         
                     // $this->debug($data_contents);
                     $data['contents'] =$data_contents;
+                      $this->benchmark->mark('code_end');
                     $this->load->view('template/header', $data);
                     $this->load->view('purposes/amendment_list_of_purposes', $data); 
                     // $this->load->view('purposes/add_form_purposes', $data);

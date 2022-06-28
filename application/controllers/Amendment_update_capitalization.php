@@ -15,6 +15,8 @@ class Amendment_update_capitalization extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+      $this->output->enable_profiler(TRUE);
+       $this->benchmark->mark('code_start');
     	$data['encrypted_id'] =$id;
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
          $cooperative_id = $this->coop_dtl($this->decoded_id);
@@ -57,7 +59,7 @@ class Amendment_update_capitalization extends CI_Controller{
                     $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
                     $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$this->decoded_id);
                     //end modified
-                  
+                   $this->benchmark->mark('code_end');
                     $this->load->view('./template/header', $data);
                     $this->load->view('update/amendment/bylaw_info/capitalization_update_form', $data);
                     $this->load->view('./template/footer');
@@ -66,7 +68,7 @@ class Amendment_update_capitalization extends CI_Controller{
             if($this->session->userdata('access_level')!=6){
               redirect('admins/login');
             }else{
-
+               $this->benchmark->mark('code_start');
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
               
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
@@ -100,7 +102,7 @@ class Amendment_update_capitalization extends CI_Controller{
                           redirect('amendment_update/'.$id.'/capitalization');
                         }
                     }
-                    
+                     $this->benchmark->mark('code_end');
                         $this->load->view('./templates/admin_header', $data);
                         $this->load->view('update/amendment/bylaw_info/capitalization_update_form', $data);
                         $this->load->view('./templates/admin_footer');

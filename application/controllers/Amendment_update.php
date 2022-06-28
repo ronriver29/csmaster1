@@ -18,6 +18,8 @@ class Amendment_update extends CI_Controller{
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
+        $this->output->enable_profiler(TRUE);
+        $this->benchmark->mark('code_start');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $coop_id = $this->amendment_update_model->coop_dtl($this->decoded_id);
         $data['is_client'] = $this->session->userdata('client');
@@ -170,7 +172,7 @@ class Amendment_update extends CI_Controller{
 
                   }  
                $data['is_deferred'] = $this->amendment_update_model->if_past_deffered($this->decoded_id);
-
+               $this->benchmark->mark('code_end');
               $this->load->view('./template/header', $data);
               $this->load->view('update/amendment/amendment_update_details', $data);
               $this->load->view('update/amendment/approve_amendment_modal',$data);
@@ -179,7 +181,7 @@ class Amendment_update extends CI_Controller{
           else
           { 
             if($this->session->userdata('access_level') == 6){
-
+              $this->benchmark->mark('code_start');
               $data['title'] = 'Amendment Details';
               $data['header'] = 'Amendment Information';
               $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
@@ -338,6 +340,7 @@ class Amendment_update extends CI_Controller{
 
                   } 
                   $data['is_update_cooperative'] = $this->amendment_model->check_date_registered($data['coop_info']->regNo);
+                  $this->benchmark->mark('code_end');
                   $this->load->view('./templates/admin_header', $data);
                   $this->load->view('update/amendment/approve_amendment_modal',$data);
                   $this->load->view('update/amendment/amendment_update_details', $data);
@@ -361,6 +364,8 @@ class Amendment_update extends CI_Controller{
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{ 
+         $this->output->enable_profiler(TRUE);
+        $this->benchmark->mark('code_start');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $cooperative_id = $this->amendment_update_model->coop_dtl($this->decoded_id);
         $data['is_client'] = $this->session->userdata('client');
@@ -544,6 +549,7 @@ class Amendment_update extends CI_Controller{
 
                   // $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$this->decoded_id);
                    $data['is_update_cooperative'] = $this->amendment_model->check_date_registered($data['client_info']->regno);
+                    $this->benchmark->mark('code_end');
                   $this->load->view('./template/header', $data);
                   $this->load->view('update/amendment/amendment_update_info', $data);
                   $this->load->view('./template/footer', $data);
@@ -715,7 +721,7 @@ class Amendment_update extends CI_Controller{
             else
             {
               if(!isset($_POST['amendmentAddBtn']))
-              {
+              { $this->benchmark->mark('code_start');
                    $admin_user_id = $this->session->userdata('user_id');
                   $user_id = $this->amendment_update_model->user_info_by_amendment_id($this->decoded_id)->users_id;
                   // echo $this->db->last_query();
@@ -892,7 +898,7 @@ class Amendment_update extends CI_Controller{
 
                   // $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$this->decoded_id);
                    $data['is_update_cooperative'] = $this->amendment_model->check_date_registered($data['client_info']->regno);
-               
+                $this->benchmark->mark('code_end');
                     $this->load->view('./templates/admin_header', $data);
                     $this->load->view('update/amendment/amendment_update_info', $data);
                     $this->load->view('./templates/admin_footer', $data);

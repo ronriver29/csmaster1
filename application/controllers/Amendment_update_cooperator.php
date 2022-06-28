@@ -35,7 +35,8 @@ class Amendment_update_cooperator extends CI_Controller{
       redirect('users/login');
 
     }else{//$this->output->enable_profiler(TRUE);
-
+         $this->output->enable_profiler(TRUE);
+       $this->benchmark->mark('code_start');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
 
         $cooperative_id = $this->amendment_update_model->coop_dtl($this->decoded_id);
@@ -274,6 +275,8 @@ class Amendment_update_cooperator extends CI_Controller{
 
                      $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
 
+
+                     $this->benchmark->mark('code_end');
                     $this->load->view('./template/header', $data);
 
                     $this->load->view('update/amendment/cooperators/cooperator_list', $data);
@@ -390,6 +393,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
 
 
+       $this->benchmark->mark('code_end');
                     $this->load->view('./templates/admin_header', $data);
 
                     $this->load->view('update/amendment/cooperators/cooperator_list', $data);

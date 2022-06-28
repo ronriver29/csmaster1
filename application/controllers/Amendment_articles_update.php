@@ -15,6 +15,7 @@ class Amendment_articles_update extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $user_id = $this->session->userdata('user_id');
       $cooperative_id = $this->coop_dtl($this->decoded_id);
@@ -71,6 +72,8 @@ class Amendment_articles_update extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+       $this->output->enable_profiler(TRUE);
+       $this->benchmark->mark('code_start');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
         $cooperative_id = $this->coop_dtl($this->decoded_id);
@@ -103,7 +106,8 @@ class Amendment_articles_update extends CI_Controller{
                            //capitalization
                           $data['capitalization_info'] = $this->amendment_update_capitalization_model->get_capitalization_by_coop_id($this->decoded_id);
                          
-                          
+
+                     $this->benchmark->mark('code_end');
                           $this->load->view('template/header', $data);
                           $this->load->view('update/amendment/articles/articles_primary_form.php', $data);
                           $this->load->view('template/footer');

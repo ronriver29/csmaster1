@@ -16,6 +16,8 @@ class Amendment_documents extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+        $this->output->enable_profiler(TRUE);
+        $this->benchmark->mark('code_start');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
@@ -106,6 +108,7 @@ class Amendment_documents extends CI_Controller{
                                 $data['encrypted_id'] = $id;
                                
                                  $data['acbl'] = $this->amendment_model->acbl($this->decoded_id);
+
                                 $this->load->view('template/header', $data);
                                 $this->load->view('documents/amendment_list_of_documents', $data);
                                 $this->load->view('template/footer');
@@ -145,6 +148,7 @@ class Amendment_documents extends CI_Controller{
                   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                   redirect('amendment');
                 }else{
+                   $this->benchmark->mark('code_start');
                   if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$this->decoded_id)){
                     $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
 
@@ -263,6 +267,7 @@ class Amendment_documents extends CI_Controller{
                                       $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
                                       $data['acbl'] = $this->amendment_model->acbl($this->decoded_id);
                                       $data['amendment_id'] = $this->decoded_id;
+                                       $this->benchmark->mark('code_end');
                                       $this->load->view('templates/admin_header', $data);
                                       $this->load->view('documents/amendment_list_of_documents', $data);
                                       $this->load->view('amendment/evaluation/approve_modal_cooperative');
@@ -1425,6 +1430,7 @@ public function count_documents_coop($coop_id,$num)
     }
   }
 
+
   function articles_cooperation_union(){
     $data['title'] = 'Articles of Cooperation for Union';
     $data['pageCount'] = 1;
@@ -1879,16 +1885,173 @@ public function count_documents_coop($coop_id,$num)
     $f->render();
     $f->stream("bylaws_union.pdf", array("Attachment"=>0));
   }
-  function bylaws_federation(){
-    $data['title'] = 'By Laws for Federation';
-    $options = new Options();
-    $options->setDpi(150);
-    $f = new pdf($options);
-    $f->setPaper('folio', 'portrait');
-    $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data, TRUE);
-    $f->load_html($html2);
-    $f->render();
-    $f->stream("bylaws_federation.pdf", array("Attachment"=>0));
+  function bylaws_federation($id=null){
+    if(!$this->session->userdata('logged_in')){
+      redirect('users/login');
+    }else{
+       $this->load->model('amendment_affiliators_model');
+        $this->load->model('amendment_committee_model');
+      $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+      $user_id = $this->session->userdata('user_id');
+      $cooperative_id= $this->amendment_model->coop_dtl($decoded_id);
+      $data['is_client'] = $this->session->userdata('client');
+      if(is_numeric($decoded_id) && $decoded_id!=0){
+        if($this->session->userdata('client')){
+          if($this->amendment_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
+            if(!$this->amendment_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
+              $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
+              $data['title'] = 'By Laws for Primary';
+              $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($decoded_id);
+              $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($decoded_id);
+              $data['regular_ar_qualifications'] = explode(";",$data['bylaw_info']->regular_qualifications);
+              $data['assoc_ar_qualifications'] = explode(";",$data['bylaw_info']->associate_qualifications);
+              $data['members_additional_requirements'] = explode(";",$data['bylaw_info']->additional_requirements_for_membership);
+              $data['primary_consideration'] = explode(";",$data['bylaw_info']->primary_consideration);
+              $data['delegate_powers'] = explode(";",$data['bylaw_info']->delegate_powers);
+              $data['members_additional_conditions_to_vote'] = explode(";",$data['bylaw_info']->additional_conditions_to_vote);
+              $data['cooperators_list'] = $this->affiliators_model->get_all_cooperator_of_coop($user_id);
+              // $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
+              // $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
+              $data['cooperator_directors'] = $this->amendment_affiliators_model->get_all_board_of_director_only($user_id);
+              $data['no_of_directors'] = $this->amendment_affiliators_model->no_of_directors($user_id);
+              $data['cooperator_chairperson'] = $this->amendment_affiliators_model->get_chairperson_of_coop($user_id);
+              $data['cooperator_vicechairperson'] = $this->amendment_affiliators_model->get_vicechairperson_of_coop($user_id);
+              $data['other_committees'] = $this->amendment_committee_model->get_all_custom_committee_names_of_coop($decoded_id);
+
+              if($data['coop_info']->category_of_cooperative == 'Tertiary'){
+              $html2 = $this->load->view('documents/federation/bylaws_for_federation_tertiary', $data, TRUE);
+              } else {
+                // $this->load->view('documents/federation/amendment_bylaw_federation', $data);
+              $html2 = $this->load->view('documents/federation/amendment_bylaw_federation', $data, TRUE);
+              }
+
+              $f = new pdf();
+              $f->setPaper('folio', 'portrait');
+              $f->load_html($html2);
+              $f->render();
+              $f->stream("bylaws_federation.pdf", array("Attachment"=>0));
+            }
+            else
+            {
+              $this->session->set_flashdata('redirect_applications_message', 'The amendment cooperative is already expired.');
+                  redirect('amendment');
+            }
+          }else{
+              $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+              redirect('amendment');
+          }
+        }else{
+          if($this->session->userdata('access_level')==5){
+            redirect('admins/login');
+          }else{
+            if($this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
+              $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
+              redirect('cooperatives');
+            }else{
+              if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
+                $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
+                if($data['bylaw_complete']){
+                    // $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
+                    if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
+                        $model = 'affiliators_model';
+                        $ids = $user_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$data['coop_info']->users_id);
+                    } 
+                    else {
+                        $model = 'cooperator_model';
+                        $ids = $decoded_id;
+                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
+                    }
+                      
+                    if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
+                      $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
+                      if($data['purposes_complete']){
+                        $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
+                        if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                          if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
+                            $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($data['coop_info']->users_id);
+                        } else {
+                            $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
+                        }
+                      if($data['gad_count']>0){
+                            $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                            if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
+                              $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
+                              if($data['staff_complete']){
+                                $data['title'] = 'By Laws for Primary';
+                                $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                                $data['delegate_powers'] = explode(";",$data['bylaw_info']->delegate_powers);
+                                $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                                $data['regular_ar_qualifications'] = explode(";",$data['bylaw_info']->regular_qualifications);
+                                $data['assoc_ar_qualifications'] = explode(";",$data['bylaw_info']->associate_qualifications);
+                                $data['members_additional_requirements'] = explode(";",$data['bylaw_info']->additional_requirements_for_membership);
+                                $data['members_additional_conditions_to_vote'] = explode(";",$data['bylaw_info']->additional_conditions_to_vote);
+                                $data['cooperators_list'] = $this->affiliators_model->get_all_cooperator_of_coop($data['coop_info']->users_id);
+                                $data['cooperator_chairperson'] = $this->affiliators_model->get_chairperson_of_coop($data['coop_info']->users_id);
+                                $data['cooperator_vicechairperson'] = $this->affiliators_model->get_vicechairperson_of_coop($data['coop_info']->users_id);
+                                $data['cooperator_directors'] = $this->affiliators_model->get_all_board_of_director_only($data['coop_info']->users_id);
+                                $data['no_of_directors'] = $this->affiliators_model->no_of_directors($data['coop_info']->users_id);
+                                // $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
+                                // $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
+                                $data['primary_consideration'] = explode(";",$data['bylaw_info']->primary_consideration);
+                                $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_fed($data['coop_info']->users_id); 
+                              
+                                if($data['coop_info']->cofc == 'Tertiary'){
+                                  $html2 = $this->load->view('documents/federation/bylaws_for_federation_tertiary', $data, TRUE);
+                                } else {
+                                  $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data, TRUE);
+                                }
+                                $f = new pdf();
+                                $f->setPaper('folio', 'portrait');
+                                $f->load_html($html2);
+                                $f->render();
+                                $f->stream("bylaws_federation.pdf", array("Attachment"=>0));
+                                
+                              }else{
+                                $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
+                                redirect('cooperatives/'.$id);
+                              }
+                            }else{
+                              $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
+                              redirect('cooperatives/'.$id);
+                            }
+                          }else{
+                            $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
+                            redirect('cooperatives/'.$id);
+                          }
+                        }else{
+                          $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
+                          redirect('cooperatives/'.$id);
+                        }
+                      }else{
+                        $this->session->set_flashdata('redirect_message', 'Please complete first the cooperative&apos;s purpose .');
+                        redirect('cooperatives/'.$id);
+                      }
+                    }else{
+                      if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
+                            $complete = 'Affiliators';
+                        } else {
+                            $complete = 'Cooperators';
+                        }
+                        $this->session->set_flashdata('redirect_message', 'Please complete first your list of '.$complete.'');
+                      redirect('cooperatives/'.$id);
+                    }
+                }else{
+                  $this->session->set_flashdata('redirect_message', 'Please complete first the bylaw additional information.');
+                  redirect('cooperatives/'.$id);
+                }
+              }else{
+                $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.');
+                redirect('cooperatives');
+              }
+            }
+          }
+        }
+      }else{
+        show_404();
+      }
+    }
   }
   function affidavit_primary($id = null){
     if(!$this->session->userdata('logged_in')){

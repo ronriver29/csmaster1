@@ -837,7 +837,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
     </div>
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
+<div class="row"><?php var_dump($resources)?></div>
 <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 <script src="<?=base_url();?>assets/js/toword.js"></script>
 

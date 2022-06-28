@@ -1071,7 +1071,8 @@ class Amendmentbylaws extends CI_Controller{
       redirect('users/login');
 
     }else{
-
+      $this->output->enable_profiler(TRUE);
+      $this->benchmark->mark('code_end');
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
 
        $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
@@ -1129,7 +1130,8 @@ class Amendmentbylaws extends CI_Controller{
                     $data['asc_qualifications'] =  explode(";",$data['bylaw_info']->associate_qualifications);
 
                   }
-
+          $this->benchmark->mark('code_end');
+      
                   $this->load->view('template/header', $data);
 
                   $this->load->view('amendment/bylaw_info/bylaw_primary_form.php', $data);

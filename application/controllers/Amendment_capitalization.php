@@ -15,6 +15,8 @@ class Amendment_capitalization extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+      $this->output->enable_profiler(TRUE);
+      $this->benchmark->mark('code_start');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
          $cooperative_id = $this->coop_dtl($this->decoded_id);
         $user_id = $this->session->userdata('user_id');
@@ -58,6 +60,7 @@ class Amendment_capitalization extends CI_Controller{
                     $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
                     $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$this->decoded_id);
                     //end modified
+                    $this->benchmark->mark('code_end');
                     $this->load->view('./template/header', $data);
                     $this->load->view('amendment/bylaw_info/capitalization_form', $data);
 // //                    $this->load->view('cooperators/full_info_modal_cooperator');

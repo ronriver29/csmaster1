@@ -16,6 +16,8 @@ class Amendment_cooperators extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+      $this->output->enable_profiler(TRUE);
+       $this->benchmark->mark('code_start');
        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0; 
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id)); 
         $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
@@ -99,7 +101,7 @@ class Amendment_cooperators extends CI_Controller{
                       $data['count_matching'] =true;
                     }
                       $data['ten_percent']=$this->amendment_cooperator_model->ten_percent($this->decoded_id);
-          
+                    $this->benchmark->mark('code_end');
                     $this->load->view('./template/header', $data);
                     $this->load->view('cooperators/amendment_cooperators_list', $data);
                     $this->load->view('cooperators/full_info_modal_cooperator');
