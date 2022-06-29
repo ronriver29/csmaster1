@@ -8,6 +8,23 @@ class Payments extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
+    $this->load->model('cooperatives_model');
+    $this->load->model('committee_model');
+    $this->load->model('capitalization_model');
+    $this->load->model('affiliators_model');
+    $this->load->model('unioncoop_model');
+    $this->load->model('bylaw_model');
+    $this->load->model('economic_survey_model');
+    $this->load->model('staff_model');
+    $this->load->model('economic_survey_model');
+    $this->load->model('uploaded_document_model');
+    $this->load->model('user_model');
+    $this->load->model('article_of_cooperation_model');
+    $this->load->model('user_model');
+    $this->load->model('payment_model');
+    $this->load->model('capitalization_model');
+    $this->load->model('cooperator_model');
+
     $this->load->library('pdf');
     $this->load->library('Numbertowords');
   }
