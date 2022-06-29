@@ -7,6 +7,7 @@ class Users extends CI_Controller{
   {
     parent::__construct();
    $this->load->model('user_model');
+   $this->load->model('region_model');
   }
 
   public function index()
