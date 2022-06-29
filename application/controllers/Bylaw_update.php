@@ -10,10 +10,7 @@ class Bylaw_update extends CI_Controller{
     $this->load->model('bylaw_model');
     $this->load->model('user_model');
     $this->load->model('bylaw_update_model');
-    $this->load->model('');
-    $this->load->model('');
-    $this->load->model('');
-    $this->load->model('');
+    
     //Codeigniter : Write Less Do More
   }
 

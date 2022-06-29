@@ -20,6 +20,7 @@ class Documents extends CI_Controller{
     $this->load->model('charter_model');
     $this->load->model('branches_model');
     $this->load->model('uploaded_document_model');
+    $this->load->model('admin_model');
 
       $this->load->library('pdf');
   }

@@ -13,6 +13,7 @@ class Articles extends CI_Controller{
     $this->load->model('purpose_model');
     $this->load->model('user_model');
     $this->load->model('article_of_cooperation_model');
+    $this->load->model('admin_model');
     //Codeigniter : Write Less Do More
   }
   function index($id  = null)
