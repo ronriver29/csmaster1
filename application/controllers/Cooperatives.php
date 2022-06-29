@@ -44,14 +44,14 @@
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
+      $this->output->enable_profiler(TRUE);
+      $this->benchmark->mark('code_start');
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
         if($this->session->userdata('client')){
           $data['title'] = 'List of Cooperatives';
           $data['client_info'] = $this->user_model->get_user_info($user_id);
-          $data['header'] = 'Cooperatives';
-          // print_r($data['client_info']);
-          // echo $data['client_info']->regno;
+          $data['header'] = 'Cooperatives';;
           if($data['client_info']->regno == NULL){
             $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives($this->session->userdata('user_id'));
             $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
@@ -60,22 +60,7 @@
             $data['coop_info'] = $this->cooperatives_model->get_cooperative_migrated_info($data['client_info']->regno);
           }
           
-//          $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives($this->session->userdata('user_id'));
           $data['count_cooperatives'] = $this->cooperatives_model->get_count_cooperatives($this->session->userdata('user_id'));
-          // $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
-  
-          // if(!empty($data['coop_info']->id)){
-          //     if($data['coop_info']->status != 15){
-          //       if(date('Y-m-d H:i:s',strtotime($data['coop_info']->expire_at)) < date('Y-m-d H:i:s')){
-          //         // echo '<script>alert("Your Reserved Cooperative Name has Expired. Reserved Name now will be deleted.");</script>';
-          //         $success = $this->cooperatives_model->delete_cooperative($data['coop_info']->id,$data['coop_info']->status,$user_id);
-          //         if($success){
-          //           $this->session->set_flashdata('list_success_message', 'Reserved Cooperative Name has Expired.');
-          //           redirect('cooperatives');
-          //         }
-          //       }
-          //     }
-          // }
           //Notification if cooperative need to update
           if(isset($data['coop_info']->id)){
             $data['is_update_cooperative'] = $this->cooperatives_update_model->check_date_registered($data['coop_info']->id);
@@ -144,11 +129,6 @@
               $per_page = 0;
             }
             
-            // echo $per_page;
-           
-            
-
-          $this->benchmark->mark('code_start');
             if($this->session->userdata('access_level')==1){
               if($data['admin_info']->region_code=="00"){
               // Registered Coop Process by Head Office
@@ -253,7 +233,9 @@
             $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
             $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
 
-            $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
+      $this->benchmark->mark('code_end');
+      $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
+
             $this->load->view('templates/admin_header', $data);
             $this->load->view('applications/list_of_applications', $data);
             $this->load->view('applications/assign_admin_modal_inspector');

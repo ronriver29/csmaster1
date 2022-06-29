@@ -6,6 +6,7 @@ class Business_Activity_Types extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('business_activity_model');
     //Codeigniter : Write Less Do More
   }
 

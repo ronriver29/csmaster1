@@ -252,7 +252,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
     </div>
   </div>
   </div>
-  <?endif;?>
+  <?php endif;?>
 
 
 <!-- Registered Coop Process by Head Office -->
@@ -320,7 +320,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
         </div>
       </div>
     </div>
-  </div><?endif;?>
+  </div><?php endif;?>
 </div>
 <!-- End of Registered Coop Process by Head Office -->
 

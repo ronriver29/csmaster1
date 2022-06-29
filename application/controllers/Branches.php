@@ -6,6 +6,15 @@
     public function __construct()
     {
       parent::__construct();
+      $this->load->model('user_model');
+      $this->load->model('admin_model');
+      $this->load->model('branches_model');
+      $this->load->model('region_model');
+      $this->load->model('cooperatives_model');
+      $this->load->model('charter_model');
+      $this->load->model('uploaded_document_model');
+      $this->load->model('major_industry_model');
+      $this->load->model('cooperative_type_model');
       //Codeigniter : Write Less Do More
     }
 
@@ -361,6 +370,8 @@
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
+      $this->output->enable_profiler(TRUE);
+      $this->benchmark->mark('code_start');
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
         if($this->session->userdata('client')){
@@ -440,6 +451,9 @@
 
             $date_ = ('Y-m-d -3 year');
             $data['date2']  = $date_;
+      $this->benchmark->mark('code_end');
+      $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
+      
             $this->load->view('applications/list_of_branches', $data);
             $this->load->view('applications/assign_branch_admin_modal');
             $this->load->view('admin/grant_privilege_supervisor_branch');

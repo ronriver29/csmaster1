@@ -6,6 +6,7 @@ class Provinces extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('province_model');
     //Codeigniter : Write Less Do More
   }
 

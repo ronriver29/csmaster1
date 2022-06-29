@@ -6,6 +6,7 @@ class Registered extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('registration_model');
     //Codeigniter : Write Less Do More
   }
 

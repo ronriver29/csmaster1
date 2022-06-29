@@ -18,6 +18,9 @@ class Documents extends CI_Controller{
     $this->load->model('staff_model');
     $this->load->model('user_model');
     $this->load->model('charter_model');
+    $this->load->model('branches_model');
+    $this->load->model('uploaded_document_model');
+
       $this->load->library('pdf');
   }
 
@@ -1316,10 +1319,10 @@ public function delete_pdf()
                   $data['in_chartered_cities']=true;
                   $data['chartered_cities'] = $this->charter_model->get_charter_city($data['branch_info']->cCode);
                 }
-                $data['ca_user_info'] = $this->sfc_model->get_cais_user($data['branch_info']->regNo);
-                if(isset($data['ca_user_info'])>0){
-                  $data['cafsis_info'] = $this->profile_model->get_saved_data_document($data['ca_user_info']->id);
-                }
+                // $data['ca_user_info'] = $this->sfc_model->get_cais_user($data['branch_info']->regNo);
+                // if(isset($data['ca_user_info'])>0){
+                //   $data['cafsis_info'] = $this->profile_model->get_saved_data_document($data['ca_user_info']->id);
+                // }
                 
                 $this->load->view('template/header', $data);
                 $this->load->view('documents/list_of_documents_branch', $data);

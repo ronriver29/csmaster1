@@ -6,6 +6,7 @@ class SubClass extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('industry_subclass_model');
     //Codeigniter : Write Less Do More
   }
 

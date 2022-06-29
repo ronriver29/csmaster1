@@ -6,6 +6,7 @@ class Cooperative_Types extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('cooperative_type_model');
     //Codeigniter : Write Less Do More
   }
 

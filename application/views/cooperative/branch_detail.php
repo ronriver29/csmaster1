@@ -362,7 +362,7 @@
               </small>
             </div>
             <p class="mb-1 font-italic">Finalize and review all the information you provide. After reviewing your application, click proceed for evaluation of your application.</p>
-            <?if($branch_info->type == "Branch"){ ?>
+            <?php if($branch_info->type == "Branch"){ ?>
             <?php if(($branch_info->status == 1||$branch_info->status == 17) && $document_5 && $document_6 && $document_7 && $document_40): ?>
             <small class="text-muted">
               <a href="<?php echo base_url();?>branches/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
@@ -389,7 +389,7 @@
               </small>
             </div>
             <p class="mb-1 font-italic">Wait for an e-mail notification list of documents for submission.</p>
-            <?if($branch_info->type == "Branch"){ ?>
+            <?php if($branch_info->type == "Branch"){ ?>
             <?php if(($branch_info->status==22 || $branch_info->status==19) && $document_5 && $document_6 && $document_7 && $document_40): ?>
               <!-- <small class="text-muted">
                 <a href="<?php echo base_url();?>branches/<?= $encrypted_id ?>/Payments_branch" class="btn btn-color-blue btn-sm ">Payment</a>
@@ -416,7 +416,7 @@
               </small>
             </div>
             <p class="mb-1 font-italic">Wait for an e-mail notification of either the payment procedure or the list of documents for compliance. If your application has been approved, a payment button will appear and you can now proceed to payment.</p>
-            <?if($branch_info->type == "Branch"){ ?>
+            <?php if($branch_info->type == "Branch"){ ?>
             <?php if(($branch_info->status==22) && $document_5 && $document_6 && $document_7 && $document_40): ?>
               <small class="text-muted">
                 <a href="<?php echo base_url();?>branches/<?= $encrypted_id ?>/Payments_branch" class="btn btn-color-blue btn-sm ">Payment</a>
