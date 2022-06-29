@@ -63,7 +63,7 @@ class Forpaymentbranches extends CI_Controller{
           return false;
       }
         
-        // redirect('branches/'.$id);
+        redirect('branches/'.$id);
     } else {
         $this->session->set_flashdata('cooperative_error', 'Successfully updated basic information.');
        // redirect('branches/'.$this->input->post('cooperativeID'));

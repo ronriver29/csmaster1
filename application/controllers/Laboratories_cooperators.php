@@ -10,6 +10,7 @@ class Laboratories_cooperators extends CI_Controller{
     $this->load->model('laboratories_model');
     $this->load->model('user_model');
     $this->load->model('cooperator_model');
+    $this->load->model('laboratories_cooperator_model');
     $this->load->model('cooperatives_model');
     $this->load->model('province_model');
     $this->load->model('bylaw_model');
