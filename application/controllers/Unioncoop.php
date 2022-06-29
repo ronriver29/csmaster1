@@ -14,6 +14,8 @@ class Unioncoop extends CI_Controller{
     $this->load->model('unioncoop_model');
     $this->load->model('cooperator_model');
     $this->load->model('admin_model');
+    $this->load->model('affiliators_model');
+    $this->load->model('region_model');
   }
 
   function index($id = null)
@@ -114,7 +116,11 @@ class Unioncoop extends CI_Controller{
                         $data['header'] = 'List of Members';
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                         $data['encrypted_id'] = $id;
-                        $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                        if($data['coop_info']->area_of_operation == 'Interregional'){
+                          $data['registered_coop'] = $this->unioncoop_model->get_registered_interregion($data['coop_info']->regions);
+                        } else {
+                          $data['registered_coop'] = $this->unioncoop_model->get_registered_fed_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                        }
                         $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                         $capitalization_info = $data['capitalization_info'];
                         $data['requirements_complete'] = $this->unioncoop_model->is_requirements_complete($data['coop_info']->users_id);

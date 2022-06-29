@@ -18,6 +18,8 @@ class Staff extends CI_Controller{
     $this->load->model('staff_model');
     $this->load->model('admin_model');
     $this->load->model('region_model');
+    $this->load->model('affiliators_model');
+    $this->load->model('unioncoop_model');
     //Codeigniter : Write Less Do More
   }
 

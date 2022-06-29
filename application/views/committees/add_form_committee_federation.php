@@ -27,7 +27,7 @@
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">
-      <?php echo form_open('cooperatives/'.$encrypted_id.'/committees/add_fed',array('id'=>'addCommitteeForm','name'=>'addCommitteeForm')); ?>
+      <?php echo form_open('cooperatives/'.$encrypted_id.'/committees/add_fed',array('id'=>'addCommitteeForm2','name'=>'addCommitteeForm2')); ?>
       <input type="hidden" class="form-control validate[required]" id="cooperativesID" name="cooperativesID" value="<?=$encrypted_id ?>">
       <div class="card-body">
         <div class="row ac-row">

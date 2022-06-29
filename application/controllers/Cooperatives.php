@@ -1415,15 +1415,15 @@
                         $query = $this->db->get_where('admin',array('id'=>$decoded_specialist_id));
                         $admin_info = $query->row();
                         
-                        if($this->admin_model->sendEmailToSpecialist($coop_full_name,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$admin_info->email)){
+                        // if($this->admin_model->sendEmailToSpecialist($coop_full_name,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$admin_info->email)){
                           if($this->cooperatives_model->assign_to_specialist($decoded_id,$decoded_specialist_id,$coop_full_name)){
                             $this->session->set_flashdata('list_success_message', 'Successfully assigned the application to an validator.');
                           redirect('cooperatives');
                           }
-                        }else{
-                          $this->session->set_flashdata('list_error_message', 'Unable to assign the application to an evaluator.');
-                          redirect('cooperatives');
-                        }
+                        // }else{
+                        //   $this->session->set_flashdata('list_error_message', 'Unable to assign the application to an evaluator.');
+                        //   redirect('cooperatives');
+                        // }
                       }else{
                         $this->session->set_flashdata('redirect_applications_message', 'You already assigned the cooperative to an evaluator.');
                         redirect('cooperatives');
