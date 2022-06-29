@@ -7,7 +7,12 @@ class Admins extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
-     $this->load->library("pagination");
+    $this->load->model('admin_model');
+    $this->load->model('region_model');
+    $this->load->model('amendment_model');
+    $this->load->model('cooperatives_model');
+    $this->load->model('branches_model');
+    $this->load->library("pagination");
   }
 
   function index()
