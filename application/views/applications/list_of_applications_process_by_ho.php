@@ -146,7 +146,7 @@
         </div>
       </div>
     </div>
-  </div><?endif;?>
+  </div><?php endif;?>
 </div>
 <!-- End of Registered Coop Process by Head Office -->
 

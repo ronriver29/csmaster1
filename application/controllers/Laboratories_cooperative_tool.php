@@ -8,6 +8,11 @@ class laboratories_cooperative_tool extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
+
+    $this->load->model('admin_model');
+    $this->load->model('laboratories_model');
+    $this->load->model('coop_tool_model');
+    $this->load->model('branches_model');
    
   }
 

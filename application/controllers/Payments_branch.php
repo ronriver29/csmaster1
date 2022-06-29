@@ -8,6 +8,11 @@ class Payments_branch extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
+    $this->load->model('branches_model');
+    $this->load->model('admin_model');
+    $this->load->model('payment_branch_model');
+    $this->load->model('user_model');
+    $this->load->model('payment');
     $this->load->library('pdf');
   }
 
@@ -126,7 +131,7 @@ class Payments_branch extends CI_Controller{
     if ($this->input->post('offlineBtn')){
       
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('branchID')));
-      $this->Payment_branch_model->pay_offline($decoded_id);
+      $this->payment_branch_model->pay_offline($decoded_id);
       $data=array(
         'payor' => $this->input->post('payor'),
         'date'    => $this->input->post('tDate'),
@@ -150,12 +155,12 @@ class Payments_branch extends CI_Controller{
       
       $data1['series'] = $this->input->post('refNo');
       // End
-      if ($this->Payment_branch_model->check_payment_not_exist($data))
-        $this->Payment_branch_model->save_payment($data,$this->input->post('rCode'));
+      if ($this->payment_branch_model->check_payment_not_exist($data))
+        $this->payment_branch_model->save_payment($data,$this->input->post('rCode'));
       
       $user_id = $this->session->userdata('user_id');
 
-      $data1['payment'] = $this->Payment_branch_model->get_payment_info($data);
+      $data1['payment'] = $this->payment_branch_model->get_payment_info($data);
 
       
 
@@ -175,7 +180,7 @@ class Payments_branch extends CI_Controller{
      else if ($this->input->post('onlineBtn')){
       //change status GET YOUR CERTIFICATE
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
-      $this->Payment_model->pay_online($decoded_id);
+      $this->payment_model->pay_online($decoded_id);
       $this->session->set_flashdata('redirect_applications_message', 'Thank you for paying online. You may now get your certificate.');
      redirect('cooperatives');
      }else{

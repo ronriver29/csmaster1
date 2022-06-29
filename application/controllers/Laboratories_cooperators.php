@@ -7,6 +7,14 @@ class Laboratories_cooperators extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('laboratories_model');
+    $this->load->model('user_model');
+    $this->load->model('cooperator_model');
+    $this->load->model('cooperatives_model');
+    $this->load->model('province_model');
+    $this->load->model('bylaw_model');
+    $this->load->model('region_model');
+    $this->load->model('admin_model');
 
     //Codeigniter : Write Less Do More
      // $this->laboratories_cooperator_model= $this->load->model('Laboratories_cooperator_model');

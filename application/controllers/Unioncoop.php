@@ -7,6 +7,13 @@ class Unioncoop extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
+    $this->load->model('cooperatives_model');
+    $this->load->model('bylaw_model');
+    $this->load->model('capitalization_model');
+    $this->load->model('user_model');
+    $this->load->model('unioncoop_model');
+    $this->load->model('cooperator_model');
+    $this->load->model('admin_model');
   }
 
   function index($id = null)

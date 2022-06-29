@@ -7,6 +7,8 @@
     {
       parent::__construct();
       //Codeigniter : Write Less Do More
+      $this->load->model('cooperatives_model');
+      $this->load->model('admin_model');
     }
     public function index(){
       if(!$this->session->userdata('logged_in')){

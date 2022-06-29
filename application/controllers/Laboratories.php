@@ -9,6 +9,11 @@
       $this->load->model('user_model');
       $this->load->model('laboratories_model');
       $this->load->model('branches_model');
+      $this->load->model('region_model');
+      $this->load->model('cooperatives_model');
+      $this->load->model('major_industry_model');
+      $this->load->model('admin_model');
+      $this->load->model('uploaded_document_model');
       //Codeigniter : Write Less Do More
     }
     

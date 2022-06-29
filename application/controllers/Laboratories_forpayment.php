@@ -7,6 +7,7 @@ class Laboratories_forpayment extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
+    $this->load->model('laboratories_model');
   }
 
   public function index($id = null)

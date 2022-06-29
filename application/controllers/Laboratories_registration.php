@@ -12,6 +12,10 @@ class Laboratories_registration extends CI_Controller{
     $this->load->model('user_model', 'user');
     $this->load->library('ci_qr_code');
     $this->config->load('qr_code');
+
+    $this->load->model('registration_model');
+    $this->load->model('laboratories_model');
+    $this->load->model('branches_model');
   }
 
   function index($id = null){

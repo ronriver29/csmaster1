@@ -8,6 +8,9 @@
       parent::__construct();
       $this->load->library('pdf');
       $this->load->library("pagination");
+      $this->load->model('admin_model');
+      $this->load->model('cooperatives_model');
+      $this->load->model('region_model');
       //Codeigniter : Write Less Do More
     }
 
