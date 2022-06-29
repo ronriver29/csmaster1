@@ -12,6 +12,8 @@ class Amendment_affiliators_update extends CI_Controller{
   $this->load->model('amendment_affiliators_update_model','affiliator_model');
   $this->load->model('amendment_update_cooperator_model','cooperators_model');
   $this->load->model('amendment_update_capitalization_model','amd_capitalization_model');
+  $this->load->model('amendment_update_model');
+
   }
 
   function index($id = null)
@@ -19,6 +21,9 @@ class Amendment_affiliators_update extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+        $this->load->model('user_model');
+        $this->load->model('amendment_update_bylaw_model');
+
         $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0; 
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $data['encrypted_id'] = $id;
@@ -78,14 +83,13 @@ class Amendment_affiliators_update extends CI_Controller{
                       if($data['coop_info']->category_of_cooperative=='Secondary')
                       {
                          $data['registered_coop'] = $this->affiliator_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative,$this->regNo,$this->coopName);  
-
                       }
                       if($data['coop_info']->category_of_cooperative=='Tertiary')
                       {
                           $data['registered_coop'] = $this->affiliator_model->get_registered_coop_tertiary($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative,$this->regNo,$this->coopName);  
                       }
                     }
-                   
+            
                     $data['msg'] = ($submit && isset($data['registered_coop']['msg']) ? $data['registered_coop']['msg'] :'');
                     
                     // $data['ten_percent'] = $this->cooperators_model->ten_percent($this->decoded_id);
@@ -105,7 +109,7 @@ class Amendment_affiliators_update extends CI_Controller{
                     // $data['list_amendment_affiliators'] = $this->affiliator_model->get_all_amendment_affiliators_of_coop($user_id);
                     
                     $data['affiliator_info'] = $this->affiliator_model->get_affiliator_info($user_id);
-                    $data['is_update_cooperative'] = $this->amendment_model->check_date_registered($data['client_info']->regno);
+                    $data['is_update_cooperative'] = $this->amendment_update_model->check_date_registered($data['client_info']->regno);
                     $this->load->view('./template/header', $data);
                     $this->load->view('update/amendment/federation_update/affiliators_list', $data);
                     $this->load->view('update/amendment/federation_update/full_info_modal');

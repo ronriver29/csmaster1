@@ -28,6 +28,7 @@ class Amendment_update extends CI_Controller{
         $this->load->model('amendment_update_cooperator_model');
         $this->load->model('amendment_update_purposes_model');
         $this->load->model('amendment_update_bylaw_model');
+        $this->load->model('region_model');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $coop_id = $this->amendment_update_model->coop_dtl($this->decoded_id);
         $data['is_client'] = $this->session->userdata('client');
