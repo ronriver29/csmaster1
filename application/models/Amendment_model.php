@@ -6,7 +6,7 @@ class amendment_model extends CI_Model{
   public $last_query = null;
   public function __construct()
   {
-    parent::__construct();
+    // parent::__construct();
     //Codeigniter : Write Less Do More
     $this->load->database();
   }
@@ -1350,6 +1350,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
         $article_rows['amendment_id'] = $id;
         $data_articles_cooperation = $article_rows;
       }
+      unset($article_rows);
     }
 
     $this->db->insert('amendment_articles_of_cooperation',$data_articles_cooperation);

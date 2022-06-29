@@ -574,8 +574,7 @@ class Amendment_bylaw_update extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
-       $this->output->enable_profiler(TRUE);
-       $this->benchmark->mark('code_start');
+     
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
        $cooperative_id = $this->coop_dtl($this->decoded_id);
       $user_id = $this->session->userdata('user_id');
@@ -610,7 +609,7 @@ class Amendment_bylaw_update extends CI_Controller{
                   
             
                  	 $data['is_update_cooperative'] = $this->amendment_update_model->check_date_registered($data['client_info']->regno);
-                   $this->benchmark->mark('code_end');
+                  
                   $this->load->view('template/header', $data);
                   $this->load->view('update/amendment/bylaw_info/bylaw_update_form', $data);
                   $this->load->view('template/footer');
@@ -706,7 +705,7 @@ class Amendment_bylaw_update extends CI_Controller{
           if($this->session->userdata('access_level')!=6){
             redirect('admins/login');
           }else{
-            $this->benchmark->mark('code_start');
+          
               if($this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id)->category_of_cooperative =="Primary"){
                    if(!isset($_POST['submit'])){  
                     $data['title'] = 'By Laws';
@@ -728,7 +727,7 @@ class Amendment_bylaw_update extends CI_Controller{
                       $data['add_members_vote'] =  explode(";", $data['bylaw_info']->additional_conditions_to_vote);
                     }
         
-                   $this->benchmark->mark('code_end');
+                  
                     $this->load->view('templates/admin_header', $data);
                     $this->load->view('update/amendment/bylaw_info/bylaw_update_form', $data);
                     $this->load->view('templates/admin_footer');
