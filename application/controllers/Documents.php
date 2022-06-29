@@ -21,6 +21,7 @@ class Documents extends CI_Controller{
     $this->load->model('branches_model');
     $this->load->model('uploaded_document_model');
     $this->load->model('admin_model');
+    $this->load->model('region_model');
 
       $this->load->library('pdf');
   }
