@@ -11,6 +11,19 @@
       $this->load->model('user_model');
       $this->load->model('cooperatives_model');
       $this->load->model('cooperatives_update_model');
+      $this->load->model('uploaded_document_model');
+      $this->load->model('bylaw_model');
+      $this->load->model('capitalization_model');
+      $this->load->model('article_of_cooperation_model');
+      $this->load->model('cooperator_model');
+      $this->load->model('committee_model');
+      $this->load->model('affiliators_model');
+      $this->load->model('purpose_model');
+      $this->load->model('unioncoop_model');
+      $this->load->model('economic_survey_model');
+      $this->load->model('staff_model');
+      $this->load->model('major_industry_model');
+      $this->load->model('region_model');
     }
 
     public function saveor($was){

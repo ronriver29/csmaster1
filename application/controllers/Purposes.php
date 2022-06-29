@@ -6,6 +6,12 @@ class Purposes extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('cooperatives_model');
+    $this->load->model('bylaw_model');
+    $this->load->model('capitalization_model');
+    $this->load->model('cooperator_model');
+    $this->load->model('user_model');
+    $this->load->model('purpose_model');
     //Codeigniter : Write Less Do More
   }
 
