@@ -8,6 +8,7 @@ class Api_access extends CI_Controller {
     {
         parent::__construct();
          // $this->load->helper('jwt_helper');
+        $this->load->model('admin_model');
         $this->load->model('api_access_model');
     }    
     public function index()
