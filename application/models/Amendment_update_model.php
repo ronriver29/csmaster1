@@ -1686,6 +1686,7 @@ public function delete_cooperative($amendment_id){
   }
 
 public function submit_to_authorized_user($amendment_id,$region_code,$user_id,$coop_info){
+  $this->load->model('email_model');
   $user_id = $this->security->xss_clean($user_id);
   $amendment_id = $this->security->xss_clean($amendment_id);
   // $cooperative_id = $this->coop_dtl($amendment_id);
@@ -2725,7 +2726,10 @@ public function check_if_denied($coop_id){
     public function coop_dtl($amendment_id)
     {
       $data =null;
-      $query = $this->db->query("select cooperative_id from amend_coop where id='$amendment_id'");
+      $this->db->select('cooperative_id');
+      $this->db->from('amend_coop');
+      $this->db->where(array('id'=>$amendment_id));
+      $query = $this->db->get();
       if($query->num_rows()>0)
       {
         foreach($query->result() as $row)

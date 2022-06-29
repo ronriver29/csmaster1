@@ -542,12 +542,12 @@ $(function(){
 
     //area of operation
       var AreaOperation =  $('#amendmentAddForm #areaOfOperation').val(); 
-          if( AreaOperation == "Interregional"){ 
-                // $('.opt').each(function() {
-                //       if(!this.selected) { 
-                //           // $(this).attr('disabled', true);
-                //       }
-                //   });
+          if( AreaOperation == "Interregional"){
+                $('.opt').each(function() {
+                      if(!this.selected) {
+                          $(this).attr('disabled', true);
+                      }
+                  });
             $('#amendmentAddForm #allisland').show();
             $('#amendmentAddForm #allregions').show();
             $('#amendmentAddForm #interregional').show();

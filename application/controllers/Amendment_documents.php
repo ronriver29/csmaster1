@@ -5,7 +5,7 @@ class Amendment_documents extends CI_Controller{
   public $decoded_id=null;
   public function __construct()
   {
-    parent::__construct();
+    // parent::__construct();
     //Codeigniter : Write Less Do More
    
   $this->load->model('amendment_uploaded_document_model');
@@ -26,8 +26,7 @@ class Amendment_documents extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
-        $this->output->enable_profiler(TRUE);
-        $this->benchmark->mark('code_start');
+   
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
@@ -158,7 +157,7 @@ class Amendment_documents extends CI_Controller{
                   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                   redirect('amendment');
                 }else{
-                   $this->benchmark->mark('code_start');
+                  
                   if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$this->decoded_id)){
                     $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
 
@@ -277,7 +276,7 @@ class Amendment_documents extends CI_Controller{
                                       $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
                                       $data['acbl'] = $this->amendment_model->acbl($this->decoded_id);
                                       $data['amendment_id'] = $this->decoded_id;
-                                       $this->benchmark->mark('code_end');
+                                     
                                       $this->load->view('templates/admin_header', $data);
                                       $this->load->view('documents/amendment_list_of_documents', $data);
                                       $this->load->view('amendment/evaluation/approve_modal_cooperative');

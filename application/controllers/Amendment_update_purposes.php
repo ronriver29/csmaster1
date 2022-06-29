@@ -13,9 +13,6 @@ class Amendment_update_purposes extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
-
-       $this->output->enable_profiler(TRUE);
-       $this->benchmark->mark('code_start');
        $this->load->model('user_model');
        $this->load->model('admin_model');
        $this->load->model('amendment_update_model');
@@ -61,7 +58,7 @@ class Amendment_update_purposes extends CI_Controller{
                     
                     $data['is_update_cooperative'] = $this->amendment_update_model->check_date_registered($data['client_info']->regno);
 
-       $this->benchmark->mark('code_end'); 
+
                     $data['contents'] =$data_contents;
                     $this->load->view('template/header', $data);
                     $this->load->view('update/amendment/purposes_update', $data); 
@@ -79,7 +76,7 @@ class Amendment_update_purposes extends CI_Controller{
               redirect('amendment');
             }else{
 
-       $this->benchmark->mark('code_start');
+    
               if($this->amendment_update_model->check_expired_reservation_by_admin($cooperative_id,$this->decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('amendment');
@@ -120,7 +117,7 @@ class Amendment_update_purposes extends CI_Controller{
 
                     $data['is_update_cooperative'] = $this->amendment_update_model->check_date_registered($data['coop_info']->regNo); 
 
-       $this->benchmark->mark('code_end');
+   
                       $this->load->view('templates/admin_header', $data);
                       $this->load->view('update/amendment/purposes_update', $data); 
                       $this->load->view('templates/admin_footer');
@@ -136,6 +133,9 @@ class Amendment_update_purposes extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+      $this->load->model('amendment_update_model');
+      $this->load->model('amendment_update_purposes_model');
+      $this->load->model('user_model');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
         $cooperative_id =$this->coop_dtl($this->decoded_id);
@@ -144,12 +144,9 @@ class Amendment_update_purposes extends CI_Controller{
           if($this->session->userdata('client')){
             if($this->amendment_update_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
                 $data['coop_info'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$this->decoded_id);
-                        if ( isset( $_POST['editPurposesBtn'] ) ) { 
-                            $temp = TRUE;
-                        } else { 
-                            $temp = FALSE;
-                        }
-                      if($temp == FALSE){
+            
+                        
+                      if(!isset($_POST['editPurposesBtn'])){
                         $data['title'] = 'List of Purposes';
                         $data['header'] = 'Purposes';
                         $data['client_info'] = $this->user_model->get_user_info($user_id);
