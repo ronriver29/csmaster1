@@ -13,7 +13,9 @@ class Capitalization_update extends CI_Controller{
     $this->load->model('cooperator_model');
     $this->load->model('article_of_cooperation_model');
     $this->load->model('user_model');
-
+    $this->load->model('admin_model');
+    $this->load->model('region_model');
+    $this->load->model('cooperatives_model');
   }
 
   function index($id = null)

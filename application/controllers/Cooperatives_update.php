@@ -25,6 +25,9 @@
       $this->load->model('cooperator_model');
       $this->load->model('affiliators_model');
       $this->load->model('unioncoop_model');
+      $this->load->model('bylaw_model');
+      $this->load->model('capitalization_model');
+      $this->load->model('admin_model');
       // $this->load->library('pdf');
       //Codeigniter : Write Less Do More
     }

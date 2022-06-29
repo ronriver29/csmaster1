@@ -349,4 +349,4 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
     </div>
   </div>
   </div>
-  <?endif;?> -->
+  <?php endif;?> -->
