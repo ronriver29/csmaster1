@@ -10,10 +10,12 @@ class Affiliators_update extends CI_Controller{
       $this->load->model('cooperatives_model');
       $this->load->model('affiliators_model');
       $this->load->model('bylaw_model');
-      $this->load->model('capitalization_info');
+      $this->load->model('capitalization_model');
       $this->load->model('admin_model');
       $this->load->model('user_model');
       $this->load->model('cooperator_model');
+      $this->load->model('cooperatives_update_model');
+      $this->load->model('region_model');
   }
 
   function index($id = null)
