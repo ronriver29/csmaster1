@@ -15,14 +15,13 @@ class Amendment_update_capitalization extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
-   
       $this->load->model('user_model');
       $this->load->model('admin_model');
       $this->load->model('amendment_update_model');
       $this->load->model('amendment_update_bylaw_model');
       $this->load->model('amendment_update_capitalization_model');
-       $this->load->model('amendment_update_cooperator_model');
-       $this->load->model('amendment_article_update_model');
+      $this->load->model('amendment_update_cooperator_model');
+      $this->load->model('amendment_article_update_model');
     	$data['encrypted_id'] =$id;
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
          $cooperative_id = $this->coop_dtl($this->decoded_id);
@@ -88,14 +87,14 @@ class Amendment_update_capitalization extends CI_Controller{
                         $data['capitalization_info'] = $this->amendment_update_capitalization_model    ->get_capitalization_by_coop_id($this->decoded_id);
 
                           //modified
-                    $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$this->decoded_id);
+                    $data['total_regular'] = $this->amendment_update_cooperator_model->get_total_regular($cooperative_id,$this->decoded_id);
                     if($data['coop_info']->category_of_cooperative =='Secondary')
                     {
                       $data['total_regular'] = $this->amendment_affiliators_update_model->total_regular($this->decoded_id);
                     }
 
                     $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
-                    $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$this->decoded_id);
+                    $data['total_associate'] = $this->amendment_update_cooperator_model->get_total_associate($cooperative_id,$this->decoded_id);
                     //end modified
                      if($this->input->post('capitalizationPrimaryBtn')) {
                       $data = $this->input->post('item');
