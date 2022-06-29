@@ -12,7 +12,7 @@
             </div>
             <div class="modal-body">
                 <p>User:<strong class="admin-name-text"></strong></p>
-                <input type="hidden" class="validate[required]" id="adminID" name="adminID">
+                <input type="text" class="validate[required]" id="adminID" name="adminID">
                 <div class="alert alert-info" role="alert">
                       <label>New Password:</label>
                       <input type="password" id="pword" class="form-control validate[required,minSize[4]]" name="pword">

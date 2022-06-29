@@ -387,12 +387,10 @@ class Users extends CI_Controller{
               if($this->user_model->sendEmailCreateNewEmail($data['email'],$data['hash'],$full_name,$newnamearray,$AdminEmail,$this->input->post('regno'),$this->input->post('barangay'),$this->input->post('eAddress'))){
                 $this->user_model->sendEmailToClientCreateNewEmail($data['email'],$data['hash'],$full_name,$newnamearray,$AdminEmail,$this->input->post('regno'),$this->input->post('barangay'),$this->input->post('eAddress'));
                 $this->session->set_flashdata(array('email_sent_success'=>'Your account application is pending for approval. Result and login credentials will be sent to your email.'));
-
-                echo $this->session->flashdata('email_sent_success');
-                
-                // redirect('users/login');
+                redirect('users/login');
               }else{
-                // redirect('users/login');
+                $this->session->set_flashdata(array('email_sent_success'=>'Your account application is pending for approval. Result and login credentials will be sent to your email.'));
+                redirect('users/login');
               }
             }else{
               echo 'server error';
