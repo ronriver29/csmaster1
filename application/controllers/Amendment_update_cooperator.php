@@ -585,11 +585,11 @@ class Amendment_update_cooperator extends CI_Controller{
 
                       $data['list_cooperators'] = $this->amendment_update_cooperator_model->get_all_cooperator_of_coop($cooperative_id,$this->decoded_id);
 
-                      $data['list_of_provinces'] = $this->amendment_model->get_provinces($data['coop_info']->rCode);
+                      $data['list_of_provinces'] = $this->amendment_update_model->get_provinces($data['coop_info']->rCode);
 
-                      $data['list_of_cities'] = $this->amendment_model->get_cities($data['coop_info']->pCode);
+                      $data['list_of_cities'] = $this->amendment_update_model->get_cities($data['coop_info']->pCode);
 
-                      $data['list_of_brgys'] = $this->amendment_model->get_brgys($data['coop_info']->cCode);
+                      $data['list_of_brgys'] = $this->amendment_update_model->get_brgys($data['coop_info']->cCode);
 
                       $this->load->view('./template/header', $data);
 
@@ -761,7 +761,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
 
-        $cooperative_id = $this->coop_dtl($this->decoded_id);
+        $cooperative_id = $this->amendment_update_model->coop_dtl($this->decoded_id);
 
         $data['cooperative_id'] = encrypt_custom($this->encryption->encrypt($cooperative_id));
 
@@ -777,7 +777,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
           if($this->session->userdata('client')){
 
-            if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
+            if($this->amendment_update_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
 
               // if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
 
@@ -877,7 +877,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
                           {
 
-                             $data['regNo'] =$this->amendment_model->load_regNo($user_id);
+                             $data['regNo'] =$this->amendment_update_model->load_regNo($user_id);
 
                           }
 
@@ -885,7 +885,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
                           {
 
-                             $data['regNo'] = $this->amendment_model->load_regNo_reg($user_id);
+                             $data['regNo'] = $this->amendment_update_model->load_regNo_reg($user_id);
 
                           }
 
@@ -919,11 +919,11 @@ class Amendment_update_cooperator extends CI_Controller{
 
                       
 
-                          $data['list_of_provinces'] = $this->amendment_model->get_provinces($data['coop_info']->rCode);
+                          $data['list_of_provinces'] = $this->amendment_update_model->get_provinces($data['coop_info']->rCode);
 
-                          $data['list_of_cities'] = $this->amendment_model->get_cities($data['coop_info']->pCode);
+                          $data['list_of_cities'] = $this->amendment_update_model->get_cities($data['coop_info']->pCode);
 
-                          $data['list_of_brgys'] = $this->amendment_model->get_brgys($data['coop_info']->cCode);
+                          $data['list_of_brgys'] = $this->amendment_update_model->get_brgys($data['coop_info']->cCode);
 
                           $this->load->view('./template/header', $data);
 
@@ -1265,7 +1265,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID',TRUE)));
 
-        $cooperative_id = $this->coop_dtl($this->decoded_id);
+        $cooperative_id =$this->amendment_update_model->coop_dtl($this->decoded_id);
 
         $user_id = $this->session->userdata('user_id');
 
@@ -1275,7 +1275,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
           if($this->session->userdata('client')){
 
-            if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
+            if($this->amendment_update_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
 
               $decoded_post_cooperator_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
 
@@ -1343,17 +1343,17 @@ class Amendment_update_cooperator extends CI_Controller{
 
               $decoded_post_cooperator_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
 
-              if($this->cooperator_model->check_cooperator_in_cooperative($this->decoded_id,$decoded_post_cooperator_id)){
+              // if($this->cooperator_model->check_cooperator_in_cooperative($this->decoded_id,$decoded_post_cooperator_id)){
 
-                if($this->amendment_model->check_submitted_for_evaluation($this->decoded_id)){
+                // if($this->amendment_model->check_submitted_for_evaluation($this->decoded_id)){
 
-                  if($this->amendment_model->check_first_evaluated($this->decoded_id)){
+                  // if($this->amendment_model->check_first_evaluated($this->decoded_id)){
 
-                    $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
+                  //   $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
 
-                    redirect('amendment');
+                  //   redirect('amendment');
 
-                  }else{
+                  // }else{
 
                     $success = $this->amendment_update_cooperator_model->delete_cooperator($decoded_post_cooperator_id);
 
@@ -1371,23 +1371,23 @@ class Amendment_update_cooperator extends CI_Controller{
 
                     }
 
-                  }
+                  // }
 
-                }else{
+                // }else{
 
-                  $this->session->set_flashdata('redirect_applications_message', 'Deleting a cooperator of the cooperative is not available because the cooperative is not yet submitted for evaluation.');
+                //   $this->session->set_flashdata('redirect_applications_message', 'Deleting a cooperator of the cooperative is not available because the cooperative is not yet submitted for evaluation.');
 
-                  redirect('amendment');
+                //   redirect('amendment');
 
-                }
+                // }
 
-              }else{
+              // }else{
 
-                $this->session->set_flashdata('cooperator_redirect','Unauthorized!!');
+              //   $this->session->set_flashdata('cooperator_redirect','Unauthorized!!');
 
-                redirect('amendment/'.$this->input->post('cooperativeID').'/amendment_cooperators');
+              //   redirect('amendment/'.$this->input->post('cooperativeID').'/amendment_cooperators');
 
-              }
+              // }
 
             }
 
@@ -1409,31 +1409,31 @@ class Amendment_update_cooperator extends CI_Controller{
 
   }
 
-  function all(){
+  // function all(){
 
 
 
-    if($this->input->method(TRUE)==="GET"){
+  //   if($this->input->method(TRUE)==="GET"){
 
-      redirect('amendment');
+  //     redirect('amendment');
 
-    }else if($this->input->method(TRUE)==="POST"){
+  //   }else if($this->input->method(TRUE)==="POST"){
 
-      $uid = $this->session->userdata('user_id');
+  //     $uid = $this->session->userdata('user_id');
 
-      $cooperatives_id = $this->amendment_model->get_cooperative_info($uid)->id;
+  //     $cooperatives_id = $this->amendment_update_model->get_cooperative_info($uid)->id;
 
-      $cooperators = $this->amendment_model->get_all_cooperator_of_coop($cooperatives_id);
+  //     $cooperators = $this->amendment_update_model->get_all_cooperator_of_coop($cooperatives_id);
 
-      $temp['data'] = $cooperators;
+  //     $temp['data'] = $cooperators;
 
-      echo json_encode($temp);
+  //     echo json_encode($temp);
 
-    }
+  //   }
 
 
 
-  }
+  // }
 
   public function check_cooperator_not_exist(){
 
@@ -1531,7 +1531,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
       }else{
 
-        echo"as;ldfkj";
+   
 
         // $input_position = $this->input->get('');
 
@@ -1880,7 +1880,7 @@ class Amendment_update_cooperator extends CI_Controller{
   }
 
   function get_post_cooperator_info_ajax(){
-
+        $this->load->model('cooperator_model');
     if($this->input->method(TRUE)==="GET"){
 
       redirect('amendment');
@@ -1893,13 +1893,13 @@ class Amendment_update_cooperator extends CI_Controller{
 
       $user_id = $this->session->userdata('user_id');
 
-      $cooperative_id = $this->coop_dtl($this->decoded_id);
+      $cooperative_id = $this->amendment_update_model->coop_dtl($this->decoded_id);
 
       if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
 
         if($this->session->userdata('client')){
 
-          if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
+          if($this->amendment_update_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
 
               $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperator_id',true)));
 
@@ -1973,7 +1973,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
             $this->decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('id')));
 
-            $cooperative_id = $this->coop_dtl($this->decoded_id);
+            $cooperative_id = $this->amendment_update_model->coop_dtl($this->decoded_id);
 
             $decoded_user_id = $this->encryption->decrypt(decrypt_custom($this->input->post('user_id')));
 
@@ -1993,37 +1993,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
     }
 
-    public function coop_dtl($amendment_id)
-
-    {
-
-      $query = $this->db->query("select cooperative_id from amend_coop where id='$amendment_id'");
-
-      if($query->num_rows()>0)
-
-      {
-
-        foreach($query->result() as $row)
-
-        {
-
-          $data = $row->cooperative_id;
-
-        }
-
-      }
-
-      else
-
-      {
-
-        $data =NULL;
-
-      }
-
-      return $data;
-
-    }
+   
 
 
 
