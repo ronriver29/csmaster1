@@ -12,6 +12,7 @@ class Admins extends CI_Controller{
     $this->load->model('amendment_model');
     $this->load->model('cooperatives_model');
     $this->load->model('branches_model');
+    $this->load->model('user_model');
     $this->load->library("pagination");
   }
 
