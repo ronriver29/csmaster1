@@ -15,7 +15,8 @@ class Cooperators_update extends CI_Controller{
     $this->load->model('cooperators_update_model');
     $this->load->model('bylaw_model');
     $this->load->model('region_model');
-    
+    $this->load->model('admin_model');
+    $this->load->model('region_model');
   }
 
   function index($id = null)

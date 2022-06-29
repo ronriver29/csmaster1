@@ -12,10 +12,11 @@ class Affiliators extends CI_Controller{
       $this->load->model('cooperatives_model');
       $this->load->model('affiliators_model');
       $this->load->model('bylaw_model');
-      $this->load->model('capitalization_info');
+      $this->load->model('capitalization_model');
       $this->load->model('admin_model');
       $this->load->model('user_model');
       $this->load->model('cooperator_model');
+      $this->load->model('region_model');
   }
 
   function index($id = null)
@@ -139,7 +140,11 @@ class Affiliators extends CI_Controller{
                         $data['header'] = 'Affiliators';
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                         $data['encrypted_id'] = $id;
-                        $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                        if($data['coop_info']->category_of_cooperative == 'Tertiary'){
+                          $data['registered_coop'] = $this->affiliators_model->get_registered_coop_secondary($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative,$this->coopName,$this->regNo);
+                        } else {
+                          $data['registered_coop'] = $this->affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative,$this->coopName,$this->regNo);
+                        }
                         $data['requirements_complete'] = $this->affiliators_model->is_requirements_complete($decoded_id,$user_id);
 //                        $data['directors_count'] = $this->cooperator_model->check_no_of_directors($decoded_id);
 //                        $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($decoded_id);

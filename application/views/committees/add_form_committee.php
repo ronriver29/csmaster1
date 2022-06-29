@@ -88,7 +88,7 @@
                   <option id="A" value="Credit">Credit</option>
                 <?php } ?>
                 <option id="B" value="Gender and Development">Gender and Development</option>
-				<!-- <option disabled id="A" value="Audit">Audit</option>
+        <!-- <option disabled id="A" value="Audit">Audit</option>
                 <option disabled id="A" value="Election">Election</option>
                 <option disabled id="C" value="Education and Training">Education and Training</option>
                 <option disabled id="A" value="Mediation and Conciliation">Mediation and Conciliation</option>
@@ -109,31 +109,31 @@
               <label for="position">Position:</label>
               <input type="text" class="form-control validate[required]" id="position" name="position" disabled>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="membershipType">Type of Membership:</label>
               <input type="text" class="form-control validate[required]" id="membershipType" name="membershipType" disabled>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="gender">Gender:</label>
                 <input type="text" class="form-control validate[required]" id="gender" name="gender" disabled>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="bDate"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>Age must be 18 years old and above.</li>"></i> Birth Date:</label>
               <input type="date" class="form-control validate[required,funcCall[validateAgeCustom]]" id="bDate" name="bDate" disabled>
             </div>
           </div>
-      		<div class="col-sm-12 col-md-8">
+          <div class="col-sm-12 col-md-8">
             <div class="form-group">
               <label for="pAddress">Postal Address: </label>
               <textarea class="form-control validate[required]" style="resize: none;" id="pAddress" name="pAddress" rows="1" disabled></textarea>
             </div>
-      		</div>
+          </div>
         </div>
       </div>
       <div class="card-footer addCommitteeFooter">

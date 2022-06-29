@@ -15,6 +15,7 @@ class Capitalization extends CI_Controller{
     $this->load->model('user_model');
     $this->load->model('admin_model');
     $this->load->model('region_model');
+    $this->load->model('affiliators_model');
   }
 
   function index($id = null)

@@ -1295,6 +1295,7 @@ public function get_cooperative_info_by_admin($coop_id){
     return $query->row();
   }
   public function get_registered_laboratories($regcode){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $query = $this->db->query('select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories 
   inner join refbrgy on refbrgy.brgyCode = laboratories.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode

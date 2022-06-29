@@ -15,6 +15,8 @@ class Articles extends CI_Controller{
     $this->load->model('article_of_cooperation_model');
     $this->load->model('admin_model');
     $this->load->model('region_model');
+    $this->load->model('affiliators_model');
+    $this->load->model('unioncoop_model');
     //Codeigniter : Write Less Do More
   }
   function index($id  = null)
@@ -94,7 +96,7 @@ class Articles extends CI_Controller{
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                        echo $this->db->last_query();
+                        // echo $this->db->last_query();
                     } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                         $model = 'unioncoop_model';
                         $ids = $user_id;

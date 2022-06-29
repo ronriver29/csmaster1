@@ -396,6 +396,16 @@
 
       // alert(typeofcoop);
 
+      if(typeofcoop == 28){
+        $('#reserveUpdateForm #commonbond').hide();
+        $('#reserveUpdateForm #compositionOfMembers1').hide();
+        $('#reserveUpdateForm #addMoreComBtn').hide();
+      } else {
+        $('#reserveUpdateForm #commonbond').show();
+        $('#reserveUpdateForm #compositionOfMembers1').show();
+        $('#reserveUpdateForm #addMoreComBtn').show();
+      }
+
       if(typeofcoop == 16 || typeofcoop == 26 || typeofcoop == 27){
 
         var categoryofcoop = $( "#reserveUpdateForm #categoryOfCooperative option:selected").text();
@@ -414,15 +424,15 @@
 
         
 
-        if(categoryofcoop == 'Others'){
+        // if(categoryofcoop == 'Others'){
 
-          $('#reserveUpdateForm #typeOfCooperative').val('');
+        //   $('#reserveUpdateForm #typeOfCooperative').val('');
 
-        } 
+        // } 
 
       }
 
-      if(typeofcoop == 28){ // val == 'Secondary' || val == 'Tertiary' || 
+      if(typeofcoop == 26){ // val == 'Secondary' || val == 'Tertiary' || 
 
         $.each([ 'majorIndustry1', 'majorIndustry2', 'majorIndustry3'], function( index, value ) {
 

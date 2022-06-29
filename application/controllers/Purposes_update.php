@@ -13,7 +13,10 @@ class Purposes_update extends CI_Controller{
     $this->load->model('cooperator_model');
     $this->load->model('user_model');
     $this->load->model('purpose_update_model');
-    
+    $this->load->model('admin_model');
+    $this->load->model('region_model');
+    $this->load->model('cooperatives_model');
+    $this->load->model('affiliators_model');
   }
 
   function index($id = null)

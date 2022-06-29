@@ -15,7 +15,12 @@ class Committees_update extends CI_Controller{
     $this->load->model('article_update_model');
     $this->load->model('committee_model');
     $this->load->model('user_model');
-    
+    $this->load->model('cooperators_update_model');
+    $this->load->model('affiliators_model');
+    $this->load->model('unioncoop_model');
+    $this->load->model('admin_model');
+    $this->load->model('region_model');
+    $this->load->model('cooperatives_model');
   }
 
   function index($id = null)
@@ -607,6 +612,7 @@ class Committees_update extends CI_Controller{
                             $data['cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee($decoded_id,$user_id);
                             $data['custom_committees'] = $this->committee_model->get_all_custom_committee_names_of_coop($decoded_id);
                             $data['applied_coop'] = $this->affiliators_model->get_applied_coop_for_committees($user_id);
+                            // echo $this->db->last_query();
                             foreach($data['applied_coop'] as $applied_coop){
                                 $result_array[] = $applied_coop['application_id'];
                             }
@@ -615,6 +621,9 @@ class Committees_update extends CI_Controller{
                                 $result_array_union[] = $applied_coop_union['application_id'];
                             }
                             if($data['coop_info']->grouping == 'Federation'){
+                                if(empty($result_array)){
+                                  $result_array[] = 0;
+                                }
                                 $data['cooperators_federation'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee_federation($result_array,$user_id);
                             } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                                 $data['cooperators_union'] = $this->cooperator_model->get_all_cooperator_of_coop_for_committee_union($result_array_union,$user_id);

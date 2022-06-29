@@ -23,6 +23,8 @@ class Documents extends CI_Controller{
     $this->load->model('admin_model');
     $this->load->model('region_model');
     $this->load->model('laboratories_model');
+    $this->load->model('affiliators_model');
+    $this->load->model('unioncoop_model');
 
       $this->load->library('pdf');
   }
@@ -123,6 +125,7 @@ class Documents extends CI_Controller{
                                 // else
                                 // {
                                   $data['document_one'] = $this->get_documentss($decoded_id,1);//$this->count_documents($decoded_id,1);
+                                  echo $this->db->last_query();
                                   if($data['document_one'])
                                   {
                                     $data['read_upload'] = $this->count_documents($decoded_id,1);
