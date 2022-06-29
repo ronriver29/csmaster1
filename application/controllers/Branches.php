@@ -972,7 +972,7 @@
                                   // echo '<script>alert('.printf("%02d", 0).');</script>';
                                   $data['director_info'] = $this->admin_model->get_director_info($regioncode);
 
-                                  echo $data['director_info'] ;
+                                  // echo $this->db->last_query();
 
                                   if($this->admin_model->is_active_director($data['director_info']->id)){
                                     $data['director_info'] = $this->admin_model->get_emails_of_director_by_region($regioncode);
@@ -1023,9 +1023,15 @@
                                     $emaildirect = $directorinfo['email'];
                                   }
 
-                                  if($this->branches_model->sendEmailToSeniorBranchApprove($coop_full_name,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$emaildirect,$branch_info->type,'',$seniorregionname)){
+                                  if($step == 6){
+                                    $this->branches_model->sendEmailToSeniorBranchApprove($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info,$branch_info->type,'',$seniorregionname->regDesc);
+                                  } else if($step == 5){
+                                    $this->branches_model->sendEmailToClientApproveBranch($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info,$branch_info->type,'',$seniorregionname->regDesc);
+                                  }
+                                      
+                                  // if($this->branches_model->sendEmailToSeniorBranchApprove($coop_full_name,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$emaildirect,$branch_info->type,'',$seniorregionname)){
                                       $success = $this->branches_model->approve_by_admin($admin_info,$decoded_id,$reason_commment,5,$comment_by_specialist_senior);
-                                    }
+                                    // }
                                       if($success){
                                         $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been approved.');
                                         redirect('branches');

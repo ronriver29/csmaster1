@@ -7,6 +7,7 @@ class Users extends CI_Controller{
   {
     parent::__construct();
    $this->load->model('user_model');
+   $this->load->model('region_model');
   }
 
   public function index()
@@ -388,6 +389,7 @@ class Users extends CI_Controller{
                 $this->session->set_flashdata(array('email_sent_success'=>'Your account application is pending for approval. Result and login credentials will be sent to your email.'));
                 redirect('users/login');
               }else{
+                $this->session->set_flashdata(array('email_sent_success'=>'Your account application is pending for approval. Result and login credentials will be sent to your email.'));
                 redirect('users/login');
               }
             }else{

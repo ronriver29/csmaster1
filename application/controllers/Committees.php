@@ -16,6 +16,8 @@ class Committees extends CI_Controller{
     $this->load->model('user_model');
     $this->load->model('affiliators_model');
     $this->load->model('unioncoop_model');
+    $this->load->model('admin_model');
+    $this->load->model('region_model');
     //Codeigniter : Write Less Do More
   }
 

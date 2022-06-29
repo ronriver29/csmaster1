@@ -15,6 +15,8 @@ class Survey extends CI_Controller{
     $this->load->model('committee_model');
     $this->load->model('user_model');
     $this->load->model('economic_survey_model');
+    $this->load->model('admin_model');
+    $this->load->model('region_model');
     //Codeigniter : Write Less Do More
   }
   function index($id = null)

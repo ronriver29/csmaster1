@@ -9,6 +9,11 @@ class Laboratories_payments_branch extends CI_Controller{
     parent::__construct();
     //Codeigniter : Write Less Do More
     $this->load->library('pdf');
+    $this->load->model('laboratories_model');
+    $this->load->model('branches_model');
+    $this->load->model('user_model');
+    $this->load->model('payment_branch_model');
+    $this->load->model('payment_model');
   }
 
   function index($id = null) {
@@ -119,7 +124,7 @@ class Laboratories_payments_branch extends CI_Controller{
     if ($this->input->post('offlineBtn')){
       
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('branchID')));
-      $this->Payment_branch_model->pay_offline_laboratories($decoded_id);
+      $this->payment_branch_model->pay_offline_laboratories($decoded_id);
       $app_code_type='L-'.$decoded_id;//(L-7) L is laboratory + -laboratoryID
       $data=array(
         'payor' => $this->input->post('payor'),
@@ -134,9 +139,9 @@ class Laboratories_payments_branch extends CI_Controller{
         'status' => 0
       );
         // $this->debug($data);
-      if ($this->Payment_branch_model->check_payment_not_exist_laboratories($data))
+      if ($this->payment_branch_model->check_payment_not_exist_laboratories($data))
       { 
-        $this->Payment_branch_model->save_payment($data,$this->input->post('rCode'));
+        $this->payment_branch_model->save_payment($data,$this->input->post('rCode'));
         // echo $this->db->last_query();
       }
         //modify by json
@@ -145,7 +150,7 @@ class Laboratories_payments_branch extends CI_Controller{
        $this->db->update('laboratories',$lab_data,array('id'=>$laboratory_id));
 
         $user_id = $this->session->userdata('user_id');
-        $data1['payment'] = $this->Payment_branch_model->get_payment_info($data);
+        $data1['payment'] = $this->payment_branch_model->get_payment_info($data);
         $data1['last_query'] = $this->db->last_query();
         $data1['series'] = $this->input->post('refno');
      
@@ -166,7 +171,7 @@ class Laboratories_payments_branch extends CI_Controller{
      else if ($this->input->post('onlineBtn')){
       //change status GET YOUR CERTIFICATE
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
-      $this->Payment_model->pay_online($decoded_id);
+      $this->payment_model->pay_online($decoded_id);
       $this->session->set_flashdata('redirect_applications_message', 'Thank you for paying online. You may now get your certificate.');
      redirect('cooperatives');
      }else{

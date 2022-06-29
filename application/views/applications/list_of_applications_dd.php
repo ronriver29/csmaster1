@@ -207,7 +207,7 @@
         <p><?php echo $links; ?></p>
       </div>
     </div>
-  <?endif;?>
+  <?php endif;?>
 </div>
 <!-- End of Registered Coop Process by Head Office -->
 

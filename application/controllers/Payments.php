@@ -8,6 +8,23 @@ class Payments extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
+    $this->load->model('cooperatives_model');
+    $this->load->model('committee_model');
+    $this->load->model('capitalization_model');
+    $this->load->model('affiliators_model');
+    $this->load->model('unioncoop_model');
+    $this->load->model('bylaw_model');
+    $this->load->model('economic_survey_model');
+    $this->load->model('staff_model');
+    $this->load->model('economic_survey_model');
+    $this->load->model('uploaded_document_model');
+    $this->load->model('user_model');
+    $this->load->model('article_of_cooperation_model');
+    $this->load->model('user_model');
+    $this->load->model('payment_model');
+    $this->load->model('capitalization_model');
+    $this->load->model('cooperator_model');
+
     $this->load->library('pdf');
     $this->load->library('Numbertowords');
   }
@@ -169,7 +186,7 @@ class Payments extends CI_Controller{
     if ($this->input->post('offlineBtn')){
       
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
-      $this->Payment_model->pay_offline($decoded_id);
+      $this->payment_model->pay_offline($decoded_id);
       $data=array(
         'refNo' => $this->input->post('refNo'),
         'payor' => $this->input->post('payor'),
@@ -182,8 +199,8 @@ class Payments extends CI_Controller{
         'status' => 0
       );
 
-      if ($this->Payment_model->check_payment_not_exist($data))
-        $this->Payment_model->save_payment($data,$this->input->post('rCode'));
+      if ($this->payment_model->check_payment_not_exist($data))
+        $this->payment_model->save_payment($data,$this->input->post('rCode'));
       
       $user_id = $this->session->userdata('user_id');
       $report_exist = $this->db->where(array('payor'=>$this->input->post('payor')))->order_by("id","DESC")->get('payment');
@@ -207,8 +224,8 @@ class Payments extends CI_Controller{
             $string = substr($lastseries, strrpos($lastseries, '-' )+1);
             $data1['series'] = $string; // about-us
           }
-      $data1['tDate'] = $this->Payment_model->get_payment_info($data)->date;
-      $data1['nature'] = $this->Payment_model->get_payment_info($data)->nature;
+      $data1['tDate'] = $this->payment_model->get_payment_info($data)->date;
+      $data1['nature'] = $this->payment_model->get_payment_info($data)->nature;
 
       $data1['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
       $data1['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
@@ -240,7 +257,7 @@ class Payments extends CI_Controller{
       $data['client_info'] = $this->user_model->get_user_info($user_id);
       $data['title'] = 'Payment Details';
       $data['header'] = 'Online Payment';
-  //     $this->Payment_model->pay_online($decoded_id);
+  //     $this->payment_model->pay_online($decoded_id);
   //     $this->session->set_flashdata('redirect_applications_message', 'Thank you for paying online. You may now get your certificate.');
   //    redirect('cooperatives');
   //    }else{

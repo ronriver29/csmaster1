@@ -10,6 +10,8 @@ class coc extends CI_Controller{
     //Codeigniter : Write Less Do More
     $this->load->library('pdf');
     $this->load->model('user_model', 'user');
+    $this->load->model('cooperatives_model');
+    $this->load->model('admin_model');
   }
 
   function index($id = null){

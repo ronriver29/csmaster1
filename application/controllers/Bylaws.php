@@ -11,6 +11,8 @@ class Bylaws extends CI_Controller{
     $this->load->model('user_model');
     $this->load->model('cooperator_model');
     $this->load->model('capitalization_model');
+    $this->load->model('admin_model');
+    $this->load->model('region_model');
     //Codeigniter : Write Less Do More
   }
 

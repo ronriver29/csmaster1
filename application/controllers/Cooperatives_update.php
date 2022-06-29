@@ -22,7 +22,7 @@
       $this->load->model('major_industry_model');
       $this->load->model('industry_subclass_model');
       $this->load->model('region_model');
-      $this->load->model('');
+      $this->load->model('cooperator_model');
       // $this->load->library('pdf');
       //Codeigniter : Write Less Do More
     }

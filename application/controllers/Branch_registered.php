@@ -7,6 +7,8 @@ class Branch_registered extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
+    $this->load->model('admin_model');
+    $this->load->model('branches_model');
   }
 
   function index($id = null)

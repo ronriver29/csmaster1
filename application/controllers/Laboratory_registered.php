@@ -7,6 +7,8 @@ class Laboratory_registered extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
+    $this->load->model('admin_model');
+    $this->load->model('laboratories_model');
   }
 
   function index($id = null)

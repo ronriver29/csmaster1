@@ -25,6 +25,7 @@
       $this->load->model('major_industry_model');
       $this->load->model('region_model');
       $this->load->model('cooperative_type_model');
+      $this->load->model('admin_model');
     }
 
     public function saveor($was){
