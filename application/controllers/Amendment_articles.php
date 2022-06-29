@@ -203,6 +203,8 @@ class Amendment_articles extends CI_Controller{
             }else if(!in_array($this->session->userdata('access_level'),$access_array)){
               redirect('amendment');
             }else{
+              $this->load->model('admin_model');
+              $this->load->model('region_model');
               if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$this->decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('amendment');

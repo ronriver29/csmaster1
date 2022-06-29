@@ -38,8 +38,7 @@ class Amendment_update_cooperator extends CI_Controller{
       redirect('users/login');
 
     }else{//$this->output->enable_profiler(TRUE);
-         $this->output->enable_profiler(TRUE);
-       $this->benchmark->mark('code_start');
+      
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
 
         $cooperative_id = $this->amendment_update_model->coop_dtl($this->decoded_id);
@@ -100,7 +99,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
         $data["links"] = $this->pagination->create_links();
 
-          $this->benchmark->mark('code_start'); 
+        
 
         if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
 
@@ -274,12 +273,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
                       $data['ten_percent']=$this->amendment_update_cooperator_model->ten_percent($this->decoded_id);
 
-                       $this->benchmark->mark('code_end');
-
-                     $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
-
-
-                     $this->benchmark->mark('code_end');
+                    
                     $this->load->view('./template/header', $data);
 
                     $this->load->view('update/amendment/cooperators/cooperator_list', $data);
@@ -313,14 +307,15 @@ class Amendment_update_cooperator extends CI_Controller{
               redirect('admins/login');
 
             }else{
-
+                $this->load->model('admin_model');    
+                $this->load->model('region_model');
                 $data['has_new_regular'] =false;
 
 
 
                   $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id);
 
-                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
+                  $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
 
                  
 
@@ -336,7 +331,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
                         $data['directors_count'] = $this->amendment_update_cooperator_model->check_no_of_directors($cooperative_id,$this->decoded_id);
 
-                        $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($cooperative_id,$this->decoded_id);
+                        $data['directors_count_odd'] = $this->amendment_update_cooperator_model->check_directors_odd_number($cooperative_id,$this->decoded_id);
 
                         $data['total_directors'] = $this->amendment_update_cooperator_model->no_of_directors($cooperative_id,$this->decoded_id);
 
@@ -344,7 +339,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
                         $data['associate_not_exists'] = $this->amendment_update_cooperator_model->check_associate_not_exists($cooperative_id,$this->decoded_id);
 
-                        $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
+                        $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
 
                         $data['minimum_regular_subscription'] = $this->amendment_update_cooperator_model->check_all_minimum_regular_subscription($cooperative_id,$this->decoded_id);
 
@@ -396,7 +391,7 @@ class Amendment_update_cooperator extends CI_Controller{
 
 
 
-       $this->benchmark->mark('code_end');
+     
                     $this->load->view('./templates/admin_header', $data);
 
                     $this->load->view('update/amendment/cooperators/cooperator_list', $data);
@@ -433,7 +428,7 @@ class Amendment_update_cooperator extends CI_Controller{
       redirect('users/login');
 
     }else{
-
+        $this->load->model('region_model');    
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
 
         $user_id = $this->session->userdata('user_id');
@@ -604,28 +599,6 @@ class Amendment_update_cooperator extends CI_Controller{
 
                     }
 
-                  // }else{
-
-                  //   $this->session->set_flashdata('redirect_message', 'You already submitted for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
-
-                  //   redirect('amendment_update/'.$id);
-
-                  // }
-
-                // }else{
-
-                //   $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
-
-                //   redirect('amendment_update/'.$id);
-
-                // }
-
-              // }else{
-
-              //   redirect('amendment/'.$id);
-
-              // }
-
             }else{
 
               $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
@@ -642,9 +615,9 @@ class Amendment_update_cooperator extends CI_Controller{
 
             }else{
 
-                    $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
+                    $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id);
 
-                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;
+                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
 
                        if(!isset($_POST['addCooperatorBtn'])){
 
@@ -672,11 +645,11 @@ class Amendment_update_cooperator extends CI_Controller{
 
                         }
 
-                        $data['list_of_provinces'] = $this->amendment_model->get_provinces($data['coop_info']->rCode);
+                        $data['list_of_provinces'] = $this->amendment_update_model->get_provinces($data['coop_info']->rCode);
 
-                        $data['list_of_cities'] = $this->amendment_model->get_cities($data['coop_info']->pCode);
+                        $data['list_of_cities'] = $this->amendment_update_model->get_cities($data['coop_info']->pCode);
 
-                        $data['list_of_brgys'] = $this->amendment_model->get_brgys($data['coop_info']->cCode);
+                        $data['list_of_brgys'] = $this->amendment_update_model->get_brgys($data['coop_info']->cCode);
 
                         $this->load->view('./templates/admin_header', $data);
 
@@ -1088,11 +1061,13 @@ class Amendment_update_cooperator extends CI_Controller{
 
             }else{
 
-
-
+             $this->load->model('bylaw_model');      
+             $this->load->model('capitalization_model');       
+             $this->load->model('cooperator_model');
+             $this->load->model('region_model');   
             $decoded_cooperator_id = $this->encryption->decrypt(decrypt_custom($cooperator_id));
 
-            $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
+            $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id);
 
             $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
 
@@ -1164,11 +1139,11 @@ class Amendment_update_cooperator extends CI_Controller{
 
                     }
 
-                    $data['list_of_provinces'] = $this->amendment_model->get_provinces($data['coop_info']->rCode);
+                    $data['list_of_provinces'] = $this->amendment_update_model->get_provinces($data['coop_info']->rCode);
 
-                    $data['list_of_cities'] = $this->amendment_model->get_cities($data['coop_info']->pCode);
+                    $data['list_of_cities'] = $this->amendment_update_model->get_cities($data['coop_info']->pCode);
 
-                    $data['list_of_brgys'] = $this->amendment_model->get_brgys($data['coop_info']->cCode);
+                    $data['list_of_brgys'] = $this->amendment_update_model->get_brgys($data['coop_info']->cCode);
 
                     $this->load->view('./templates/admin_header', $data);
 

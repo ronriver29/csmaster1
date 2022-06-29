@@ -8,7 +8,7 @@ class amendment_model extends CI_Model{
   {
     // parent::__construct();
     //Codeigniter : Write Less Do More
-    $this->load->database();
+    // $this->load->database();
   }
 
   public function get_coop($regNo){
@@ -1695,6 +1695,7 @@ public function delete_cooperative($amendment_id){
   }
 }
 public function submit_for_evaluation($user_id,$amendment_id,$region_code){
+  $this->load->model('email_model');
   $user_id = $this->security->xss_clean($user_id);
   $amendment_id = $this->security->xss_clean($amendment_id);
   $cooperative_id = $this->coop_dtl($amendment_id);
@@ -1737,20 +1738,21 @@ public function submit_for_evaluation($user_id,$amendment_id,$region_code){
 
       foreach($senior_info as $row)
       {
+        $this->email->clear(true);
         $process++;
           $senior_email =  $row['email'];
           
            if($this->email_model->sendEmailfirstSubmissionAmendment($client_info,$senior_email,$amendment_info)){
-           $this->db->trans_commit();
+          
            $success++;
            // return true;
-          }else{
-           $this->db->trans_rollback();
-           return false;
           }
-      }unset($row);
+      }
+      unset($row);
+         $this->email->clear(true);
         if($process == $success && $this->email_model->sendEmailClientFirstSubmission($client_info))
         {
+           $this->db->trans_commit();
           return true;
         }
         else
@@ -1851,6 +1853,7 @@ public function submit_for_reevaluation($user_id,$amendment_id,$region_code){
   }
 }
 public function assign_to_specialist($amendment_id,$specialist_id){
+  $this->load->model('email_model');
   $specialist_id = $this->security->xss_clean($specialist_id);
   $amendment_id = $this->security->xss_clean($amendment_id);
   $cooperative_id = $this->coop_dtl($amendment_id);
@@ -1939,6 +1942,7 @@ public function get_specific_admin_info($admin_id)
 }
 
 public function approve_by_senior($admin_info,$coop_id,$coop_full_name,$data_comment){
+  $this->load->model('email_model');
   $amentmentID = $this->security->xss_clean($coop_id);
   $already_deffered = false;
   $cds_fullname =  $this->get_cds_by_amendment($amentmentID);
@@ -2050,8 +2054,8 @@ public function approve_by_supervisor($admin_info,$coop_id,$coop_full_name){
   }
 }
 public function approve_by_director($admin_info,$coop_id,$comment){
+  $this->load->model('email_model');
   $coop_id = $this->security->xss_clean($coop_id);
-
   $this->db->select('amend_coop.proposed_name, amend_coop.type_of_cooperative,amend_coop.acronym, amend_coop.regNo, users.*');
   $this->db->from('amend_coop');
   $this->db->join('users' , 'users.id = amend_coop.users_id','inner');
@@ -3351,6 +3355,7 @@ public function check_if_denied($coop_id){
 
   public function acbl($amendment_id)
   {
+    $this->load->model('charter_model');
     $amendment_info = $this->get_amendment_info($amendment_id);
     $last_amendment_info = $this->get_last_amendment_info($amendment_info->id,$amendment_info->regNo);
     $bylaw_info = $this->amendment_bylaw_model->get_bylaw_by_coop_id($amendment_id);

@@ -2526,7 +2526,7 @@ left join amendment_cooperators on cap.amendment_id = amendment_cooperators.amen
   }
 
   public function check_all_minimum_regular_subscription($amendment_id){
-
+      $this->load->model('amendment_capitalization_model');
     $amendment_id = $this->security->xss_clean($amendment_id);
 
     // $temp = $this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id,$amendment_id)->regular_percentage_shares_subscription;

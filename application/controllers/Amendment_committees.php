@@ -19,8 +19,7 @@ class Amendment_committees extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
-      $this->output->enable_profiler(TRUE);
-        $this->benchmark->mark('code_start');
+    
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $cooperative_id = $this->coop_dtl($this->decoded_id);
         $user_id = $this->session->userdata('user_id');
@@ -110,7 +109,7 @@ class Amendment_committees extends CI_Controller{
                         }
                        
                         //end position
-                          $this->benchmark->mark('code_end');
+                        
                         $this->load->view('./template/header', $data);
                         $this->load->view('amendment/committees_list', $data);
                         $this->load->view('amendment/delete_modal_committee');
@@ -145,6 +144,8 @@ class Amendment_committees extends CI_Controller{
             }else if(!in_array($this->session->userdata('access_level'),$access_array)){
               redirect('amendment');
             }else{
+              $this->load->model('admin_model');
+              $this->load->model('region_model');
               if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$this->decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('amendment');

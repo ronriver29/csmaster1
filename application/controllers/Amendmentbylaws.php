@@ -12,7 +12,7 @@ class Amendmentbylaws extends CI_Controller{
 
   {
 
-    // parent::__construct();
+    parent::__construct();
 
     //Codeigniter : Write Less Do More
 
@@ -1321,7 +1321,8 @@ class Amendmentbylaws extends CI_Controller{
             redirect('amendment');
 
           }else{
-
+              $this->load->model('admin_model');
+              $this->load->model('region_model');
             if(!$this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$this->decoded_id)){
 
               if($this->amendment_model->get_cooperative_info_by_admin($this->decoded_id)->category_of_cooperative =="Primary"){

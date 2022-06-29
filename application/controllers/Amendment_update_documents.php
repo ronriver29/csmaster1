@@ -109,8 +109,9 @@ class Amendment_update_documents extends CI_Controller{
             if($this->session->userdata('access_level')!=6){
               redirect('admins/login');
             }else{
-
-       
+                $this->load->model('region_model');
+                $this->load->model('cooperatives_model');
+                  
                     $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($decoded_id);
                     $data['coop_info_primary'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
                 $data['coop_type_compare'] = false;
@@ -632,6 +633,7 @@ function do_upload_others(){
   }
   else
   {
+    $this->load->model('region_model');
     $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
     $user_id = $this->session->userdata('user_id');
     $cooperative_id =$this->amendment_update_model->coop_dtl($decoded_id);

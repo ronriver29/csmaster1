@@ -5,7 +5,7 @@ class Amendment_documents extends CI_Controller{
   public $decoded_id=null;
   public function __construct()
   {
-    // parent::__construct();
+    parent::__construct();
     //Codeigniter : Write Less Do More
    
   $this->load->model('amendment_uploaded_document_model');
@@ -157,7 +157,8 @@ class Amendment_documents extends CI_Controller{
                   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                   redirect('amendment');
                 }else{
-                  
+                  $this->load->model('admin_model');
+                  $this->load->model('region_model');
                   if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$this->decoded_id)){
                     $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
 
@@ -1043,14 +1044,9 @@ public function count_documents_coop($coop_id,$num)
                            
                               $purposes=$this->amendment_purpose_model->get_all_purposes($cooperative_id,$this->decoded_id);
                               $data['purposes_list'] =$purposes;
-                             
-                              // $this->debug( $data['purposes_list']);
-                              // $this->debug( $data['purposes_list_orig']);
                               $data['cooperators_list'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop($cooperative_id,$this->decoded_id);
                               $data['members_composition'] = $this->amendment_model->get_coop_composition($this->decoded_id);
-                              // $data['directors_list'] = $this->amendment_cooperator_model->get_list_of_directors($this->decoded_id);
                                 $data['directors_list'] = $this->cooperator_model->get_list_of_directors($cooperative_id);
-                               // $data['cooperators_list_board'] = $this->amendment_cooperator_model->get_all_cooperator_of_bods($this->decoded_id);
                                $data['cooperators_list_board'] = $this->cooperator_model->get_all_cooperator_of_coop_board($cooperative_id);
                                
                               $data['no_of_directors'] = $this->amendment_cooperator_model->no_of_directors($cooperative_id,$this->decoded_id);
@@ -1059,13 +1055,10 @@ public function count_documents_coop($coop_id,$num)
                               $data['regular_cooperator_list'] = $this->amendment_cooperator_model->get_all_regular_cooperator_of_coop($this->decoded_id);
                                $data['regular_cooperator_list_coop'] = $this->cooperator_model->get_all_regular_cooperator_of_coop($cooperative_id);
                                $data['regular_cooperator_list_new'] = $this->amendment_cooperator_model->new_regular_cooperator($this->decoded_id);
-                               // $data['regular_cooperator_list'] = $this->cooperator_model->get_all_regular_cooperator_of_coop($cooperative_id);
-                              // $this->debug($data['regular_cooperator_list']);
                               $data['associate_cooperator_list'] = $this->amendment_cooperator_model->get_all_associate_cooperator_of_coop($this->decoded_id);
                              
                               $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$this->decoded_id);
-                             
-                              // $data['treasurer_of_coop'] = $this->amendment_cooperator_model->get_treasurer_of_coop($this->decoded_id);
+
                                 $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($cooperative_id);
                               
                               // $data['cooperators_list_board']=$this->amendment_cooperator_model->get_all_cooperator_of_coop_regular($cooperative_id,$this->decoded_id);

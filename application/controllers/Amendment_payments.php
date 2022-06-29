@@ -22,7 +22,13 @@ class Amendment_payments extends CI_Controller{
       redirect('users/login');
 
     }else{
-
+      $this->load->model('amendment_model');
+      $this->load->model('amendment_bylaw_model');
+      $this->load->model('amendment_article_of_cooperation_model');
+      $this->load->model('amendment_cooperator_model');
+      $this->load->model('amendment_committee_model');
+      $this->load->model('user_model');
+      $this->load->model('Payment_model');
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $user_id = $this->session->userdata('user_id');
       $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
@@ -44,11 +50,11 @@ class Amendment_payments extends CI_Controller{
                   if($data['cooperator_complete']){
                     $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
                     if($data['committees_complete']){
-                      $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($this->decoded_id);
-                        if(!$data['economic_survey_complete']){
+                      // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($this->decoded_id);
+                      //   if(!$data['economic_survey_complete']){
 
-                              $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($this->decoded_id);
-                      }
+                      //         $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($this->decoded_id);
+                      // }
 
                           $data['document_one'] = $this->amendment_uploaded_document_model->get_document_one_info($this->decoded_id);
                           $data['document_two'] = $this->amendment_uploaded_document_model->get_document_two_info($this->decoded_id);
@@ -64,9 +70,9 @@ class Amendment_payments extends CI_Controller{
                                     $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
                                     $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$this->decoded_id);
                                     $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
-                                    $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($this->decoded_id);
-                                    $data['total_regular'] = $this->cooperator_model->get_total_regular($this->decoded_id);
-                                    $data['total_associate'] = $this->cooperator_model->get_total_associate($this->decoded_id);
+                                    // $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($this->decoded_id);
+                                    // $data['total_regular'] = $this->cooperator_model->get_total_regular($this->decoded_id);
+                                    // $data['total_associate'] = $this->cooperator_model->get_total_associate($this->decoded_id);
                                     // $data['name_reservation_fee']=100.00;
                                     $data['pay_from']='reservation';
                                     $data['ref_no'] = $this->Payment_model->orderPaymentNo($this->decoded_id);
@@ -136,7 +142,7 @@ class Amendment_payments extends CI_Controller{
 
                             }else{
 
-                              echo 'asd';
+                             
 
                             }
 
@@ -256,6 +262,10 @@ class Amendment_payments extends CI_Controller{
   public function add_payment()
 
   {
+    $this->load->model('amendment_model');
+    $this->load->model('Payment_model');
+    $this->load->model('amendment_bylaw_model');
+    $this->load->model('amendment_article_of_cooperation_model');
     
     $this->load->library('pdf');
     if ($this->input->post('offlineBtn')){

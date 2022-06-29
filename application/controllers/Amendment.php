@@ -20,7 +20,8 @@ class amendment extends CI_Controller{
       $this->load->model('Amendment_affiliators_model','amendment_affiliators_model');
       $this->load->model('cooperatives_model');
       $this->load->model('user_model');
-      
+      $this->load->model('admin_model');
+      $this->load->model('region_model');
 
     }
   
@@ -100,7 +101,7 @@ class amendment extends CI_Controller{
             redirect('admins/login');
           }else{
            $this->load->library('pagination');
-    
+            $this->load->model('region_model');
             $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0; 
             $data['title'] = 'List of Amendment';
             $data['header'] = 'Amendment';
@@ -557,6 +558,7 @@ class amendment extends CI_Controller{
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
+        $this->load->model('bylaw_model');
           $user_id = $this->session->userdata('user_id');
           $data['is_client'] = $this->session->userdata('client');
           if($this->session->userdata('client')){
@@ -950,6 +952,7 @@ class amendment extends CI_Controller{
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
+        $this->load->model('major_industry_model');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
         $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
@@ -1966,7 +1969,7 @@ class amendment extends CI_Controller{
                                     
                                   if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$this->decoded_id)){
                                     $success = $this->amendment_model->submit_for_evaluation($user_id,$this->decoded_id,$data['coop_info']->rCode);
-                                   
+                            
                                     if($success){
                                       $this->session->set_flashdata('cooperative_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance');
                                       redirect('amendment/'.$id);
@@ -2342,6 +2345,7 @@ class amendment extends CI_Controller{
 
     public function sendEmail($admin_info_senior,$decoded_id,$specialist_info)
     {
+      $this->load->model('email_model');
     $cooperative_id = $this->amendment_model->coop_dtl($decoded_id);
     $amendment_info =$this->amendment_model->get_cooperative_info23($cooperative_id,$this->decoded_id);
     $client_qry = $this->db->get_where('users',array('id'=>$amendment_info->users_id));

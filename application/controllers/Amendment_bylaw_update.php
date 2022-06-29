@@ -705,7 +705,7 @@ class Amendment_bylaw_update extends CI_Controller{
           if($this->session->userdata('access_level')!=6){
             redirect('admins/login');
           }else{
-          
+              $this->load->model('region_model');
               if($this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id)->category_of_cooperative =="Primary"){
                    if(!isset($_POST['submit'])){  
                     $data['title'] = 'By Laws';
