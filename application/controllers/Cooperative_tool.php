@@ -9,6 +9,11 @@ class cooperative_tool extends CI_Controller{
     parent::__construct();
     //Codeigniter : Write Less Do More
     // $this->load->library('pdf');
+    $this->load->model('region_model');
+    $this->load->model('cooperatives_model');
+    $this->load->model('admin_model');
+    $this->load->model('coop_tool_model');
+    $this->load->model('branches_model');
   }
 
   function index($id = null){
