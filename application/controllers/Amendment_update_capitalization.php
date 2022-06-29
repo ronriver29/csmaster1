@@ -22,6 +22,7 @@ class Amendment_update_capitalization extends CI_Controller{
       $this->load->model('amendment_update_capitalization_model');
       $this->load->model('amendment_update_cooperator_model');
       $this->load->model('amendment_article_update_model');
+      $this->load->model('region_model');
     	$data['encrypted_id'] =$id;
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
          $cooperative_id = $this->coop_dtl($this->decoded_id);
