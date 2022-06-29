@@ -61,7 +61,7 @@ class Amendment_update_capitalization extends CI_Controller{
                     {
                       $data['total_regular'] =$this->amendment_affiliators_update_model->total_regular($this->decoded_id);
                     }
-                    $data['article_info'] = $this->amendment_article_update_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
+                    $data['article_info'] = $this->amendment_article_update_model->get_article_by_coop_id($this->decoded_id);
                     $data['total_associate'] = $this->amendment_update_cooperator_model->get_total_associate($cooperative_id,$this->decoded_id);
                     //end modified
                 
@@ -93,7 +93,7 @@ class Amendment_update_capitalization extends CI_Controller{
                       $data['total_regular'] = $this->amendment_affiliators_update_model->total_regular($this->decoded_id);
                     }
 
-                    $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
+                    $data['article_info'] = $this->amendment_article_update_model->get_article_by_coop_id($this->decoded_id);
                     $data['total_associate'] = $this->amendment_update_cooperator_model->get_total_associate($cooperative_id,$this->decoded_id);
                     //end modified
                      if($this->input->post('capitalizationPrimaryBtn')) {
