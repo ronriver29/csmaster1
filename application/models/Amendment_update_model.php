@@ -1372,7 +1372,6 @@ where amend_coop.regNo ='$regNo' and amend_coop.status =15  order by amend_coop.
                 if($this->db->delete('business_activities_cooperative_amendment',array('amendment_id'=>$amendment_id)))
                 {
                   $this->db->insert_batch('business_activities_cooperative_amendment',$final_business_data);
-                  
                 }
               }
            }
@@ -1756,7 +1755,7 @@ public function submit_to_authorized_user($amendment_id,$region_code,$user_id,$c
 }
 
 public function submit_by_authorized_user($amendment_id,$region_code){
-  // $user_id = $this->security->xss_clean($user_id);
+ $this->load->model('email_model');
   $amendment_id = $this->security->xss_clean($amendment_id);
   $cooperative_id = $this->coop_dtl($amendment_id);
   $amendment_info = $this->get_cooperative_info($cooperative_id,$amendment_id);//$this->get_cooperative_info23($cooperative_id,$amendment_id);

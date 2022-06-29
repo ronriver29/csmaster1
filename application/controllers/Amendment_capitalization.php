@@ -91,6 +91,8 @@ class Amendment_capitalization extends CI_Controller{
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('amendment');
               }else{
+                $this->load->model('admin_model');
+                $this->load->model('region_model');
                 if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$this->decoded_id)){
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
               

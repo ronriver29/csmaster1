@@ -7,7 +7,7 @@
     {
       parent::__construct();
       //Codeigniter : Write Less Do More
-       $this->load->library('pagination');
+      
     }
 
     public $coopName='';
@@ -16,7 +16,10 @@
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
-       
+        $this->load->library('pagination');
+        $this->load->model('admin_model');
+        $this->load->model('amendment_update_model');
+          $this->load->model('region_model');
           $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
 
         $user_id = $this->session->userdata('user_id');
@@ -53,6 +56,7 @@
 
   public function registered_updated()
   {
+    $this->load->library('pagination');
     $data['title'] = 'Registered Updated Amendment Information';
     $data['header'] = 'Registered Updated Amendment Information';
     $user_id = $this->session->userdata('user_id');

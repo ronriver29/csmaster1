@@ -18,6 +18,7 @@ class Amendment_update_purposes extends CI_Controller{
        $this->load->model('amendment_update_model');
        $this->load->model('amendment_update_bylaw_model');
        $this->load->model('amendment_update_purposes_model');
+       $this->load->model('amendment_update_cooperator_model');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
         $cooperative_id = $this->coop_dtl($this->decoded_id);
@@ -75,8 +76,8 @@ class Amendment_update_purposes extends CI_Controller{
             }else if(!in_array($this->session->userdata('access_level'),$access_array)){
               redirect('amendment');
             }else{
-
-    
+                $this->load->model('admin_model');
+                $this->load->model('region_model');
               if($this->amendment_update_model->check_expired_reservation_by_admin($cooperative_id,$this->decoded_id)){
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('amendment');
@@ -85,7 +86,7 @@ class Amendment_update_purposes extends CI_Controller{
                   $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
                   // if($data['bylaw_complete']){
-                    $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
+                    $data['cooperator_complete'] = $this->amendment_update_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
                     // if($data['cooperator_complete']){
                       $data['title'] = 'List of Purposes';
                       $data['header'] = 'Purposes';
@@ -151,7 +152,7 @@ class Amendment_update_purposes extends CI_Controller{
                         $data['header'] = 'Purposes';
                         $data['client_info'] = $this->user_model->get_user_info($user_id);
                         $data['encrypted_id'] = $id;
-                        $data['purposes_complete'] = $this->amendment_update_purposes_model->check_purpose_complete($cooperative_id,$this->decoded_id);
+                        // $data['purposes_complete'] = $this->amendment_update_purposes_model->check_purpose_complete($cooperative_id,$this->decoded_id);
                        
                       
                         if($data['coop_info']->grouping =='Federation' || $data['coop_info']->grouping =='Union')
@@ -223,9 +224,10 @@ class Amendment_update_purposes extends CI_Controller{
             if($this->session->userdata('access_level')!=6){
                redirect('admins/login');
             }else{
-  
+              $this->load->model('admin_model');
+              $this->load->model('region_model');
                     $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id);
-                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;
+                    // $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;
          
                         if(isset($_POST['editPurposesBtn']))
                         {
@@ -271,9 +273,9 @@ class Amendment_update_purposes extends CI_Controller{
                           $data['header'] = 'Purposes';
                           $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                           $data['encrypted_id'] = $id;
-                          $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($this->decoded_id);
-                          $data['purpose_not_null'] = $this->purpose_model->check_not_null($this->decoded_id);
-                          $data['purpose_blank_not_exists'] = $this->purpose_model->check_blank_not_exists($cooperative_id,$this->decoded_id);
+                          $data['purposes_complete'] = $this->amendment_update_purposes_model->check_purpose_complete($cooperative_id,$this->decoded_id);
+                          $data['purpose_not_null'] = $this->amendment_update_purposes_model->check_not_null($cooperative_id,$this->decoded_id);
+                          $data['purpose_blank_not_exists'] = $this->amendment_update_purposes_model->check_blank_not_exists($cooperative_id,$this->decoded_id);
                           
                             $row = $this->amendment_update_purposes_model->get_all_purposes($this->decoded_id);
                           foreach($row as $purpose_content)

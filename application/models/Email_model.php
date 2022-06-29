@@ -325,24 +325,8 @@ class Email_model extends CI_Model{
      $this->email->to($senior_email);
      $this->email->subject($admin_subject);
      $this->email->message($admin_message);
-      if($this->email->send()){
-            return true;
-            // // Client send email
-            //    $this->email->from($from,'ecoopris CDA (No Reply)');
-            //    $this->email->to($client_info->email);
-            //    $this->email->subject($client_subject);
-            //    $this->email->message($client_message);
-            //    if($this->email->send())
-            //    {
-            //       return true;
-            //    }
-            //    else
-            //    {
-            //       return false;
-            //    }
-        }else{
-            return false;
-        }
+      return ($this->email->send() ? true : $this->email->print_debugger());
+            
   }
 
   //client email receive first submission
@@ -356,14 +340,8 @@ class Email_model extends CI_Model{
         $this->email->to($client_info->email);
         $this->email->subject($client_subject);
         $this->email->message($client_message);
-        if($this->email->send())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return ($this->email->send() ? true : $this->email->print_debugger());
+
   }
 
   public function sendEmailToSeniorAmendment($senior_email,$client_info,$amendment_info,$specialist_info){

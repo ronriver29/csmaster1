@@ -132,22 +132,23 @@ class Amendment_cooperators extends CI_Controller{
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
                 redirect('amendment');
               }else{
+                  $this->load->model('region_model');
                 if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$this->decoded_id)){
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
-                  if($data['bylaw_complete']){
+                  // if($data['bylaw_complete']){
                         $data['title'] = 'List of Cooperators';
                         $data['header'] = 'Cooperators';
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                         $data['encrypted_id'] = $id;
                         $data['requirements_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
                         $data['directors_count'] = $this->amendment_cooperator_model->check_no_of_directors($cooperative_id,$this->decoded_id);
-                        $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($cooperative_id,$this->decoded_id);
+                        $data['directors_count_odd'] = $this->amendment_cooperator_model->check_directors_odd_number($cooperative_id,$this->decoded_id);
                         $data['total_directors'] = $this->amendment_cooperator_model->no_of_directors($cooperative_id,$this->decoded_id);
                         $data['chairperson_count'] = $this->amendment_cooperator_model->check_chairperson($cooperative_id,$this->decoded_id);
                         $data['associate_not_exists'] = $this->amendment_cooperator_model->check_associate_not_exists($cooperative_id,$this->decoded_id);
                         $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
-                        $data['minimum_regular_subscription'] = $this->amendment_cooperator_model->check_all_minimum_regular_subscription($cooperative_id,$this->decoded_id);
+                        $data['minimum_regular_subscription'] = $this->amendment_cooperator_model->check_all_minimum_regular_subscription($this->decoded_id);
                         $data['minimum_regular_pay'] = $this->amendment_cooperator_model->check_all_minimum_regular_pay($cooperative_id,$this->decoded_id);
                         if($data['bylaw_info']->kinds_of_members!=1)
                         { 
@@ -184,10 +185,10 @@ class Amendment_cooperators extends CI_Controller{
                         $this->load->view('cooperators/full_info_modal_cooperator');
                         $this->load->view('cooperators/amendment_delete_form_cooperator');
                         $this->load->view('./templates/admin_footer');
-                  }else{
-                    $this->session->set_flashdata('redirect_message', 'Please complete first the bylaw additional information.');
-                    redirect('amendment/'.$id);
-                  }
+                  // }else{
+                  //   $this->session->set_flashdata('redirect_message', 'Please complete first the bylaw additional information.');
+                  //   redirect('amendment/'.$id);
+                  // }
                 }else{
                   $this->session->set_flashdata('redirect_applications_message', 'The cooperators of the cooperative you trying to view is not yet submitted for evaluation.');
                   redirect('amendment');
@@ -234,6 +235,7 @@ class Amendment_cooperators extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+      $this->load->model('region_model');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
            $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
@@ -412,6 +414,10 @@ class Amendment_cooperators extends CI_Controller{
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
+         $this->load->model('region_model');
+         $this->load->model('bylaw_model');
+         $this->load->model('capitalization_model');
+         $this->load->model('cooperator_model');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
         $data['cooperative_id'] = encrypt_custom($this->encryption->encrypt($cooperative_id));
@@ -424,8 +430,8 @@ class Amendment_cooperators extends CI_Controller{
             if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
               if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
                 $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
-                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
-                if($data['bylaw_complete']){
+                // $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
+                // if($data['bylaw_complete']){
                     $decoded_cooperator_id = $this->encryption->decrypt(decrypt_custom($cooperator_id));
                     if($this->amendment_cooperator_model->check_cooperator_in_cooperative($cooperative_id,$this->decoded_id,$decoded_cooperator_id)){ //check if cooperator is in cooperative
                         if(!$this->amendment_model->check_submitted_for_evaluation_client($cooperative_id,$this->decoded_id)){
@@ -537,10 +543,10 @@ class Amendment_cooperators extends CI_Controller{
                       $this->session->set_flashdata('cooperator_redirect', 'Unauthorized!!.');
                       redirect('amendment/'.$id.'/amendment_cooperators');
                     }
-                }else{
-                  $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
-                  redirect('amendment/'.$id);
-                }
+                // }else{
+                //   $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
+                //   redirect('amendment/'.$id);
+                // }
               }else{
                 redirect('amendment/'.$id);
               }

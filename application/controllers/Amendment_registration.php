@@ -30,7 +30,12 @@ public $decoded_id =null;
     }else{
         $this->load->library('pdf');
         $this->load->model('amendment_model');
-        $this->load->model('amendment_model');
+        $this->load->model('charter_model');
+        $this->load->model('registration_model');
+        $this->load->model('amendment_bylaw_model');
+        $this->load->model('amendment_capitalization_model');
+        $this->load->model('amendment_cooperator_model');
+        $this->load->model('amendment_purpose_model');
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $user_id = $this->session->userdata('user_id');
        $cooperative_id =$this->amendment_model->coop_dtl($this->decoded_id);
