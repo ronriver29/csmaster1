@@ -16,6 +16,7 @@ class Survey_update extends CI_Controller{
     $this->load->model('committee_model');
     $this->load->model('user_model');
     $this->load->model('economic_survey_model');
+    $this->load->model('economic_survey_update_model');
   }
   function index($id = null)
   {

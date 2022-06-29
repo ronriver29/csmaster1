@@ -19,7 +19,7 @@ class Documents_update extends CI_Controller{
       $this->load->model('staff_model');
       $this->load->model('cooperatives_model');
       $this->load->model('user_model');
-      $this->load->model('');
+      $this->load->model('uploaded_document_model');
       $this->load->model('');
   }
 

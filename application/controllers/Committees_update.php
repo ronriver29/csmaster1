@@ -15,7 +15,7 @@ class Committees_update extends CI_Controller{
     $this->load->model('article_update_model');
     $this->load->model('committee_model');
     $this->load->model('user_model');
-    
+    $this->load->model('cooperators_update_model');
   }
 
   function index($id = null)
