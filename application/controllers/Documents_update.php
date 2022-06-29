@@ -8,6 +8,19 @@ class Documents_update extends CI_Controller{
     parent::__construct();
     //Codeigniter : Write Less Do More
       $this->load->library('pdf');
+      $this->load->model('cooperatives_update_model');
+      $this->load->model('bylaw_model');
+      $this->load->model('capitalization_model');
+      $this->load->model('cooperator_model');
+      $this->load->model('purpose_model');
+      $this->load->model('article_update_model');
+      $this->load->model('committee_model');
+      $this->load->model('economic_survey_model');
+      $this->load->model('staff_model');
+      $this->load->model('cooperatives_model');
+      $this->load->model('user_model');
+      $this->load->model('');
+      $this->load->model('');
   }
 
   function index($id = null)

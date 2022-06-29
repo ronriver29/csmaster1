@@ -13,7 +13,7 @@ if(isset($coop_info))
 ?>
 <div class="row mb-2">
   <div class="col-sm-12 col-md-2">
-    <a class="btn btn-secondary btn-sm btn-block"  href="<?php echo base_url();?>updated_cooperative_info" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <a class="btn btn-secondary btn-sm btn-block"  href="<?php echo base_url();?>cooperatives" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
   </div>
     
 </div>

@@ -8,6 +8,12 @@ class Capitalization_update extends CI_Controller{
     parent::__construct();
     //Codeigniter : Write Less Do More
     $this->load->model("capitalization_update_model");
+    $this->load->model('cooperatives_update_model');
+    $this->load->model('bylaw_model');
+    $this->load->model('cooperator_model');
+    $this->load->model('article_of_cooperation_model');
+    $this->load->model('user_model');
+
   }
 
   function index($id = null)

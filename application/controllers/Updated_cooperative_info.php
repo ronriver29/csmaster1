@@ -7,6 +7,7 @@
     {
       parent::__construct();
       $this->load->library('pagination');
+      $this->load->model('admin_model');
       //Codeigniter : Write Less Do More
     }
     public function index(){

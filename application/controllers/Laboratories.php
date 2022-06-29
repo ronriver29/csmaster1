@@ -6,6 +6,9 @@
     public function __construct()
     {
       parent::__construct();
+      $this->load->model('user_model');
+      $this->load->model('laboratories_model');
+      $this->load->model('branches_model');
       //Codeigniter : Write Less Do More
     }
     
@@ -204,6 +207,8 @@
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
+      $this->output->enable_profiler(TRUE);
+      $this->benchmark->mark('code_start');
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
         if($this->session->userdata('client')){
@@ -267,6 +272,10 @@
             $data['gc']=1; //if admin level enable it 
             $data['user_ID'] =$this->session->userdata('user_id');
             $data['admin_accesslevel'] =$this->session->userdata('access_level');
+            
+      $this->benchmark->mark('code_end');
+      $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
+
             $this->load->view('applications/list_of_laboratories', $data);
             $this->load->view('applications/assign_admin_modal_laboratories');
             $this->load->view('admin/grant_privilege_supervisor');

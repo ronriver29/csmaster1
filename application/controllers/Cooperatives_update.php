@@ -6,6 +6,23 @@
     public function __construct()
     {
       parent::__construct();
+      $this->load->model('user_model');
+      $this->load->model('cooperatives_update_model');
+      $this->load->model('cooperatives_model');
+      $this->load->model('unioncoop_model');
+      $this->load->model('capitalization_update_model');
+      $this->load->model('cooperators_update_model');
+      $this->load->model('bylaw_update_model');
+      $this->load->model('purpose_model');
+      $this->load->model('article_update_model');
+      $this->load->model('committee_model');
+      $this->load->model('economic_survey_model');
+      $this->load->model('staff_model');
+      $this->load->model('uploaded_document_model');
+      $this->load->model('major_industry_model');
+      $this->load->model('industry_subclass_model');
+      $this->load->model('region_model');
+      $this->load->model('');
       // $this->load->library('pdf');
       //Codeigniter : Write Less Do More
     }
@@ -899,192 +916,91 @@
                 $data['coop_info'] = $this->cooperatives_update_model->get_cooperative_info($decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                 $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                    $capitalization_info = $data['capitalization_info'];
-                // if($data['bylaw_complete']){
-                    if($data['coop_info']->grouping == 'Federation'){
-                        $model = 'affiliators_model';
-                        $ids = $user_id;
-                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
-                        $model = 'unioncoop_model';
-                        $ids = $user_id;
-                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } else {
-                        $model = 'cooperator_model';
-                        $ids = $decoded_id;
-                        $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,'');
-                    }
-                  // if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
-                    $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
-                    // if($data['purposes_complete']){
-                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_update_model->check_article_primary_complete($decoded_id) : true;
-                      // if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
-                        if($data['coop_info']->grouping == 'Federation'){
-                            $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
-                        } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
-                            $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
-                        } else {
-                            $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
-                        }
-                      // if($data['gad_count']>0){
-                          $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          // if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
-                            $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                            // if($data['staff_complete']){
-                              $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
-                              $data['document_two'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
-                              if($data['coop_info']->grouping == 'Federation'){
-                                  $data['document_three'] = $this->uploaded_document_model->get_document_three_info($decoded_id);
-                              } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
-                                  $data['document_three'] = $this->uploaded_document_model->get_document_three_info($decoded_id);
-                              } else {
-                                  $data['document_three'] = 1;
-                              }
-                              
-                              // if(($data['document_one'] && $data['document_two'] && $data['document_three']) || $data['coop_info']->grouping == 'Federation'){
-                                // if($this->cooperatives_model->check_if_deferred($decoded_id)){
-                                  // if($this->cooperatives_model->submit_for_reevaluation($user_id,$decoded_id)){
-                                    // if($data['coop_info']->house_blk_no==null && $data['coop_info']->street==null) $x=''; else $x=', ';
+                  $capitalization_info = $data['capitalization_info'];
+              // if($data['bylaw_complete']){
+                  if($data['coop_info']->grouping == 'Federation'){
+                      $model = 'affiliators_model';
+                      $ids = $user_id;
+                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
+                  } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
+                      $model = 'unioncoop_model';
+                      $ids = $user_id;
+                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
+                  } else {
+                      $model = 'cooperator_model';
+                      $ids = $decoded_id;
+                      $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,'');
+                  }
+                  $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
+                  $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_update_model->check_article_primary_complete($decoded_id) : true;
+                  if($data['coop_info']->grouping == 'Federation'){
+                      $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
+                  } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
+                      $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
+                  } else {
+                      $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
+                  }
+                  $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                  $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
+                  $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
+                  $data['document_two'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
+                  if($data['coop_info']->grouping == 'Federation'){
+                      $data['document_three'] = $this->uploaded_document_model->get_document_three_info($decoded_id);
+                  } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
+                      $data['document_three'] = $this->uploaded_document_model->get_document_three_info($decoded_id);
+                  } else {
+                      $data['document_three'] = 1;
+                  }
+                if($this->cooperatives_update_model->submit_for_evaluation($user_id,$decoded_id)){
+                  // echo $this->db->last_query();
+                  if($data['coop_info']->house_blk_no==null && $data['coop_info']->street==null) $x=''; else $x=', ';
 
-                                    //   $brgyforemail = ucwords($data['coop_info']->house_blk_no).' '.ucwords($data['coop_info']->street).$x.' '.$data['coop_info']->brgy.', '.$data['coop_info']->city.', '.$data['coop_info']->province.', '.$data['coop_info']->region;
-                                    //   // Get Count Coop Type for HO
-                                    //     $this->db->where(array('name'=>$data['coop_info']->type_of_cooperative,'active'=>1));
-                                    //     $this->db->from('head_office_coop_type');
-                                    //   // End Get Count Coop Type
-                                    //   if($this->db->count_all_results()>0)
-                                    //   {
-                                    //     $regioncode = '00';
-                                    //   } else {
-                                    //     $regioncode = '0'.mb_substr($data['coop_info']->refbrgy_brgyCode, 0, 2);
-                                    //   }
-                                    //   $senior_info = $this->admin_model->get_senior_info($regioncode);
-                                    //   $data['client_info'] = $this->user_model->get_user_info($user_id);
+                  $brgyforemail = ucwords($data['coop_info']->house_blk_no).' '.ucwords($data['coop_info']->street).$x.' '.$data['coop_info']->brgy.', '.$data['coop_info']->city.', '.$data['coop_info']->province.', '.$data['coop_info']->region;
 
-                                    //   $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
+                  // Get Count Coop Type for HO
+                    $this->db->where(array('name'=>$data['coop_info']->type_of_cooperative,'active'=>1));
+                    $this->db->from('head_office_coop_type');
+                  // End Get Count Coop Type
+                  if($this->db->count_all_results()>0)
+                  {
+                    $regioncode = '00';
+                  } else {
+                    $regioncode = '0'.mb_substr($data['coop_info']->refbrgy_brgyCode, 0, 2);
+                  }
 
-                                    //   if(!empty($data['coop_info']->acronym_name)){ 
-                                    //     $acronymname = '('.$data['coop_info']->acronym_name.')';
-                                    //   }else{ $acronymname = '';}
+                  $senior_info = $this->admin_model->get_ap_info($regioncode);
+                  $data['client_info'] = $this->user_model->get_user_info($user_id);
 
-                                    //   if($data['coop_info']->grouping == 'Federation'){
-                                    //     $proposednameemail = $data['coop_info']->proposed_name.' '.$data['coop_info']->grouping.' of '.$data['coop_info']->type_of_cooperative.' Cooperative '.$acronymname;
-                                    //   } else {
-                                    //     $proposednameemail = $data['coop_info']->proposed_name.' '.$data['coop_info']->grouping.' '.$data['coop_info']->type_of_cooperative.' Cooperative '.$acronymname;
-                                    //   }
-                                      
+                  $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
 
-                                    //   if($this->admin_model->sendEmailToSeniorHO($proposednameemail,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info)){
-                                    //   $this->session->set_flashdata('cooperative_success','Successfully resubmitted your application. Please Wait for an e-mail notification list of documents for submission');
-                                    //   redirect('cooperatives/'.$id);
-                                    // }
-                                  // }else{
-                                  //   $this->session->set_flashdata('cooperative_error','Unable to submit your application');
-                                  //   redirect('cooperatives/'.$id);
-                                  // }
-                                // }else{ 
-                                  // if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
-                                    if($this->cooperatives_update_model->submit_for_evaluation($user_id,$decoded_id)){
-                                      // echo $this->db->last_query();
-                                      if($data['coop_info']->house_blk_no==null && $data['coop_info']->street==null) $x=''; else $x=', ';
-
-                                      $brgyforemail = ucwords($data['coop_info']->house_blk_no).' '.ucwords($data['coop_info']->street).$x.' '.$data['coop_info']->brgy.', '.$data['coop_info']->city.', '.$data['coop_info']->province.', '.$data['coop_info']->region;
-
-                                      // Get Count Coop Type for HO
-                                        $this->db->where(array('name'=>$data['coop_info']->type_of_cooperative,'active'=>1));
-                                        $this->db->from('head_office_coop_type');
-                                      // End Get Count Coop Type
-                                      if($this->db->count_all_results()>0)
-                                      {
-                                        $regioncode = '00';
-                                      } else {
-                                        $regioncode = '0'.mb_substr($data['coop_info']->refbrgy_brgyCode, 0, 2);
-                                      }
-                                      // $regioncode = '0'.mb_substr($data['coop_info']->refbrgy_brgyCode, 0, 2);
-
-                                      $senior_info = $this->admin_model->get_ap_info($regioncode);
-                                      // var_dump($this->admin_model->get_ap_info($regioncode));
-                                      $data['client_info'] = $this->user_model->get_user_info($user_id);
-
-                                      $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
-
-                                      if(!empty($data['coop_info']->acronym_name)){ 
-                                        $acronymname = '('.$data['coop_info']->acronym_name.')';
-                                      }else{ $acronymname = '';}
+                  if(!empty($data['coop_info']->acronym_name)){ 
+                    $acronymname = '('.$data['coop_info']->acronym_name.')';
+                  }else{ $acronymname = '';}
 
 
-                                      if($data['coop_info']->grouping == 'Federation'){
-                                        $proposednameemail = $data['coop_info']->proposed_name.' '.$data['coop_info']->grouping.' of '.$data['coop_info']->type_of_cooperative.' Cooperative '.$acronymname;
-                                      } else {
-                                        $proposednameemail = $data['coop_info']->proposed_name.' '.$data['coop_info']->grouping.' '.$data['coop_info']->type_of_cooperative.' Cooperative '.$acronymname;
-                                      }
+                  if($data['coop_info']->grouping == 'Federation'){
+                    $proposednameemail = $data['coop_info']->proposed_name.' '.$data['coop_info']->grouping.' of '.$data['coop_info']->type_of_cooperative.' Cooperative '.$acronymname;
+                  } else {
+                    $proposednameemail = $data['coop_info']->proposed_name.' '.$data['coop_info']->grouping.' '.$data['coop_info']->type_of_cooperative.' Cooperative '.$acronymname;
+                  }
 
-                                      if($data['coop_info']->refbrgy_brgyCode == ''){
-                                        $region_for_ap_email = $data['client_info']->addrCode;
-                                      } else {
-                                        $region_for_ap_email = $data['coop_info']->refbrgy_brgyCode;
-                                      }
-                                      $this->admin_model->sendEmailToClientUpdating($proposednameemail,$data['client_info']->email);
-                                      if($this->admin_model->sendEmailToAP($data['coop_info']->coopName,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info,$data['coop_info']->regNo,$region_for_ap_email)){
-                                        $this->session->set_flashdata('cooperative_success','Thank you. Your cooperative’s information is now updated and will be reviewed by CDA Personnel');
-                                        redirect('cooperatives_update/'.$id);
-                                      } else {
-                                        $this->session->set_flashdata('cooperative_success','Thank you. Your cooperative’s information is now updated and will be reviewed by CDA Personnel');
-                                        redirect('cooperatives_update/'.$id);
-                                      }
-                                    }else{
-                                      $this->session->set_flashdata('cooperative_error','Unable to submit your application');
-                                     redirect('cooperatives_update/'.$id);
-                                    }
-                                  // }else{
-                                  //   $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
-                                  //   redirect('cooperatives/'.$id);
-                                  // }
-                                // }
-                //               }else if(!$data['document_one'] && !$data['document_two'] && !$data['document_three']){
-                //                 $this->session->set_flashdata('redirect_message', 'Please upload first your two other documents.');
-                //                 redirect('cooperatives/'.$id);
-                //               }else if(!$data['document_one']){
-                //                 $this->session->set_flashdata('redirect_message', 'Please upload first your document one.');
-                //                 redirect('cooperatives/'.$id);
-                //               }else{
-                //                 $this->session->set_flashdata('redirect_message', 'Please upload first your document two.');
-                //                 redirect('cooperatives/'.$id);
-                //               }
-                //             }else{
-                //               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                //               redirect('cooperatives/'.$id);
-                //             }
-                //           }else{
-                //             $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                //             redirect('cooperatives/'.$id);
-                //           }
-                //         }else{
-                //           $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
-                //           redirect('cooperatives/'.$id);
-                //         }
-                //       }else{
-                //         $this->session->set_flashdata('redirect_message', 'Please complete first your article of cooperation additional information.');
-                //         redirect('cooperatives/'.$id);
-                //       }
-                //     }else{
-                //       $this->session->set_flashdata('redirect_message', 'Please complete first your cooperative&apos;s purpose .');
-                //       redirect('cooperatives/'.$id);
-                //     }
-                //   }else{
-                //         if($data['coop_info']->grouping == 'Federation'){
-                //             $complete = 'Members';
-                //         } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
-                //             $complete = 'Members';
-                //         } else {
-                //             $complete = 'Cooperators';
-                //         }
-                //       $this->session->set_flashdata('redirect_message', 'Please complete first your list of '.$complete.'');
-                //         redirect('cooperatives/'.$id);
-                //   }
-                // }else{
-                //   $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
-                //   redirect('cooperatives/'.$id);
-                // }
+                  if($data['coop_info']->refbrgy_brgyCode == ''){
+                    $region_for_ap_email = $data['client_info']->addrCode;
+                  } else {
+                    $region_for_ap_email = $data['coop_info']->refbrgy_brgyCode;
+                  }
+                  $this->admin_model->sendEmailToClientUpdating($proposednameemail,$data['client_info']->email);
+                  if($this->admin_model->sendEmailToAP($data['coop_info']->coopName,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info,$data['coop_info']->regNo,$region_for_ap_email)){
+                    $this->session->set_flashdata('cooperative_success','Thank you. Your cooperative’s information is now updated and will be reviewed by CDA Personnel');
+                    redirect('cooperatives_update/'.$id);
+                  } else {
+                    $this->session->set_flashdata('cooperative_success','Thank you. Your cooperative’s information is now updated and will be reviewed by CDA Personnel');
+                    redirect('cooperatives_update/'.$id);
+                  }
+                }else{
+                  $this->session->set_flashdata('cooperative_error','Unable to submit your application');
+                 redirect('cooperatives_update/'.$id);
+                }
               }else{
                 redirect('cooperatives/'.$id);
               }
@@ -1209,30 +1125,6 @@
                           redirect('cooperatives');
                         }
                       }else if($this->session->userdata('access_level')==6){
-                        // if($this->cooperatives_model->check_first_evaluated($decoded_id)){
-                        //     if($this->cooperatives_model->check_if_revert($decoded_id)){
-                        //       $data_field = array(
-                        //           'cooperatives_id' => $decoded_id,
-                        //           'comment' => $comment_by_specialist_senior,
-                        //           'documents' => $reason_documents,
-                        //           'rec_action' => $reason_rec_action,
-                        //           'revert_tool' => $reason_tool_findings,
-                        //           'user_id' => $user_id,
-                        //           'user_level' => $data['admin_info']->access_level,
-                        //           'status' => 17
-                        //       );
-                        //     } else {
-                              // $data_field = array(
-                              //     'cooperatives_id' => $decoded_id,
-                              //     'comment' => $comment_by_specialist_senior,
-                              //     'documents' => $reason_documents,
-                              //     'rec_action' => $reason_rec_action,
-                              //     'tool_comments' => $reason_tool_findings,
-                              //     'user_id' => $user_id,
-                              //     'user_level' => $data['admin_info']->access_level
-                              // );
-                            // }
-
                             $coop_info = $this->cooperatives_update_model->get_cooperative_info_by_admin($decoded_id);
 
                             if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
@@ -1268,10 +1160,6 @@
                               $data['admin_info_ho'] = $this->admin_model->get_admin_info($coop_info->evaluated_by);
                             }
 
-                            // $this->admin_model->sendEmailToDirectorFromSenior($senior_emails,$coop_full_name,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['admin_info_ho'],$coop_info->specialist_submit_at,$coop_info->third_evaluated_by);
-
-                            // $success = $this->cooperatives_update_model->insert_comment_history($data_field);
-                            // echo $coop_info->type_of_cooperative;
                             $this->admin_model->sendEmailToClientUpdatingApprove($data['client_info']->email,$coop_info->regNo,$coop_info->refbrgy_brgyCode);
                             $success = $this->cooperatives_update_model->approve_by_senior($data['admin_info'],$decoded_id,$coop_full_name,$comment_by_specialist_senior,$coop_info->grouping,$coop_info->type_of_cooperative,$coop_info->refbrgy_brgyCode,$coop_info->common_bond_of_membership,$coop_info->area_of_operation,$coop_info->street,$coop_info->house_blk_no);
                             if($success){
@@ -1281,19 +1169,7 @@
                               $this->session->set_flashdata('list_error_message', 'Unable to approve cooperative.');
                               redirect('updated_cooperative_info');
                             }
-                        // }else{
-                        //   $this->session->set_flashdata('redirect_applications_message', 'The application must evaluated first by a Cooperative Development Specialist II.');
-                        //   redirect('cooperatives');
-                        // }
                       }
-                    // }else{
-                    //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you trying to approve is already denied.');
-                    //   redirect('cooperatives');
-                    // }
-                  // }else{
-                  //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you trying to approve is not yet submitted for evaluation.');
-                  //   redirect('cooperatives');
-                  // }
                 }else{
                   $this->session->set_flashdata('redirect_applications_message', 'The cooperative is already expired.');
                   redirect('cooperatives');
@@ -1305,294 +1181,6 @@
           }
         }else{
           redirect('cooperatives');
-        }
-      }
-    }
-
-    public function defer_cooperative(){
-      if(!$this->session->userdata('logged_in')){
-        redirect('users/login');
-      }else{
-        if($this->input->post('deferCooperativeBtn')){
-          $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID',TRUE)));
-          $user_id = $this->session->userdata('user_id');
-          $data['is_client'] = $this->session->userdata('client');
-          if(is_numeric($decoded_id) && $decoded_id!=0){
-            if($this->session->userdata('client')){
-              $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-              redirect('cooperatives');
-            }else{
-                if($this->session->userdata('access_level')==5){
-                  redirect('admins/login');
-                }else{
-                  // // if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
-                  //   if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
-                  //     if(!$this->cooperatives_update_model->check_if_denied($decoded_id)){
-                        $reason_commment = $this->input->post('comment',TRUE);
-                        $reason_documents = $this->input->post('documents',TRUE);
-                        $reason_rec_action = $this->input->post('rec_action',TRUE);
-                        $reason_tool_comments = $this->input->post('tool_comments',TRUE);
-                        if($this->session->userdata('access_level')==4){
-                          // if($this->cooperatives_model->check_first_evaluated($decoded_id)){
-                          //   if($this->cooperatives_model->check_second_evaluated($decoded_id)){
-                              $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
-                              // if($this->cooperatives_model->check_last_evaluated($decoded_id) && $coop_info->status != 17){
-                              //   $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
-                              //   redirect('cooperatives');
-                              // }else{
-                              //   $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-
-                              //   $query3  = $this->db->get_where('regional_officials',array('region_code'=>$data['admin_info']->region_code));
-                              //   if($query3->num_rows()>0)
-                              //   {
-                              //     $reg_officials_info = $query3->row_array();
-                              //   }
-                              //   else
-                              //   {
-                              //     $reg_officials_info = array(
-                              //       'email' => 'head_office',
-                              //       'contact' => '0830403430'
-                              //     );
-                              //   }
-
-                              //     // $coop_full_name = $this->input->post('cName',TRUE);
-
-                              //     $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
-
-                              //     if($coop_info->grouping == 'Federation'){
-                              //       $proposednameemail = $data['coop_info']->proposed_name.' '.$data['coop_info']->grouping.' of '.$data['coop_info']->type_of_cooperative.' Cooperative '.$acronymname;
-                              //     } else {
-                              //       $proposednameemail = $data['coop_info']->proposed_name.' '.$data['coop_info']->grouping.' '.$data['coop_info']->type_of_cooperative.' Cooperative '.$acronymname;
-                              //     }
-
-                              //     if(!empty($coop_info->acronym_name)){ 
-                              //         $acronymname = '('.$coop_info->acronym_name.')';
-                              //     } else { 
-                              //       $acronymname = '';
-                              //     }
-
-                              //     if($coop_info->grouping == 'Federation'){
-                              //       $coop_full_name = $coop_info->proposed_name.' '.$coop_info->grouping.' of '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname;
-                              //     } else {
-                              //       $coop_full_name = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname;
-                              //     }
-
-                              //     if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
-
-                              //     $brgyforemail = ucwords($coop_info->house_blk_no).' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
-
-                              //     $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
-
-                              //     $this->admin_model->sendEmailToClientDefer($coop_full_name,$brgyforemail,$data['client_info']->email,$reason_commment,$reason_documents,$reason_rec_action,$data['admin_info']->region_code,$reg_officials_info,$reason_tool_comments);
-
-                              //   if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
-                              //     $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
-
-                              //     if($coop_info->status == 17){
-                              //       $status = 17;
-                              //     } else {
-                              //       $status = 11;
-                              //     }
-                                  
-                              //     if($this->cooperatives_model->check_if_revert($decoded_id)){
-                              //       $comment = array(
-                              //           'cooperatives_id' => $decoded_id,
-                              //           'comment' => $reason_commment,
-                              //           'documents' => $reason_documents,
-                              //           'rec_action' => $reason_rec_action,
-                              //           'revert_tool' => $reason_tool_comments,
-                              //           'user_id' => $user_id,
-                              //           'user_level' => $data['admin_info']->access_level,
-                              //           'status' =>17
-                              //       );
-                              //     } else {
-                              //       $comment = array(
-                              //           'cooperatives_id' => $decoded_id,
-                              //           'comment' => $reason_commment,
-                              //           'documents' => $reason_documents,
-                              //           'rec_action' => $reason_rec_action,
-                              //           'tool_comments' => $reason_tool_comments,
-                              //           'user_id' => $user_id,
-                              //           'user_level' => $data['admin_info']->access_level,
-                              //           'status' =>$status
-                              //       );
-                              //     }
-                              //     $this->cooperatives_model->insert_comment_history($comment);
-                              //     if($success){
-                              //       $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
-                              //       redirect('cooperatives');
-                              //     }else{
-                              //       $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
-                              //       redirect('cooperatives');
-                              //     }
-                              //   }else{
-                              //     $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated by the Director.');
-                              //     redirect('cooperatives');
-                              //   }
-                              // }
-                          //   }else{
-                          //     $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated first by a Senior Cooperative Development Specialist.');
-                          //     redirect('cooperatives');
-                          //   }
-                          // }else{
-                          //   $this->session->set_flashdata('redirect_applications_message', 'The application must evaluate first by a Cooperative Development Specialist II.');
-                          //   redirect('cooperatives');
-                          // }
-                        }else if($this->session->userdata('access_level')==3){
-                          if($this->cooperatives_model->check_first_evaluated($decoded_id)){
-                            if($this->cooperatives_model->check_second_evaluated($decoded_id)){
-                              $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
-                              if($this->cooperatives_model->check_last_evaluated($decoded_id) && $coop_info->status != 17){
-                                $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
-                                redirect('cooperatives');
-                              }else{
-                                if($coop_info->status == 17){
-                                  $status = 17;
-                                } else {
-                                  $status = 11;
-                                }
-                                $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-                                if($this->admin_model->check_if_director_active($user_id,$data['admin_info']->region_code)){
-
-                                  if($this->cooperatives_model->check_if_revert($decoded_id)){
-                                    $data_field = array(
-                                        'cooperatives_id' => $decoded_id,
-                                        'comment' => $reason_commment,
-                                        'documents' => $reason_documents,
-                                        'rec_action' => $reason_rec_action,
-                                        'revert_tool' => $reason_tool_comments,
-                                        'user_id' => $user_id,
-                                        'user_level' => $data['admin_info']->access_level,
-                                        'status' =>17
-                                    );
-                                  } else {
-                                    $data_field = array(
-                                        'cooperatives_id' => $decoded_id,
-                                        'comment' => $reason_commment,
-                                        'documents' => $reason_documents,
-                                        'rec_action' => $reason_rec_action,
-                                        'tool_comments' => $reason_tool_comments,
-                                        'user_id' => $user_id,
-                                        'user_level' => $data['admin_info']->access_level,
-                                        'status' =>$status
-                                    );
-                                  }
-                                  $success_comment = $this->cooperatives_model->insert_comment_history($data_field);
-
-                                  // $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-
-                                  $query3  = $this->db->get_where('regional_officials',array('region_code'=>$data['admin_info']->region_code));
-                                  if($query3->num_rows()>0)
-                                  {
-                                    $reg_officials_info = $query3->row_array();
-                                  }
-                                  else
-                                  {
-                                    $reg_officials_info = array(
-                                      'email' => 'head_office',
-                                      'contact' => '0830403430'
-                                    );
-                                  }
-
-                                  // $coop_full_name = $this->input->post('cName',TRUE);
-
-                                  $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
-
-                                  if(!empty($coop_info->acronym_name)){ 
-                                      $acronymname = '('.$coop_info->acronym_name.')';
-                                  } else { 
-                                    $acronymname = '';
-                                  }
-
-                                  if($coop_info->grouping == 'Federation'){
-                                    $coop_full_name = $coop_info->proposed_name.' '.$coop_info->grouping.' of '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname;
-                                  } else {
-                                    $coop_full_name = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname;
-                                  }
-
-                                  if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
-
-                                  $brgyforemail = ucwords($coop_info->house_blk_no).' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
-
-                                  $data['client_info'] = $this->user_model->get_user_info($coop_info->users_id);
-
-                                  $this->admin_model->sendEmailToClientDefer($coop_full_name,$brgyforemail,$data['client_info']->email,$reason_commment,$reason_documents,$reason_rec_action,$data['admin_info']->region_code,$reg_officials_info,$reason_tool_comments);
-
-                                  $success = $this->cooperatives_model->defer_by_admin($user_id,$decoded_id,$reason_commment,3);
-                                  if($success_comment && $success){
-                                    $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
-                                    redirect('cooperatives');
-                                  }else{
-                                    $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
-                                    redirect('cooperatives');
-                                  }
-                                }else{
-                                  $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated by the Supervising CDS.');
-                                  redirect('cooperatives');
-                                }
-                              }
-                            }else{
-                              $this->session->set_flashdata('redirect_applications_message', 'The application must be evaluated first by a Senior Cooperative Development Specialist.');
-                              redirect('cooperatives');
-                            }
-                          }else{
-                            $this->session->set_flashdata('redirect_applications_message', 'The application must evaluate first by a Cooperative Development Specialist II.');
-                            redirect('cooperatives');
-                          }
-                        }else if($this->session->userdata('access_level')==2){
-                          // if($this->cooperatives_model->check_first_evaluated($decoded_id)){
-                            // if($this->cooperatives_model->check_second_evaluated($decoded_id)){
-                            //   $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Senior Cooperative Development Specialist.');
-                            //   redirect('cooperatives');
-                            // }else{
-                              $success = $this->cooperatives_update_model->defer_by_admin($user_id,$decoded_id,$reason_commment,2);
-                              if($success){
-                                $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
-                                redirect('updated_cooperative_info');
-                              }else{
-                                $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
-                                redirect('updated_cooperative_info');
-                              }
-                            // }
-                          // }else{
-                          //   $this->session->set_flashdata('redirect_applications_message', 'The application must evaluate first by a Cooperative Development Specialist II.');
-                          //   redirect('cooperatives');
-                          // }
-                        }else{
-                          if($this->cooperatives_model->check_first_evaluated($decoded_id)){
-                            $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
-                            redirect('updated_cooperative_info');
-                          }else{
-                            $success = $this->cooperatives_update_model->defer_by_admin($user_id,$decoded_id,$reason_commment,1);
-                            if($success){
-                              $this->session->set_flashdata('list_success_message', 'Cooperative has been deferred.');
-                              redirect('updated_cooperative_info');
-                            }else{
-                              $this->session->set_flashdata('list_error_message', 'Unable to defer cooperative.');
-                              redirect('updated_cooperative_info');
-                            }
-                          }
-                        }
-                  //     }else{
-                  //       $this->session->set_flashdata('redirect_applications_message', 'The cooperative you trying to defer is already denied.');
-                  //       redirect('cooperatives');
-                  //     }
-                  //   }else{
-                  //     $this->session->set_flashdata('redirect_applications_message', 'The cooperative you trying to deny is not yet submitted for evaluation.');
-                  //     redirect('cooperatives');
-                  //   }
-                  // }else{
-                  //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
-                  //   redirect('cooperatives');
-                  // }
-                }
-            }
-          }else{
-            show_404();
-          }
-        }else{
-          $this->session->set_flashdata('cooperative_error', validation_errors('<li>','</li>'));
-          redirect('cooperatives/'.$this->input->post('cooperativeID',TRUE));
         }
       }
     }

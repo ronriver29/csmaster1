@@ -7,6 +7,15 @@ class Cooperators_update extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
+    $this->load->model('cooperatives_update_model');
+    $this->load->model('bylaw_update_model');
+    $this->load->model('capitalization_update_model');
+    $this->load->model('user_model');
+    $this->load->model('capitalization_model');
+    $this->load->model('cooperators_update_model');
+    $this->load->model('bylaw_model');
+    $this->load->model('');
+    $this->load->model('');
   }
 
   function index($id = null)
