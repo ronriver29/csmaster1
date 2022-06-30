@@ -20,6 +20,7 @@ class Laboratories_documents extends CI_Controller{
     $this->load->model('laboratories_model');
     $this->load->model('purpose_model');
     $this->load->model('region_model');
+    $this->load->model('charter_model');
   }
 
   function index($id = null)

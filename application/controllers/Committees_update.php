@@ -313,6 +313,8 @@ class Committees_update extends CI_Controller{
                                 $result_array[] = $applied_coop['application_id'];
                             }
                             $data['applied_coop_union'] = $this->unioncoop_model->get_applied_coop_for_committees($user_id);
+
+                            $result_array_union = array();
                             foreach($data['applied_coop_union'] as $applied_coop_union){
                                 $result_array_union[] = $applied_coop_union['application_id'];
                             }
@@ -865,7 +867,7 @@ class Committees_update extends CI_Controller{
                     // $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                   if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
-                    if($data['purposes_complete']){
+                    // if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_update_model->check_article_primary_complete($decoded_id) : true;
                       if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                         // if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
@@ -985,10 +987,10 @@ class Committees_update extends CI_Controller{
                         $this->session->set_flashdata('redirect_message', 'Please complete first your article of cooperation additional information.');
                         redirect('cooperatives_update/'.$id);
                       }
-                    }else{
-                      $this->session->set_flashdata('redirect_message', 'Please complete first your cooperative&apos;s purpose .');
-                      redirect('cooperatives_update/'.$id);
-                    }
+                    // }else{
+                    //   $this->session->set_flashdata('redirect_message', 'Please complete first your cooperative&apos;s purpose .');
+                    //   redirect('cooperatives_update/'.$id);
+                    // }
                   }else{
                     if($data['coop_info']->grouping == 'Federation'){
                             $complete = 'Affiliators';
