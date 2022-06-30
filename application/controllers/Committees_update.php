@@ -223,7 +223,7 @@ class Committees_update extends CI_Controller{
                           } else {
                               $this->load->view('update/committees/committees_list', $data);
                           }
-                          $this->load->view('committees/delete_modal_committee');
+                          $this->load->view('update/committees/delete_modal_committee');
                           $this->load->view('./templates/admin_footer');
                         // }else{
                         //   $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
@@ -1387,45 +1387,42 @@ class Committees_update extends CI_Controller{
               //}
             }else{
               $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-              redirect('cooperatives');
+              redirect('cooperatives_update');
             }
           }else{
             if($this->session->userdata('access_level')==5){
               redirect('admins/login');
-            }else if($this->session->userdata('access_level')!=1){
-              redirect('cooperatives');
             }else{
-              if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
-                if($this->cooperatives_model->check_first_evaluated($decoded_id)){
-                  $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
-                  redirect('cooperatives');
-                }else{
-                  $decoded_post_committee_id = $this->encryption->decrypt(decrypt_custom($this->input->post('committeeID')));
-                  if($this->cooperator_model->check_cooperator_in_cooperative($decoded_id,$decoded_post_cooperator_id)){
-                    $success = $this->committee_model->delete_committee($decoded_post_committee_id);
-                    if($success){
-                      $this->session->set_flashdata('committee_success', 'Committee has been deleted.');
-                      redirect('cooperatives/'.$this->input->post('cooperativeID',TRUE).'/committees');
-                    }else{
-                      $this->session->set_flashdata('committee_error', 'Unable to delete committee.');
-                      redirect('cooperatives/'.$this->input->post('cooperativeID',TRUE).'/committees');
+              // if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
+              $decoded_post_committee_id = $this->encryption->decrypt(decrypt_custom($this->input->post('committeeID')));
+              $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
+                if($data['coop_info']->grouping=="Federation"){
+                        $success = $this->committee_model->delete_committee_federation($decoded_post_committee_id);
+                    } else if($data['coop_info']->grouping=="Union"){
+                        $success = $this->committee_model->delete_committee_union($decoded_post_committee_id);
+                    } else {
+                        $success = $this->committee_model->delete_committee($decoded_post_committee_id);
                     }
+                  // echo $this->db->last_query();                  
+
+                  if($success){
+                    $this->session->set_flashdata('committee_success', 'Committee has been deleted.');
+                    redirect('cooperatives_update/'.$this->input->post('cooperativeID',TRUE).'/committees_update');
                   }else{
-                    $this->session->set_flashdata('committee_redirect', 'Unauthorized!!.');
-                    redirect('cooperatives/'.$this->input->post('cooperativeID',TRUE)."/committees");
+                    $this->session->set_flashdata('committee_error', 'Unable to delete committee.');
+                    redirect('cooperatives_update/'.$this->input->post('cooperativeID',TRUE).'/committees_update');
                   }
-                }
-              }else{
-                $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.');
-                redirect('cooperatives');
-              }
+              // }else{
+              //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.');
+              //   redirect('cooperatives_update');
+              // }
             }
           }
         }else{
-          redirect('cooperatives');
+          redirect('cooperatives_update');
         }
       }else{
-        redirect('cooperatives');
+        redirect('cooperatives_update');
       }
     }
   }
