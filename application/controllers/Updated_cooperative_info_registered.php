@@ -9,6 +9,7 @@
       $this->load->model('admin_model');
       $this->load->model('cooperatives_update_model');
       $this->load->model('cooperatives_model');
+      $this->load->model('region_model');
       //Codeigniter : Write Less Do More
     }
     public function index(){
