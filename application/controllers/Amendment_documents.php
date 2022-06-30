@@ -1018,6 +1018,9 @@ public function count_documents_coop($coop_id,$num)
       $this->load->library('pdf');
       $this->load->model('bylaw_model');
        $this->load->model('cooperator_model');
+       $this->load->model('article_of_cooperation_model');
+       $this->load->model('capitalization_model');
+       
       if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
         if($this->session->userdata('client')){
           if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
@@ -1481,6 +1484,11 @@ public function count_documents_coop($coop_id,$num)
     }else{
       $this->load->library('pdf');
       $this->load->model('cooperator_model');
+      $this->load->model('capitalization_model');
+      $this->load->model('bylaw_model');
+      $this->load->model('cooperator_model');
+      $this->load->model('cooperatives_model');
+      $this->load->model('article_of_cooperation_model');
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $user_id = $this->session->userdata('user_id');
       $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
