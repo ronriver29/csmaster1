@@ -1046,7 +1046,8 @@ class amendment extends CI_Controller{
                             $list_subclass[]= $this->major_industry_description_subclass($srow['subclass_id']);
                           }
                          }
-
+                         unset($sdata);
+                         unset($srow);
                          $data['list_subclass'] = $list_subclass;
 
                       }
