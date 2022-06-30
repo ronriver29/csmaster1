@@ -46,8 +46,8 @@
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
-      $this->output->enable_profiler(TRUE);
-      $this->benchmark->mark('code_start');
+      // $this->output->enable_profiler(TRUE);
+      // $this->benchmark->mark('code_start');
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
         if($this->session->userdata('client')){
@@ -235,8 +235,8 @@
             $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
             $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
 
-      $this->benchmark->mark('code_end');
-      $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
+      // $this->benchmark->mark('code_end');
+      // $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
 
             $this->load->view('templates/admin_header', $data);
             $this->load->view('applications/list_of_applications', $data);
