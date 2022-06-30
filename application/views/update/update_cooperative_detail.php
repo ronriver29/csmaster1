@@ -90,7 +90,13 @@
               </div>
             </div>
 
-          <?php if($coop_info->type_of_cooperative != 'Multipurpose' && strpos($coop_info->type_of_cooperative, ',') == false ){?>
+          <?php 
+          // if(strpos($coop_info->type_of_cooperative, ',') !== false){
+          //   echo 'Found';
+          // } else {
+          //   echo 'Not Found';
+          // }
+          if($coop_info->type_of_cooperative != 'Multipurpose' && strpos($coop_info->type_of_cooperative, ',') === false ){?>
             <div class="row">
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
@@ -175,7 +181,7 @@
               </div>
             </div>
           <?php } ?>
-          <?php if($coop_info->type_of_cooperative != 'Multipurpose' && strpos($coop_info->type_of_cooperative, ',') == false ){?>
+          <?php if($coop_info->type_of_cooperative != 'Multipurpose' && strpos($coop_info->type_of_cooperative, ',') === false ){ ?>
             <div class="row">
               <div class="col-sm-12 col-md-12 col-industry-subclass">
                 <?php if(isset($business_activity)) : ?>
@@ -210,7 +216,7 @@
                         </div>
                       </div>
                       <?php endforeach; ?>
-                  <?php elseif($coop_info->type_of_cooperative != 'Multipurpose' && strpos($coop_info->type_of_cooperative, ',') == false ) : ?>
+                  <?php elseif($coop_info->type_of_cooperative != 'Multipurpose' && strpos($coop_info->type_of_cooperative, ',') === false ) : ?>
                     <div class="row">
                         <div class="col-sm-12 col-md-12">
                           <div class="form-group">
@@ -231,7 +237,7 @@
                       </div>
                   <?php else : ?> 
                     <div class="row">
-                      <div class="col-sm-12 col-md-12 col-industry-subclass">
+                      <div class="col-sm-12 col-md-12">
                         <div class="row-cis">
 
                           
@@ -242,23 +248,23 @@
                   <?php endif; ?>  
                 <?php else: ?> 
                   <div class="row">
-                          <div class="col-sm-12 col-md-12">
-                            <div class="form-group">
-                              <label for="majorIndustry1" id="majorlabel">Major Industry Classification No. 1</label>
-                              <select class="custom-select form-control" name="majorIndustry[]" id="majorIndustry1">
-                              
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-sm-12 col-md-12">
-                            <div class="form-group">
-                              <label for="subClass1" id="subclasslabel">Major Industry Classification No. 1 Subclass</label>
-                              <select class="custom-select form-control" name="subClass[]" id="subClass1" disabled>
-                                
-                              </select>
-                            </div>
-                          </div>
-                        </div>
+                    <div class="col-sm-12 col-md-12">
+                      <div class="form-group">
+                        <label for="majorIndustry1" id="majorlabel">Major Industry Classification No. 1</label>
+                        <select class="custom-select form-control" name="majorIndustry[]" id="majorIndustry1">
+                        
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                      <div class="form-group">
+                        <label for="subClass1" id="subclasslabel">Major Industry Classification No. 1 Subclass</label>
+                        <select class="custom-select form-control" name="subClass[]" id="subClass1" disabled>
+                          
+                        </select>
+                      </div>
+                    </div>
+                  </div>
                 <?php endif; ?>  
               </div>
             </div>
@@ -268,7 +274,103 @@
                 <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreSubclassBtn"><i class="fas fa-plus"></i> Add More Business Activity</button>
               </div>
             </div>
-            <?php } ?>
+          <?php } else { //echo '<pre>';echo print_r($business_activity); echo '</pre>';?>
+
+            <div class="row">
+              <div class="col-sm-12 col-md-12 col-industry-subclass">
+                <?php if(isset($business_activity)) : ?>
+                  <?php if(count($business_activity)>0) : ?>
+                      <?php foreach($business_activity as $key => $major_industry) : ?>
+                     
+                      <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                          <div class="form-group">
+                            <?php if($key>=1) :?>
+                              <a class="customDeleteBtn businessActivityRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
+                            <?php endif; ?>
+                            <label for="majorIndustry" id="majorlabel">Major Industry Classification No. <?= ($key+1)?></label>
+                            <select class="custom-select form-control major-type" name="majorIndustry[<?= ($key+1)?>]['major_id']" id="majorIndustry<?= ($key+1)?>">
+                              <option value=""></option>
+                              <?php foreach($major_industries_by_coop_type as $key2 => $major_industry_single) : ?>
+                                <option value="<?= $major_industry_single['id']?>" <?=($major_industry_single['id'] == $major_industry['bactivity_id'] ? 'selected' : '')?>><?= $major_industry_single['description']?></option>
+                              <?php endforeach; ?>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                          <div class="form-group">
+                            <label for="subClass<?= ($key+1)?>" id="subclasslabel">Major Industry Classification No. <?= ($key+1)?> Subclass</label>
+                            <select class="custom-select form-control" name="majorIndustry[<?= ($key+1)?>][subclass_id]" id="subClass<?= ($key+1)?>">
+                              <?php 
+                              foreach($major_industries_subclass as $subclass_list){?>
+                              <option value="<?=$subclass_list['id']?>" <?=($major_industry['bactivitysubtype_id'] == $subclass_list['id'] ? 'selected' :'')?>><?=$subclass_list['description']?></option>
+                              <?php } ?>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <?php endforeach; ?>
+                  <?php elseif($coop_info->type_of_cooperative != 'Multipurpose' && strpos($coop_info->type_of_cooperative, ',') === false ) : ?>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                          <div class="form-group">
+                            <label for="majorIndustry1" id="majorlabel">Major Industry Classification No. 1</label>
+                            <select class="custom-select form-control" name="majorIndustry[]" id="majorIndustry1">
+                            
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                          <div class="form-group">
+                            <label for="subClass1" id="subclasslabel">Major Industry Classification No. 1 Subclass</label>
+                            <select class="custom-select form-control" name="subClass[]" id="subClass1" disabled>
+                              
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                  <?php else : ?> 
+                    <div class="row">
+                      <div class="col-sm-12 col-md-12">
+                        <!-- <input type="hidden" value=""> -->
+                        <div class="row-cis">
+
+                          
+                        </div>
+                      </div>
+                    </div> 
+                        
+                  <?php endif; ?>  
+                <?php else: ?> 
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                      <div class="form-group">
+                        <label for="majorIndustry1" id="majorlabel">Major Industry Classification No. 1</label>
+                        <select class="custom-select form-control" name="majorIndustry[]" id="majorIndustry1">
+                        
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12">
+                      <div class="form-group">
+                        <label for="subClass1" id="subclasslabel">Major Industry Classification No. 1 Subclass</label>
+                        <select class="custom-select form-control" name="subClass[]" id="subClass1" disabled>
+                          
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                <?php endif; ?>  
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-12 offset-md-9 col-md-3">
+                <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoreSubclassBtn"><i class="fas fa-plus"></i> Add More Business Activity</button>
+              </div>
+            </div>
+
+          <?php } ?>
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
@@ -315,7 +417,7 @@
               </div>
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
-                  <label for="areaOfOperation">Area of Operation </label>
+                  <label for="areaOfOperation">Area of Operation</label>
                   <input type="hidden" class="form-control validate[required]" id="areaOfOperation2" name="areaOfOperation2" value="<?= $coop_info->area_of_operation ?>">
                   <select class="custom-select validate[required]" name="areaOfOperation" id="areaOfOperation">
                     <option value="" >--</option>
@@ -323,7 +425,7 @@
                     <option value="Municipality/City" <?=($coop_info->area_of_operation =='Municipality/City' ? 'selected' :'')?>>Municipality/City</option>
                     <option value="Provincial" <?=($coop_info->area_of_operation =='Provincial' ? 'selected' :'')?>>Provincial</option>
                     <option value="Regional" <?=($coop_info->area_of_operation =='Regional' ? 'selected' :'')?>>Regional</option>
-                    <option value="Interregional" <?=($coop_info->area_of_operation =='interregional' ? 'selected' :'')?>>Inter-Regional</option>
+                    <option value="Interregional" <?=($coop_info->area_of_operation =='Interregional' ? 'selected' :'')?>>Inter-Regional</option>
                     <option value="National" <?=($coop_info->area_of_operation =='National' ? 'selected' :'')?>>National</option>
                   </select>
                 </div>
@@ -480,7 +582,7 @@
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="blkNo">House/Lot & Blk No.</label>
-                  <input type="text" class="form-control" name="blkNo" id="blkNo" placeholder="">
+                  <input type="text" class="form-control" name="blkNo" id="blkNo" placeholder="" value="<?=$coop_info->house_blk_no?>">
                 </div>
               </div>
               <div class="col-sm-12 col-md-4">

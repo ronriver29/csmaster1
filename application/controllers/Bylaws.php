@@ -134,9 +134,10 @@ class Bylaws extends CI_Controller{
                       $additionalRequirementsForMembership = substr_replace($additionalRequirementsForMembership, "", -1);
                     }
                     
+                    $additionaldelegatePowers = '';
                     if($this->input->post('additionaldelegatePowers')){
                       $regQualificationsLength = sizeof($this->input->post('additionaldelegatePowers'));
-                      $additionaldelegatePowers = '';
+                      
                       for($i = 0; $i< $regQualificationsLength;$i++){
                         $additionaldelegatePowers .=  $this->input->post('additionaldelegatePowers')[$i].';';
                         }
