@@ -450,7 +450,6 @@ class amendment_update_model extends CI_Model{
     $query = $this->db->get();
     return $query->row();
   }
-
   public function get_coop_info2($amendment_id)
   {
     $data =null;

@@ -1151,16 +1151,7 @@ public function count_documents_coop($coop_id,$num)
                         //   $data['committees_complete'] = $this->committee_model->committee_complete_count_amendment($decoded_id);
                         // }
                         if($data['committees_complete']){
-                            // $data['economic_survey_complete'] = $this->amendment_economic_survey_model->check_survey_complete($decoded_id);
-                            // if(!$data['economic_survey_complete']) {
-                            //     $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            // }
-                            // if($data['economic_survey_complete']){
-                            //   $data['staff_complete'] = $this->amendment_staff_model->requirements_complete($decoded_id);
-                            //   if(!$data['staff_complete']) {
-                            //     $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                            //   }
-                            //   if($data['staff_complete']){
+
                                 $data['title'] = 'Articles of Cooperation for Primary';
                                 $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($decoded_id);
                                 $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$decoded_id);

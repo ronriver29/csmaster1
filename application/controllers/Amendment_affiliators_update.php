@@ -126,11 +126,9 @@ class Amendment_affiliators_update extends CI_Controller{
             if($this->session->userdata('access_level')!=6){
               redirect('admins/login');
             }else{
-              // if($this->amendment_update_model->check_expired_reservation_by_admin($this->decoded_id)){
-              //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
-              //   redirect('cooperatives');
-              // }else{
-                // if($this->amendment_update_model->check_submitted_for_evaluation($this->decoded_id)){
+              $this->load->model('admin_model');
+              $this->load->model('region_model');
+        
 
                   $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;

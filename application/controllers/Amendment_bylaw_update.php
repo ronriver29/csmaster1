@@ -115,7 +115,7 @@ class Amendment_bylaw_update extends CI_Controller{
                  
                   }
                   
-                  $data['is_update_cooperative'] = $this->amendment_model->check_date_registered($data['client_info']->regno);
+                  $data['is_update_cooperative'] = $this->amendment_update_model->check_date_registered($data['client_info']->regno);
                   $this->load->view('template/header', $data);
                   $this->load->view('update/amendment/bylaw_info/bylaw_update_union', $data);
                   $this->load->view('template/footer');
@@ -228,7 +228,7 @@ class Amendment_bylaw_update extends CI_Controller{
                     $data['primary_consideration'] =  explode(";",$data['bylaw_info']->primary_consideration);
                     }  
 
-                    $data['is_update_cooperative'] = $this->amendment_model->check_date_registered($data['client_info']->regno);
+                    $data['is_update_cooperative'] = $this->amendment_update_model->check_date_registered($data['client_info']->regno);
                     $this->load->view('templates/admin_header', $data);
                     $this->load->view('update/amendment/bylaw_info/bylaw_update_union.php', $data);
                     $this->load->view('templates/admin_footer');
@@ -249,7 +249,6 @@ class Amendment_bylaw_update extends CI_Controller{
                       }
                       $ascQualicationsTemp = substr_replace($ascQualicationsTemp, "", -1);
                     }
-
                     $membership_fee=str_replace(',','',$this->input->post('membershipFee'));
                     $investPerMonth=str_replace(',','',$this->input->post('investPerMonth'));
                     // var_dump($this->input->post('additionalRequirementsForMembership'));
@@ -261,7 +260,7 @@ class Amendment_bylaw_update extends CI_Controller{
                         }
                       $additionalRequirementsForMembership = substr_replace($additionalRequirementsForMembership, "", -1);
                     }
-                    // var_dump( $additionalRequirementsForMembership);
+                  
                     if($this->input->post('additionaldelegatePowers')){
                       $regQualificationsLength = sizeof($this->input->post('additionaldelegatePowers'));
                       $additionaldelegatePowers = '';
@@ -351,7 +350,7 @@ class Amendment_bylaw_update extends CI_Controller{
                   $data['add_members_vote'] =  explode(";",$data['bylaw_info']->additional_conditions_to_vote);
                   }
 
-                    $data['is_update_cooperative'] = $this->amendment_model->check_date_registered($data['client_info']->regno);
+                    $data['is_update_cooperative'] = $this->amendment_update_model->check_date_registered($data['client_info']->regno);
                   $this->load->view('template/header', $data);
                   $this->load->view('update/amendment/bylaw_info/bylaw_update_federation', $data);
                   $this->load->view('template/footer');
@@ -444,6 +443,7 @@ class Amendment_bylaw_update extends CI_Controller{
           if($this->session->userdata('access_level')!=6){
             redirect('admins/login');
           }else{ 
+            $this->load->model('region_model');
             // if(!$this->amendment_update_model->check_expired_reservation_by_admin($this->decoded_id)){
               if($this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id)->grouping =="Federation"){
                 // if($this->amendment_update_model->check_submitted_for_evaluation($this->decoded_id)){
@@ -471,7 +471,7 @@ class Amendment_bylaw_update extends CI_Controller{
                     $data['add_members_vote'] =  explode(";",$data['bylaw_info']->additional_conditions_to_vote);
                     }
                  
-                     $data['is_update_cooperative'] = $this->amendment_model->check_date_registered($data['coop_info']->regNo);
+                     $data['is_update_cooperative'] = $this->amendment_update_model->check_date_registered($data['coop_info']->regNo);
                     $this->load->view('templates/admin_header', $data);
                     $this->load->view('update/amendment/bylaw_info/bylaw_update_federation', $data);
                     $this->load->view('templates/admin_footer');

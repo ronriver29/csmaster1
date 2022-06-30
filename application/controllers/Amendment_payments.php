@@ -271,8 +271,6 @@ class Amendment_payments extends CI_Controller{
     $this->load->library('pdf');
     if ($this->input->post('offlineBtn')){
 
- 
-
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
 
       $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);

@@ -342,12 +342,11 @@ class amendment extends CI_Controller{
       $this->load->view('templates/admin_footer');
     }  
 
-        public function registered_ho()
+    public function registered_ho()
     {
       if(!$this->session->userdata('logged_in')){
         redirect('admins/login');
       }
-
       if($this->session->userdata('access_level')==5)
       {
         redirect('admins/login');

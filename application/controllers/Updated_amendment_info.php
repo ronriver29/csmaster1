@@ -78,8 +78,6 @@
     );
     $data['links']=$this->paginate($array);
     $data['list_cooperatives_registered'] = $this->amendment_update_model->get_all_registered_amendment($data['admin_info']->region_code,$config['per_page'],$page,$this->coopName,$this->regNo); 
-
-    // echo $this->db->last_query();
     $this->load->view('templates/admin_header', $data);
     $this->load->view('applications/list_updated_registered_amendment', $data);
     $this->load->view('applications/assign_admin_modal');

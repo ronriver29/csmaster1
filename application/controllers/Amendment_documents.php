@@ -1026,7 +1026,6 @@ public function count_documents_coop($coop_id,$num)
           if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
             if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
               $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
-              
               $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
                 
                 if($data['bylaw_complete']){

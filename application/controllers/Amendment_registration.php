@@ -45,8 +45,6 @@ public $decoded_id =null;
        $cooperative_id =$this->amendment_model->coop_dtl($this->decoded_id);
       //add to registered cooop
       $coop_info = $this->amendment_model->get_cooperative_info_by_admin_payment($this->decoded_id);
-
-    
       if ($coop_info->category_of_cooperative =='Primary')
           $pst="1";
       else if ($coop_info->category_of_cooperative =='Secondary')  

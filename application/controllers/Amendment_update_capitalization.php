@@ -23,6 +23,7 @@ class Amendment_update_capitalization extends CI_Controller{
       $this->load->model('amendment_update_cooperator_model');
       $this->load->model('amendment_article_update_model');
       $this->load->model('region_model');
+      $this->load->model('amendment_affiliators_update_model');
     	$data['encrypted_id'] =$id;
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
          $cooperative_id = $this->coop_dtl($this->decoded_id);
@@ -65,7 +66,6 @@ class Amendment_update_capitalization extends CI_Controller{
                     $data['article_info'] = $this->amendment_article_update_model->get_article_by_coop_id($this->decoded_id);
                     $data['total_associate'] = $this->amendment_update_cooperator_model->get_total_associate($cooperative_id,$this->decoded_id);
                     //end modified
-                
                     $this->load->view('./template/header', $data);
                     $this->load->view('update/amendment/bylaw_info/capitalization_update_form', $data);
                     $this->load->view('./template/footer');
