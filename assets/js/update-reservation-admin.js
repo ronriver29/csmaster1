@@ -12,7 +12,16 @@
 
   
 
-  
+  var commonbondM = $("#reserveUpdateForm #commonBondOfMembership option:selected").text();  
+
+  if(commonbondM == 'Occupational'){
+    $('#reserveUpdateForm #fieldmembershipname').hide();
+    $('#reserveUpdateForm #fieldmembershipmemofficname').hide();
+    $('#reserveUpdateForm #field_membership').hide();
+    $('#reserveUpdateForm #name_institution_label').hide();
+    $('#reserveUpdateForm #name_associational_label').hide();
+    $('#reserveUpdateForm #name_institution').hide();
+  }
 
   var categryofcoop = $("#reserveUpdateForm #categoryOfCooperative option:selected").text();
 

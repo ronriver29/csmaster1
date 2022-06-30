@@ -784,7 +784,7 @@ class Cooperators extends CI_Controller{
 
   function get_post_cooperator_info($id){
     if($this->input->method(TRUE)==="GET"){
-      redirect('cooperatives');
+      // redirect('cooperatives');
     }else if($this->input->method(TRUE)==="POST"){
       $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $user_id = $this->session->userdata('user_id');
@@ -801,8 +801,6 @@ class Cooperators extends CI_Controller{
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
-          }else if($this->session->userdata('access_level')!=1){
-            redirect('cooperatives');
           }else{
             $decoded_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperator_id',true)));
             $data = $this->cooperator_model->get_cooperator_info($decoded_post_coop_id);
