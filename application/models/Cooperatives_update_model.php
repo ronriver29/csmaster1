@@ -438,7 +438,23 @@ class Cooperatives_update_model extends CI_Model{
     $this->db->trans_begin();
     $this->db->update('cooperatives',$data,array('id'=>$coop_id));
     
-     
+    if($data['grouping'] == 'Union'){
+        $this->db->where(array('user_id'=>$data['user_id']));
+        $this->db->from('committees_union');
+        if($this->db->count_all_results() == 0){
+          $audit = array('name'=> 'Audit','user_id' => $data['user_id']);
+          $gad = array('name'=> 'Gender and Development','user_id' => $data['user_id']);
+          $election = array('name'=> 'Election','user_id' => $user_id);
+          $mac = array('name'=> 'Mediation and Conciliation','user_id' => $data['user_id']);
+          $ethics = array('name'=> 'Ethics','user_id' => $data['user_id']);
+
+          $this->db->insert('committees_union',$audit);
+          $this->db->insert('committees_union',$gad);
+          $this->db->insert('committees_union',$election);
+          $this->db->insert('committees_union',$mac);
+          $this->db->insert('committees_union',$ethics);
+        }
+      }
 
       $this->db->select('id');
       $this->db->where(array('cooperative_type_id'=>$cooperative_type_id));
