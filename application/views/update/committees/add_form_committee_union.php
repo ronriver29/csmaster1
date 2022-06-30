@@ -50,11 +50,11 @@
               <label for="committeeName">Name of Committee:</label>
               <select class="custom-select validate[required]" name="committeeName" id="committeeName" >
                 <option value="" selected>--</option>
-                <!-- <option id="A" value="Audit">Audit</option>
+                <option id="A" value="Audit">Audit</option>
                 <option id="A" value="Election">Election</option>
                 <option id="C" value="Education and Training">Education and Training</option>
                 <option id="A" value="Mediation and Conciliation">Mediation and Conciliation</option>
-                <option id="A" value="Ethics">Ethics</option> -->
+                <option id="A" value="Ethics">Ethics</option>
                 <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture'){?>
                   <!-- <option id="A" value="Credit">Credit</option> -->
                 <?php } ?>

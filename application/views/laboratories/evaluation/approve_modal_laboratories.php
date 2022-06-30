@@ -28,7 +28,7 @@
               <?php if($admin_info->access_level==2){ ?>
               <div class="form-group">
                 <label>Additional comment</label>
-                <?if($lab_info->status == 2 && $lab_info->third_evaluated_by!=0){ ?>
+                <?php if($lab_info->status == 2 && $lab_info->third_evaluated_by!=0){ ?>
                   <textarea class="form-control" name="comment" style="height:200px;resize:none;"><?php foreach($director_comment_limit1 as $cc) : echo $cc['comment']."\n";endforeach; ?></textarea>
                 <?php } else { ?>
                   <textarea class="form-control" name="comment" style="height:200px;resize:none;"></textarea>
@@ -36,14 +36,6 @@
                 
               </div>
               <?php } ?>
-              <!-- <div class="alert alert-info" role="alert">
-                Cooperative Name:<br>
-                <strong class="cooperative-name-text">test</strong> <strong>Cooperative</strong>
-              </div> -->
-              <!-- <div class="form-group">
-                <label for="comment">Additional Comment:</label>
-                <textarea class="form-control " style="resize: none;" id="comment" name="comment" placeholder=""rows="8"><?php echo $coop_info->evaluation_comment;?></textarea>
-              </div> -->
             </div>
             <div class="modal-footer approveCooperativeFooter">
                 <?php if($admin_info->access_level >=3) : ?>

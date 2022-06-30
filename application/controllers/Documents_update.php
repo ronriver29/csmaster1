@@ -3324,7 +3324,7 @@ public function delete_pdf()
           if($this->uploaded_document_model->check_document_of_cooperative(0,$decoded_id,$doc_type,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->cooperatives_update_model->check_own_cooperative($decoded_id)){
-                if(!$this->cooperatives_update_model->check_expired_reservation($decoded_id)){
+                // if(!$this->cooperatives_update_model->check_expired_reservation($decoded_id)){
                   $data['coop_info'] = $this->cooperatives_update_model->get_cooperative_info($decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                   // if($data['bylaw_complete']){
@@ -3363,8 +3363,6 @@ public function delete_pdf()
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
                               // if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                                 $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                                // if($data['staff_complete']){
-                                  // $this->load->view('template_pdf/whole_template_pdf',$data);
                                   $this->output
                                       // ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
                                   ->set_header('Content-Disposition: inline; filename="'.$decoded_filename.'"') //modify
@@ -3372,37 +3370,9 @@ public function delete_pdf()
                                       ->set_output(
                                         file_get_contents(UPLOAD_DIR.$decoded_filename)
                                       );
-                                // }else{
-                                //   $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                                //   redirect('cooperatives/'.$id);
-                                // }
-                              // }else{
-                              //   $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                              //   redirect('cooperatives/'.$id);
-                              // }
-                            // }else{
-                            //   $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
-                            //   redirect('cooperatives/'.$id);
-                            // }
-                          // }else{
-                          //   $this->session->set_flashdata('redirect_message', 'Please complete first your article of cooperation additional information.');
-                          //   redirect('cooperatives/'.$id);
-                          // }
-                        // }else{
-                        //   $this->session->set_flashdata('redirect_message', 'Please complete first your cooperative&apos;s purpose .');
-                        //   redirect('cooperatives/'.$id);
-                        // }
-                      // }else{
-                      //   $this->session->set_flashdata('redirect_message', 'Please complete first your list of cooperator.');
-                      //   redirect('cooperatives/'.$id);
-                      // }
-                  // }else{
-                  //   $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
-                  //   redirect('cooperatives/'.$id);
-                  // }
-                }else{
-                  redirect('cooperatives/'.$id);
-                }
+                // }else{
+                //   redirect('cooperatives/'.$id);
+                // }
               }else{
                 $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
                 redirect('cooperatives');

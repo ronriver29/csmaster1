@@ -466,7 +466,7 @@
               <?php if(isset($document_one)) : ?>
                <!--  <a target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($document_one->filename))?>"> -->
 
-                 <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_id?>/1">
+                 <a target="_blank" href="<?php echo base_url();?>documents_update/list_upload_pdf/<?=$encrypted_id?>/1">
 
                   <?php if($is_client) : ?>
                     This is your Development Plan document.
@@ -499,7 +499,7 @@
           <h5 class="card-title">GA Resolution of each member-cooperative</h5>
             <p class="card-text">
               <?php if(isset($document_two)) : ?>
-              <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_id?>/2">
+              <a target="_blank" href="<?php echo base_url();?>documents_update/list_upload_pdf/<?=$encrypted_id?>/2">
 
                 <?php if($is_client) : ?>
                   This is your GA Resolution of each member-cooperative document.
@@ -526,7 +526,7 @@
           <h5 class="card-title">BOD resolution on authorized representative of each of the member-cooperatives</h5>
             <p class="card-text">
               <?php if(isset($document_three)) : ?>
-              <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_id?>/3">
+              <a target="_blank" href="<?php echo base_url();?>documents_update/list_upload_pdf/<?=$encrypted_id?>/3">
 
                 <?php if($is_client) : ?>
                   This is your BOD resolution on authorized representative of each of the member-cooperatives document.
@@ -584,7 +584,7 @@
               <?php if(isset($document_four)) : ?>
                <!--  <a target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($document_one->filename))?>"> -->
 
-                 <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_id?>/41">
+                 <a target="_blank" href="<?php echo base_url();?>documents_update/list_upload_pdf/<?=$encrypted_id?>/41">
 
                   <?php if($is_client) : ?>
                     This is your Surety Bond of Accountable Officers document.
@@ -673,7 +673,7 @@ $count=0;
               <?php if(isset($document_others_unifed)) : ?>
                <!--  <a target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($document_one->filename))?>"> -->
 
-                 <a target="_blank" href="<?php echo base_url();?>documents/list_upload_pdf/<?=$encrypted_id?>/42">
+                 <a target="_blank" href="<?php echo base_url();?>documents_update/list_upload_pdf/<?=$encrypted_id?>/42">
 
                   <?php if($is_client) : ?>
                     This is your Others document.
