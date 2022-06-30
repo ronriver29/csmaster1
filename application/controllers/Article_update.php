@@ -19,6 +19,7 @@ class Article_update extends CI_Controller{
     $this->load->model('region_model');
     $this->load->model('cooperatives_model');
     $this->load->model('affiliators_model');
+    $this->load->model('unioncoop_model');
   }
   function index($id  = null)
   {
