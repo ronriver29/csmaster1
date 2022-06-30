@@ -218,6 +218,7 @@ class Affiliators_update extends CI_Controller{
         $query_aff = $this->db->get();
         $data_aff = $query_aff->result_array();
 
+        $aff_results = array();
         foreach($data_aff as $row_aff){
           $aff_results[] = $row_aff['position'];
         }
@@ -294,7 +295,8 @@ class Affiliators_update extends CI_Controller{
           $position = '';
           // $regions = '';
         }
-            
+        
+        $aff_results = array();
         foreach($data_aff as $row_aff){
           $aff_results[] = $row_aff['position'];
         }
