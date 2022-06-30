@@ -56,6 +56,9 @@
 
   public function registered_updated()
   {
+    $this->load->model('admin_model');
+    $this->load->model('region_model');
+    $this->load->model('amendment_update_model');
     $this->load->library('pagination');
     $data['title'] = 'Registered Updated Amendment Information';
     $data['header'] = 'Registered Updated Amendment Information';

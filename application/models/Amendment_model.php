@@ -3356,6 +3356,19 @@ public function check_if_denied($coop_id){
   public function acbl($amendment_id)
   {
     $this->load->model('charter_model');
+    $this->load->model('cooperatives_model');
+    $this->load->model('cooperator_model');
+    $this->load->model('capitalization_model');
+    $this->load->model('article_of_cooperation_model');
+    $this->load->model('amendment_bylaw_model');
+    $this->load->model('bylaw_model');
+    $this->load->model('amendment_article_of_cooperation_model');
+    $this->load->model('amendment_capitalization_model');
+    $this->load->model('amendment_purpose_model');
+    $this->load->model('amendment_cooperator_model');
+    $this->load->model('capitalization_model');
+    $this->load->model('purpose_model');
+    $this->load->model('amendment_bylaw_model');
     $amendment_info = $this->get_amendment_info($amendment_id);
     $last_amendment_info = $this->get_last_amendment_info($amendment_info->id,$amendment_info->regNo);
     $bylaw_info = $this->amendment_bylaw_model->get_bylaw_by_coop_id($amendment_id);
