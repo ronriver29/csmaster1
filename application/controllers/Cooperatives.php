@@ -733,7 +733,7 @@
                     {
                         $name_of_ins_assoc='';
                     }
-                    if(!empty($this->input->post('interregional'))){
+                    if(!empty($this->input->post('interregional')) && $this->input->post('areaOfOperation') == 'Interregional'){
                       $interregional = implode(", ",$this->input->post('interregional'));
                       $regions = implode(", ",$this->input->post('regions'));
                     } else {

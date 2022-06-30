@@ -226,6 +226,7 @@ class Affiliators extends CI_Controller{
         $query_aff = $this->db->get();
         $data_aff = $query_aff->result_array();
 
+        $aff_results = array();
         foreach($data_aff as $row_aff){
           $aff_results[] = $row_aff['position'];
         }
@@ -303,10 +304,13 @@ class Affiliators extends CI_Controller{
           // $regions = '';
         }
             
+        $aff_results = array();
         foreach($data_aff as $row_aff){
           $aff_results[] = $row_aff['position'];
         }
-        if (in_array($position, $aff_results)) {
+
+        // echo print_r($aff_results);
+        if(in_array($position, $aff_results)) {
           $found = 'found' ;
         } else {
           $found = '';
@@ -338,14 +342,14 @@ class Affiliators extends CI_Controller{
 
           $update_aff = $this->db->update('affiliators',$u_data,array('id'=>$encrypted_post_coop_id));
 
-          if($update_aff)
-          {  
-            $this->session->set_flashdata('cooperator_success', 'Affiliator Successfully Updated.');
-              redirect('cooperatives/'.$encryptedcoopid.'/affiliators');
-          }else{
-            $this->session->set_flashdata('cooperator_success', 'Affiliator failed to Update');
-            redirect('cooperatives/'.$encryptedcoopid.'/affiliators');
-          }
+          // if($update_aff)
+          // {  
+          //   $this->session->set_flashdata('cooperator_success', 'Affiliator Successfully Updated.');
+          //     redirect('cooperatives/'.$encryptedcoopid.'/affiliators');
+          // }else{
+          //   $this->session->set_flashdata('cooperator_success', 'Affiliator failed to Update');
+          //   redirect('cooperatives/'.$encryptedcoopid.'/affiliators');
+          // }
         }
     }
     

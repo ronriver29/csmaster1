@@ -14,6 +14,7 @@ class Unioncoop_update extends CI_Controller{
     $this->load->model('unioncoop_model');
     $this->load->model('cooperator_model');
     $this->load->model('admin_model');
+    $this->load->model('region_model');
   }
 
   function index($id = null)

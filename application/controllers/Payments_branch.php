@@ -13,6 +13,7 @@ class Payments_branch extends CI_Controller{
     $this->load->model('payment_branch_model');
     $this->load->model('user_model');
     $this->load->model('payment_model');
+    $this->load->model('charter_model');
     $this->load->library('pdf');
   }
 

@@ -527,7 +527,7 @@ class Bylaw_update extends CI_Controller{
 
            
             if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
-              if($this->cooperatives_update_model->get_cooperative_info_by_admin($decoded_id)->category_of_cooperative == "Primary" || $this->cooperatives_update_model->get_cooperative_info_by_admin($decoded_id)->type_of_cooperative == "Insurance" || $this->cooperatives_update_model->get_cooperative_info_by_admin($decoded_id)->type_of_cooperative == "Cooperative Bank"){
+              if($this->cooperatives_update_model->get_cooperative_info_by_admin($decoded_id)->category_of_cooperative == "Primary" || $this->cooperatives_update_model->get_cooperative_info_by_admin($decoded_id)->type_of_cooperative == "Insurance" || $this->cooperatives_update_model->get_cooperative_info_by_admin($decoded_id)->type_of_cooperative == "Cooperative Bank" || $this->cooperatives_update_model->get_cooperative_info_by_admin($decoded_id)->grouping == "Federation"){
                 if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id) || !$this->session->userdata('client')){
                   if(!isset($_POST['bylawsPrimaryBtn'])){
                     $data['title'] = 'By Laws';

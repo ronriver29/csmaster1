@@ -975,6 +975,13 @@ $config = array(
                   'rules' => 'trim|required'
                 )
         ),
+        'committees_update/edit' => array (
+                array(
+                  'field' => 'committeeName',
+                  'label' => 'Committee Name',
+                  'rules' => 'trim|required'
+                )
+        ),
         'amendment_committees/edit' => array (
                 array(
                   'field' => 'committeeName',
