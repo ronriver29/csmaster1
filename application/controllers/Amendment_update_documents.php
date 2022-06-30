@@ -3161,7 +3161,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
         if($this->session->userdata('client')){
           if($this->amendment_update_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
             if(!$this->amendment_update_model->check_expired_reservation($cooperative_id,$decoded_id,$user_id)){
-              $data['coop_info'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
+              $data['coop_info'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$decoded_id);
               $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model ->check_bylaw_primary_complete($cooperative_id,$decoded_id) : true;
 
               $data['client_info'] = $this->user_model->get_user_info($user_id);
