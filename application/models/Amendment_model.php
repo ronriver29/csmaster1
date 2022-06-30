@@ -3836,7 +3836,7 @@ where coop.users_id = '$user_id' and coop.status =15");
             
             if($row['amendmentNo'] ==0)
             {
-              $proposedName = $this->primary_name($regNo);
+              $proposedName =$this->primary_name($regNo);
             }
             else
             {
@@ -3868,7 +3868,7 @@ where coop.users_id = '$user_id' and coop.status =15");
         }
         else
         {
-          $proposeName = $this->primary_name($regNo);
+          $proposedName =$this->primary_name($regNo);
         }
 
       $data = $proposedName;
@@ -3882,7 +3882,7 @@ where coop.users_id = '$user_id' and coop.status =15");
     {
       $proposeName='unknown';
        $query = $this->db->query("select coopName from registeredcoop where regNo='$regNo' order by id asc limit 1");
-       if($query->num_rows()==1)
+       if($query->num_rows()>0)
        {
            foreach($query->result_array() as $row)
           {
