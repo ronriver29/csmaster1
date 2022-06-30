@@ -1119,6 +1119,7 @@ public function count_documents_coop($coop_id,$num)
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
           }else{
+            $this->load->model('region_model');
             if($this->amendment_update_model->check_expired_reservation_by_admin($cooperative_id,$decoded_id)){
               $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
               redirect('amendment');

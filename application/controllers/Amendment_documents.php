@@ -1020,7 +1020,7 @@ public function count_documents_coop($coop_id,$num)
        $this->load->model('cooperator_model');
        $this->load->model('article_of_cooperation_model');
        $this->load->model('capitalization_model');
-       
+       $this->load->model('region_model');
       if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
         if($this->session->userdata('client')){
           if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){

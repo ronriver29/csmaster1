@@ -233,6 +233,7 @@ class amendment extends CI_Controller{
       {
         redirect('admins/login');
       }else{
+        $this->load->library('pagination');
           $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
           $user_id = $this->session->userdata('user_id');
           $data['title'] = 'List of Amendment';
@@ -322,7 +323,7 @@ class amendment extends CI_Controller{
 
             } else {
               
-               $data['senior_coop_count'] = $this->amendment_model->get_all_cooperatives_registration_count($data['admin_info']->region_code);
+               $data['senior_coop_count'] = $this->amendment_model->get_all_cooperatives_registration_count($data['admin_info']->region_code,$this->coopName,$this->regNo);
               $array =array(
               'url'=>base_url()."amendment/registered",
               'total_rows'=>$data['senior_coop_count'],
@@ -331,7 +332,7 @@ class amendment extends CI_Controller{
               );
 
               $data['links']=$this->paginate($array);
-              $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code,$this->coopName,$config['per_page'],$page);
+              $data['list_cooperatives_registered'] = $this->amendment_model->get_all_cooperatives_registration($data['admin_info']->region_code,$this->coopName,$this->regNo,$config['per_page'],$page);
               $data['msg'] = ($submit && empty($data['list_cooperatives']) ? 'No data found.':'');
             }
           }  
@@ -351,6 +352,7 @@ class amendment extends CI_Controller{
       {
         redirect('admins/login');
       }else{
+        $this->load->library('pagination');
           $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
           $user_id = $this->session->userdata('user_id');
           $data['title'] = 'List of Amendment';
@@ -453,6 +455,7 @@ class amendment extends CI_Controller{
       {
         redirect('admins/login');
       }else{
+        $this->load->library('pagination');
           $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
           $user_id = $this->session->userdata('user_id');
           $data['title'] = 'List of Amendment';

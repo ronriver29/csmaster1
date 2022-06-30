@@ -29,6 +29,7 @@ class Amendment_payments extends CI_Controller{
       $this->load->model('amendment_committee_model');
       $this->load->model('user_model');
       $this->load->model('Payment_model');
+      $this->load->model('cooperatives_model');
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $user_id = $this->session->userdata('user_id');
       $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
@@ -266,7 +267,7 @@ class Amendment_payments extends CI_Controller{
     $this->load->model('Payment_model');
     $this->load->model('amendment_bylaw_model');
     $this->load->model('amendment_article_of_cooperation_model');
-    
+    $this->load->model('cooperatives_model');
     $this->load->library('pdf');
     if ($this->input->post('offlineBtn')){
 
