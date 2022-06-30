@@ -13,6 +13,8 @@ class Amendment_committees extends CI_Controller{
     $this->load->model('amendment_article_of_cooperation_model');
     $this->load->model('amendment_committee_model');
     $this->load->model('user_model');
+    $this->load->model('admin_model');
+    $this->load->model('region_model');
   }
   function index($id = null)
   {
@@ -452,7 +454,7 @@ class Amendment_committees extends CI_Controller{
                               $data['header'] = 'Committee';
                               $data['encrypted_id'] = $id;
                               $data['encrypted_committee_id'] = $committee_id;
-                              $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
+                              $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
                               $data['committee_info'] = $this->amendment_committee_model->get_committee_info($decoded_committee_id);
                               $committee_dtl = $this->amendment_committee_model->   get_committee_info_edit($decoded_committee_id);
                              
@@ -533,7 +535,7 @@ class Amendment_committees extends CI_Controller{
                     redirect('amendment');
                   }else{
                     $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
-                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;
+                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;
                     if($data['bylaw_complete']){
                       $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($this->decoded_id);
                       if($data['cooperator_complete']){
@@ -549,7 +551,7 @@ class Amendment_committees extends CI_Controller{
                                 $data['header'] = 'Committee';
                                 $data['encrypted_id'] = $id;
                                 $data['encrypted_committee_id'] = $committee_id;
-                                $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
+                                $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
                                 $data['committee_info'] = $this->amendment_committee_model->get_committee_info($decoded_committee_id);
                                 $data['cooperator_info'] = $this->cooperator_model->get_cooperator_info($data['committee_info']->cooperators_id);
                                 $data['custom_committees'] = $this->amendment_committee_model->get_all_custom_committee_names_of_coop($this->decoded_id);
