@@ -342,14 +342,14 @@ class Affiliators extends CI_Controller{
 
           $update_aff = $this->db->update('affiliators',$u_data,array('id'=>$encrypted_post_coop_id));
 
-          // if($update_aff)
-          // {  
-          //   $this->session->set_flashdata('cooperator_success', 'Affiliator Successfully Updated.');
-          //     redirect('cooperatives/'.$encryptedcoopid.'/affiliators');
-          // }else{
-          //   $this->session->set_flashdata('cooperator_success', 'Affiliator failed to Update');
-          //   redirect('cooperatives/'.$encryptedcoopid.'/affiliators');
-          // }
+          if($update_aff)
+          {  
+            $this->session->set_flashdata('cooperator_success', 'Affiliator Successfully Updated.');
+              redirect('cooperatives/'.$encryptedcoopid.'/affiliators');
+          }else{
+            $this->session->set_flashdata('cooperator_success', 'Affiliator failed to Update');
+            redirect('cooperatives/'.$encryptedcoopid.'/affiliators');
+          }
         }
     }
     
