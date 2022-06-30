@@ -764,6 +764,9 @@ function do_upload_others(){
   }
   else
   {
+    $this->load->model('admin_model');
+    $this->load->model('region_model');
+    $this->load->model('user_model');
     $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
     $user_id = $this->session->userdata('user_id');
      $cooperative_id =$this->amendment_model->coop_dtl($this->decoded_id);
