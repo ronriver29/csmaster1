@@ -1799,6 +1799,7 @@ public function previous_coop_info($coop_id,$amendment_id,$regNo)
     return $previous_coop_info;
 }
 public function submit_for_reevaluation($user_id,$amendment_id,$region_code){
+  $this->load->model('email_model');
   $user_id = $this->security->xss_clean($user_id);
   $amendment_id = $this->security->xss_clean($amendment_id);
   $cooperative_id = $this->coop_dtl($amendment_id);
