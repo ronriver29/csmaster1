@@ -280,6 +280,14 @@
               <div class="col-sm-12 col-md-12 col-industry-subclass">
                 <?php if(isset($business_activity)) : ?>
                   <?php if(count($business_activity)>0) : ?>
+                    <?php 
+                      // echo '<pre>';
+                      // echo print_r($business_activity);
+                      // echo '</pre>';
+                      // echo '<pre>';
+                      // echo print_r($major_industries_by_coop_type);
+                      // echo '</pre>';
+                    ?>
                       <?php foreach($business_activity as $key => $major_industry) : ?>
                      
                       <div class="row">
@@ -417,7 +425,7 @@
               </div>
               <div class="col-sm-12 col-md-6">
                 <div class="form-group">
-                  <label for="areaOfOperation">Area of Operation</label>
+                  <label for="areaOfOperation">Area of Operation </label>
                   <input type="hidden" class="form-control validate[required]" id="areaOfOperation2" name="areaOfOperation2" value="<?= $coop_info->area_of_operation ?>">
                   <select class="custom-select validate[required]" name="areaOfOperation" id="areaOfOperation">
                     <option value="" >--</option>
@@ -425,7 +433,7 @@
                     <option value="Municipality/City" <?=($coop_info->area_of_operation =='Municipality/City' ? 'selected' :'')?>>Municipality/City</option>
                     <option value="Provincial" <?=($coop_info->area_of_operation =='Provincial' ? 'selected' :'')?>>Provincial</option>
                     <option value="Regional" <?=($coop_info->area_of_operation =='Regional' ? 'selected' :'')?>>Regional</option>
-                    <option value="Interregional" <?=($coop_info->area_of_operation =='Interregional' ? 'selected' :'')?>>Inter-Regional</option>
+                    <option value="Interregional" <?=($coop_info->area_of_operation =='interregional' ? 'selected' :'')?>>Inter-Regional</option>
                     <option value="National" <?=($coop_info->area_of_operation =='National' ? 'selected' :'')?>>National</option>
                   </select>
                 </div>

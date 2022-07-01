@@ -21,6 +21,20 @@ class Industry_Subclass_model extends CI_Model{
     $query = $this->db->get();
     return $query->result_array();
   }
+  public function get_industry_subclasses_multi($coop_type_id,$major_industry_id){
+    $coop_type_id = implode(',',$coop_type_id);
+    $major_industry_id = implode(',',$major_industry_id);
+    $this->db->order_by('description', 'ASC');
+    $this->db->distinct();
+    $this->db->select('subclass.id,subclass.description');
+    $this->db->from('industry_subclass_by_coop_type');
+    $this->db->join('cooperative_type' , 'cooperative_type.id = industry_subclass_by_coop_type.cooperative_type_id','inner');
+    $this->db->join('major_industry', 'major_industry.id = industry_subclass_by_coop_type.major_industry_id');
+    $this->db->join('subclass', 'subclass.id = industry_subclass_by_coop_type.subclass_id');
+    $this->db->where('cooperative_type.id IN ('.$coop_type_id.') AND major_industry.id IN ('.$major_industry_id.')');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
   public function get_industry_subclasses_amendmnet($major_industry_id){
     $this->db->order_by('description', 'ASC');
     $this->db->distinct();

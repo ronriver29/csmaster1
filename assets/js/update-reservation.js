@@ -47,7 +47,7 @@
 
 
 
-  if(categryofcoop == 'Others' || typeofcoop == 'Technology Service'){ // categryofcoop == 'Secondary' || categryofcoop == 'Tertiary' || 
+  if(categryofcoop == 'Others' && typeofcoop != 'Technology Service'){ // categryofcoop == 'Secondary' || categryofcoop == 'Tertiary' || 
 
       $('#reserveUpdateForm #majorIndustry1').hide();
 
@@ -148,6 +148,10 @@
 
 
   // alert(typeofcoop);
+
+  if(typeofcoop == 'Technology Service'){
+    $('#reserveUpdateForm #commonbond').hide();
+  }
 
   if(categryofcoop == 'Others'){
 
@@ -2360,7 +2364,7 @@
                 $('#reserveUpdateForm .major-ins').append($('<option></option').attr({'selected':true}).val(""));
                $.ajax({
                      type : "POST",
-                     url  : "../../api/major_industries",
+                     url  : "../../api/major_industries_amendment",
                      dataType: "json",
                      data: {cooptype_:typeCoop_arrays},
                      success: function(responsetxt){
@@ -2372,20 +2376,51 @@
                     }); //end ajax    
         }); 
 
+      var mcount2 = 1;
+      $('#reserveUpdateForm .major-type').each(function(){
+           if($(this).val().length>0) {
+            mcount2++;
+               // intLastCount++;
+               // mcount++;
+           } 
+        });
+    mcount2 = mcount2-1;
+
+
     $('#reserveUpdateForm #addMoreSubclassBtn').on('click', function(){
   
-     var origin_name =  $("#newName2").val();
+     // var origin_name =  $("#newName2").val();
      // var start_counting_major = ++count_major_industry;
      // // alert(start_counting_major);
      // if(start_counting_major>1)
      // {  
      //    $("#newNamess").val(origin_name+' Multipurpose');
      // }
-    if($('#reserveUpdateForm #typeOfCooperatives1').val() && ($('#reserveUpdateForm #typeOfCooperatives1').val()).length > 0){
-      var lastCountOfSubclass = $('select[name="majorIndustry['+mcount+'][major_id]"').last().attr('id'); 
+    
+    
+
+    // console.log(($('#reserveUpdateForm #typeOfCooperatives2').val()));
+    if($('#reserveUpdateForm #typeOfCooperatives2').val() && ($('#reserveUpdateForm #typeOfCooperatives2').val()).length > 0){
+      var lastCountOfSubclass = $('select[name="majorIndustry['+mcount+'][subclass_id]"').last().attr('id'); 
       var totalCountOFSubclass = $('select[name="majorIndustry['+mcount+'][subclass_id]"').length;
-      mcount++;
+
+      // var lastCountOfSubclass = $('select[name="majorIndustry[]"').last().attr('id'); 
+      // var totalCountOFSubclass = $('select[name="majorIndustry[]"').length;
+      // alert($('#reserveUpdateForm #typeOfCooperatives1').val());
+      // mcount = totalCountOFSubclass;
+      // console.log(mcount2);
+
+      // if(mcount == 1){
+        mcount++;  
+      // } else {
+      //   mcount++;mcount++;
+      // }
+      
+      // console.log(totalCountOFSubclass);
       var intLastCount = parseInt(lastCountOfSubclass.substr(-1)); 
+      // if(intLastCount != 1){
+      //   intLastCount++;
+      // }
       var coop_types = "";
         $('#reserveUpdateForm .coop-type').each(function(){
            if($(this).val().length>0) {
@@ -2394,6 +2429,10 @@
         });
         // alert(intLastCount);
         // console.log("cooptypes: "+coop_types);
+        // if(coop_types.indexOf('|') != -1){
+        //     // console.log("Found");
+        //     intLastCount++;
+        // }
       var deleteSpanss = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn businessActivityRemoveBtn float-right text-danger'}).click(function(){
 
            // start_counting_major--;
@@ -2402,7 +2441,7 @@
            //    $("#newNamess").val(origin_name);
            // }
           // $(this).parent().remove();
-           $(this).closest('.major-wrapper').remove();
+          $(this).closest('.major-wrapper').remove();
           $('#reserveUpdateForm select[name="majorIndustry[]"]').each(function(index){
             $(this).siblings('label').text("Major Industry Classification No. " + (index+1));
           });
@@ -2439,7 +2478,7 @@
 
       $.ajax({
           type : "POST",
-          url  : "../../api/major_industries",
+          url  : "../../api/major_industries_amendment",
           dataType: "json",
           data: {cooptype_:typeCoop_arrays},
           success: function(data){
@@ -2462,7 +2501,7 @@
           }
         });
     }else{
-      $('#reserveUpdateForm #typeOfCooperatives1').focus();
+      $('#reserveUpdateForm #typeOfCooperatives2').focus();
     }
   });
 
@@ -2551,7 +2590,9 @@
 
     });
 
-
+    $('.customDeleleBtn').on('click', function(){
+      $(this).parent().remove(); 
+    });
 
     var count_text_input =1;
 
@@ -2573,7 +2614,7 @@
 
       var divFormGroup= $('<div></div>').attr({'class':'form-group'});
 
-      var selectCoop = $('<select></select>').attr({'class': 'custom-select coop-type form-control validate[required]','name': 'typeOfCooperative[]', 'id': 'typeOfCooperative1' + (intLastCount + 1)}).prop("disabled",false);
+      var selectCoop = $('<select></select>').attr({'class': 'custom-select coop-type form-control validate[required]','name': 'typeOfCooperative[]', 'id': 'typeOfCooperatives' + (intLastCount + 1)}).prop("disabled",false);
 
       var deleteSpan = $('<a><i class="fas fa-minus-circle"></i></a>').attr({'class':'customDeleleBtn float-right text-danger'}).click(function(e){
 

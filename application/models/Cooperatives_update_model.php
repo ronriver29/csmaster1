@@ -173,20 +173,51 @@ class Cooperatives_update_model extends CI_Model{
       );
     }
 
-  public function update_not_expired_cooperative_array_type($user_id,$coop_id,$field_data,$subclass_array,$major_industry,$members){
+  public function update_not_expired_cooperative_array_type($user_id,$coop_id,$field_data,$subclass_array,$major_industry,$members,$typeOfCooperativeID){
     $data = $this->security->xss_clean($field_data);
     $subclass_array = $this->security->xss_clean($subclass_array);
 
     $batch_subtype = array();
     $this->db->trans_begin();
-    $this->db->select('id');
-    $this->db->where(array('cooperative_type_id'=>$data['type_of_cooperative']));
-    $this->db->where_in('major_industry_id',$major_industry);
-    $this->db->where_in('subclass_id',$subclass_array);
-    $this->db->from('industry_subclass_by_coop_type');
-    $query = $this->db->get();
 
-    $industry_subclasses_id_array = $query->result_array();
+    // echo print_r($major_industry);
+    foreach($major_industry as $mi){
+      $this->db->select('id');
+      $this->db->where_in('cooperative_type_id',$typeOfCooperativeID);
+      $this->db->where_in('major_industry_id',$mi['major_id']);
+      $this->db->where_in('subclass_id',$mi['subclass_id']);
+      $this->db->from('industry_subclass_by_coop_type');
+      $query = $this->db->get();
+      $industry_subclasses_id_array = $query->result_array();
+      // echo $this->db->last_query();
+
+      // $data['type_of_cooperative'] = $coop_type->name;
+      $this->db->where(array('id'=>$coop_id));
+      $this->db->update('cooperatives',$data);
+      // return $this->db->last_query();
+      $this->db->delete('business_activities_cooperative',array('cooperatives_id'=>$coop_id));
+      
+      if(count($industry_subclasses_id_array)!=0){
+        foreach($industry_subclasses_id_array as $industry_subclasses_id){
+          array_push($batch_subtype, array(
+            'cooperatives_id'=> $coop_id,
+            'industry_subclass_by_coop_type_id'=>$industry_subclasses_id['id'])
+          );
+        }
+        $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
+      }  else {
+        // foreach($industry_subclasses_id_array as $industry_subclasses_id){
+          array_push($batch_subtype, array(
+            'cooperatives_id'=> $coop_id,
+            'industry_subclass_by_coop_type_id'=>1)
+          );
+        // }
+        $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
+      }
+    }
+    
+
+    
     $this->db->select('name');
     $this->db->where('id',$data['type_of_cooperative']);
     $this->db->from('cooperative_type');
@@ -198,32 +229,6 @@ class Cooperatives_update_model extends CI_Model{
     $this->db->from('cooperatives');
     $query3 = $this->db->get();
     $coop_type_of_coop = $query3->row();
-    
-  
-    // $data['type_of_cooperative'] = $coop_type->name;
-    $this->db->where(array('id'=>$coop_id));
-    $this->db->update('cooperatives',$data);
-    // return $this->db->last_query();
-    $this->db->delete('business_activities_cooperative',array('cooperatives_id'=>$coop_id));
-    
-    if(count($industry_subclasses_id_array)!=0){
-      foreach($industry_subclasses_id_array as $industry_subclasses_id){
-        array_push($batch_subtype, array(
-          'cooperatives_id'=> $coop_id,
-          'industry_subclass_by_coop_type_id'=>$industry_subclasses_id['id'])
-        );
-      }
-      $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
-    }  else {
-      // foreach($industry_subclasses_id_array as $industry_subclasses_id){
-        array_push($batch_subtype, array(
-          'cooperatives_id'=> $coop_id,
-          'industry_subclass_by_coop_type_id'=>1)
-        );
-      // }
-      $this->db->insert_batch('business_activities_cooperative', $batch_subtype);
-    }
-
 
     // $temp_purpose = array(
     //     'cooperatives_id' => $coop_id,
