@@ -20,6 +20,18 @@ class Major_Industry_model extends CI_Model{
     $query = $this->db->get();
     return $query->result_array();
   }
+
+  public function get_major_industries_updating($coop_type_id){
+    $this->db->order_by('description', 'ASC');
+    $this->db->distinct();
+    $this->db->select('major_industry.id,major_industry.description');
+    $this->db->from('industry_subclass_by_coop_type');
+    $this->db->join('cooperative_type' , 'cooperative_type.id = industry_subclass_by_coop_type.cooperative_type_id','inner');
+    $this->db->join('major_industry', 'major_industry.id = industry_subclass_by_coop_type.major_industry_id');
+    $this->db->where('cooperative_type.id IN ('.$coop_type_id.')');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
   
   public function get_major_industries_by_type_name($coop_type){
     $this->db->order_by('description', 'ASC');
@@ -29,6 +41,19 @@ class Major_Industry_model extends CI_Model{
     $this->db->join('cooperative_type' , 'cooperative_type.id = industry_subclass_by_coop_type.cooperative_type_id','inner');
     $this->db->join('major_industry', 'major_industry.id = industry_subclass_by_coop_type.major_industry_id');
     $this->db->where('cooperative_type.name', $coop_type);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+
+  public function get_major_industries_by_type_name_multi($coop_type){
+    $coop_type = str_replace(",",'","',$coop_type);
+    $this->db->order_by('description', 'ASC');
+    $this->db->distinct();
+    $this->db->select('major_industry.id,major_industry.description');
+    $this->db->from('industry_subclass_by_coop_type');
+    $this->db->join('cooperative_type' , 'cooperative_type.id = industry_subclass_by_coop_type.cooperative_type_id','inner');
+    $this->db->join('major_industry', 'major_industry.id = industry_subclass_by_coop_type.major_industry_id');
+    $this->db->where('cooperative_type.name IN ("'.$coop_type.'")');
     $query = $this->db->get();
     return $query->result_array();
   }

@@ -198,10 +198,33 @@ class Admins extends CI_Controller{
       if(!$this->session->userdata('client')){
         $admin_user_id = $this->session->userdata('user_id');
         if($this->admin_model->check_super_admin($admin_user_id)){
+          $this->benchmark->mark('code_start');
+          $data['verification_list'] = '';
+
           $data['title'] = 'For Verification Lists';
           $data['header'] = 'For Verification Lists';
           $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
-          $data['verification_list'] = $this->admin_model->get_all_for_verifications();
+          // $data['verification_list'] = $this->admin_model->get_all_for_verifications();
+
+          if($this->input->post('submit')) {
+            $first_name = $this->input->post('first_name');
+            $middle_name = $this->input->post('middle_name');
+            $last_name = $this->input->post('last_name');
+            $email = $this->input->post('email');
+            $regno = $this->input->post('regno');
+            $contact_number = $this->input->post('contact_number');
+            $limit = $this->input->post('limit');
+
+            // echo $coopName.'asdassdad';
+            $data['verification_list'] = $this->admin_model->get_all_for_verifications($first_name,$middle_name,$last_name,$email,$regno,$contact_number,$limit);
+            // $data['users_list'] = $this->admin_model->get_all_new_user();
+            // echo $this->db->last_query();
+          }
+
+          // $data['users_list'] = $this->admin_model->get_all_user();
+          $this->benchmark->mark('code_end');
+          $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
+
           $this->load->view('./templates/admin_header', $data);
           $this->load->view('admin/list_of_verifications', $data);
           $this->load->view('admin/delete_modal_for_verification', $data);

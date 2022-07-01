@@ -174,6 +174,17 @@
           'is_taken' => 2
         );
 
+        $data_field = array(
+          "user_id" => $this->encryption->decrypt(decrypt_custom($this->input->post('adminID'))),
+          "full_name" => $this->input->post('name'),
+          "regno" => $this->input->post('regno'),
+          "email" => $this->input->post('email'),
+          "date_deleted" => date("Y-m-d H:i:s"),
+          "deleted_by" => $this->session->userdata('access_level')
+        );
+
+        $this->admin_model->insert_deleted_users($data_field);
+        
         $from = "ecoopris@cda.gov.ph";    //senders email address
         $subject = 'Cooperative Account Application';  //email subject
         $burl = base_url();
