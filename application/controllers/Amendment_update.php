@@ -87,8 +87,7 @@ class Amendment_update extends CI_Controller{
               $data['status_document_cooptype'] = true;
               }
               }
-                                
-                                
+                                               
                   $data['business_activities'] =  $this->amendment_update_model->get_all_business_activities($this->decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_bylaw_model->check_bylaw_primary_complete($coop_id,$this->decoded_id) : true;
                   $data['cooperative_id']=encrypt_custom($this->encryption->encrypt($coop_id));
