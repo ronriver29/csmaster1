@@ -153,8 +153,7 @@ class Amendment_affiliators_update extends CI_Controller{
                         $data['associate_not_exists'] = $this->cooperators_model->check_associate_not_exists($cooperative_id,$this->decoded_id);
                         $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
                         $data['capitalization_info'] = $this->amd_capitalization_model->get_capitalization_by_coop_id($this->decoded_id);
-                        // echo $this->db->last_query();
-                        // var_dump($data['capitalization_info']);
+                   
                         $data['minimum_regular_subscription'] = '';
                         $data['minimum_regular_pay'] ='';
                         $data['minimum_associate_subscription'] ='';
@@ -431,18 +430,16 @@ class Amendment_affiliators_update extends CI_Controller{
                   }
             
           }else{
-            if($this->session->userdata('access_level')==5){
+            if($this->session->userdata('access_level')!=6){
               redirect('admins/login');
-            }else if($this->session->userdata('access_level')!=1){
-              redirect('cooperatives');
             }else{
               $decoded_post_cooperator_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
-              if($this->cooperators_model->check_cooperator_in_cooperative($this->decoded_id,$decoded_post_cooperator_id)){
-                if($this->amendment_update_model->check_submitted_for_evaluation($this->decoded_id)){
-                  if($this->amendment_update_model->check_first_evaluated($this->decoded_id)){
-                    $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
-                    redirect('cooperatives');
-                  }else{
+              // if($this->cooperators_model->check_cooperator_in_cooperative($this->decoded_id,$decoded_post_cooperator_id)){
+              //   if($this->amendment_update_model->check_submitted_for_evaluation($this->decoded_id)){
+              //     if($this->amendment_update_model->check_first_evaluated($this->decoded_id)){
+              //       $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
+              //       redirect('cooperatives');
+              //     }else{
                     $success = $this->cooperators_model->delete_cooperator($decoded_post_cooperator_id);
                     if($success){
                       $this->session->set_flashdata('cooperator_success', 'Cooperative has been deleted.');
@@ -451,15 +448,15 @@ class Amendment_affiliators_update extends CI_Controller{
                       $this->session->set_flashdata('cooperator_error', 'Unable to delete cooperative.');
                       redirect('cooperatives/'.$this->input->post('cooperativeID').'/cooperators');
                     }
-                  }
-                }else{
-                  $this->session->set_flashdata('redirect_applications_message', 'Deleting a cooperator of the cooperative is not available because the cooperative is not yet submitted for evaluation.');
-                  redirect('cooperatives');
-                }
-              }else{
-                $this->session->set_flashdata('cooperator_redirect','Unauthorized!!');
-                redirect('cooperatives/'.$this->input->post('cooperativeID').'/cooperators');
-              }
+              //     }
+              //   }else{
+              //     $this->session->set_flashdata('redirect_applications_message', 'Deleting a cooperator of the cooperative is not available because the cooperative is not yet submitted for evaluation.');
+              //     redirect('cooperatives');
+              //   }
+              // }else{
+              //   $this->session->set_flashdata('cooperator_redirect','Unauthorized!!');
+              //   redirect('cooperatives/'.$this->input->post('cooperativeID').'/cooperators');
+              // }
             }
           }
         }else{

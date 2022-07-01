@@ -18,7 +18,7 @@ class Amendment_update extends CI_Controller{
         $this->load->model('amendment_uploaded_document_model');
         $this->load->model('amendment_committees_update_model');
         $this->load->model('amendment_update_model');
-        $this->load->model('amendment_committees_update_model');
+        // $this->load->model('amendment_committees_update_model');
         $this->load->model('amendment_update_bylaw_model');
         $this->load->model('cooperatives_model');
         $this->load->model('user_model');
@@ -256,9 +256,9 @@ class Amendment_update extends CI_Controller{
               $data['cooperator_complete'] = $this->amendment_update_cooperator_model->is_requirements_complete($coop_id,$this->decoded_id);
 
               $data['committees_complete'] = $this->amendment_committees_update_model->committee_complete_count_amendment($this->decoded_id);
-              if($data['committees_complete']==false) {
-                $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
-              }
+              // if($data['committees_complete']==false) {
+              //   $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
+              // }
               $data['purposes_complete'] = $this->amendment_update_purposes_model->check_purpose_complete($coop_id,$this->decoded_id); 
               $data['submitted'] = $this->amendment_update_model->check_submitted_for_evaluation($coop_id,$this->decoded_id);
               $data['members_composition'] =  $this->amendment_update_model->amendment_composition($this->decoded_id);
