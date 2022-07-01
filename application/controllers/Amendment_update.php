@@ -229,7 +229,6 @@ class Amendment_update extends CI_Controller{
                     }
               }
                
-              
                 $data['coop_type'] = $this->amendment_update_model->get_cooperatve_types($data['coop_info']->cooperative_type_id);;
 
                 $complete_upload = array();
