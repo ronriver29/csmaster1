@@ -30,6 +30,7 @@ class Amendment_update extends CI_Controller{
         $this->load->model('amendment_update_bylaw_model');
         $this->load->model('region_model');
         $this->load->model('amendment_affiliators_update_model','affiliator_model');
+        $this->load->model('amendment_union_update_model','union_model');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $coop_id = $this->amendment_update_model->coop_dtl($this->decoded_id);
         $data['is_client'] = $this->session->userdata('client');
@@ -101,14 +102,18 @@ class Amendment_update extends CI_Controller{
                    case 'Tertiary':
                     $data['affiliator_complete'] = $this->affiliator_model->is_requirements_complete($this->decoded_id);
                      $data['cooperator_complete'] =true;
+                      $data['union_complete'] =true;
                      break;
                     
                    case 'Others':
-                   
+                    $data['union_complete'] = $this->union_model->is_requirements_complete($user_id);
+                     $data['cooperator_complete'] =true;
+                     $data['affiliator_complete'] = true;
                     break; 
                    default:
                       $data['cooperator_complete'] = $this->amendment_update_cooperator_model->is_requirements_complete($coop_id,$this->decoded_id);
                        $data['affiliator_complete'] =true;
+                        $data['union_complete'] = true;
                      break;
                  }
                   $data['committees_complete'] = $this->amendment_committees_update_model->committee_complete_count_amendment($this->decoded_id);
@@ -270,19 +275,23 @@ class Amendment_update extends CI_Controller{
               $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_capitalization_model->check_capitalization_primary_complete($coop_id,$this->decoded_id) : true;
               // $this->debug(  $data['capitalization_complete']);
               $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_update_model->check_article_primary_complete($this->decoded_id) : true;
-              switch ($data['coop_info']->category_of_cooperative) {
+               switch ($data['coop_info']->category_of_cooperative) {
                    case 'Secondary':
                    case 'Tertiary':
                     $data['affiliator_complete'] = $this->affiliator_model->is_requirements_complete($this->decoded_id);
                      $data['cooperator_complete'] =true;
+                      $data['union_complete'] =true;
                      break;
                     
                    case 'Others':
-                   
+                    $data['union_complete'] = $this->union_model->is_requirements_complete($user_id);
+                     $data['cooperator_complete'] =true;
+                     $data['affiliator_complete'] = true;
                     break; 
                    default:
                       $data['cooperator_complete'] = $this->amendment_update_cooperator_model->is_requirements_complete($coop_id,$this->decoded_id);
                        $data['affiliator_complete'] =true;
+                        $data['union_complete'] = true;
                      break;
                  }
                 

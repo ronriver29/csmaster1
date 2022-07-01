@@ -166,7 +166,7 @@ class Amendment_union_update extends CI_Controller{
         $count = $this->db->count_all_results();
         if($count==1){
           $this->session->set_flashdata('cooperator_error', 'Position already exists.');
-            redirect('amendment_update/'.$encrypted_post_coop_id.'/union_update');
+            redirect('amendment_update/'.$this->input->post('amd_union_id').'/union_update');
         } else {
           if($query==0){
            
