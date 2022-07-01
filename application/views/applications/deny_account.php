@@ -15,6 +15,10 @@
                 <div class="col-sm-12 col-md-12">
                   <div class="form-group">
                     <label for="cooperativeName" class="font-weight-bold">Reason: </label>
+                    <input type="text" class="form-control validate[required]" name="adminID" id="reason" value="<?=encrypt_custom($this->encryption->encrypt($account_info->id))?>">
+                    <input type="text" class="form-control validate[required]" name="name" id="reason" value="<?=$account_info->first_name.' '.$account_info->last_name?>">
+                    <input type="text" class="form-control validate[required]" name="regno" id="reason" value="<?=$account_info->regno?>">
+                    <input type="text" class="form-control validate[required]" name="email" id="reason" value="<?=$account_info->email.' - (DFV)'?>">
                     <textarea type="text" class="form-control validate[required]" name="reason" id="reason"></textarea>
                   </div>
                 </div>
