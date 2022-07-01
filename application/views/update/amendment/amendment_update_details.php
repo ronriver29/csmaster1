@@ -809,24 +809,27 @@ $region='';
             case 'Union':
                  $module = 'Members';
                  $moduleUrl = 'union_update';
+                 $valiDate = $union_complete;
               break;
             case 'Federation':
                    $module = 'Members';
                  $moduleUrl = 'update_affiliators';
+                 $valiDate = $affiliator_complete;
             break;
             default:
                  $module ='Cooperators';
                  $moduleUrl ='amendment_cooperators';
+                 $valiDate = $cooperator_complete;
               break;
           }
           ?>
           <h5 class="mb-1 font-weight-bold">List of <?=$module?></h5>
           <!-- <h5 class="mb-1 font-weight-bold">List of Cooperators</h5> -->
           <small class="text-muted">
-            <?php if($cooperator_complete): ?>
+            <?php if($valiDate): ?>
               <span class="badge badge-success">COMPLETE</span>
             <?php endif; ?>
-            <?php if(!$cooperator_complete): ?>
+            <?php if(!$valiDate): ?>
               <span class="badge badge-secondary">PENDING</span>
             <?php endif; ?>
           </small>
@@ -1073,36 +1076,40 @@ $region='';
      
       <?php endif; ?>
    
-        
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 font-weight-bold"> </h5>
-            <small class="text-muted">
-              <?php if($cooperator_complete): ?>
-                <span class="badge badge-success">COMPLETE</span>
-              <?php endif; ?>
-              <?php if(!$cooperator_complete): ?>
-                <span class="badge badge-secondary">PENDING</span>
-              <?php endif; ?>
-            </small>
-          </div>
-          <?php 
+            <?php 
        
           switch ($coop_info->grouping) {
             case 'Union':
                  $module = 'Members';
                  $moduleUrl = 'union_update';
+                 $valiDate = $union_complete;
               break;
             case 'Federation':
                    $module = 'Members';
                  $moduleUrl = 'update_affiliators';
+                 $valiDate = $affiliator_complete;
             break;
             default:
                  $module ='Cooperators';
                  $moduleUrl ='amendment_cooperators';
+                 $valiDate = $cooperator_complete;
               break;
           }
           ?>
+
+            <small class="text-muted">
+              <?php if($valiDate): ?>
+                <span class="badge badge-success">COMPLETE</span>
+              <?php endif; ?>
+              <?php if(!$valiDate): ?>
+                <span class="badge badge-secondary">PENDING</span>
+              <?php endif; ?>
+            </small>
+          </div>
+          
           <p class="mb-1 font-italic">List of <?=$module?></p>
          
            <small class="text-muted">

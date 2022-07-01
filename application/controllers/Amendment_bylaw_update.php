@@ -203,7 +203,7 @@ class Amendment_bylaw_update extends CI_Controller{
           if($this->session->userdata('access_level')!=6){
             redirect('admins/login');
           }else{
-
+            $this->load->model('region_model');
               $user_id = $this->session->userdata('user_id');
                    if(!isset($_POST['bylawsUnionBtn'])){
                     $data['title'] = 'By Laws';

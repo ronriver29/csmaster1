@@ -11,12 +11,16 @@ class Amendment_update_articles_model extends CI_Model{
     $data_coop_id = $this->security->xss_clean($coop_id);
     $data_amendment_id = $this->security->xss_clean($amendment_id);
     $data =null;
-    $query = $this->db->get_where('amendment_articles_of_cooperation',array('cooperatives_id'=>$data_coop_id,'amendment_id'=>$data_amendment_id));
+    $query = $this->db->get_where('amendment_articles_of_cooperation',array('amendment_id'=>$data_amendment_id));
   
-    if($query->num_rows()==1)
+    if($query->num_rows()>0)
     {
     	$data = $query->row();
     }
+    unset($data_coop_id);
+    unset($data_amendment_id);
+    unset($coop_id);
+    unset($amendment_id);
     return $data;
   }
   public function update_article_primary($amendment_id,$article_info){
