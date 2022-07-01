@@ -236,7 +236,7 @@ $(function(){
           }
           else
           {
-             $('#amendmentAddForm #categoryOfCooperative').val(data.category_of_cooperative+' - '+data.grouping);
+             $('#amendmentAddForm #categoryOfCooperative').val(data.category_of_cooperative);
           }  
              
           $('#amendmentAddForm #coopName').val(data.coopName);
@@ -1145,8 +1145,7 @@ $(function(){
     //list coopt type
     function list_cooperative_type($select_id,$category)
     {
-              // alert($select_id);
-              // alert($category);
+   
                 $($select_id).append($('<option></option').attr({'selected':true}).val(""));
                 $.ajax({
                   async:false,

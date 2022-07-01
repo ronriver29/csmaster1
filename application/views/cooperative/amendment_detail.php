@@ -81,9 +81,9 @@
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
                     <option value="">--</option>
                     <option value="Primary">Primary</option>
-                  <!--   <option value="Secondary">Secondary</option>
+                  <option value="Secondary">Secondary</option>
                     <option value="Tertiary">Tertiary</option>
-                     <option value="Others">Others</option> -->
+                     <option value="Others">Others</option>
                   </select>
                 </div>
               </div>
@@ -94,8 +94,6 @@
                <label for="typeOfCooperative1">Type of Cooperative</label>
              </div>
             </div>
-
-
            <!--  <span id="count_type" style="border:1px solid red;"></span> -->
 
           <div class="col-sm-12 col-md-12">

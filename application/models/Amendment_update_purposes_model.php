@@ -70,7 +70,7 @@ class Amendment_update_purposes_model extends CI_Model{
   public function check_not_null($cooperatives_id,$amendment_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $amendment_id = $this->security->xss_clean($amendment_id );
-    $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id));
+    $query = $this->db->get_where('amendment_purposes',array('amendment_id'=>$amendment_id));
     if($query->num_rows()>0)
     {
        $data = $query->row();
@@ -90,7 +90,7 @@ class Amendment_update_purposes_model extends CI_Model{
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $amendment_id = $this->security->xss_clean($amendment_id);
     $data=null;
-    $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id));
+    $query = $this->db->get_where('amendment_purposes',array('amendment_id'=>$amendment_id));
     if($query->num_rows()>0)
     {
       foreach($query->result() as $row)
