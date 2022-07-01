@@ -94,8 +94,6 @@
                <label for="typeOfCooperative1">Type of Cooperative</label>
              </div>
             </div>
-
-
            <!--  <span id="count_type" style="border:1px solid red;"></span> -->
 
           <div class="col-sm-12 col-md-12">
