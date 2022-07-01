@@ -29,6 +29,7 @@ class Amendment_update extends CI_Controller{
         $this->load->model('amendment_update_purposes_model');
         $this->load->model('amendment_update_bylaw_model');
         $this->load->model('region_model');
+        $this->load->model('amendment_affiliators_update_model','affiliator_model');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $coop_id = $this->amendment_update_model->coop_dtl($this->decoded_id);
         $data['is_client'] = $this->session->userdata('client');
@@ -94,9 +95,25 @@ class Amendment_update extends CI_Controller{
                   /*BEGIN: UPDATE FOR CAPITALIZATION --by Fred */
                   $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_capitalization_model->check_capitalization_primary_complete($coop_id,$this->decoded_id) : true;
                   $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_update_model->check_article_primary_complete($this->decoded_id) : true;
-                  $data['cooperator_complete'] = $this->amendment_update_cooperator_model->is_requirements_complete($coop_id,$this->decoded_id);
+                
+                 switch ($data['coop_info']->category_of_cooperative) {
+                   case 'Secondary':
+                   case 'Tertiary':
+                    $data['affiliator_complete'] = $this->affiliator_model->is_requirements_complete($this->decoded_id);
+                     $data['cooperator_complete'] =true;
+                     break;
+                    
+                   case 'Others':
+                   
+                    break; 
+                   default:
+                      $data['cooperator_complete'] = $this->amendment_update_cooperator_model->is_requirements_complete($coop_id,$this->decoded_id);
+                       $data['affiliator_complete'] =true;
+                     break;
+                 }
                   $data['committees_complete'] = $this->amendment_committees_update_model->committee_complete_count_amendment($this->decoded_id);
                   $data['purposes_complete'] = $this->amendment_update_purposes_model->check_purpose_complete($coop_id,$this->decoded_id);
+
                   $data['submitted'] = $this->amendment_update_model->check_submitted_for_evaluation($coop_id,$this->decoded_id);
                   $data['members_composition'] =  $this->amendment_update_model->amendment_composition($this->decoded_id);//get_coop_composition($this->decoded_id);
                   $data['committeescount'] = $this->amendment_committees_update_model->get_all_committees_of_coop_gad_amendment($this->decoded_id);
@@ -253,7 +270,22 @@ class Amendment_update extends CI_Controller{
               $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_capitalization_model->check_capitalization_primary_complete($coop_id,$this->decoded_id) : true;
               // $this->debug(  $data['capitalization_complete']);
               $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_update_model->check_article_primary_complete($this->decoded_id) : true;
-              $data['cooperator_complete'] = $this->amendment_update_cooperator_model->is_requirements_complete($coop_id,$this->decoded_id);
+              switch ($data['coop_info']->category_of_cooperative) {
+                   case 'Secondary':
+                   case 'Tertiary':
+                    $data['affiliator_complete'] = $this->affiliator_model->is_requirements_complete($this->decoded_id);
+                     $data['cooperator_complete'] =true;
+                     break;
+                    
+                   case 'Others':
+                   
+                    break; 
+                   default:
+                      $data['cooperator_complete'] = $this->amendment_update_cooperator_model->is_requirements_complete($coop_id,$this->decoded_id);
+                       $data['affiliator_complete'] =true;
+                     break;
+                 }
+                
 
               $data['committees_complete'] = $this->amendment_committees_update_model->committee_complete_count_amendment($this->decoded_id);
               // if($data['committees_complete']==false) {
