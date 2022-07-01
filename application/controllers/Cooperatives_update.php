@@ -632,7 +632,7 @@
                       );
                       // echo $this->cooperatives_update_model->update_not_expired_cooperative_array_type($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition);
                       // echo $type_of_cooperativeName;
-                      if($this->cooperatives_update_model->update_not_expired_cooperative_array_type($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition)){
+                      if($this->cooperatives_update_model->update_not_expired_cooperative_array_type($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition,$typeOfCooperativeID)){
                         $this->session->set_flashdata('cooperative_success', 'Successfully updated basic information.');
                         redirect('cooperatives_update/'.$this->input->post('cooperativeID'));
                       }else{
