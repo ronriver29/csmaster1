@@ -124,7 +124,7 @@ class Admin_model extends CI_Model{
        if(count($where_array)>0) {
            $and_where = " AND ".join(" OR ",$where_array);
        }
-
+    $this->db->distinct();
     $this->db->limit($limit);
     $this->db->select('u.*,c.id as application_id,c.status');
     $this->db->from('users u');
@@ -178,7 +178,7 @@ class Admin_model extends CI_Model{
        }
 
     $this->db->limit($limit);
-    
+
     $this->db->select('u.*,c.id as application_id');
     $this->db->from('users u');
     $this->db->join('cooperatives c','u.id = c.users_id','left');

@@ -291,20 +291,6 @@
                       <?php foreach($business_activity as $key => $major_industry) : ?>
                      
                       <div class="row">
-                        <!-- <div class="col-sm-12 col-md-12">
-                          <div class="form-group">
-                            <?php if($key>=1) :?>
-                              <a class="customDeleteBtn businessActivityRemoveBtn float-right text-danger"><i class="fas fa-minus-circle"></i></a>
-                            <?php endif; ?>
-                            <label for="majorIndustry<?= ($key+1)?>" id="majorlabel">Major Industry Classification No. <?= ($key+1)?></label>
-                            <select class="custom-select form-control major-type" name="majorIndustry[<?= ($key+1)?>]['major_id2']" id="majorIndustry<?= ($key+1)?>">
-                              <option value=""></option>
-                              <?php foreach($major_industries_by_coop_type as $major_industry_single) : ?>
-                                <option value="<?= $major_industry_single['id']?>" <?=($major_industry_single['id'] == $major_industry['bactivity_id'] ? 'selected' : '')?>><?= $major_industry_single['description']?></option>
-                              <?php endforeach; ?>
-                            </select>
-                          </div>
-                        </div> -->
                         <div class="col-sm-12 col-md-12">
                           <div class="form-group">
                             <?php if($key>=1) :?>

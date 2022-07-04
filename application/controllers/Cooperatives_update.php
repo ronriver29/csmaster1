@@ -508,9 +508,46 @@
                       $data['amd_type_of_coop'] = $typeName_arr;
                       $data['list_type_coop'] = $this->coop_type($coopTypeName,$data['coop_info']->category_of_cooperative);
                       
-                      $data['major_industries_by_coop_type'] = $this->major_industry_model->get_major_industries_by_type_name($data['coop_info']->type_of_cooperative);
-                      $data['major_industries_subclass'] = $this->industry_subclass_model->get_industry_subclasses($cooperative_type_id,$major_industry_id);
-                      $this->industry_subclass_model->get_industry_subclasses_amendmnet($major_industry_id); 
+                      if(strpos($data['coop_info']->type_of_cooperative, ',') !== false ){
+                        $data['major_industry_list'] = $this->cooperatives_update_model->get_all_major_industry($decoded_id);
+                        $data['business_activity'] = $this->cooperatives_update_model->get_all_business_activities($data['coop_info']->id);
+                        // echo $this->db->last_query();
+                        $major_industry_id = array();
+                        $cooperative_type_id= array();
+
+                        if(count($data['business_activity'])>0)
+                        {
+                          foreach($data['business_activity'] as $business_dtl)
+                          {
+                            $major_industry_id[] = $business_dtl['bactivity_id'];
+                            $cooperative_type_id[] = $business_dtl['cooperative_type_id'];
+                          }
+                        }
+
+                        $data['major_industries_by_coop_type'] = $this->major_industry_model->get_major_industries_by_type_name_multi($data['coop_info']->type_of_cooperative);
+                        $data['major_industries_subclass'] = $this->industry_subclass_model->get_industry_subclasses_multi($cooperative_type_id,$major_industry_id);
+
+                        // echo $this->db->last_query();
+                      } else {
+                        $data['major_industry_list'] = $this->cooperatives_update_model->get_all_major_industry($decoded_id);
+                        $data['business_activity'] = $this->cooperatives_update_model->get_all_business_activities($data['coop_info']->id);
+                        $major_industry_id = '';
+                        $cooperative_type_id='';
+
+                        if(count($data['business_activity'])>0)
+                        {
+                          foreach($data['business_activity'] as $business_dtl)
+                          {
+                            $major_industry_id = $business_dtl['bactivity_id'];
+                            $cooperative_type_id = $business_dtl['cooperative_type_id'];
+                          }
+                        }
+
+                        $data['major_industries_by_coop_type'] = $this->major_industry_model->get_major_industries_by_type_name($data['coop_info']->type_of_cooperative);
+                        $data['major_industries_subclass'] = $this->industry_subclass_model->get_industry_subclasses($cooperative_type_id,$major_industry_id);
+                      }
+                      
+                      // $this->industry_subclass_model->get_industry_subclasses_amendmnet($major_industry_id); 
                       $data['subclasses_list'] = $this->cooperatives_model->get_all_subclasses($decoded_id);
                       $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
                       // echo $this->db->last_query();
@@ -595,7 +632,7 @@
                       );
                       // echo $this->cooperatives_update_model->update_not_expired_cooperative_array_type($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition);
                       // echo $type_of_cooperativeName;
-                      if($this->cooperatives_update_model->update_not_expired_cooperative_array_type($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition)){
+                      if($this->cooperatives_update_model->update_not_expired_cooperative_array_type($user_id,$decoded_id,$field_data,$subclass_array,$major_industry,$members_composition,$typeOfCooperativeID)){
                         $this->session->set_flashdata('cooperative_success', 'Successfully updated basic information.');
                         redirect('cooperatives_update/'.$this->input->post('cooperativeID'));
                       }else{
