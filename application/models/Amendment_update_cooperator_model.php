@@ -1085,6 +1085,7 @@ from amendment_cooperators where amendment_cooperators.amendment_id ='$amendment
   }
 
   public function is_requirements_complete($cooperatives_id,$amendment_id){
+    $this->load->model('amendment_bylaw_model');
     if($this->check_no_of_directors($cooperatives_id,$amendment_id))
     {  
       if($this->check_chairperson($cooperatives_id,$amendment_id))

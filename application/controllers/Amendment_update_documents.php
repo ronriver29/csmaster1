@@ -3180,6 +3180,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           if($this->session->userdata('access_level')!=6){
             redirect('admins/login');
           }else{
+            $this->load->model('region_model');
             $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($decoded_id);
              $data['admin_info'] = $this->admin_model->get_admin_info($this->session->userdata('user_id'));
             $data['title'] = 'Upload Document';
