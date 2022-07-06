@@ -1101,7 +1101,7 @@ from amendment_cooperators where amendment_cooperators.amendment_id ='$amendment
 
                 if($this->ten_percent($amendment_id))
                 {
-                  if($this->amendment_bylaw_model->get_bylaw_by_coop_id($cooperatives_id,$amendment_id)->kinds_of_members==1){
+                  if($this->amendment_bylaw_model->get_bylaw_by_coop_id($amendment_id)->kinds_of_members==1){
 
                       if($this->check_associate_not_exists($cooperatives_id,$amendment_id))
                       {//  return true;
