@@ -103,7 +103,7 @@ class amendment_update_model extends CI_Model{
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->like('refregion.regCode', $regcode);
+    ($regcode !=='00' ? $this->db->like('refregion.regCode', $regcode) : '');
     $this->db->where('status = 41 AND ho='.$ho.' AND amend_coop.migrated=1'.$coopName.$regNo);
     $query = $this->db->get();
     $data = $query->result_array();
@@ -126,7 +126,7 @@ class amendment_update_model extends CI_Model{
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    $this->db->like('refregion.regCode', $regcode);
+     ($regcode !=='00' ? $this->db->like('refregion.regCode', $regcode) : '');
     $this->db->where('status = 41 AND ho='.$ho.' AND amend_coop.migrated=1'.$coopName.$regNo);
     return $this->db->count_all_results();
     unset($coopName);
