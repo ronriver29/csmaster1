@@ -2812,7 +2812,7 @@ left join amendment_cooperators on cap.amendment_id = amendment_cooperators.amen
 
  from amendment_cooperators as ac 
 
-left join cooperators as cc on ac.full_name like  cc.full_name
+left join cooperators as cc on ac.full_name = cc.full_name and ac.orig_cooperator_id = cc.id
 
 where ac.amendment_id = '$amendment_id' and ac.type_of_member='Regular' order by ac.full_name asc");
 

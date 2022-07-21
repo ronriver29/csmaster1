@@ -1772,62 +1772,10 @@
 
           <tbody>
 
-            <?php /* $count=0; foreach($regular_cooperator_list as $key => $regular) : ?>
-
-              <tr>
-
-              <?php $count++; ?>
-
-              <?php 
-
-              if(isset($regular_cooperator_list_previous[$key]))
-
-              {
-
-                  $regular_previous = $regular_cooperator_list_previous[$key];
-
-              ?>
-
-                  <td><?=$count.'. '. $regular['full_name']?></td>
-
-                  <td style="text-align: center;">
-
-                    <?= ($regular['number_of_subscribed_shares']!=$regular_previous['number_of_subscribed_shares'] ? '<strong>'.$regular['number_of_subscribed_shares'].'</strong>' : $regular['number_of_subscribed_shares'])?></td>
-
-                  <td style="text-align: right;"><?= number_format(($regular['number_of_subscribed_shares'] * stringToNumbers_($capitalization_info->par_value)),2)?></td>
-
-                  <td style="text-align: center;"><?= ($regular['number_of_paid_up_shares']!=$regular_previous['number_of_paid_up_shares'] ? '<strong>'.$regular['number_of_paid_up_shares'].'</strong>' : $regular['number_of_paid_up_shares'])?></td>
-
-                  <td style="text-align: right;"><?= number_format(($regular['number_of_paid_up_shares'] * stringToNumbers_($capitalization_info->par_value)),2)?></td>
-
-              <?php
-
-              }
-
-              else
-
-              {
-
-              ?>
-
-                    <td><?=$count.'. '. $regular['full_name']?></td>
-
-                  <td style="text-align: center;"><?= '<strong>'.$regular['number_of_subscribed_shares'].'</strong>'?></td>
-
-                  <td style="text-align: right;"><?= number_format(($regular['number_of_subscribed_shares'] * stringToNumbers_($capitalization_info->par_value)),2)?></td>
-
-                  <td style="text-align: center;"><?= '<strong>'.$regular['number_of_paid_up_shares'].'</strong>'?></td>
-
-                  <td style="text-align: right;"><?= number_format(($regular['number_of_paid_up_shares'] * stringToNumbers_($capitalization_info->par_value)),2)?></td>
-
-              <?php  
-
-              }
-
-              */?>
+      
 
                <?php
-
+               echo'<pre>';print_r($regular_cooperator_list_new);
                $count=0; 
 
                foreach($regular_cooperator_list_new as $key => $regular) : ?>

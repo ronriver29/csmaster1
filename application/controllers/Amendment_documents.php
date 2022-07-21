@@ -991,7 +991,7 @@ public function count_documents_coop($coop_id,$num)
                            
                               $purposes=$this->amendment_purpose_model->get_all_purposes($cooperative_id,$this->decoded_id);
                               $data['purposes_list'] =$purposes;
-                              $data['cooperators_list'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop($cooperative_id,$this->decoded_id);
+                              // $data['cooperators_list'] = $this->amendment_cooperator_model->get_all_cooperator_of_coop($cooperative_id,$this->decoded_id);
                               $data['members_composition'] = $this->amendment_model->get_coop_composition($this->decoded_id);
                                 $data['directors_list'] = $this->cooperator_model->get_list_of_directors($cooperative_id);
                                $data['cooperators_list_board'] = $this->cooperator_model->get_all_cooperator_of_coop_board($cooperative_id);
