@@ -1279,15 +1279,10 @@
 
                   }
 
-              
-
-
 
                   $address = $cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', '.$charter_cptr;
 
                   ?>
-
-                 
 
                     <td><?=$count.'. '.$cooperator['full_name']?></td>
 
