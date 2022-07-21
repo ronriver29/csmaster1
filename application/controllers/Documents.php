@@ -2926,7 +2926,7 @@ public function delete_pdf()
                                 $data['title'] = "Treasurer's Affidavit for Primary";
                                 $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                                 $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
-                                $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
+                                $data['no_of_cooperator'] = $this->unioncoop_model->get_total_number_of_cooperators($data['coop_info']->users_id);
                                 $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                                 $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                                 $data['treasurer_of_coop'] = $this->unioncoop_model->get_treasurer_of_coop($data['coop_info']->users_id);
