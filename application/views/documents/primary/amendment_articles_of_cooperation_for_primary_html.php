@@ -1219,7 +1219,7 @@
 
            
 
-            <?php $count=1; foreach($cooperators_list_board as $key => $cooperator) :?>
+            <?php $count=0; foreach($cooperators_list_board as $key => $cooperator) :?>
 
               <tr>
 
@@ -1408,7 +1408,7 @@
 
               ?>
 
-           <?php  $count=1; foreach($directors_list as $keys => $director) :?>
+           <?php  $count=0; foreach($directors_list as $keys => $director) :?>
 
               <?php $count++;?>
 
@@ -1828,7 +1828,7 @@
 
                <?php
 
-               $count=1; 
+               $count=0; 
 
                foreach($regular_cooperator_list_new as $key => $regular) : ?>
 
@@ -1970,7 +1970,7 @@
 
           <tbody>
 
-            <?php $count=1; foreach($associate_cooperator_list as $key => $associate) : ?>
+            <?php $count=0; foreach($associate_cooperator_list as $key => $associate) : ?>
 
               <?php $count++;?>
 
@@ -2224,7 +2224,7 @@
 
 
 
-             <?php  $count=1;foreach($regular_cooperator_list_coop as $key => $cooperator) :?>
+             <?php  $count=0;foreach($regular_cooperator_list_coop as $key => $cooperator) :?>
 
               <?php $count++;?>
 
@@ -2472,7 +2472,7 @@
 
           <tbody>
 
-            <?php  $count=1; foreach($regular_cooperator_list_coop as $key => $cooperator) :?>
+            <?php  $count=0; foreach($regular_cooperator_list_coop as $key => $cooperator) :?>
 
             <tr>
 
