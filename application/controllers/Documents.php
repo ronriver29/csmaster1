@@ -1494,23 +1494,32 @@ public function delete_pdf()
 
                               // $html2 = $this->load->view('documents/union/articles_of_cooperation_for_union', $data);
 
-                              $f = new pdf();
-                              $f->set_option("isPhpEnabled", true);
-                              $html2 = $this->load->view('documents/union/articles_of_cooperation_for_union', $data, TRUE);
-                             
-                              $f->setPaper('folio', 'portrait');
-                              $f->load_html($html2);
-                              $f->render();
-                              
-                              $this->load->library('session');
-                              $path = 'articles_of_cooperation_union.pdf';
-                              $getTotalPages = $f->get_canvas()->get_page_count();
-                              $user_data = array(
-                                // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
-                                'pagecount' => $getTotalPages
-                              );
-                              $this->session->set_userdata($user_data);
-                              $f->stream("articles_of_cooperation_union.pdf", array("Attachment"=>0));
+                              if($data['coop_info']->status != 12){
+                                $data['encrypted_id'] = $id;
+                                $data['title'] = 'Articles of Cooperation';
+                                $data['client_info'] = $this->user_model->get_user_info($user_id);
+                                $data['header'] = 'Documents';
+                                $this->load->view('template/header', $data);
+                                $html2 = $this->load->view('documents/union/articles_of_cooperation_for_union', $data);
+                                $this->load->view('template/footer');
+                              } else {
+                                $f = new pdf();
+                                $f->set_option("isPhpEnabled", true);
+                                $html2 = $this->load->view('documents/union/articles_of_cooperation_for_union', $data, TRUE);
+                                $f->setPaper('folio', 'portrait');
+                                $f->load_html($html2);
+                                $f->render();
+                                
+                                $this->load->library('session');
+                                $path = 'articles_of_cooperation_union.pdf';
+                                $getTotalPages = $f->get_canvas()->get_page_count();
+                                $user_data = array(
+                                  // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
+                                  'pagecount' => $getTotalPages
+                                );
+                                $this->session->set_userdata($user_data);
+                                $f->stream("articles_of_cooperation_union.pdf", array("Attachment"=>0));
+                              }
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
                               redirect('cooperatives/'.$id);
@@ -1600,21 +1609,32 @@ public function delete_pdf()
                                 $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                                 }
 
-                                $html2 = $this->load->view('documents/union/articles_of_cooperation_for_union', $data, TRUE);
-                                $f = new pdf();
-                                 $f->set_option("isPhpEnabled", true);
-                                $f->setPaper('folio', 'portrait');
-                                $f->load_html($html2);
-                                $f->render();
-                                $f->stream("articles_of_cooperation_union.pdf", array("Attachment"=>0));
-                                $this->load->library('session');
-                              $path = 'articles_of_cooperation_union.pdf';
-                              $getTotalPages = $f->get_canvas()->get_page_count();
-                              $user_data = array(
-                                // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
-                                'pagecount' => $getTotalPages
-                              );
-                              $this->session->set_userdata($user_data);
+                                if($data['coop_info']->status != 12){
+                                  $data['encrypted_id'] = $id;
+                                  $data['title'] = 'Articles of Cooperation';
+                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                                  $data['header'] = 'Documents';
+                                  $this->load->view('templates/admin_header', $data);
+                                  $html2 = $this->load->view('documents/union/articles_of_cooperation_for_union', $data);
+                                  $this->load->view('templates/admin_footer');
+                                } else {
+                                  $f = new pdf();
+                                  $f->set_option("isPhpEnabled", true);
+                                  $html2 = $this->load->view('documents/union/articles_of_cooperation_for_union', $data, TRUE);
+                                  $f->setPaper('folio', 'portrait');
+                                  $f->load_html($html2);
+                                  $f->render();
+                                  
+                                  $this->load->library('session');
+                                  $path = 'articles_of_cooperation_union.pdf';
+                                  $getTotalPages = $f->get_canvas()->get_page_count();
+                                  $user_data = array(
+                                    // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
+                                    'pagecount' => $getTotalPages
+                                  );
+                                  $this->session->set_userdata($user_data);
+                                  $f->stream("articles_of_cooperation_union.pdf", array("Attachment"=>0));
+                                }
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                 redirect('cooperatives/'.$id);
@@ -1713,28 +1733,42 @@ public function delete_pdf()
                               $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                               }
 
-                              $f = new pdf();
-                              $f->set_option("isPhpEnabled", true);
-
-                              if($data['coop_info']->cofc == 'Tertiary'){
-                                $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation_tertiary', $data, TRUE);
+                              if($data['coop_info']->status != 12){
+                                $data['encrypted_id'] = $_GET['id2'];
+                                $data['title'] = 'Articles of Cooperation';
+                                $data['client_info'] = $this->user_model->get_user_info($user_id);
+                                $data['header'] = 'Documents';
+                                $this->load->view('template/header', $data);
+                                if($data['coop_info']->cofc == 'Tertiary'){
+                                  $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation_tertiary', $data);
+                                } else {
+                                  $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation', $data);
+                                }
+                                $this->load->view('template/footer');
                               } else {
-                                $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation', $data, TRUE);
-                              }
+                                $f = new pdf();
+                                $f->set_option("isPhpEnabled", true);
+                                
+                                if($data['coop_info']->cofc == 'Tertiary'){
+                                  $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation_tertiary', $data, TRUE);
+                                } else {
+                                  $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation', $data, TRUE);
+                                }
 
-                              $f->setPaper('folio', 'portrait');
-                              $f->load_html($html2);
-                              $f->render();
-                              
-                              $this->load->library('session');
-                              $path = 'articles_of_cooperation_primary.pdf';
-                              $getTotalPages = $f->get_canvas()->get_page_count();
-                              $user_data = array(
-                                // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
-                                'pagecount' => $getTotalPages
-                              );
-                              $this->session->set_userdata($user_data);
-                              $f->stream("articles_of_cooperation_federation.pdf", array("Attachment"=>0));
+                                $f->setPaper('folio', 'portrait');
+                                $f->load_html($html2);
+                                $f->render();
+                                
+                                $this->load->library('session');
+                                $path = 'articles_of_cooperation_primary.pdf';
+                                $getTotalPages = $f->get_canvas()->get_page_count();
+                                $user_data = array(
+                                  // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
+                                  'pagecount' => $getTotalPages
+                                );
+                                $this->session->set_userdata($user_data);
+                                $f->stream("articles_of_cooperation_federation.pdf", array("Attachment"=>0));
+                              }
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
                               redirect('cooperatives/'.$id);
@@ -1825,26 +1859,40 @@ public function delete_pdf()
                                 $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                                 }
 
-                                if($data['coop_info']->cofc == 'Tertiary'){
-                                  $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation_tertiary', $data, TRUE);
+                                if($data['coop_info']->status != 12){
+                                  $data['encrypted_id'] = $_GET['id2'];
+                                  $data['title'] = 'Articles of Cooperation';
+                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                                  $data['header'] = 'Documents';
+                                  $this->load->view('templates/admin_header', $data);
+                                  if($data['coop_info']->cofc == 'Tertiary'){
+                                    $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation_tertiary', $data);
+                                  } else {
+                                    $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation', $data);
+                                  }
+                                  $this->load->view('templates/admin_footer');
                                 } else {
-                                  $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation', $data, TRUE);
+                                  if($data['coop_info']->cofc == 'Tertiary'){
+                                      $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation_tertiary', $data, TRUE);
+                                    } else {
+                                      $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation', $data, TRUE);
+                                    }
+                                  
+                                    $f = new pdf();
+                                     $f->set_option("isPhpEnabled", true);
+                                    $f->setPaper('folio', 'portrait');
+                                    $f->load_html($html2);
+                                    $f->render();
+                                    $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
+                                    $this->load->library('session');
+                                  $path = 'articles_of_cooperation_federation.pdf';
+                                  $getTotalPages = $f->get_canvas()->get_page_count();
+                                  $user_data = array(
+                                    // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
+                                    'pagecount' => $getTotalPages
+                                  );
+                                  $this->session->set_userdata($user_data);
                                 }
-                              
-                                $f = new pdf();
-                                 $f->set_option("isPhpEnabled", true);
-                                $f->setPaper('folio', 'portrait');
-                                $f->load_html($html2);
-                                $f->render();
-                                $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
-                                $this->load->library('session');
-                              $path = 'articles_of_cooperation_federation.pdf';
-                              $getTotalPages = $f->get_canvas()->get_page_count();
-                              $user_data = array(
-                                // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
-                                'pagecount' => $getTotalPages
-                              );
-                              $this->session->set_userdata($user_data);
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                 redirect('cooperatives/'.$id);
@@ -2161,6 +2209,16 @@ public function delete_pdf()
                               $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_union($user_id); 
                              // $this->load->view('documents/primary/bylaws_for_primary', $data); 
                               // $html2 = $this->load->view('documents/union/bylaws_for_union', $data);
+                                if($data['coop_info']->status != 12){
+                                $data['encrypted_id'] = $id;
+                                $data['title'] = 'Bylaws';
+                                $data['client_info'] = $this->user_model->get_user_info($user_id);
+                                $data['header'] = 'Documents';
+                                $this->load->view('template/header', $data);
+                                $html2 = $this->load->view('documents/union/bylaws_for_union', $data);
+                                $this->load->view('template/footer');
+                              } else {
+
                                 $html2 = $this->load->view('documents/union/bylaws_for_union', $data, TRUE);
 
                                 $f = new pdf(); 
@@ -2170,6 +2228,7 @@ public function delete_pdf()
                                 // $f->setBasePath(public_path()); // This line resolve
                                 $f->render();
                                 $f->stream("bylaws_union.pdf", array("Attachment"=>0));
+                              }
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
                               redirect('cooperatives/'.$id);
@@ -2250,14 +2309,26 @@ public function delete_pdf()
                                 $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
                                 $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_union($data['coop_info']->users_id); 
                               // $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
-                               $html2 = $this->load->view('documents/union/bylaws_for_union', $data, TRUE);
-                                $f = new pdf();
-                                $f->set_option("isPhpEnabled", true);
-                                $f->setPaper('folio', 'portrait');
-                                $f->load_html($html2);
-                                // $f->setBasePath(public_path()); // This line resolve
-                                $f->render();
-                                $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
+                               if($data['coop_info']->status != 12){
+                                  $data['encrypted_id'] = $id;
+                                  $data['title'] = 'Bylaws';
+                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                                  $data['header'] = 'Documents';
+                                  $this->load->view('templates/admin_header', $data);
+                                  $html2 = $this->load->view('documents/union/bylaws_for_union', $data);
+                                  $this->load->view('templates/admin_footer');
+                                } else {
+
+                                  $html2 = $this->load->view('documents/union/bylaws_for_union', $data, TRUE);
+
+                                  $f = new pdf(); 
+                                  $f->set_option("isPhpEnabled", true);
+                                  $f->setPaper('folio', 'portrait');
+                                  $f->load_html($html2);
+                                  // $f->setBasePath(public_path()); // This line resolve
+                                  $f->render();
+                                  $f->stream("bylaws_union.pdf", array("Attachment"=>0));
+                                }
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                 redirect('cooperatives/'.$id);
@@ -2358,19 +2429,35 @@ public function delete_pdf()
                               $data['cooperator_vicechairperson'] = $this->affiliators_model->get_vicechairperson_of_coop($user_id);
                               $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_fed($user_id); 
 
-                              // $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data);
-                              // $data['data_type'] = $data['coop_info']->cofc;
-                              if($data['coop_info']->cofc == 'Tertiary'){
-                                $html2 = $this->load->view('documents/federation/bylaws_for_federation_tertiary', $data, TRUE);
+                              if($data['coop_info']->status != 12){
+                                $data['encrypted_id'] = $id;
+                                $data['title'] = 'Bylaws';
+                                $data['client_info'] = $this->user_model->get_user_info($user_id);
+                                $data['header'] = 'Documents';
+                                $this->load->view('template/header', $data);
+                                if($data['coop_info']->cofc == 'Tertiary'){
+                                  $html2 = $this->load->view('documents/federation/bylaws_for_federation_tertiary', $data);
+                                } else {
+                                  $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data);
+                                }
+                                $this->load->view('template/footer');
                               } else {
-                                $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data, TRUE);
-                              }
-                              
-                                $f = new pdf();
+
+                                if($data['coop_info']->cofc == 'Tertiary'){
+                                  $html2 = $this->load->view('documents/federation/bylaws_for_federation_tertiary', $data, TRUE);
+                                } else {
+                                  $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data, TRUE);
+                                }
+
+                                $f = new pdf(); 
+                                $f->set_option("isPhpEnabled", true);
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
+                                // $f->setBasePath(public_path()); // This line resolve
                                 $f->render();
-                                $f->stream("bylaws_federation.pdf", array("Attachment"=>0));
+                                $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
+                              }
+
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
                               redirect('cooperatives/'.$id);
@@ -2468,16 +2555,34 @@ public function delete_pdf()
                                 $data['primary_consideration'] = explode(";",$data['bylaw_info']->primary_consideration);
                                 $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_fed($data['coop_info']->users_id); 
                               
-                                if($data['coop_info']->cofc == 'Tertiary'){
-                                  $html2 = $this->load->view('documents/federation/bylaws_for_federation_tertiary', $data, TRUE);
+                                if($data['coop_info']->status != 12){
+                                  $data['encrypted_id'] = $id;
+                                  $data['title'] = 'Bylaws';
+                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                                  $data['header'] = 'Documents';
+                                  $this->load->view('templates/admin_header', $data);
+                                  if($data['coop_info']->cofc == 'Tertiary'){
+                                    $html2 = $this->load->view('documents/federation/bylaws_for_federation_tertiary', $data);
+                                  } else {
+                                    $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data);
+                                  }
+                                  $this->load->view('templates/admin_footer');
                                 } else {
-                                  $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data, TRUE);
+
+                                  if($data['coop_info']->cofc == 'Tertiary'){
+                                    $html2 = $this->load->view('documents/federation/bylaws_for_federation_tertiary', $data, TRUE);
+                                  } else {
+                                    $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data, TRUE);
+                                  }
+
+                                  $f = new pdf(); 
+                                  $f->set_option("isPhpEnabled", true);
+                                  $f->setPaper('folio', 'portrait');
+                                  $f->load_html($html2);
+                                  // $f->setBasePath(public_path()); // This line resolve
+                                  $f->render();
+                                  $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
                                 }
-                                $f = new pdf();
-                                $f->setPaper('folio', 'portrait');
-                                $f->load_html($html2);
-                                $f->render();
-                                $f->stream("bylaws_federation.pdf", array("Attachment"=>0));
                                 
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
@@ -2560,15 +2665,6 @@ public function delete_pdf()
                               $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                               $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                               $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
-                              if($data['coop_info']->status != 12){
-                                $data['encrypted_id'] = $id;
-                                $data['title'] = 'Treasurers Affidavit';
-                                $data['client_info'] = $this->user_model->get_user_info($user_id);
-                                $data['header'] = 'Documents';
-                                $this->load->view('template/header', $data);
-                                $this->load->view('documents/primary/treasurer_affidavit_primary', $data); 
-                                $this->load->view('template/footer');
-                              } else {
                                 $f = new pdf();
                                 $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary', $data, TRUE);
                                 $f->set_option('isHtml5ParserEnabled', true);
@@ -2579,7 +2675,6 @@ public function delete_pdf()
                                 $f->render();
                                $pageCount['pageCount']=  $f->get_canvas()->get_page_count();
                                 $f->stream("treasurer_affidavit_primary.pdf", array("Attachment"=>0));
-                              }
                             }else{
                               $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
                               redirect('cooperatives/'.$id);
@@ -6266,12 +6361,12 @@ function do_upload_two_(){
               $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
               $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id); 
 
-              $html2 = $this->load->view('documents/primary/bylaws_for_primary_branch', $data, TRUE);
-              $f = new pdf();
-              $f->setPaper('folio', 'portrait');
-              $f->load_html($html2);
-              $f->render();
-              $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
+              $data['client_info'] = $this->user_model->get_user_info($user_id);
+              $data['header'] = 'Documents';
+              $this->load->view('template/header', $data);
+              $html2 = $this->load->view('documents/primary/bylaws_for_primary_branch', $data);
+              $this->load->view('template/footer');
+
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
@@ -6297,12 +6392,12 @@ function do_upload_two_(){
                 $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
                 $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id); 
                 $html2 = $this->load->view('documents/primary/bylaws_for_primary_branch', $data, TRUE);
-                $J = new pdf();       
-                $J->set_option('isRemoteEnabled',TRUE);
-                $J->set_paper([0,0,612,936], "portrait"); //mm to point
-                $J->load_html($html2);
-                $J->render();
-                $J->stream("bylaws_primary.pdf", array("Attachment"=>0));
+                
+                $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                $data['header'] = 'Documents';
+                $this->load->view('templates/admin_header', $data);
+                $html2 = $this->load->view('documents/primary/bylaws_for_primary_branch', $data);
+                $this->load->view('templates/admin_footer');
 
             }
           }
@@ -6433,24 +6528,11 @@ function do_upload_two_(){
                   }
                   $data['title'] = 'Articles of Cooperation for Primary';
 
-                  $f = new pdf();
-                  $f->set_option("isPhpEnabled", true);
-                  $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data,TRUE);
-                 
-                  $f->setPaper('folio', 'portrait');
-                  $f->load_html($html2);
-                  $f->render();
-                  
-                  $this->load->library('session');
-                  $path = 'articles_of_cooperation_primary.pdf';
-                  $getTotalPages = $f->get_canvas()->get_page_count();
-                  $user_data = array(
-                    // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
-                    'pagecount' => $getTotalPages
-                  );
-
-                  $this->session->set_userdata($user_data);
-                  $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
+                  $data['client_info'] = $this->user_model->get_user_info($user_id);
+                  $data['header'] = 'Documents';
+                  $this->load->view('template/header', $data);
+                  $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data);
+                  $this->load->view('template/footer');
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
@@ -6485,24 +6567,13 @@ function do_upload_two_(){
                 $data['regions_island_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
               }
               $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-              $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data, TRUE);
-              $f = new pdf();
-              $f->set_option("isPhpEnabled", true);
-              $f->setPaper('folio', 'portrait');
-              $f->load_html($html2);
-              $f->render();
+              $data['title'] = 'Articles of Cooperation for Primary';
 
-              $this->load->library('session');
-              $path = 'articles_of_cooperation_for_primary_branch.pdf';
-              $getTotalPages = $f->get_canvas()->get_page_count();
-              $user_data = array(
-                // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
-                'pagecount' => $getTotalPages
-              );
-
-              $this->session->set_userdata($user_data);
-
-              $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
+              $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+              $data['header'] = 'Documents';
+              $this->load->view('templates/admin_header', $data);
+              $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data);
+              $this->load->view('templates/admin_footer');
                                 
             }
           }
@@ -6643,12 +6714,11 @@ function do_upload_two_(){
           $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
           $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
           $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
-          $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary_bs', $data, TRUE);
-          $f = new pdf();
-          $f->setPaper('folio', 'portrait');
-          $f->load_html($html2);
-          $f->render();
-          $f->stream("treasurer_affidavit_primary.pdf", array("Attachment"=>0));
+          $data['client_info'] = $this->user_model->get_user_info($user_id);
+          $data['header'] = 'Documents';
+          $this->load->view('template/header', $data);
+          $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary_bs', $data);
+          $this->load->view('template/footer');
         }else{
           if($this->session->userdata('access_level')==5){
             redirect('admins/login');
@@ -6667,12 +6737,11 @@ function do_upload_two_(){
                 $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                 $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                 $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
-                $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary_bs', $data, TRUE);
-                $f = new pdf();
-                $f->setPaper('folio', 'portrait');
-                $f->load_html($html2);
-                $f->render();
-                $f->stream("treasurer_affidavit_primary.pdf", array("Attachment"=>0));
+                $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                $data['header'] = 'Documents';
+                $this->load->view('templates/admin_header', $data);
+                $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary_bs', $data);
+                $this->load->view('templates/admin_footer');
             }
           }
         }

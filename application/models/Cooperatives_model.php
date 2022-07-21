@@ -662,7 +662,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     return $this->db->count_all_results();
   }
 
-  public function get_all_cooperatives_registration2($regcode,$limit,$start){
+  public function get_all_cooperatives_registration2($regcode,$coopname,$limit,$start){
     // Get Coop Type for HO
     $this->db->select('name');
     $this->db->from('head_office_coop_type');
@@ -672,9 +672,10 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
       $cooparray[] = $typesofcoop['name'];
     }
 
+    $coopname = (strlen($coopname)>0 ? " AND registeredcoop.coopName LIKE '%".$coopname."%'" : '');
+    
     $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
-    // End Get Coop Type for HO
     $this->db->limit($limit, $start);
     $this->db->select('registeredcoop.*,cooperatives.*,payment.date_of_or, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('cooperatives');
@@ -685,8 +686,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->like('refregion.regCode', $regcode);
-    $this->db->where('cooperatives.status = 15 AND cooperatives.type_of_cooperative NOT IN ('.$typeofcoopimp.') AND second_evaluated_by != 0');
-    $this->db->order_by('dateRegistered', 'ASC');
+    $this->db->where('cooperatives.status = 15 AND cooperatives.type_of_cooperative NOT IN ('.$typeofcoopimp.') AND second_evaluated_by != 0'.$coopname);
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
@@ -1177,6 +1177,44 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $this->db->from('cooperatives');
     $query3 = $this->db->get();
     $coop_type_of_coop = $query3->row();
+    
+    if($data['type_of_cooperative'] == 'Union' && $data['grouping'] == 'Union'){
+      $audit = array('name'=> 'Audit','user_id' => $data['users_id']);
+      $gad = array('name'=> 'Gender and Development','user_id' => $data['users_id']);
+      $election = array('name'=> 'Election','user_id' => $data['users_id']);
+      $mac = array('name'=> 'Mediation and Conciliation','user_id' => $data['users_id']);
+      $ethics = array('name'=> 'Ethics','user_id' => $data['users_id']);
+
+      $committee_exist = $this->db->where(array('name'=>'Audit','user_id'=>$data['users_id']))->get('committees_union');
+        if($committee_exist->num_rows()>0){
+            // $this->setMessage(array('type' => 'warning', 'heading' => 'Warning', 'content' => 'Record already exist!'));
+        } else {
+          $this->db->insert('committees_union',$audit);
+          $this->db->insert('committees_union',$gad);
+          $this->db->insert('committees_union',$election);
+          $this->db->insert('committees_union',$mac);
+          $this->db->insert('committees_union',$ethics);
+        }
+
+      // return $return;
+    } else if($data['grouping'] == 'Federation'){
+      $audit = array('name'=> 'Audit','user_id' => $data['users_id']);
+      $gad = array('name'=> 'Gender and Development','user_id' => $data['users_id']);
+      $election = array('name'=> 'Election','user_id' => $data['users_id']);
+      $mac = array('name'=> 'Mediation and Conciliation','user_id' => $data['users_id']);
+      $ethics = array('name'=> 'Ethics','user_id' => $data['users_id']);
+      $committee_exist = $this->db->where(array('name'=>'Audit','user_id'=>$data['users_id']))->get('committees_federation');
+        if($committee_exist->num_rows()>0){
+            // $this->setMessage(array('type' => 'warning', 'heading' => 'Warning', 'content' => 'Record already exist!'));
+        } else {
+          $this->db->insert('committees_federation',$audit);
+          $this->db->insert('committees_federation',$gad);
+          $this->db->insert('committees_federation',$election);
+          $this->db->insert('committees_federation',$mac);
+          $this->db->insert('committees_federation',$ethics);
+        }
+
+    }
     
     $data['type_of_cooperative'] = $coop_type->name;
     $this->db->where(array('users_id'=>$user_id,'id'=>$coop_id));

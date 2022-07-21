@@ -27,6 +27,15 @@
       /*font-family: 'Bookman Old Style'; font-size: 12px; */
        font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
+  #printPage
+  {
+    margin-left: 450px;
+    padding: 0px;
+    width: 670px; / width: 7in; /
+    height: 900px; / or height: 9.5in; /
+    clear: both;
+    page-break-after: always;
+  }
   </style>
 </head>
 <body style="font-size:12">
@@ -46,7 +55,7 @@
             
         }
 </script>
-<div class="container-fluid text-monospace">
+<div class="container-fluid text-monospace" id="printPage">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
         <p class="font-weight-bold">BY-LAWS<br>OF<br><?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?></p>
@@ -1189,7 +1198,7 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($cooperators_list_regular as $cooperator) :?>
-              <?=$count++;?>
+              <?php $count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
                 <td></td>

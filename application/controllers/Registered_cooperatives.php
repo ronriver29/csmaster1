@@ -27,6 +27,7 @@
       echo json_encode(array("status" => TRUE, "message"=>"O.R. No has been saved."));
     }
 
+    public $coopName='';
     public function index(){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
@@ -149,7 +150,22 @@
                 // Registered Coop Process by Head Office
                 $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
                 // End Registered Coop Process by Head Office
-                $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration2($data['admin_info']->region_code, $config["per_page"], $per_page);
+                if(isset($_POST['submit']))
+                 {
+                  $this->coopName = $this->input->post('coopName');
+                 }
+                  $array =array(
+                  'url'=>base_url()."registered_cooperatives",
+                  'total_rows' => $this->cooperatives_model->get_all_cooperatives_registration_count($data['admin_info']->region_code),
+                  'per_page'=>$config['per_page']=5,
+                  'url_segment'=>2
+                  );
+                  
+                $data['links']=$this->paginate($array);
+                $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration2($data['admin_info']->region_code, $this->coopName, $config["per_page"], $per_page);
+                // echo $this->coopName;
+                // echo $this->db->last_query();
+                // $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration2($data['admin_info']->region_code, $config["per_page"], $per_page);
                 // $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 // $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_senior($data['admin_info']->region_code);
                 $data['list_cooperatives_defer_deny'] = $this->cooperatives_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
@@ -194,6 +210,39 @@
           }
         }
       }
+    }
+
+    public function paginate($array)
+    {
+      // $result =null;
+        $config["base_url"] = $array['url'];
+        $config["total_rows"] =$array['total_rows'];
+        $config["per_page"] = $array['per_page'];
+        $config["uri_segment"] = $array['url_segment'];
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+        $config['first_link'] = 'First';
+        $config['last_link'] = 'Last';
+        $config['first_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['first_tag_close'] = '</span></li>';
+        $config['prev_link'] = '&laquo';
+        $config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['prev_tag_close'] = '</span></li>';
+        $config['next_link'] = '&raquo';
+        $config['next_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['next_tag_close'] = '</span></li>';
+        $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['last_tag_close'] = '</span></li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close'] = '</span></li>';
+        $this->pagination->initialize($config);
+        
+       
+       
+        $links = $this->pagination->create_links();
+        return $links;
     }
   }
 

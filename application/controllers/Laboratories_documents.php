@@ -21,6 +21,7 @@ class Laboratories_documents extends CI_Controller{
     $this->load->model('purpose_model');
     $this->load->model('region_model');
     $this->load->model('charter_model');
+    $this->load->model('user_model');
   }
 
   function index($id = null)
@@ -128,116 +129,116 @@ class Laboratories_documents extends CI_Controller{
                       $data['cooperator_list'] =NULL;
                     }
 
-                                  $data['title'] = 'List of Laboratories';
-                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-                                  $data['header'] = 'Laboratories';
-                                  $data['uid'] = $this->session->userdata('user_id');
-                                  $data['cid'] = $decoded_id;
-                                  $data['encrypted_id'] = $id;
+                    $data['title'] = 'List of Laboratories';
+                    $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                    $data['header'] = 'Laboratories';
+                    $data['uid'] = $this->session->userdata('user_id');
+                    $data['cid'] = $decoded_id;
+                    $data['encrypted_id'] = $id;
 
-                                   $coopInfo = $this->db->query("select coop_id as coop_reg_no ,registeredcoop.application_id as coopID,cooperatives.*
-                                  from laboratories
-                                  left join registeredcoop on laboratories.coop_id = registeredcoop.regNo
-                                  left join cooperatives on registeredcoop.application_id = cooperatives.id where laboratories.id = '$decoded_id'");
-                                   if($coopInfo->num_rows()>0)
-                                   {
-                                      $data['coop_info']=$coopInfo->row();
-                                      foreach($coopInfo->result() as $row)
-                                      {
-                                       $cooperativeID= $row->coopID;
-                                      }
-                                   }
+                     $coopInfo = $this->db->query("select coop_id as coop_reg_no ,registeredcoop.application_id as coopID,cooperatives.*
+                    from laboratories
+                    left join registeredcoop on laboratories.coop_id = registeredcoop.regNo
+                    left join cooperatives on registeredcoop.application_id = cooperatives.id where laboratories.id = '$decoded_id'");
+                     if($coopInfo->num_rows()>0)
+                     {
+                        $data['coop_info']=$coopInfo->row();
+                        foreach($coopInfo->result() as $row)
+                        {
+                         $cooperativeID= $row->coopID;
+                        }
+                     }
 
-                                $data['encrypted_cid']= encrypt_custom($this->encryption->encrypt($cooperativeID));
-                                $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-                                // echo '<script>alert('.$data['lab_info']->cooperative_id.');</script>';
-                                $data['document_one'] = $this->count_documents($data['lab_info']->cooperative_id,1);                        
-                                $data['document_two'] = $this->count_documents($data['lab_info']->cooperative_id,2);
-                              
-                                $data['comment_list_director'] = $this->get_comment($decoded_id,3,25);
-                               $data['comment_list_senior'] = $this->get_comment($decoded_id,2,12);
+                  $data['encrypted_cid']= encrypt_custom($this->encryption->encrypt($cooperativeID));
+                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                  // echo '<script>alert('.$data['lab_info']->cooperative_id.');</script>';
+                  $data['document_one'] = $this->count_documents($data['lab_info']->cooperative_id,1);                        
+                  $data['document_two'] = $this->count_documents($data['lab_info']->cooperative_id,2);
+                
+                  $data['comment_list_director'] = $this->get_comment($decoded_id,3,25);
+                 $data['comment_list_senior'] = $this->get_comment($decoded_id,2,12);
 
-                                $data['comment_list_defer_director'] = $this->get_comment($decoded_id,3,24);
+                  $data['comment_list_defer_director'] = $this->get_comment($decoded_id,3,24);
 
-                                //additional document
+                  //additional document
 
-                                  $user_id = $this->session->userdata('user_id');
-                                  $admin_access_level = $this->session->userdata('access_level');
-                  
-                                  $coopInfo = $this->db->query("select laboratories.coop_id as coop_reg_no ,laboratories.cooperative_id as cooperate_ID,registeredcoop.application_id as coopID,cooperatives.*
-                                  from laboratories
-                                  left join registeredcoop on laboratories.coop_id = registeredcoop.regNo
-                                  left join cooperatives on registeredcoop.application_id = cooperatives.id where laboratories.id = '$decoded_id'");
-                                  if($coopInfo->num_rows()>0)
-                                  {
-                                  $data['coop_info']=$coopInfo->row();
-                                    foreach($coopInfo->result() as $row)
-                                    {
-                                    $cooperativeID= $row->coopID;
-                                    $Cooperative_id = $row->cooperate_ID;
-                                    }
-                                  }
-                                  $type_query = $this->db->get_where('cooperatives',array('id'=>$Cooperative_id));
-                                    if($type_query->num_rows()>0)
-                                    {
-                                      foreach ($type_query->result_array() as $row) {
-                                      $cooperativeType = $row['type_of_cooperative'];
-                                      }
-                                    }
-                                    else
-                                    {
-                                    $cooperativeType ="No Cooperative type found";
-                                    }
-                                  // $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($cooperativeType);
+                    $user_id = $this->session->userdata('user_id');
+                    $admin_access_level = $this->session->userdata('access_level');
+    
+                    $coopInfo = $this->db->query("select laboratories.coop_id as coop_reg_no ,laboratories.cooperative_id as cooperate_ID,registeredcoop.application_id as coopID,cooperatives.*
+                    from laboratories
+                    left join registeredcoop on laboratories.coop_id = registeredcoop.regNo
+                    left join cooperatives on registeredcoop.application_id = cooperatives.id where laboratories.id = '$decoded_id'");
+                    if($coopInfo->num_rows()>0)
+                    {
+                    $data['coop_info']=$coopInfo->row();
+                      foreach($coopInfo->result() as $row)
+                      {
+                      $cooperativeID= $row->coopID;
+                      $Cooperative_id = $row->cooperate_ID;
+                      }
+                    }
+                    $type_query = $this->db->get_where('cooperatives',array('id'=>$Cooperative_id));
+                      if($type_query->num_rows()>0)
+                      {
+                        foreach ($type_query->result_array() as $row) {
+                        $cooperativeType = $row['type_of_cooperative'];
+                        }
+                      }
+                      else
+                      {
+                      $cooperativeType ="No Cooperative type found";
+                      }
+                    // $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($cooperativeType);
 
-                                   $cooperative_doc_ = $this->cooperatives_model->get_type_of_coop($cooperativeType);
-                                  if(count($cooperative_doc_)>0)
-                                  {
-                                      foreach($cooperative_doc_ as $doctypes)
-                                     {
-                                      $doctypes['link'] = $this->count_documents_others2($Cooperative_id,$doctypes['document_num']);
-                                      $data_docs[]= $doctypes;
-                                     }
-                                     // $this->debug($data_docs);
-                                     $data['coop_type']=$data_docs;
-                                  }
-                                  else
-                                  {
-                                      $data['coop_type'] = NULL;
-                                  } 
-                                   
+                     $cooperative_doc_ = $this->cooperatives_model->get_type_of_coop($cooperativeType);
+                    if(count($cooperative_doc_)>0)
+                    {
+                        foreach($cooperative_doc_ as $doctypes)
+                       {
+                        $doctypes['link'] = $this->count_documents_others2($Cooperative_id,$doctypes['document_num']);
+                        $data_docs[]= $doctypes;
+                       }
+                       // $this->debug($data_docs);
+                       $data['coop_type']=$data_docs;
+                    }
+                    else
+                    {
+                        $data['coop_type'] = NULL;
+                    } 
+                     
 
-         
 
-         
-                                  $data['Manual_of_board'] = $this->docUpload($data['lab_info']->cooperative_id,$decoded_id,25);
-                                 $data['Board_of_resolution'] = $this->docUpload($data['lab_info']->cooperative_id,$decoded_id,26);
-                                 $data['document_others_lab'] = $this->docUpload_others($data['lab_info']->cooperative_id,$decoded_id,42);
-                                 // $data['last_query'] = $this->db->last_query();
-                                 // $data['document_others_lab'] = $this->uploaded_document_model->get_document_42_info($decoded_id,$Cooperative_id);
-     
-                                 //senior comment
-                                $data['senior_comment'] = $this->laboratories_model->admin_comment($decoded_id,2);
-                                $data['senior_comment_limit1'] = $this->laboratories_model->admin_comment_limit1($decoded_id,2);
-                                // $this->laboratories_model->debug($data['senior_comment']);
-                                 //end senior comment
 
-                                 //director comment
-                                $data['director_comment'] = $this->laboratories_model->admin_comment($decoded_id,3);
-                                $data['director_comment_limit1'] = $this->laboratories_model->admin_comment_limit1($decoded_id,3);
-                                // $this->debug(  $data['director_comment']);
-                                 // $this->laboratories_model->debug($data['director_comment']);
-                                 //end director comment
-                                $data['encrypted_ids'] =$id;
-                                $data['encrypted_cid'] =encrypt_custom($this->encryption->encrypt($coop_ids ));
-                                //end addtional
-                                  $data['user_info'] = $this->session->userdata();
-                                    $this->load->view('templates/admin_header', $data);
-                                    $this->load->view('laboratories/list_of_documents', $data); 
-                                    $this->load->view('laboratories/evaluation/approve_modal_laboratories'); 
-                                    $this->load->view('laboratories/modal/deny_modal_laboratory');
-                                    $this->load->view('laboratories/modal/defer_modal_laboratory');
-                                    $this->load->view('templates/admin_footer');
+
+                    $data['Manual_of_board'] = $this->docUpload($data['lab_info']->cooperative_id,$decoded_id,25);
+                   $data['Board_of_resolution'] = $this->docUpload($data['lab_info']->cooperative_id,$decoded_id,26);
+                   $data['document_others_lab'] = $this->docUpload_others($data['lab_info']->cooperative_id,$decoded_id,42);
+                   // $data['last_query'] = $this->db->last_query();
+                   // $data['document_others_lab'] = $this->uploaded_document_model->get_document_42_info($decoded_id,$Cooperative_id);
+
+                   //senior comment
+                  $data['senior_comment'] = $this->laboratories_model->admin_comment($decoded_id,2);
+                  $data['senior_comment_limit1'] = $this->laboratories_model->admin_comment_limit1($decoded_id,2);
+                  // $this->laboratories_model->debug($data['senior_comment']);
+                   //end senior comment
+
+                   //director comment
+                  $data['director_comment'] = $this->laboratories_model->admin_comment($decoded_id,3);
+                  $data['director_comment_limit1'] = $this->laboratories_model->admin_comment_limit1($decoded_id,3);
+                  // $this->debug(  $data['director_comment']);
+                   // $this->laboratories_model->debug($data['director_comment']);
+                   //end director comment
+                  $data['encrypted_ids'] =$id;
+                  $data['encrypted_cid'] =encrypt_custom($this->encryption->encrypt($coop_ids ));
+                  //end addtional
+                    $data['user_info'] = $this->session->userdata();
+                      $this->load->view('templates/admin_header', $data);
+                      $this->load->view('laboratories/list_of_documents', $data); 
+                      $this->load->view('laboratories/evaluation/approve_modal_laboratories'); 
+                      $this->load->view('laboratories/modal/deny_modal_laboratory');
+                      $this->load->view('laboratories/modal/defer_modal_laboratory');
+                      $this->load->view('templates/admin_footer');
 
                 }else{
                   $this->session->set_flashdata('redirect_applications_message', 'The Laboratory is not yet submitted for evaluation.');
@@ -519,75 +520,42 @@ class Laboratories_documents extends CI_Controller{
           if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
             if(!$this->cooperatives_model->check_expired_reservation($decoded_id,$user_id)){
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
-              $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
-              if($data['bylaw_complete']){
                   $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                   $capitalization_info = $data['capitalization_info'];
-                  $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
-                  if($data['cooperator_complete']){
-                    $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
-                    if($data['purposes_complete']){
-                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                      if($data['article_complete']){
-                        $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
-                        if($data['committees_complete']){
-                          $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          if($data['economic_survey_complete']){
-                            $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                            if($data['staff_complete']){
-                              $data['title'] = 'By Laws for Primary';
-                              $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                              $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                              $data['regular_ar_qualifications'] = explode(";",$data['bylaw_info']->regular_qualifications);
-                              $data['assoc_ar_qualifications'] = explode(";",$data['bylaw_info']->associate_qualifications);
-                              $data['members_additional_requirements'] = explode(";",$data['bylaw_info']->additional_requirements_for_membership);
-                              $data['members_additional_conditions_to_vote'] = explode(";",$data['bylaw_info']->additional_conditions_to_vote);
-                              $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
-                              $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
-                              $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
-                              $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
-                              $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
-                              
-                              $html2 = $this->load->view('documents/primary/bylaws_for_primary_laboratory', $data, TRUE);
-                              $f = new pdf();
-                              $f->setPaper('folio', 'portrait');
-                              $f->load_html($html2);
-                              $f->render();
-                              $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                              redirect('laboratories/'.$id);
-                            }
-                          }else{
-                            $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                            redirect('laboratories/'.$id);
-                          }
-                        }else{
-                          $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
-                          redirect('laboratories/'.$id);
-                        }
-                      }else{
-                        $this->session->set_flashdata('redirect_message', 'Please complete first your article of cooperation additional information.');
-                        redirect('laboratories/'.$id);
-                      }
-                    }else{
-                      $this->session->set_flashdata('redirect_message', 'Please complete first your cooperative&apos;s purpose .');
-                      redirect('laboratories/'.$id);
-                    }
-                  }else{
-                    $this->session->set_flashdata('redirect_message', 'Please complete first your list of cooperator.');
-                    redirect('laboratories/'.$id);
-                  }
-              }else{
-                $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
-                redirect('laboratories/'.$id);
-              }
+                  $data['title'] = 'By Laws for Primary';
+                  $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                  $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                  $data['regular_ar_qualifications'] = explode(";",$data['bylaw_info']->regular_qualifications);
+                  $data['assoc_ar_qualifications'] = explode(";",$data['bylaw_info']->associate_qualifications);
+                  $data['members_additional_requirements'] = explode(";",$data['bylaw_info']->additional_requirements_for_membership);
+                  $data['members_additional_conditions_to_vote'] = explode(";",$data['bylaw_info']->additional_conditions_to_vote);
+                  $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
+                  $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
+                  $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
+                  $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
+                  $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
+                  $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($coop_dtl->cooperative_id);
+                  $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
+                  $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
+                  
+                  $data['client_info'] = $this->user_model->get_user_info($user_id);
+                  $data['header'] = 'Documents';
+                  $this->load->view('template/header', $data);
+                  $html2 = $this->load->view('documents/primary/bylaws_for_primary_laboratory', $data);
+                  $this->load->view('template/footer');
+
+                  // $html2 = $this->load->view('documents/primary/bylaws_for_primary_laboratory', $data, TRUE);
+                  // $f = new pdf();
+                  // $f->setPaper('folio', 'portrait');
+                  // $f->load_html($html2);
+                  // $f->render();
+                  // $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
             }else{
-              redirect('laboratories/'.$id);
+              redirect('laboratories_documents/'.$id);
             }
           }else{
             $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-            redirect('laboratories');
+            redirect('laboratories_documents');
           }
         }else{
           if($this->session->userdata('access_level')==5){
@@ -602,74 +570,31 @@ class Laboratories_documents extends CI_Controller{
               if($this->cooperatives_model->check_submitted_for_evaluation($coop_dtl->cooperative_id)){
                 $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($coop_dtl->cooperative_id);
 
-                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($coop_dtl->cooperative_id) : true;
-                if($data['bylaw_complete']){
                     // $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
                      $data['cooperator_complete'] = $this->cooperator_model->is_cooperator_lab_complete($decoded_lid);
-                     // echo $this->db->last_query();
-                    if($data['cooperator_complete']){
-                      $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($coop_dtl->cooperative_id);
-                      // if($data['purposes_complete']){
-                        $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($coop_dtl->cooperative_id) : true;
-                        // if($data['article_complete']){
-                          $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
-                          // if($data['committees_complete']){
-                            $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($coop_dtl->cooperative_id);
-                            // if($data['economic_survey_complete']){
-                              $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                              // if($data['staff_complete']){
-                                $data['title'] = 'By Laws for Primary';
-                                $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($coop_dtl->cooperative_id);
-                                $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($coop_dtl->cooperative_id);
-                                $data['regular_ar_qualifications'] = explode(";",$data['bylaw_info']->regular_qualifications);
-                                $data['assoc_ar_qualifications'] = explode(";",$data['bylaw_info']->associate_qualifications);
-                                $data['members_additional_requirements'] = explode(";",$data['bylaw_info']->additional_requirements_for_membership);
-                                $data['members_additional_conditions_to_vote'] = explode(";",$data['bylaw_info']->additional_conditions_to_vote);
-                                $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
-                                $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
-                                $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
-                                $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
-                                $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
-                                $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($coop_dtl->cooperative_id);
-                                $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($coop_dtl->cooperative_id);
-                                $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($coop_dtl->cooperative_id);
-                                $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
-                                $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
-                                  // $this->load->view('documents/primary/bylaws_for_primary', $data);
-                                $html2 = $this->load->view('documents/primary/bylaws_for_primary_laboratory', $data, TRUE);
-                                $f = new pdf();
-                                $f->setPaper('folio', 'portrait');
-                                $f->load_html($html2);
-                                $f->render();
-                                $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
-                              // }else{
-                              //   $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
-                              //   redirect('cooperatives/'.$id);
-                              // }
-                            // }else{
-                            //   $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
-                            //   redirect('cooperatives/'.$id);
-                            // }
-                          // }else{
-                          //   $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
-                          //   redirect('cooperatives/'.$id);
-                      //     // }
-                      //   }else{
-                      //     $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
-                      //     redirect('cooperatives/'.$id);
-                      //   }
-                      // }else{
-                      //   $this->session->set_flashdata('redirect_message', 'Please complete first the cooperative&apos;s purpose .');
-                      //   redirect('cooperatives/'.$id);
-                      // }
-                    }else{ 
-                      $this->session->set_flashdata('redirect_message', 'Please complete first the list of cooperator.');
-                      redirect('laboratories/'.$id);
-                    }
-                }else{
-                  $this->session->set_flashdata('redirect_message', 'Please complete first the bylaw additional information.');
-                  redirect('laboratories/'.$id);
-                }
+                      $data['title'] = 'By Laws for Primary';
+                      $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($coop_dtl->cooperative_id);
+                      $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($coop_dtl->cooperative_id);
+                      $data['regular_ar_qualifications'] = explode(";",$data['bylaw_info']->regular_qualifications);
+                      $data['assoc_ar_qualifications'] = explode(";",$data['bylaw_info']->associate_qualifications);
+                      $data['members_additional_requirements'] = explode(";",$data['bylaw_info']->additional_requirements_for_membership);
+                      $data['members_additional_conditions_to_vote'] = explode(";",$data['bylaw_info']->additional_conditions_to_vote);
+                      $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
+                      $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
+                      $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
+                      $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
+                      $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
+                      $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($coop_dtl->cooperative_id);
+                      $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($coop_dtl->cooperative_id);
+                      $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($coop_dtl->cooperative_id);
+                      $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
+                      $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
+                        // $this->load->view('documents/primary/bylaws_for_primary', $data);
+                      $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                      $data['header'] = 'Documents';
+                      $this->load->view('templates/admin_header', $data);
+                      $html2 = $this->load->view('documents/primary/bylaws_for_primary_laboratory', $data);
+                      $this->load->view('templates/admin_footer');
               }else{
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.sssss');
                 redirect('laboratories');
@@ -695,75 +620,35 @@ class Laboratories_documents extends CI_Controller{
           if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
             if(!$this->cooperatives_model->check_expired_reservation($decoded_id,$user_id)){
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
-              $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
-              if($data['bylaw_complete']){
-                  $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                  $capitalization_info = $data['capitalization_info'];
-                  $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
-                  // if($data['cooperator_complete']){
-                    $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
-                    // if($data['purposes_complete']){
-                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                      // if($data['article_complete']){
-                        $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
-                        // if($data['committees_complete']){
-                          $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          // if($data['economic_survey_complete']){
-                            $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                            // if($data['staff_complete']){
-                              $data['title'] = 'Articles of Cooperation for Primary';
-                              $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                              $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
-                              $data['purposes_list'] = explode(";",$this->purpose_model->get_all_purposes($data['coop_info']->id)->content);
-                              $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
-                              $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
-                              $data['cooperators_list_board'] = $this->cooperator_model->get_all_cooperator_of_bods($decoded_id);
-                              $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
-                              $data['directors_list'] = $this->cooperator_model->get_list_of_directors($decoded_id);
-                              $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
-                              $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
-                              $data['regular_cooperator_list'] = $this->cooperator_model->get_all_regular_cooperator_of_coop($decoded_id);
-                              $data['associate_cooperator_list'] = $this->cooperator_model->get_all_associate_cooperator_of_coop($decoded_id);
-                              $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-                              $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
-                              //$this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
-                            
-                            
-                              $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_laboratory', $data, TRUE);
-                              $f = new pdf();
-                              $f->setPaper('folio', 'portrait');
-                              $f->load_html($html2);
-                              $f->render();
-                              $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
-                              
-                  //           }else{
-                  //             $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                  //             redirect('cooperatives/'.$id);
-                  //           }
-                  //         }else{
-                  //           $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                  //           redirect('cooperatives/'.$id);
-                  //         }
-                  //       }else{
-                  //         $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
-                  //         redirect('cooperatives/'.$id);
-                  //       }
-                  //     }else{
-                  //       $this->session->set_flashdata('redirect_message', 'Please complete first your article of cooperation additional information.');
-                  //       redirect('cooperatives/'.$id);
-                  //     }
-                  //   }else{
-                  //     $this->session->set_flashdata('redirect_message', 'Please complete first your cooperative&apos;s purpose .');
-                  //     redirect('cooperatives/'.$id);
-                  //   }
-                  // }else{
-                  //   $this->session->set_flashdata('redirect_message', 'Please complete first your list of cooperator.');
-                  //   redirect('cooperatives/'.$id);
-                  // }
-              }else{
-                $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
-                redirect('cooperatives/'.$id);
+              $data['title'] = 'Articles of Cooperation for Primary';
+              $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+              $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
+              $data['purposes_list'] = explode(";",$this->purpose_model->get_all_purposes($data['coop_info']->id)->content);
+              $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
+              $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
+              $data['cooperators_list_board'] = $this->cooperator_model->get_all_cooperator_of_bods($decoded_id);
+              $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
+              $data['directors_list'] = $this->cooperator_model->get_list_of_directors($decoded_id);
+              $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
+              $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+              $data['regular_cooperator_list'] = $this->cooperator_model->get_all_regular_cooperator_of_coop($decoded_id);
+              $data['associate_cooperator_list'] = $this->cooperator_model->get_all_associate_cooperator_of_coop($decoded_id);
+              $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
+              $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
+              //$this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
+              $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+              $data['in_chartered_cities'] =false;
+              if($this->charter_model->in_charter_city($data['coop_info']->cCode))
+              {
+              $data['in_chartered_cities']=true;
+              $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
               }
+
+              $data['client_info'] = $this->user_model->get_user_info($user_id);
+              $data['header'] = 'Documents';
+              $this->load->view('template/header', $data);
+              $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_laboratory', $data);
+              $this->load->view('template/footer');
             }else{
               redirect('cooperatives/'.$id);
             }
@@ -781,82 +666,39 @@ class Laboratories_documents extends CI_Controller{
             }else{
               if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                 $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
-                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
-                // if($data['bylaw_complete']){
-                //     $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
-                //     if($data['cooperator_complete']){
-                //       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
-                //       if($data['purposes_complete']){
-                //         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                //         if($data['article_complete']){
-                //           $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
-                //           if($data['committees_complete']){
-                //             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                //             if($data['economic_survey_complete']){
-                //               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                //               if($data['staff_complete']){
-                                $data['title'] = 'Articles of Cooperation for Primary';
-                                $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                                $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                                $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
-                                $data['purposes_list'] = explode(";",$this->purpose_model->get_all_purposes($data['coop_info']->id)->content);
-                                $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
-                                $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
-                                $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
-                                $data['cooperators_list_board'] = $this->cooperator_model->get_all_cooperator_of_bods($decoded_id);
-                                $data['directors_list'] = $this->cooperator_model->get_list_of_directors($decoded_id);
-                                $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
-                                $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
-                                $data['regular_cooperator_list'] = $this->cooperator_model->get_all_regular_cooperator_of_coop($decoded_id);
-                                $data['associate_cooperator_list'] = $this->cooperator_model->get_all_associate_cooperator_of_coop($decoded_id);
-                                $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-                                $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
-                                
-                                $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                                $data['in_chartered_cities'] =false;
-                                if($this->charter_model->in_charter_city($data['coop_info']->cCode))
-                                {
-                                $data['in_chartered_cities']=true;
-                                $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
-                                }
+                $data['title'] = 'Articles of Cooperation for Primary';
+                $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
+                $data['purposes_list'] = explode(";",$this->purpose_model->get_all_purposes($data['coop_info']->id)->content);
+                $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
+                $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
+                $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
+                $data['cooperators_list_board'] = $this->cooperator_model->get_all_cooperator_of_bods($decoded_id);
+                $data['directors_list'] = $this->cooperator_model->get_list_of_directors($decoded_id);
+                $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
+                $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+                $data['regular_cooperator_list'] = $this->cooperator_model->get_all_regular_cooperator_of_coop($decoded_id);
+                $data['associate_cooperator_list'] = $this->cooperator_model->get_all_associate_cooperator_of_coop($decoded_id);
+                $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
+                $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
+                
+                $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                $data['in_chartered_cities'] =false;
+                if($this->charter_model->in_charter_city($data['coop_info']->cCode))
+                {
+                $data['in_chartered_cities']=true;
+                $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
+                }
 
-                                if($data['coop_info']->area_of_operation == 'Interregional'){
-                                  $data['regions_island_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
-                                }
-                                $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_laboratory', $data, TRUE);
-                                $f = new pdf();
-                                $f->setPaper('folio', 'portrait');
-                                $f->load_html($html2);
-                                $f->render();
-                                $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
-                //               }else{
-                //                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
-                //                 redirect('cooperatives/'.$id);
-                //               }
-                //             }else{
-                //               $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
-                //               redirect('cooperatives/'.$id);
-                //             }
-                //           }else{
-                //             $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
-                //             redirect('cooperatives/'.$id);
-                //           }
-                //         }else{
-                //           $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
-                //           redirect('cooperatives/'.$id);
-                //         }
-                //       }else{
-                //         $this->session->set_flashdata('redirect_message', 'Please complete first the cooperative&apos;s purpose .');
-                //         redirect('cooperatives/'.$id);
-                //       }
-                //     }else{
-                //       $this->session->set_flashdata('redirect_message', 'Please complete first the list of cooperator.');
-                //       redirect('cooperatives/'.$id);
-                //     }
-                // }else{
-                //   $this->session->set_flashdata('redirect_message', 'Please complete first the bylaw additional information.');
-                //   redirect('cooperatives/'.$id);
-                // }
+                if($data['coop_info']->area_of_operation == 'Interregional'){
+                  $data['regions_island_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
+                }
+                $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                $data['header'] = 'Documents';
+                $this->load->view('templates/admin_header', $data);
+                $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_laboratory', $data);
+                $this->load->view('templates/admin_footer');
               }else{
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.');
                 redirect('cooperatives');
@@ -887,55 +729,20 @@ class Laboratories_documents extends CI_Controller{
                 $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                   $capitalization_info = $data['capitalization_info'];
                   $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
-                  // if($data['cooperator_complete']){
-                  //   $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
-                  //   if($data['purposes_complete']){
-                  //     $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                  //     if($data['article_complete']){
-                  //       $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
-                  //       if($data['committees_complete']){
-                  //         $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                  //         if($data['economic_survey_complete']){
-                  //           $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                  //           if($data['staff_complete']){
-                              $data['title'] = "Treasurer's Affidavit for Primary";
-                              $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
-                              $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                              $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
-                              $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
-                              $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
-                              $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-                              $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
-                              $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary_laboratory', $data, TRUE);
-                              $f = new pdf();
-                              $f->setPaper('folio', 'portrait');
-                              $f->load_html($html2);
-                              $f->render();
-                              $f->stream("treasurer_affidavit_primary.pdf", array("Attachment"=>0));
-                  //           }else{
-                  //             $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                  //             redirect('cooperatives/'.$id);
-                  //           }
-                  //         }else{
-                  //           $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                  //           redirect('cooperatives/'.$id);
-                  //         }
-                  //       }else{
-                  //         $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
-                  //         redirect('cooperatives/'.$id);
-                  //       }
-                  //     }else{
-                  //       $this->session->set_flashdata('redirect_message', 'Please complete first your article of cooperation additional information.');
-                  //       redirect('cooperatives/'.$id);
-                  //     }
-                  //   }else{
-                  //     $this->session->set_flashdata('redirect_message', 'Please complete first your cooperative&apos;s purpose .');
-                  //     redirect('cooperatives/'.$id);
-                  //   }
-                  // }else{
-                  //   $this->session->set_flashdata('redirect_message', 'Please complete first your list of cooperator.');
-                  //   redirect('cooperatives/'.$id);
-                  // }
+                  $data['title'] = "Treasurer's Affidavit for Primary";
+                  $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
+                  $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                  $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
+                  $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
+                  $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+                  $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
+                  $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
+
+                  $data['client_info'] = $this->user_model->get_user_info($user_id);
+                  $data['header'] = 'Documents';
+                  $this->load->view('template/header', $data);
+                  $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary_laboratory', $data);
+                  $this->load->view('template/footer');
               }else{
                 $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
                 redirect('cooperatives/'.$id);
@@ -957,62 +764,20 @@ class Laboratories_documents extends CI_Controller{
             }else{
               if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                 $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
-                $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
-                if($data['bylaw_complete']){
-                    // $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id);
-                    // if($data['cooperator_complete']){
-                    //   $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
-                    //   if($data['purposes_complete']){
-                    //     $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                    //     if($data['article_complete']){
-                    //       $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
-                    //       if($data['committees_complete']){
-                    //         $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                    //         if($data['economic_survey_complete']){
-                    //           $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                    //           if($data['staff_complete']){
-                                $data['title'] = "Treasurer's Affidavit for Primary";
-                                $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                                $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
-                                $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
-                                $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
-                                $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-                                $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
-                                $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                                $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary_laboratory', $data, TRUE);
-                                $f = new pdf();
-                                $f->setPaper('folio', 'portrait');
-                                $f->load_html($html2);
-                                $f->render();
-                                $f->stream("treasurer_affidavit_primary.pdf", array("Attachment"=>0));
-                    //           }else{
-                    //             $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
-                    //             redirect('cooperatives/'.$id);
-                    //           }
-                    //         }else{
-                    //           $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
-                    //           redirect('cooperatives/'.$id);
-                    //         }
-                    //       }else{
-                    //         $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
-                    //         redirect('cooperatives/'.$id);
-                    //       }
-                    //     }else{
-                    //       $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
-                    //       redirect('cooperatives/'.$id);
-                    //     }
-                    //   }else{
-                    //     $this->session->set_flashdata('redirect_message', 'Please complete first the cooperative&apos;s purpose .');
-                    //     redirect('cooperatives/'.$id);
-                    //   }
-                    // }else{
-                    //   $this->session->set_flashdata('redirect_message', 'Please complete first the list of cooperator.');
-                    //   redirect('cooperatives/'.$id);
-                    // }
-                }else{
-                  $this->session->set_flashdata('redirect_message', 'Please complete first the bylaw additional information.');
-                  redirect('cooperatives/'.$id);
-                }
+                $data['title'] = "Treasurer's Affidavit for Primary";
+                $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
+                $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
+                $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+                $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
+                $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
+                $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+
+                $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                $data['header'] = 'Documents';
+                $this->load->view('templates/admin_header', $data);
+                $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary_laboratory', $data);
+                $this->load->view('templates/admin_footer');
               }else{
                 $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.');
                 redirect('cooperatives');
@@ -1044,63 +809,44 @@ class Laboratories_documents extends CI_Controller{
                   $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                   $capitalization_info = $data['capitalization_info'];
                   $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($decoded_id,$data['capitalization_info']->associate_members);
-                  // if($data['cooperator_complete']){
-                  //   $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
-                  //   if($data['purposes_complete']){
-                  //     $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
-                  //     if($data['article_complete']){
-                  //       $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
-                  //       if($data['committees_complete']){
-                  //         $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                  //         if($data['economic_survey_complete']){
-                  //           $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                  //           if($data['staff_complete']){
-                              $data['title'] = "Economic Survey";
-                              $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                              $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
-                              $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
-                              $data['survey_info'] = $this->economic_survey_model->get_economic_survey_by_coop_id($decoded_id);
-                              $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
-                              $data['cooperators_list_bods'] = $this->cooperator_model->get_all_cooperator_of_bods($decoded_id);
-                              $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
-                              $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
-                              $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
-                              $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
-                              $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-                              $data['staff_list'] = $this->staff_model->get_all_staff_of_coop_by_position($decoded_id);
-                              $data['others_staff_list'] = $this->staff_model->get_all_staff_of_coop_by_other_position($decoded_id);
-                              $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
-                              $data['committees_list'] = $this->committee_model->get_all_committee_names_of_coop_multi($decoded_id);
-                              $html2 = $this->load->view('documents/economic_survey_laboratory', $data, TRUE);
-                              $f = new pdf();
-                              $f->setPaper('folio', 'portrait');
-                              $f->load_html($html2);
-                              $f->render();
-                              $f->stream("economic_survey.pdf", array("Attachment"=>0));
-                  //           }else{
-                  //             $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
-                  //             redirect('cooperatives/'.$id);
-                  //           }
-                  //         }else{
-                  //           $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
-                  //           redirect('cooperatives/'.$id);
-                  //         }
-                  //       }else{
-                  //         $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
-                  //         redirect('cooperatives/'.$id);
-                  //       }
-                  //     }else{
-                  //       $this->session->set_flashdata('redirect_message', 'Please complete first your article of cooperation additional information.');
-                  //       redirect('cooperatives/'.$id);
-                  //     }
-                  //   }else{
-                  //     $this->session->set_flashdata('redirect_message', 'Please complete first your cooperative&apos;s purpose .');
-                  //     redirect('cooperatives/'.$id);
-                  //   }
-                  // }else{
-                  //   $this->session->set_flashdata('redirect_message', 'Please complete first your list of cooperator.');
-                  //   redirect('cooperatives/'.$id);
-                  // }
+                  $data['title'] = "Economic Survey";
+                  $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                  $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
+                  $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
+                  $data['survey_info'] = $this->economic_survey_model->get_economic_survey_by_coop_id($decoded_id);
+                  $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
+                  $data['cooperators_list_bods'] = $this->cooperator_model->get_all_cooperator_of_bods($decoded_id);
+                  $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
+                  $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
+                  $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
+                  $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+                  $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
+                  $data['staff_list'] = $this->staff_model->get_all_staff_of_coop_by_position($decoded_id);
+                  $data['others_staff_list'] = $this->staff_model->get_all_staff_of_coop_by_other_position($decoded_id);
+                  $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
+                  $data['committees_list'] = $this->committee_model->get_all_committee_names_of_coop_multi($decoded_id);
+
+                  $data['in_chartered_cities'] =false;
+                  if($this->charter_model->in_charter_city($data['coop_info']->cCode))
+                  {
+                    $data['in_chartered_cities']=true;
+                    $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
+                  }
+                  $data['total_no_of_regular_cptr']=$this->cooperator_model->get_total_count_regular($decoded_id);
+
+                  $data['encrypted_id'] = $id;
+                  $data['title'] = 'Articles of Cooperation';
+                  $data['client_info'] = $this->user_model->get_user_info($user_id);
+                  $data['header'] = 'Documents';
+                  $this->load->view('template/header', $data);
+                  $this->load->view('documents/economic_survey_laboratory', $data);
+                  $this->load->view('template/footer');
+                  // $this->load->view('documents/economic_survey_laboratory', $data);
+                  // $f = new pdf();
+                  // $f->setPaper('folio', 'portrait');
+                  // $f->load_html($html2);
+                  // $f->render();
+                  // $f->stream("economic_survey.pdf", array("Attachment"=>0));
               }else{
                 $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
                 redirect('cooperatives/'.$id);
@@ -1164,12 +910,13 @@ class Laboratories_documents extends CI_Controller{
                                 $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
                                 }
 
-                                $html2 = $this->load->view('documents/economic_survey_laboratory', $data, TRUE);
-                                $f = new pdf();
-                                $f->setPaper('folio', 'portrait');
-                                $f->load_html($html2);
-                                $f->render();
-                                $f->stream("economic_survey.pdf", array("Attachment"=>0));
+                                $data['encrypted_id'] = $id;
+                                $data['title'] = 'Articles of Cooperation';
+                                $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+                                $data['header'] = 'Documents';
+                                $this->load->view('templates/admin_header', $data);
+                                $this->load->view('documents/economic_survey_laboratory', $data);
+                                $this->load->view('templates/admin_footer');
                     //           }else{
                     //             $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                     //             redirect('cooperatives/'.$id);

@@ -19,25 +19,31 @@
     border-collapse: collapse;
 }
   }
+    <?php 
+  if($coop_info->status == 12){
+  ?>
   body{
       /*font-family: 'Bookman Old Style'; font-size: 12px; */
        font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
-
-  #customlist {
-    /* delete default counter */
-    list-style-type: none;
-    /* create custom counter and set it to 0 */
-    counter-reset: elementcounter;
-  }
-
-  #customlist>li:before {
-    /* print out "Element " followed by the current counter value */
-    content: "c." counter(elementcounter) " ";
-    /* increment counter */
-    counter-increment: elementcounter;
-  }
+  <?php } ?>
   </style>
+  <?php 
+if($coop_info->status != 12){
+?>
+<style type="text/css">
+  #printPage
+{
+  margin-left: 450px;
+  padding: 0px;
+  width: 670px; / width: 7in; /
+  height: 900px; / or height: 9.5in; /
+  clear: both;
+  page-break-after: always;
+}
+</style>
+<a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+<?php } ?>
 </head>
 <body style="font-size:12">
 <script type="text/php">
@@ -56,7 +62,7 @@
             
         }
 </script>
-<div class="container-fluid text-monospace">
+<div class="container-fluid text-monospace" id="printPage">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
         <p class="font-weight-bold">BY-LAWS<br>OF<br><?= $coop_info->proposed_name?> Federation of <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?></p>
@@ -164,16 +170,16 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12">
-     	<ol class="text-justify" type="a">
-      	<li>Pay the installment of its share capital subscription as it falls due and participate in the capital build-up and savings mobilization activities of the Tertiary Federation;</li>
-  			<li>Patronize the Tertiary Federation's businesses and services; </li>
-  			<li>Participate in the membership education programs;</li><!--c -->
-  			<li>Attend and participate in the deliberation of all matters taken during general assembly meetings; </li>
-  			<li>Observe and obey all lawful orders, decisions, rules and regulations adopted by the Board of Directors and the general assembly;</li>
-  			<li>Remit the Cooperative Education and Training Fund (CETF) due to the Tertiary Federation in accordance with the Memorandum of Agreement entered into with the Tertiary Cooperative; and</li>
-  			<li>Promote the purposes and goals of the Tertiary Federation, the success of its business, the welfare of its members and the cooperative
-  			movement in general.</li>
-		</ol>
+      <ol class="text-justify" type="a">
+        <li>Pay the installment of its share capital subscription as it falls due and participate in the capital build-up and savings mobilization activities of the Tertiary Federation;</li>
+        <li>Patronize the Tertiary Federation's businesses and services; </li>
+        <li>Participate in the membership education programs;</li><!--c -->
+        <li>Attend and participate in the deliberation of all matters taken during general assembly meetings; </li>
+        <li>Observe and obey all lawful orders, decisions, rules and regulations adopted by the Board of Directors and the general assembly;</li>
+        <li>Remit the Cooperative Education and Training Fund (CETF) due to the Tertiary Federation in accordance with the Memorandum of Agreement entered into with the Tertiary Cooperative; and</li>
+        <li>Promote the purposes and goals of the Tertiary Federation, the success of its business, the welfare of its members and the cooperative
+        movement in general.</li>
+    </ol>
     </div>
   </div>
   <div class="row">
@@ -190,7 +196,7 @@
             <li>Inspect and examine the books of accounts, the minutes' books, the share register, and other records of the Tertiary Federation during reasonable office hours;</li>
             <li>Secure copies of records/documents of the Tertiary Federation pertaining to the account information of the concerned member; and</li>
             <li>Such other rights and privileges as may be granted by the General Assembly.</li>
-      		</ol>
+          </ol>
         <?php if($bylaw_info->kinds_of_members == 2) :?>
         <li>Associate Members
           <ol class="text-justify" type="a">
@@ -199,7 +205,7 @@
             <li>Inspect and examine the books of accounts, the audited financial statements, the minutes books, the share register, and other records of the Cooperative during reasonable office hours;</li>
             <li>Secure copies of Cooperative records/documents pertaining to the account information of the concerned member;</li>
             <li>Such other rights and privileges as may be granted by the General Assembly.</li>
-      		</ol>
+          </ol>
         </li>
       <?php endif; ?>
       </ul>
@@ -214,17 +220,17 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Has paid the membership fee and the value of the minimum shares  required for membership;</li>
-  			<li>Is not delinquent in the payment of its share capital subscriptions  and other accounts or obligations;</li>
-  			<li>Has not violated any provision of cooperative laws, CDA  administrative issuances, Articles of Cooperation and this Bylaws, the terms and conditions of the subscription agreement;  and the decisions, guidelines, rules and regulations promulgated  by the Board of Directors and the General Assembly;</li>
-  			<li>Has completed the continuing education program prescribed by the  Board of Directors;</li>
-  			<li>Has remitted the Cooperative Education and Training Fund (CETF) due to the Tertiary Federation; and</li>
-  			<li>Has participated in the affairs of the Tertiary Federation and patronized its  businesses in accordance with the policies and guidelines.</li>
+        <li>Is not delinquent in the payment of its share capital subscriptions  and other accounts or obligations;</li>
+        <li>Has not violated any provision of cooperative laws, CDA  administrative issuances, Articles of Cooperation and this Bylaws, the terms and conditions of the subscription agreement;  and the decisions, guidelines, rules and regulations promulgated  by the Board of Directors and the General Assembly;</li>
+        <li>Has completed the continuing education program prescribed by the  Board of Directors;</li>
+        <li>Has remitted the Cooperative Education and Training Fund (CETF) due to the Tertiary Federation; and</li>
+        <li>Has participated in the affairs of the Tertiary Federation and patronized its  businesses in accordance with the policies and guidelines.</li>
         <!-- <?php if(strlen($bylaw_info->additional_conditions_to_vote)>0) :?>
           <?php foreach ($members_additional_conditions_to_vote as $condition) : ?>
             <li><?= $condition ?></li>
           <?php endforeach; ?>
         <?php endif; ?> -->
-  		</ol>
+      </ol>
     </div>
   </div>
   <div class="row ">
@@ -237,9 +243,9 @@
     <div class="col-sm-12 col-md-12">
         <ol class="text-justify" type="a">
           <li>Participate and vote on all matters deliberated upon during general assembly meetings;</li>
-  			  <li>Qualified to seek any elective or appointive position, subject to the provisions of this By-laws and the Philippine Cooperative Code of 2008; and</li>
-  			  <li>Such other rights and privileges as may be provided by the General Assembly.</li>
-  		  </ol>
+          <li>Qualified to seek any elective or appointive position, subject to the provisions of this By-laws and the Philippine Cooperative Code of 2008; and</li>
+          <li>Such other rights and privileges as may be provided by the General Assembly.</li>
+        </ol>
     </div>
   </div>
   <div class="row">
@@ -256,15 +262,15 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li><strong>Automatic Termination of Membership.</strong> The dissolution or the insolvency of a member shall be considered an automatic termination of its membership in the Tertiary Federation.</li>
-				<li><strong>Voluntary Termination.</strong> A member may, for any valid reason, withdraw its membership from the Tertiary Federation by giving a sixty- (60) day notice to the Board of Directors.</li>
-				<li><strong>Involuntary Termination.</strong> A member may be terminated by a vote of the majority of all the members of the Board of Directors for any of the following causes:
-						<ol class="text-justify" type="1" id="customlist">
-  						<li>Has not patronized the services/businesses of the Tertiary Federation as provided for in its policies ;</li>
-  						<li>Has continuously failed to comply with its obligations as provided for in the policies of the Tertiary Federation;</li>
-  						<li>Has violated any provision of these By-laws and the policies promulgated by the board of directors of the Tertiary Federation; and</li>
-  						<li>For any act or omission injurious or prejudicial to the interest or the welfare of the Tertiary Federation.</li>
-						</ol>
-        		</li>
+        <li><strong>Voluntary Termination.</strong> A member may, for any valid reason, withdraw its membership from the Tertiary Federation by giving a sixty- (60) day notice to the Board of Directors.</li>
+        <li><strong>Involuntary Termination.</strong> A member may be terminated by a vote of the majority of all the members of the Board of Directors for any of the following causes:
+            <ol class="text-justify" type="1" id="customlist">
+              <li>Has not patronized the services/businesses of the Tertiary Federation as provided for in its policies ;</li>
+              <li>Has continuously failed to comply with its obligations as provided for in the policies of the Tertiary Federation;</li>
+              <li>Has violated any provision of these By-laws and the policies promulgated by the board of directors of the Tertiary Federation; and</li>
+              <li>For any act or omission injurious or prejudicial to the interest or the welfare of the Tertiary Federation.</li>
+            </ol>
+            </li>
       </ol>
     </div>
   </div>
@@ -301,7 +307,7 @@
             <li>To elect or appoint the members of the board of directors, and to remove them for cause; </li>
             <li>To approve developmental plans of the Tertiary Federation; and</li>
             <li>To delegate the following power/s to a smaller body of the Tertiary Federation:
-            	<ol class="text-justify" type="i">
+              <ol class="text-justify" type="i">
                 <?php if(strlen($bylaw_info->delegate_powers)>0) :?>
                     <?php foreach($delegate_powers as $requirement) : ?>
                       <li><?= $requirement ?></li>
@@ -345,8 +351,8 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
           <li><i class="font-weight-bold">Regular General Assembly Meeting.</i> Notice of the annual regular General Assembly meeting shall be served by the Secretary, personally or his duly authorized representative, by registered mail, or by electronic means to all members of record at his last known postal address, or by posting or publication, or through other electronic means, at least one (1) week before the said meeting. It shall be accompanied by an agenda, minutes of meeting of the last general assembly meeting, consolidated reports of the Board of Directors and Committees, audited financial statements, and other papers which may assist the members to intelligently participate in the proceedings.</li>
-      		<li><i class="font-weight-bold">Special General Assembly Meeting.</i> Notice of any special general assembly meeting shall be served by the Secretary personally or his duly authorized representative, by registered mail, or by electronic means upon each member who is entitled to vote at his last known postal address, or by posting or publication, or through other electronic means, at least one (1) week before the said meeting. It shall state the purpose and, except for related issues, no other business shall be considered during the meeting.</li>
-      		<li><i class="font-weight-bold">Waiver of Notice.</i> Notice of any meeting may be waived, expressly or impliedly, by the member concerned.</li>
+          <li><i class="font-weight-bold">Special General Assembly Meeting.</i> Notice of any special general assembly meeting shall be served by the Secretary personally or his duly authorized representative, by registered mail, or by electronic means upon each member who is entitled to vote at his last known postal address, or by posting or publication, or through other electronic means, at least one (1) week before the said meeting. It shall state the purpose and, except for related issues, no other business shall be considered during the meeting.</li>
+          <li><i class="font-weight-bold">Waiver of Notice.</i> Notice of any meeting may be waived, expressly or impliedly, by the member concerned.</li>
       </ol>
     </div>
   </div>
@@ -406,16 +412,16 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-    		<li>Provide the general policy direction of the Tertiary Federation; </li>
-    		<li>Formulate the strategic development plan; </li>
-    		<li>Determine and prescribe the organizational and operational structure; </li>
-    		<li>Review the Annual Plan and Budget and recommend for its approval by the General Assembly;</li>
-    		<li>Establish policies and procedures for the effective operation of the Tertiary Federation and ensure its proper implementation; </li>
-    		<li>Evaluate the capability and qualification and recommend to the General Assembly the engagement of the services of an External Auditor</li>
-    		<li>Appoint the members of the Mediation/ Conciliation and Ethics Committees and other Officers as specified in the Code and the Tertiary Federation's By-laws;</li>
-    		<li>Decide election-related cases involving the Election Committee and its members in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act No. 9520, Memorandum Circulars issued by the Cooperative Development Authority, Alternative Dispute Resolution Act of 2004 and its suppletory laws;</li>
-    		<li>Act on the recommendation of the Ethics Committee on cases involving violations of the Code of Governance and Ethical Standards in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act No. 9520, Memorandum Circulars issued by the Cooperative Development Authority, Alternative Dispute Resolution Act of 2004 and its suppletory laws; and</li>
-    		<li>Perform such other functions as may be prescribed in the By-laws or authorized by the General Assembly.</li>
+        <li>Provide the general policy direction of the Tertiary Federation; </li>
+        <li>Formulate the strategic development plan; </li>
+        <li>Determine and prescribe the organizational and operational structure; </li>
+        <li>Review the Annual Plan and Budget and recommend for its approval by the General Assembly;</li>
+        <li>Establish policies and procedures for the effective operation of the Tertiary Federation and ensure its proper implementation; </li>
+        <li>Evaluate the capability and qualification and recommend to the General Assembly the engagement of the services of an External Auditor</li>
+        <li>Appoint the members of the Mediation/ Conciliation and Ethics Committees and other Officers as specified in the Code and the Tertiary Federation's By-laws;</li>
+        <li>Decide election-related cases involving the Election Committee and its members in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act No. 9520, Memorandum Circulars issued by the Cooperative Development Authority, Alternative Dispute Resolution Act of 2004 and its suppletory laws;</li>
+        <li>Act on the recommendation of the Ethics Committee on cases involving violations of the Code of Governance and Ethical Standards in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act No. 9520, Memorandum Circulars issued by the Cooperative Development Authority, Alternative Dispute Resolution Act of 2004 and its suppletory laws; and</li>
+        <li>Perform such other functions as may be prescribed in the By-laws or authorized by the General Assembly.</li>
       </ol>
     </div>
   </div>
@@ -428,12 +434,12 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Has paid the minimum capital requirement; </li>
-    		<li>Has no delinquent account with the Tertiary Federation; </li>
-    		<li>Have continuously patronized the Tertiary Federation services;</li>
-    		<li>An member in good standing for the last two (2) years;</li>
-    		<li>Completed or willingness to complete within the prescribed period the required education and training whichever is applicable; and </li>
-    		<li>Other qualifications prescribed in the IRR of the Authority. </li>
-    	</ol>
+        <li>Has no delinquent account with the Tertiary Federation; </li>
+        <li>Have continuously patronized the Tertiary Federation services;</li>
+        <li>An member in good standing for the last two (2) years;</li>
+        <li>Completed or willingness to complete within the prescribed period the required education and training whichever is applicable; and </li>
+        <li>Other qualifications prescribed in the IRR of the Authority. </li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -445,13 +451,13 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Holding any elective position in the government, except that of a party list representative being an officer of a cooperative he or she represents; </li>
-    		<li>The members of the Board of Directors holding other positions directly involved in the day-to-day operation and management of the cooperative he/she represents; </li>
-    		<li>Having direct or indirect personal interest with the business of the Cooperative; </li>
-    		<li>Having been absent for <?= num_format_custom($bylaw_info->number_of_absences_disqualification) ?>(<?= $bylaw_info->number_of_absences_disqualification ?>) consecutive meetings or in more than <?=num_format_custom($bylaw_info->percent_of_absences_all_meettings) ?> percent (<?= $bylaw_info->percent_of_absences_all_meettings.'%'?>) of all meetings within the twelve (12) month period unless with valid excuse as approved by the board of directors;</li>
-    		<li>Being an official or employee of the Cooperative Development Authority, except in a Federation organized among themselves; </li>
-    		<li>Having been convicted in an administrative proceedings or civil/criminal suits involving financial and/or property accountability; and</li>
+        <li>The members of the Board of Directors holding other positions directly involved in the day-to-day operation and management of the cooperative he/she represents; </li>
+        <li>Having direct or indirect personal interest with the business of the Cooperative; </li>
+        <li>Having been absent for <?= num_format_custom($bylaw_info->number_of_absences_disqualification) ?>(<?= $bylaw_info->number_of_absences_disqualification ?>) consecutive meetings or in more than <?=num_format_custom($bylaw_info->percent_of_absences_all_meettings) ?> percent (<?= $bylaw_info->percent_of_absences_all_meettings.'%'?>) of all meetings within the twelve (12) month period unless with valid excuse as approved by the board of directors;</li>
+        <li>Being an official or employee of the Cooperative Development Authority, except in a Federation organized among themselves; </li>
+        <li>Having been convicted in an administrative proceedings or civil/criminal suits involving financial and/or property accountability; and</li>
         <li>Having been disqualified by law.</li>
-    	</ol>
+      </ol>
     </div>
   </div>
   <!-- <div class="row">
@@ -516,14 +522,14 @@
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12">
-      	<ol class="text-justify" type="a">
-	    	  <li>Monitor the adequacy and effectiveness of the cooperative's management and control system; </li>
-	        <li>Audit the performance of the Tertiary Federation and its various responsibility centers; </li>
-	    	  <li>Review continuously and periodically the books of account and other financial records to ensure that these are in accordance with the cooperative principles & generally accepted accounting procedures; </li>
-	    	  <li>Submit reports to the Board of Directors and the General Assembly on the results of the internal audit and recommends necessary changes in policies and other related matters in operation;</li>
-	        <li>Recommend or petition to the Board of Directors for the conduct of a special General Assembly when necessary; and </li>
-	        <li>Perform such other functions as may be delegated by the BOD or authorized by the General Assembly.</li>
-      	</ol>
+        <ol class="text-justify" type="a">
+          <li>Monitor the adequacy and effectiveness of the cooperative's management and control system; </li>
+          <li>Audit the performance of the Tertiary Federation and its various responsibility centers; </li>
+          <li>Review continuously and periodically the books of account and other financial records to ensure that these are in accordance with the cooperative principles & generally accepted accounting procedures; </li>
+          <li>Submit reports to the Board of Directors and the General Assembly on the results of the internal audit and recommends necessary changes in policies and other related matters in operation;</li>
+          <li>Recommend or petition to the Board of Directors for the conduct of a special General Assembly when necessary; and </li>
+          <li>Perform such other functions as may be delegated by the BOD or authorized by the General Assembly.</li>
+        </ol>
     </div>
   </div>
   <div class="row">
@@ -539,15 +545,15 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        	<li>Formulate election rules and guidelines and recommend to the General Assembly for approval;</li>
-      		<li>Implement election rules and guidelines duly approved by the General Assembly;</li>
-      		<li>Recommend necessary amendments to the election rules and guidelines, in consultation with the Board of Directors, for approval of the General Assembly;</li>
-      		<li>Supervise the conduct, manner and procedure of election and other election related activities and act on the changes thereto;</li>
-      		<li>Canvass and certify the results of the election;</li>
-      		<li>Proclaim the winning candidates;</li>
-      		<li>Decide election and other related cases except those involving the Election Committee or its members in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act 9520 and its Implementing Rules and Regulations; Alternative Dispute Resolution Act of 2004 and its suppletory laws and circulars issued by the Cooperative Development Authority, and </li>
-      		<li>Perform such other functions as may be delegated by the Board of Directors or authorized by the General Assembly.</li>
-    	</ol>
+          <li>Formulate election rules and guidelines and recommend to the General Assembly for approval;</li>
+          <li>Implement election rules and guidelines duly approved by the General Assembly;</li>
+          <li>Recommend necessary amendments to the election rules and guidelines, in consultation with the Board of Directors, for approval of the General Assembly;</li>
+          <li>Supervise the conduct, manner and procedure of election and other election related activities and act on the changes thereto;</li>
+          <li>Canvass and certify the results of the election;</li>
+          <li>Proclaim the winning candidates;</li>
+          <li>Decide election and other related cases except those involving the Election Committee or its members in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act 9520 and its Implementing Rules and Regulations; Alternative Dispute Resolution Act of 2004 and its suppletory laws and circulars issued by the Cooperative Development Authority, and </li>
+          <li>Perform such other functions as may be delegated by the Board of Directors or authorized by the General Assembly.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -564,12 +570,12 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-      	<li>Keep members, officers, staff well-informed regarding Tertiary Federation goals/objectives, policies & procedures, services, etc.;</li>
-    		<li>Plan and implement educational program for coop members, officers and staff;</li>
-    		<li>Develop promotional and training materials for the Tertiary Federation;</li>
-    		<li>Conduct/Coordinate training activities; and</li>
-    		<li>Perform such other functions as may be delegated by the Board of Directors or authorized by the General Assembly.</li>
-    	</ol>
+        <li>Keep members, officers, staff well-informed regarding Tertiary Federation goals/objectives, policies & procedures, services, etc.;</li>
+        <li>Plan and implement educational program for coop members, officers and staff;</li>
+        <li>Develop promotional and training materials for the Tertiary Federation;</li>
+        <li>Conduct/Coordinate training activities; and</li>
+        <li>Perform such other functions as may be delegated by the Board of Directors or authorized by the General Assembly.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -585,16 +591,16 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-      	<li>Formulate and develop the Conciliation-Mediation Program and ensure that it is properly implemented;</li>
-    		<li>Monitor Conciliation-Mediation programs and processes; </li>
-    		<li>Submit semi-annual reports of Tertiary Federation's cases to the Authority within 15 days after the end of every semester;</li>
-    		<li>Accept and file Evaluation Reports; </li>
-  			<li>Submit recommendations for the improvements of the conciliation-mediation policies to the Board of Directors;</li>
-    		<li>Recommend to the Board of Directors a representative from any member Federation to be trained as a Cooperative Mediator-Conciliator;</li>
-    		<li>Settle the disputes lodged in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act 9520 and its Implementing Rules and Regulations, Alternative Dispute Resolution Act of 2004 and its suppletory laws and Circulars issued by the Cooperative Development Authority;</li>
-    		<li>Issue the Certificate of Non-Settlement after exhaustion of reasonable efforts to settle the disputes lodged before the Tertiary Federation; and</li>
-    		<li>Perform such other functions as may be delegated by the Board of Directors or authorized by the General Assembly.</li>
-    	</ol>
+        <li>Formulate and develop the Conciliation-Mediation Program and ensure that it is properly implemented;</li>
+        <li>Monitor Conciliation-Mediation programs and processes; </li>
+        <li>Submit semi-annual reports of Tertiary Federation's cases to the Authority within 15 days after the end of every semester;</li>
+        <li>Accept and file Evaluation Reports; </li>
+        <li>Submit recommendations for the improvements of the conciliation-mediation policies to the Board of Directors;</li>
+        <li>Recommend to the Board of Directors a representative from any member Federation to be trained as a Cooperative Mediator-Conciliator;</li>
+        <li>Settle the disputes lodged in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act 9520 and its Implementing Rules and Regulations, Alternative Dispute Resolution Act of 2004 and its suppletory laws and Circulars issued by the Cooperative Development Authority;</li>
+        <li>Issue the Certificate of Non-Settlement after exhaustion of reasonable efforts to settle the disputes lodged before the Tertiary Federation; and</li>
+        <li>Perform such other functions as may be delegated by the Board of Directors or authorized by the General Assembly.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -610,13 +616,13 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        	<li>Develop Code of Governance and Ethical Standard to be observed by the members, officers, and employees of the Tertiary Federation subject to the approval of the Board of Directors and ratification of the General Assembly;</li>
-    		<li>Disseminate, promote and implement the approved Code of Governance and Ethical Standards;</li>
-    		<li>Monitor compliance with the Code of Governance and Ethical Standards and recommend to the Board of Directors measures to address the gap, if any;</li>
-    		<li>Conduct initial investigation or inquiry upon receipt of a complaint involving Code of Governance and Ethical Standards and submit report to the Board of Directors together with the appropriate sanctions in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act 9520 and its Implementing Rules and Regulations; Alternative Dispute Resolution Act of 2004 and its suppletory laws and circulars issued by the Cooperative Development Authority;</li>
-    			<li>Recommend ethical rules and policy to the Board of Directors;</li>
-    		<li>Perform such other functions as may be delegated by the Board of Directors or authorized by the General Assembly.</li>
-    	</ol>
+          <li>Develop Code of Governance and Ethical Standard to be observed by the members, officers, and employees of the Tertiary Federation subject to the approval of the Board of Directors and ratification of the General Assembly;</li>
+        <li>Disseminate, promote and implement the approved Code of Governance and Ethical Standards;</li>
+        <li>Monitor compliance with the Code of Governance and Ethical Standards and recommend to the Board of Directors measures to address the gap, if any;</li>
+        <li>Conduct initial investigation or inquiry upon receipt of a complaint involving Code of Governance and Ethical Standards and submit report to the Board of Directors together with the appropriate sanctions in accordance with the Guidelines issued by the CDA, Art. 137 of Republic Act 9520 and its Implementing Rules and Regulations; Alternative Dispute Resolution Act of 2004 and its suppletory laws and circulars issued by the Cooperative Development Authority;</li>
+          <li>Recommend ethical rules and policy to the Board of Directors;</li>
+        <li>Perform such other functions as may be delegated by the Board of Directors or authorized by the General Assembly.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -709,10 +715,10 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Assist the Board of Directors in the formulation of sound lending and collection policies, systems and procedure. </li>
-    		<li>Responsible for the credit management of the Cooperative. </li>
-    		<li>In the performance of its functions, it shall process, evaluate and act upon loan application and withdrawal of deposits, except when the applicant is a member of the committee, in which case, the application shall be acted upon by the Board of Directors; and exercise general supervision including collection over all loans to members</li>
-    		<li>Responsible for the formulation and conduct of financial and credit risk management training program.</li>
-    	</ol>
+        <li>Responsible for the credit management of the Cooperative. </li>
+        <li>In the performance of its functions, it shall process, evaluate and act upon loan application and withdrawal of deposits, except when the applicant is a member of the committee, in which case, the application shall be acted upon by the Board of Directors; and exercise general supervision including collection over all loans to members</li>
+        <li>Responsible for the formulation and conduct of financial and credit risk management training program.</li>
+      </ol>
     </div>
   </div> -->
  <!--  <div class="row">
@@ -729,11 +735,11 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>Conduct gender analysis;</li>
-    		<li>Develop and recommend Gender and Development ( GAD )and Gender Equality (GE )policies and programs/activities/projects to the Board;</li>
-    		<li>Monitor and assess progress in the implementation of Gender and Development (GAD) programs/activities/projects towards achieving Gender Equality (GE );</li>
-    		<li>Submit report to the Board; and</li>
+        <li>Develop and recommend Gender and Development ( GAD )and Gender Equality (GE )policies and programs/activities/projects to the Board;</li>
+        <li>Monitor and assess progress in the implementation of Gender and Development (GAD) programs/activities/projects towards achieving Gender Equality (GE );</li>
+        <li>Submit report to the Board; and</li>
         <li>Provide directional guidance.</li>
-    	</ol>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -790,57 +796,57 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li><i class="font-weight-bold">Chairperson</i> – The Chairperson shall:
-      		<ol type="i">
-      			<li>Set the agenda for board meetings in coordination with the other members of the Board of Directors;</li>
-      			<li>Preside over all meetings of the Board of Directors and of the general assembly;</li>
-      			<li>Sign contracts, agreements, certificates and other documents on behalf of the Tertiary Cooperative as authorized by the Board of Directors or by the General Assembly; and</li>
-      			<li>Perform such other functions as may be authorized by the Board of Directors or by the General Assembly.</li>
-      		</ol>
+          <ol type="i">
+            <li>Set the agenda for board meetings in coordination with the other members of the Board of Directors;</li>
+            <li>Preside over all meetings of the Board of Directors and of the general assembly;</li>
+            <li>Sign contracts, agreements, certificates and other documents on behalf of the Tertiary Cooperative as authorized by the Board of Directors or by the General Assembly; and</li>
+            <li>Perform such other functions as may be authorized by the Board of Directors or by the General Assembly.</li>
+          </ol>
         </li>
-      	<li><i class="font-weight-bold">Vice-Chairperson </i> – The Vice-Chairperson shall:
-      		<ol type="i">
-      			<li>Perform all the duties and responsibilities of the Chairperson in the absence of the latter;</li>
-      			<li>Perform such other duties as may be delegated by the board of directors.</li>
-      		</ol>
+        <li><i class="font-weight-bold">Vice-Chairperson </i> – The Vice-Chairperson shall:
+          <ol type="i">
+            <li>Perform all the duties and responsibilities of the Chairperson in the absence of the latter;</li>
+            <li>Perform such other duties as may be delegated by the board of directors.</li>
+          </ol>
         </li>
 
-      	<li><i class="font-weight-bold">Treasurer</i> – The Treasurer shall:
-      		<ol type="i">
-      			<li>Ensure that all cash collections are deposited in accordance with the policies set by the Board of Directors;</li>
-      			<li>Have custody of all funds, securities, and documentation relating to all assets, liabilities, income and expenditures; </li>
-      			<li>Monitor and review the financial management operations of the Tertiary Federation, subject to such limitations and control as may be prescribed by Board of Directors;</li>
-      			<li>Maintain complete records of cash transactions;</li>
-    				<li>Maintain a Petty Cash Fund and Daily Cash Position Report; and</li>
-      			<li>Perform such other functions as may be delegated by the Board of Directors and by the General Assembly. </li>
-      		</ol>
+        <li><i class="font-weight-bold">Treasurer</i> – The Treasurer shall:
+          <ol type="i">
+            <li>Ensure that all cash collections are deposited in accordance with the policies set by the Board of Directors;</li>
+            <li>Have custody of all funds, securities, and documentation relating to all assets, liabilities, income and expenditures; </li>
+            <li>Monitor and review the financial management operations of the Tertiary Federation, subject to such limitations and control as may be prescribed by Board of Directors;</li>
+            <li>Maintain complete records of cash transactions;</li>
+            <li>Maintain a Petty Cash Fund and Daily Cash Position Report; and</li>
+            <li>Perform such other functions as may be delegated by the Board of Directors and by the General Assembly. </li>
+          </ol>
         </li>
-      	<li><i class="font-weight-bold">Secretary</i> – The Secretary shall:
-      		<ol type="i">
-      			<li> Keep an updated and complete registry of all members</li>
-      			<li> Prepare and maintain records of minutes of all meetings of the Board of Directors & the General Assembly; </li>
-      			<li> Ensure that necessary Board of Directors s' actions and decisions are transmitted to the management for compliance and implementation;</li>
-      			<li> Issue and certify the list of members who are in good standing and entitled to vote as determined by the Board of Directors;</li>
-    				<li> Prepare and issue Share Certificates; </li>
-      			<li> Serve notice of all meetings called and certify the presence of quorum of all meetings of the Board of Directors and General Assembly;</li>
-      			<li> Keep copy of the Treasurer’s report & other reports; </li>
-      			<li> Keep and maintain the Share & Transfer Book;</li>
-      			<li> Serve as custodian of the Tertiary Cooperative seal; and</li>
-      			<li> Perform such other functions as may be prescribed be delegated by the Board of Directors and/or by the General Assembly. </li>
-      		</ol>
+        <li><i class="font-weight-bold">Secretary</i> – The Secretary shall:
+          <ol type="i">
+            <li> Keep an updated and complete registry of all members</li>
+            <li> Prepare and maintain records of minutes of all meetings of the Board of Directors & the General Assembly; </li>
+            <li> Ensure that necessary Board of Directors s' actions and decisions are transmitted to the management for compliance and implementation;</li>
+            <li> Issue and certify the list of members who are in good standing and entitled to vote as determined by the Board of Directors;</li>
+            <li> Prepare and issue Share Certificates; </li>
+            <li> Serve notice of all meetings called and certify the presence of quorum of all meetings of the Board of Directors and General Assembly;</li>
+            <li> Keep copy of the Treasurer’s report & other reports; </li>
+            <li> Keep and maintain the Share & Transfer Book;</li>
+            <li> Serve as custodian of the Tertiary Cooperative seal; and</li>
+            <li> Perform such other functions as may be prescribed be delegated by the Board of Directors and/or by the General Assembly. </li>
+          </ol>
         </li>
-      	 <li><i class="font-weight-bold">General Manager</i>. The General Manager shall:
-      		<ol type="i">
-      			<li>Oversee the overall day-to-day business operations of the Tertiary Federation by providing general direction, supervision, management and administrative control over all the operating departments subject to such limitations as may be set forth by the Board of Directors or the General Assembly;</li>
-      			<li>Formulate and recommend in coordination with the operating departments under his/her supervision, the Tertiary Federation's Annual and Medium Term Development Plan, programs and projects, for approval of the Board of Directors, and ratification of General Assembly; </li>
-      			<li>Implement the duly approved plans and programs of the Tertiary Federation and any other directive or instruction of the Board of Directors; </li>
-      			<li>Provide and submit to the Board of Directors monthly reports on the status of the Tertiary Federation’s operation vis-a-vis its target and recommend appropriate policy or operational changes, if necessary;</li>
-    				<li>Represent the Tertiary Federation in any agreement, contract, business dealings, and in any other official business transaction as may be authorized by the Board of Directors;</li>
-      			<li>Ensure compliance with all administrative and other requirements of regulatory bodies; </li>
-      			<li>. Maintain records and accounts of the Tertiary Federation in such manner that the true condition of its business may be ascertained therefrom at any time; and </li>
-      			<li>Perform such other functions as may be delegated by the Board of Directors and by the General Assembly</li>
-      		</ol>
+         <li><i class="font-weight-bold">General Manager</i>. The General Manager shall:
+          <ol type="i">
+            <li>Oversee the overall day-to-day business operations of the Tertiary Federation by providing general direction, supervision, management and administrative control over all the operating departments subject to such limitations as may be set forth by the Board of Directors or the General Assembly;</li>
+            <li>Formulate and recommend in coordination with the operating departments under his/her supervision, the Tertiary Federation's Annual and Medium Term Development Plan, programs and projects, for approval of the Board of Directors, and ratification of General Assembly; </li>
+            <li>Implement the duly approved plans and programs of the Tertiary Federation and any other directive or instruction of the Board of Directors; </li>
+            <li>Provide and submit to the Board of Directors monthly reports on the status of the Tertiary Federation’s operation vis-a-vis its target and recommend appropriate policy or operational changes, if necessary;</li>
+            <li>Represent the Tertiary Federation in any agreement, contract, business dealings, and in any other official business transaction as may be authorized by the Board of Directors;</li>
+            <li>Ensure compliance with all administrative and other requirements of regulatory bodies; </li>
+            <li>. Maintain records and accounts of the Tertiary Federation in such manner that the true condition of its business may be ascertained therefrom at any time; and </li>
+            <li>Perform such other functions as may be delegated by the Board of Directors and by the General Assembly</li>
+          </ol>
         </li>
-    	</ol>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -861,14 +867,14 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-      	<li>Must be familiar with the business operation of the Federation; </li>
-    		<li>Must have at least two (2) years experience in the operations of the Federation or related business; </li>
-    		<li>Must not be engaged directly or indirectly in any activity similar to the business of the Federation; </li>
-    		<li>. Must not have been convicted of any administrative, civil or criminal cases involving moral turpitude, gross negligence or grave misconduct in the performance of his duties; </li>
-  			<li>Must be of good moral character;</li>
-    		<li>Must not have been convicted of any administrative, civil or criminal case involving financial and/or property accountabilities at the time of his/her appointment; and</li>
-    		<li>Must undergo pre-service and/or in-service training.</li>
-    	</ol>
+        <li>Must be familiar with the business operation of the Federation; </li>
+        <li>Must have at least two (2) years experience in the operations of the Federation or related business; </li>
+        <li>Must not be engaged directly or indirectly in any activity similar to the business of the Federation; </li>
+        <li>. Must not have been convicted of any administrative, civil or criminal cases involving moral turpitude, gross negligence or grave misconduct in the performance of his duties; </li>
+        <li>Must be of good moral character;</li>
+        <li>Must not have been convicted of any administrative, civil or criminal case involving financial and/or property accountabilities at the time of his/her appointment; and</li>
+        <li>Must undergo pre-service and/or in-service training.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -879,12 +885,12 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        	<li> Handle monetary transactions; </li>
-  			<li> Receive/collect payments and deposits; </li>
-  			<li> Responsible for money received and expended;</li>
-  			<li> Prepare reports on money matters; and </li>
-  			<li> Perform such other duties as the Board of Directors may require. </li>
-  		</ol>
+          <li> Handle monetary transactions; </li>
+        <li> Receive/collect payments and deposits; </li>
+        <li> Responsible for money received and expended;</li>
+        <li> Prepare reports on money matters; and </li>
+        <li> Perform such other duties as the Board of Directors may require. </li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -895,12 +901,12 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        	<li>Install an adequate and effective accounting system within the Federation; </li>
-  			<li>Render reports on the financial condition and operations of the Tertiary Federation monthly, annually or as may be required by the Board of Directors and/or the general assembly;</li>
-  			<li>Assist the Board of Directors in the preparation of annual budget;</li>
-  			<li>Keep, maintain and preserve all books of accounts, documents, vouchers, contracts and other records concerning the business of the Tertiary Federation and make them available for auditing purposes to the Chairperson of the Audit Committee; and</li>
-  			<li>Perform such other duties as the Board of Directors may require. </li>
-  		</ol>
+          <li>Install an adequate and effective accounting system within the Federation; </li>
+        <li>Render reports on the financial condition and operations of the Tertiary Federation monthly, annually or as may be required by the Board of Directors and/or the general assembly;</li>
+        <li>Assist the Board of Directors in the preparation of annual budget;</li>
+        <li>Keep, maintain and preserve all books of accounts, documents, vouchers, contracts and other records concerning the business of the Tertiary Federation and make them available for auditing purposes to the Chairperson of the Audit Committee; and</li>
+        <li>Perform such other duties as the Board of Directors may require. </li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -911,11 +917,11 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-      	<li>Records and update books of accounts; </li>
-  			<li>Assist in the preparation of reports on the financial condition and operations of the Tertiary Federation whether monthly, annually or as may be required by the Board of Directors and/or the general assembly;</li>
-  			<li>Keep, maintain and preserve all books of accounts, documents, vouchers, contracts, and other records concerning the business of the Tertiary Federation and make them available for auditing purposes to the Chairperson of the Audit Committee; and</li>
-  			<li>Perform such other duties as the Board of Directors may require.</li>
-  		</ol>
+        <li>Records and update books of accounts; </li>
+        <li>Assist in the preparation of reports on the financial condition and operations of the Tertiary Federation whether monthly, annually or as may be required by the Board of Directors and/or the general assembly;</li>
+        <li>Keep, maintain and preserve all books of accounts, documents, vouchers, contracts, and other records concerning the business of the Tertiary Federation and make them available for auditing purposes to the Chairperson of the Audit Committee; and</li>
+        <li>Perform such other duties as the Board of Directors may require.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -926,14 +932,14 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        	<li>A Bachelor's degree in Accountancy must be required for Accountant however Cashier and Bookkeeper must be knowledgeable in handling monetary transactions, accounting and bookkeeping; </li>
-  			<li>Must have at least two (2) years experience in cooperative operation or related business;</li>
-  			<li>Must not be engaged directly or indirectly in any activity similar to the business of the Cooperative; </li>
-  			<li>Must not have convicted of any administrative, civil or criminal case involving moral turpitude, gross negligence or grave misconduct in the performance of his/her duties; </li>
-  				<li> Must be of good moral character;</li>
-  			<li>Must be willing to undergo pre-service and/or in-service training in accounting; and </li>
-  			<li>Must not have been convicted of any administrative, civil or criminal case involving financial and/or property accountabilities at the time of his/her appointment. </li>
-  		</ol>
+          <li>A Bachelor's degree in Accountancy must be required for Accountant however Cashier and Bookkeeper must be knowledgeable in handling monetary transactions, accounting and bookkeeping; </li>
+        <li>Must have at least two (2) years experience in cooperative operation or related business;</li>
+        <li>Must not be engaged directly or indirectly in any activity similar to the business of the Cooperative; </li>
+        <li>Must not have convicted of any administrative, civil or criminal case involving moral turpitude, gross negligence or grave misconduct in the performance of his/her duties; </li>
+          <li> Must be of good moral character;</li>
+        <li>Must be willing to undergo pre-service and/or in-service training in accounting; and </li>
+        <li>Must not have been convicted of any administrative, civil or criminal case involving financial and/or property accountabilities at the time of his/her appointment. </li>
+      </ol>
     </div>
   </div>
   <div class="row mb-4">
@@ -954,13 +960,13 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        	<li>Member’ share capital contribution; </li>
-    		<li>Loans and borrowings including deposits;</li>
-    		<li>Revolving capital build-up which consists of the deferred payment of patronage refund or interest on share capital;</li>
-    		<li>Subsidies, grants, legacies, aids, donation and such other assistance from any local or foreign institution, public or private; </li>
-    			<li>Retentions from the proceeds of services acquired /goods procured by members; and</li>
-        	<li>Other sources of funds as may be authorized by law.</li>
-    	</ol>
+          <li>Member’ share capital contribution; </li>
+        <li>Loans and borrowings including deposits;</li>
+        <li>Revolving capital build-up which consists of the deferred payment of patronage refund or interest on share capital;</li>
+        <li>Subsidies, grants, legacies, aids, donation and such other assistance from any local or foreign institution, public or private; </li>
+          <li>Retentions from the proceeds of services acquired /goods procured by members; and</li>
+          <li>Other sources of funds as may be authorized by law.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -972,9 +978,9 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li>At least <?=ucwords(num_format_custom($bylaw_info->member_invest_per_month))?> Pesos (P<?=$bylaw_info->member_invest_per_month?>)per annum; </li>
-    		<li>At least <?=ucwords(num_format_custom($bylaw_info->member_percentage_annual_interest))?> percent (<?=$bylaw_info->member_percentage_annual_interest?>%) of member’s annual interest on capital and patronage refund; and </li>
-    		<li>At least <?=ucwords(num_format_custom($bylaw_info->member_percentage_service))?> percent (<?=$bylaw_info->member_percentage_service?>%) of each goods procured /service acquired from the Federation. </li>
-  		</ol>
+        <li>At least <?=ucwords(num_format_custom($bylaw_info->member_percentage_annual_interest))?> percent (<?=$bylaw_info->member_percentage_annual_interest?>%) of member’s annual interest on capital and patronage refund; and </li>
+        <li>At least <?=ucwords(num_format_custom($bylaw_info->member_percentage_service))?> percent (<?=$bylaw_info->member_percentage_service?>%) of each goods procured /service acquired from the Federation. </li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -1017,10 +1023,10 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        	<li>The Member has held such shares or interests for not less than one (1) year; </li>
-    		<li>The transfer is made to an member of the Tertiary Federation or eligible cooperative that falls within the field of membership of the Tertiary Federation; and</li>
-    		<li>The Board has approved such transfer.</li>
-    	</ol>
+          <li>The Member has held such shares or interests for not less than one (1) year; </li>
+        <li>The transfer is made to an member of the Tertiary Federation or eligible cooperative that falls within the field of membership of the Tertiary Federation; and</li>
+        <li>The Board has approved such transfer.</li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -1032,11 +1038,11 @@
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        	<li>Circumstances as to how, when and where said certificate was lost or destroyed;</li>
+          <li>Circumstances as to how, when and where said certificate was lost or destroyed;</li>
             <li>The serial number of the certificate; and the number of shares it represents;</li>
             <li>The lost or destroyed certificate has never been transferred, sold or endorsed to any third party, that should the same be found, the owner shall surrender it to the Tertiary Federation; and</li>
             <li>That any false representation or statement made in the aforesaid affidavit shall be a ground for expulsion from the Tertiary Federation.</li>
-    	</ol>
+      </ol>
     </div>
   </div>
   <!-- <div class="row mb-2">
@@ -1052,21 +1058,21 @@
  <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        	<li>Engage in:
-        	<ol class="text-justify"style="list-style-type:none;">
+          <li>Engage in:
+          <ol class="text-justify"style="list-style-type:none;">
             <?php if(strlen($bylaw_info->primary_consideration)>0) :?>
                 <?php $count=1;?>
                 <?php foreach($primary_consideration as $requirement) : ?>
                     <li>a.<?php echo $count++; echo ' '.$requirement;?></li>
                 <?php endforeach; ?>
             <?php endif; ?>
-        	</ol>
-        	</li>
+          </ol>
+          </li>
             <li>Formulate and implement program strategies that will provide its members and the</li>
             <li>Adopt and implement plans and programs which insures the continued build-up of the Federations’ capital structure with the end view of establishing other needed services for the members and the public;</li>
             <li>Formulate and implement studies and/or programs that will address the needs of member; and</li>
             <li>Collect CETF and other dues from its members.</li>
-    	</ol>
+      </ol>
     </div>
   </div> -->
   <div class="row mb-2">
@@ -1083,27 +1089,27 @@
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
         <li> <i class="font-weight-bold">Reserve Fund.</i> <?= ucwords(num_format_custom($bylaw_info->percent_reserve_fund))?> percent (<?=$bylaw_info->percent_reserve_fund?>%) shall be set aside for Reserve Fund subject to the following rules, provided, that in the first five (5) years of operation after registration, this amount shall not be less than fifty per centum (50%) of the net surplus:
-    			<ol type="i">
-            		<li>The reserve fund shall be used for the stability of the Tertiary Federation and to meet net losses in its operations. The general assembly may decrease the amount allocated to the reserve fund when it has already exceeded the authorized share capital. Any sum recovered on items previously charged to the reserve fund shall be credited to such fund.</li>
-  					<li>. The reserve fund shall not be utilized for investment, other than those allowed in Republic Act No. 9520. Such sum of the reserve fund in excess of the authorized share capital may be used at any time for any project that would expand the operations of the Tertiary Federation upon the resolution of the General Assembly.</li>
-  					<li>Upon the dissolution of the Tertiary Federation, the reserve fund shall not be distributed among the members. However, the general assembly may resolve:
+          <ol type="i">
+                <li>The reserve fund shall be used for the stability of the Tertiary Federation and to meet net losses in its operations. The general assembly may decrease the amount allocated to the reserve fund when it has already exceeded the authorized share capital. Any sum recovered on items previously charged to the reserve fund shall be credited to such fund.</li>
+            <li>. The reserve fund shall not be utilized for investment, other than those allowed in Republic Act No. 9520. Such sum of the reserve fund in excess of the authorized share capital may be used at any time for any project that would expand the operations of the Tertiary Federation upon the resolution of the General Assembly.</li>
+            <li>Upon the dissolution of the Tertiary Federation, the reserve fund shall not be distributed among the members. However, the general assembly may resolve:
 
-              			<ol type="a">
-  							<li>To establish a usufructuary fund for the benefit of any Union to which the Tertiary Federation is a member; or</li>
-  							<li>To donate, contribute or otherwise dispose of the amount for the benefit of the community where the Tertiary Federation operates. If the member could not decide on the disposition of the reserve fund, the same shall be given to the Union to which the Tertiary Federation is a member.</li>
-  						</ol>
-            		</li>
-    			</ol>
+                    <ol type="a">
+                <li>To establish a usufructuary fund for the benefit of any Union to which the Tertiary Federation is a member; or</li>
+                <li>To donate, contribute or otherwise dispose of the amount for the benefit of the community where the Tertiary Federation operates. If the member could not decide on the disposition of the reserve fund, the same shall be given to the Union to which the Tertiary Federation is a member.</li>
+              </ol>
+                </li>
+          </ol>
         </li>
         <li><i class="font-weight-bold">Education and Training Fund.</i> <?= ucwords(num_format_custom($bylaw_info->percent_education_fund))?> percent (<?=$bylaw_info->percent_education_fund?>%) shall be set aside for Education and Training Fund.
-          	<ol type="i">
-  				<li>Half of the amount allocated to the education and training fund annually under this subsection may be spent by the Tertiary Federation for education and training purposes while the other half may be remitted to a Union chosen by the Tertiary Federation of which it is a member.</li>
-  				<li>Upon the dissolution of the Tertiary Federation, the unexpended balance of the education and training fund pertaining to the Tertiary Federation shall be credited to the education and training fund of the chosen Union of Cooperatives.</li>
-  			</ol>
+            <ol type="i">
+          <li>Half of the amount allocated to the education and training fund annually under this subsection may be spent by the Tertiary Federation for education and training purposes while the other half may be remitted to a Union chosen by the Tertiary Federation of which it is a member.</li>
+          <li>Upon the dissolution of the Tertiary Federation, the unexpended balance of the education and training fund pertaining to the Tertiary Federation shall be credited to the education and training fund of the chosen Union of Cooperatives.</li>
+        </ol>
         </li>
         <li><i class="font-weight-bold">Community Development Fund.</i> <?= ucwords(num_format_custom($bylaw_info->percent_community_fund))?> percent (<?=$bylaw_info->percent_community_fund?>%) used for projects and activities that will benefit the community where the Tertiary Federation operates.</li>
         <li><i class="font-weight-bold">Optional Fund.</i> <?=ucwords(num_format_custom($bylaw_info->percent_optional_fund))?> percent (<?=$bylaw_info->percent_optional_fund?>%) shall be set aside for Optional Fund for land and building, and any other necessary fund.</li>
-    	</ol>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -1114,11 +1120,11 @@
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-      	<li>In the case of a member patron cooperative federation with paid-up share capital contribution, the proportionate amount of patronage refund shall be paid to such member cooperative federation unless it agrees to credit the amount to its account as additional share capital contribution;</li>
-    		<li>In the case of a member patron cooperative federation with unpaid share capital contribution, its proportionate amount of patronage refund shall be credited to its account until the share capital has been fully paid;</li>
-    		<li>In the case of non-member patron cooperative federation, its proportionate amount of patronage refunds shall be set aside in a general fund for such patron and shall be allocated to individual non-member patron and only upon request and presentation of evidence of the amount of its patronage. The amount so allocated shall be credited to such patron toward the payment of the minimum capital contribution for membership. When a sum equal to this amount has accumulated at any time within <u><?= num_format_custom($bylaw_info->non_member_patron_years)?> (<?=$bylaw_info->non_member_patron_years ?>)</u> years, such patron shall be deemed and become a member of the Tertiary Federation if the former so agrees or requests and complies with the provisions of the By-laws for admission to membership; and</li>
-    		<li>If within the period specified hereof, any subscriber who has not fully paid the subscribed share capital or any non-member patron who has accumulated, the sum necessary for membership, but who does not request nor agree to become a member or fails to comply with the provisions of this By-laws for admission to membership, the amount so accumulated or credited to their account together with any part of the general fund for non-member patron shall be credited to the reserve fund or the education and training fund, at the option of the  Tertiary Federation.</li>
-    	</ol>
+        <li>In the case of a member patron cooperative federation with paid-up share capital contribution, the proportionate amount of patronage refund shall be paid to such member cooperative federation unless it agrees to credit the amount to its account as additional share capital contribution;</li>
+        <li>In the case of a member patron cooperative federation with unpaid share capital contribution, its proportionate amount of patronage refund shall be credited to its account until the share capital has been fully paid;</li>
+        <li>In the case of non-member patron cooperative federation, its proportionate amount of patronage refunds shall be set aside in a general fund for such patron and shall be allocated to individual non-member patron and only upon request and presentation of evidence of the amount of its patronage. The amount so allocated shall be credited to such patron toward the payment of the minimum capital contribution for membership. When a sum equal to this amount has accumulated at any time within <u><?= num_format_custom($bylaw_info->non_member_patron_years)?> (<?=$bylaw_info->non_member_patron_years ?>)</u> years, such patron shall be deemed and become a member of the Tertiary Federation if the former so agrees or requests and complies with the provisions of the By-laws for admission to membership; and</li>
+        <li>If within the period specified hereof, any subscriber who has not fully paid the subscribed share capital or any non-member patron who has accumulated, the sum necessary for membership, but who does not request nor agree to become a member or fails to comply with the provisions of this By-laws for admission to membership, the amount so accumulated or credited to their account together with any part of the general fund for non-member patron shall be credited to the reserve fund or the education and training fund, at the option of the  Tertiary Federation.</li>
+      </ol>
     </div>
   </div>
   <div class="row mb-2">
@@ -1149,12 +1155,12 @@
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-      	<li>Shares or debentures or securities; </li>
-    		<li>Any reputable bank in the locality or Union of which it is a member;</li>
-    		<li>Securities issued or guaranteed by Government;</li>
-    		<li>Real Estate primarily for the use of the Tertiary Federation or its members; or</li>
-    		<li>In any other manner approved by the general assembly. </li>
-    	</ol>
+        <li>Shares or debentures or securities; </li>
+        <li>Any reputable bank in the locality or Union of which it is a member;</li>
+        <li>Securities issued or guaranteed by Government;</li>
+        <li>Real Estate primarily for the use of the Tertiary Federation or its members; or</li>
+        <li>In any other manner approved by the general assembly. </li>
+      </ol>
     </div>
   </div>
   <div class="row">
@@ -1176,15 +1182,15 @@
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        	<!-- <li>Cooperative Annual Performance Report (CAPR); </li> -->
-    		<li>Social Audit Report;</li>
-    		<li>Performance Report;</li>
-    		<li>Audited Financial Statement; </li>
-  			<li>List of officers and trainings undertaken/completed;</li>
-    		<li>List of cooperatives which have remitted their respective Cooperative Education and Training Funds (CETF);</li>
-    		<li>Business consultancy assistance to include the nature and cost and</li>
-    		<li>Other training activities undertaken specifying therein the nature, participants, and cost of the activity. </li>
-    	</ol>
+          <!-- <li>Cooperative Annual Performance Report (CAPR); </li> -->
+        <li>Social Audit Report;</li>
+        <li>Performance Report;</li>
+        <li>Audited Financial Statement; </li>
+        <li>List of officers and trainings undertaken/completed;</li>
+        <li>List of cooperatives which have remitted their respective Cooperative Education and Training Funds (CETF);</li>
+        <li>Business consultancy assistance to include the nature and cost and</li>
+        <li>Other training activities undertaken specifying therein the nature, participants, and cost of the activity. </li>
+      </ol>
     </div>
   </div>
   <div class="row mb-2">
@@ -1212,7 +1218,7 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($cooperators_list as $cooperator) :?>
-              <?=$count++;?>
+              <?php $count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['coopName']?></td>
                 <td><?=$cooperator['representative']?></td>

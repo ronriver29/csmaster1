@@ -15,13 +15,23 @@
   <style>
   @page{margin: 96px 96px 70px 96px;}
   .page_break { page-break-before: always; }
-  table, th, td {
+  .table-cooperator, .table-cooperator th, .table-cooperator td {
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
+}
   }
   body{
         font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
+  #printPage
+  {
+    margin-left: 450px;
+    padding: 0px;
+    width: 670px; / width: 7in; /
+    height: 900px; / or height: 9.5in; /
+    clear: both;
+    page-break-after: always;
+  }
   </style>
 
 </head>
@@ -53,7 +63,7 @@
     // do_alert("Hello");
 ?>
 
-<div class="container-fluid text-monospace">
+<div class="container-fluid text-monospace" id="printPage">
 
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center"> 
@@ -255,7 +265,7 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($cooperators_list_board as $cooperator) :?>
-              <?=$count++;?>
+              <?php $count++;?>
               <?php
               $in_chartered_cities_cptr =false;
                               if($this->charter_model->in_charter_city($cooperator['cCode']))
@@ -295,7 +305,7 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($directors_list as $director) :?>
-              <?=$count++;?>
+              <?php $count++;?>
             <tr>
               <td><?=$count.'. '.$director['full_name']?></td>
             </tr>
@@ -403,7 +413,7 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($associate_cooperator_list as $associate) : ?>
-              <?=$count++;?>
+              <?php $count++;?>
             <tr>
               <td><?=$count.'. '. $associate['full_name']?></td>
               <td style="text-align: center;"><?= $associate['number_of_subscribed_shares']?></td>
@@ -476,7 +486,7 @@
           </thead>
           <tbody>
             <?php  $count=0;foreach($cooperators_list_regular as $cooperator) :?>
-              <?=$count++;?>
+              <?php $count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
                 <td></td>
@@ -528,7 +538,7 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($cooperators_list_regular as $cooperator) :?>
-              <?=$count++;?>
+              <?php $count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['full_name']?></td>
                 <td><?=$cooperator['proof_of_identity']?>-<?=$cooperator['proof_of_identity_number']?></td>

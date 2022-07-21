@@ -6,7 +6,7 @@ class Unioncoop extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
-    //Codeigniter : Write Less Do More
+    $this->load->library("pagination");
     $this->load->model('cooperatives_model');
     $this->load->model('bylaw_model');
     $this->load->model('capitalization_model');
@@ -16,8 +16,11 @@ class Unioncoop extends CI_Controller{
     $this->load->model('admin_model');
     $this->load->model('affiliators_model');
     $this->load->model('region_model');
+    //Codeigniter : Write Less Do More
   }
 
+  public $coopName='';
+  public $regNo='';
   function index($id = null)
   {
     if(!$this->session->userdata('logged_in')){
@@ -51,14 +54,6 @@ class Unioncoop extends CI_Controller{
                     $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
-//                    $data['minimum_regular_subscription'] = $this->cooperator_model->check_all_minimum_regular_subscription($decoded_id);
-//                    $data['minimum_regular_pay'] = $this->cooperator_model->check_all_minimum_regular_pay($decoded_id);
-//                    $data['minimum_associate_subscription'] = $this->cooperator_model->check_all_minimum_associate_subscription($decoded_id);
-//                    $data['minimum_associate_pay'] = $this->cooperator_model->check_all_minimum_associate_pay($decoded_id);
-                    // $data['minimum_regular_subscription'] = $capitalization_info->minimum_subscribed_share_regular;
-                    // $data['minimum_regular_pay'] = $capitalization_info->minimum_paid_up_share_regular;
-                    // $data['minimum_associate_subscription'] = $capitalization_info->minimum_subscribed_share_associate;
-                    // $data['minimum_associate_pay'] = $capitalization_info->minimum_paid_up_share_associate;
                     $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                     $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                     $data['check_regular_paid'] = $this->cooperator_model->check_regular_total_shares_paid_is_correct($data['total_regular']);
@@ -68,16 +63,72 @@ class Unioncoop extends CI_Controller{
                     $data['secretary_count'] = $this->unioncoop_model->check_secretary($user_id);
                     $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
                     $data['list_cooperators_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
-//                    $data['list_cooperators_count'] = $this->cooperator_model->get_all_cooperator_of_coop_regular_count($decoded_id);
                     $data['list_cooperators_associate'] = $this->cooperator_model->get_all_cooperator_of_coop_associate($decoded_id);
                     $data['ten_percent'] = $this->cooperator_model->ten_percent($decoded_id);
+                    
+                    
+                    $config["base_url"] = base_url() . "cooperatives/".$id."/unioncoop";
                     if($data['coop_info']->area_of_operation == 'Interregional'){
-                      $data['registered_coop'] = $this->unioncoop_model->get_registered_interregion($data['coop_info']->regions);
+                      $config["total_rows"] = $this->unioncoop_model->get_registered_interregion_count($data['coop_info']->regions);
+                      $count_query = $this->unioncoop_model->get_registered_interregion_count($data['coop_info']->regions);
                     } else {
-                      $data['registered_coop'] = $this->unioncoop_model->get_registered_fed_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                      $config["total_rows"] = $this->unioncoop_model->get_registered_fed_coop_count($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                      // echo $config["total_rows"];
+                      $count_query = $this->unioncoop_model->get_registered_fed_coop_count($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
                     }
                     
-                    // $data['last_query'] = $this->db->last_query();
+                    $config["per_page"] = 5;
+                    $config["uri_segment"] = 3;
+                    $config['page_query_string'] = TRUE;
+                    $config['full_tag_open'] = '<ul class="pagination">';        
+                    $config['full_tag_close'] = '</ul>';        
+                    $config['first_link'] = 'First';        
+                    $config['last_link'] = 'Last';        
+                    $config['first_tag_open'] = '<li class="page-item"><span class="page-link">';        
+                    $config['first_tag_close'] = '</span></li>';        
+                    $config['prev_link'] = '&laquo';        
+                    $config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';        
+                    $config['prev_tag_close'] = '</span></li>';        
+                    $config['next_link'] = '&raquo';        
+                    $config['next_tag_open'] = '<li class="page-item"><span class="page-link">';        
+                    $config['next_tag_close'] = '</span></li>';        
+                    $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';        
+                    $config['last_tag_close'] = '</span></li>';        
+                    $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';        
+                    $config['cur_tag_close'] = '</a></li>';        
+                    $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';        
+                    $config['num_tag_close'] = '</span></li>';
+                    $this->pagination->initialize($config);
+                    $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+                    if(isset($_GET['per_page'])){
+                      $per_page = $_GET['per_page'];
+                    } else {
+                      $per_page = 0;
+                    }
+
+                    $this->benchmark->mark('code_start');
+                    if(isset($_POST['submit']))
+                     {
+                      $this->coopName = $this->input->post('coopName');
+                      $this->regNo = $this->input->post('regNo');
+                     }
+                      $array =array(
+                      'url'=>base_url()."cooperatives/".$id."/unioncoop",
+                      'total_rows' => $config["total_rows"],
+                      'per_page'=>$config['per_page']=5,
+                      'url_segment'=>2
+                      );
+                      
+                    $data['links']=$this->paginate($array);
+                    if($data['coop_info']->area_of_operation == 'Interregional'){
+                      $data['registered_coop'] = $this->unioncoop_model->get_registered_interregion($data['coop_info']->regions,$this->coopName,$this->regNo, $config["per_page"], $per_page);
+                    } else {
+                      $data['registered_coop'] = $this->unioncoop_model->get_registered_fed_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative,$this->coopName, $this->regNo, $config["per_page"], $per_page);
+                    }
+
+                    $this->benchmark->mark('code_end');
+                    $data["links"] = $this->pagination->create_links();
 
                     $data['applied_coop'] = $this->unioncoop_model->get_applied_coop($user_id);
 
@@ -390,5 +441,37 @@ class Unioncoop extends CI_Controller{
       }
     }
   }
-    
+  
+  public function paginate($array)
+    {
+      // $result =null;
+        $config["base_url"] = $array['url'];
+        $config["total_rows"] =$array['total_rows'];
+        $config["per_page"] = $array['per_page'];
+        $config["uri_segment"] = $array['url_segment'];
+        $config['full_tag_open'] = '<ul class="pagination">';
+        $config['full_tag_close'] = '</ul>';
+        $config['first_link'] = 'First';
+        $config['last_link'] = 'Last';
+        $config['first_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['first_tag_close'] = '</span></li>';
+        $config['prev_link'] = '&laquo';
+        $config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['prev_tag_close'] = '</span></li>';
+        $config['next_link'] = '&raquo';
+        $config['next_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['next_tag_close'] = '</span></li>';
+        $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['last_tag_close'] = '</span></li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';
+        $config['num_tag_close'] = '</span></li>';
+        $this->pagination->initialize($config);
+        
+       
+       
+        $links = $this->pagination->create_links();
+        return $links;
+    }
 }

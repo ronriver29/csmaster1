@@ -83,6 +83,21 @@
 <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue shadow-sm mb-4">
       <div class="card-body">
+        <?php echo form_open('registered_cooperatives',array('id'=>'cooperativesAddForm','name'=>'cooperativesAddForm')); ?> 
+           <div class="row rd-row">
+          
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label for="areaOfOperation">Cooperative Name: </label>
+                <input type="text" name="coopName" class="form-control"/>
+              </div>
+            </div>
+          </div> 
+           <div class="row col-sm-6 col-md-1 align-self-center col-reserve-btn">
+                <input class="btn btn-color-blue" type="submit" name="submit" value="submit" style="float:left;">
+            </div>
+        <?php echo form_close(); ?>
+        <hr>
         <div class="table-responsive">
           <table class="table table-bordered">  <!-- id="cooperativesTable2" -->
             <thead>
@@ -152,7 +167,7 @@
     </div>
   </div>
   </div>
-  <?php endif;?>
+  <?endif;?>
 </div>
 <!-- End of Registered Coop Process by Head Office -->
 

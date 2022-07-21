@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
   <head>
     <title>CoopRIS <?= $title ?></title>
@@ -115,9 +115,9 @@
             </li>
           </ul>
         </li>
-          <li>
-              <a href="http://ecoopris.cmvsd.com/cda_reports/QueryBuilder/"><i class="fas fa-cog"></i> Query Builder</a>
-            </li>
+          <!-- <li>
+            <a href="<?php echo base_url();?>report"><i class="fas fa-cog"></i> Query Builder</a>
+          </li> -->
           <li>
           <a href="#pageSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> SMS Settings</a>
           <ul class="collapse list-unstyled" id="pageSubmenu2">
@@ -199,7 +199,7 @@
 
             <a href="<?php echo base_url();?>branches"><i class="fas fa-handshake"></i> Branches and Satellites</a>
           </li>
-            <!-- <li>   
+            <li>   
 
             <a href="<?php echo base_url();?>For_closure"><i class="fas fa-handshake"></i> Closure of Branches and Satellites</a>
           </li>
@@ -210,10 +210,13 @@
           <li>   
 
             <a href="<?php echo base_url();?>For_conversion"><i class="fas fa-handshake"></i> Conversion of Branches and Satellites</a>
-          </li> -->
+          </li>
           <li>   
             <a href="<?php echo base_url();?>laboratories"><i class="fas fa-handshake"></i> Laboratories</a>
           </li>
+        <!--   <li>   
+            <a href="<?php echo base_url();?>amendment"><i class="fas fa-handshake"></i> Amendment</a>
+          </li>   -->
 
              <li>
             <a href="#pageSubmenu10" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-handshake"></i> Amendment</a>
@@ -275,6 +278,17 @@
               </li>
               <li>
                 <a href="<?php echo base_url();?>registered_updated"><i class="fas fa-handshake"></i> Registered</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+           <a href="#pageSubmenuLab" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-handshake"></i> Updated Laboratory Info</a>
+            <ul class="collapse list-unstyled" id="pageSubmenuLab">
+                <li>
+                <a href="<?php echo base_url();?>updated_laboratory_info"><i class="fas fa-handshake"></i> Ongoing</a>
+              </li>
+              <li>
+                <a href="<?php echo base_url();?>updated_laboratory_info_registered"><i class="fas fa-handshake"></i> Registered</a>
               </li>
             </ul>
           </li>
