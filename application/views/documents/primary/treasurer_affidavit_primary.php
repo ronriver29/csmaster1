@@ -9,9 +9,8 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
-  <link rel="stylesheet" href="<?=APPPATH?>../../../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="<?=APPPATH?>../assets/css/bootstrap.min.css">
   <link rel="icon" href="<?=base_url();?>assets/img/cda.png" type="image/png">
-  <link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700" rel="stylesheet" type="text/css">
   <style>
   @page{margin: 26px 96px 70px 96px;}
   .page_break { page-break-before: always; }
@@ -19,36 +18,17 @@
     border: 0.5px solid #000 !important;
     border-collapse: collapse;
   }
-  <?php 
-  if($coop_info->status == 12){
-  ?>
   body{
       /*font-family: 'Bookman Old Style'; font-size: 12px; */
        font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
-  <?php } ?>
 /*
 font-face {
     font-family: new_font;
     src: url('BOOKOS.TTF');
 }*/
   </style>
-<?php 
-if($coop_info->status != 12){
-?>
-<style type="text/css">
-  #printPage
-{
-  margin-left: 450px;
-  padding: 0px;
-  width: 670px; / width: 7in; /
-  height: 900px; / or height: 9.5in; /
-  clear: both;
-  page-break-after: always;
-}
-</style>
-<a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
-<?php } ?>
+
 </head>
 <body style="font-size:12">
   <script type="text/php">
@@ -65,7 +45,7 @@ if($coop_info->status != 12){
             $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);;     
         }
 </script>
-<div class="container-fluid text-monospace" id="printPage">
+<div class="container-fluid text-monospace">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center"> 
         <p class="font-weight-bold"><b>TREASURER’S AFFIDAVIT</b></p>
@@ -84,7 +64,7 @@ if($coop_info->status != 12){
   <div class="row mb-4"> 
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="1">
-        <li>That I am the duly elected Treasurer of the <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> to act as such until my successor shall have been appointed and qualified in accordance with the By-laws of the Cooperative;</li>
+        <li>That I am the duly elected Treasurer of the <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> to act as such until my successor shall have been appointed and qualified in accordance with the By-laws of the Cooperative;</li>
         <li>That as such, I hereby certify that the authorized share capital of this cooperative is <?= ucwords(num_format_custom($capitalization_info->authorized_share_capital)).' Pesos'?> (Php <?= number_format(str_replace(',','',$capitalization_info->authorized_share_capital),2)?>)</li>
         <li>That the subscribed share capital of the cooperative is <?php echo ucwords(number_format(($bylaw_info->kinds_of_members == 1))) ? ucwords(num_format_custom($total_regular['total_subscribed'] * $capitalization_info->par_value)).' Pesos' : ucwords(num_format_custom($total_regular['total_subscribed'] * $capitalization_info->par_value + $total_associate['total_subscribed'] * $capitalization_info->par_value)).' Pesos';?> (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$capitalization_info->par_value)),2) : number_format(((str_replace(',','',$total_regular['total_subscribed']) * str_replace(',','',$capitalization_info->par_value)) + (str_replace(',','',$total_associate['total_subscribed']) * str_replace(',','',$capitalization_info->par_value))),2);?>) which is at least twenty five (25%) percent of the authorized capital;</li>
         <li>That the paid-up share capital of the cooperative is 
@@ -111,8 +91,10 @@ if($coop_info->status != 12){
     </div>
   </div>
   <div class="row mb-3">
-    <div class="col-sm-12 col-md-12 text-center">
-        <p class="font-weight-regular"><?= $treasurer_of_coop->full_name?><br>Affiant</p>
+    <div class="col-sm-12 col-md-12">
+         <p class="font-weight-regular" style="text-align: right;"><?= $treasurer_of_coop->full_name?></p>
+         <span style="float:right;margin-bottom: 1.5em;margin-right: 2em;margin-top:-1em;">Affiant</span>
+       
     </div>
   </div>
   <div class="row mb-3">
