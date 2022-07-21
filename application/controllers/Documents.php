@@ -2743,23 +2743,13 @@ public function delete_pdf()
                                 $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                                 $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
                                 $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
-                                if($data['coop_info']->status != 12){
-                                  $data['title'] = 'Treasurers Affidavit';
-                                  $data['header'] = 'Treasurers Affidavit';
-                                  $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-                                  $data['encrypted_id'] = $id;
-                                  $this->load->view('templates/admin_header', $data);
-                                  $this->load->view('documents/primary/treasurer_affidavit_primary', $data);
-                                  $this->load->view('templates/admin_footer');
-                                } else {
-                                  $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary', $data, TRUE);
+                                $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary', $data, TRUE);
                                   $f = new pdf();
                                   $f->set_option("isPhpEnabled", true);
                                   $f->setPaper('folio', 'portrait');
                                   $f->load_html($html2);
                                   $f->render();
                                   $f->stream("treasurer_affidavit_primary.pdf", array("Attachment"=>0));
-                                }
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                 redirect('cooperatives/'.$id);
