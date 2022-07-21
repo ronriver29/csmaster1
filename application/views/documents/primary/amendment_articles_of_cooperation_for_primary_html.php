@@ -1775,7 +1775,7 @@
       
 
                <?php
-               echo'<pre>';print_r($regular_cooperator_list_new);
+              
                $count=0; 
 
                foreach($regular_cooperator_list_new as $key => $regular) : ?>
