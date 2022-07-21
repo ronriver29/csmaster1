@@ -1293,13 +1293,8 @@
 
                     <td><?= $address ?></td> 
 
-            
-
-              
-
+          
             <?php endforeach;?>
-
-
 
           </tbody>
 
@@ -1350,7 +1345,6 @@
             </tr>
 
           </thead>
-
           <tbody>
 
             <?php /* $count=0; foreach($directors_list as $keys => $director) :?>
