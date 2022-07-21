@@ -1024,7 +1024,7 @@
 
       type : "POST",
 
-      url  : "../get_cooperative_info",
+      url  : "../get_cooperative_info_by_admin",
 
       dataType: "json",
 
