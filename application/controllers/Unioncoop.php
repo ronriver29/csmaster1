@@ -167,11 +167,70 @@ class Unioncoop extends CI_Controller{
                         $data['header'] = 'List of Members';
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                         $data['encrypted_id'] = $id;
+                        
+                        $config["base_url"] = base_url() . "cooperatives/".$id."/unioncoop";
                         if($data['coop_info']->area_of_operation == 'Interregional'){
-                          $data['registered_coop'] = $this->unioncoop_model->get_registered_interregion($data['coop_info']->regions);
+                          $config["total_rows"] = $this->unioncoop_model->get_registered_interregion_count($data['coop_info']->regions);
+                          $count_query = $this->unioncoop_model->get_registered_interregion_count($data['coop_info']->regions);
                         } else {
-                          $data['registered_coop'] = $this->unioncoop_model->get_registered_fed_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                          $config["total_rows"] = $this->unioncoop_model->get_registered_fed_coop_count($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                          // echo $config["total_rows"];
+                          $count_query = $this->unioncoop_model->get_registered_fed_coop_count($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
                         }
+                        
+                        $config["per_page"] = 5;
+                        $config["uri_segment"] = 3;
+                        $config['page_query_string'] = TRUE;
+                        $config['full_tag_open'] = '<ul class="pagination">';        
+                        $config['full_tag_close'] = '</ul>';        
+                        $config['first_link'] = 'First';        
+                        $config['last_link'] = 'Last';        
+                        $config['first_tag_open'] = '<li class="page-item"><span class="page-link">';        
+                        $config['first_tag_close'] = '</span></li>';        
+                        $config['prev_link'] = '&laquo';        
+                        $config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';        
+                        $config['prev_tag_close'] = '</span></li>';        
+                        $config['next_link'] = '&raquo';        
+                        $config['next_tag_open'] = '<li class="page-item"><span class="page-link">';        
+                        $config['next_tag_close'] = '</span></li>';        
+                        $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';        
+                        $config['last_tag_close'] = '</span></li>';        
+                        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';        
+                        $config['cur_tag_close'] = '</a></li>';        
+                        $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';        
+                        $config['num_tag_close'] = '</span></li>';
+                        $this->pagination->initialize($config);
+                        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+                        if(isset($_GET['per_page'])){
+                          $per_page = $_GET['per_page'];
+                        } else {
+                          $per_page = 0;
+                        }
+
+                        $this->benchmark->mark('code_start');
+                        if(isset($_POST['submit']))
+                         {
+                          $this->coopName = $this->input->post('coopName');
+                          $this->regNo = $this->input->post('regNo');
+                         }
+                          $array =array(
+                          'url'=>base_url()."cooperatives/".$id."/unioncoop",
+                          'total_rows' => $config["total_rows"],
+                          'per_page'=>$config['per_page']=5,
+                          'url_segment'=>2
+                          );
+                          
+                        $data['links']=$this->paginate($array);
+                        if($data['coop_info']->area_of_operation == 'Interregional'){
+                          $data['registered_coop'] = $this->unioncoop_model->get_registered_interregion($data['coop_info']->regions,$this->coopName,$this->regNo, $config["per_page"], $per_page);
+                        } else {
+                          $data['registered_coop'] = $this->unioncoop_model->get_registered_fed_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative,$this->coopName, $this->regNo, $config["per_page"], $per_page);
+                        }
+
+                        $this->benchmark->mark('code_end');
+                        $data["links"] = $this->pagination->create_links();
+
                         $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                         $capitalization_info = $data['capitalization_info'];
                         $data['requirements_complete'] = $this->unioncoop_model->is_requirements_complete($data['coop_info']->users_id);
