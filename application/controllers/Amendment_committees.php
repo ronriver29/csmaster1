@@ -6,6 +6,8 @@ class Amendment_committees extends CI_Controller{
   {
     parent::__construct();
     $this->load->model('amendment_model');
+    $this->load->library('auth');
+    $this->auth->checkLogin();
     $this->load->model('amendment_bylaw_model');
     $this->load->model('amendment_capitalization_model');
     $this->load->model('amendment_cooperator_model');
@@ -18,34 +20,49 @@ class Amendment_committees extends CI_Controller{
   }
   function index($id = null)
   {
-    if(!$this->session->userdata('logged_in')){
-      redirect('users/login');
-    }else{
-    
+
+        $this->load->model('amendment_affiliators_model');
+        $this->load->model('amendment_union_model');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $cooperative_id = $this->coop_dtl($this->decoded_id);
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
         if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
           if($this->session->userdata('client')){
-            if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
-              if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
+            // if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
+            //   if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
+                $this->amendment_model->check_own_cooperative_($this->decoded_id,$user_id);
+                $this->amendment_model->check_expired_reservation_($this->decoded_id,$user_id);
                 $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
 
                 if($data['bylaw_complete']){
-                  $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
-
+                   switch ($data['coop_info']->category_of_cooperative) {
+                   case 'Secondary':
+                   case 'Tertiary':
+                    $data['affiliator_complete'] = $this->amendment_affiliators_model->is_requirements_complete($this->decoded_id);
+                     $data['cooperator_complete'] =true;
+                      $data['union_complete'] =true;
+                     break;
+                    
+                   case 'Others':
+                    $data['union_complete'] = $this->amendment_union_model->is_requirements_complete($this->decoded_id); 
+                     $data['cooperator_complete'] =true;
+                     $data['affiliator_complete'] = true;
+                    break; 
+                   default:
+                      $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
+                       $data['affiliator_complete'] =true;
+                        $data['union_complete'] = true;
+                     break;
+                 }
+                
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
-                    if(!$data['purposes_complete']) {
-                        $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
-                    }
+            
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
-                      if(!$data['article_complete']) {
-                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($cooperative_id,$this->decoded_id) : true;
-                      }
+             
                       if($data['article_complete']){
                         $data['gad_count'] = $this->amendment_committee_model->get_all_gad_count2($this->decoded_id);
                         $data['committees_count_member'] = $this->amendment_committee_model->get_all_committees_count($user_id);
@@ -132,20 +149,21 @@ class Amendment_committees extends CI_Controller{
                   $this->session->set_flashdata('redirect_message', 'Please complete first your bylaw additional information.');
                   redirect('amendment/'.$id);
                 }
-              }else{
-                redirect('amendment/'.$id);
-              }
-            }else{
-              $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-              redirect('amendment');
-            }
+            //   }else{
+            //     redirect('amendment/'.$id);
+            //   }
+            // }else{
+            //   $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+            //   redirect('amendment');
+            // }
           }else{
-            $access_array = array(1,2);
-            if($this->session->userdata('access_level')==5){
-              redirect('admins/login');
-            }else if(!in_array($this->session->userdata('access_level'),$access_array)){
-              redirect('amendment');
-            }else{
+            // $access_array = array(1,2);
+            // if($this->session->userdata('access_level')==5){
+            //   redirect('admins/login');
+            // }else if(!in_array($this->session->userdata('access_level'),$access_array)){
+            //   redirect('amendment');
+            // }else{
+            $this->auth->authuserLevelAmd($this->session->userdata('access_level'),[1,2,4]);
               $this->load->model('admin_model');
               $this->load->model('region_model');
               if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$this->decoded_id)){
@@ -156,7 +174,25 @@ class Amendment_committees extends CI_Controller{
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
                   if($data['bylaw_complete']){
-                    $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
+                    switch ($data['coop_info']->category_of_cooperative) {
+                   case 'Secondary':
+                   case 'Tertiary':
+                    $data['affiliator_complete'] = $this->amendment_affiliators_model->is_requirements_complete($this->decoded_id);
+                     $data['cooperator_complete'] =true;
+                      $data['union_complete'] =true;
+                     break;
+                    
+                   case 'Others':
+                    $data['union_complete'] = $this->amendment_union_model->is_requirements_complete($this->decoded_id); 
+                     $data['cooperator_complete'] =true;
+                     $data['affiliator_complete'] = true;
+                    break; 
+                   default:
+                      $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
+                       $data['affiliator_complete'] =true;
+                        $data['union_complete'] = true;
+                     break;
+                 }
                     if($data['cooperator_complete']){
                       $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
                       if($data['purposes_complete']){
@@ -212,12 +248,11 @@ class Amendment_committees extends CI_Controller{
                   redirect('amendment');
                 }
               }
-            }
+            // }
           }
         }else{
           show_404();
         }
-    }
   }
 
   function add($id = null){
@@ -238,28 +273,34 @@ class Amendment_committees extends CI_Controller{
                     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
                 }
                 if($data['bylaw_complete']){
-                  $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
-                  if(!$data['cooperator_complete']) {
-                    $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
+                
+                  // if(!$data['cooperator_complete']) {
+                  //   $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
+                  // }
+                    switch ($data['coop_info']->category_of_cooperative) {
+                    case 'Primary':
+                        $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
+                      break;
+                    
+                    default:
+                       $data['cooperator_complete']=true;
+                      break;
                   }
+
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
-                    if(!$data['purposes_complete']) {
-                        $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
-                    }
+                    // if(!$data['purposes_complete']) {
+                    //     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
+                    // }
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
-                      if(!$data['article_complete']) {
-                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($cooperative_id,$this->decoded_id) : true;
-                      }
+                      // if(!$data['article_complete']) {
+                      // $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($cooperative_id,$this->decoded_id) : true;
+                      // }
                       if($data['article_complete']){
                         if(!$this->amendment_model->check_submitted_for_evaluation_client($cooperative_id,$this->decoded_id)){
-                            if(isset($_POST['addCommitteeBtn'])){
-                                $temp = TRUE;
-                            } else {
-                                $temp = FALSE;
-                            }
-                          if($temp == FALSE){
+                           
+                          if(!isset($_POST['addCommitteeBtn'])){
                             $data['client_info'] = $this->user_model->get_user_info($user_id);
                             $data['title'] = 'List of Committees';
                             $data['header'] = 'Committees';
@@ -346,24 +387,24 @@ class Amendment_committees extends CI_Controller{
                   }else{
                     $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
                     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;
-                if(!$data['bylaw_complete']) {
-                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;
-                }
+                // if(!$data['bylaw_complete']) {
+                //     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;
+                // }
                 if($data['bylaw_complete']){
                   $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($this->decoded_id);
-                  if(!$data['cooperator_complete']) {
-                    $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($this->decoded_id);
-                  }
+                  // if(!$data['cooperator_complete']) {
+                  //   $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($this->decoded_id);
+                  // }
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($this->decoded_id);
-                    if(!$data['purposes_complete']) {
-                        $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($this->decoded_id);
-                    }
+                    // if(!$data['purposes_complete']) {
+                    //     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($this->decoded_id);
+                    // }
                     if($data['purposes_complete']){
                       $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
-                      if(!$data['article_complete']) {
-                      $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
-                      }
+                      // if(!$data['article_complete']) {
+                      // $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
+                      // }
                       if($data['article_complete']){
                             if($this->form_validation->run() == FALSE){
                               $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
@@ -439,7 +480,16 @@ class Amendment_committees extends CI_Controller{
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
 
                 if($data['bylaw_complete']){
-                  $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
+                 
+                    switch ($data['coop_info']->category_of_cooperative) {
+                    case 'Primary':
+                        $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
+                      break;
+                    
+                    default:
+                       $data['cooperator_complete']=true;
+                      break;
+                  }
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
                     if($data['purposes_complete']){
@@ -537,7 +587,15 @@ class Amendment_committees extends CI_Controller{
                     $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
                     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;
                     if($data['bylaw_complete']){
-                      $data['cooperator_complete'] = $this->cooperator_model->is_requirements_complete($this->decoded_id);
+                      switch ($data['coop_info']->category_of_cooperative) {
+                        case 'Primary':
+                            $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
+                          break;
+                        
+                        default:
+                           $data['cooperator_complete']=true;
+                          break;
+                      }
                       if($data['cooperator_complete']){
                         $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($this->decoded_id);
                         if($data['purposes_complete']){

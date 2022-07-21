@@ -15,7 +15,8 @@ class Amendmentbylaws extends CI_Controller{
     parent::__construct();
 
     //Codeigniter : Write Less Do More
-
+    $this->load->library('auth');
+    $this->auth->checkLogin();
     $this->load->model('amendment_capitalization_model');
     $this->load->model('amendment_model');
     $this->load->model('user_model');
@@ -25,113 +26,41 @@ class Amendmentbylaws extends CI_Controller{
 
 
   function index($id  = null)
-
   {
-
-    if(!$this->session->userdata('logged_in')){
-
-      redirect('users/login');
-
-    }else{
-
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
-
       $user_id = $this->session->userdata('user_id');
-
-       $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
-
+      $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
       $data['is_client'] = $this->session->userdata('client');
-
       if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
-
         if($this->session->userdata('client')){
+              $this->amendment_model->check_own_cooperative_($this->decoded_id,$user_id);
+              $this->amendment_model->check_expired_reservation_($this->decoded_id,$user_id);
+              $coop = $this->amendment_model->qryColumn('grouping',$this->decoded_id);
 
-          if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
-
-            if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
-
-              $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
-
-                if($data['coop_info']->grouping =="Federation"){
-
-                redirect('amendment/'.$id.'/bylaws_federation');
-
-              }else if($data['coop_info']->grouping =="Union"){
-                 redirect('amendment/'.$id.'/bylaws_union');
-                // redirect('amendment/'.$id.'/bylaw_update_union');
-
+              if($coop->grouping =="Federation"){
+              redirect('amendment/'.$id.'/bylaws_federation');
+              }else if($coop->grouping =="Union"){
+              redirect('amendment/'.$id.'/bylaws_union');
+              // redirect('amendment/'.$id.'/bylaw_update_union');
               }else{
-
-                redirect('amendment/'.$id.'/bylaw_primary');
-
+              redirect('amendment/'.$id.'/bylaw_primary');
               }
-
-            // }else{
-
-            }else{
-
-              redirect('amendment/'.$id);
-
-            }
-
-          }else{
-
-//            $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-
-            redirect('amendment');
-
-          }
-
         }else{
-
-          if($this->session->userdata('access_level')==5){
-
-            redirect('admins/login');
-
-          }else if($this->session->userdata('access_level')!=1){
-
-            redirect('amendment');
-
+          $this->auth->authuserLevelAmd($this->session->userdata('access_level'),[1,2]);
+          $this->amendment_model->check_expired_reservation_by_admin_($this->decoded_id);
+          $this->amendment_model->check_submitted_for_evaluation_($this->decoded_id);
+          $coop = $this->amendment_model->qryColumn('grouping',$this->decoded_id);
+          if($coop->grouping =="Federation"){
+          redirect('amendment/'.$id.'/bylaws_federation');
+          }else if($coop->grouping =="Union"){
+          redirect('amendment/'.$id.'/bylaws_union');
           }else{
-
-            if(!$this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$this->decoded_id)){
-
-              $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
-
-              if($data['coop_info']->grouping =="Federation"){
-
-                redirect('amendment/'.$id.'/bylaws_federation');
-
-              }else if($data['coop_info']->grouping =="Union"){
-
-                redirect('amendment/'.$id.'/bylaws_union');
-
-              }else{
-
-                redirect('amendment/'.$id.'/bylaws_primary');
-
-              }
-
-            }else{
-
-              $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
-
-              redirect('amendment');
-
-            }
-
+          redirect('amendment/'.$id.'/bylaws_primary');
           }
-
         }
-
       }else{
-
         show_404();
-
       }
-
-    }
-
   }
 
 
@@ -139,12 +68,6 @@ class Amendmentbylaws extends CI_Controller{
   function union($id  = null)
 
   {
-
-    if(!$this->session->userdata('logged_in')){
-
-      redirect('users/login');
-
-    }else{
 
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
@@ -156,13 +79,13 @@ class Amendmentbylaws extends CI_Controller{
 
         if($this->session->userdata('client')){
 
-          if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
+          // if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
 
-            if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
+          //   if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
              
               if($this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id)->grouping =="Union"){
 
-                if($this->form_validation->run() == FALSE){
+                if(!isset($_POST['bylawsUnionBtn'])){
 
                   $data['title'] = 'By Laws';
 
@@ -177,148 +100,101 @@ class Amendmentbylaws extends CI_Controller{
                   $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
 
                   $data['reg_qualifications'] ='';
-                   $data['delegate_powers'] ='';
-                  $data['asc_qualifications']='';
-
+                  $data['delegate_powers'] ='';
+                  $data['add_membership']='';
+                  $data['primary_consideration'] ='';
                   if($data['bylaw_info']!=null)
 
                   {
 
                     $data['reg_qualifications'] =  explode(";",$data['bylaw_info']->regular_qualifications);
                     $data['delegate_powers'] =  explode(";",$data['bylaw_info']->delegate_powers);                      
-                    $data['asc_qualifications'] =  explode(";",$data['bylaw_info']->associate_qualifications);
-
+                    $data['add_membership'] =  explode(";",$data['bylaw_info']->additional_requirements_for_membership);
+                    $data['primary_consideration'] =explode(";",$data['bylaw_info']->primary_consideration);
                   }
-
+                  // $this->debug($data['bylaw_info']);
                   $this->load->view('template/header', $data);
-
                   $this->load->view('amendment/bylaw_info/bylaw_union_form.php', $data);
-
                   $this->load->view('template/footer');
 
                 }else{
-
-                  if(!$this->amendment_model->check_submitted_for_evaluation($this->decoded_id)){
-
-                    $bylaw_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('bylaw_coop_id')));
-
-                    if($this->input->post('regularQualifications')){
-
-                      $regQualificationsLength = sizeof($this->input->post('regularQualifications'));
-
-                      $regQualicationsTemp = '';
-
-                      for($i = 0; $i< $regQualificationsLength;$i++){
-
-                        $regQualicationsTemp .=  $this->input->post('regularQualifications')[$i].';';
-
-                        }
-
-                      $regQualicationsTemp = substr_replace($regQualicationsTemp, "", -1);
-
-                    }
-
-                    if($this->input->post('associateQualifications')){
-
-                      $ascQualificationsLength = sizeof($this->input->post('associateQualifications'));
-
-                      $ascQualicationsTemp = '';
-
-                      for($i = 0; $i< $ascQualificationsLength;$i++){
-
-                          $ascQualicationsTemp .=  $this->input->post('associateQualifications')[$i].';';
-
-                      }
-
-                      $ascQualicationsTemp = substr_replace($ascQualicationsTemp, "", -1);
-
-                    }
-
-
+                
+                    //  if($this->input->post('regularQualifications')){
+                    //   $regQualificationsLength = sizeof($this->input->post('regularQualifications'));
+                    //   $regQualicationsTemp = '';
+                    //   for($i = 0; $i< $regQualificationsLength;$i++){
+                    //     $regQualicationsTemp .=  $this->input->post('regularQualifications')[$i].';';
+                    //     }
+                    //   $regQualicationsTemp = substr_replace($regQualicationsTemp, "", -1);
+                    // }
+                    // if($this->input->post('associateQualifications')){
+                    //   $ascQualificationsLength = sizeof($this->input->post('associateQualifications'));
+                    //   $ascQualicationsTemp = '';
+                    //   for($i = 0; $i< $ascQualificationsLength;$i++){
+                    //       $ascQualicationsTemp .=  $this->input->post('associateQualifications')[$i].';';
+                    //   }
+                    //   $ascQualicationsTemp = substr_replace($ascQualicationsTemp, "", -1);
+                    // }
 
                     $membership_fee=str_replace(',','',$this->input->post('membershipFee'));
-
-                    $investPerMonth=str_replace(',','',$this->input->post('investPerMonth'));
-
-
-
+                    // $investPerMonth=str_replace(',','',$this->input->post('investPerMonth'));
+                    // var_dump($this->input->post('additionalRequirementsForMembership'));
+                    if($this->input->post('additionalRequirementsForMembership')){
+                      $regQualificationsLength = sizeof($this->input->post('additionalRequirementsForMembership'));
+                      $additionalRequirementsForMembership = '';
+                      for($i = 0; $i< $regQualificationsLength;$i++){
+                        $additionalRequirementsForMembership .=  $this->input->post('additionalRequirementsForMembership')[$i].';';
+                        }
+                      $additionalRequirementsForMembership = substr_replace($additionalRequirementsForMembership, "", -1);
+                    }
+                    // var_dump( $additionalRequirementsForMembership);
+                    if($this->input->post('additionaldelegatePowers')){
+                      $regQualificationsLength = sizeof($this->input->post('additionaldelegatePowers'));
+                      $additionaldelegatePowers = '';
+                      for($i = 0; $i< $regQualificationsLength;$i++){
+                        $additionaldelegatePowers .=  $this->input->post('additionaldelegatePowers')[$i].';';
+                        }
+                      $additionaldelegatePowers = substr_replace($additionaldelegatePowers, "", -1);
+                    }
+                    
+                    if($this->input->post('additionalPrimaryConsideration')){
+                      $regQualificationsLength = sizeof($this->input->post('additionalPrimaryConsideration'));
+                      $primaryConsideration = '';
+                      for($i = 0; $i< $regQualificationsLength;$i++){
+                        $primaryConsideration .=  $this->input->post('additionalPrimaryConsideration')[$i].';';
+                        }
+                      $primaryConsideration = substr_replace($primaryConsideration, "", -1);
+                    }
+                    
+                    $membershipFee=str_replace(',','',$this->input->post('membershipFee'));
+                    
                     $data = array(
-
+                      'amendment_id'=>$this->decoded_id,
                       'kinds_of_members' => $this->input->post('kindsOfMember'),
-
-                      'additional_requirements_for_membership' => $this->input->post('additionalRequirementsForMembership'),
-
-                      'regular_qualifications' => $regQualicationsTemp,
-
-                      'associate_qualifications' => $ascQualicationsTemp,
-
                       'membership_fee' =>$membershipFee,
-
                       'act_upon_membership_days'=> $this->input->post('actUponMembershipDays'),
-
-                      'regular_percentage_shares_subscription' => $this->input->post('regularMembershipPercentageSubscription'),
-
-                      'regular_percentage_shares_pay' => $this->input->post('regularMembershipPercentagePay'),
-
-                      'associate_percentage_shares_subscription'=> $this->input->post('associateMembershipPercentageSubscription'),
-
-                      'associate_percentage_shares_pay'=> $this->input->post('associateMembershipPercentagePay'),
-
-                      'additional_conditions_to_vote' => $this->input->post('additionalConditionsForVoting'),
-
-                      'annual_regular_meeting_day'=> $this->input->post('regularMeetingDay'),
-
-                      // 'delegate_powers'=> $this->input->post('delegatePowers'),
-
                       'members_percent_quorom'=> $this->input->post('quorumPercentage'),
-
-                      'number_of_absences_disqualification'=> $this->input->post('consecutiveAbsences'),
-
-                      'percent_of_absences_all_meettings'=> $this->input->post('consecutivePercentageAbsences'),
-
                       'director_hold_term'=> $this->input->post('termHoldDirector'),
-
-                      'member_invest_per_month'=> $investPerMonth,
-
-                      'member_percentage_annual_interest'=> $this->input->post('investAnnualInterest'),
-
-                      'member_percentage_service'=> $this->input->post('investService'),
-
-                      'percent_reserve_fund'=> $this->input->post('reserveFund'),
-
-                      'percent_education_fund'=> $this->input->post('educationFund'),
-
-                      'percent_community_fund'=> $this->input->post('communityFund'),
-
-                      'percent_optional_fund'=> $this->input->post('othersFund'),
-
-                      'non_member_patron_years'=> $this->input->post('nonMemberPatronYears'),
-
-                      'amendment_votes_members_with'=> $this->input->post('amendmentMembersWith'),
+                      'director_term'=> $this->input->post('directorsTerm'),
+                      'additional_requirements_for_membership' => $additionalRequirementsForMembership,
+                      'delegate_powers'=> $additionaldelegatePowers,
+                      'primary_consideration'=>  $primaryConsideration,
 
                     );
-
-                    if($this->bylaw_model->update_bylaw_primary($bylaw_coop_id,$data)){
+                 
+                    if($this->amendment_bylaw_model->update_bylaw_primary($this->decoded_id,$data)){
 
                       $this->session->set_flashdata('bylaw_success', 'Successfully Updated');
 
-                      redirect('amendment/'.$this->input->post('bylaw_coop_id').'/bylaws_primary');
+                       redirect('amendment/'.$id.'/bylaws_union');
 
                     }else{
 
                       $this->session->set_flashdata('bylaw_error', 'Unable to update bylaws');
 
-                      redirect('amendment/'.$this->input->post('bylaw_coop_id').'/bylaws_primary');
+                       redirect('amendment/'.$id.'/bylaws_union');
 
                     }
-
-                  }else{
-
-                    $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
-
-                    redirect('amendment/'.$id);
-
-                  }
 
                 }
 
@@ -327,232 +203,33 @@ class Amendmentbylaws extends CI_Controller{
                 redirect('amendment/'.$id.'/bylaws');
 
               }
-
-            }else{
-
-              redirect('amendment/'.$id);
-
-            }
-
-          }else{
-
-            $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-
-            redirect('cooperatives');
-
-          }
-
         }else{
-
-          if($this->session->userdata('access_level')==5){
-
-            redirect('admins/login');
-
-          }else if($this->session->userdata('access_level')!=1){
-
-            redirect('cooperatives');
-
-          }else{
-
-            if(!$this->amendment_model->check_expired_reservation_by_admin($this->decoded_id)){
-
-              if($this->amendment_model->get_cooperative_info_by_admin($this->decoded_id)->category_of_cooperative =="Primary"){
-
-                if($this->amendment_model->check_submitted_for_evaluation($this->decoded_id)){
-
-                  if($this->form_validation->run() == FALSE){
-
-                    $data['title'] = 'By Laws';
-
-                    $data['header'] = 'By Laws';
-
-                    $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-
-                    $data['encrypted_id'] = $id;
-
-                    $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
-
-                    $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
-
-                    $data['reg_qualifications'] ='';
-
-                    $data['asc_qualifications']='';
-
-                    if($data['bylaw_info']!=null)
-
-                    {
-
-                      $data['reg_qualifications'] =  explode(";",$data['bylaw_info']->regular_qualifications);
-
-                      $data['asc_qualifications'] =  explode(";",$data['bylaw_info']->associate_qualifications);
-
-                    }
-
-                    $this->load->view('templates/admin_header', $data);
-
-                    $this->load->view('cooperative/bylaw_info/bylaw_union_form.php', $data);
-
-                    $this->load->view('templates/admin_footer');
-
-                  }else{
-
-                    if($this->amendment_model->check_first_evaluated($this->decoded_id)){
-
-                      $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
-
-                      redirect('cooperatives');
-
-                    }else{
-
-                      $bylaw_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('bylaw_coop_id')));
-
-                      if($this->input->post('regularQualifications')){
-
-                        $regQualificationsLength = sizeof($this->input->post('regularQualifications'));
-
-                        $regQualicationsTemp = '';
-
-                        for($i = 0; $i< $regQualificationsLength;$i++){
-
-                            $regQualicationsTemp .=  $this->input->post('regularQualifications')[$i].';';
-
-                        }
-
-                        $regQualicationsTemp = substr_replace($regQualicationsTemp, "", -1);
-
-                      }
-
-                      if($this->input->post('associateQualifications')){
-
-                        $ascQualificationsLength = sizeof($this->input->post('associateQualifications'));
-
-                        $ascQualicationsTemp = '';
-
-                        for($i = 0; $i< $ascQualificationsLength;$i++){
-
-                            $ascQualicationsTemp .=  $this->input->post('associateQualifications')[$i].';';
-
-                        }
-
-                        $ascQualicationsTemp = substr_replace($ascQualicationsTemp, "", -1);
-
-                      }
-
-
-
-                      $membership_fee=str_replace(',','',$this->input->post('membershipFee'));
-
-                      $investPerMonth=str_replace(',','',$this->input->post('investPerMonth'));
-
-
-
-                      $data = array(
-
-                        'kinds_of_members' => $this->input->post('kindsOfMember'),
-
-                        'additional_requirements_for_membership' => $this->input->post('additionalRequirementsForMembership'),
-
-                        'regular_qualifications' => $regQualicationsTemp,
-
-                        'associate_qualifications' => $ascQualicationsTemp,
-
-                        'membership_fee' =>$membershipFee,
-
-                        'act_upon_membership_days'=> $this->input->post('actUponMembershipDays'),
-
-                        'regular_percentage_shares_subscription' => $this->input->post('regularMembershipPercentageSubscription'),
-
-                        'regular_percentage_shares_pay' => $this->input->post('regularMembershipPercentagePay'),
-
-                        'associate_percentage_shares_subscription'=> $this->input->post('associateMembershipPercentageSubscription'),
-
-                        'associate_percentage_shares_pay'=> $this->input->post('associateMembershipPercentagePay'),
-
-                        'additional_conditions_to_vote' => $this->input->post('additionalConditionsForVoting'),
-
-                        'annual_regular_meeting_day'=> $this->input->post('regularMeetingDay'),
-
-                        // 'delegate_powers'=> $this->input->post('delegatePowers'),
-
-                        'members_percent_quorom'=> $this->input->post('quorumPercentage'),
-
-                        'number_of_absences_disqualification'=> $this->input->post('consecutiveAbsences'),
-
-                        'percent_of_absences_all_meettings'=> $this->input->post('consecutivePercentageAbsences'),
-
-                        'director_hold_term'=> $this->input->post('termHoldDirector'),
-
-                        'member_invest_per_month'=> $investPerMonth,
-
-                        'member_percentage_annual_interest'=> $this->input->post('investAnnualInterest'),
-
-                        'member_percentage_service'=> $this->input->post('investService'),
-
-                        'percent_reserve_fund'=> $this->input->post('reserveFund'),
-
-                        'percent_education_fund'=> $this->input->post('educationFund'),
-
-                        'percent_community_fund'=> $this->input->post('communityFund'),
-
-                        'percent_optional_fund'=> $this->input->post('othersFund'),
-
-                        'non_member_patron_years'=> $this->input->post('nonMemberPatronYears'),
-
-                        'amendment_votes_members_with'=> $this->input->post('amendmentMembersWith')
-
-                      );
-
-                      if($this->bylaw_model->update_bylaw_primary($bylaw_coop_id,$data)){
-
-                        $this->session->set_flashdata('bylaw_success', 'Successfully Updated');
-
-                        redirect('amendment/'.$this->input->post('bylaw_coop_id').'/bylaws_primary');
-
-                      }else{
-
-                        $this->session->set_flashdata('bylaw_error', 'Unable to update bylaws');
-
-                        redirect('amendment/'.$this->input->post('bylaw_coop_id').'/bylaws_primary');
-
-                      }
-
-                    }
-
-                  }
-
-                }else{
-
-                  $this->session->set_flashdata('redirect_applications_message', 'Viewing and editing the bylaws of the cooperative are not avaiable because it is not yet submitted for evaluation.');
-
-                  redirect('cooperatives');
-
-                }
-
-              }else{
-
-                redirect('cooperatives/'.$id.'/bylaws');
-
-              }
-
-            }else{
-
-              $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
-
-              redirect('cooperatives');
-
+            $this->auth->authuserLevelAmd($this->session->userdata('access_level'),[1,2]);
+            $this->amendment_model->check_expired_reservation_by_admin_($this->decoded_id);
+            $this->amendment_model->get_cooperative_info_by_admin_($this->decoded_id);
+            $this->amendment_model->check_submitted_for_evaluation_($this->decoded_id);
+            $data['title'] = 'By Laws';
+            $data['header'] = 'By Laws';
+            $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+            $data['encrypted_id'] = $id;
+            $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
+            $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
+            $data['reg_qualifications'] ='';
+            $data['asc_qualifications']='';
+            if($data['bylaw_info']!=null)
+            {
+            $data['reg_qualifications'] =  explode(";",$data['bylaw_info']->regular_qualifications);
+            $data['asc_qualifications'] =  explode(";",$data['bylaw_info']->associate_qualifications);
             }
-
-          }
-
+            $this->load->view('template/header', $data);
+            $this->load->view('amendment/bylaw_info/bylaw_union_form.php', $data);
+            $this->load->view('template/footer');
         }
-
       }else{
 
         show_404();
 
       }
-
-    }
 
   }
 
@@ -561,12 +238,6 @@ class Amendmentbylaws extends CI_Controller{
    function federation($id  = null)
 
   {
-
-    if(!$this->session->userdata('logged_in')){
-
-      redirect('users/login');
-
-    }else{
 
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
 
@@ -580,11 +251,11 @@ class Amendmentbylaws extends CI_Controller{
 
         if($this->session->userdata('client')){ 
 
-          if($this->amendment_update_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
-
+          // if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
+            // $this->amendment_model->check_own_cooperative_($this->decoded_id,$user_id);
             // if(!$this->amendment_update_model->check_expired_reservation($this->decoded_id,$user_id)){
 
-              if($this->amendment_update_model->get_cooperative_info($cooperative_id,$this->decoded_id)->grouping =="Federation"){
+              // if($this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id)->grouping =="Federation"){
 
                 if(!isset($_POST['bylawsPrimaryBtn'])){
 
@@ -598,7 +269,7 @@ class Amendmentbylaws extends CI_Controller{
 
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
 
-                  $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
+                  $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
 
                   $data['reg_qualifications']='';
 
@@ -706,7 +377,7 @@ class Amendmentbylaws extends CI_Controller{
 
                       'kinds_of_members' => $this->input->post('kindsOfMember'),
 
-                      'additional_requirements_for_membership' => (!empty($this->input->post('additionalRequirementsForMembership')) ? implode(',',$this->input->post('additionalRequirementsForMembership')) : ''),
+                      'additional_requirements_for_membership' => (!empty($this->input->post('additionalRequirementsForMembership')) ? implode(';',$this->input->post('additionalRequirementsForMembership')) : ''),
 
                       'regular_qualifications' => $regQualicationsTemp,
 
@@ -724,7 +395,7 @@ class Amendmentbylaws extends CI_Controller{
 
                       'associate_percentage_shares_pay'=> $this->input->post('associateMembershipPercentagePay'),
 
-                      'additional_conditions_to_vote' =>  (!empty($this->input->post('additionalConditionsForVoting')) ? implode(',',$this->input->post('additionalConditionsForVoting')) : '') ,
+                      'additional_conditions_to_vote' =>  (!empty($this->input->post('additionalConditionsForVoting')) ? implode(';',$this->input->post('additionalConditionsForVoting')) : '') ,
 
                       'annual_regular_meeting_day'=> $this->input->post('regularMeetingDay'),
 
@@ -766,67 +437,42 @@ class Amendmentbylaws extends CI_Controller{
 
                     unset($ascQualicationsTemp);
 
-                    // $this->debug($data);
 
-                    if($this->amendment_update_bylaw_model->update_bylaw_primary($this->decoded_id,$data)){
-
-                      $this->session->set_flashdata('bylaw_success', 'Successfully Updated');
-
-                      redirect('amendment/'.$id.'/bylaws_federation');
-
+                    if($this->amendment_bylaw_model->update_bylaw_primary($this->decoded_id,$data)){
+                    $this->session->set_flashdata('bylaw_success', 'Successfully Updated');
+                    redirect('amendment/'.$id.'/bylaws_federation');
                     }else{
-
-                      $this->session->set_flashdata('bylaw_error', 'Unable to update bylaws');
-
-                      redirect('amendment/'.$id.'/bylaws_federation');
-
+                    $this->session->set_flashdata('bylaw_error', 'Unable to update bylaws');
+                    redirect('amendment/'.$id.'/bylaws_federation');
                     }
-
-                  // }else{
-
-                  //   $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
-
-                  //   redirect('amendment_update/'.$id);
-
-                  // }
 
                 }
 
-              }else{
+              // }else{
 
-                redirect('amendment/'.$id);
+              //   redirect('amendment/'.$id);
 
-              }
+              // }
 
-            // }else{
 
-            //   redirect('amendment_update/'.$id);
 
-            // }
+          // }else{
 
-          }else{
+          //   $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
 
-            $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          //   redirect('amendment/'.$this->decoded_id);
 
-            redirect('amendment/'.$this->decoded_id);
-
-          }
+          // }
 
         }else{
-
-          if($this->session->userdata('access_level')!=6){
-
-            redirect('admins/login');
-
-          }else{ 
+ 
 
             // if(!$this->amendment_update_model->check_expired_reservation_by_admin($this->decoded_id)){
-
-              if($this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id)->grouping =="Federation"){
-
-                // if($this->amendment_update_model->check_submitted_for_evaluation($this->decoded_id)){
-
-                  $data['coop_info'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$this->decoded_id);
+              $this->load->model("admin_model");
+              $this->load->model('region_model');
+              $this->auth->authuserLevelAmd($this->session->userdata('access_level'),[1,2]);
+              $data['coop_info']=$this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
+                  // $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$this->decoded_id);
 
                   if(!isset($_POST['bylawsPrimaryBtn'])){
 
@@ -838,9 +484,9 @@ class Amendmentbylaws extends CI_Controller{
 
                     $data['encrypted_id'] = $id;
 
-                    $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id);
+                    $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
 
-                    $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($cooperative_id,$this->decoded_id);
+                    $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
 
                     $data['reg_qualifications']='';
 
@@ -866,7 +512,7 @@ class Amendmentbylaws extends CI_Controller{
 
                     $data['delegate_powers'] =  explode(";",$data['bylaw_info']->delegate_powers);
 
-                    $data['add_membership'] =  explode(";",$data['bylaw_info']->additional_requirements_for_membership);
+                    $data['add_membership'] =  explode(",",$data['bylaw_info']->additional_requirements_for_membership);
 
                     $data['add_members_vote'] =  explode(";",$data['bylaw_info']->additional_conditions_to_vote);
 
@@ -878,20 +524,11 @@ class Amendmentbylaws extends CI_Controller{
 
                     $this->load->view('templates/admin_header', $data);
 
-                    $this->load->view('update/amendment/bylaw_info/bylaw_update_federation', $data);
+                   $this->load->view('amendment/bylaw_info/bylaw_federation_form', $data);
 
                     $this->load->view('templates/admin_footer');
 
                   }else{
-
-                    // if($this->amendment_update_model->check_first_evaluated($this->decoded_id)){
-
-                    //   $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
-
-                    //   redirect('cooperatives');
-
-                    // }else{
-
                        $bylaw_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('bylaw_coop_id')));
 
                     if($this->input->post('regularQualifications')){
@@ -923,7 +560,7 @@ class Amendmentbylaws extends CI_Controller{
                       }
 
                       $ascQualicationsTemp = substr_replace($ascQualicationsTemp, "", -1);
-
+                      unset($i);
                     }
 
 
@@ -950,7 +587,7 @@ class Amendmentbylaws extends CI_Controller{
 
                       'kinds_of_members' => $this->input->post('kindsOfMember'),
 
-                      'additional_requirements_for_membership' => (!empty($this->input->post('additionalRequirementsForMembership')) ? implode(',',$this->input->post('additionalRequirementsForMembership')) : ''),
+                      'additional_requirements_for_membership' => (!empty($this->input->post('additionalRequirementsForMembership')) ? implode(';',$this->input->post('additionalRequirementsForMembership')) : ''),
 
                       'regular_qualifications' => $regQualicationsTemp,
 
@@ -1023,35 +660,7 @@ class Amendmentbylaws extends CI_Controller{
                       redirect('amendment/'.$id.'/bylaws_federation');
 
                     }
-
-                    
-
-                  }
-
-                // }else{
-
-                //   $this->session->set_flashdata('redirect_applications_message', 'Viewing and editing the bylaws of the cooperative are not avaiable because it is not yet submitted for evaluation.');
-
-                //   redirect('amendment_update/'.$id);
-
-                // }
-
-              }else{
-
-                redirect('amendment/'.$id);
-
-              }
-
-            // }else{
-
-            //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
-
-            //   redirect('amendment_update/'.$id);
-
-            // }
-
-          }
-
+                  }  
         }
 
       }else{
@@ -1060,7 +669,7 @@ class Amendmentbylaws extends CI_Controller{
 
       }
 
-    }}
+    }
 
   
 
@@ -1068,11 +677,7 @@ class Amendmentbylaws extends CI_Controller{
 
   {
 
-    if(!$this->session->userdata('logged_in')){
 
-      redirect('users/login');
-
-    }else{
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
 
        $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
@@ -1310,17 +915,7 @@ class Amendmentbylaws extends CI_Controller{
 
         }else{
 
-          $access_array = array(1,2);
-
-          if($this->session->userdata('access_level')==5){
-
-            redirect('admins/login');
-
-          }else if(!in_array($this->session->userdata('access_level'),$access_array)){
-
-            redirect('amendment');
-
-          }else{
+            $this->auth->authuserLevelAmd($this->session->userdata('access_level'),[1,2]);
               $this->load->model('admin_model');
               $this->load->model('region_model');
             if(!$this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$this->decoded_id)){
@@ -1414,90 +1009,54 @@ class Amendmentbylaws extends CI_Controller{
                         }
 
                         $ascQualicationsTemp = substr_replace($ascQualicationsTemp, "", -1);
-
+                        unset($i);
                       }
 
 
 
-                    $membership_fee=str_replace(',','',$this->input->post('membershipFee'));
-
-                    $investPerMonth=str_replace(',','',$this->input->post('investPerMonth'));
-
+                        $membership_fee=str_replace(',','',$this->input->post('membershipFee'));
+                        $investPerMonth=str_replace(',','',$this->input->post('investPerMonth'));
 
 
-                      $data = array(
 
+                        $data = array(
                         'kinds_of_members' => $this->input->post('kindsOfMember'),
-
                         'additional_requirements_for_membership' => $this->input->post('additionalRequirementsForMembership'),
-
                         'regular_qualifications' => $regQualicationsTemp,
-
                         'associate_qualifications' => $ascQualicationsTemp,
-
                         'membership_fee' =>$membershipFee,
-
                         'act_upon_membership_days'=> $this->input->post('actUponMembershipDays'),
-
                         'regular_percentage_shares_subscription' => $this->input->post('regularMembershipPercentageSubscription'),
-
                         'regular_percentage_shares_pay' => $this->input->post('regularMembershipPercentagePay'),
-
                         'associate_percentage_shares_subscription'=> $this->input->post('associateMembershipPercentageSubscription'),
-
                         'associate_percentage_shares_pay'=> $this->input->post('associateMembershipPercentagePay'),
-
                         'additional_conditions_to_vote' => $this->input->post('additionalConditionsForVoting'),
-
                         'annual_regular_meeting_day'=> $this->input->post('regularMeetingDay'),
-
                         'annual_regular_meeting_day_date'=> $this->input->post('regularMeetingDayDate'),
-
                         'annual_regular_meeting_day_venue'=> $this->input->post('regularMeetingDayVenue'),
-
                         // 'delegate_powers'=> $this->input->post('delegatePowers'),
-
                         'members_percent_quorom'=> $this->input->post('quorumPercentage'),
-
                         'number_of_absences_disqualification'=> $this->input->post('consecutiveAbsences'),
-
                         'percent_of_absences_all_meettings'=> $this->input->post('consecutivePercentageAbsences'),
-
                         'director_hold_term'=> $this->input->post('termHoldDirector'),
-
                         'member_invest_per_month'=> $investPerMonth,
-
                         'member_percentage_annual_interest'=> $this->input->post('investAnnualInterest'),
-
                         'member_percentage_service'=> $this->input->post('investService'),
-
                         'percent_reserve_fund'=> $this->input->post('reserveFund'),
-
                         'percent_education_fund'=> $this->input->post('educationFund'),
-
                         'percent_community_fund'=> $this->input->post('communityFund'),
-
                         'percent_optional_fund'=> $this->input->post('othersFund'),
-
                         'non_member_patron_years'=> $this->input->post('nonMemberPatronYears'),
-
                         'amendment_votes_members_with'=> $this->input->post('amendmentMembersWith')
+                        );
 
-                      );
-
-                      if($this->bylaw_model->update_bylaw_primary($bylaw_coop_id,$data)){
-
+                        if($this->bylaw_model->update_bylaw_primary($bylaw_coop_id,$data)){
                         $this->session->set_flashdata('bylaw_success', 'Successfully Updated');
-
                         redirect('amendment/'.$this->input->post('bylaw_coop_id').'/bylaws_primary');
-
-                      }else{
-
+                        }else{
                         $this->session->set_flashdata('bylaw_error', 'Unable to update bylaws');
-
                         redirect('amendment/'.$this->input->post('bylaw_coop_id').'/bylaws_primary');
-
-                      }
+                        }
 
                     }
 
@@ -1525,7 +1084,7 @@ class Amendmentbylaws extends CI_Controller{
 
             }
 
-          }
+          // }
 
         }
 
@@ -1535,7 +1094,6 @@ class Amendmentbylaws extends CI_Controller{
 
       }
 
-    }
 
   }
 

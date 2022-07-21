@@ -23,9 +23,13 @@ class Amendment_purpose_model extends CI_Model{
      $amendment_id = $this->security->xss_clean($amendment_id);
      $data =null;
     $query = $this->db->get_where('amendment_purposes',array('amendment_id'=>$amendment_id));
-    foreach($query->result_array() as $row)
+    if($query->num_rows()>0)
     {
-      $data[] = $row;
+       foreach($query->result_array() as $row)
+        {
+          $data[] = $row;
+        }
+        unset($row);
     }
     return $data;
   }

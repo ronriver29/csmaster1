@@ -326,7 +326,7 @@ public $decoded_id =null;
           //bylaws no of pages
 
           $data1['bylaws_pages'] = $this->amendment_model->no_of_doc($this->decoded_id,'bylaws');
-
+        
           $data1['articles_pages'] = $this->amendment_model->no_of_doc($this->decoded_id,'articles');
 
           $amendment_info = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
@@ -439,165 +439,166 @@ public $decoded_id =null;
 
             }
 
-     
+          
+          $data1['acbl']=$this->amendment_model->get_acbl($coop_info->id,$coop_info->category_of_cooperative);
 
-          if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
+          // if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
 
-          if($coop_info_orig->house_blk_no==null && $coop_info_orig->street==null) $x=''; else $x=', ';
+          // if($coop_info_orig->house_blk_no==null && $coop_info_orig->street==null) $x=''; else $x=', ';
 
-          $address = $coop_info->house_blk_no.' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.' '.$coop_info->city.', '.$coop_info->province.' '.$coop_info->region;
+          // $address = $coop_info->house_blk_no.' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.' '.$coop_info->city.', '.$coop_info->province.' '.$coop_info->region;
 
-          $address_orig = $coop_info_orig->house_blk_no.' '.ucwords($coop_info_orig->street).$x.' '.$coop_info_orig->brgy.' '.$coop_info_orig->city.', '.$coop_info_orig->province.' '.$coop_info_orig->region;
+          // $address_orig = $coop_info_orig->house_blk_no.' '.ucwords($coop_info_orig->street).$x.' '.$coop_info_orig->brgy.' '.$coop_info_orig->city.', '.$coop_info_orig->province.' '.$coop_info_orig->region;
 
-          //basic info
+          // //basic info
 
-          $data1['typeOfcoop'] = $this->compare_param($amendment_info->type_of_cooperative,$coop_info_orig->type_of_cooperative);
+          // $data1['typeOfcoop'] = $this->compare_param($amendment_info->type_of_cooperative,$coop_info_orig->type_of_cooperative);
 
-          $data1['proposeName'] = $this->compare_param($amendment_info->proposed_name,$coop_info_orig->proposed_name);
+          // $data1['proposeName'] = $this->compare_param($amendment_info->proposed_name,$coop_info_orig->proposed_name);
 
-          if($next_amendment_)
+          // if($next_amendment_)
 
-          {
+          // {
 
-          $data1['acronym_c'] = $this->compare_param($amendment_info->acronym,$coop_info_orig->acronym);
+          // $data1['acronym_c'] = $this->compare_param($amendment_info->acronym,$coop_info_orig->acronym);
 
-          }
+          // }
 
-          else
+          // else
 
-          {
+          // {
 
-              $data1['acronym_c'] = $this->compare_param($amendment_info->acronym,$coop_info_orig->acronym_name);
+          //     $data1['acronym_c'] = $this->compare_param($amendment_info->acronym,$coop_info_orig->acronym_name);
 
-          }
+          // }
 
         
 
-          $data1['common_bond'] = $this->compare_param($amendment_info->common_bond_of_membership,$coop_info_orig->common_bond_of_membership);
+          // $data1['common_bond'] = $this->compare_param($amendment_info->common_bond_of_membership,$coop_info_orig->common_bond_of_membership);
 
-          $data1['areaOf_operation'] = $this->compare_param($amendment_info->area_of_operation,$coop_info_orig->area_of_operation);
+          // $data1['areaOf_operation'] = $this->compare_param($amendment_info->area_of_operation,$coop_info_orig->area_of_operation);
 
-          $data1['fieldOfmemship'] = $this->compare_param($amendment_info->field_of_membership,$coop_info_orig->field_of_membership);
+          // $data1['fieldOfmemship'] = $this->compare_param($amendment_info->field_of_membership,$coop_info_orig->field_of_membership);
 
-          //capitalization
+          // //capitalization
 
-          $data1['authorized_share_capital']=$this->compare_param($capitalization_info->authorized_share_capital,$capitalization_info_orig->authorized_share_capital);
+          // $data1['authorized_share_capital']=$this->compare_param($capitalization_info->authorized_share_capital,$capitalization_info_orig->authorized_share_capital);
 
-          $data1['common_share']= $this->compare_param($capitalization_info->common_share,$capitalization_info_orig->common_share);
+          // $data1['common_share']= $this->compare_param($capitalization_info->common_share,$capitalization_info_orig->common_share);
 
-          $data1['preferred_share']= $this->compare_param($capitalization_info->preferred_share,$capitalization_info_orig->preferred_share,$this->decoded_id);
+          // $data1['preferred_share']= $this->compare_param($capitalization_info->preferred_share,$capitalization_info_orig->preferred_share,$this->decoded_id);
 
-          $data1['par_value']= $this->compare_param($capitalization_info->par_value,$capitalization_info_orig->par_value);
+          // $data1['par_value']= $this->compare_param($capitalization_info->par_value,$capitalization_info_orig->par_value);
 
-          $data1['authorized_share_capital']= $this->compare_param($capitalization_info->authorized_share_capital,$capitalization_info_orig->authorized_share_capital);
+          // $data1['authorized_share_capital']= $this->compare_param($capitalization_info->authorized_share_capital,$capitalization_info_orig->authorized_share_capital);
 
-          $data1['total_amount_of_subscribed_capital'] = $this->compare_param($capitalization_info->total_amount_of_subscribed_capital,$capitalization_info_orig->total_amount_of_subscribed_capital);
+          // $data1['total_amount_of_subscribed_capital'] = $this->compare_param($capitalization_info->total_amount_of_subscribed_capital,$capitalization_info_orig->total_amount_of_subscribed_capital);
 
-          // $data1['amount_of_common_share_subscribed']= $this->compare_param($capitalization_info->amount_of_common_share_subscribed,$capitalization_info_orig->amount_of_common_share_subscribed);
+          // // $data1['amount_of_common_share_subscribed']= $this->compare_param($capitalization_info->amount_of_common_share_subscribed,$capitalization_info_orig->amount_of_common_share_subscribed);
 
-          $data1['amount_of_preferred_share_subscribed'] = $this->compare_param($capitalization_info->amount_of_preferred_share_subscribed,$capitalization_info_orig->amount_of_preferred_share_subscribed);
+          // $data1['amount_of_preferred_share_subscribed'] = $this->compare_param($capitalization_info->amount_of_preferred_share_subscribed,$capitalization_info_orig->amount_of_preferred_share_subscribed);
 
-          $data1['total_amount_of_paid_up_capital'] =  $this->compare_param($capitalization_info->total_amount_of_paid_up_capital,$capitalization_info_orig->total_amount_of_paid_up_capital);
+          // $data1['total_amount_of_paid_up_capital'] =  $this->compare_param($capitalization_info->total_amount_of_paid_up_capital,$capitalization_info_orig->total_amount_of_paid_up_capital);
 
-          // $data1['amount_of_common_share_paidup'] = $this->compare_param($capitalization_info->amount_of_common_share_paidup,$capitalization_info_orig->amount_of_common_share_paidup);
+          // // $data1['amount_of_common_share_paidup'] = $this->compare_param($capitalization_info->amount_of_common_share_paidup,$capitalization_info_orig->amount_of_common_share_paidup);
 
-          $data1['amount_of_preferred_share_paidup'] =$this->compare_param($capitalization_info->amount_of_preferred_share_paidup,$capitalization_info_orig->amount_of_preferred_share_paidup);
+          // $data1['amount_of_preferred_share_paidup'] =$this->compare_param($capitalization_info->amount_of_preferred_share_paidup,$capitalization_info_orig->amount_of_preferred_share_paidup);
 
-          //cooperator
+          // //cooperator
 
-          $data1['no_of_bod'] = $this->compare_param($no_of_bod,$no_of_bod_orig);
+          // $data1['no_of_bod'] = $this->compare_param($no_of_bod,$no_of_bod_orig);
 
-           //BYLAW
+          //  //BYLAW
 
-          $data1['kinds_of_members'] = $this->compare_param($data1['bylaw_info']->kinds_of_members,$bylaw_info_orig->kinds_of_members);
+          // $data1['kinds_of_members'] = $this->compare_param($data1['bylaw_info']->kinds_of_members,$bylaw_info_orig->kinds_of_members);
 
-          $data1['additional_requirements_for_membership'] = $this->compare_param($data1['bylaw_info']->additional_requirements_for_membership,$bylaw_info_orig->additional_requirements_for_membership);
+          // $data1['additional_requirements_for_membership'] = $this->compare_param($data1['bylaw_info']->additional_requirements_for_membership,$bylaw_info_orig->additional_requirements_for_membership);
 
-          $data1['regular_qualifications'] = $this->compare_param($data1['bylaw_info']->regular_qualifications,$bylaw_info_orig->regular_qualifications);
+          // $data1['regular_qualifications'] = $this->compare_param($data1['bylaw_info']->regular_qualifications,$bylaw_info_orig->regular_qualifications);
 
-          $data1['associate_qualifications'] = $this->compare_param($data1['bylaw_info']->associate_qualifications,$bylaw_info_orig->associate_qualifications);
+          // $data1['associate_qualifications'] = $this->compare_param($data1['bylaw_info']->associate_qualifications,$bylaw_info_orig->associate_qualifications);
 
-          $data1['membership_fee'] = $this->compare_param($data1['bylaw_info']->membership_fee,$bylaw_info_orig->membership_fee);
+          // $data1['membership_fee'] = $this->compare_param($data1['bylaw_info']->membership_fee,$bylaw_info_orig->membership_fee);
 
 
 
-          $data1['act_upon_membership_days'] = $this->compare_param($data1['bylaw_info']->act_upon_membership_days,$bylaw_info_orig->act_upon_membership_days);
+          // $data1['act_upon_membership_days'] = $this->compare_param($data1['bylaw_info']->act_upon_membership_days,$bylaw_info_orig->act_upon_membership_days);
 
-          $data1['additional_conditions_to_vote'] = $this->compare_param($data1['bylaw_info']->additional_conditions_to_vote,$bylaw_info_orig->additional_conditions_to_vote);  
+          // $data1['additional_conditions_to_vote'] = $this->compare_param($data1['bylaw_info']->additional_conditions_to_vote,$bylaw_info_orig->additional_conditions_to_vote);  
 
-          $data1['annual_regular_meeting_day'] = $this->compare_param($data1['bylaw_info']->annual_regular_meeting_day,$bylaw_info_orig->annual_regular_meeting_day);
+          // $data1['annual_regular_meeting_day'] = $this->compare_param($data1['bylaw_info']->annual_regular_meeting_day,$bylaw_info_orig->annual_regular_meeting_day);
 
-          // $data1['annual_regular_meeting_day_date'] = $this->compare_param($data1['bylaw_info']->annual_regular_meeting_day_date,$bylaw_info_orig->annual_regular_meeting_day_date);
+          // // $data1['annual_regular_meeting_day_date'] = $this->compare_param($data1['bylaw_info']->annual_regular_meeting_day_date,$bylaw_info_orig->annual_regular_meeting_day_date);
 
-          // $data1['annual_regular_meeting_day_venue'] = $this->compare_param($data1['bylaw_info']->annual_regular_meeting_day_venue,$bylaw_info_orig->annual_regular_meeting_day_venue);
+          // // $data1['annual_regular_meeting_day_venue'] = $this->compare_param($data1['bylaw_info']->annual_regular_meeting_day_venue,$bylaw_info_orig->annual_regular_meeting_day_venue);
 
-          $data1['members_percent_quorom'] = $this->compare_param($data1['bylaw_info']->members_percent_quorom,$bylaw_info_orig->members_percent_quorom);
+          // $data1['members_percent_quorom'] = $this->compare_param($data1['bylaw_info']->members_percent_quorom,$bylaw_info_orig->members_percent_quorom);
 
-          $data1['number_of_absences_disqualification'] = $this->compare_param($data1['bylaw_info']->number_of_absences_disqualification,$bylaw_info_orig->number_of_absences_disqualification);
+          // $data1['number_of_absences_disqualification'] = $this->compare_param($data1['bylaw_info']->number_of_absences_disqualification,$bylaw_info_orig->number_of_absences_disqualification);
 
-          $data1['percent_of_absences_all_meettings'] = $this->compare_param($data1['bylaw_info']->percent_of_absences_all_meettings,$bylaw_info_orig->percent_of_absences_all_meettings);
+          // $data1['percent_of_absences_all_meettings'] = $this->compare_param($data1['bylaw_info']->percent_of_absences_all_meettings,$bylaw_info_orig->percent_of_absences_all_meettings);
 
-          $data1['director_hold_term'] = $this->compare_param($data1['bylaw_info']->director_hold_term,$bylaw_info_orig->director_hold_term);
+          // $data1['director_hold_term'] = $this->compare_param($data1['bylaw_info']->director_hold_term,$bylaw_info_orig->director_hold_term);
 
-          $data1['member_invest_per_month'] = $this->compare_param($data1['bylaw_info']->member_invest_per_month,$bylaw_info_orig->member_invest_per_month);
+          // $data1['member_invest_per_month'] = $this->compare_param($data1['bylaw_info']->member_invest_per_month,$bylaw_info_orig->member_invest_per_month);
 
-          $data1['member_percentage_annual_interest'] = $this->compare_param($data1['bylaw_info']->member_percentage_annual_interest,$bylaw_info_orig->member_percentage_annual_interest);
+          // $data1['member_percentage_annual_interest'] = $this->compare_param($data1['bylaw_info']->member_percentage_annual_interest,$bylaw_info_orig->member_percentage_annual_interest);
 
-          $data1['member_percentage_service'] = $this->compare_param($data1['bylaw_info']->member_percentage_service,$bylaw_info_orig->member_percentage_service);
+          // $data1['member_percentage_service'] = $this->compare_param($data1['bylaw_info']->member_percentage_service,$bylaw_info_orig->member_percentage_service);
 
-          $data1['percent_reserve_fund'] = $this->compare_param($data1['bylaw_info']->percent_reserve_fund,$bylaw_info_orig->percent_reserve_fund);
+          // $data1['percent_reserve_fund'] = $this->compare_param($data1['bylaw_info']->percent_reserve_fund,$bylaw_info_orig->percent_reserve_fund);
 
-          $data1['percent_education_fund'] = $this->compare_param($data1['bylaw_info']->percent_education_fund,$bylaw_info_orig->percent_education_fund);
+          // $data1['percent_education_fund'] = $this->compare_param($data1['bylaw_info']->percent_education_fund,$bylaw_info_orig->percent_education_fund);
 
-          $data1['percent_community_fund'] = $this->compare_param($data1['bylaw_info']->percent_community_fund,$bylaw_info_orig->percent_community_fund);
+          // $data1['percent_community_fund'] = $this->compare_param($data1['bylaw_info']->percent_community_fund,$bylaw_info_orig->percent_community_fund);
 
-          $data1['percent_optional_fund'] = $this->compare_param($data1['bylaw_info']->percent_optional_fund,$bylaw_info_orig->percent_optional_fund);
+          // $data1['percent_optional_fund'] = $this->compare_param($data1['bylaw_info']->percent_optional_fund,$bylaw_info_orig->percent_optional_fund);
 
-          $data1['non_member_patron_years'] = $this->compare_param($data1['bylaw_info']->non_member_patron_years,$bylaw_info_orig->non_member_patron_years);
+          // $data1['non_member_patron_years'] = $this->compare_param($data1['bylaw_info']->non_member_patron_years,$bylaw_info_orig->non_member_patron_years);
 
-          $data1['amendment_votes_members_with'] = $this->compare_param($data1['bylaw_info']->amendment_votes_members_with,$bylaw_info_orig->amendment_votes_members_with);
+          // $data1['amendment_votes_members_with'] = $this->compare_param($data1['bylaw_info']->amendment_votes_members_with,$bylaw_info_orig->amendment_votes_members_with);
 
          
 
-          $data1['minimum_subscribed_share_regular'] =$this->compare_param($capitalization_info->minimum_subscribed_share_regular,$capitalization_info_orig->minimum_subscribed_share_regular);
+          // $data1['minimum_subscribed_share_regular'] =$this->compare_param($capitalization_info->minimum_subscribed_share_regular,$capitalization_info_orig->minimum_subscribed_share_regular);
 
-          $data1['minimum_paid_up_share_regular'] =$this->compare_param($capitalization_info->minimum_paid_up_share_regular,$capitalization_info_orig->minimum_paid_up_share_regular);
+          // $data1['minimum_paid_up_share_regular'] =$this->compare_param($capitalization_info->minimum_paid_up_share_regular,$capitalization_info_orig->minimum_paid_up_share_regular);
 
-          $data1['minimum_subscribed_share_associate'] =$this->compare_param($capitalization_info->minimum_subscribed_share_associate,$capitalization_info_orig->minimum_subscribed_share_associate);
+          // $data1['minimum_subscribed_share_associate'] =$this->compare_param($capitalization_info->minimum_subscribed_share_associate,$capitalization_info_orig->minimum_subscribed_share_associate);
 
-          $data1['minimum_paid_up_share_associate'] =$this->compare_param($capitalization_info->minimum_paid_up_share_associate,$capitalization_info_orig->minimum_paid_up_share_associate);
+          // $data1['minimum_paid_up_share_associate'] =$this->compare_param($capitalization_info->minimum_paid_up_share_associate,$capitalization_info_orig->minimum_paid_up_share_associate);
 
            
 
-           $data1['committees_others'] =  $this->amendment_model->commitee_others($this->decoded_id);
+          //  $data1['committees_others'] =  $this->amendment_model->commitee_others($this->decoded_id);
 
          
 
-           //END BYLAW 
+          //  //END BYLAW 
 
-          // $this->debug($purposes_orig); $this->debug($purposes);
+          // // $this->debug($purposes_orig); $this->debug($purposes);
 
-          //purposes under artilces of cooperation
+          // //purposes under artilces of cooperation
 
-          $data1['purposes'] =false;
+          // $data1['purposes'] =false;
 
-          $data1['purposes'] = $this->compare_param($purposes_orig->content,$purposes->content);
+          // $data1['purposes'] = $this->compare_param($purposes_orig->content,$purposes->content);
 
-          if(strcasecmp($address, $address_orig)!=0)
+          // if(strcasecmp($address, $address_orig)!=0)
 
-          {
+          // {
 
-            $data1['address1'] = 'true';
+          //   $data1['address1'] = 'true';
 
-          }
+          // }
 
-          else
+          // else
 
-          {
+          // {
 
-            $data1['address1'] = 'false';
+          //   $data1['address1'] = 'false';
 
-          }
+          // }
 
           
 

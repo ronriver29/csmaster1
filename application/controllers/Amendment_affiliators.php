@@ -8,16 +8,18 @@ class Amendment_affiliators extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
-    //Codeigniter : Write Less Do More
+     $this->load->library('auth');
      $this->load->model('Amendment_affiliators_model','amd_affiliators_model');
      $this->load->library('pagination');
   }
 
   function index($id = null)
   { 
-    if(!$this->session->userdata('logged_in')){
-      redirect('users/login');
-    }else{
+
+      $this->load->model('amendment_model');
+      $this->load->model('amendment_bylaw_model');
+      $this->load->model('amendment_capitalization_model'); 
+      $this->load->model('user_model');
        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0; 
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $this->cooperative_id = $this->amendment_model->coop_dtl($decoded_id);
@@ -25,8 +27,8 @@ class Amendment_affiliators extends CI_Controller{
         $data['is_client'] = $this->session->userdata('client');
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
-            if($this->amendment_model->check_own_cooperative($this->cooperative_id,$decoded_id,$user_id)){
-              if(!$this->amendment_model->check_expired_reservation($this->cooperative_id,$decoded_id,$user_id)){
+            $this->amendment_model->check_own_cooperative_($decoded_id,$user_id);
+            $this->amendment_model->check_expired_reservation_($decoded_id,$user_id);
                 $data['coop_info'] = $this->amendment_model->get_cooperative_info($this->cooperative_id,$user_id,$decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                 $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->capitalization_model->check_capitalization_primary_complete($decoded_id) : true;
@@ -45,8 +47,8 @@ class Amendment_affiliators extends CI_Controller{
 
                     $data['chairperson_count'] = $this->amd_affiliators_model->check_chairperson($decoded_id);
                   
-                    $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->cooperative_id,$decoded_id);
-                    $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($this->cooperative_id,$decoded_id); 
+                    $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                    $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($decoded_id); 
                       // $this->debug( $data['capitalization_info']); echo $this->db->last_query()
                     $data['minimum_regular_subscription'] = $data['capitalization_info']->minimum_subscribed_share_regular;
                     $data['minimum_regular_pay'] =  $data['capitalization_info']->minimum_paid_up_share_regular;
@@ -76,6 +78,7 @@ class Amendment_affiliators extends CI_Controller{
                     if($data['coop_info']->category_of_cooperative =='Secondary')
                     {
                       $data['registered_coop'] = $this->amd_affiliators_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative,$this->regNo,$this->coopName); 
+                    
                     }
 
                      if($data['coop_info']->category_of_cooperative =='Tertiary')
@@ -97,7 +100,7 @@ class Amendment_affiliators extends CI_Controller{
 
                    $data['applied_coop_count'] = $this->amd_affiliators_model->count_applied_coop($decoded_id);
                     $array =array(
-                    'url'=>base_url()."amendment_update/".$id.'/amendment_affiliators',
+                    'url'=>base_url().'amendment/'.$id.'/amendment_affiliators',
                     'total_rows'=>$data['applied_coop_count'],
                     'per_page'=>$config['per_page']=5,
                     'url_segment'=>4
@@ -117,24 +120,15 @@ class Amendment_affiliators extends CI_Controller{
                     $this->load->view('./template/footer');
                 }else{
                   $this->session->set_flashdata('redirect_message', 'Please complete first your capitalization additional information.');
-                  redirect('cooperatives/'.$id);
+                  redirect('amendment/'.$id);
                 }
-              }else{
-                redirect('cooperatives/'.$id);
-              }
-            }else{
-              $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-              redirect('cooperatives');
-            }
+    
           }else{
-            if($this->session->userdata('access_level')==5){
-              redirect('admins/login');
-            }else{
-              if($this->amendment_model->check_expired_reservation_by_admin($this->cooperative_id,$decoded_id)){
-                $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
-                redirect('amendment');
-              }else{
-                if($this->amendment_model->check_submitted_for_evaluation($this->cooperative_id,$decoded_id)){
+                $this->load->model('admin_model');
+                $this->load->model('region_model');
+                $this->auth->authuserLevelAmd($this->session->userdata('access_level'),[1,2]);
+                $this->amendment_model->check_expired_reservation_by_admin_($decoded_id);
+                $this->amendment_model->check_submitted_for_evaluation_($decoded_id);
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($decoded_id) : true;
                   $data['capitalization_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->capitalization_model->check_capitalization_primary_complete($decoded_id) : true;
@@ -148,11 +142,11 @@ class Amendment_affiliators extends CI_Controller{
                         $data['requirements_complete'] = $this->amd_affiliators_model->is_requirements_complete($decoded_id,$user_id);
 //                        $data['directors_count'] = $this->cooperator_model->check_no_of_directors($decoded_id);
 //                        $data['directors_count_odd'] = $this->cooperator_model->check_directors_odd_number($decoded_id);
-                        $data['total_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
+                        $data['total_directors'] = $this->amd_affiliators_model->no_of_directors($decoded_id);
 //                        $data['chairperson_count'] = $this->cooperator_model->check_chairperson($decoded_id);
 //                        $data['associate_not_exists'] = $this->cooperator_model->check_associate_not_exists($decoded_id);
-                        $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-                        $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                        $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($decoded_id);
+                        $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($decoded_id);
                         $data['business_activities'] =  $this->amendment_model->get_all_business_activities($decoded_id);
                         $capitalization_info = $data['capitalization_info'];
 
@@ -177,25 +171,13 @@ class Amendment_affiliators extends CI_Controller{
                         
                          $data['msg'] = ($submit && empty( $data['applied_coop']) ? 'No data found.':'');
     //                    $data['minimum_regular_subscription'] = $this->cooperator_model->check_all_minimum_regular_subscription($decoded_id);
-    //                    $data['minimum_regular_pay'] = $this->cooperator_model->check_all_minimum_regular_pay($decoded_id);
-    //                    $data['minimum_associate_subscription'] = $this->cooperator_model->check_all_minimum_associate_subscription($decoded_id);
-    //                    $data['minimum_associate_pay'] = $this->cooperator_model->check_all_minimum_associate_pay($decoded_id);
+    //                    $data['minimum_regular_pay'] = $this->cooperator_model->check_all_minimum_associate_subscription($decoded_id);
+
 //                        $data['minimum_regular_subscription'] = $capitalization_info->minimum_subscribed_share_regular;
 //                        $data['minimum_regular_pay'] = $capitalization_info->minimum_paid_up_share_regular;
-//                        $data['minimum_associate_subscription'] = $capitalization_info->minimum_subscribed_share_associate;
-//                        $data['minimum_associate_pay'] = $capitalization_info->minimum_paid_up_share_associate;
-                        $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
-                        $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-                        $data['check_regular_paid'] = $this->cooperator_model->check_regular_total_shares_paid_is_correct($data['total_regular']);
-                        $data['check_with_associate_paid'] = $this->cooperator_model->check_with_associate_total_shares_paid_is_correct($data['total_regular'],$data['total_associate']);
-//                        $data['vice_count'] = $this->cooperator_model->check_vicechairperson($decoded_id);
-//                        $data['treasurer_count'] = $this->cooperator_model->check_treasurer($decoded_id);
-//                        $data['secretary_count'] = $this->cooperator_model->check_secretary($decoded_id);
-                        $data['list_cooperators'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
-                        $data['list_cooperators_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
-                        $data['list_cooperators_count'] = $this->cooperator_model->get_all_cooperator_of_coop_regular_count($decoded_id);
-                        $data['list_cooperators_associate'] = $this->cooperator_model->get_all_cooperator_of_coop_associate($decoded_id);
-                        $data['ten_percent']=$this->cooperator_model->ten_percent($decoded_id);
+//                      
+                        $data['total_regular'] = $this->amd_affiliators_model->get_total_regular($decoded_id);
+                        $data['list_cooperators'] = $this->amd_affiliators_model->get_all_cooperator_of_coop($decoded_id);
                         $this->load->view('./templates/admin_header', $data);
                         $this->load->view('amendment/federation/affiliator_list', $data);
                         $this->load->view('amendment/federation/full_info_modal');
@@ -204,28 +186,22 @@ class Amendment_affiliators extends CI_Controller{
                     $this->session->set_flashdata('redirect_message', 'Please complete first the capitalization additional information.');
                     redirect('cooperatives/'.$id);
                   }
-                }else{
-                  $this->session->set_flashdata('redirect_applications_message', 'The cooperators of the cooperative you trying to view is not yet submitted for evaluation.');
-                  redirect('cooperatives');
-                }
-              }
-            }
+
           }
         }else{
           show_404();
         }
-    }
 }
 
     function add_amendment_affiliators(){
-
+        $this->load->model('amendment_model');
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
         $amd_fed_id = $this->encryption->decrypt(decrypt_custom($this->input->post('amd_fed_id')));
         $amendment_id = $this->encryption->decrypt(decrypt_custom($this->input->post('amd_id')));
         $cooperative_id = $this->encryption->decrypt(decrypt_custom($this->input->post('application_id')));
         $registered_id = $this->encryption->decrypt(decrypt_custom($this->input->post('registered_id')));
-        $coop_info = $this->amendment_update_model->get_coop_info2($amd_fed_id);
+        $coop_info = $this->amendment_model->coop_info_($amd_fed_id);
         $client_id = ($coop_info!=null ? $coop_info->users_id : '');
             if(!empty($this->input->post('position'))){
               $position = implode(", ",$this->input->post('position'));
@@ -303,16 +279,6 @@ class Amendment_affiliators extends CI_Controller{
 
         $encryptedcoopid = $this->input->post('cooperativesID');
         $encrypted_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
-
-        // $this->db->where('user_id',$user_id);
-        // $this->db->where('id !=',$encrypted_post_coop_id);
-        // // $this->db->where('position', $this->input->post('position'));
-        // $this->db->where_in('position',array('Chairperson','Vice-Chairperson','Treasurer','Secretary'));
-        // $this->db->from('affiliators');
-        // // $count = $this->db->count_all_results();
-        // $query_aff = $this->db->get();
-        // $data_aff = $query_aff->result_array();
-
         if(!empty($this->input->post('position'))){
           $position = implode(", ",$this->input->post('position'));
           // $regions = implode(", ",$this->input->post('regions'));
@@ -333,8 +299,6 @@ class Amendment_affiliators extends CI_Controller{
               'place_of_issuance' => $this->input->post('place_of_issuance'),
             );
 
-          // $this->debug($u_data);
-
           if($this->amd_affiliators_model->update_affiliator($u_data,$encrypted_post_coop_id))
           {  
             $this->session->set_flashdata('cooperator_success', 'Affiliator Successfully Updated.');
@@ -347,15 +311,13 @@ class Amendment_affiliators extends CI_Controller{
     }
     
     function delete_cooperator(){
-    if(!$this->session->userdata('logged_in')){
-    redirect('users/login');
-    }else{
+
       if($this->input->post('deleteCooperatorBtn')){
         $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID',TRUE)));
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
         if(is_numeric($decoded_id) && $decoded_id!=0){
-          if($this->session->userdata('client') || $this->session->userdata('access_level')==6){
+          // if($this->session->userdata('client') || $this->session->userdata('access_level')==6){
           // if($this->amendment_update_model->check_own_cooperative($decoded_id,$user_id)){
             $decoded_post_cooperator_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
             $success = $this->amd_affiliators_model->delete_amendment_affiliators($decoded_post_cooperator_id);
@@ -366,11 +328,11 @@ class Amendment_affiliators extends CI_Controller{
             $this->session->set_flashdata('cooperator_error', 'Unable to remove affiliator.');
             redirect('amendment/'.$this->input->post('cooperativeID').'/amendment_affiliators');
             }
-          }  
+          // }  
         }
       }
     }
-    }
+    
 
 
   // public function check_position_not_exist(){

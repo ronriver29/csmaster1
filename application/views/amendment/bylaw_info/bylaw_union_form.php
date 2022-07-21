@@ -1,6 +1,6 @@
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
-    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
     <h5 class="text-primary text-right">
       <?php if($is_client): ?>
       Step 2
@@ -65,7 +65,7 @@ if(isset($bylaw_info))
 <div class="row">
   <div class="col-sm-12 col-md-12">
     <div class="card border-top-blue mb-4">
-      <?php echo form_open('amendment_update/'.$encrypted_id.'/bylaw_update_union',array('id'=>'bylawsUnionForm','name'=>'bylawsUnionForm')); ?>
+      <?php echo form_open('amendment/'.$encrypted_id.'/bylaws_union',array('id'=>'bylawsUnionForm','name'=>'bylawsUnionForm')); ?>
       <div class="card-header">
         <div class="row d-flex">
           <div class="col-sm-12 col-md-12 col-btn-action-bylaws-primary">
@@ -85,6 +85,7 @@ if(isset($bylaw_info))
         <div class="row">
           <div class="col-sm-12 col-md-6">
               <div class="form-group">
+                <input type="hidden" name="bylaw_coop_id" class="form-control">
                 <label for="kindsOfMember">Kinds of Member:</label>
                 <select class="custom-select" name="kindsOfMember" id="kindsOfMember" disabled="">
                 
@@ -172,7 +173,7 @@ if(isset($bylaw_info))
           
 <!--          Delegate Powers-->
             
-            <?php if(isset($bylaw_info->delegate_powers) && strlen($bylaw_info->delegate_powers) > 0){?>
+            <?php /* if(isset($bylaw_info->delegate_powers) && strlen($bylaw_info->delegate_powers) > 0){?>
                 <div class="delegatePowers">
                     <div class="col-sm-12 col-md-12">
                         <div class="form-group">
@@ -244,7 +245,7 @@ if(isset($bylaw_info))
                 <div class="col-sm-12 offset-md-8 col-md-4">
                     <button type="button" class="btn btn-success btn-block btn-sm float-right" id="addMoredelegatePowersBtn" disabled><i class="fas fa-plus"></i> Add More General Assembly</button>
                 </div>
-            <?php }?>  
+            <?php } */?>  
 
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
@@ -256,13 +257,13 @@ if(isset($bylaw_info))
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
               <label for="termHoldDirector"><strong style="color: red;">*</strong><strong> How many years shall the directors serve until their successors shall have been elected and qualified?</strong></label>
-              <input type="number" class="form-control" id="termHoldDirector" name="termHoldDirector" placeholder="Enter years" value="<?php if(isset($bylaw_info->members_percent_quorom)){ echo $bylaw_info->director_hold_term; }?>" disabled>
+              <input type="number" class="form-control" id="termHoldDirector" name="termHoldDirector" placeholder="Enter years" value="<?php if(isset($bylaw_info->director_hold_term)){ echo $bylaw_info->director_hold_term; }?>" disabled>
              </div>
             </div>
             <div class="col-sm-12 col-md-12">
               <div class="form-group">
                 <label for="directorsTerm"><strong style="color: red;">*</strong><strong> All Directors should serve for a term of how many years?</strong></label>
-                <input type="number" class="form-control" id="directorsTerm" name="directorsTerm" placeholder="Enter years" value="<?php if(isset($bylaw_info->members_percent_quorom)){ echo $bylaw_info->director_hold_term; }?>" disabled>
+                <input type="number" class="form-control" id="directorsTerm" name="directorsTerm" placeholder="Enter years" value="<?php if(isset($bylaw_info->director_term)){ echo $bylaw_info->director_term; }?>" disabled>
               </div>
             </div>
 

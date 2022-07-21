@@ -8,23 +8,26 @@ class Amendment_union extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
-    //Codeigniter : Write Less Do More
+    $this->load->library('auth');
+    $this->auth->checkLogin(); 
     $this->load->model('amendment_union_model','amd_union_model');
-    $this->load->model('amendment_update_cooperator_model');
-    $this->load->library('pagination');
+
+    // $this->load->model('amendment_update_cooperator_model');
+  
 
   }
 
   function index($id = null)
   {
-    if(!$this->session->userdata('logged_in')){
-      redirect('users/login');
-    }else{
-        $this->benchmark->mark('code_start');
+      $this->load->library('pagination');   
+       $this->load->model('amendment_model');
+       $this->load->model('user_model');
+       $this->load->model('capitalization_model');
+       $this->load->model('amendment_bylaw_model');
         // $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $data['encrypted_id'] = $id;
-        $cooperative_id = $this->amendment_update_model->coop_dtl($decoded_id);
+        $cooperative_id = $this->amendment_model->coop_dtl($decoded_id);
         $user_id = $this->session->userdata('user_id');
         $data['client_info'] = $this->user_model->get_user_info($user_id);
         $data['is_client'] = $this->session->userdata('client');
@@ -32,8 +35,8 @@ class Amendment_union extends CI_Controller{
           if($this->session->userdata('client')){
             $data['title'] = 'List of Members';
             $data['header'] = 'Members';
-            $data['coop_info'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$decoded_id);
-            $data['business_activities'] =  $this->amendment_update_model->get_all_business_activities($decoded_id);
+            $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
+            $data['business_activities'] =  $this->amendment_model->get_all_business_activities($decoded_id);
             $data['requirements_complete'] = $this->amd_union_model->is_requirements_complete($user_id);
             $data['cc_count'] = $this->amd_union_model->get_total_cc($decoded_id);
             $data['directors_count'] = $this->amd_union_model->check_no_of_directors($decoded_id);
@@ -56,9 +59,9 @@ class Amendment_union extends CI_Controller{
             $data['registered_coop'] = $this->amd_union_model->get_registered_interregion($data['coop_info']->regions);
             } else {
             $data['registered_coop'] = $this->amd_union_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative,$this->regNo,$this->coopName); 
-
             }
-            
+            $data['msg'] = ($submit && isset($data['registered_coop']['msg']) ? $data['registered_coop']['msg'] :'');
+
             $array =array(
                   'url'=>base_url()."amendment/".$id."/amendment_union",
                   'total_rows'=>$this->amd_union_model->get_applied_coop_count($decoded_id),
@@ -68,10 +71,9 @@ class Amendment_union extends CI_Controller{
                 
             $data['links']=$this->paginate($array);
 
-            $data['msg'] = ($submit && empty($data['registered_coop']) ? 'No data found.':'');
+            // $data['msg'] = ($submit && empty($data['registered_coop']) ? 'No data found.':'');
             $data['applied_coop'] = $this->amd_union_model->get_applied_coop($decoded_id);
-            $this->benchmark->mark('code_end');
-            $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage());
+          // $this->debug($data['registered_coop']);
             $this->load->view('./template/header', $data);
             $this->load->view('amendment/union/union_list', $data);
             $this->load->view('amendment/union/full_info_modal');
@@ -80,18 +82,20 @@ class Amendment_union extends CI_Controller{
             $this->load->view('/amendment/union/delete_form_affiliates');
             $this->load->view('./template/footer');
           }else{
-            if($this->session->userdata('access_level')==5){
-              redirect('admins/login');
-            }else{
-                $this->benchmark->mark('code_start');
-                $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($decoded_id);
+            // if($this->session->userdata('access_level')==5){
+            //   redirect('admins/login');
+            // }else{
+                 $this->auth->authuserLevelAmd($this->session->userdata('access_level'),[1,2]);
+                $this->load->model('admin_model');
+                $this->load->model('region_model');
+                $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($decoded_id);
                 $data['capitalization_complete'] =$this->capitalization_model->check_capitalization_primary_complete($decoded_id);
                 $data['bylaw_complete'] =$this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$decoded_id);
                 $data['title'] = 'List of Members';
                 $data['header'] = 'List of Members';
                 $data['admin_info'] = $this->admin_model->get_admin_info($this->session->userdata('user_id'));
                 $data['encrypted_id'] = $id;
-                $data['business_activities'] =  $this->amendment_update_model->get_all_business_activities($decoded_id);
+                $data['business_activities'] =  $this->amendment_model->get_all_business_activities($decoded_id);
                 $data['requirements_complete'] = $this->amd_union_model->is_requirements_complete($decoded_id);
                 $data['cc_count'] = $this->amd_union_model->get_total_cc($decoded_id);
                 $data['directors_count'] = $this->amd_union_model->check_no_of_directors($decoded_id);
@@ -102,32 +106,45 @@ class Amendment_union extends CI_Controller{
                 $data['treasurer_count'] = $this->amd_union_model->check_treasurer($decoded_id);
                 $data['secretary_count'] = $this->amd_union_model->check_secretary($decoded_id);
                
-                $this->regNo='';
-                 $this->regNo='';
-                $data['msg']='';
+                $data['msg'] ='';
+                $submit =false;
+                if(isset($_POST['btn-filter']))
+                {
+                $submit =true;
+                $this->coopName = $this->input->post('coopName');
+                $this->regNo=$this->input->post('regNo');
+                }
                 if($data['coop_info']->area_of_operation == 'Interregional'){
                 $data['registered_coop'] = $this->amd_union_model->get_registered_interregion($data['coop_info']->regions);
                 } else {
-                $data['registered_coop'] = $this->amd_union_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative,$this->regNo,$this->coopName);
+                $data['registered_coop'] = $this->amd_union_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative,$this->regNo,$this->coopName); 
                 }
-               
+                 $data['msg'] = ($submit && isset($data['registered_coop']['msg']) ? $data['registered_coop']['msg'] :'');
+
+            $array =array(
+                  'url'=>base_url()."amendment/".$id."/amendment_union",
+                  'total_rows'=>$this->amd_union_model->get_applied_coop_count($decoded_id),
+                  'per_page'=>$config['per_page']=10,
+                  'url_segment'=>4
+                  );
+                
+            $data['links']=$this->paginate($array);
                 $data['applied_coop'] = $this->amd_union_model->get_applied_coop($decoded_id);
 
-                $this->benchmark->mark('code_end');
-                $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage());
+        
                 $this->load->view('./templates/admin_header', $data);
                 $this->load->view('amendment/union/union_list', $data);
                 $this->load->view('amendment/union/full_info_modal');
                 $this->load->view('templates/admin_footer', $data);
               }
-            }
+            // }
         }else{
           show_404();
         }
-    }
 }
 
     function add_affiliates(){
+       $this->load->model('amendment_model');
         $user_id = $this->session->userdata('user_id');
         $query = $this->amd_union_model->existing_unioncoop($user_id,$this->input->post('regNo'));
         $amd_union_id = $this->encryption->decrypt(decrypt_custom($this->input->post('amd_union_id')));
@@ -136,7 +153,7 @@ class Amendment_union extends CI_Controller{
         $registered_id = $this->encryption->decrypt(decrypt_custom($this->input->post('registered_id')));
 
         $data['cc_count'] = $this->amd_union_model->get_total_cc($user_id);
-        $data['coop_info'] = $this->amendment_update_model->get_cooperative_info($user_id,$amd_union_id);
+        $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$amd_union_id);
 
         $this->db->where('user_id',$user_id);
         // $this->db->where('id !=',$encrypted_post_coop_id);
@@ -214,10 +231,11 @@ class Amendment_union extends CI_Controller{
     }
 
     function edit_unioncoop($id = null){
+      $this->load->model('amendment_model');
         $user_id = $this->session->userdata('user_id');
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
-        $cooperative_id = $this->amendment_update_model->coop_dtl($decoded_id);
+        $cooperative_id = $this->amendment_model->coop_dtl($decoded_id);
         $data['encrypted_id'] = $id;
         $data['is_client'] = $this->session->userdata('client');
         // $query = $this->affiliators_model->existing_affiliators($user_id,$this->input->post('regNo'));
@@ -226,7 +244,7 @@ class Amendment_union extends CI_Controller{
         $encryptedcoopid = $this->input->post('cooperativesID');
         $encrypted_post_coop_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
         $data['cc_count'] = $this->amd_union_model->get_total_cc($user_id);
-        $data['coop_info'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$decoded_id);
+        $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
         
         $this->db->where('user_id',$user_id);
         $this->db->where('id !=',$encrypted_post_coop_id);
@@ -262,9 +280,7 @@ class Amendment_union extends CI_Controller{
     }
 
     function update_cc($id = null){
-      if(!$this->session->userdata('logged_in')){
-        redirect('users/login');
-      }else{
+
         if($this->input->post('addAdministratorBtn')){
             $user_id = $this->session->userdata('user_id');
             $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
@@ -294,24 +310,22 @@ class Amendment_union extends CI_Controller{
               redirect('amendmentt/'.$encryptedcoopid.'/amendment_union');
             }
           }
-        }
     }
     
     function delete_affiliates(){
-    if(!$this->session->userdata('logged_in')){
-      redirect('users/login');
-    }else{
+      $this->load->model('amendment_model');
       if($this->input->post('deleteCooperatorBtn')){
         $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID',TRUE)));
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
-        $cooperative_id = $this->amendment_update_model->coop_dtl($decoded_id);
+        $cooperative_id = $this->amendment_model->coop_dtl($decoded_id);
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
-            if($this->amendment_update_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
+            // if($this->amendment_model->check_own_cooperative($cooperative_id,$decoded_id,$user_id)){
+              $this->amendment_model->check_own_cooperative_($decoded_id,$user_id);
               $decoded_post_cooperator_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
 //              if($this->cooperator_model->check_cooperator_in_cooperative($decoded_id,$decoded_post_cooperator_id)){
-                // if(!$this->amendment_update_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
+                // if(!$this->amendment_model->check_submitted_for_evaluation($cooperative_id,$decoded_id)){
                   $success = $this->amd_union_model->delete_affiliators($decoded_post_cooperator_id);
                   if($success){
                     $this->session->set_flashdata('cooperator_success', 'Affiliator has been remove.');
@@ -328,20 +342,21 @@ class Amendment_union extends CI_Controller{
 //                $this->session->set_flashdata('cooperator_redirect','Unauthorized!!');
 //                redirect('affiliator/'.$this->input->post('cooperativeID').'/affliators');
 //              }
-            }else{
-              $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-              redirect('amendment_update/'.$this->input->post('cooperativeID'));
-            }
+            // }else{
+            //   $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+            //   redirect('amendment_update/'.$this->input->post('cooperativeID'));
+            // }
           }else{
-            if($this->session->userdata('access_level')==5){
-              redirect('admins/login');
-            }else if($this->session->userdata('access_level')!=1){
-              redirect('cooperatives');
-            }else{
+            // if($this->session->userdata('access_level')==5){
+            //   redirect('admins/login');
+            // }else if($this->session->userdata('access_level')!=1){
+            //   redirect('cooperatives');
+            // }else{
+              $this->auth->authuserLevelAmd($this->session->userdata('access_level'),[1,2]);
               $decoded_post_cooperator_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperatorID')));
               if($this->cooperator_model->check_cooperator_in_cooperative($decoded_id,$decoded_post_cooperator_id)){
-                if($this->amendment_update_model->check_submitted_for_evaluation($decoded_id)){
-                  if($this->amendment_update_model->check_first_evaluated($decoded_id)){
+                if($this->amendment_model->check_submitted_for_evaluation($decoded_id)){
+                  if($this->amendment_model->check_first_evaluated($decoded_id)){
                     $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Cooperative Development Specialist II.');
                     redirect('cooperatives');
                   }else{
@@ -362,15 +377,14 @@ class Amendment_union extends CI_Controller{
                 $this->session->set_flashdata('cooperator_redirect','Unauthorized!!');
                 redirect('cooperatives/'.$this->input->post('cooperativeID').'/cooperators');
               }
-            }
+            // }
           }
         }else{
-          redirect('cooperatives');
+          redirect('amendment');
         }
       }else{
-        redirect('cooperatives');
+        redirect('amendment');
       }
-    }
   }
 
    public function paginate($array)

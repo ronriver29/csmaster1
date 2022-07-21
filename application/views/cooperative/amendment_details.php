@@ -1062,49 +1062,29 @@
 
         <p class="text-muted">
 
-         
+          <?php
+          $count_type =explode(',',$coop_info->type_of_cooperative);
+          if(strlen($coop_info->acronym)>0)
+          {
+          $acronym_ = '('.$coop_info->acronym.')';
+          }
+          else
+          {
+          $acronym_='';
+          }
+          if(count($count_type)>1)
+          {
+          // $proposedName_ = $coop_info->proposed_name.' Multipurpose Cooperative '.$coop_info->grouping.' '.$acronym_ ;
+           $proposedName_ = $coop_info->proposed_name.' Multipurpose Cooperative '.$acronym_ ;
+          }
+          else
+          {
+          // $proposedName_ = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping.' '.$acronym_;
+            $proposedName_ = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronym_;
+          }
+          ?>
 
-           <?php 
-
-           $count_type =explode(',',$coop_info->type_of_cooperative);
-
-           if(strlen($coop_info->acronym)>0)
-
-           {
-
-              $acronym_ = '('.$coop_info->acronym.')';
-
-           }
-
-           else
-
-           {
-
-            $acronym_='';
-
-           }
-
-            if(count($count_type)>1)
-
-            {
-
-              $proposedName_ = $coop_info->proposed_name.' Multipurpose Cooperative '.$coop_info->grouping.' '.$acronym_ ;
-
-            }
-
-            else
-
-            {
-
-               $proposedName_ = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping.' '.$acronym_;
-
-            }
-
-           ?>
-
-    
-
-           <?= $proposedName_ ?>
+          <?= $proposedName_ ?>
 
         </p>
 
@@ -1147,23 +1127,16 @@
           ?>
 
         </p>
-
-        <hr>
-
-        <strong>Business Activities - Subclass</strong>
-
-        <p class="text-muted">
-
-          <?php foreach($business_activities as $casd) : ?>
-
-          &#9679; <?= $casd['bactivity_name'] ?> - <?= $casd['bactivitysubtype_name']?><br>
-
-          <?php endforeach; ?>
-
-          <!--  $coop_info->bactivity_name -->
-
-        </p>
-
+          <?php if(!$coop_info->type_of_cooperative =="Union"):?>
+          <hr>
+          <strong>Business Activities - Subclass</strong>
+          <p class="text-muted">
+            <?php foreach($business_activities as $casd) : ?>
+            &#9679; <?= $casd['bactivity_name'] ?> - <?= $casd['bactivitysubtype_name']?><br>
+            <?php endforeach; unset($casd);?>
+            <!--  $coop_info->bactivity_name -->
+          </p>
+          <?php endif; ?>
         <hr>
 
         <strong>Common Bond of Membership</strong>
@@ -1485,14 +1458,17 @@
             case 'Union':
                  $module = 'Members';
                  $moduleUrl = 'amendment_union';
+                  $validateComplete = $union_complete;
               break;
             case 'Federation':
                    $module = 'Members';
                  $moduleUrl = 'amendment_affiliators';
+                  $validateComplete=$affiliator_complete;
             break;
             default:
                  $module ='Cooperators';
                  $moduleUrl ='amendment_cooperators';
+                 $validateComplete = $cooperator_complete;
               break;
           }
           ?>
@@ -1501,13 +1477,13 @@
 
           <small class="text-muted">
 
-            <?php if($cooperator_complete): ?>
+            <?php if($validateComplete): ?>
 
               <span class="badge badge-success">COMPLETE</span>
 
             <?php endif; ?>
 
-            <?php if(!$cooperator_complete): ?>
+            <?php if(!$validateComplete): ?>
 
               <span class="badge badge-secondary">PENDING</span>
 
@@ -1553,7 +1529,7 @@
 
         </div>
 
-        <?php if($coop_info->status!= 0 && $bylaw_complete && $cooperator_complete): ?>
+        <?php if($coop_info->status!= 0 && $bylaw_complete && $validateComplete): ?>
 
         <small class="text-muted">
 
@@ -1589,7 +1565,7 @@
 
         </div>
 
-        <?php if($coop_info->status!= 0 && $bylaw_complete && $cooperator_complete && $purposes_complete): ?>
+        <?php if($coop_info->status!= 0 && $bylaw_complete && $validateComplete && $purposes_complete): ?>
 
         <small class="text-muted">
 
@@ -1625,7 +1601,7 @@
 
         </div>
 
-        <?php if($coop_info->status!= 0 && $bylaw_complete && $article_complete && $cooperator_complete && $purposes_complete): ?>
+        <?php if($coop_info->status!= 0 && $bylaw_complete && $article_complete && $validateComplete && $purposes_complete): ?>
 
         <small class="text-muted">
 
@@ -1735,7 +1711,7 @@
 
         </div>
 
-        <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete): ?>
+        <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $validateComplete && $committees_complete): ?>
 
           <small class="text-muted">
 
@@ -1781,7 +1757,7 @@
 
             <?php } ?>
 
-          <?php if($coop_info->status==3 && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete &&  $ga_complete && $bod_sec_complete && $status_document_cooptype): ?>
+          <?php if($coop_info->status==3 && $bylaw_complete && $purposes_complete && $article_complete && $validateComplete &&  $ga_complete && $bod_sec_complete && $status_document_cooptype): ?>
 
           <small class="text-muted">
 
@@ -2037,14 +2013,34 @@
             <h5 class="mb-1 font-weight-bold"></h5>
 
             <small class="text-muted">
+                   <?php 
+       
+          switch ($coop_info->grouping) {
+            case 'Union':
+                 $module = 'Members';
+                 $moduleUrl = 'amendment_union';
+                  $validateComplete = $union_complete;
+              break;
+            case 'Federation':
+                   $module = 'Members';
+                 $moduleUrl = 'amendment_affiliators';
+                    $validateComplete = $affiliator_complete;
+            break;
+            default:
+                 $module ='Cooperators';
+                 $moduleUrl ='amendment_cooperators';
+                    $validateComplete = $cooperator_complete;
+              break;
+          }
+          ?>
 
-              <?php if($cooperator_complete): ?>
+              <?php if($validateComplete): ?>
 
                 <span class="badge badge-success">COMPLETE</span>
 
               <?php endif; ?>
 
-              <?php if(!$cooperator_complete): ?>
+              <?php if(!$validateComplete): ?>
 
                 <span class="badge badge-secondary">PENDING</span>
 
@@ -2053,23 +2049,7 @@
             </small>
 
           </div>
-           <?php 
-       
-          switch ($coop_info->grouping) {
-            case 'Union':
-                 $module = 'Members';
-                 $moduleUrl = 'amendment_union';
-              break;
-            case 'Federation':
-                   $module = 'Members';
-                 $moduleUrl = 'amendment_affiliators';
-            break;
-            default:
-                 $module ='Cooperators';
-                 $moduleUrl ='amendment_cooperators';
-              break;
-          }
-          ?>
+      
           <p class="mb-1 font-italic">List of <?=$module?></p>
 
           <?php if($coop_info->status!= 0 && $bylaw_complete && $capitalization_complete): ?>
@@ -2110,7 +2090,7 @@
 
           <p class="mb-1 font-italic">Cooperative's Purposes</p>
 
-          <?php if($coop_info->status!= 0 && $bylaw_complete && $cooperator_complete  ): // Comment insert later This () ?>
+          <?php if($coop_info->status!= 0 && $bylaw_complete && $validateComplete  ): // Comment insert later This () ?>
 
           <small class="text-muted">
 
@@ -2148,7 +2128,7 @@
 
           <p class="mb-1 font-italic">Additional Information: Articles of Cooperation</p>
 
-          <?php if($coop_info->status!= 0 && $bylaw_complete && $cooperator_complete && $purposes_complete): // Comment this && $cooperator_complete?>
+          <?php if($coop_info->status!= 0 && $bylaw_complete && $validateComplete && $purposes_complete): // Comment this && $cooperator_complete?>
 
           <small class="text-muted">
 
@@ -2184,7 +2164,7 @@
 
           <p class="mb-1 font-italic">List of Committees</p>
 
-          <?php if($coop_info->status!= 0 && $bylaw_complete && $cooperator_complete && $purposes_complete && $article_complete ): //Comment this && $cooperator_complete?>
+          <?php if($coop_info->status!= 0 && $bylaw_complete && $validateComplete && $purposes_complete && $article_complete ): //Comment this && $cooperator_complete?>
 
           <small class="text-muted">
 
@@ -2440,7 +2420,7 @@
 
           </p>
 
-          <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $complete_position): //&& $cooperator_complete && $committees_complete && $economic_survey_complete && $staff_complete ?>
+          <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $complete_position && $validateComplete): //&& $cooperator_complete && $committees_complete && $economic_survey_complete && $staff_complete ?>
 
             <small class="text-muted">
 
@@ -2480,7 +2460,7 @@
 
             <p class="mb-1 font-italic">Finalize and review all the information you provide. After reviewing your application, click proceed for evaluation of your application.</p>
 
-              <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $status_document_cooptype && $ga_complete && $bod_sec_complete && $complete_position){ ?>
+              <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $validateComplete && $committees_complete && $status_document_cooptype && $ga_complete && $bod_sec_complete && $complete_position){ ?>
 
               <small class="text-muted">
 
@@ -2552,7 +2532,7 @@
 
             
 
-            <?php if(($coop_info->status==16) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $status_document_cooptype): ?>
+            <?php if(($coop_info->status==16) && $bylaw_complete && $purposes_complete && $article_complete && $validateComplete && $committees_complete && $status_document_cooptype): ?>
 
               <small class="text-muted">
 
@@ -2566,7 +2546,7 @@
 
             <?php
 
-            if(($coop_info->status ==13) && $bylaw_complete && $purposes_complete && $article_complete && $cooperator_complete && $committees_complete && $status_document_cooptype && $complete_position)
+            if(($coop_info->status ==13) && $bylaw_complete && $purposes_complete && $article_complete && $validateComplete && $committees_complete && $status_document_cooptype && $complete_position)
 
               {   
                 $coop_total_amount_of_paid_up_capital=0;

@@ -166,6 +166,29 @@
     <?php // echo form_open('cooperatives/'.$encrypted_id.'/affiliators/add_affiliators',array('id'=>'addCooperatorForm','name'=>'addCooperatorForm')); ?>
     <div class="card">
       <div class="card-body">
+        <?php echo form_open('cooperatives_update/'.$encrypted_id.'/unioncoop_update',array('id'=>'amendmentAddForm','name'=>'amendmentAddForm')); ?>
+        <div class="row rd-row">
+          <div class="col-sm-12 col-md-4">
+            <div class="form-group">
+              <label for="areaOfOperation">Cooperative Name: </label>
+              <input type="text" name="coopName" class="form-control"/>
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <div class="form-group">
+              <label for="areaOfOperation">Registration No: </label>
+              <input type="text" name="regNo" class="form-control">
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-4">
+            <p style="padding-top: 2.5rem;font-style: italic;color:red;"><?=$msg?></p>
+          </div>
+        </div>
+        <div class="row col-sm-6 col-md-1 align-self-center col-reserve-btn">
+          <input class="btn btn-color-blue" type="submit" name="btn-filter" value="search" style="float:left;">
+        </div>
+        <?php echo form_close(); ?>
+        <hr>
         <div class="table-responsive">
           <table class="table table-bordered" id="cooperatorsTable">
             <thead>
@@ -176,7 +199,9 @@
             </tr>
             </thead>
             <tbody>
-              <?php foreach ($registered_coop as $registeredcoop) : ?>
+              <?php  if(!empty($registered_coop)):?> 
+
+              <?php foreach ($registered_coop['result'] as $registeredcoop) : ?>
                 <tr>
                   <td><?= $registeredcoop['coopName']?></td>
                   <td><?= $registeredcoop['regNo']?></td>
@@ -193,6 +218,7 @@
                   </td>
                 </tr>
               <?php endforeach; ?>
+              <?php endif;?>
             </tbody>
           </table>
         </div>

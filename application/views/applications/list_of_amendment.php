@@ -134,7 +134,7 @@ if($is_client && !$has_registered_coop):?>
                     {
                       if($cooperative['migrated']!=1)
                       {
-                      $proposeNames = $cooperative['proposed_name'].' Multipurpose Cooperative '.$acronym_.' '.$cooperative['grouping'];
+                      $proposeNames = $cooperative['proposed_name'].' Multipurpose Cooperative '.$acronym_;
                       }
                       else
                       {
@@ -145,7 +145,7 @@ if($is_client && !$has_registered_coop):?>
                     {
                       if($cooperative['migrated']!=1)
                       {  
-                      $proposeNames = $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative']. ' Cooperative '.$acronym_.' '.$cooperative['grouping'];
+                      $proposeNames = $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative']. ' Cooperative '.$acronym_;
                       }
                       else
                       {
@@ -153,10 +153,9 @@ if($is_client && !$has_registered_coop):?>
                       }
                     }
                   
-                    echo ($this->amendment_model->proposed_name_comparison($cooperative['regNo'],$cooperative['id'],$proposeNames));
+                    echo $this->amendment_model->proposed_name_comparison($cooperative['regNo'],$cooperative['amendmentNo'],$proposeNames);
                     ?>  
-                  </td>
-                    <td><?=(strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($cooperative['regNo'],$cooperative['id']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?> </td>
+                    <td><?= (strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($cooperative['regNo'],$cooperative['amendmentNo']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?></td>
                   <?php if(!$is_client) : ?>
                     <td>
                       <?php if($cooperative['house_blk_no']==null && $cooperative['street']==null) $x=''; else $x=', ';?>
@@ -234,7 +233,7 @@ if($is_client && !$has_registered_coop):?>
                   <?php if($is_client) :?> 
                     <?php
                       $url_ = 'amendment';
-                      if($cooperative['migrated'] ==1)
+                      if($cooperative['status'] ==41)
                       {
                         $url_ ='amendment_update';
                       }

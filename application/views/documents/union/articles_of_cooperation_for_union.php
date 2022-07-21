@@ -18,10 +18,32 @@
     border: 0.5px solid #000 !important; 
     border-collapse: collapse;
   }
+  <?php 
+  if($coop_info->status == 12){
+  ?>
   body{
         font-family: 'Bookman Old Style',arial !important;font-size:12px;
     }
+  <?php } ?>
+
   </style>
+<?php 
+if($coop_info->status != 12){
+?>
+<style type="text/css">
+  #printPage
+{
+  margin-left: 450px;
+  padding: 0px;
+  width: 670px; / width: 7in; /
+  height: 900px; / or height: 9.5in; /
+  clear: both;
+  page-break-after: always;
+}
+</style>
+<a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+<?php } ?>
+
 </head>
 <body style="font-size:12">
   <script type="text/php">
@@ -41,7 +63,7 @@
         }
 
 </script>
-<div class="container-fluid text-monospace">
+<div class="container-fluid text-monospace" id="printPage">
   <div class="row mb-4">
     <div class="col-sm-12 col-md-12 text-center">
         <p class="font-weight-bold">ARTICLES OF COOPERATION<br>of<br><?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?></p>
@@ -223,7 +245,7 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($members_list as $members) :?>
-              <?=$count++;?>
+              <?php $count++;?>
                           
               <tr>
                 <td><?=$count.'. '.$members['coopName']?></td>
@@ -257,7 +279,7 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($directors_list as $director) :?>
-              <?=$count++;?>
+              <?php $count++;?>
             <tr>
               <td><?=$count.'. '.$director['representative']?></td>
             </tr>
@@ -289,7 +311,7 @@
           </thead>
           <tbody>
             <?php $sumofcc=array(); $count=0; foreach($members_list as $members) :?>
-              <?=$count++;?>
+              <?php $count++;?>
                           
               <tr>
                 <td><?=$count.'. '.$members['coopName']?></td>
@@ -345,12 +367,12 @@
             <tr>
               <th><center>Name of Cooperative</center> </th>
               <th><center>Name of Representative</center></th>
-              <th><center>Name of Representatives</center></th>
+              <th><center>Signature of Representatives</center></th>
             </tr>
           </thead>
           <tbody>
             <?php  $count=0;foreach($members_list as $cooperator) :?>
-              <?=$count++;?>
+              <?php $count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['coopName']?></td>
                 <td><?=$cooperator['representative']?></td>
@@ -403,7 +425,7 @@
           </thead>
           <tbody>
             <?php $count=0; foreach($members_list as $cooperator) :?>
-              <?=$count++;?>
+              <?php $count++;?>
               <tr>
                 <td><?=$count.'. '.$cooperator['coopName'].' - '.$cooperator['representative']?></td>
                 <td><?=$cooperator['proof_of_identity']?>-<?=$cooperator['valid_id']?></td>

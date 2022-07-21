@@ -807,7 +807,7 @@ public $last_query = "";
 
 
 
-  public function check_edit_id_orig_cptr($full_name,$cooperatives_id)
+  public function check_edit_id_previous_cptr($full_name,$cooperatives_id)
 
   {
 
@@ -1567,7 +1567,7 @@ public $last_query = "";
 
 
 
-  public function get_cooperator_info_orig($full_name){
+  public function get_cooperator_info_previous($full_name){
 
     // $cooperator_id = $this->security->xss_clean($cooperator_id);
 
@@ -1595,7 +1595,7 @@ public $last_query = "";
 
 
 
-  public function get_cooperator_info_orig_amd($full_name){
+  public function get_cooperator_info_previous_amd($full_name){
 
     // $cooperator_id = $this->security->xss_clean($cooperator_id);
 
@@ -1623,7 +1623,7 @@ public $last_query = "";
 
 
 
-  public function check_if_exist_orig_coop($full_name,$cooperative_id)
+  public function check_if_exist_previous_coop($full_name,$cooperative_id)
 
   {
 
@@ -1814,6 +1814,23 @@ public $last_query = "";
     return $data;
 
   }
+
+    public function get_all_cooperator_of_coop_board($amendment_id){
+    $amendment_id = $this->security->xss_clean($amendment_id);
+    $this->db->select('amendment_cooperators.*,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region');
+    $this->db->from('amendment_cooperators');
+    $this->db->join('refbrgy','refbrgy.brgycode=amendment_cooperators.addrCode','left');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','left');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','left');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','left');
+    $this->db->where('(position = "Board of Director" OR position = "Chairperson" OR position = "Vice-Chairperson" OR position = "Treasurer" OR position = "Secretary" OR (position = "Member" AND type_of_member = "Regular")) AND amendment_id = '.$amendment_id.'');
+    $this->db->order_by('full_name','asc');
+    $query=$this->db->get();
+    $data = $query->result_array();
+    unset($query);
+    unset($amendment_id);
+    return $data;
+    }
 
   public function get_all_board_of_director_only($amendment_id){
 
@@ -2007,7 +2024,7 @@ where amd.regNo ='$regNo' and amd.id <> '$amendment_id' and amd.status =15");
 
     $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
 
-    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    // $cooperatives_id = $this->security->xss_clean($cooperatives_id);
 
     $this->db->where('cooperatives_id',$cooperatives_id);
 
@@ -2803,7 +2820,7 @@ where ac.amendment_id = '$amendment_id' and ac.type_of_member='Regular' order by
 
   }
 
-  public function get_all_regular_cooperator_of_coop_orig($cooperative_id){
+  public function get_all_regular_cooperator_of_coop_previous($cooperative_id){
 
     $cooperative_id = $this->security->xss_clean($cooperative_id);
 

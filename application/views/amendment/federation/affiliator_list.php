@@ -1,4 +1,4 @@
-<?php // echo substr($coop_info->refbrgy_brgyCode, 0, 4); ?>
+<?php  $status = [1,11]; ?>
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
@@ -114,11 +114,12 @@ if($capitalization_info!=null)
           <p style="padding-top: 2.5rem;font-style: italic;color:red;"><?=$msg?></p>
         </div>
       </div>
-     
+      <?php
+      if(in_array($coop_info->status, $status)){ ?>
       <div class="row col-sm-6 col-md-1 align-self-center col-reserve-btn">
         <input class="btn btn-color-blue" type="submit" name="btn-filter" value="search" style="float:left;">
       </div>
-
+    <?php } ?>
       <?php echo form_close(); ?>
       <hr>
     <div class="table-responsive">
@@ -131,7 +132,7 @@ if($capitalization_info!=null)
           </tr>
         </thead>
         <tbody>
-          <?php //echo '<pre>'; print_r($registered_coop);
+           <?php 
           if(isset($registered_coop)){ 
           foreach ($registered_coop as $registeredcoop) : ?>
           <tr>
@@ -142,7 +143,7 @@ if($capitalization_info!=null)
                 
                 <button type="button" class="btn btn-info" data-regno="<?=$registeredcoop['regNo']?>" data-fname="<?=$registeredcoop['coopName']?>"  data-common_bond_membership="<?=$registeredcoop['commonBond']?>" data-region="<?=$registeredcoop['region']?>" data-province="<?=$registeredcoop['province']?>" data-city="<?=$registeredcoop['city']?>" data-dateregistered="<?=date("d-m-Y", strtotime($registeredcoop['dateRegistered'])) ?>" data-brgy="<?=$registeredcoop['brgy']?>" data-street="<?=$registeredcoop['Street']?>" data-house_blk_no="<?=$registeredcoop['noStreet']?>" data-type="<?=$registeredcoop['type']?>" data-toggle="modal" data-target="#fullInfoRegisteredModalAmdFedSecondary" > <i class='fas fa-eye'></i> View</button>
                 <?php // if(($is_client && $coop_info->status<=1) || $coop_info->status==11):
-                 if(($is_client)):
+                 if($is_client):
                 ?>
                 <button type="button" class="btn btn-success" data-reg_id="<?=encrypt_custom($this->encryption->encrypt($registeredcoop['registered_id']));?>" data-fname="<?=$registeredcoop['coopName'];?>" data-amd_fed_id="<?=$encrypted_id?>" data-type="<?=$registeredcoop['type']?>" data-commonbond="<?=$registeredcoop['commonBond']?>" data-application_id="<?=encrypt_custom($this->encryption->encrypt($registeredcoop['application_id']));?>" data-amendment_id ="<?=encrypt_custom($this->encryption->encrypt($registeredcoop['amendment_id']))?>" data-regno="<?= $registeredcoop['regNo']?>"  data-source="<?=$registeredcoop['source']?>" data-datereg="<?=$registeredcoop['dateRegistered']?>" data-street="<?=$registeredcoop['Street']?>" data-nostreet="<?=$registeredcoop['noStreet']?>" data-addrcode="<?=$registeredcoop['addrCode']?>" data-brgy="<?=$registeredcoop['brgy']?>" data-city="<?=$registeredcoop['city']?>" data-province="<?=$registeredcoop['province']?>" data-region="<?=$registeredcoop['region']?>" data-toggle="modal" data-target="#addAffiliatorModalamdFed"><i class='fas fa-plus'></i> Add</button>
                 
@@ -160,7 +161,7 @@ if($capitalization_info!=null)
 <br>  <hr>
 <?php endif; //is client?>
 
-<?php if(!$is_client):?>
+<?php /* if(!$is_client):?>
 <div class="card border-top-blue">
   <div class="card-body">
       <?php echo form_open('amendment/'.$encrypted_id.'/amendment_affiliators',array('id'=>'amendmentAddForm','name'=>'amendmentAddForm')); ?>
@@ -194,7 +195,7 @@ if($capitalization_info!=null)
   </div>
 </div>      
 <br>
-<?php endif; //not client?>
+<?php endif; */ //not client?>
 
 <div class="row">
   <div class="col-sm-12 col-md-12">
@@ -237,7 +238,7 @@ if($capitalization_info!=null)
                         <!--<input class="btn btn-color-blue" type="submit" id="offlineBtn" name="offlineBtn" value="Add">-->
                         
 
-                    <?php   if(($is_client)){ ?>
+                    <?php   if(($is_client) && in_array($coop_info->status, $status)){ ?>
                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editAffiliatorModal" data-fname="<?=$applied_coops['coopName']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($applied_coops['id']))?>" data-representative="<?=$applied_coops['representative']?>" data-pos="<?=$applied_coops['position']?>" data-proofofidentity="<?=$applied_coops['proof_of_identity']?>" data-validid="<?=$applied_coops['valid_id']?>" data-placeissuance="<?=$applied_coops['place_of_issuance']?>" data-dateissued="<?=$applied_coops['date_issued']?>" data-subscribed="<?=$applied_coops['number_of_subscribed_shares']?>" data-paidshares="<?=$applied_coops['number_of_paid_up_shares']?>"><i class='fas fa-eye'></i> Edit</button>
                     <!-- END -->
 

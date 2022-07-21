@@ -230,15 +230,15 @@ $(function(){
             loadCoopType(selectCoop,data.type_id,data.category_of_cooperative); //load list of  cooperative type
           }
 
-          if (data.category_of_cooperative=='Primary')
-          {  
-              $('#amendmentAddForm #categoryOfCooperative').val(data.category_of_cooperative);  
-          }
-          else
-          {
-             $('#amendmentAddForm #categoryOfCooperative').val(data.category_of_cooperative);
-          }  
-             
+          // if (data.category_of_cooperative=='Primary')
+          // {  
+          //     $('#amendmentAddForm #categoryOfCooperative').val(data.category_of_cooperative);  
+          // }
+          // else
+          // {
+             $('#amendmentAddForm #categoryOfCooperative').val(data.category_of_cooperative); 
+          // }  
+       
           $('#amendmentAddForm #coopName').val(data.coopName);
           $('#amendmentAddForm #acronym_names').val(data.acronym_name);
           $('#amendmentAddForm #areaOfOperation').val(data.areaOfOperation);
@@ -1092,7 +1092,19 @@ $(function(){
     }); //end of addCoop function
     
      //onchge coop type
-    $(document).on('change','.coop-type',function(){
+    $(document).on('change','.coop-type',function(){ 
+
+          if($(this).val() == 26)
+          {
+            $("#amendmentAddForm .row-cis").hide();
+            $("#amendmentAddForm #addMoreSubclassBtn").hide();
+          }
+          else
+          {
+            $("#amendmentAddForm .row-cis").show();
+            $("#amendmentAddForm #addMoreSubclassBtn").show();
+          }
+
         if($(this).val()==19 || $(this).val()==21)
         { 
           alert("The bond of membership for both labor service and workers cooperative shall be occupational.");
@@ -1145,7 +1157,8 @@ $(function(){
     //list coopt type
     function list_cooperative_type($select_id,$category)
     {
-   
+              // alert($select_id);
+              // alert($category);
                 $($select_id).append($('<option></option').attr({'selected':true}).val(""));
                 $.ajax({
                   async:false,

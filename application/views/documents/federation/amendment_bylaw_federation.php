@@ -440,7 +440,7 @@
 
   			<li>Has participated in the affairs of the Federation and patronized its  businesses in accordance with the policies and guidelines.</li>
 
-        <!-- <?php if(strlen($bylaw_info->additional_conditions_to_vote)>0) :?>
+       <?php if(strlen($bylaw_info->additional_conditions_to_vote)>0) :?>
 
           <?php foreach ($members_additional_conditions_to_vote as $condition) : ?>
 
@@ -448,7 +448,7 @@
 
           <?php endforeach; ?>
 
-        <?php endif; ?> -->
+        <?php endif; ?>
 
   		</ol>
 
@@ -2438,7 +2438,7 @@
 
                 <td><?=$cooperator['representative']?></td>
 
-                <td></td>
+                <td>Signed</td>
 
               </tr>
 
@@ -2467,209 +2467,134 @@
   </div>
 
   <div class="row">
-
     <div class="col-sm-12 col-md-12">
-
       <div class="table-responsive text-center">
-
         <table class="table table-borderless table-sm table-director">
-
           <tbody>
-
             <tr>
-
               <td><b><?=$cooperator_chairperson->representative?></b><br>Chairperson</td>
-
               <td><b><?=$cooperator_vicechairperson->representative?></b><br>Vice-Chairperson</td>
-
             </tr>
-
           </tbody>
-
         </table>
-
       </div>
-
     </div>
-
   </div>
 
-  <?php if(sizeof($cooperator_directors) >=3) :?>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="table-responsive text-center">
+        <table class="table table-borderless table-sm table-director">
+          <tr>
+            <?php if(!empty($cooperator_directors[0]['representative'])):?>
+            <td><b><?=$cooperator_directors[0]['representative']?></b><br>Director</td>
+            <?php endif; ?>
+            <?php if(!empty($cooperator_directors[1]['representative'])):?>
+            <td><b><?=$cooperator_directors[1]['representative']?></b><br>Director</td>
+            <?php endif;?>
+            <?php if(!empty($cooperator_directors[2]['representative'])):?>
+            <td><b><?=$cooperator_directors[2]['representative']?></b><br>Director</td>
+            <?php endif; ?>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="table-responsive text-center">
+        <table class="table table-borderless table-sm table-director">
+          <tr>
+            <?php if(!empty($cooperator_directors[3]['representative'])):?>
+            <td><b><?=$cooperator_directors[3]['representative']?></b><br>Director</td>
+            <?php endif;?>
+            <?php if(!empty($cooperator_directors[4]['representative'])):?>
+            <td><b><?=$cooperator_directors[4]['representative']?></b><br>Director</td>
+            <?php endif;?>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="table-responsive text-center">
+        <table class="table table-borderless table-sm table-director">
+          <tr>
+            <?php if(!empty($cooperator_directors[5]['representative'])): ?>
+            <td><b><?=$cooperator_directors[5]['representative']?></b><br>Director</td>
+            <?php endif; ?>
+            <?php if(!empty($cooperator_directors[6]['representative'])):?>
+            <td><b><?=$cooperator_directors[6]['representative']?></b><br>Director</td>
+            <?php endif;?>
+            <?php if(!empty($cooperator_directors[7]['representative'])):?>
+            <td><b><?=$cooperator_directors[7]['representative']?></b><br>Director</td>
+            <?php endif; ?>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="table-responsive text-center">
+        <table class="table table-borderless table-sm table-director">
+          <tr>
+            <?php if(!empty($cooperator_directors[8]['representative'])):?>
+            <td><b><?=$cooperator_directors[8]['representative']?></b><br>Director</td>
+            <?php endif;?>
+            <?php if(!empty($cooperator_directors[9])):?>
+            <td><b><?=$cooperator_directors[9]['representative']?></b><br>Director</td>
+            <?php endif; ?>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
 
     <div class="row">
-
       <div class="col-sm-12 col-md-12">
-
         <div class="table-responsive text-center">
-
           <table class="table table-borderless table-sm table-director">
-
-              <tr>
-
-                <td><b><?=$cooperator_directors[0]['representative']?></b><br>Director</td>
-
-                <td><b><?=$cooperator_directors[1]['representative']?></b><br>Director</td>
-
-                <td><b><?=$cooperator_directors[2]['representative']?></b><br>Director</td>
-
-              </tr>
-
+            <tr>
+              <?php if(!empty($cooperator_directors[10])):?>
+              <td><b><?=$cooperator_directors[10]['representative']?></b><br>Director</td>
+              <?php endif;?>
+              <?php if(!empty($cooperator_directors[11])):?>
+              <td><b><?=$cooperator_directors[11]['representative']?></b><br>Director</td>
+              <?php endif; ?>
+              <?php if(!empty($cooperator_directors[12])):?>
+              <td><b><?=$cooperator_directors[12]['representative']?></b><br>Director</td>
+              <?php endif; ?>
+            </tr>
           </table>
-
         </div>
-
       </div>
-
     </div>
 
-  <?php endif;?>
-
-  <?php if(sizeof($cooperator_directors) >=5) :?>
 
     <div class="row">
-
       <div class="col-sm-12 col-md-12">
-
         <div class="table-responsive text-center">
-
           <table class="table table-borderless table-sm table-director">
-
-              <tr>
-
-                <td><b><?=$cooperator_directors[3]['representative']?></b><br>Director</td>
-
-                <td><b><?=$cooperator_directors[4]['representative']?></b><br>Director</td>
-
-              </tr>
-
+            <tr>
+              <?php if(!empty($cooperator_directors[13])):?>
+              <td><b><?=$cooperator_directors[13]['representatives']?></b><br>Director</td>
+              <?php endif; ?>
+              <?php if(!empty($cooperator_directors[14]['representatives'])):?>
+              <td><b><?=$cooperator_directors[14]['representatives']?></b><br>Director</td>
+              <?php endif;?>
+            </tr>
           </table>
-
         </div>
-
       </div>
-
     </div>
-
-  <?php endif;?>
-
-  <?php if(sizeof($cooperator_directors) >=8) :?>
-
-    <div class="row">
-
-      <div class="col-sm-12 col-md-12">
-
-        <div class="table-responsive text-center">
-
-          <table class="table table-borderless table-sm table-director">
-
-              <tr>
-
-                <td><b><?=$cooperator_directors[5]['representative']?></b><br>Director</td>
-
-                <td><b><?=$cooperator_directors[6]['representative']?></b><br>Director</td>
-
-                <td><b><?=$cooperator_directors[7]['representative']?></b><br>Director</td>
-
-              </tr>
-
-          </table>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  <?php endif;?>
-
-  <?php if(sizeof($cooperator_directors) >=10) :?>
-
-    <div class="row">
-
-      <div class="col-sm-12 col-md-12">
-
-        <div class="table-responsive text-center">
-
-          <table class="table table-borderless table-sm table-director">
-
-              <tr>
-
-                <td><b><?=$cooperator_directors[8]['representative']?></b><br>Director</td>
-
-                <td><b><?=$cooperator_directors[9]['representative']?></b><br>Director</td>
-
-              </tr>
-
-          </table>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  <?php endif;?>
-
-  <?php if(sizeof($cooperator_directors) >=13) :?>
-
-    <div class="row">
-
-      <div class="col-sm-12 col-md-12">
-
-        <div class="table-responsive text-center">
-
-          <table class="table table-borderless table-sm table-director">
-
-              <tr>
-
-                <td><b><?=$cooperator_directors[10]['representative']?></b><br>Director</td>
-
-                <td><b><?=$cooperator_directors[11]['representative']?></b><br>Director</td>
-
-                <td><b><?=$cooperator_directors[12]['representative']?></b><br>Director</td>
-
-              </tr>
-
-          </table>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  <?php endif;?>
-
-  <?php if(sizeof($cooperator_directors) >=15) :?>
-
-    <div class="row">
-
-      <div class="col-sm-12 col-md-12">
-
-        <div class="table-responsive text-center">
-
-          <table class="table table-borderless table-sm table-director">
-
-              <tr>
-
-                <td><b><?=$cooperator_directors[13]['representative']?></b><br>Director</td>
-
-                <td><b><?=$cooperator_directors[14]['representative']?></b><br>Director</td>
-
-              </tr>
-
-          </table>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  <?php endif;?>
-
-</div>
-
+  
 <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 
 <script src="<?=base_url();?>assets/js/popper.min.js"></script>

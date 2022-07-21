@@ -30,6 +30,9 @@ class Amendment_payments extends CI_Controller{
       $this->load->model('user_model');
       $this->load->model('Payment_model');
       $this->load->model('cooperatives_model');
+      $this->load->model('amendment_affiliators_model');
+      $this->load->model('amendment_union_model');
+      $this->load->model('amendment_capitalization_model');
       $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
       $user_id = $this->session->userdata('user_id');
       $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
@@ -47,7 +50,25 @@ class Amendment_payments extends CI_Controller{
 
 //                if($data['article_complete']){
 
-                  $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
+                   switch ($data['coop_info']->category_of_cooperative) {
+                   case 'Secondary':
+                   case 'Tertiary':
+                    $data['affiliator_complete'] = $this->amendment_affiliators_model->is_requirements_complete($this->decoded_id);
+                     $data['cooperator_complete'] =true;
+                      $data['union_complete'] =true;
+                     break;
+                    
+                   case 'Others':
+                    $data['union_complete'] = $this->amendment_union_model->is_requirements_complete($this->decoded_id); 
+                     $data['cooperator_complete'] =true;
+                     $data['affiliator_complete'] = true;
+                    break; 
+                   default:
+                      $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
+                       $data['affiliator_complete'] =true;
+                        $data['union_complete'] = true;
+                     break;
+                 }
                   if($data['cooperator_complete']){
                     $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
                     if($data['committees_complete']){

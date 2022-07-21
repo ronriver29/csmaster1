@@ -95,11 +95,14 @@ $route['branches/business_activity/(:any)'] = 'branches/business_activity/$1';
 $route['branches/(:any)/business_activity/(:any)'] = 'branches/business_activity/$2/$1';
 $route['branches/coop_info/(:any)'] = 'branches/coop_info/$1';
 
+$route['branches/(:any)/registration_conversion'] = 'registration_conversion/index/$1';
+$route['branches/(:any)/registration_transfer'] = 'registration_transfer/index/$1';
 $route['branch_update/(:any)/evaluate'] = 'branch_update/evaluate/$1';
 $route['branch_update/(:any)/documents_branch_update'] = 'documents_branch_update/branch/$1';
 $route['branch_update/(:any)/view'] = 'branch_update/view/$1';
 $route['branch_update/(:any)/bupdate']  =  'branch_update/bupdate/$1';
 
+$route['for_closure/(:any)/bupdate']  =  'for_closure/bupdate/$1';
 $route['for_transfer/(:any)/Payments_branch_for_transfer'] = 'Payments_branch_for_transfer/index/$1';
 $route['for_conversion/(:any)/Payments_branch_for_conversion'] = 'Payments_branch_for_conversion/index/$1';
 $route['for_transfer/deny_branch_for_transfer'] = 'for_transfer/deny_branch_for_transfer';
@@ -107,6 +110,12 @@ $route['for_transfer/specialist'] = 'for_transfer/specialist';
 $route['for_transfer/approve_branch'] = 'for_transfer/approve_branch';
 $route['for_closure/approve_branch'] = 'for_closure/approve_branch';
 $route['for_closure/defer_branch'] = 'for_closure/defer_branch';
+$route['for_transfer/(:any)/payments_branch_for_transfer'] = 'payments_branch_for_transfer/index/$1';
+$route['for_conversion/(:any)/payments_branch_for_conversion'] = 'payments_branch_for_conversion/index/$1';
+
+$route['branches/(:any)/okforclosure'] = 'okforclosure/index/$1';
+$route['branches/(:any)/okforclosure'] = 'okforclosure/index/$1';
+$route['branches/(:any)/order_of_closure'] = 'order_of_closure/index/$1';
 
 $route['bns_transfer/transfer_region'] = 'bns_transfer/transfer_region';
 
@@ -184,6 +193,18 @@ $route['laboratories/(:any)/laboratories_cooperators/get_cooperative_info_edit']
 $route['laboratories/(:any)/laboratories_cooperators/cooperative_info_details'] ='laboratories_cooperators/cooperative_info_details'; //modify by jayson
 $route['laboratories/(:any)/laboratories_cooperators/(:any)/cooperative_info_details'] ='laboratories_cooperators/cooperative_info_details'; //modify by jayson
 
+$route['laboratories_update/(:any)/api/provinces'] ='api/provinces/index';
+$route['laboratories_update/(:any)/api/cities'] ='api/cities/index';
+$route['laboratories_update/(:any)/api/barangays'] ='api/barangays/index';
+$route['laboratories_update/(:any)/view'] = 'laboratories_update/view/$1';
+$route['laboratories_update/(:any)/rupdate'] = 'laboratories_update/rupdate/$1';
+$route['laboratories_update/(:any)/laboratories_cooperators_update'] = 'laboratories_cooperators_update/index/$1';
+$route['laboratories_update/(:any)/laboratories_cooperators_update/add'] = 'laboratories_cooperators_update/add/$1';
+$route['laboratories_update/(:any)/laboratories_cooperators_update/(:any)/edit'] = 'laboratories_cooperators_update/edit/$1/$2';
+$route['laboratories_update/(:any)/UploadDocuments']= 'laboratories_update/UploadDocuments/$1'; //modify
+$route['laboratories_update/(:any)/upload_manual_operation/(:any)']= 'laboratories_update/upload_manual_operation/$1/$2'; //modify
+$route['laboratories_update/(:any)/upload_document_others_lab'] = 'laboratories_update/upload_document_others_lab/$1';
+$route['laboratories_update/(:any)/evaluate'] = 'laboratories_update/evaluate/$1';
 
 $route['laboratories/(:any)/laboratories_cooperators/api/regions'] ='api/regions/index';
 $route['laboratories/(:any)/laboratories_cooperators/api/provinces'] ='api/provinces/index';
@@ -393,7 +414,9 @@ $route['amendment/(:any)/amendment_documents/upload_document_two'] = 'amendment_
 $route['amendment/(:any)/amendment_documents/upload_document_one'] = 'amendment_documents/upload_document_one/$1';
 $route['amendment/(:any)/amendment_documents/affidavit_primary'] = 'amendment_documents/affidavit_primary/$1';
 $route['amendment/(:any)/bylaw_federation'] = 'amendment_documents/bylaws_federation/$1';
-
+$route['amendment/(:any)/document/articles_federation'] = 'amendment_documents/articles_federation/$1';
+$route['amendment/(:any)/document/articles_union'] = 'amendment_documents/articles_cooperation_union/$1';
+$route['amendment/(:any)/document/bylaws_union'] = 'amendment_documents/bylaws_union/$1';
 $route['amendment/(:any)/amendment_documents/articles_cooperation_primary'] = 'amendment_documents/articles_cooperation_primary/$1';
 $route['amendment/(:any)/amendment_documents/bylaws_primary'] = 'amendment_documents/bylaws_primary/$1';
 $route['amendment/(:any)/amendment_documents'] = 'amendment_documents/index/$1';
