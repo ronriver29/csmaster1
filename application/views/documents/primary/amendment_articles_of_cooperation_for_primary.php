@@ -218,7 +218,7 @@
 
               {
 
-                $proposedName_original = $orig_proposedName_formated;
+                $proposedName_previousinal = $orig_proposedName_formated;
 
               }
 
@@ -226,7 +226,7 @@
 
               {
 
-                $proposedName_original = $orig_proposedName_formated;
+                $proposedName_previousinal = $orig_proposedName_formated;
 
               }
 
@@ -240,17 +240,17 @@
 
         
 
-         $proposedName_original = trim(preg_replace('/\s\s+/', ' ', $proposedName_original));
+         $proposedName_previousinal = trim(preg_replace('/\s\s+/', ' ', $proposedName_previousinal));
 
           $proposedName = trim(preg_replace('/\s\s+/', ' ', $proposedName));
 
           //   var_dump($proposedName);
 
-          // var_dump($proposedName_original);
+          // var_dump($proposedName_previousinal);
 
-          // echo strcmp($proposedName_original,trim($proposedName)); //"prints" 0
+          // echo strcmp($proposedName_previousinal,trim($proposedName)); //"prints" 0
 
-          if(trim($proposedName) === trim($proposedName_original))
+          if(trim($proposedName) === trim($proposedName_previousinal))
 
           {
 
@@ -392,13 +392,13 @@
 
            $content_array = array_reverse(explode(';',$purpose['content']));
 
-          if(isset($purposes_list_orig[$key]))
+          if(isset($purposes_list_previous[$key]))
 
           {
 
-            $content_array_orign = array_reverse(explode(';',$purposes_list_orig[$key]['content']));
+            $content_array_previousn = array_reverse(explode(';',$purposes_list_previous[$key]['content']));
 
-            if(strcasecmp($purposes_list_orig[$key]['cooperative_type'],$purpose['cooperative_type'])!=0)
+            if(strcasecmp($purposes_list_previous[$key]['cooperative_type'],$purpose['cooperative_type'])!=0)
 
             {
 
@@ -412,13 +412,13 @@
 
             {
 
-              if(isset($content_array_orign[$keys]))
+              if(isset($content_array_previousn[$keys]))
 
               {
 
-                // echo $content_array_orign[$keys].'<br> '.$content_.'<br>';
+                // echo $content_array_previousn[$keys].'<br> '.$content_.'<br>';
 
-                 if(strcasecmp($content_array_orign[$keys],$content_)!=0)
+                 if(strcasecmp($content_array_previousn[$keys],$content_)!=0)
 
                   {
 
@@ -651,8 +651,7 @@
     $years_of_existence2=ucwords(num_format_custom($article_info->years_of_existence));
 
 
-
-    if($article_info_orig->years_of_existence!=$article_info->years_of_existence)
+    if($article_info_previous->years_of_existence!=$article_info->years_of_existence)
 
     {
 
@@ -661,8 +660,6 @@
        $years_of_existence2='<strong>'. $years_of_existence2.'</strong>';
 
     }
-
-  
 
     ?>
 
@@ -692,7 +689,7 @@
 
       
 
-      if(strcasecmp($coop_info_orig->common_bond_of_membership,$coop_info->common_bond_of_membership)!=0)
+      if(strcasecmp($coop_info_previous->common_bond_of_membership,$coop_info->common_bond_of_membership)!=0)
 
       {
 
@@ -730,17 +727,17 @@
 
   </div>
 
-   <?php $area_of_operation_orig ='';?>
+   <?php $area_of_operation_previous ='';?>
 
-       <?php if($coop_info_orig->area_of_operation=="Barangay"){ ?>
+       <?php if($coop_info_previous->area_of_operation=="Barangay"){ ?>
 
         <?php
 
-         if($in_chartered_cities_orig)
+         if($in_chartered_cities_previous)
 
           {
 
-            $area_of_operation_orig= $coop_info_orig->brgy.' '.$chartered_cities_orig.' '.$coop_info_orig->region;
+            $area_of_operation_previous= $coop_info_previous->brgy.' '.$chartered_cities_previous.' '.$coop_info_previous->region;
 
           }
 
@@ -748,13 +745,13 @@
 
           {
 
-            $area_of_operation_orig =$coop_info_orig->brgy.' '.$coop_info_orig->city.' '.$coop_info_orig->province.' '.$coop_info_orig->region;
+            $area_of_operation_previous =$coop_info_previous->brgy.' '.$coop_info_previous->city.' '.$coop_info_previous->province.' '.$coop_info_previous->region;
 
           }
 
         ?>
 
-       <?php }else if($coop_info_orig->area_of_operation=="Municipality/City"){ ?>
+       <?php }else if($coop_info_previous->area_of_operation=="Municipality/City"){ ?>
 
          <?php
 
@@ -762,7 +759,7 @@
 
          {
 
-            $area_of_operation_orig = $chartered_cities.' '.$coop_info_orig->region;
+            $area_of_operation_previous = $chartered_cities.' '.$coop_info_previous->region;
 
          }
 
@@ -770,23 +767,23 @@
 
          {
 
-            $area_of_operation_orig =$coop_info_orig->city.' '.$coop_info_orig->province.' '.$coop_info_orig->region;
+            $area_of_operation_previous =$coop_info_previous->city.' '.$coop_info_previous->province.' '.$coop_info_previous->region;
 
          }
 
          ?>
 
-      <?php }else if($coop_info_orig->area_of_operation=="Provincial"){
+      <?php }else if($coop_info_previous->area_of_operation=="Provincial"){
 
-         $area_of_operation_orig=$coop_info_orig->province.' '.$coop_info_orig->region;
+         $area_of_operation_previous=$coop_info_previous->province.' '.$coop_info_previous->region;
 
-       }else if($coop_info_orig->area_of_operation=="Regional"){
+       }else if($coop_info_previous->area_of_operation=="Regional"){
 
-         $area_of_operation_orig= $coop_info_orig->region;
+         $area_of_operation_previous= $coop_info_previous->region;
 
        }else{
 
-         $area_of_operation_orig= "Philippines";
+         $area_of_operation_previous= "Philippines";
 
        }
 
@@ -876,7 +873,7 @@
 
 
 
-         if(strcasecmp($area_of_operation_, $area_of_operation_orig)!=0)
+         if(strcasecmp($area_of_operation_, $area_of_operation_previous)!=0)
 
          {
 
@@ -898,11 +895,11 @@
 
        $address = $coop_info->house_blk_no.' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.' '.($in_chartered_cities ? $chartered_cities : $coop_info->city.', '.$coop_info->province).' '.$coop_info->region;
 
-      $address_orig = $coop_info_orig->house_blk_no.' '.ucwords($coop_info_orig->street).$x.' '.$coop_info_orig->brgy.' '.($in_chartered_cities_orig ? $chartered_cities_orig : $coop_info_orig->city.', '.$coop_info_orig->province).' '.$coop_info_orig->region;
+      $address_previous = $coop_info_previous->house_blk_no.' '.ucwords($coop_info_previous->street).$x.' '.$coop_info_previous->brgy.' '.($in_chartered_cities_previous ? $chartered_cities_previous : $coop_info_previous->city.', '.$coop_info_previous->province).' '.$coop_info_previous->region;
 
-       ?>. Its principal office shall be located at <?=(strcasecmp($address, $address_orig)!=0 ? '<b>'.$address.'</b>' : $address)?>.</p>
+       ?>. Its principal office shall be located at <?=(strcasecmp($address, $address_previous)!=0 ? '<b>'.$address.'</b>' : $address)?>.</p>
 
-       <?php //strcasecmp($address, $address_orig);?>
+       <?php //strcasecmp($address, $address_previous);?>
 
     </div>
 
@@ -1040,27 +1037,27 @@
 
               <?php
 
-              if(isset($cooperators_list_board_orig[$key]))
+              if(isset($cooperators_list_board_previous[$key]))
 
               {
 
-                  $cooperator_orig = $cooperators_list_board_orig[$key];
+                  $cooperator_previous = $cooperators_list_board_previous[$key];
 
-                   $in_chartered_cities_cptr_orig =false;
+                   $in_chartered_cities_cptr_previous =false;
 
-                  if($this->charter_model->in_charter_city($cooperator_orig['cCode']))
+                  if($this->charter_model->in_charter_city($cooperator_previous['cCode']))
 
                   {
 
-                    $in_chartered_cities_cptr_orig=true;
+                    $in_chartered_cities_cptr_previous=true;
 
-                    $in_chartered_cities_cptr_orig =$this->charter_model->get_charter_city($cooperator_orig['cCode']);
+                    $in_chartered_cities_cptr_previous =$this->charter_model->get_charter_city($cooperator_previous['cCode']);
 
                   }
 
 
 
-                  if(strcasecmp($cooperator_orig['full_name'],$cooperator['full_name'])!=0)
+                  if(strcasecmp($cooperator_previous['full_name'],$cooperator['full_name'])!=0)
 
                   {
 
@@ -1084,7 +1081,7 @@
 
                   }
 
-                  $charter_cptr_orig='';
+                  $charter_cptr_previous='';
 
                   $charter_cptr = '';
 
@@ -1104,11 +1101,11 @@
 
                   }
 
-                  if($in_chartered_cities_cptr_orig)
+                  if($in_chartered_cities_cptr_previous)
 
                   {
 
-                    $charter_cptr_orig=$cooperator_orig['city'];
+                    $charter_cptr_previous=$cooperator_previous['city'];
 
                   }
 
@@ -1116,7 +1113,7 @@
 
                   {
 
-                    $charter_cptr_orig = $cooperator_orig['city'].', '.$cooperator_orig['province'];
+                    $charter_cptr_previous = $cooperator_previous['city'].', '.$cooperator_previous['province'];
 
                   }
 
@@ -1126,11 +1123,11 @@
 
 
 
-                  $address_orig = $cooperator_orig['house_blk_no'].' '.$cooperator_orig['streetName'].$x.$cooperator_orig['brgy'].', '.$charter_cptr_orig;
+                  $address_previous = $cooperator_previous['house_blk_no'].' '.$cooperator_previous['streetName'].$x.$cooperator_previous['brgy'].', '.$charter_cptr_previous;
 
 
 
-                  if($address != $address_orig)
+                  if($address != $address_previous)
 
                   {
 
@@ -1156,7 +1153,7 @@
 
               {
 
-                  if(strcasecmp($cooperator_orig['full_name'],$cooperator['full_name'])!=0)
+                  if(strcasecmp($cooperator_previous['full_name'],$cooperator['full_name'])!=0)
 
                   {
 
@@ -1182,7 +1179,7 @@
 
                   $address = $cooperator['house_blk_no'].' '.$cooperator['streetName'].$x.$cooperator['brgy'].', '. $charter_cptr;
 
-                  $address_orig = $cooperator_orig['house_blk_no'].' '.$cooperator_orig['streetName'].$x.$cooperator_orig['brgy'].', '.$charter_cptr_orig;
+                  $address_previous = $cooperator_previous['house_blk_no'].' '.$cooperator_previous['streetName'].$x.$cooperator_previous['brgy'].', '.$charter_cptr_previous;
 
                    $address = '<strong>'.$address.'</strong>';
 
@@ -1314,7 +1311,7 @@
 
     <div class="col-sm-12 col-md-12 text-left">
 
-      <p class="text-justify" style="text-indent: 50px;">That the number of Directors of this Cooperative shall be <?=num_format_custom($no_of_directors)?>(<?= $no_of_directors?>) and shall serve until their successors shall have been elected and qualified within <?=($article_info->directors_turnover_days!=$article_info_orig->directors_turnover_days ? "<b>".$article_info->directors_turnover_days."</b>" : $article_info->directors_turnover_days)?> days from the date of registration as provided in the By-laws.</p>
+      <p class="text-justify" style="text-indent: 50px;">That the number of Directors of this Cooperative shall be <?=num_format_custom($no_of_directors)?>(<?= $no_of_directors?>) and shall serve until their successors shall have been elected and qualified within <?=($article_info->directors_turnover_days!=$article_info_previous->directors_turnover_days ? "<b>".$article_info->directors_turnover_days."</b>" : $article_info->directors_turnover_days)?> days from the date of registration as provided in the By-laws.</p>
 
     </div>
 
@@ -1346,13 +1343,13 @@
 
               <?php
 
-              // var_dump($directors_list_orig);  
+              // var_dump($directors_list_previous);  
 
-              if(isset($directors_list_orig[$keys]))
+              if(isset($directors_list_previous[$keys]))
 
               {
 
-                $director_orig = $directors_list_orig[$keys];
+                $director_previous = $directors_list_previous[$keys];
 
               ?>
 
@@ -1362,7 +1359,7 @@
 
                 <?php
 
-                if(strcasecmp($director_orig['full_name'],$director['full_name'])!=0)
+                if(strcasecmp($director_previous['full_name'],$director['full_name'])!=0)
 
                 {
 
@@ -1460,7 +1457,7 @@
 
     $authorized_share_capital2='';
 
-    if($capitalization_info_orig->authorized_share_capital!=$capitalization_info->authorized_share_capital)
+    if($capitalization_info_previous->authorized_share_capital!=$capitalization_info->authorized_share_capital)
 
     {
 
@@ -1480,7 +1477,7 @@
 
     }
 
-    if($capitalization_info_orig->common_share!=$capitalization_info->common_share)
+    if($capitalization_info_previous->common_share!=$capitalization_info->common_share)
 
     {
 
@@ -1502,7 +1499,7 @@
 
 
 
-    if($capitalization_info_orig->par_value!=$capitalization_info->par_value)
+    if($capitalization_info_previous->par_value!=$capitalization_info->par_value)
 
     {
 
@@ -1512,7 +1509,7 @@
 
 
 
-    if($capitalization_info_orig->preferred_share!=$capitalization_info->preferred_share)
+    if($capitalization_info_previous->preferred_share!=$capitalization_info->preferred_share)
 
     {
 
@@ -1538,7 +1535,7 @@
 
 
 
-    if($capitalization_info_orig->par_value!=$capitalization_info->par_value)
+    if($capitalization_info_previous->par_value!=$capitalization_info->par_value)
 
     {
 
@@ -1576,7 +1573,7 @@
 
       <ol class="text-justify" type="a">
 
-        <li> <?= (strcasecmp($capitalization_info->common_share,$capitalization_info_orig->common_share)!=0 ? '<b>'.ucwords(num_format_custom($capitalization_info->common_share)).'</b>' : ucwords(num_format_custom($capitalization_info->common_share)))?>  (<?= (strcasecmp($capitalization_info->common_share, $capitalization_info_orig->common_share)!=0 ? '<b>'.number_format($capitalization_info->common_share).'</b>' : number_format($capitalization_info->common_share))?>) common shares with a par value of <?= ucwords(num_format_custom($capitalization_info->par_value))?> Pesos (Php <?=number_format($capitalization_info->par_value,2)?> ) per share;</li>
+        <li> <?= (strcasecmp($capitalization_info->common_share,$capitalization_info_previous->common_share)!=0 ? '<b>'.ucwords(num_format_custom($capitalization_info->common_share)).'</b>' : ucwords(num_format_custom($capitalization_info->common_share)))?>  (<?= (strcasecmp($capitalization_info->common_share, $capitalization_info_previous->common_share)!=0 ? '<b>'.number_format($capitalization_info->common_share).'</b>' : number_format($capitalization_info->common_share))?>) common shares with a par value of <?= ucwords(num_format_custom($capitalization_info->par_value))?> Pesos (Php <?=number_format($capitalization_info->par_value,2)?> ) per share;</li>
 
         <?php if($bylaw_info->kinds_of_members == 2) :?>
 
@@ -1608,9 +1605,9 @@
 
       $total_regular_words=$total_regular['total_subscribed'] * $capitalization_info->par_value;
 
-      $totalRegular_orig = $total_regular_orig['total_subscribed'] * $capitalization_info_orig->par_value;
+      $totalRegular_previous = $total_regular_previous['total_subscribed'] * $capitalization_info_previous->par_value;
 
-      if(strcasecmp($totalRegular_orig,$totalRegular)!=0)
+      if(strcasecmp($totalRegular_previous,$totalRegular)!=0)
 
       {
 
@@ -1636,13 +1633,13 @@
 
       $regular_total_subscibed = $total_regular['total_subscribed'] * $capitalization_info->par_value + ($total_associate['total_subscribed'] * $capitalization_info->par_value);
 
-       $regular_total_subscibed_orig = $total_regular_orig['total_subscribed'] * $capitalization_info_orig->par_value + ($total_associate_orig['total_subscribed'] * $capitalization_info_orig->par_value);
+       $regular_total_subscibed_previous = $total_regular_previous['total_subscribed'] * $capitalization_info_previous->par_value + ($total_associate_previous['total_subscribed'] * $capitalization_info_previous->par_value);
 
          $regular_total_subscibed2='';
 
           $regular_total_subscibed2= num_format_custom($regular_total_subscibed);
 
-      if($regular_total_subscibed_orig!=$regular_total_subscibed)
+      if($regular_total_subscibed_previous!=$regular_total_subscibed)
 
       {   
 
@@ -1670,13 +1667,13 @@
 
       $totalRegular2 =($total_regular['total_subscribed'] * $capitalization_info->par_value) + ($total_associate['total_subscribed'] * $capitalization_info->preferred_share);
 
-      $totalRegular2_orig =($total_regular_orig['total_subscribed'] * $capitalization_info->par_value) + ($total_associate_orig['total_subscribed'] *$capitalization_info->par_value);
+      $totalRegular2_previous =($total_regular_previous['total_subscribed'] * $capitalization_info->par_value) + ($total_associate_previous['total_subscribed'] *$capitalization_info->par_value);
 
 
 
       //else
 
-      if(  $totalRegular2_orig!=  $totalRegular2)
+      if(  $totalRegular2_previous!=  $totalRegular2)
 
       {
 
@@ -1686,9 +1683,9 @@
 
       $paidUp =($total_regular['total_paid'] * $capitalization_info->par_value) + ($total_associate['total_paid'] * $capitalization_info->par_value);
 
-      $paidUp_orig =($total_regular_orig['total_paid'] * $capitalization_info_orig->par_value) + ($total_associate_orig['total_paid'] * $capitalization_info_orig->par_value);
+      $paidUp_previous =($total_regular_previous['total_paid'] * $capitalization_info_previous->par_value) + ($total_associate_previous['total_paid'] * $capitalization_info_previous->par_value);
 
-      if($paidUp_orig!=$paidUp)
+      if($paidUp_previous!=$paidUp)
 
       {
 
@@ -1778,11 +1775,11 @@
 
               <?php 
 
-              if(isset($regular_cooperator_list_orig[$key]))
+              if(isset($regular_cooperator_list_previous[$key]))
 
               {
 
-                  $regular_orig = $regular_cooperator_list_orig[$key];
+                  $regular_previous = $regular_cooperator_list_previous[$key];
 
               ?>
 
@@ -1790,11 +1787,11 @@
 
                   <td style="text-align: center;">
 
-                    <?= ($regular['number_of_subscribed_shares']!=$regular_orig['number_of_subscribed_shares'] ? '<strong>'.$regular['number_of_subscribed_shares'].'</strong>' : $regular['number_of_subscribed_shares'])?></td>
+                    <?= ($regular['number_of_subscribed_shares']!=$regular_previous['number_of_subscribed_shares'] ? '<strong>'.$regular['number_of_subscribed_shares'].'</strong>' : $regular['number_of_subscribed_shares'])?></td>
 
                   <td style="text-align: right;"><?= number_format(($regular['number_of_subscribed_shares'] * stringToNumbers_($capitalization_info->par_value)),2)?></td>
 
-                  <td style="text-align: center;"><?= ($regular['number_of_paid_up_shares']!=$regular_orig['number_of_paid_up_shares'] ? '<strong>'.$regular['number_of_paid_up_shares'].'</strong>' : $regular['number_of_paid_up_shares'])?></td>
+                  <td style="text-align: center;"><?= ($regular['number_of_paid_up_shares']!=$regular_previous['number_of_paid_up_shares'] ? '<strong>'.$regular['number_of_paid_up_shares'].'</strong>' : $regular['number_of_paid_up_shares'])?></td>
 
                   <td style="text-align: right;"><?= number_format(($regular['number_of_paid_up_shares'] * stringToNumbers_($capitalization_info->par_value)),2)?></td>
 
@@ -1866,7 +1863,7 @@
 
               <td>Sub Total</td>
 
-              <td style="text-align: center;"><?= (strcasecmp($total_regular['total_subscribed'],$total_regular_orig['total_subscribed'])!=0 ? "<b>".$total_regular['total_subscribed']."</b>" : $total_regular['total_subscribed'])?></td>
+              <td style="text-align: center;"><?= (strcasecmp($total_regular['total_subscribed'],$total_regular_previous['total_subscribed'])!=0 ? "<b>".$total_regular['total_subscribed']."</b>" : $total_regular['total_subscribed'])?></td>
 
 
 
@@ -1874,9 +1871,9 @@
 
               $sub =number_format(($total_regular['total_subscribed'] * $capitalization_info->par_value),2);
 
-              $sub_orig= number_format(($total_regular_orig['total_subscribed'] * $capitalization_info_orig->par_value),2);
+              $sub_previous= number_format(($total_regular_previous['total_subscribed'] * $capitalization_info_previous->par_value),2);
 
-              if(strcasecmp($sub_orig, $sub)!=0)
+              if(strcasecmp($sub_previous, $sub)!=0)
 
               {
 
@@ -1890,7 +1887,7 @@
 
 
 
-              <td style="text-align: center;"><?= (strcasecmp($total_regular['total_paid'],$total_regular_orig['total_paid'])!=0 ? '<b>'.$total_regular['total_paid'].'</b>' : $total_regular['total_paid']) ?></td>
+              <td style="text-align: center;"><?= (strcasecmp($total_regular['total_paid'],$total_regular_previous['total_paid'])!=0 ? '<b>'.$total_regular['total_paid'].'</b>' : $total_regular['total_paid']) ?></td>
 
 
 
@@ -1898,9 +1895,9 @@
 
              $subs1 = number_format(($total_regular['total_paid'] * $capitalization_info->par_value),2);
 
-              $subs1_orig = number_format(($total_regular_orig['total_paid'] * $capitalization_info_orig->par_value),2);
+              $subs1_previous = number_format(($total_regular_previous['total_paid'] * $capitalization_info_previous->par_value),2);
 
-              if(strcasecmp($subs1_orig,$subs1)!=0)
+              if(strcasecmp($subs1_previous,$subs1)!=0)
 
               {
 
@@ -1976,27 +1973,27 @@
 
               <?php
 
-                if(isset($associate_cooperator_list_orig[$key]))
+                if(isset($associate_cooperator_list_previous[$key]))
 
                 {
 
-                  $associate_orig = $associate_cooperator_list_orig [$key];?>
+                  $associate_previous = $associate_cooperator_list_previous [$key];?>
 
                   ?>
 
-                    <td><?=($associate['full_name']!=$associate_orig['full_name'] ? '<b>'.$count.'. '.$associate['full_name'].'</b>' : $count.'. '. $associate['full_name'])?></td>
+                    <td><?=($associate['full_name']!=$associate_previous['full_name'] ? '<b>'.$count.'. '.$associate['full_name'].'</b>' : $count.'. '. $associate['full_name'])?></td>
 
 
 
-                    <!--  <td><?=($associate['full_name']!=$associate_orig['full_name'] ? '<b>'.$count.'. '. $associate['full_name'].'</b>' : $count.'. '. $associate['full_name'])?></td> -->
+                    <!--  <td><?=($associate['full_name']!=$associate_previous['full_name'] ? '<b>'.$count.'. '. $associate['full_name'].'</b>' : $count.'. '. $associate['full_name'])?></td> -->
 
-                    <td style="text-align: center;"><?= ($associate['number_of_subscribed_shares']!=$associate_orig['number_of_subscribed_shares'] ? '<strong>'.$associate['number_of_subscribed_shares'].'</strong>' : $associate['number_of_subscribed_shares'])?></td>
+                    <td style="text-align: center;"><?= ($associate['number_of_subscribed_shares']!=$associate_previous['number_of_subscribed_shares'] ? '<strong>'.$associate['number_of_subscribed_shares'].'</strong>' : $associate['number_of_subscribed_shares'])?></td>
 
                     <td style="text-align: right;"><?= number_format(($associate['number_of_subscribed_shares'] * $capitalization_info->par_value),2)?></td>
 
 
 
-                    <td style="text-align: center;"><?= ($associate['number_of_paid_up_shares']!=$associate_orig['number_of_paid_up_shares'] ? '<strong>'.$associate['number_of_paid_up_shares'].'</strong>' : $associate['number_of_paid_up_shares'])?></td>
+                    <td style="text-align: center;"><?= ($associate['number_of_paid_up_shares']!=$associate_previous['number_of_paid_up_shares'] ? '<strong>'.$associate['number_of_paid_up_shares'].'</strong>' : $associate['number_of_paid_up_shares'])?></td>
 
 
 
@@ -2052,7 +2049,7 @@
 
               <td>Sub Total</td>
 
-              <td style="text-align: center;"><?= ($total_associate['total_subscribed']!=$total_associate_orig['total_subscribed'] ? "<b>".$total_associate['total_subscribed']."</b>" : $total_associate['total_subscribed'])?></td>
+              <td style="text-align: center;"><?= ($total_associate['total_subscribed']!=$total_associate_previous['total_subscribed'] ? "<b>".$total_associate['total_subscribed']."</b>" : $total_associate['total_subscribed'])?></td>
 
               <td style="text-align: right;"><?= number_format(($total_associate['total_subscribed'] * $capitalization_info->par_value),2)?></td>
 
@@ -2070,9 +2067,9 @@
 
               $grand_total = $total_regular['total_subscribed'] + $total_associate['total_subscribed'];
 
-               $grand_total_orig = $total_regular_orig['total_subscribed'] + $total_associate_orig['total_subscribed'];
+               $grand_total_previous = $total_regular_previous['total_subscribed'] + $total_associate_previous['total_subscribed'];
 
-               echo ($grand_total!=$grand_total_orig ? "<b>".$grand_total."</b>" : $grand_total);
+               echo ($grand_total!=$grand_total_previous ? "<b>".$grand_total."</b>" : $grand_total);
 
               ?></td>
 
@@ -2182,15 +2179,15 @@
 
               <?=$count++;?>
 
-              <?php  if(isset($regular_cooperator_list_orig[$key]))
+              <?php  if(isset($regular_cooperator_list_previous[$key]))
 
                 {
 
-                // echo"<pre>";print_r($regular_cooperator_list_orig[$key]['full_name']).' : '.($cooperator['full_name']);echo"<pre>";
+                // echo"<pre>";print_r($regular_cooperator_list_previous[$key]['full_name']).' : '.($cooperator['full_name']);echo"<pre>";
 
-                //   var_dump($regular_cooperator_list_orig[$key]['full_name']);var_dump($cooperator['full_name']);
+                //   var_dump($regular_cooperator_list_previous[$key]['full_name']);var_dump($cooperator['full_name']);
 
-                  if(strcasecmp($regular_cooperator_list_orig[$key]['full_name'],$cooperator['full_name'])!=0)
+                  if(strcasecmp($regular_cooperator_list_previous[$key]['full_name'],$cooperator['full_name'])!=0)
 
                   {
 
@@ -2318,11 +2315,11 @@
 
           {
 
-             if(isset($regular_cooperator_list_orig[$key]))
+             if(isset($regular_cooperator_list_previous[$key]))
 
               {
 
-                 $cooperator_orig =$regular_cooperator_list_orig[$key];
+                 $cooperator_previous =$regular_cooperator_list_previous[$key];
 
               }
 
@@ -2330,19 +2327,19 @@
 
               {
 
-                $regular_cooperator_list_orig[$key] =null;
+                $regular_cooperator_list_previous[$key] =null;
 
-                  $cooperator_orig =$regular_cooperator_list_orig[$key];
+                  $cooperator_previous =$regular_cooperator_list_previous[$key];
 
-                  $cooperator_orig['full_name']=null;
+                  $cooperator_previous['full_name']=null;
 
               }
 
                $cooperator['full_name']  = trim(preg_replace('/\s\s+/', ' ', $cooperator['full_name'] ));
 
-               $cooperator_orig['full_name'] = trim(preg_replace('/\s\s+/', ' ', $cooperator_orig['full_name']));
+               $cooperator_previous['full_name'] = trim(preg_replace('/\s\s+/', ' ', $cooperator_previous['full_name']));
 
-              if($cooperator['full_name'] !== $cooperator_orig['full_name'])
+              if($cooperator['full_name'] !== $cooperator_previous['full_name'])
 
               {
 
