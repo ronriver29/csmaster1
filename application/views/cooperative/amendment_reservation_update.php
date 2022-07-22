@@ -69,9 +69,9 @@
                   <select class="custom-select validate[required]" name="categoryOfCooperative" id="categoryOfCooperative">
               
                     <option value="Primary" <?php if($coop_info->category_of_cooperative=="Primary") echo "selected";?>>Primary</option>
-                    <option value="Secondary" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Secondary") echo "selected";?>>Secondary</option>
+                    <!-- <option value="Secondary" <?php if($coop_info->category_of_cooperative=="Secondary" && $coop_info->grouping=="Secondary") echo "selected";?>>Secondary</option>
                     <option value="Tertiary" <?php if($coop_info->category_of_cooperative=="Tertiary" ) echo "selected";?>>Tertiary</option>
-                    <option value="Others" <?php if($coop_info->category_of_cooperative=="Others") echo "selected";?>>Others</option>
+                    <option value="Others" <?php if($coop_info->category_of_cooperative=="Others") echo "selected";?>>Others</option> -->
                   </select>
                 </div>
               </div>
