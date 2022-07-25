@@ -55,7 +55,7 @@ public $decoded_id =null;
       $rCode = $coop_info->rCode;
       $x=$this->amendment_registration_model->registered_coop_count()+1;
       $j='9520-'.$pst.$rCode;
-      for($a=strlen($x);$a<8;$a++) //modify by json from 12 to 8
+      for($a=strlen($x);$a<8;$a++) 
       $j=$j.'0';
       $j=$j.$x;
       unset($a);
@@ -93,7 +93,7 @@ public $decoded_id =null;
 
               'type'=> $coop_info->type_of_cooperative,
 
-               'date_printed'=> date('m-d-Y',now('Asia/Manila')),
+               'date_printed'=> date('Y=m-d',now('Asia/Manila')),
 
               'dateRegistered'=>$coop_info->dateRegistered,
 
@@ -237,7 +237,7 @@ public $decoded_id =null;
 
         $data1['coop_info']=$coop_details;
 
-        $query_or = $this->db->get_where('payment',array('amendment_id'=>$this->decoded_id)); 
+        $query_or = $this->db->get_where('payment',array('amendment_id'=>$this->decoded_id));
 
         if($query_or->num_rows()>0)
 
@@ -262,7 +262,7 @@ public $decoded_id =null;
         }
 
         
-
+      
         $data1['date_year']= date('Y',strtotime($date_OR));
 
         $data1['date_month'] =date('F',strtotime($date_OR));
@@ -324,10 +324,23 @@ public $decoded_id =null;
           $data1['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
 
           //bylaws no of pages
-
-          $data1['bylaws_pages'] = $this->amendment_model->no_of_doc($this->decoded_id,'bylaws');
-        
-          $data1['articles_pages'] = $this->amendment_model->no_of_doc($this->decoded_id,'articles');
+          switch ($coop_details->category_of_cooperative) {
+            case 'Others':
+              $data1['bylaws_pages'] = $this->amendment_model->no_of_doc($this->decoded_id,'bylaws_union');
+              $data1['articles_pages'] = $this->amendment_model->no_of_doc($this->decoded_id,'articles_union');
+              break;
+            case 'Tertiary':
+            case 'Secondary':
+              $data1['bylaws_pages'] = $this->amendment_model->no_of_doc($this->decoded_id,'bylaws_federation');
+              $data1['articles_pages'] = $this->amendment_model->no_of_doc($this->decoded_id,'articles_federation');
+              break;
+            
+            default:
+              $data1['bylaws_pages'] = $this->amendment_model->no_of_doc($this->decoded_id,'bylaws');
+              $data1['articles_pages'] = $this->amendment_model->no_of_doc($this->decoded_id,'articles');
+              break;
+          }
+         
 
           $amendment_info = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
 

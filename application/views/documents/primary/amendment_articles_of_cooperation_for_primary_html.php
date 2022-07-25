@@ -1775,7 +1775,7 @@
       
 
                <?php
-              
+
                $count=0; 
 
                foreach($regular_cooperator_list_new as $key => $regular) : ?>
@@ -1783,7 +1783,6 @@
               <tr>
 
               <?php $count++; ?>
-
 
 
                   <td><?=$count?> <?=($regular['full_name']!=$regular['orig_full_name'] ? "<b>".$regular['full_name']."</b>" : $regular['full_name'])?></td>
@@ -2468,7 +2467,7 @@
 
     <div class="col-sm-12 col-md-12 text-left">
 
-      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?=$type_of_coop?> Cooperative <?php if(strlen($coop_info->acronym)>0){ echo '('.$coop_info->acronym.')';}?>, consists of <u><?=$this->session->userdata('pagecount')?></u> pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>
+      <p class="text-justify" style="text-indent: 50px;">This instrument known as Article of Cooperation of <?= $coop_info->proposed_name?> <?=$type_of_coop?> Cooperative <?php if(strlen($coop_info->acronym)>0){ echo '('.$coop_info->acronym.')';}?>, consists of <u><?=($articles_pages !=NULL ?$articles_pages->total_pages :'');?></u> pages including this page where the acknowledgment is written signed by parties and their instrumental witnesses on each and every page thereof.</p>
 
     </div>
 
