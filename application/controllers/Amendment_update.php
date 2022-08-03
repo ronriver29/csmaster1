@@ -783,7 +783,7 @@ class Amendment_update extends CI_Controller{
                   $data['coop_info'] = $this->amendment_update_model->get_coop_info2($this->decoded_id);
                   $data['coop_info2'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$this->decoded_id);
                   $data['client_info'] = $this->user_model->get_user_info($data['coop_info2']->users_id); 
-                 if($data['client_info']->regno==NULL)
+                 if( $this->amendment_update_model->check_user_($data['coop_info']->regNo,$data['coop_info']->users_id))
                  {
                   $this->amendment_update_model->update_user_coop($data['coop_info']->regNo,$data['coop_info']->id);
                  }
