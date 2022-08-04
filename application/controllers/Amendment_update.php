@@ -4,6 +4,7 @@
 // use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Amendment_update extends CI_Controller{
   public $decoded_id = null; 
+  public $data = '';
     public function __construct()
     {
       parent::__construct();
@@ -499,7 +500,7 @@ class Amendment_update extends CI_Controller{
                   $list_subclass = $this->load_subclass($data['coop_info']->cooperative_type_id);
                   $data['load_major'] = $list_majors;
                   $data['load_subclass'] = $list_subclass;
-
+                  // var_dump($data['coop_info']);
                   $qry_business_act = $this->db->get_where('business_activities_cooperative_amendment',array('amendment_id'=>$this->decoded_id));
                  // $this->debug($this->db->last_query());
                   if($qry_business_act->num_rows()>0)
@@ -544,7 +545,7 @@ class Amendment_update extends CI_Controller{
                        unset($srow);
                        $data['list_subclass'] = $list_subclass;
                       }  
-                      unset($data);
+                      
                     } unset($brow);
                   }
                   // $data['members_compositions']=$this->amendment_update_model->get_composition_of_members($this->decoded_id);
