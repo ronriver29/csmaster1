@@ -131,16 +131,16 @@ class Amendment_documents extends CI_Controller{
                                  $data['acbl'] = $this->amendment_model->get_acbl($this->decoded_id,$data['coop_info']->category_of_cooperative);
                               // var_dump($data['acbl']);
                                 $this->load->view('template/header', $data);
-                                switch ($data['coop_info']->custom_acbl) {
-                                  case 0:
+                                // switch ($data['coop_info']->custom_acbl) {
+                                //   case 0:
                                         $this->load->view('documents/amendment_list_of_documents', $data);
-                                    break;
-                                  default:
-                                      $data['uploaded_articles'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,41);
-                                       $data['uploaded_bylaws'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,40);
-                                     $this->load->view('documents/list_amendment_documents_acbl', $data);
-                                    break;
-                                }
+                                //     break;
+                                //   default:
+                                //       $data['uploaded_articles'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,41);
+                                //        $data['uploaded_bylaws'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,40);
+                                //      $this->load->view('documents/list_amendment_documents_acbl', $data);
+                                //     break;
+                                // }
                               
                                 $this->load->view('template/footer');
                       
@@ -311,16 +311,16 @@ class Amendment_documents extends CI_Controller{
                                       $data['amendment_id'] = $this->decoded_id;
                                      
                                       $this->load->view('templates/admin_header', $data);
-                                      switch ($data['coop_info']->custom_acbl) {
-                                        case 0:
+                                      // switch ($data['coop_info']->custom_acbl) {
+                                      //   case 0:
                                               $this->load->view('documents/amendment_list_of_documents', $data);
-                                          break;
-                                        default:
-                                            $data['uploaded_articles'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,41);
-                                             $data['uploaded_bylaws'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,40);
-                                           $this->load->view('documents/list_amendment_documents_acbl', $data);
-                                          break;
-                                      }    
+                                      //     break;
+                                      //   default:
+                                      //       $data['uploaded_articles'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,41);
+                                      //        $data['uploaded_bylaws'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,40);
+                                      //      $this->load->view('documents/list_amendment_documents_acbl', $data);
+                                      //     break;
+                                      // }    
                                       $this->load->view('amendment/evaluation/approve_modal_cooperative');
                                       $this->load->view('amendment/evaluation/deny_modal_cooperative');
                                       $this->load->view('amendment/evaluation/revert_modal');
