@@ -237,7 +237,7 @@ public $decoded_id =null;
 
         $data1['coop_info']=$coop_details;
 
-        $query_or = $this->db->select('date_of_or')->from('payment')->where(array('amendment_id'=>$this->decoded_id)->limit(1)->get());
+        $query_or = $this->db->select('date_of_or')->from('payment')->where(array('amendment_id'=>$this->decoded_id)->order_by('id','asc')->limit(1)->get());
 
         if($query_or->num_rows()>0)
 
