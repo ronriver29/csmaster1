@@ -110,8 +110,15 @@
           </div>
           <div class="col-sm-12 col-md-3">
             <div class="form-group">
-              <label for="bDate"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>Age must be 18 years old and above.</li>"></i> Birth Date:</label>
-              <input type="date" value="<?= $cooperator_info->birth_date ?>" class="form-control validate[required,funcCall[validateAgeCustom]]" id="bDate" name="bDate">
+              <?php if($coop_info->is_youth == 1){
+                $addition_funcall = 'funcCall[validateAgeYouthCustom]';
+                $age_must_be = 'Age must be 18 years old and not 30 above.';
+              } else {
+                $addition_funcall = 'funcCall[validateAgeCustom]';
+                $age_must_be = 'Age must be 18 years old and above.';
+              }?>
+              <label for="bDate"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li><?=$age_must_be;?></li>"></i> Birth Date:</label>
+              <input type="date" value="<?= $cooperator_info->birth_date ?>" class="form-control validate[required,<?=$addition_funcall?>]" id="bDate" name="bDate">
             </div>
           </div>
           <div class="col-sm-12 col-md-12">

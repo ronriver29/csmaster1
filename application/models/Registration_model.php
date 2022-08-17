@@ -79,18 +79,29 @@ class registration_model extends CI_Model{
     {
       $grouping = $coop_info->grouping;
     }
+    if($coop_info->is_youth == 1){
+        $youth_name = 'Youth ';
+      } else {
+        $youth_name = '';
+      }
     if($coop_info->grouping == 'Federation'){
       $coopName = $coop_info->proposed_name.' Federation of '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname;
     } else if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){
       $coopName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname;
     } else {
-      $coopName = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative'.' '.$acronymname.$grouping;
+      $coopName = $coop_info->proposed_name.' '.$youth_name.$coop_info->type_of_cooperative.' Cooperative'.' '.$acronymname;
+    }
+
+    if($coop_info->type_of_cooperative == 'Union' && $coop_info->grouping == 'Union'){
+      $category_of_union = 'Others';
+    } else {
+      $category_of_union = $coop_info->category_of_cooperative;
     }
     // proposed_name, ' ', type_of_cooperative,' Cooperative ','$acronymname',' ',grouping
     $data_reg = array(
         'coopName'=>$coopName, 
         'regNo'=> $j, 
-        'category'=> $coop_info->category_of_cooperative, 
+        'category'=> $category_of_union, 
         'type'=> $coop_info->type_of_cooperative, 
         'dateRegistered'=> date('m-d-Y',now('Asia/Manila')), 
         'commonBond'=> $coop_info->common_bond_of_membership, 
@@ -102,10 +113,27 @@ class registration_model extends CI_Model{
         'application_id'=> $coop_id
     );
     $this->db->insert('registeredcoop',$data_reg);
+
+    $ifRegNoExists= $this->db->query("SELECT * from coop_status where regNo='".$j."'");
+      if($ifRegNoExists->num_rows()<=0)
+      {
+        $now = date('Y-m-d H:i:s');
+        $status_tag = array(
+          'regNo' => $j,
+          'coverageYear' => date('Y', strtotime($now. ' - 1 year')),
+          'status_id' => 1,
+          'created_at' => $now,
+          'created_by' => $this->session->userdata('user_id'),
+          'active' => 1
+        );
+
+        $this->db->insert('coop_status',$status_tag);
+      }
+
     // $sql=" INSERT INTO registeredcoop(coopName, regNo, category, type, dateRegistered, commonBond, areaOfOperation, noStreet, street, addrCode, compliant,application_id) SELECT RTRIM(CONCAT(proposed_name, ' ', type_of_cooperative,' Cooperative ','$acronymname',' ',grouping)), ?, category_of_cooperative, type_of_cooperative, ?, common_bond_of_membership, area_of_operation, house_blk_no, street, refbrgy_brgyCode, 'Compliant',id FROM cooperatives WHERE id=".$coop_id;
     // $this->db->query($sql,array($j,date('m-d-Y',now('Asia/Manila'))));
 
-    $this->db->update('cooperatives', array('status'=>15),array('id'=>$coop_id));
+    $this->db->update('cooperatives', array('status'=>15,'category_of_cooperative'=>$category_of_union),array('id'=>$coop_id));
 
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();

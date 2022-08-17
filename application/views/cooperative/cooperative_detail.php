@@ -773,15 +773,15 @@
         <small>
         <strong>Proposed Name:</strong>
         <p class="text-muted">
-          <?php // if($coop_info->is_youth == 0){ ?>
+          <?php if($coop_info->is_youth == 0){ ?>
             <?php if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union') {?>
                 <?= $coop_info->proposed_name?> <?= $coop_info->grouping?> Of <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
             <?php } else { ?>
                 <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> 
             <?php } ?>
-          <?php // } else {?>
-                <?php // echo $coop_info->proposed_name?> <!-- Youth --> <?php // echo $coop_info->type_of_cooperative?> <!-- Cooperative --> <?php // if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
-          <?php // } ?>
+          <?php } else {?>
+                <?= $coop_info->proposed_name?> Youth <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
+          <?php } ?>
         </p>
         <hr>
         <strong>Category of Cooperative</strong>
@@ -1036,11 +1036,11 @@
         </div>
         <?php if($coop_info->status!= 0 && $bylaw_complete && $article_complete && $grouping && $committees_complete && $purposes_complete): ?>
         <small class="text-muted">
-          <?php // if($coop_info->created_at >= '2022-03-08'){ ?>
-            <!-- <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/simplified_survey" class="btn btn-info btn-sm">View</a> -->
-          <?php // } else { ?>
+          <?php if($coop_info->created_at >= '2022-03-08'){ ?>
+            <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/simplified_survey" class="btn btn-info btn-sm">View</a>
+          <?php } else { ?>
             <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/survey" class="btn btn-info btn-sm">View</a>
-          <?php // } ?>
+          <?php } ?>
         </small>
       <?php endif ?>
       </li>
@@ -1101,7 +1101,12 @@
               <?php if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){?>
                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->grouping?> Of <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Submit</button>
               <?php } else {?>
-                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Submit</button>
+                <?php if($coop_info->is_youth == 1){
+                  $youth_name = 'Youth';
+                } else {
+                  $youth_name = '';
+                }?>
+                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?=$youth_name?> <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Submit</button>
               <?php }?>
               <?php if($coop_info->status!=3 && $coop_info->status!=6){?>
               <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>"  <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button>
@@ -1178,7 +1183,7 @@
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 font-weight-bold">Step 4</h5>
             <small class="text-muted">
-              <?php if($coop_info->grouping == 'Federation'){
+              <?php if($coop_info->grouping == 'Federation' || $coop_info->type_of_cooperative == 'Technology Service'){
                   $grouping = $affiliator_complete;
               } else if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){
                   $grouping = $affiliates_complete;
@@ -1194,7 +1199,7 @@
             </small>
           </div>
             <?php
-                if($coop_info->grouping == 'Federation'){
+                if($coop_info->grouping == 'Federation' || $coop_info->type_of_cooperative == 'Technology Service'){
                     $groupingname = 'Affiliators';
                     $stepfourdirectory = 'affiliators';
                 } else if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union') {
@@ -1290,11 +1295,11 @@
             <?php // if($count == 0) {?>
             <?php // } else {?>
                 <small class="text-muted">
-                  <?php // if($coop_info->created_at >= '2022-03-08'){ ?>
-                    <!-- <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/simplified_survey" class="btn btn-info btn-sm">View</a> -->
-                  <?php // } else { ?>
+                  <?php if($coop_info->created_at >= '2022-03-08'){ ?>
+                    <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/simplified_survey" class="btn btn-info btn-sm">View</a>
+                  <?php } else { ?>
                     <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/survey" class="btn btn-info btn-sm">View</a>
-                  <?php // } ?>
+                  <?php } ?>
                 </small>
             <?php // } ?>
         <?php endif ?>
@@ -1411,7 +1416,12 @@
                   if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){
                       $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->grouping.' Of '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name);
                   } else {
-                      $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
+                      if($coop_info->is_youth == 1){
+                        $payorname = ucwords($coop_info->proposed_name.' Youth '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
+                      } else {
+                        $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
+                      }
+                      
                   }
                   $amount_in_words=0;
                     $amount_in_words = ($rf+$lrf+$name_reservation_fee);

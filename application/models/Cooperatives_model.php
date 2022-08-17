@@ -662,6 +662,24 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     return $this->db->count_all_results();
   }
 
+  public function get_all_registration_report($started_date,$end_date){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
+    // $this->db->limit(10);
+    $this->db->select('registeredcoop.coopName,registeredcoop.regNo,registeredcoop.dateRegistered,refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.noStreet,registeredcoop.Street,registeredcoop.category,registeredcoop.type,users.first_name,users.last_name,users.contact_number');
+    $this->db->from('cooperatives');
+    $this->db->join('registeredcoop', 'registeredcoop.application_id = cooperatives.id','inner');
+    $this->db->join('payment', 'registeredcoop.coopName = payment.payor','left');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = cooperatives.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('users','users.id = cooperatives.users_id','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->where('((cooperatives.status = 15 AND registeredcoop.addrCode != "") OR cooperatives.status = 39) AND second_evaluated_by != 0 AND DATE(registeredcoop.dateRegistered) >= DATE("'.$started_date.'") AND DATE(registeredcoop.dateRegistered) <= DATE("'.$end_date.'")');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+
   public function get_all_cooperatives_registration2($regcode,$coopname,$limit,$start){
     // Get Coop Type for HO
     $this->db->select('name');
@@ -1132,7 +1150,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     }
     $temp_purpose = array(
         'cooperatives_id' => $id,
-        'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
+        'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'],$data['is_youth'])
       );
     $this->db->insert('purposes',$temp_purpose);
     $this->db->insert('bylaws', array('cooperatives_id'=>$id));
@@ -1178,6 +1196,10 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     $query3 = $this->db->get();
     $coop_type_of_coop = $query3->row();
     
+    $data['type_of_cooperative'] = $coop_type->name;
+    $this->db->where(array('users_id'=>$user_id,'id'=>$coop_id));
+    $this->db->update('cooperatives',$data);
+    
     if($data['type_of_cooperative'] == 'Union' && $data['grouping'] == 'Union'){
       $audit = array('name'=> 'Audit','user_id' => $data['users_id']);
       $gad = array('name'=> 'Gender and Development','user_id' => $data['users_id']);
@@ -1215,11 +1237,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
         }
 
     }
-    
-    $data['type_of_cooperative'] = $coop_type->name;
-    $this->db->where(array('users_id'=>$user_id,'id'=>$coop_id));
-    $this->db->update('cooperatives',$data);
-    
+
     $this->db->delete('business_activities_cooperative',array('cooperatives_id'=>$coop_id));
 
     if(count($industry_subclasses_id_array)!=0){
@@ -1243,7 +1261,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
 
     $temp_purpose = array(
         'cooperatives_id' => $coop_id,
-        'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
+        'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'],$data['is_youth'])
       );
     
     $this->db->select('id');
@@ -1266,7 +1284,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     if($coop_type_of_coop->type_of_cooperative != $coop_type->name || $coop_type_of_coop->category_of_cooperative != $data['category_of_cooperative']){
       $temp_purpose = array(
           'cooperatives_id' => $coop_id,
-          'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
+          'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'],$data['is_youth'])
         );
       $this->db->where('cooperatives_id',$coop_id);
       $this->db->update('purposes',$temp_purpose);
@@ -1321,7 +1339,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
     if($coop_type_of_coop->type_of_cooperative != $coop_type->name || $coop_type_of_coop->category_of_cooperative != $data['category_of_cooperative']){
       $temp_purpose = array(
           'cooperatives_id' => $coop_id,
-          'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'])
+          'content'  => $this->get_purpose_content($coop_type->name,$data['grouping'],$data['is_youth'])
         );
       $this->db->where('cooperatives_id',$coop_id);
       $this->db->update('purposes',$temp_purpose);
@@ -2081,7 +2099,7 @@ public function check_if_denied($coop_id){
     return $token;
   }
 
-  public function get_purpose_content($coop_type,$grouping){
+  public function get_purpose_content($coop_type,$grouping,$is_youth){
     if($grouping == 'Federation'){
       $data = array('Advocacy' => '_________________________________________________________________________________________________',
         'Agrarian Reform' => '_________________________________________________________________________________________________',
@@ -2106,209 +2124,226 @@ public function check_if_denied($coop_id){
         'Workers' => '_________________________________________________________________________________________________'
       );
     } else {
-    $data = array(
-      'Advocacy'=> 'Promoting and advocating cooperativism among its members and the public through socially oriented projects, education and training, research and communication and other similar activities to reach out to its intended beneficiaries;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of Cooperatives;'.
-        'Advocating for the cause of the Cooperative movements;'.
-        'Ensuring the viability of Cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Agriculture' => 'Raising or culturing __________________ (specify whether what plants or animals);'.
-        'Facilitating the procurement of ______________ (specify farm inputs/implements) for the members;'.
-        'Processing and marketing of the members ___________ (specify products/produce);'.
-        'Storing and transporting of members __________ (specify products/produce);'.
-        'Providing credit facility for __________ (specify what agricultural production);'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the Cooperative movements;'.
-        'Ensuring the viability of Cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation;'.
-        'Any other activities that lead to the reduction of cost and/or addition in value of outputs.',
-      'Agrarian Reform'=> 'Facilitating the development of an appropriate system of land tenure, land development, land consolidation or land management in areas covered by agrarian reform;'.
-        'Coordinating and facilitating the dissemination of scientific methods of production;'.
-        'Promoting sustainable agriculture through organic farming;'.
-        'The business of production, processing, storage, transport, and marketing of farm products for Agrarian Reform Beneficiaries and their immediate families;'.
-        'Providing financial facilities to beneficiaries for provident or productive purposes at the least possible costs;'.
-        'Arranging and facilitating the expeditious transfer of appropriate and suitable technology to beneficiaries and marginal farmers at the lowest possible costs;'.
-        'Providing social security, health, medical and social insurance benefits and other social and economic benefits that promote the general welfare of the agrarian reform beneficiaries and marginal farmers;'.
-        'Providing a non-formal education, vocational/technical training and livelihood program to beneficiaries and marginal farmers;'.
-        'Acting as channels for external assistance and services to the beneficiaries and marginal farmers;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the Cooperative movements;'.
-        'Ensuring the viability of Cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation;'.
-        'Promoting the maintenance of sustainable farming and ecological  balance in the agrarian reform community.',
-      // 'Bank' => '___________________________________________________________;',
-        // 'Promoting and advancing the economic and social status of the members;'.
-        // 'Coordinating and facilitating the activities of cooperatives;'.
-        // 'Advocating for the cause of the cooperative movements;'.
-        // 'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        // 'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Consumers' => 'Procurement and distribution of commodities to members and nonmembers such as (retail, wholesale, restaurant/canteen operation, water refilling and etc.),_____________ and other basic commodities;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Credit' => 'Encouraging thrift and savings mobilization among the members;'.
-        'Generating funds and extending credit to the members for productive and provident purposes;'.
-        'Encouraging and supporting members the systematic production, value addition and marketing activities;'.
-        'Developing expertise and skills among its members;'.
-        'Providing protection to the loans and funds of the members;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Dairy' => 'Production of fresh milk, for business and human consumption;'.
-        'Processing of milk to dairy products including, milk variants and cheese for business and human consumption;'.
-        'Assisting its members a guaranteed market outlet, to bargain for the best price terms possible in the market place, including over-order premiums in milk marketing orders, and to market the milk efficiently, i.e. balancing plant needs, diverting milk surpluses and assembling producer milk and to have the highest quality producer milk possible in the market;'.
-        'Providing services for the research and development for the production and processing of dairy products including fresh milk, milk variants and cheese;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Education' => 'School Operations;'.
-        'Training Center;'.
-        'Review Center;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Electric' => 'The distribution and supply of electricity within its franchise area;'.
-        'Power generation utilizing new and renewable energy sources, including hybrid systems;'.
-        'Operation and acquisition of sub-transmission of electricity;'.
-        'Venturing into any other purpose or other related business endeavors allowed by law, rules, regulations, and its own By-laws as long as it is related to or may enhance the primary purpose/service and objective of the Cooperative;'.
-        'The implementation of the Rural Electrification Program in its respective areas of coverage in consonance with the terms and conditions appurtenant to its Certificate of Franchise;'.
-        'The exercise of the power of eminent domain in furtherance of the Rural Electrification Program, which shall not be diminished, subject to the requirements of the Constitution and existing relevant laws;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Financial Service' => 'The functions of credit cooperatives and other Cooperatives, including multipurpose Cooperatives that provide savings and credit to their members;'.
-        'Other financial services subject to regulation by the BSP;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Fishermen' => 'Processing and marketing of Aquatic Products of the members;'.
-        'Seaweeds harvesting, processing and marketing;'.
-        'Assisting in the development of marine sanctuaries, parks and reservations;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Health Service' => 'Increasing the access of community to the health and medical services;'.
-        'Providing health and medical services at reduced cost;'.
-        'Promoting herbal and alternative medicines;'.
-        'Production and manufacturing of medicines;'.
-        'Helping to upgrade the health and medical facilities in the community;'.
-        'Increase income, savings, investments, productivity, and purchasing power, and promote among themselves equitable distribution of net surplus through maximum utilization of economies of scale, cost-sharing and risk-sharing;'.
-        'Providing optimum social and economic benefits to its members;'.
-        'Teaching the members efficient ways of doing things in a cooperative manner;'.
-        'Propagating cooperative practices and new ideas in business and management;'.
-        'Allowing the lower income and less privileged groups to increase their ownership in the wealth of the nation;'.
-        'Actively supporting the government, other cooperatives and people oriented organizations, both local and foreign, in promoting cooperatives as a practical means towards sustainable socio-economic development under a truly just and democratic society;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Housing' => 'Providing affordable and decent housing to its members;'.
-        'Procurement and distribution of housing materials to its members;'.
-        'Acquisition of land, construction of houses or buildings, site development and/or property management of housing projects for its members;'.
-        'Undertaking socio-economic activities to augment the family income to ensure repayment of the amortization (for socialized housing);'.
-        'Facilitating access to land and/or housing loans from commercial banks and government financial institutions or national government agencies;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation;'.
-        'To provide goods and services to members.',
-      'Insurance' => 'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Labor Service' => 'To ensure and provide continuous employment opportunities to its members;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of Cooperatives;'.
-        'Advocating for the cause of the Cooperative movements;'.
-        'Ensuring the viability of Cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Marketing'=> 'To engage in the supply of production inputs to members and market their products;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Multi-Purpose'=> 'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Producers' => 'Manufacturing/Processing of raw materials into finished or processed products;'.
-        'Selling of the processed/manufactured products;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Professionals' => 'The practice of their profession as: _______________________________________________;'.
-        'Capital Formation;'.
-        'Undertake such other economic or social activities as may be necessary or incidental in the pursuit of the foregoing purposes;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Service' => '____________________________________________________;'.
-        '____________________________________________________;'.
-        '____________________________________________________;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Small Scale Mining' => 'Extracting and removing of minerals or ore-bearing materials from the ground;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Transport' => 'Provide public transport services primarily to members and the commuting public (land and sea/water transportation services, and is limited to small vessels, for the safe conveyance of passengers and/or cargoes);'.
-        'Engage in allied services or businesses such as: <ul type="a"> <li> importation, distribution and marketing of marketing of spare parts, supplies and petroleum products in accordance with existing laws </li><li> operation of gasoline stations and transportation service centers </li> <li> Importation, distribution and marketing of spare parts and supplies </li> <li> Marketing of vehicle/drivers insurance policies. </li> </ul>;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Water Service' => 'Operation and Management of Water Supply System;'.
-        'Distribution of Potable Water;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Workers' => 'Undertaking labor and production of commodities or services jointly carried out without the limitations of individual work, or under the rules of conventional wage-based labor;'.
-        'Promoting and advancing the economic and social status of the members;'.
-        'Coordinating and facilitating the activities of cooperatives;'.
-        'Advocating for the cause of the cooperative movements;'.
-        'Ensuring the viability of cooperatives through the utilization of new technologies;'.
-        'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
-      'Union' => '___________________________________________________________;',
-      'Federation' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
-        '_________________________________________________________________________________________________',
-      'Bank' => 'To provide a wide range of financial services primarily to cooperative organizations and their members, and to the general public; and'.
-        'To Perform any or all transactions and banking services offered by other types of banks subject to applicable laws, rules and regulations'
-    );
-  }
+      $data = array(
+        'Advocacy'=> 'Promoting and advocating cooperativism among its members and the public through socially oriented projects, education and training, research and communication and other similar activities to reach out to its intended beneficiaries;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of Cooperatives;'.
+          'Advocating for the cause of the Cooperative movements;'.
+          'Ensuring the viability of Cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Agriculture' => 'Raising or culturing __________________ (specify whether what plants or animals);'.
+          'Facilitating the procurement of ______________ (specify farm inputs/implements) for the members;'.
+          'Processing and marketing of the members ___________ (specify products/produce);'.
+          'Storing and transporting of members __________ (specify products/produce);'.
+          'Providing credit facility for __________ (specify what agricultural production);'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the Cooperative movements;'.
+          'Ensuring the viability of Cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation;'.
+          'Any other activities that lead to the reduction of cost and/or addition in value of outputs.',
+        'Agrarian Reform'=> 'Facilitating the development of an appropriate system of land tenure, land development, land consolidation or land management in areas covered by agrarian reform;'.
+          'Coordinating and facilitating the dissemination of scientific methods of production;'.
+          'Promoting sustainable agriculture through organic farming;'.
+          'The business of production, processing, storage, transport, and marketing of farm products for Agrarian Reform Beneficiaries and their immediate families;'.
+          'Providing financial facilities to beneficiaries for provident or productive purposes at the least possible costs;'.
+          'Arranging and facilitating the expeditious transfer of appropriate and suitable technology to beneficiaries and marginal farmers at the lowest possible costs;'.
+          'Providing social security, health, medical and social insurance benefits and other social and economic benefits that promote the general welfare of the agrarian reform beneficiaries and marginal farmers;'.
+          'Providing a non-formal education, vocational/technical training and livelihood program to beneficiaries and marginal farmers;'.
+          'Acting as channels for external assistance and services to the beneficiaries and marginal farmers;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the Cooperative movements;'.
+          'Ensuring the viability of Cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation;'.
+          'Promoting the maintenance of sustainable farming and ecological  balance in the agrarian reform community.',
+        // 'Bank' => '___________________________________________________________;',
+          // 'Promoting and advancing the economic and social status of the members;'.
+          // 'Coordinating and facilitating the activities of cooperatives;'.
+          // 'Advocating for the cause of the cooperative movements;'.
+          // 'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          // 'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Consumers' => 'Procurement and distribution of commodities to members and nonmembers such as (retail, wholesale, restaurant/canteen operation, water refilling and etc.),_____________ and other basic commodities;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Credit' => 'Encouraging thrift and savings mobilization among the members;'.
+          'Generating funds and extending credit to the members for productive and provident purposes;'.
+          'Encouraging and supporting members the systematic production, value addition and marketing activities;'.
+          'Developing expertise and skills among its members;'.
+          'Providing protection to the loans and funds of the members;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Dairy' => 'Production of fresh milk, for business and human consumption;'.
+          'Processing of milk to dairy products including, milk variants and cheese for business and human consumption;'.
+          'Assisting its members a guaranteed market outlet, to bargain for the best price terms possible in the market place, including over-order premiums in milk marketing orders, and to market the milk efficiently, i.e. balancing plant needs, diverting milk surpluses and assembling producer milk and to have the highest quality producer milk possible in the market;'.
+          'Providing services for the research and development for the production and processing of dairy products including fresh milk, milk variants and cheese;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Education' => 'School Operations;'.
+          'Training Center;'.
+          'Review Center;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Electric' => 'The distribution and supply of electricity within its franchise area;'.
+          'Power generation utilizing new and renewable energy sources, including hybrid systems;'.
+          'Operation and acquisition of sub-transmission of electricity;'.
+          'Venturing into any other purpose or other related business endeavors allowed by law, rules, regulations, and its own By-laws as long as it is related to or may enhance the primary purpose/service and objective of the Cooperative;'.
+          'The implementation of the Rural Electrification Program in its respective areas of coverage in consonance with the terms and conditions appurtenant to its Certificate of Franchise;'.
+          'The exercise of the power of eminent domain in furtherance of the Rural Electrification Program, which shall not be diminished, subject to the requirements of the Constitution and existing relevant laws;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Financial Service' => 'The functions of credit cooperatives and other Cooperatives, including multipurpose Cooperatives that provide savings and credit to their members;'.
+          'Other financial services subject to regulation by the BSP;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Fishermen' => 'Processing and marketing of Aquatic Products of the members;'.
+          'Seaweeds harvesting, processing and marketing;'.
+          'Assisting in the development of marine sanctuaries, parks and reservations;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Health Service' => 'Increasing the access of community to the health and medical services;'.
+          'Providing health and medical services at reduced cost;'.
+          'Promoting herbal and alternative medicines;'.
+          'Production and manufacturing of medicines;'.
+          'Helping to upgrade the health and medical facilities in the community;'.
+          'Increase income, savings, investments, productivity, and purchasing power, and promote among themselves equitable distribution of net surplus through maximum utilization of economies of scale, cost-sharing and risk-sharing;'.
+          'Providing optimum social and economic benefits to its members;'.
+          'Teaching the members efficient ways of doing things in a cooperative manner;'.
+          'Propagating cooperative practices and new ideas in business and management;'.
+          'Allowing the lower income and less privileged groups to increase their ownership in the wealth of the nation;'.
+          'Actively supporting the government, other cooperatives and people oriented organizations, both local and foreign, in promoting cooperatives as a practical means towards sustainable socio-economic development under a truly just and democratic society;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Housing' => 'Providing affordable and decent housing to its members;'.
+          'Procurement and distribution of housing materials to its members;'.
+          'Acquisition of land, construction of houses or buildings, site development and/or property management of housing projects for its members;'.
+          'Undertaking socio-economic activities to augment the family income to ensure repayment of the amortization (for socialized housing);'.
+          'Facilitating access to land and/or housing loans from commercial banks and government financial institutions or national government agencies;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation;'.
+          'To provide goods and services to members.',
+        'Insurance' => 'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Labor Service' => 'To ensure and provide continuous employment opportunities to its members;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of Cooperatives;'.
+          'Advocating for the cause of the Cooperative movements;'.
+          'Ensuring the viability of Cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Marketing'=> 'To engage in the supply of production inputs to members and market their products;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Multi-Purpose'=> 'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Producers' => 'Manufacturing/Processing of raw materials into finished or processed products;'.
+          'Selling of the processed/manufactured products;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Professionals' => 'The practice of their profession as: _______________________________________________;'.
+          'Capital Formation;'.
+          'Undertake such other economic or social activities as may be necessary or incidental in the pursuit of the foregoing purposes;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Service' => '____________________________________________________;'.
+          '____________________________________________________;'.
+          '____________________________________________________;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Small Scale Mining' => 'Extracting and removing of minerals or ore-bearing materials from the ground;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Transport' => 'Provide public transport services primarily to members and the commuting public (land and sea/water transportation services, and is limited to small vessels, for the safe conveyance of passengers and/or cargoes);'.
+          'Engage in allied services or businesses such as: <ul type="a"> <li> importation, distribution and marketing of marketing of spare parts, supplies and petroleum products in accordance with existing laws </li><li> operation of gasoline stations and transportation service centers </li> <li> Importation, distribution and marketing of spare parts and supplies </li> <li> Marketing of vehicle/drivers insurance policies. </li> </ul>;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Water Service' => 'Operation and Management of Water Supply System;'.
+          'Distribution of Potable Water;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Workers' => 'Undertaking labor and production of commodities or services jointly carried out without the limitations of individual work, or under the rules of conventional wage-based labor;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movements;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies;'.
+          'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.',
+        'Union' => '___________________________________________________________;',
+        'Federation' => 'That the purpose(s) for which this Cooperative is organized is/are to engage in:;'.
+          '_________________________________________________________________________________________________',
+        'Bank' => 'To provide a wide range of financial services primarily to cooperative organizations and their members, and to the general public; and'.
+          'To Perform any or all transactions and banking services offered by other types of banks subject to applicable laws, rules and regulations',
+        'Technology Service' => 'Developing expertise and skills among its members;'.
+          'Promoting and advancing the economic and social status of the members;'.
+          'Coordinating and facilitating the activities of cooperatives;'.
+          'Advocating for the cause of the cooperative movement;'.
+          'Ensuring the viability of cooperatives through the utilization of new technologies; and'.
+          ' Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.'
+      );
+    }
+
+    if($is_youth == 1){
+      $data = 'Promoting the sustainable development of young entrepreneurs and encourage the entrepreneurial spirit among the youth.;'.
+              'Promoting and advancing the economic and social status of the members;'.
+              'Coordinating and facilitating the activities of cooperatives;'.
+              'Advocating for the cause of the cooperative movements;'.
+              'Ensuring the viability of cooperatives through the utilization of new technologies; and '.
+              'Encouraging and promoting self-help or self-employment as an engine for economic growth and poverty alleviation.';
+      return $data;
+    }
+
       return $data[$coop_type];
   }
 public function check_second_evaluated_laboratories($coop_id){

@@ -55,16 +55,23 @@ class registration extends CI_Controller{
             exit;
         }
       }
+
+      if($coop_info->is_youth == 1){
+        $youth_name = 'Youth ';
+      } else {
+        $youth_name = '';
+      }
+
       if($coop_info->grouping == 'Federation'){
         $cName=rtrim($coop_info->proposed_name.' Federation of '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname);
       } if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){
         $cName=rtrim($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname);
       } else {
-        $cName=rtrim($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname.' '.$coop_info->grouping);
+        $cName=rtrim($coop_info->proposed_name.' '.$youth_name.$coop_info->type_of_cooperative.' Cooperative '.$acronymname);
       }
       // echo $coop_info->id;
       // $cName = $coop_info->id;
-      if($coop_info->grouping == 'Union'){
+      if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){
         $coop_details = $this->registration_model->get_coop_info_union($coop_info->id);
       } else if($coop_info->grouping == 'Federation'){
         $coop_details = $this->registration_model->get_coop_info_federation($coop_info->id);
@@ -147,6 +154,7 @@ class registration extends CI_Controller{
         $data1['director']=$this->registration_model->get_director($coop_info->third_evaluated_by);
       } else {
         $data1['director']=$this->registration_model->get_director($coop_info->third_evaluated_by);
+        $data1['queryofdirector'] = $this->db->last_query();
       }
    
           set_time_limit(0);

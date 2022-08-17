@@ -219,8 +219,18 @@
                     <tr>
                         <td>Total amount of paid-up capital</td>
                         <td>
-                            <input type="number" name="item[total_amount_of_paid_up_capital]" id="total_amount_of_paid_up_capital" min="1000000" class="form-control" value="<?=$total_amount_of_paid_up_capital;?>"/>
-                            <span style="font-style: italic;font-size: 12px;">* Minimum Paid Up Capital must be 1,000,000.00</span>
+                            <?php if($coop_info->type_of_cooperative == 'Technology Service'){ 
+                                $minumum_tech = '100000000';
+                            } else {
+                                $minumum_tech = '1000000';
+                            }?>
+                            <input type="number" name="item[total_amount_of_paid_up_capital]" id="total_amount_of_paid_up_capital" min="<?=$minumum_tech?>" class="form-control" value="<?=$total_amount_of_paid_up_capital;?>"/>
+                            <?php if($coop_info->type_of_cooperative == 'Technology Service'){ 
+                                echo '<span style="font-style: italic;font-size: 12px;">* Minimum Paid Up Capital must be 100,000,000.00</span>';
+                            } else {
+                                echo '<span style="font-style: italic;font-size: 12px;">* Minimum Paid Up Capital must be 1,000,000.00</span>';
+                            }?>
+                            
                             <br/>
                             <!-- <span id="total_amount_of_paid_up_capital_note"class="err-message-note"></span><br/> -->
                             <span id="total_amount_of_paid_up_capital_note2"class="err-message-note"></span>
@@ -513,26 +523,26 @@ function computeCapital() {
         }
 
 //        $("#total_amount_of_paid_up_capital").val(amount_of_paid_up_capital);
-	
-		if(parseFloat(minimum_amount_of_paid_up_capital)>=1000000){
-				$("#total_amount_of_paid_up_capital_note2").show();
-		    	$("#total_amount_of_paid_up_capital2").attr("min",minimum_amount_of_paid_up_capital);
-		        $("#total_amount_of_paid_up_capital_note2").html("Should be at least "+minimum_amount_of_paid_up_capital);
-		        $("#total_amount_of_paid_up_capital_note2").removeClass("err-message-note-error");
-		        if(minimum_amount_of_paid_up_capital>amount_of_paid_up_capital) {
-		            $("#total_amount_of_paid_up_capital_note2").addClass("err-message-note-error");
-		        }
-		} else if($("#total_amount_of_paid_up_capital").val() == ""){
-			$("#total_amount_of_paid_up_capital_note2").show();
-		    	$("#total_amount_of_paid_up_capital2").attr("min",minimum_amount_of_paid_up_capital);
-		        $("#total_amount_of_paid_up_capital_note2").html("Should be at least "+minimum_amount_of_paid_up_capital);
-		        $("#total_amount_of_paid_up_capital_note2").removeClass("err-message-note-error");
-		        if(minimum_amount_of_paid_up_capital>amount_of_paid_up_capital) {
-		            $("#total_amount_of_paid_up_capital_note2").addClass("err-message-note-error");
-		        }
-		} else {
-		    $("#total_amount_of_paid_up_capital_note2").hide();
-		}
+    
+        if(parseFloat(minimum_amount_of_paid_up_capital)>=1000000){
+                $("#total_amount_of_paid_up_capital_note2").show();
+                $("#total_amount_of_paid_up_capital2").attr("min",minimum_amount_of_paid_up_capital);
+                $("#total_amount_of_paid_up_capital_note2").html("Should be at least "+minimum_amount_of_paid_up_capital);
+                $("#total_amount_of_paid_up_capital_note2").removeClass("err-message-note-error");
+                if(minimum_amount_of_paid_up_capital>amount_of_paid_up_capital) {
+                    $("#total_amount_of_paid_up_capital_note2").addClass("err-message-note-error");
+                }
+        } else if($("#total_amount_of_paid_up_capital").val() == ""){
+            $("#total_amount_of_paid_up_capital_note2").show();
+                $("#total_amount_of_paid_up_capital2").attr("min",minimum_amount_of_paid_up_capital);
+                $("#total_amount_of_paid_up_capital_note2").html("Should be at least "+minimum_amount_of_paid_up_capital);
+                $("#total_amount_of_paid_up_capital_note2").removeClass("err-message-note-error");
+                if(minimum_amount_of_paid_up_capital>amount_of_paid_up_capital) {
+                    $("#total_amount_of_paid_up_capital_note2").addClass("err-message-note-error");
+                }
+        } else {
+            $("#total_amount_of_paid_up_capital_note2").hide();
+        }
         
         $("#total_no_of_paid_up_capital").val(no_of_paid_up_capital);
         $("#total_no_of_paid_up_capital").attr("min",minimum_no_of_paid_up_capital);

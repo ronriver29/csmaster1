@@ -55,7 +55,9 @@
         $acronym_name = '';
     }
       if ($nature=='Registration'){
-        if($coop_info->category_of_cooperative == 'Tertiary'){
+        if($coop_info->type_of_cooperative == 'Technology Service'){
+          $registrationfeename = 'Others';
+        } else if($coop_info->category_of_cooperative == 'Tertiary'){
           $registrationfeename = 'Tertiary';
         } else if ($coop_info->category_of_cooperative == 'Secondary'){
           $registrationfeename = 'Secondary';
@@ -71,12 +73,24 @@
             $rf = 1000;
           }
             $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+        } else if($coop_info->type_of_cooperative == 'Technology Service') {
+          $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 > 100 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 100.00);
+          $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
         } else {
           $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
           $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
         }
         
-        if($coop_info->grouping == 'Federation' && $coop_info->category_of_cooperative == 'Secondary'){
+        if($coop_info->type_of_cooperative == 'Technology Service'){
+          $minimum = 100000.00;
+          if($capitalization_info->total_amount_of_paid_up_capital*0.001 >= $minimum){
+            $rf = $capitalization_info->total_amount_of_paid_up_capital*0.001;
+            $lrf = $rf*0.01;
+          } else {
+            $rf = 100000.00;
+            $lrf = $rf*0.01;
+          }
+        } else if($coop_info->grouping == 'Federation' && $coop_info->category_of_cooperative == 'Secondary'){
           $minimum = 2000.00;
           if($capitalization_info->total_amount_of_paid_up_capital*0.001 >= $minimum){
             $rf = $capitalization_info->total_amount_of_paid_up_capital*0.001;
@@ -109,13 +123,18 @@
         {
           $peso_cents ='Pesos';
         }
+        if($coop_info->is_youth == 1){
+          $youth_name = 'Youth';
+        } else {
+          $youth_name = '';
+        }
         $w = new Numbertowords();
         if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'){
           $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name);
         } else if($coop_info->grouping == 'Federation'){
           $payorname = ucwords($coop_info->proposed_name.' Federation of '.$coop_info->type_of_cooperative.' Cooperative '.$acronym_name);
         } else {
-          $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronym_name.' '.$coop_info->grouping);
+          $payorname = ucwords($coop_info->proposed_name.' '.$youth_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronym_name);
         }
 
         

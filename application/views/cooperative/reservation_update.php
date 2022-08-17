@@ -57,6 +57,13 @@
                     <?php endif; ?>
                   </div>
               </div>
+              <div class="col-sm-12 col-md-12">
+                <label>
+                  Youth Cooperative? &nbsp;&nbsp;
+                  <input type="checkbox" id="is_youth" name="is_youth" <?php if($coop_info->is_youth == 1) echo 'checked'; ?> value="1">
+                  Yes
+                </label>
+              </div>
               <div class="col-sm-12 col-md-3">
                 <div class="form-group">
                   <label for="categoryOfCooperative">Category of Cooperative:</label>
@@ -81,7 +88,7 @@
                     <option value="7" <?php if($coop_info->type_of_cooperative =="Advocacy") echo "selected"; ?>>Advocacy</option>
                     <option value="8" <?php if($coop_info->type_of_cooperative =="Agrarian Reform") echo "selected"; ?>>Agrarian Reform</option>
                     <option value="24" <?php if($coop_info->type_of_cooperative =="Agriculture") echo "selected"; ?>>Agriculture</option>
-                    <!-- <option value="9" <?php if($coop_info->type_of_cooperative =="Bank") echo "selected"; ?>>Bank</option> -->
+                    <option value="9" <?php if($coop_info->type_of_cooperative =="Bank") echo "selected"; ?>>Bank</option>
                     <option value="4" <?php if($coop_info->type_of_cooperative =="Consumers") echo "selected"; ?>>Consumers</option>
                     <!-- <option value="27" <?php if($coop_info->type_of_cooperative =="Cooperative Bank") echo "selected"; ?>>Cooperative Bank</option> -->
                     <option value="1" <?php if($coop_info->type_of_cooperative =="Credit") echo "selected"; ?>>Credit</option>
@@ -102,6 +109,7 @@
                     <option value="23" <?php if($coop_info->type_of_cooperative =="Small Scale Mining") echo "selected"; ?>>Small Scale Mining</option>
                     <option value="17" <?php if($coop_info->type_of_cooperative =="Transport") echo "selected"; ?>>Transport</option>
                     <option value="26" <?php if($coop_info->type_of_cooperative =="Union") echo "selected"; ?>>Union</option>
+                    <option value="28" <?php if($coop_info->type_of_cooperative =="Technology Service") echo "selected"; ?>>Technology Service</option>
                     <option value="18" <?php if($coop_info->type_of_cooperative =="Water Service") echo "selected"; ?>>Water Service</option>
                     <option value="19" <?php if($coop_info->type_of_cooperative =="Workers") echo "selected"; ?>>Workers</option>
                   </select>
@@ -175,7 +183,7 @@
               </div>
             </div>
             <div class="row rd-row">
-              <div class="col-sm-12 col-md-6">
+              <div class="col-sm-12 col-md-6" id='commonbond'>
                 <div class="form-group">
                   <label nfor="commonBondOfMembership">Common Bond of Membership </label>
                   <select class="custom-select validate[required]" name="commonBondOfMembership" id="commonBondOfMembership">

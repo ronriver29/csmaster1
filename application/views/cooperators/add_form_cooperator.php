@@ -52,7 +52,7 @@
                 <option value="Member">Member</option>
               </select>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-3">
             <div class="form-group">
               <label for="membershipType">Type of Membership:</label>
@@ -64,28 +64,28 @@
                 <?php endif?>
               </select>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-5">
             <div class="form-group">
               <label for="fName">Full Name:</label>
               <input type="text" class="form-control validate[required,custom[fullname],ajax[ajaxCooperatorCallPhp]]" id="fName" name="fName">
               <label for="fName" style="font-style: italic;font-size: 11px;">(Last Name, First Name Middle Name)</label>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-4">
             <div class="form-group">
               <label for="subscribedShares">No of subscribed shares:</label>
               <input type="number" min="1" max="<?=isset($capitalization_info->total_no_of_subscribed_capital) ? $capitalization_info->total_no_of_subscribed_capital - $total_subscribed: ''?>" class="form-control validate[required,min[1],custom[integer]]" id="subscribedShares" name="subscribedShares" readonly>
               <div id="subscribed-note" style="color: red; font-size: 12px;"></div>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-3">
             <div class="form-group">
               <label for="paidShares">No of paid-up Shares:</label>
               <input type="number" min="1" max="<?=isset($capitalization_info->total_no_of_paid_up_capital) ? $capitalization_info->total_no_of_paid_up_capital - $total_paid: ''?>" class="form-control validate[required,min[1],custom[integer],funcCall[validateAddNumberOfPaidUpGreaterCustom]]" id="paidShares" name="paidShares" readonly>
               <div id="paid-note" style="color: red; font-size:12px;"></div>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-2">
             <div class="form-group">
               <label for="gender">Gender:</label>
@@ -95,14 +95,21 @@
                 <option value="Female">Female</option>
               </select>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-3">
             <div class="form-group">
-              <label for="bDate"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>Age must be 18 years old and above.</li>"></i> Birth Date:</label>
-              <input type="date" class="form-control validate[required,custom[date],funcCall[validateAgeCustom]]" id="bDate" name="bDate">
+              <?php if($coop_info->is_youth == 1){
+                $addition_funcall = 'funcCall[validateAgeYouthCustom]';
+                $age_must_be = 'Age must be 18 years old and not 30 above.';
+              } else {
+                $addition_funcall = 'funcCall[validateAgeCustom]';
+                $age_must_be = 'Age must be 18 years old and above.';
+              }?>
+              <label for="bDate"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li><?=$age_must_be;?></li>"></i> Birth Date:</label>
+              <input type="date" class="form-control validate[required,custom[date],<?=$addition_funcall?>]" id="bDate" name="bDate">
             </div>
-      		</div>
-      		<div class="col-sm-12 col-md-12">
+          </div>
+          <div class="col-sm-12 col-md-12">
             <div class="row">
               <div class="col-sm-12 col-md-12">
                 <div class="form-group">
@@ -228,7 +235,7 @@
               <!-- <small style="margin-left: 20px;"><span><i>  yyyy-mm-dd </i></span></small> -->
               <input type="checkbox" name="dateIssued_chk" id="chkID" value="N/A"> <small>ID Date Issued not available</small>
             </div>
-      		</div>
+          </div>
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
               <label for="placeIssuance">Place of Issuance: </label>

@@ -111,9 +111,16 @@
             <tbody>
               <?php foreach ($list_cooperatives as $cooperative) : ?>
                 <tr>
+                  <?php if($cooperative['is_youth'] == 1){
+                          $youth_name = 'Youth';
+                        } else {
+                          $youth_name = '';
+                        }?>
                   <td><?php if($cooperative['category_of_cooperative'] == 'Primary' || $cooperative['type_of_cooperative'] == "Bank" || $cooperative['type_of_cooperative'] == "Insurance"){?>
-                      <?= $cooperative['proposed_name']?> <?= $cooperative['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative['acronym_name'])){ echo '('.$cooperative['acronym_name'].')';}?>
+                      <?= $cooperative['proposed_name']?> <?=$youth_name?> <?= $cooperative['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative['acronym_name'])){ echo '('.$cooperative['acronym_name'].')';}?>
                     <?php } else if($cooperative['grouping'] == 'Union' && $cooperative['type_of_cooperative'] == 'Union'){?>
+                        <?= $cooperative['proposed_name']?> <?= $cooperative['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative['acronym_name'])){ echo '('.$cooperative['acronym_name'].')';}?>
+                    <?php } else if($cooperative['type_of_cooperative'] == 'Technology Service'){?>
                         <?= $cooperative['proposed_name']?> <?= $cooperative['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative['acronym_name'])){ echo '('.$cooperative['acronym_name'].')';}?>
                     <?php } else { ?>
                       <?= $cooperative['proposed_name']?> Federation of <?= $cooperative['type_of_cooperative']?> Cooperative <?php if(!empty($cooperative['acronym_name'])){ echo '('.$cooperative['acronym_name'].')';
@@ -247,6 +254,12 @@
                             } else {
                               $grouping = '';
                             }
+
+                            if($cooperative['is_youth'] == 1){
+                              $youth_name = 'Youth ';
+                            } else {
+                              $youth_name = '';
+                            }
                           }
 
                           if($cooperative['grouping'] == 'Federation'){
@@ -255,7 +268,7 @@
                           <?php } else if($cooperative['grouping'] == 'Union' && $cooperative['type_of_cooperative'] == 'Union'){ ?>
                             <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment(<?=$cooperative['id']?>,'<?=encrypt_custom($this->encryption->encrypt($cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$acronym_name))?>')" value="Save O.R. No.">
                           <?php } else {?>
-                            <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment(<?=$cooperative['id']?>,'<?=encrypt_custom($this->encryption->encrypt($cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$acronym_name.$grouping))?>')" value="Save O.R. No.">
+                            <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment(<?=$cooperative['id']?>,'<?=encrypt_custom($this->encryption->encrypt($cooperative['proposed_name'].' '.$youth_name.$cooperative['type_of_cooperative'].' Cooperative '.$acronym_name))?>')" value="Save O.R. No.">
                           <?php } ?>
                         <?php elseif($cooperative['status']==12): ?>
                           <a href="<?php echo base_url();?>cooperatives/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/forpayment" class="btn btnOkForPayment btn-color-blue"> OK For Payment</a>

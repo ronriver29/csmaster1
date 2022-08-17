@@ -26,20 +26,27 @@
             $submit = 'Submit';
         } else {
             $submit = 'Approve';
-        }?>
+        } 
+
+        if($coop_info->is_youth == 1){
+            $youth_name = ' Youth ';
+        } else {
+            $youth_name = '';
+        }
+        ?>
 
     <?php if($admin_info->access_level !=5) : ?> 
       <?php if($coop_info->status !=15):?>
       <div class="btn-group float-right" role="group" aria-label="Basic example">
         <a  class="btn btn-info btn-sm" href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/cooperative_tool">Validation Tool</a>
         <?php if(($admin_info->access_level ==2 || $is_active_director || $supervising_) && $coop_info->status != 10 && $coop_info->status != 11 &&  $coop_info->status != 6): ?>
-        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>><?=$submit?></button><!--  modify by Jayson change approve button to submit -->
+        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?><?=$youth_name?><?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>><?=$submit?></button><!--  modify by Jayson change approve button to submit -->
       <?php endif; //endo fo coop info status ?>  
         <?php endif;// is director and supervising?>
     <?php if($admin_info->access_level == 3 && $is_active_director || $supervising_) {?>
      <?php if($coop_info->status !=15):?>
-        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button>
-        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferCooperativeModal" data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>>Defer</button>
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $coop_info->proposed_name?><?=$youth_name?><?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferCooperativeModal" data-cname="<?= $coop_info->proposed_name?><?=$youth_name?><?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?>>Defer</button>
       <?php endif; //coo status 15 ?>
     <?php } ?>
       </div>
@@ -58,23 +65,23 @@
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl" style="width:90% !important;max-width:1360px;">
     <div class="modal-content">
-	    <div class="modal-header">
-	      <h4 class="modal-title" id="deferMemberModalLabel">CDS Findings</h4>
-	      <!-- <h4 class="modal-title"></h4> -->
-	      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	    </div>
-	    <div class="modal-body">
-	    	<div class="row">
-	    		<div class="col-md-12">
-			    	<?php 
-			                echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
+      <div class="modal-header">
+        <h4 class="modal-title" id="deferMemberModalLabel">CDS Findings</h4>
+        <!-- <h4 class="modal-title"></h4> -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <?php 
+                      echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
                       foreach($cooperatives_comments_cds as $cc) :
                         echo '<p>'.nl2br($cc['tool_comments']).'</p>'; 
                       endforeach;
-			        ?>
-		    	</div>
-	        </div>
-	        <table class="table"  with="100%">
+              ?>
+          </div>
+          </div>
+          <table class="table"  with="100%">
               <thead>
                 <tr>
                   <th style="border:1px solid black;">Documents</th>
@@ -86,42 +93,42 @@
                 <tr>
                   <td style="border:1px solid black;padding-top:5px;">
                     <?php
-                    	foreach($cooperatives_comments_cds as $cc) :
-			                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
-			                echo '<ul type="square">';
-			                    echo '<li>'.nl2br($cc['comment']).'</li>';
-			                echo '</ul>';
-			            endforeach;
+                      foreach($cooperatives_comments_cds as $cc) :
+                      echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                      echo '<ul type="square">';
+                          echo '<li>'.nl2br($cc['comment']).'</li>';
+                      echo '</ul>';
+                  endforeach;
                     ?>
                   </td>
                   <td style="border:1px solid black;padding-top:5px;">
                     <?php
-                    	foreach($cooperatives_comments_cds as $cc) :
-			                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
-			                echo '<ul type="square">';
-			                    echo '<li>'.nl2br($cc['documents']).'</li>';
-			                echo '</ul>';
-			            endforeach;
+                      foreach($cooperatives_comments_cds as $cc) :
+                      echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                      echo '<ul type="square">';
+                          echo '<li>'.nl2br($cc['documents']).'</li>';
+                      echo '</ul>';
+                  endforeach;
                     ?>
                   </td>
                   <td style="border:1px solid black;padding-top:5px;">
                     <?php
-                    	foreach($cooperatives_comments_cds as $cc) :
-			                echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
-			                echo '<ul type="square">';
-			                    echo '<li>'.nl2br($cc['rec_action']).'</li>';
-			                echo '</ul>';
-			            endforeach;
+                      foreach($cooperatives_comments_cds as $cc) :
+                      echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
+                      echo '<ul type="square">';
+                          echo '<li>'.nl2br($cc['rec_action']).'</li>';
+                      echo '</ul>';
+                  endforeach;
                     ?>
                   </td>
                 </tr>
               </tbody>
             </table>
-    	</div>
-	        <div class="modal-footer">
-	            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-	        </div>
+      </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
     </div>
   </div>
 </div>
@@ -133,17 +140,17 @@
 <div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl" style="width:90% !important;max-width:1360px;">
     <div class="modal-content">
-	    <div class="modal-header">
-	      <h4 class="modal-title" id="deferMemberModalLabel">Senior Findings</h4>
-	      <!-- <h4 class="modal-title"></h4> -->
-	      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	    </div>
-	    
-	    <div class="modal-body">
-	    	<!-- <div class="row">
-	    		<div class="col-md-12">
-			    	<?php 
-			                echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
+      <div class="modal-header">
+        <h4 class="modal-title" id="deferMemberModalLabel">Senior Findings</h4>
+        <!-- <h4 class="modal-title"></h4> -->
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      
+      <div class="modal-body">
+        <!-- <div class="row">
+          <div class="col-md-12">
+            <?php 
+                      echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
                       if($this->cooperatives_model->check_if_revert($coop_info->id)){
                         foreach($cooperatives_comments_snr as $cc) :
                           echo '<p>'.nl2br($cc['revert_tool']).'</p>'; 
@@ -153,16 +160,16 @@
                           echo '<p>'.nl2br($cc['tool_comments']).'</p>'; 
                         endforeach;
                       }
-			        ?>
-		    	</div>
-	        </div> -->
+              ?>
+          </div>
+          </div> -->
           <?php 
           if(!$this->cooperatives_model->check_if_revert($coop_info->id)){
           foreach($cooperatives_comments_snr as $cc) : 
             echo '<b>Date: '.date("F d, Y",strtotime($cc['date_created'])).'</b>';
             echo '<p>'.nl2br($cc['tool_comments']).'</p>';
             ?>
-  	        <table class="table"  with="100%">
+            <table class="table"  with="100%">
               <thead>
                 <tr>
                   <th style="border:1px solid black;">Documents</th>
@@ -174,24 +181,24 @@
                 <tr>
                   <td style="border:1px solid black;padding-top:5px;">
                     <?php
-			                
-			                echo '<ul type="square">';
-			                    echo '<li>'.nl2br($cc['comment']).'</li>';
-			                echo '</ul>';
+                      
+                      echo '<ul type="square">';
+                          echo '<li>'.nl2br($cc['comment']).'</li>';
+                      echo '</ul>';
                     ?>
                   </td>
                   <td style="border:1px solid black;padding-top:5px;">
                     <?php
-			                echo '<ul type="square">';
-			                    echo '<li>'.nl2br($cc['documents']).'</li>';
-			                echo '</ul>';
+                      echo '<ul type="square">';
+                          echo '<li>'.nl2br($cc['documents']).'</li>';
+                      echo '</ul>';
                     ?>
                   </td>
                   <td style="border:1px solid black;padding-top:5px;">
                     <?php
-			                echo '<ul type="square">';
-			                    echo '<li>'.nl2br($cc['rec_action']).'</li>';
-			                echo '</ul>';
+                      echo '<ul type="square">';
+                          echo '<li>'.nl2br($cc['rec_action']).'</li>';
+                      echo '</ul>';
                     ?>
                   </td>
                 </tr>
@@ -236,11 +243,11 @@
               </tbody>
             </table>
             <?php endforeach; } ?>
-    	</div>
-	        <div class="modal-footer">
-	            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-	        </div>
+      </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
     </div>
   </div>
 </div>
@@ -356,7 +363,7 @@
               echo '<p>'.nl2br($cc['tool_comments']).'</p>'; 
             }
           ?>
-    	<table class="table"  with="100%">
+      <table class="table"  with="100%">
           <thead>
             <tr>
               <th style="border:1px solid black;">Documents</th>
@@ -368,23 +375,23 @@
             <tr>
               <td style="border:1px solid black;padding-top:5px;">
                 <?php
-		                echo '<ul type="square">';
-		                    echo '<li>'.nl2br($cc['comment']).'</li>';
-		                echo '</ul>';
+                    echo '<ul type="square">';
+                        echo '<li>'.nl2br($cc['comment']).'</li>';
+                    echo '</ul>';
                 ?>
               </td>
               <td style="border:1px solid black;padding-top:5px;">
                 <?php
-		                echo '<ul type="square">';
-		                    echo '<li>'.nl2br($cc['documents']).'</li>';
-		                echo '</ul>';
+                    echo '<ul type="square">';
+                        echo '<li>'.nl2br($cc['documents']).'</li>';
+                    echo '</ul>';
                 ?>
               </td>
               <td style="border:1px solid black;padding-top:5px;">
                 <?php
-		                echo '<ul type="square">';
-		                    echo '<li>'.nl2br($cc['rec_action']).'</li>';
-		                echo '</ul>';
+                    echo '<ul type="square">';
+                        echo '<li>'.nl2br($cc['rec_action']).'</li>';
+                    echo '</ul>';
                 ?>
               </td>
             </tr>
@@ -619,9 +626,9 @@
         <h5 class="card-title">By Laws</h5>
         <p class="card-text">This is the generated Bylaws. </p>
         <a target="_blank" href="
-        <?php if ($coop_info->category_of_cooperative === 'Primary'): ?>
+        <?php if ($coop_info->category_of_cooperative == 'Primary'): ?>
                 <?= base_url().'cooperatives/'.$encrypted_id.'/documents/bylaws_primary';?>
-        <?php elseif ($coop_info->grouping === 'Union'): ?>
+        <?php elseif ($coop_info->grouping == 'Union'): ?>
                 <?= base_url().'cooperatives/'.$encrypted_id.'/documents/bylaws_union';?>
         <?php else: ?>
                 <?= base_url().'cooperatives/'.$encrypted_id.'/documents/bylaws_federation';?>
@@ -633,12 +640,12 @@
   <div class="col-sm-12 col-md-4">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Article  of Cooperation</h5>
-        <p class="card-text">This is the generated Article  of Cooperation</p>
+        <h5 class="card-title">Article of Cooperation</h5>
+        <p class="card-text">This is the generated Article of Cooperation</p>
         <a target="_blank" href="
-        <?php if ($coop_info->category_of_cooperative === 'Primary' || $coop_info->type_of_cooperative == 'Bank' || $coop_info->type_of_cooperative == 'Insurance'): ?>
+        <?php if ($coop_info->category_of_cooperative == 'Primary' || $coop_info->type_of_cooperative == 'Bank' || $coop_info->type_of_cooperative == 'Insurance'): ?>
                 <?php $url_ =  base_url().'cooperatives/'.$encrypted_id.'/documents/articles_cooperation_primary';?>
-        <?php elseif ($coop_info->grouping === 'Union' && $coop_info->type_of_cooperative === 'Union'): ?>
+        <?php elseif ($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union'): ?>
                 <?php $url_= base_url().'cooperatives/'.$encrypted_id.'/documents/articles_cooperation_union';?>
         <?php else: ?>
                 <?php $url_ =base_url().'cooperatives/'.$encrypted_id.'/documents/articles_cooperation_federation';?>
@@ -653,9 +660,9 @@
         <h5 class="card-title">Treasurer's Affidavit</h5>
         <p class="card-text">This is the generated Treasurer's Affidavit.</p>
         <a target="_blank" href="
-        <?php if ($coop_info->category_of_cooperative === 'Primary'): ?>
+        <?php if ($coop_info->category_of_cooperative == 'Primary'): ?>
                 <?= base_url().'cooperatives/'.$encrypted_id.'/documents/affidavit_primary';?>
-        <?php elseif ($coop_info->grouping === 'Union'): ?>
+        <?php elseif ($coop_info->grouping == 'Union'): ?>
                 <?= base_url().'cooperatives/'.$encrypted_id.'/documents/affidavit_union';?>
         <?php else: ?>
                 <?= base_url().'cooperatives/'.$encrypted_id.'/documents/affidavit_federation';?>
@@ -671,7 +678,11 @@
         <div class="card-body">
           <h5 class="card-title">Economic Survey</h5>
           <p class="card-text">This is the generated Economic Survey.</p>
-          <a target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/economic_survey" class="btn btn-primary">View</a>
+          <?php if($coop_info->created_at >= '2022-03-08'){ ?>
+                <a target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/simplified_economic_survey" class="btn btn-primary">View</a>
+              <?php } else { ?>
+                <a target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/economic_survey" class="btn btn-primary">View</a>
+              <?php } ?>
         </div>
       </div>
   </div>

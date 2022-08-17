@@ -3,7 +3,7 @@ $(function(){
   /*
     STARTLIST OF DATA TABLES
   */
-  // $('#committeesTable').DataTable();
+  $('#committeesTable').dataTable();
   $('#committeesTable3').DataTable();
   $('#cooperativesTable').DataTable();
   $('#cooperativesTable2').DataTable();
@@ -2721,6 +2721,48 @@ $('#editStaffForm #position').on('change', function(){
     modal.find('.modal-body .reg-no-text').text(registeredno);
     modal.find('.modal-body .regno').val(registeredno);
   });
+  $('#editLabCertModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var full_name = button.data('fname');
+    var registeredno = button.data('regno');
+    var certnum = button.data('certno');
+    var rdate = button.data('regdate');
+    var adid = button.data('adid');
+
+    var currentdate = new Date(rdate);
+    var month = currentdate.getMonth() + 1;
+    var day = currentdate.getDate();
+    var formated_date = ( currentdate.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '')  + day);
+
+    var modal = $(this)
+    modal.find('.modal-body #adminID').val(adid);
+    modal.find('.modal-body #lab_cert').val(certnum);
+    modal.find('.modal-body #date_registered').val(formated_date);
+    modal.find('.modal-body .admin-name-text').text(full_name);
+    modal.find('.modal-body .reg-no-text').text(registeredno);
+    modal.find('.modal-body .regno').val(registeredno);
+  });
+  $('#edit_bns_cert').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var full_name = button.data('fname');
+    var registeredno = button.data('regno');
+    var certnum = button.data('certno');
+    var rdate = button.data('regdate');
+    var adid = button.data('adid');
+
+    var currentdate = new Date(rdate);
+    var month = currentdate.getMonth() + 1;
+    var day = currentdate.getDate();
+    var formated_date = ( currentdate.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '')  + day);
+
+    var modal = $(this)
+    modal.find('.modal-body #adminID').val(adid);
+    modal.find('.modal-body #bns_cert').val(certnum);
+    modal.find('.modal-body #date_registered').val(formated_date);
+    modal.find('.modal-body .admin-name-text').text(full_name);
+    modal.find('.modal-body .reg-no-text').text(registeredno);
+    modal.find('.modal-body .regno').val(registeredno);
+  });
   /* ANJURY RESET PASSWORD START*/
   $('#resetPasswordModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget);
@@ -2873,6 +2915,18 @@ $('#editStaffForm #position').on('change', function(){
     modal.find('.modal-body .cooperative-name-text').text(coop_name);
     modal.find('.modal-body .cooperative-comment-text').text(comment);
   });
+
+    $('#confirmModal').on('show.bs.modal', function (event) {
+    // var button = $(event.relatedTarget);
+    // var coop_name = button.data('cname');
+    // var comment = button.data('comment');
+    // var coop_id = button.data('coopid');
+    var modal = $(this)
+    // modal.find('.modal-body #cooperativeID').val(coop_id);
+    // modal.find('.modal-body .cooperative-name-text').text(coop_name);
+    // modal.find('.modal-body .cooperative-comment-text').text(comment);
+  });
+
   $("#revertCooperativeForm").validationEngine('attach',
       {promptPosition: 'inline',
       scroll: false,
@@ -3240,11 +3294,11 @@ $('#editStaffForm #position').on('change', function(){
   });
 
   $('#reserveBranchUpdateForm #region').on('change',function(){
-    // $('#reserveBranchUpdateForm #province').empty();
+    $('#reserveBranchUpdateForm #province').empty();
     // $("#reserveBranchUpdateForm #province").prop("disabled",true);
-    // $('#reserveBranchUpdateForm #city').empty();
+    $('#reserveBranchUpdateForm #city').empty();
     // $("#reserveBranchUpdateForm #city").prop("disabled",true);
-    // $('#reserveBranchUpdateForm #barangay').empty();
+    $('#reserveBranchUpdateForm #barangay').empty();
     // $("#reserveBranchUpdateForm #barangay").prop("disabled",true);
     if($(this).val() && ($(this).val()).length > 0){
       // $("#reserveBranchUpdateForm #province").prop("disabled",false);
@@ -3321,9 +3375,9 @@ $('#editStaffForm #position').on('change', function(){
 
 
   $('#reserveBranchUpdateForm #province').on('change',function(){
-    // $('#reserveBranchUpdateForm #city').empty();
+    $('#reserveBranchUpdateForm #city').empty();
     // $("#reserveBranchUpdateForm #city").prop("disabled",true);
-    // $('#reserveBranchUpdateForm #barangay').empty();
+    $('#reserveBranchUpdateForm #barangay').empty();
     // $("#reserveBranchUpdateForm #barangay").prop("disabled",true);
     if($(this).val() && ($(this).val()).length > 0){
       // $("#reserveBranchUpdateForm #city").prop("disabled",false);
@@ -3394,7 +3448,7 @@ $('#editStaffForm #position').on('change', function(){
   });
 
   $('#reserveBranchUpdateForm #city').on('change',function(){
-    // $('#reserveBranchUpdateForm #barangay').empty();
+    $('#reserveBranchUpdateForm #barangay').empty();
     // $("#reserveBranchUpdateForm #barangay").prop("disabled",true);
     if($(this).val() && ($(this).val()).length > 0){
       // $("#reserveBranchUpdateForm #barangay").prop("disabled",false);
@@ -3721,14 +3775,32 @@ function validateAgeYouthCustom(field, rules, i, options){
     let dateNow = new Date();
     let dateFieldYr = dateField.getFullYear();
     let dateNowYr = dateNow.getFullYear();
-    if((dateNowYr - dateFieldYr)<18 || (dateNowYr - dateFieldYr)>35){
+    total = calculate_age(new Date(dateFieldYr, dateField.getMonth(), dateField.getDate()));
+    if(total<18 || total>35){
        // this allows the use of i18 for the error msgs
        return options.allrules.validateAgeYouth.alertText;
+       // console.log(total);
     }
+    //  else {
+    //   // console.log(total);
+    //   // console.log(dateField.getMonth()+1);
+      
+      
+    // }
   }else{
     return options.allrules.validateAgeYouth.alertText;
   } 
 }
+function calculate_age(dob) { 
+    var diff_ms = Date.now() - dob.getTime();
+    var age_dt = new Date(diff_ms); 
+  
+    return Math.abs(age_dt.getUTCFullYear() - 1970);
+}
+
+console.log(calculate_age(new Date(1982, 11, 4)));
+
+console.log(calculate_age(new Date(1962, 1, 1)));
 function validateActivityNotNullAddCustom(field, rules, i, options){
   let tempActivity = $.trim($("#reserveAddForm #typeOfCooperative").val());
   if(tempActivity.length <=0){

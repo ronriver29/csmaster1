@@ -44,6 +44,13 @@
                     <strong>Application Information:</strong>
                   </div>
               </div>
+              <div class="col-sm-12 col-md-12">
+                <label>
+                  Youth Cooperative? &nbsp;&nbsp;
+                  <input type="checkbox" id="is_youth" name="is_youth">
+                  Yes
+                </label>
+              </div>
               <div class="col-sm-12 col-md-3">
                 <div class="form-group">
                   <label for="categoryOfCooperative">Category of Cooperative:</label>
@@ -67,7 +74,7 @@
                     <option value="7">Advocacy</option>
                     <option value="8">Agrarian Reform</option>
                     <option value="24">Agriculture</option>
-                    <!-- <option value="9">Bank</option> -->
+                    <option value="9">Bank</option>
                     <option value="4">Consumers</option>
                     <!-- <option value="27" id="coopbank">Cooperative Bank</option> -->
                     <option value="1">Credit</option>
@@ -87,6 +94,7 @@
                     <option value="3">Service</option>
                     <option value="23">Small Scale Mining</option>
                     <option value="17">Transport</option>
+                    <option value="28">Technology Service</option>
                     <option value="26">Union</option>
                     <option value="18">Water Service</option>
                     <option value="19">Workers</option>
@@ -146,7 +154,7 @@
               </div>
             </div>
             <div class="row rd-row">
-              <div class="col-sm-12 col-md-6">
+              <div class="col-sm-12 col-md-6" id='commonbond'>
                 <div class="form-group">
                   <label nfor="commonBondOfMembership">Common Bond of Membership </label>
                   <select class="custom-select validate[required]" name="commonBondOfMembership" id="commonBondOfMembership">
