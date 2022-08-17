@@ -140,6 +140,7 @@
                   <label for="acronymofCooperative"><i class="fas fa-info-user"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Acronym of Cooperative Name:</label>
                   <input type="text" class="form-control validate[funcCall[validateCooperativeParenthesesInAcronymCustom]]" name="acronym_name" id="acronymname" placeholder="(Optional)">
+                  <label id="" style="color:red;font-size:80%;"><i>* For subsidiary cooperative, kindly input this format here after you encode your proposed name: "A subsidiary cooperative of [Cooperative Name]".</i></label>
                   <label id="acronymnameerr" style="color:red;font-size:80%;"><i>* Acronym Name has been disabled. Maximum Character reach on "Proposed Name".</i></label>
                 </div> 
               </div>

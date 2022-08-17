@@ -432,6 +432,30 @@ $(function(){
           $('#reserveAddForm #typeOfCooperative').val('');
         } 
       }
+
+      if(typeofcoop == 28){
+        $('#reserveAddForm #commonbond').hide();
+        $('#reserveAddForm #compositionOfMembers1').hide();
+        $('#reserveAddForm #addMoreComBtn').hide();
+      } else {
+        $('#reserveAddForm #commonbond').show();
+        $('#reserveAddForm #compositionOfMembers1').show();
+        $('#reserveAddForm #addMoreComBtn').show();
+      }
+
+      if(typeofcoop == 26){ // val == 'Secondary' || val == 'Tertiary' || 
+        $('#reserveAddForm #majorIndustry1').hide();
+        $('#reserveAddForm #subClass1').hide();
+        $('#reserveAddForm #addMoreSubclassBtn').hide();
+        $('#reserveAddForm #majorlabel').hide();
+        $('#reserveAddForm #subclasslabel').hide();
+      } else {
+        $('#reserveAddForm #majorIndustry1').show();
+        $('#reserveAddForm #subClass1').show();
+        $('#reserveAddForm #addMoreSubclassBtn').show();
+        $('#reserveAddForm #majorlabel').show();
+        $('#reserveAddForm #subclasslabel').show();
+      }
     });
 
   $("#reserveAddForm #proposedName").bind("keyup change",function(){
@@ -457,49 +481,77 @@ $(function(){
       }
     });
 
-  $("#reserveAddForm #acronymname").bind("keyup change",function(){
-      var val = $(this).val();
-      var typeofcoop = $( "#reserveAddForm #typeOfCooperative option:selected").text();
-      var categoryofcoop = $( "#reserveAddForm #categoryOfCooperative option:selected").text();
-      var proposenameinput = $( "#reserveAddForm #proposedName").val();
-      var acronym = $( "#reserveUpdateForm #acronymname").val();
+  $("#reserveAddForm #is_youth").change(function() {
+    if(this.checked) {
+      $("#reserveAddForm #acronymname").bind("keyup change",function(){
+          var val = $(this).val();
+          var typeofcoop = $( "#reserveAddForm #typeOfCooperative option:selected").text();
+          var categoryofcoop = $( "#reserveAddForm #categoryOfCooperative option:selected").text();
+          var proposenameinput = $( "#reserveAddForm #proposedName").val();
+          var acronym = $( "#reserveUpdateForm #acronymname").val();
 
-      if(acronym != ''){
-        acronym = ' ('+acronym+')';
-      } else {
-        acronym = '';
-      }
-      
-      // var count_coop_type =$('#reserveAddForm select[name="typeOfCooperative[]"').length;
-      // if(count_coop_type>1)
-      // {
-        // $("#typeOfCooperative").html(val+' Multipurpose Cooperative');
-      if(categoryofcoop == 'Secondary' || categoryofcoop == 'Tertiary'){
-        $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+proposenameinput+' Federation of '+typeofcoop + ' Cooperative' +acronym);
-      } else {
-        $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+proposenameinput+' '+typeofcoop+' Cooperative ('+val+')');
-      }
-    });
-
-
-  $('#reserveAddForm #categoryOfCooperative').on('change', function(){
-    var val = $("#reserveAddForm #categoryOfCooperative option:selected").text();
-
-    // alert(val);
-    if(val == 'Others'){ // val == 'Secondary' || val == 'Tertiary' || 
-      $('#reserveAddForm #majorIndustry1').hide();
-      $('#reserveAddForm #subClass1').hide();
-      $('#reserveAddForm #addMoreSubclassBtn').hide();
-      $('#reserveAddForm #majorlabel').hide();
-      $('#reserveAddForm #subclasslabel').hide();
+          if(acronym != ''){
+            acronym = ' ('+acronym+')';
+          } else {
+            acronym = '';
+          }
+          
+          // var count_coop_type =$('#reserveAddForm select[name="typeOfCooperative[]"').length;
+          // if(count_coop_type>1)
+          // {
+            // $("#typeOfCooperative").html(val+' Multipurpose Cooperative');
+          if(categoryofcoop == 'Secondary' || categoryofcoop == 'Tertiary'){
+            $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+proposenameinput+' Federation of '+typeofcoop + ' Cooperative' +acronym);
+          } else {
+            $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+proposenameinput+' Youth '+typeofcoop+' Cooperative ('+val+')');
+          }
+        });
     } else {
-      $('#reserveAddForm #majorIndustry1').show();
-      $('#reserveAddForm #subClass1').show();
-      $('#reserveAddForm #addMoreSubclassBtn').show();
-      $('#reserveAddForm #majorlabel').show();
-      $('#reserveAddForm #subclasslabel').show();
+      $("#reserveAddForm #acronymname").bind("keyup change",function(){
+          var val = $(this).val();
+          var typeofcoop = $( "#reserveAddForm #typeOfCooperative option:selected").text();
+          var categoryofcoop = $( "#reserveAddForm #categoryOfCooperative option:selected").text();
+          var proposenameinput = $( "#reserveAddForm #proposedName").val();
+          var acronym = $( "#reserveUpdateForm #acronymname").val();
+
+          if(acronym != ''){
+            acronym = ' ('+acronym+')';
+          } else {
+            acronym = '';
+          }
+          
+          // var count_coop_type =$('#reserveAddForm select[name="typeOfCooperative[]"').length;
+          // if(count_coop_type>1)
+          // {
+            // $("#typeOfCooperative").html(val+' Multipurpose Cooperative');
+          if(categoryofcoop == 'Secondary' || categoryofcoop == 'Tertiary'){
+            $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+proposenameinput+' Federation of '+typeofcoop + ' Cooperative' +acronym);
+          } else {
+            $("#proposed_name_msg").html('Proposed Name Preview if submitted: '+proposenameinput+' '+typeofcoop+' Cooperative ('+val+')');
+          }
+        });
     }
   });
+
+
+  // $('#reserveAddForm #categoryOfCooperative').on('change', function(){
+  //   var val = $("#reserveAddForm #categoryOfCooperative option:selected").text();
+
+  //   // alert(val);
+  //   if(val == 'Others'){ // val == 'Secondary' || val == 'Tertiary' || 
+  //     $('#reserveAddForm #majorIndustry1').hide();
+  //     $('#reserveAddForm #subClass1').hide();
+  //     $('#reserveAddForm #addMoreSubclassBtn').hide();
+  //     $('#reserveAddForm #majorlabel').hide();
+  //     $('#reserveAddForm #subclasslabel').hide();
+  //   } else {
+  //     $('#reserveAddForm #majorIndustry1').show();
+  //     $('#reserveAddForm #subClass1').show();
+  //     $('#reserveAddForm #addMoreSubclassBtn').show();
+  //     $('#reserveAddForm #majorlabel').show();
+  //     $('#reserveAddForm #subclasslabel').show();
+  //   }
+  // });
 
   $('#reserveAddForm #typeOfCooperative').on('change', function(){
     var val = $("#reserveAddForm #typeOfCooperative option:selected").text();
