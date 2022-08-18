@@ -69,6 +69,57 @@ $config = array(
                 ),
 
         ),
+        'users/create_new_email_account' => array (
+                array(
+                  'field' => 'fName',
+                  'label' => 'Full Name',
+                  'rules' => 'trim|required|callback_fullname_check'
+                ),
+                array(
+                  'field' => 'bDate',
+                  'label' => 'Birth Date',
+                  'rules' => 'trim|required|callback_birthdate_check'
+                ),
+                array(
+                  'field' => 'mNo',
+                  'label' => 'Mobile Number',
+                  'rules' => 'trim|required|callback_mobile_number_check'
+                ),
+                array(
+                  'field' => 'eAddress',
+                  'label' => 'Email Address',
+                  'rules' => 'trim|required|valid_email|is_unique[users.email]'
+                ),
+                array(
+                  'field' => 'hAddress',
+                  'label' => 'Home Address',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'pword',
+                  'label' => 'Password',
+                  'rules' => 'trim|required|min_length[4]'
+                ),
+                array(
+                  'field' => 'cPword',
+                  'label' => 'Confirm Password',
+                  'rules' => 'trim|required|matches[pword]'
+                ),
+                array(
+                  'field' => 'validIdNo',
+                  'label' => 'TIN Number',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'signUpAgree',
+                  'label' => 'Terms and Condition',
+                  'rules' => 'trim|required',
+                  'errors' => array(
+                    'required' => 'You must agree to terms and conditions.'
+                  ),
+                ),
+
+        ),
         'users/use_registered_email' => array (
                 array(
                   'field' => 'fName',
@@ -120,7 +171,103 @@ $config = array(
                 ),
 
         ),
+        'for_closure/bupdate' => array (
+          array(
+            'field' => 'reason',
+            'label' => 'Reason',
+            'rules' => 'trim|required'
+          ),
+//          array(
+//            'field' => 'areaOfOperation',
+//            'label' => 'Area of Operation',
+//            'rules' => 'trim|required'
+//          ),
+//          array(
+//            'field' => 'region',
+//            'label' => 'Region',
+//            'rules' => 'trim|required'
+//          ),
+          // array(
+          //   'field' => 'province',
+          //   'label' => 'Province',
+          //   'rules' => 'trim|required'
+          // ),
+          // array(
+          //   'field' => 'city',
+          //   'label' => 'City',
+          //   'rules' => 'trim|required'
+          // ),  
+          // array(
+          //   'field' => 'barangay',
+          //   'label' => 'Barangay',
+          //   'rules' => 'trim|required'
+          // ), 
+        ),
+        'for_conversion/bupdate' => array (
+          array(
+            'field' => 'reason',
+            'label' => 'Reason',
+            'rules' => 'trim|required'
+          ),
+//          array(
+//            'field' => 'areaOfOperation',
+//            'label' => 'Area of Operation',
+//            'rules' => 'trim|required'
+//          ),
+//          array(
+//            'field' => 'region',
+//            'label' => 'Region',
+//            'rules' => 'trim|required'
+//          ),
+          // array(
+          //   'field' => 'province',
+          //   'label' => 'Province',
+          //   'rules' => 'trim|required'
+          // ),
+          // array(
+          //   'field' => 'city',
+          //   'label' => 'City',
+          //   'rules' => 'trim|required'
+          // ),  
+          // array(
+          //   'field' => 'barangay',
+          //   'label' => 'Barangay',
+          //   'rules' => 'trim|required'
+          // ), 
+        ),
         'branches/bupdate' => array (
+          array(
+            'field' => 'typeOfbranchsatellite',
+            'label' => 'Type',
+            'rules' => 'trim|required'
+          ),
+//          array(
+//            'field' => 'areaOfOperation',
+//            'label' => 'Area of Operation',
+//            'rules' => 'trim|required'
+//          ),
+//          array(
+//            'field' => 'region',
+//            'label' => 'Region',
+//            'rules' => 'trim|required'
+//          ),
+          // array(
+          //   'field' => 'province',
+          //   'label' => 'Province',
+          //   'rules' => 'trim|required'
+          // ),
+          // array(
+          //   'field' => 'city',
+          //   'label' => 'City',
+          //   'rules' => 'trim|required'
+          // ),  
+          array(
+            'field' => 'barangay',
+            'label' => 'Barangay',
+            'rules' => 'trim|required'
+          ), 
+        ),
+        'branch_update/bupdate' => array (
           array(
             'field' => 'typeOfbranchsatellite',
             'label' => 'Type',
@@ -233,11 +380,11 @@ $config = array(
                   'label' => 'Proposed Name',
                   'rules' => 'trim|required|callback_type_of_cooperative_check|callback_cooperative_word_check|callback_cooperative_name_exists_check'
                 ),
-                array(
-                  'field' => 'commonBondOfMembership',
-                  'label' => 'Common Bond of Membership',
-                  'rules' => 'trim|required'
-                ),
+                // array(
+                //   'field' => 'commonBondOfMembership',
+                //   'label' => 'Common Bond of Membership',
+                //   'rules' => 'trim|required'
+                // ),
 //                array(
 //                  'field' => 'compositionOfMembers[]',
 //                  'label' => 'Composition of Members',
@@ -306,14 +453,14 @@ $config = array(
                 array(
                   'field' => 'proposedName',
                   'label' => 'Proposed Name',
-                  'rules' => 'trim|required|callback_type_of_cooperative_check|callback_cooperative_word_check',
+                   // 'rules' => 'trim|required|callback_type_of_cooperative_check|callback_cooperative_word_check'
                   'rules' => 'trim|required|callback_type_of_cooperative_check|callback_cooperative_word_check|callback_cooperative_name_exists_update_check'
                 ),
-                array(
-                  'field' => 'commonBondOfMembership',
-                  'label' => 'Common Bond of Membership',
-                  'rules' => 'trim|required'
-                ),
+                // array(
+                //   'field' => 'commonBondOfMembership',
+                //   'label' => 'Common Bond of Membership',
+                //   'rules' => 'trim|required'
+                // ),
                 array(
                   'field' => 'barangay',
                   'label' => 'Barangay',
@@ -932,6 +1079,18 @@ $config = array(
                   'rules' => 'trim|required|greater_than_equal_to[1]|less_than_equal_to[50]'
                 )
         ),
+        'committees_update/add' => array (
+                array(
+                  'field' => 'committeeName',
+                  'label' => 'Committee Name',
+                  'rules' => 'trim|required'
+                ),
+                array(
+                  'field' => 'cooperatorID',
+                  'label' => 'Cooperator Name',
+                  'rules' => 'trim|required'
+                )
+        ),
         'committees/add' => array (
                 array(
                   'field' => 'committeeName',
@@ -1161,6 +1320,23 @@ $config = array(
                   'rules' => 'trim|required'
                 ),
         ),
+        'simplified_survey/index' => array (
+                array(
+                  'field' => 'natureofbusiness',
+                  'label' => 'Nature of Business',
+                  'rules' => 'trim|required'
+                ),
+                // array(
+                //   'field' => 'initial_capital',
+                //   'label' => 'Initial Capital',
+                //   'rules' => 'trim|required'
+                // ),
+                // array(
+                //   'field' => 'documents',
+                //   'label' => 'Documents',
+                //   'rules' => 'trim|required'
+                // ),
+        ),
         'staff/add' => array (
                 array(
                   'field' => 'position',
@@ -1273,7 +1449,42 @@ $config = array(
                   'rules' => 'trim|required'
                 ),
         ),
+        'for_closure/defer_branch' => array (
+                array(
+                  'field' => 'comment',
+                  'label' => 'Reason why deferred',
+                  'rules' => 'trim|required'
+                ),
+        ),
+        'for_transfer/defer_branch' => array (
+                array(
+                  'field' => 'comment',
+                  'label' => 'Reason why deferred',
+                  'rules' => 'trim|required'
+                ),
+        ),
+        'for_conversion/defer_branch' => array (
+                array(
+                  'field' => 'comment',
+                  'label' => 'Reason why deferred',
+                  'rules' => 'trim|required'
+                ),
+        ),
         'branches/deny_branch' => array (
+                array(
+                  'field' => 'comment',
+                  'label' => 'Reason why denied',
+                  'rules' => 'trim|required'
+                ),
+        ),
+        'for_transfer/deny_branch_for_transfer' => array (
+                array(
+                  'field' => 'comment',
+                  'label' => 'Reason why denied',
+                  'rules' => 'trim|required'
+                ),
+        ),
+        'for_conversion/deny_branch_for_conversion' => array (
                 array(
                   'field' => 'comment',
                   'label' => 'Reason why denied',
