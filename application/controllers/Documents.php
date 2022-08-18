@@ -1433,11 +1433,11 @@ public function delete_pdf()
                       if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                         $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                         if($data['committees_complete'] || $data['coop_info']->type_of_cooperative == 'Technology Service'){
-                          if($data['coop_info']->created_at >= '2022-03-08'){
-                            $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                          } else {
+                          // if($data['coop_info']->created_at >= '2022-03-08'){
+                          //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                          // } else {
                             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          }
+                          // }
                           if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                             $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                             if($data['staff_complete']){
@@ -2384,11 +2384,11 @@ public function delete_pdf()
                       if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                         $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                         if($data['committees_complete'] || $data['coop_info']->type_of_cooperative == 'Technology Service'){
-                          if($data['coop_info']->created_at >= '2022-03-08'){
-                            $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                          } else {
+                          // if($data['coop_info']->created_at >= '2022-03-08'){
+                          //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                          // } else {
                             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          }
+                          // }
                           if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                             $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                             if($data['staff_complete']){
@@ -2515,11 +2515,11 @@ public function delete_pdf()
                         if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                           $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                           if($data['committees_complete'] || $data['coop_info']->type_of_cooperative == 'Technology Service'){
-                            if($data['coop_info']->created_at >= '2022-03-08'){
-                              $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                            } else {
+                            // if($data['coop_info']->created_at >= '2022-03-08'){
+                            //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                            // } else {
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            }
+                            // }
                             if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                               if($data['staff_complete']){
@@ -3150,11 +3150,11 @@ public function delete_pdf()
                       if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                         $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                         if($data['committees_complete'] || $data['coop_info']->type_of_cooperative == 'Technology Service'){
-                          if($data['coop_info']->created_at >= '2022-03-08'){
-                            $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                          } else {
+                          // if($data['coop_info']->created_at >= '2022-03-08'){
+                          //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                          // } else {
                             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          }
+                          // }
                           if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                             $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                             if($data['staff_complete']){
@@ -3238,11 +3238,11 @@ public function delete_pdf()
                         if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                           $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                           if($data['committees_complete'] || $data['coop_info']->type_of_cooperative == 'Technology Service'){
-                            if($data['coop_info']->created_at >= '2022-03-08'){
-                              $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                            } else {
+                            // if($data['coop_info']->created_at >= '2022-03-08'){
+                            //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                            // } else {
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            }
+                            // }
                             if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                               if($data['staff_complete']){
@@ -3845,11 +3845,11 @@ public function delete_pdf()
                             $data['gad_count'] = $this->committee_model->committee_complete_count($decoded_id);
                         }
                       if($data['gad_count']>0){
-                            if($data['coop_info']->created_at >= '2022-03-08'){
-                              $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                            } else {
+                            // if($data['coop_info']->created_at >= '2022-03-08'){
+                            //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                            // } else {
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            }
+                            // }
                             if($data['economic_survey_complete']){
                               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                               if($data['staff_complete']){
@@ -4128,11 +4128,11 @@ public function delete_pdf()
                             $data['gad_count'] = $this->committee_model->committee_complete_count($decoded_id);
                         }
                       if($data['gad_count']>0){
-                            if($data['coop_info']->created_at >= '2022-03-08'){
-                              $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                            } else {
+                            // if($data['coop_info']->created_at >= '2022-03-08'){
+                            //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                            // } else {
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            }
+                            // }
                             // $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
                             if($data['economic_survey_complete']){
                               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
