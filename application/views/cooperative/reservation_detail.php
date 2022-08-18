@@ -74,7 +74,7 @@
                     <option value="7">Advocacy</option>
                     <option value="8">Agrarian Reform</option>
                     <option value="24">Agriculture</option>
-                    <option value="9">Bank</option>
+                    <!-- <option value="9">Bank</option> -->
                     <option value="4">Consumers</option>
                     <!-- <option value="27" id="coopbank">Cooperative Bank</option> -->
                     <option value="1">Credit</option>
