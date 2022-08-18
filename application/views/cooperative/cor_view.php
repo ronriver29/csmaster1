@@ -82,8 +82,15 @@ ini_set('output_buffering', true); // no limit
 	<tr>
 		<td><i style="color:white;">....</i></td>
 	</tr>
+	<?php 
+	if(strlen($coop_info->coopName) > 100){
+		$fontsize = 17;
+	} else {
+		$fontsize = 20;
+	}
+	?>
 	<tr>
-		<td  colspan="2" style="text-align: center; font-size: 20pt;line-height: 35px"><b><?= $coop_info->coopName?></b></td>
+		<td  colspan="2" style="text-align: center; font-size: <?=$fontsize?>pt;line-height: 35px"><b><?= $coop_info->coopName?></b></td>
 	</tr>
 	<tr>
 		<td  colspan="2" style="text-align: center; font-size: 9pt;">Name of Cooperative</td>
