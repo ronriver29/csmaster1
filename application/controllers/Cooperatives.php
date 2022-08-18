@@ -330,7 +330,7 @@
                   $regions = '';
                 }
 
-                if($this->input->post('is_youth') == 1){
+                if(!empty($this->input->post('is_youth'))){
                   $is_youth = 1;
                 } else {
                   $is_youth = 0;
@@ -766,7 +766,7 @@
                       $regions = '';
                     }
                     
-                    if($this->input->post('is_youth') == 1){
+                    if(!empty($this->input->post('is_youth'))){
                       $is_youth = 1;
                     } else {
                       $is_youth = 0;
