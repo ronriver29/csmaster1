@@ -1036,11 +1036,7 @@
         </div>
         <?php if($coop_info->status!= 0 && $bylaw_complete && $article_complete && $grouping && $committees_complete && $purposes_complete): ?>
         <small class="text-muted">
-          <?php if($coop_info->created_at >= '2022-03-08'){ ?>
-            <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/simplified_survey" class="btn btn-info btn-sm">View</a>
-          <?php } else { ?>
             <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/survey" class="btn btn-info btn-sm">View</a>
-          <?php } ?>
         </small>
       <?php endif ?>
       </li>
@@ -1295,11 +1291,7 @@
             <?php // if($count == 0) {?>
             <?php // } else {?>
                 <small class="text-muted">
-                  <?php if($coop_info->created_at >= '2022-03-08'){ ?>
-                    <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/simplified_survey" class="btn btn-info btn-sm">View</a>
-                  <?php } else { ?>
                     <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/survey" class="btn btn-info btn-sm">View</a>
-                  <?php } ?>
                 </small>
             <?php // } ?>
         <?php endif ?>
