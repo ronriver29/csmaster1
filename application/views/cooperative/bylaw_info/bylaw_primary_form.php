@@ -87,7 +87,9 @@
                 <label for="kindsOfMember"><strong>Define Membership:</strong></label>
                 <select class="custom-select validate[required]" name="kindsOfMember" id="kindsOfMember" disabled>
                   <option value="1" <?php if($bylaw_info->kinds_of_members == 1) echo "selected"; ?>>Regular Member Only</option>
-                  <option value="2" <?php if($bylaw_info->kinds_of_members == 2) echo "selected"; ?>>Regular And Associate Member</option>
+                  <?php if($coop_info->is_youth == 0){ ?>
+                    <option value="2" <?php if($bylaw_info->kinds_of_members == 2) echo "selected"; ?>>Regular And Associate Member</option>
+                  <?php } ?>
                 </select>
               </div>
           </div>
@@ -253,7 +255,7 @@
           <div class="col-sm-12 col-md-12">
             <div class="form-group">
             <label for="actUponMembershipDays"><strong>An applicant for membership shall file a duly accomplished form to the Board of Directors who shall act upon the application within _________ (_____) days from the date of filing.  The Board of Directors shall devise a form for the purpose which shall, aside from the personal data of the applicant, include the duties of a member to participate in all programs including but not limited to capital build-up and savings mobilization of the Cooperative and, such other information as may be deemed necessary.</strong></label>
-            <input type="number" value="<?=$bylaw_info->act_upon_membership_days?>" class="form-control validate[required]" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" disabled>
+            <input type="number" value="<?=$bylaw_info->act_upon_membership_days?>" min="0" class="form-control validate[required]" id="actUponMembershipDays" name="actUponMembershipDays" placeholder="Enter Days" disabled>
             <small id="emailHelp" class="form-text text-muted">Days from the date filing.</small>
            </div>
           </div>
