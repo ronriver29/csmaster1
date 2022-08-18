@@ -115,12 +115,12 @@ class registration extends CI_Controller{
         $codeContents .= "Registration No:";
         $codeContents .= $coop_details->regNo;
         $codeContents .= "\n";
-        $codeContents .= "Date Registered:";
-        $codeContents .=  date('d-m-Y',strtotime($coop_details->dateofor));
+        // $codeContents .= "Date Registered:";
+        // $codeContents .=  date('d-m-Y',strtotime($coop_details->dateofor));
 
         $params['data'] = $codeContents;
         $params['level'] = 'H';
-        $params['size'] = 3;
+        $params['size'] = 2;
 
         $params['savename'] = $qr_code_config['imagedir'] . $image_name;
         $this->ci_qr_code->generate($params);
