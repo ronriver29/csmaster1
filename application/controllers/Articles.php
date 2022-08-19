@@ -6,6 +6,7 @@ class Articles extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
+    //Codeigniter : Write Less Do More
     $this->load->model('cooperatives_model');
     $this->load->model('bylaw_model');
     $this->load->model('capitalization_model');
@@ -17,7 +18,6 @@ class Articles extends CI_Controller{
     $this->load->model('region_model');
     $this->load->model('affiliators_model');
     $this->load->model('unioncoop_model');
-    //Codeigniter : Write Less Do More
   }
   function index($id  = null)
   {
@@ -32,9 +32,9 @@ class Articles extends CI_Controller{
           if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
             if(!$this->cooperatives_model->check_expired_reservation($decoded_id,$user_id)){
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
-              if($data['coop_info']->category_of_cooperative =="Primary"){
+              if($data['coop_info']->category_of_cooperative =="Primary" || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                 redirect('cooperatives/'.$id.'/articles_primary');
-              }else if($data['coop_info']->grouping =="Union" && $data['coop_info']->type_of_cooperative == 'Union'){
+              }else if((($data['coop_info']->grouping =="Union" || $data['coop_info']->category_of_cooperative == 'Others') && $data['coop_info']->type_of_cooperative == 'Union')){
                 redirect('cooperatives/'.$id.'/articles_union');
               }else{
                 redirect('cooperatives/'.$id.'/articles_primary');
@@ -58,7 +58,7 @@ class Articles extends CI_Controller{
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
               if($data['coop_info']->category_of_cooperative =="Primary"){
                 redirect('cooperatives/'.$id.'/articles_primary');
-              }else if($data['coop_info']->grouping =="Union" && $data['coop_info']->type_of_cooperative == 'Union'){
+              }else if(($data['coop_info']->grouping =="Union" || $data['coop_info']->category_of_cooperative == 'Others') && $data['coop_info']->type_of_cooperative == 'Union'){
                 redirect('cooperatives/'.$id.'/articles_union');
               }else{
                 redirect('cooperatives/'.$id.'/articles_primary');
@@ -96,8 +96,8 @@ class Articles extends CI_Controller{
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                        // echo $this->db->last_query();
-                    } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
+                        echo $this->db->last_query();
+                    } else if((($data['coop_info']->grouping == 'Union' || $data['coop_info']->category_of_cooperative == 'Others') && $data['coop_info']->type_of_cooperative == 'Union') || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                         $model = 'unioncoop_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
@@ -108,7 +108,7 @@ class Articles extends CI_Controller{
                     }
                     
                     
-                  if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
+                  if($data['cooperator_complete'] || (($data['coop_info']->grouping == 'Union' || $data['coop_info']->category_of_cooperative == 'Others') && $data['coop_info']->type_of_cooperative == 'Union') || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
                     if($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Primary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Secondary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Tertiary"){
@@ -160,7 +160,7 @@ class Articles extends CI_Controller{
                   }else{
                     if($data['coop_info']->grouping == 'Federation'){
                             $complete = 'Affiliators';
-                        } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
+                        } else if((($data['coop_info']->grouping == 'Union' || $data['coop_info']->category_of_cooperative == 'Others') && $data['coop_info']->type_of_cooperative == 'Union') || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                             $complete = 'Federations';
                         } else {
                             $complete = 'Cooperators';
@@ -197,7 +197,7 @@ class Articles extends CI_Controller{
                   if($data['bylaw_complete']){
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
-                    if($data['coop_info']->grouping == 'Federation'){
+                    if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                         $model = 'affiliators_model';
                         $ids = $data['coop_info']->users_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$ids);
@@ -209,7 +209,7 @@ class Articles extends CI_Controller{
                     }
                     
                     
-                    if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
+                    if($data['cooperator_complete'] || (($data['coop_info']->grouping == 'Union' || $data['coop_info']->category_of_cooperative == 'Others') && $data['coop_info']->type_of_cooperative == 'Union')){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
                         if($this->cooperatives_model->get_cooperative_info_by_admin($decoded_id)->category_of_cooperative =="Primary" || $this->cooperatives_model->get_cooperative_info($data['coop_info']->users_id,$decoded_id)->category_of_cooperative =="Secondary" || $this->cooperatives_model->get_cooperative_info($data['coop_info']->users_id,$decoded_id)->category_of_cooperative =="Tertiary"){
@@ -258,7 +258,9 @@ class Articles extends CI_Controller{
                         redirect('cooperatives/'.$id);
                       }
                     }else{
-                      if($data['coop_info']->grouping == 'Federation'){
+                        if($data['coop_info']->type_of_cooperative == 'Technology Service'){
+                          $complete = 'Members';
+                        } else if($data['coop_info']->grouping == 'Federation'){
                             $complete = 'Affiliators';
                         } else {
                             $complete = 'Cooperators';
@@ -315,10 +317,10 @@ class Articles extends CI_Controller{
                     }
                     
                     
-                  if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
+                  if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union') || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
-                  if($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Primary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Secondary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Tertiary"){
+                  if($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Primary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative == "Secondary" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Others" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->category_of_cooperative =="Tertiary"){
                         if($this->form_validation->run() == FALSE){
                           $data['title'] = 'Articles of Cooperation';
                           $data['header'] = 'Articles of Cooperation';
@@ -416,7 +418,7 @@ class Articles extends CI_Controller{
                     if(($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
-                        if($this->cooperatives_model->get_cooperative_info_by_admin($decoded_id)->category_of_cooperative =="Primary" || $this->cooperatives_model->get_cooperative_info($data['coop_info']->users_id,$decoded_id)->category_of_cooperative =="Secondary"){
+                        if($this->cooperatives_model->get_cooperative_info_by_admin($decoded_id)->category_of_cooperative =="Primary" || $this->cooperatives_model->get_cooperative_info($data['coop_info']->users_id,$decoded_id)->category_of_cooperative =="Secondary" || $this->cooperatives_model->get_cooperative_info($data['coop_info']->users_id,$decoded_id)->category_of_cooperative =="Others"){
                           if($this->form_validation->run() == FALSE){
                             $data['title'] = 'Articles of Cooperation';
                             $data['header'] = 'Articles of Cooperation';
