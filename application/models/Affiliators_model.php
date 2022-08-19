@@ -30,7 +30,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
-        $this->db->where('(cooperatives.status = 39 OR cooperatives.status = 15) AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"' .$and_where);
+        $this->db->where('(cooperatives.status = 39 OR cooperatives.status = 15) AND addrCode LIKE "'.$addresscode.'%"' .$and_where);
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -69,7 +69,7 @@ class Affiliators_model extends CI_Model{
         $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
         $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
         $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
-        $this->db->where('(cooperatives.status = 39 OR cooperatives.status = 15) AND addrCode LIKE "'.$addresscode.'%" AND registeredcoop.type LIKE "'.$type_of_cooperative.'%"' .$and_where);
+        $this->db->where('(cooperatives.status = 39 OR cooperatives.status = 15) AND addrCode LIKE "'.$addresscode.'%"' .$and_where);
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
