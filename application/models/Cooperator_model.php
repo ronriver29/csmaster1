@@ -794,6 +794,16 @@ $this->last_query = $this->db->last_query();
     $data = $query->row();
     return $data;
   }
+  public function get_treasurer_of_coop_ts($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->select('representative as full_name');
+    $this->db->from('affiliators');
+    $this->db->where('cooperatives_id = '.$cooperatives_id.' AND position = "Treasurer"');
+    $query=$this->db->get();
+    // $query = $this->db->get_where('affiliators',array('cooperatives_id' => $cooperatives_id,'position'=>'Treasurer'));
+    $data = $query->row();
+    return $data;
+  }
   public function get_treasurer_of_coop_amend($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $query = $this->db->get_where('amendment_cooperators',array('amendment_id' => $cooperatives_id,'position'=>'Treasurer'));
