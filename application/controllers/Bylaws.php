@@ -468,7 +468,7 @@ class Bylaws extends CI_Controller{
             redirect('admins/login');
           }else{
             if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
-              if($this->cooperatives_model->get_cooperative_info_by_admin($decoded_id)->grouping =="Federation"){
+              if($this->cooperatives_model->get_cooperative_info_by_admin($decoded_id)->grouping =="Federation" || $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id)->type_of_cooperative == "Technology Service"){
                 if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                   if($this->form_validation->run() == FALSE){
                     $data['title'] = 'By Laws';
