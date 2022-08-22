@@ -323,7 +323,7 @@ class Bylaws extends CI_Controller{
         if($this->session->userdata('client')){
           if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
             if(!$this->cooperatives_model->check_expired_reservation($decoded_id,$user_id)){
-              if($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->grouping =="Federation"){
+              if($this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->grouping =="Federation" || $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id)->type_of_cooperative == "Technology Service"){
                 if($this->form_validation->run() == FALSE){
                   $data['title'] = 'By Laws';
                   $data['header'] = 'By Laws';
