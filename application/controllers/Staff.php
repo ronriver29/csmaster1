@@ -40,7 +40,7 @@ class Staff extends CI_Controller{
                 if($data['bylaw_complete']){
                   $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
-                    if($data['coop_info']->grouping == 'Federation'){
+                    if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
@@ -60,7 +60,7 @@ class Staff extends CI_Controller{
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                         if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
-                        if($data['coop_info']->grouping == 'Federation'){
+                        if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
                         } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
@@ -110,7 +110,7 @@ class Staff extends CI_Controller{
                         redirect('cooperatives/'.$id);
                       }
                     }else{
-                      if($data['coop_info']->grouping == 'Federation'){
+                      if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                             $complete = 'Affiliators';
                         } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                             $complete = 'Federations';
@@ -149,7 +149,7 @@ class Staff extends CI_Controller{
                   if($data['bylaw_complete']){
                     $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
-                    if($data['coop_info']->grouping == 'Federation'){
+                    if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                         $model = 'affiliators_model';
                         $ids = $data['coop_info']->users_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$ids);
@@ -169,7 +169,7 @@ class Staff extends CI_Controller{
                         if($data['purposes_complete']){
                           $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                           if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
-                            if($data['coop_info']->grouping == 'Federation'){
+                            if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                                 $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($data['coop_info']->users_id);
                             } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                                 $data['gad_count'] = $this->committee_model->get_all_gad_count_union($data['coop_info']->users_id);
@@ -214,7 +214,7 @@ class Staff extends CI_Controller{
                           redirect('cooperatives/'.$id);
                         }
                       }else{
-                        if($data['coop_info']->grouping == 'Federation'){
+                        if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                             $complete = 'Affiliators';
                         } else {
                             $complete = 'Cooperators';
@@ -254,7 +254,7 @@ class Staff extends CI_Controller{
                 if($data['bylaw_complete']){
                   $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
                     $capitalization_info = $data['capitalization_info'];
-                    if($data['coop_info']->grouping == 'Federation'){
+                    if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
@@ -274,7 +274,7 @@ class Staff extends CI_Controller{
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                         if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
-                          if($data['coop_info']->grouping == 'Federation'){
+                          if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
                         } else if($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_union($user_id);
@@ -414,7 +414,7 @@ class Staff extends CI_Controller{
                         redirect('cooperatives/'.$id);
                       }
                     }else{
-                      if($data['coop_info']->grouping == 'Federation'){
+                      if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                             $complete = 'Affiliators';
                         } else {
                             $complete = 'Cooperators';
@@ -556,7 +556,7 @@ class Staff extends CI_Controller{
                       $assoc_ ='';
                     }
                     
-                    if($data['coop_info']->grouping == 'Federation'){
+                    if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
@@ -572,7 +572,7 @@ class Staff extends CI_Controller{
                       if($data['purposes_complete']){
                         $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($decoded_id) : true;
                         if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
-                          if($data['coop_info']->grouping == 'Federation'){
+                          if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                             $data['gad_count'] = $this->committee_model->get_all_gad_count_federation($user_id);
                         } else {
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
@@ -700,7 +700,7 @@ class Staff extends CI_Controller{
                         redirect('cooperatives/'.$id);
                       }
                     }else{
-                        if($data['coop_info']->grouping == 'Federation'){
+                        if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                             $complete = 'Affiliators';
                         } else {
                             $complete = 'Cooperators';
