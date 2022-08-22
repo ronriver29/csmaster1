@@ -54,7 +54,7 @@ class Bylaws extends CI_Controller{
           else{
             if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
               $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
-              if($data['coop_info']->grouping =="Federation"){
+              if($data['coop_info']->grouping =="Federation" || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                 redirect('cooperatives/'.$id.'/bylaws_federation');
               }else if($data['coop_info']->grouping =="Union" && $data['coop_info']->type_of_cooperative == 'Union'){
                 redirect('cooperatives/'.$id.'/bylaws_union');
