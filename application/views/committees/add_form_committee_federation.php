@@ -35,10 +35,11 @@
           
         <?php 
         // $grouping = array();
-            if($coop_info->grouping == 'Federation'){
+        // echo $coop_info->type_of_cooperative;
+            if($coop_info->grouping == 'Federation' || $coop_info->type_of_cooperative == 'Technology Service'){
               // array_push($grouping, $cooperators_federation);
                 $grouping = $cooperators_federation;
-            } if($coop_info->grouping == 'Union'){
+            } else if($coop_info->grouping == 'Union'){
                 $grouping = $cooperators_union;
             } else {
                 $grouping = $cooperators;
@@ -59,7 +60,7 @@
                   <option id="A" value="Credit">Credit</option>
                 <?php } ?>
                 <option id="B" value="Gender and Development">Gender and Development</option>
-				<!-- <option disabled id="A" value="Audit">Audit</option>
+        <!-- <option disabled id="A" value="Audit">Audit</option>
                 <option disabled id="A" value="Election">Election</option>
                 <option disabled id="C" value="Education and Training">Education and Training</option>
                 <option disabled id="A" value="Mediation and Conciliation">Mediation and Conciliation</option>
