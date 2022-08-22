@@ -1099,7 +1099,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
       $this->db->insert('committees_union',$ethics);
 
       // return $return;
-    } else if($data['grouping'] == 'Federation'){
+    } else if($data['grouping'] == 'Federation' || $data['type_of_cooperative'] == 'Technology Service'){
       $audit = array('name'=> 'Audit','user_id' => $data['users_id']);
       $gad = array('name'=> 'Gender and Development','user_id' => $data['users_id']);
       $election = array('name'=> 'Election','user_id' => $data['users_id']);
@@ -1219,7 +1219,7 @@ public function approve_by_supervisor_laboratories($admin_info,$coop_id,$coop_fu
         }
 
       // return $return;
-    } else if($data['grouping'] == 'Federation'){
+    } else if($data['grouping'] == 'Federation' || $data['type_of_cooperative'] == 'Technology Service'){
       $audit = array('name'=> 'Audit','user_id' => $data['users_id']);
       $gad = array('name'=> 'Gender and Development','user_id' => $data['users_id']);
       $election = array('name'=> 'Election','user_id' => $data['users_id']);
