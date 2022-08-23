@@ -454,7 +454,7 @@ if($coop_info->status != 12){
   </div>
   <div class="row mb-2">
     <div class="col-sm-12 col-md-12 text-left">
-      <p class="text-justify" style="text-indent: 50px;"> <b><?=$treasurer_of_coop->full_name?></b> has been elected as Treasurer of this Cooperative to act as such until her/his successor shall have been duly appointed and qualified in accordance with the By-laws. As such Treasurer, he/she is authorized to receive payments and issue receipts for membership fees, share capital subscriptions and other revenues, and to pay obligations for and in the name of this Cooperative.</p>
+      <p class="text-justify" style="text-indent: 50px;"> <b><?=$treasurer_of_coop->full_name?></b> has been appointed as Treasurer of this Cooperative to act as such until her/his successor shall have been duly appointed and qualified in accordance with the By-laws. As such Treasurer, he/she is authorized to receive payments and issue receipts for membership fees, share capital subscriptions and other revenues, and to pay obligations for and in the name of this Cooperative.</p>
     </div>
   </div>
   <div class="row mb-2">
@@ -473,7 +473,7 @@ if($coop_info->status != 12){
         <table class="table table-sm">
           <thead>
             <tr>
-              <th>Name of of Member-Cooperative</th>
+              <th>Name of Member-Cooperative</th>
               <th>Name of Representative</th>
               <th><center>Signature of Representative</center></th>
             </tr>

@@ -40,7 +40,7 @@
 
   #customlist>li:before {
     /* print out "Element " followed by the current counter value */
-    content: "c." counter(elementcounter) " ";
+    content: "f." counter(elementcounter) " ";
     /* increment counter */
     counter-increment: elementcounter;
   }
@@ -67,7 +67,7 @@ if($coop_info->status != 12){
 
   #customlist>li:before {
     /* print out "Element " followed by the current counter value */
-    content: "c." counter(elementcounter) " ";
+    content: "f." counter(elementcounter) " ";
     /* increment counter */
     counter-increment: elementcounter;
   }
@@ -386,7 +386,7 @@ if($coop_info->status != 12){
         <li>Presentation and approval of the reports of the Board of Directors, officers, and the committees, including Audited Financial Statements of the cooperative; </li>
         <li>Unfinished business; </li>
         <li>New business;
-            <ol class="text-justify" type="f">
+            <ol class="text-justify" type="f" id="customlist">
               <li><!-- h.1 --> Election of Directors and committee members </li>
               <li><!-- h.2 --> Approval of Development and/or annual Plan and Budget; </li>
               <li><!-- h.3 --> Hiring of External Auditor </li>
@@ -500,7 +500,7 @@ if($coop_info->status != 12){
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
         <p class="text-justify font-weight-regular">Section 5. <i class="font-weight-bold">Election of Directors.</i> The members of the Board of Directors shall be elected, by secret ballot, by the duly authorized representatives, who are entitled to vote during the annual regular general assembly meeting or special General Assembly meeting called for the purpose. </p>
-        <p class="text-justify" style="text-indent: 50px;"> Unless earlier removed for cause, or have resigned or become incapacitated, they shall hold office for a term of <b><?=num_format_custom($bylaw_info->director_hold_term) ?></b> (<b><?=$bylaw_info->director_hold_term?></b>) years or until their successors shall have been elected and qualified. Provided, that majority of the elected directors obtaining the highest number of votes during the first election after registration shall serve for two (2) years and the remaining directors for one (1) year. Thereafter, all directors shall serve for a term of ________ (___) years</p>
+        <p class="text-justify" style="text-indent: 50px;"> Unless earlier removed for cause, or have resigned or become incapacitated, they shall hold office for a term of <b><?=num_format_custom($bylaw_info->director_hold_term) ?></b> (<b><?=$bylaw_info->director_hold_term?></b>) years or until their successors shall have been elected and qualified. Provided, that majority of the elected directors obtaining the highest number of votes during the first election after registration shall serve for two (2) years and the remaining directors for one (1) year. Thereafter, all directors shall serve for a term of (2) years</p>
     </div>
   </div>
   <div class="row">
@@ -959,8 +959,8 @@ if($coop_info->status != 12){
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <ol class="text-justify" type="a">
-        <li>At least <?=ucwords(num_format_custom($bylaw_info->member_invest_per_month))?> Pesos (P<?=$bylaw_info->member_invest_per_month?>)per month; </li>
-        <li>At least <?=ucwords(num_format_custom($bylaw_info->member_percentage_annual_interest))?> percent (<?=$bylaw_info->member_percentage_annual_interest?>%) of his/her annual interest on capital and patronage refund; and </li>
+        <li>At least <?=ucwords(num_format_custom($bylaw_info->member_invest_per_month))?> Pesos (P<?=$bylaw_info->member_invest_per_month?>)per annum; </li>
+        <li>At least <?=ucwords(num_format_custom($bylaw_info->member_percentage_annual_interest))?> percent (<?=$bylaw_info->member_percentage_annual_interest?>%) of member-cooperative annual interest on capital and patronage refund; and </li>
         <li>At least <?=ucwords(num_format_custom($bylaw_info->member_percentage_service))?> percent (<?=$bylaw_info->member_percentage_service?>%) of each good procured /service acquired from the cooperative. </li>
       </ol>
     </div>
@@ -1077,7 +1077,7 @@ if($coop_info->status != 12){
           </ol>
         </li>
         <li><i class="font-weight-bold">Community Development Fund.</i> <?= ucwords(num_format_custom($bylaw_info->percent_community_fund))?> percent (<?=$bylaw_info->percent_community_fund?>%) shall be used for projects and activities that will benefit the community where the cooperative operates.</li>
-        <li><i class="font-weight-bold">Optional Fund, Land and Building and any other necessary fund.</i> <?=ucwords(num_format_custom($bylaw_info->percent_optional_fund))?> percent (<?=$bylaw_info->percent_optional_fund?>%) shall be set aside for Optional Fund for land and building, and any other necessary fund.</li>
+        <li><i class="font-weight-bold">Optional Fund.</i> <?=ucwords(num_format_custom($bylaw_info->percent_optional_fund))?> percent (<?=$bylaw_info->percent_optional_fund?>%) shall be set aside for Optional Fund for land and building, and any other necessary fund.</li>
       </ol>
     </div>
   </div>

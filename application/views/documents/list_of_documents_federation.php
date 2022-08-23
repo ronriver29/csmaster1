@@ -454,9 +454,9 @@
         <h5 class="card-title">Treasurer's Affidavit</h5>
         <p class="card-text">This is the generated Treasurer's Affidavit.</p>
         <a target="_blank" href="
-        <?php if ($coop_info->category_of_cooperative === 'Primary' || $coop_info->type_of_cooperative == 'Technology Service'): ?>
+        <?php if ($coop_info->category_of_cooperative === 'Primary'): ?>
                 <?= base_url().'cooperatives/'.$encrypted_id.'/documents/affidavit_primary';?>
-        <?php elseif ($coop_info->grouping === 'Union'): ?>
+        <?php elseif ($coop_info->grouping === 'Union' && $coop_info->type_of_cooperative != 'Technology Service'): ?>
                 <?= base_url().'cooperatives/'.$encrypted_id.'/documents/affidavit_union';?>
         <?php else: ?>
                 <?= base_url().'cooperatives/'.$encrypted_id.'/documents/affidavit_federation';?>
