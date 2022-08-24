@@ -2530,9 +2530,9 @@ public function delete_pdf()
                                 $data['assoc_ar_qualifications'] = explode(";",$data['bylaw_info']->associate_qualifications);
                                 $data['members_additional_requirements'] = explode(";",$data['bylaw_info']->additional_requirements_for_membership);
                                 $data['members_additional_conditions_to_vote'] = explode(";",$data['bylaw_info']->additional_conditions_to_vote);
-                                $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
-                                $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
-                                $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
+                                // $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
+                                // $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
+                                // $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
 
                                 if($data['coop_info']->type_of_cooperative == 'Technology Service'){
                                   $data['cooperator_directors'] = $this->affiliators_model->get_all_board_of_director_only($user_id);
@@ -2540,6 +2540,17 @@ public function delete_pdf()
                                 } else {
                                   $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
                                   $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
+                                }
+
+                                if($data['coop_info']->type_of_cooperative == 'Technology Service'){
+                                  $data['cooperators_list_regular'] = $this->affiliators_model->get_all_cooperator_of_coop_ts($decoded_id);
+                                  $data['cooperator_vicechairperson'] = $this->affiliators_model->get_vicechairperson_of_coop_ts($decoded_id);
+                                  $data['cooperator_chairperson'] = $this->affiliators_model->get_chairperson_of_coop_ts($decoded_id);
+                                  // $data['last'] = $this->db->last_query();
+                                } else {
+                                  $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
+                                  $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
+                                  $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
                                 }
 
                                 // $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);

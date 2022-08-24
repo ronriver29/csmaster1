@@ -744,7 +744,7 @@
               
             </div>
           </div>
-            <?php if(($is_client && $coop_info->status != 40) || !$is_client): ?>
+            <?php if(($is_client && $coop_info->status != 40 && $coop_info->status != 39) || !$is_client): ?>
           <div class="col-sm-12 offset-md-1 col-md-10 align-self-end">
             <div class="form-group">
               <div class="custom-control custom-checkbox text-center mt-2">
