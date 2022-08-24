@@ -144,15 +144,15 @@ class Payments extends CI_Controller{
 
                       if($data['gad_count']>0){
 
-                      if($data['coop_info']->created_at >= '2022-03-08'){
+                      // if($data['coop_info']->created_at >= '2022-03-08'){
 
-                        $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                      //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
 
-                      } else {
+                      // } else {
 
                         $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
 
-                      }
+                      // }
 
                       
 
