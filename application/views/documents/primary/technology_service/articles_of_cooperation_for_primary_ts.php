@@ -167,7 +167,7 @@ if($coop_info->status != 12){
         <li>To adopt by-laws not contrary to law, morals or public policy, and to amend and repeal the same in accordance with RA 9520;</li>
         <li>To purchase, receive, take or grant, hold, convey, sell, lease, pledge, mortgage, and otherwise deal with such real and personal property as the transaction of the lawful affairs of the Cooperative may reasonably and necessarily require, subject to the limitations prescribed by law and the Constitution;</li>
         <li>To enter into division, merger, or consolidation, as provided under RA 9520;</li>
-        <li>7.  To avail of loans, be entitled to credit and to accept and receive grants, donations and assistance from foreign and domestic sources subject to the conditions of said loans, credits, grants, donations or assistance that will not undermine the autonomy of the cooperative; and</li>
+        <li>To avail of loans, be entitled to credit and to accept and receive grants, donations and assistance from foreign and domestic sources subject to the conditions of said loans, credits, grants, donations or assistance that will not undermine the autonomy of the cooperative; and</li>
         <li>To exercise such other powers granted under RA 9520 or necessary to carry out its purposes as stated in this Articles of Cooperation.</li>
         <?php
           // $created_at_2 = date('Y-m-d',strtotime($coop_info->created_at));

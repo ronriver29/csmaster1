@@ -505,6 +505,11 @@ if($coop_info->status != 12){
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
+        <p class="text-justify" style="text-indent: 50px;"> The term of the interim directors shall expire upon the election of their successors in the first regular general assembly after registration</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 text-left">
         <p class="text-justify font-weight-regular">Section 6. <i class="font-weight-bold">Election of Officer within the Board of Directors.</i> The Board of Directors shall convene within ten (10) days after the General Assembly meeting to elect by secret ballot from among themselves the Chairperson and the Vice-Chairperson, and appoint the Secretary and Treasurer from outside of the Board.</p>
         <p class="text-justify" style="text-indent: 50px;">For committees to be elected by the General Assembly and/or appointed by the Board of Directors, the same procedural process of electing the Chairperson, Vice-Chairperson, or other positions among themselves should be followed. </p>
     </div>
