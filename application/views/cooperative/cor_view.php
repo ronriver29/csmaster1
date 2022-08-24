@@ -456,6 +456,6 @@ Very truly yours,<br/>
 <b><?=strtoupper($director->full_name); ?></b><br/>
 <?=strtoupper($director->access_name); ?>
 <?php } ?></p>
-<img class="center" src="<?=APPPATH?>../assets/img/cda2_edited.png" style="padding-top:30px;text-align: justify; font-family: Calibri,sans-serif; font-size: 12.5px;background-repeat: no-repeat; background-position: center;margin-left:70px;margin-top:80px;padding-bottom: 60px;">
+<img class="center" src="<?=APPPATH?>../assets/img/cda2_edited.png" style="padding-top:30px;text-align: justify; font-family: Calibri,sans-serif; font-size: 12.5px;background-repeat: no-repeat; background-position: center;margin-left:-80px;margin-top:80px;padding-bottom: 60px;">
 </div>
 </body>

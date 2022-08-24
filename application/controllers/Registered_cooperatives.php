@@ -133,7 +133,19 @@
                 // Registered Coop Process by Head Office
                   $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
                 // End Registered Coop Process by Head Office
-                $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration2($data['admin_info']->region_code, $config["per_page"], $per_page);
+                if(isset($_POST['submit']))
+                 {
+                  $this->coopName = $this->input->post('coopName');
+                 }
+                  $array =array(
+                  'url'=>base_url()."registered_cooperatives",
+                  'total_rows' => $this->cooperatives_model->get_all_cooperatives_registration_count($data['admin_info']->region_code),
+                  'per_page'=>$config['per_page']=5,
+                  'url_segment'=>2
+                  );
+                  
+                $data['links']=$this->paginate($array);
+                $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration2($data['admin_info']->region_code, $this->coopName, $config["per_page"], $per_page);
                 // $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 // $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_specialist($data['admin_info']->region_code,$user_id);
               }
