@@ -1598,12 +1598,28 @@ public function delete_pdf()
                                 $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                                 $data['cooperators_list_board'] = $this->cooperator_model->get_all_cooperator_of_coop_board($decoded_id);
                                 $data['directors_list'] = $this->cooperator_model->get_list_of_directors($decoded_id);
-                                $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
-                                $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+                                // $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
+                                // $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
                                 $data['regular_cooperator_list'] = $this->cooperator_model->get_all_regular_cooperator_of_coop($decoded_id);
                                 $data['associate_cooperator_list'] = $this->cooperator_model->get_all_associate_cooperator_of_coop($decoded_id);
                                 $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-                                $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
+                                // $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
+
+                                if($data['coop_info']->type_of_cooperative == 'Technology Service'){
+                                  $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop_ts($decoded_id);
+                                  $data['no_of_directors'] = $this->affiliators_model->no_of_directors_ts($decoded_id);
+                                  $data['total_regular'] = $this->affiliators_model->get_total_regular_ts($decoded_id);
+                                } else {
+                                  $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop($decoded_id);
+                                  $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
+                                  $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+                                }
+
+                                if($data['coop_info']->type_of_cooperative == 'Technology Service'){
+                                  $data['cooperators_list_board'] = $this->affiliators_model->get_applied_coop_ts($decoded_id);
+                                } else {
+                                  $data['cooperators_list_board'] = $this->cooperator_model->get_all_cooperator_of_coop_board($decoded_id);
+                                }
 
                                 if($data['coop_info']->area_of_operation == 'Interregional'){
                                   $data['regions_island_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
