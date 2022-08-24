@@ -2551,8 +2551,9 @@ public function delete_pdf()
                                 // $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
 
                                 if($data['coop_info']->type_of_cooperative == 'Technology Service'){
-                                  $data['cooperator_directors'] = $this->affiliators_model->get_all_board_of_director_only($user_id);
-                                  $data['no_of_directors'] = $this->affiliators_model->no_of_directors($user_id);
+                                  $data['cooperator_directors'] = $this->affiliators_model->get_all_board_of_director_only($data['coop_info']->users_id);
+                                  // echo $this->db->last_query();
+                                  $data['no_of_directors'] = $this->affiliators_model->no_of_directors($data['coop_info']->users_id);
                                 } else {
                                   $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
                                   $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
