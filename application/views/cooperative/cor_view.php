@@ -410,9 +410,19 @@ ini_set('output_buffering', true); // no limit
 
 <img class="center" src="<?=APPPATH?>../assets/img/cda2_edited.png" style="padding-top:30px;text-align: justify; font-family: Calibri,sans-serif; font-size: 12.5px;background-repeat: no-repeat; background-position: center;margin-left:140px;margin-top:310px;padding-bottom: 60px;">
 <div>
-<p >
-<?php $dateReg = substr($coop_info->dateRegistered,5,2).'-'.substr($coop_info->dateRegistered,8,2).'-'.substr($coop_info->dateRegistered,0,4)?><br>
-<?=date("F d, Y", strtotime( (substr($dateReg,3,2).'-'.substr($dateReg,0,2).'-'.substr($dateReg,6,4) ) ) ); ?><br>
+<p>
+<?php
+	if (strpos(substr($coop_info->dateRegistered,0,4), '-') !== false) { ?>
+		<?php $dateReg = substr($coop_info->dateRegistered,6,4).'-'.substr($coop_info->dateRegistered,0,2).'-'.substr($coop_info->dateRegistered,3,2)?><br>
+		<?=date("F d, Y", strtotime($dateReg) ); ?><br>
+		<?php $alignlogo = '-80px';?>
+	<?php } else { ?>
+	    <?php $dateReg = substr($coop_info->dateRegistered,5,2).'-'.substr($coop_info->dateRegistered,8,2).'-'.substr($coop_info->dateRegistered,0,4)?><br>
+			<?=date("F d, Y", strtotime( (substr($dateReg,3,2).'-'.substr($dateReg,0,2).'-'.substr($dateReg,6,4) ) ) ); ?><br>
+			<?php $alignlogo = '80px';?>
+	<?php }	
+?>
+
 <br/>
 <b>THE BOARD OF DIRECTORS</b><br/>
 <?=$coop_info->coopName?><br/>
@@ -456,6 +466,6 @@ Very truly yours,<br/>
 <b><?=strtoupper($director->full_name); ?></b><br/>
 <?=strtoupper($director->access_name); ?>
 <?php } ?></p>
-<img class="center" src="<?=APPPATH?>../assets/img/cda2_edited.png" style="padding-top:30px;text-align: justify; font-family: Calibri,sans-serif; font-size: 12.5px;background-repeat: no-repeat; background-position: center;margin-left:-80px;margin-top:80px;padding-bottom: 60px;">
+<img class="center" src="<?=APPPATH?>../assets/img/cda2_edited.png" style="padding-top:30px;text-align: justify; font-family: Calibri,sans-serif; font-size: 12.5px;background-repeat: no-repeat; background-position: center;margin-left:<?=$alignlogo?>;margin-top:80px;padding-bottom: 60px;">
 </div>
 </body>
