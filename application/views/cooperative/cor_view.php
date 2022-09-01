@@ -415,7 +415,7 @@ ini_set('output_buffering', true); // no limit
 	if (strpos(substr($coop_info->dateRegistered,0,4), '-') !== false) { ?>
 		<?php $dateReg = substr($coop_info->dateRegistered,6,4).'-'.substr($coop_info->dateRegistered,0,2).'-'.substr($coop_info->dateRegistered,3,2)?><br>
 		<?=date("F d, Y", strtotime($dateReg) ); ?><br>
-		<?php $alignlogo = '-80px';?>
+		<?php $alignlogo = '180px';?>
 	<?php } else { ?>
 	    <?php $dateReg = substr($coop_info->dateRegistered,5,2).'-'.substr($coop_info->dateRegistered,8,2).'-'.substr($coop_info->dateRegistered,0,4)?><br>
 			<?=date("F d, Y", strtotime( (substr($dateReg,3,2).'-'.substr($dateReg,0,2).'-'.substr($dateReg,6,4) ) ) ); ?><br>
