@@ -1615,7 +1615,7 @@ class amendment extends CI_Controller{
                    $this->load->view('cooperative/amendment_details', $data);
                   break;
               }
-              $this->load->view('amendment/confirmModal');
+              // $this->load->view('amendment/confirmModal');
               $this->load->view('./template/footer');
           }else{
             $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
