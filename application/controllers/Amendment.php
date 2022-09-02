@@ -1401,7 +1401,7 @@ class amendment extends CI_Controller{
               $data['header'] = 'Amendment Information';
               $data['coop_info'] = $this->amendment_model->get_cooperative_info($coop_id,$user_id,$this->decoded_id);
               $data['coop_info_primary'] = $this->cooperatives_model->get_cooperative_info_by_admin($coop_id);
-              $data['is_from_updating'] = $this->amendment_model->is_from_updating($data['coop_info']->regNo);
+              $data['is_from_updating'] =false;// $this->amendment_model->is_from_updating($data['coop_info']->regNo);
               $data['bylaw_doc_complete'] = true;
                $data['articles_doc_complete'] =true;
               if($data['is_from_updating'])

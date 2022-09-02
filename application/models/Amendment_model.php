@@ -4890,6 +4890,8 @@ where coop.users_id = '$user_id' and coop.status =15");
       }
 
     }
+
+    
    public function debug($array)
     {
         echo"<pre>";
