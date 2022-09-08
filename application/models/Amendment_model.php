@@ -4891,7 +4891,32 @@ where coop.users_id = '$user_id' and coop.status =15");
 
     }
 
-    
+    public function is_from_updating($regNo)
+    {
+      $data = [];
+      $query = $this->db->select('status')->from('amend_coop')->where(['regNo'=>$regNo])->get();
+      if($query->num_rows()>0)
+      {
+        foreach ($query->result_array() as $row) {
+          // $data[] = $row;
+          array_push( $data, $row['status']);
+        }
+
+        if(in_array(41, $data))
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return false;
+      }
+
+    }
    public function debug($array)
     {
         echo"<pre>";

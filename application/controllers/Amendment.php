@@ -1454,9 +1454,7 @@ class amendment extends CI_Controller{
               $data['business_activities'] =  $this->amendment_model->get_all_business_activities($this->decoded_id);
 
               $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($coop_id,$this->decoded_id) : true;
-              
-//              $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
-              // $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
+          
               $data['cooperative_id']=encrypt_custom($this->encryption->encrypt($coop_id));
               $data['encrypted_id'] = $id;
     
