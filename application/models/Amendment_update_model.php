@@ -3916,24 +3916,26 @@ where coop.users_id = '$user_id' and coop.status =15");
 
   public function update_user_coop($regNo,$amendment_id)
   {
-    $query = $this->db->select('users_id')->from('amend_coop')->where(['regNo'=>$regNo])->order_by('id','asc')->limit(1)->get();
+    $query = $this->db->select('id')->from('users')->where(['regno'=>$regNo])->order_by('id','asc')->limit(1)->get();
     if($query->num_rows()>0)
     {
+    
       foreach ($query->result_array() as $row) {
-       $users_id =  $row['users_id'];
+       $users_id =  $row['id'];
       }
       unset($row);
-      $this->db->update('amend_coop',['users_id'=>$users_id],['id'=>$amendment_id]);
+      $this->db->update('amend_coop',['users_id'=>$users_id],['regNo'=>$regNo]);
     }
   }
 
   public function check_user_($regNo,$current_user_id)
   {
-       $query = $this->db->select('users_id')->from('amend_coop')->where(['regNo'=>$regNo])->order_by('id','asc')->limit(1)->get();
+       // $query = $this->db->select('users_id')->from('amend_coop')->where(['regNo'=>$regNo])->order_by('id','asc')->limit(1)->get();
+      $query = $this->db->select('id')->from('users')->where(['regno'=>$regNo])->order_by('id','asc')->limit(1)->get();
     if($query->num_rows()>0)
     {
       foreach ($query->result_array() as $row) {
-       $users_id =  $row['users_id'];
+       $users_id =  $row['id'];
       }
       if($users_id !=$current_user_id)
       {
