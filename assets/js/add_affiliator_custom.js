@@ -59,15 +59,7 @@ $(function(){
       console.log(val);
       console.log(available_subscribed_capital);
   });
-  $('#deleteCooperatorForm #paidShares').on('change', function(){
-      var val = parseInt($(this).val());
-        var available_paid_up_capital = $("#available_paid_up_capital").val().length>0 ? $("#available_paid_up_capital").val() : ''; 
-      $("#paid-note").hide().html('');
-      if(val > available_paid_up_capital) {
-         $(".paidSharesformError").hide().html();
-          $("#paid-note").show().html('Should not exceed the remaining no of paid up share: '+available_paid_up_capital);
-      }
-  });
+  
   // $('#deleteCooperatorForm #membershipType').on('change', function(){
     
     // var tempType  = $.trim($(this).val());
@@ -92,7 +84,22 @@ $(function(){
          $(".paidSharesformError").hide().html();
           $("#paid-note").show().html('Should not exceed the remaining no of paid up share: '+available_paid_up_capital);
       }
-      
+
+      $('#deleteCooperatorForm #paidShares').on('change', function(){
+        var val = parseInt($(this).val());
+        var minimum_subscribed_share_regular = $("#minimum_subscribed_share_regular").val().length>0 ? $("#minimum_subscribed_share_regular").val() : '';
+        var available_paid_up_capital = $("#available_paid_up_capital").val().length>0 ? $("#available_paid_up_capital").val() : ''; 
+          $("#paid-note").hide().html('');
+          if(val > minimum_subscribed_share_regular) {
+            $('#deleteCooperatorForm #paidShares').attr('max',minimum_subscribed_share_regular);
+             $(".paidSharesformError").hide().html();
+              $("#paid-note").show().html('Should not exceed the no of subscribed shares: '+minimum_subscribed_share_regular);
+          } else if(val > available_paid_up_capital) {
+            $('#deleteCooperatorForm #paidShares').attr('max',available_paid_up_capital);
+             $(".paidSharesformError").hide().html();
+              $("#paid-note").show().html('Should not exceed the remaining no of paid up share: '+available_paid_up_capital);
+          }
+      });
 //     }else if(tempType.length > 0 && tempType=="Associate"){
 //         var minimum_subscribed_share_associate = $("#minimum_subscribed_share_associate").val().length>0 ? $("#minimum_subscribed_share_associate").val() : '';
 //         var minimum_paid_up_share_associate = $("#minimum_paid_up_share_associate").val().length>0 ? $("#minimum_paid_up_share_associate").val() : '';

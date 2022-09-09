@@ -201,6 +201,19 @@
  $(document).ready(function(){
 
     var str3 = $("#maxvalue_apuc").val();
+    var min_sub_share_reg = $("#minimum_subscribed_share_regular2").val();
+    // console.log(min_sub_share_reg);
+
+    $('#paidShares2').on('change', function(){
+      if(parseInt($(this).val()) >= min_sub_share_reg){
+        $("#paidShares2").one('click',function(){
+            $("#paidShares2").attr({
+               "max" : min_sub_share_reg,        // substitute your own
+               "min" : 1          // values (or variables) here
+            });
+        });
+      }
+    });
 
     if(str3 >= $("#subscribedShares2").val()){
       $("#paidShares2").one('click',function(){
@@ -300,6 +313,7 @@
         });
       }
     });
+    
 
     $("#chkID").on('click',function(){
 
