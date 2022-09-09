@@ -305,7 +305,7 @@ class Affiliators extends CI_Controller{
           $position = '';
           // $regions = '';
         }
-            
+        $aff_results = array();
         foreach($data_aff as $row_aff){
           $aff_results[] = $row_aff['position'];
         }
