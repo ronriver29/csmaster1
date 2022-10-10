@@ -157,9 +157,15 @@
               </div>
           </div>
         </div>
-
         <div class="row mb-2 row-initial">
-            <div class="col-sm-12 col-md-3">
+          <!-- <div class="col-sm-12 col-md-2">
+            <div class="form-check">
+              <?php if(empty($survey_info->initial_capital[0])){$survey_info->initial_capital[0]=0;}?>
+              <input type="checkbox" class="form-check-input validate[minCheckbox[1]]" value="1" name="initial_capital[]" id="initial_capital_1" disabled <?=($survey_info->initial_capital[0] == 1 ?  "checked" : "")?> >
+              <label class="form-check-label" for="registeredSec">Share Capital Subscription </label>
+            </div>
+          </div> -->
+          <div class="col-sm-12 col-md-2">
             <div class="form-check">
               <?php if(empty($survey_info->initial_capital[0])){$survey_info->initial_capital[0]=0;}?>
               <input type="checkbox" class="form-check-input validate[minCheckbox[1]]" value="1" name="initial_capital[]" id="initial_capital_1" disabled <?=($survey_info->initial_capital[0] == 1 ?  "checked" : "")?> >
@@ -172,21 +178,21 @@
               <input type="checkbox" class="form-check-input validate[minCheckbox[1]]" value="2" name="initial_capital[]" id="initial_capital_2" disabled <?=($survey_info->initial_capital[1] == 1 ?  "checked" : "")?> >
               <label class="form-check-label" for="registeredDole">Acquisition of Loans/borrowings </label>
             </div>
-          </div>  
+          </div>
           <div class="col-sm-12 col-md-2">
             <div class="form-check">
               <?php if(empty($survey_info->initial_capital[2])){$survey_info->initial_capital[2]=0;}?>
               <input type="checkbox" class="form-check-input validate[minCheckbox[1]]" value="3" name="initial_capital[]" id="initial_capital_3" disabled <?=($survey_info->initial_capital[2] == 1 ?  "checked" : "")?> >
               <label class="form-check-label" for="registeredDole">Solicitation/acceptance of donations, subsidies, grants, etc. </label>
             </div>
-          </div>  
+          </div>
           <div class="col-sm-12 col-md-2">
             <div class="form-check">
               <?php if(empty($survey_info->initial_capital[3])){$survey_info->initial_capital[3]=0;}?>
               <input type="checkbox" class="form-check-input validate[minCheckbox[1]]" value="4" name="initial_capital[]" id="initial_capital_4" disabled <?=($survey_info->initial_capital[3] == 1 ?  "checked" : "")?> >
               <label class="form-check-label" for="registeredDole">Fund raising activities </label>
             </div>
-          </div>  
+          </div>
 
         <div class="col-sm-12 col-md-3">
             <div class="form-check">  <!-- name='previouslyRegisteredWith_other' -->

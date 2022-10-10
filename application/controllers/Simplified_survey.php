@@ -23,7 +23,7 @@ class Simplified_survey extends CI_Controller{
   }
   function index($id = null)
   {
-    if(!$this->session->userdata('logged_in')){ 
+    if(!$this->session->userdata('logged_in')){
       redirect('users/login');
     }else{
       $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
@@ -57,8 +57,8 @@ class Simplified_survey extends CI_Controller{
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    
-                    
+
+
                 if($data['cooperator_complete']){
                   $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                   if($data['purposes_complete']){
@@ -199,13 +199,13 @@ class Simplified_survey extends CI_Controller{
                         $model = 'affiliators_model';
                         $ids = $data['coop_info']->users_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$ids);
-                    } 
+                    }
                     else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    
+
                     // $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                   if($data['cooperator_complete']){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
@@ -310,7 +310,7 @@ class Simplified_survey extends CI_Controller{
         $this->load->helper('download');
         $data = file_get_contents(UPLOAD_DIR.'/'.$id);
         force_download('file.'.$ext, $data);
-      
+
     }
 
   function reArrayFiles($file)
@@ -318,7 +318,7 @@ class Simplified_survey extends CI_Controller{
         $file_ary = array();
         $file_count = count($file['name']);
         $file_key = array_keys($file);
-       
+
         for($i=0;$i<$file_count;$i++)
         {
             foreach($file_key as $val)
@@ -338,5 +338,5 @@ class Simplified_survey extends CI_Controller{
     return $qry->row();
    }
   }
-  
+
 }
