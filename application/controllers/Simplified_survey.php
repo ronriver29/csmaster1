@@ -127,7 +127,7 @@ class Simplified_survey extends CI_Controller{
                                 'nature_of_business'=> $this->input->post('natureofbusiness'),
                                 'initial_capital'=> $initial_capital,
                                 'initial_capital_others'=> $this->input->post('initialCapitalSpecify'),
-                                'documents' => $filenameuser
+                                // 'documents' => $filenameuser
                               );
 
                               if($this->economic_survey_model->insert_simplified_economic_survey($survey_coop_id,$data)){

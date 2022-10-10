@@ -157,15 +157,16 @@
               </div>
           </div>
         </div>
+
         <div class="row mb-2 row-initial">
-          <!-- <div class="col-sm-12 col-md-2">
+          <!-- <div class="col-sm-12 col-md-3">
             <div class="form-check">
               <?php if(empty($survey_info->initial_capital[0])){$survey_info->initial_capital[0]=0;}?>
               <input type="checkbox" class="form-check-input validate[minCheckbox[1]]" value="1" name="initial_capital[]" id="initial_capital_1" disabled <?=($survey_info->initial_capital[0] == 1 ?  "checked" : "")?> >
               <label class="form-check-label" for="registeredSec">Share Capital Subscription </label>
             </div>
           </div> -->
-          <div class="col-sm-12 col-md-2">
+          <div class="col-sm-12 col-md-3">
             <div class="form-check">
               <?php if(empty($survey_info->initial_capital[0])){$survey_info->initial_capital[0]=0;}?>
               <input type="checkbox" class="form-check-input validate[minCheckbox[1]]" value="1" name="initial_capital[]" id="initial_capital_1" disabled <?=($survey_info->initial_capital[0] == 1 ?  "checked" : "")?> >
