@@ -2,7 +2,7 @@
   <div class="col-sm-12 col-md-2">
     <a class="btn btn-secondary btn-sm btn-block"  href="<?php echo base_url();?>cooperatives" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
   </div>
-    
+
 </div>
 
 <?php if($this->session->flashdata('redirect_message')): ?>
@@ -58,10 +58,10 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <?php 
+            <?php
                       echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
                       foreach($cooperatives_comments_cds as $cc) :
-                        echo '<p>'.nl2br($cc['tool_comments']).'</p>'; 
+                        echo '<p>'.nl2br($cc['tool_comments']).'</p>';
                       endforeach;
               ?>
           </div>
@@ -130,27 +130,27 @@
         <!-- <h4 class="modal-title"></h4> -->
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
-      
+
       <div class="modal-body">
         <!-- <div class="row">
           <div class="col-md-12">
-            <?php 
+            <?php
                       echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
                       if($this->cooperatives_model->check_if_revert($coop_info->id)){
                         foreach($cooperatives_comments_snr as $cc) :
-                          echo '<p>'.nl2br($cc['revert_tool']).'</p>'; 
+                          echo '<p>'.nl2br($cc['revert_tool']).'</p>';
                         endforeach;
                       } else {
                         foreach($cooperatives_comments_snr as $cc) :
-                          echo '<p>'.nl2br($cc['tool_comments']).'</p>'; 
+                          echo '<p>'.nl2br($cc['tool_comments']).'</p>';
                         endforeach;
                       }
               ?>
           </div>
           </div> -->
-          <?php 
+          <?php
           if(!$this->cooperatives_model->check_if_revert($coop_info->id)){
-          foreach($cooperatives_comments_snr as $cc) : 
+          foreach($cooperatives_comments_snr as $cc) :
             echo '<b>Date: '.date("F d, Y",strtotime($cc['date_created'])).'</b>';
             echo '<p>'.nl2br($cc['tool_comments']).'</p>';
             ?>
@@ -166,7 +166,7 @@
                 <tr>
                   <td style="border:1px solid black;padding-top:5px;">
                     <?php
-                      
+
                       echo '<ul type="square">';
                           echo '<li>'.nl2br($cc['comment']).'</li>';
                       echo '</ul>';
@@ -189,7 +189,7 @@
                 </tr>
               </tbody>
             </table>
-            <?php endforeach; } else { foreach($cooperatives_comments_snr_revert as $cc) : 
+            <?php endforeach; } else { foreach($cooperatives_comments_snr_revert as $cc) :
             echo '<b>Date: '.date("F d, Y",strtotime($cc['date_created'])).'</b>';
             echo '<p>'.nl2br($cc['revert_tool']).'</p>'; ?>
             <table class="table"  with="100%">
@@ -204,7 +204,7 @@
                 <tr>
                   <td style="border:1px solid black;padding-top:5px;">
                     <?php
-                      
+
                       echo '<ul type="square">';
                           echo '<li>'.nl2br($cc['comment']).'</li>';
                       echo '</ul>';
@@ -258,25 +258,25 @@
           <!-- <h4 class="modal-title"></h4> -->
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
-        <div class="modal-body form"> 
+        <div class="modal-body form">
           <input type="hidden" id="cooperativeID" name="cooperativeID" readonly>
             <!-- <div class="form-group">
               <div class="col-md-12">
-            <?php 
+            <?php
                       echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
                       foreach($cooperatives_comments as $cc) :
-                        echo '<p>'.nl2br($cc['tool_comments']).'</p>'; 
+                        echo '<p>'.nl2br($cc['tool_comments']).'</p>';
                       endforeach;
               ?>
           </div>
           </div> -->
-          <?php foreach($cooperatives_comments as $cc) : 
+          <?php foreach($cooperatives_comments as $cc) :
             if($this->cooperatives_model->check_if_revert($coop_info->id)){
               echo '<b>Date: '.date("F d, Y",strtotime($cc['date_created'])).'</b>';
-              echo '<p>'.nl2br($cc['revert_tool']).'</p>'; 
+              echo '<p>'.nl2br($cc['revert_tool']).'</p>';
             } else {
               echo '<b>Date: '.date("F d, Y",strtotime($cc['date_created'])).'</b>';
-              echo '<p>'.nl2br($cc['tool_comments']).'</p>'; 
+              echo '<p>'.nl2br($cc['tool_comments']).'</p>';
             }
           ?>
       <table class="table"  with="100%">
@@ -328,7 +328,7 @@
                 <span aria-hidden="true">&times;</span>
         </div>
         <div class="modal-body" style="table-layout: fixed;">
-            <pre><?php 
+            <pre><?php
 //            print_r($cooperatives_comments);
             foreach($cooperatives_comments as $cc) :
                 echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
@@ -347,11 +347,11 @@
 </div> -->
 
 <?php endif;?>
-    <?php if(is_array($supervising_comment && $admin_info->access_level==4) || 
+    <?php if(is_array($supervising_comment && $admin_info->access_level==4) ||
     (is_array($supervising_comment) && $supervising_) ||
     (is_array($supervising_comment) && $admin_info->access_level==2) ||
-    (is_array($supervising_comment) && $admin_info->access_level==3) ||  
-    (is_array($supervising_comment) && $admin_info->access_level==2 && $coop_info->status == 12)) : 
+    (is_array($supervising_comment) && $admin_info->access_level==3) ||
+    (is_array($supervising_comment) && $admin_info->access_level==2 && $coop_info->status == 12)) :
     ?>
   <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg4">* Supervising CDS Findings</button>
     <div class="modal fade bd-example-modal-lg4" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -362,14 +362,14 @@
           <!-- <h4 class="modal-title"></h4> -->
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
-        <div class="modal-body form"> 
+        <div class="modal-body form">
           <input type="hidden" id="cooperativeID" name="cooperativeID" readonly>
             <div class="form-group">
               <div class="col-md-12">
-            <?php 
+            <?php
                       // echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
                       // foreach($supervising_comment as $cc) :
-                      //   echo '<p>'.nl2br($cc['tool_comments']).'</p>'; 
+                      //   echo '<p>'.nl2br($cc['tool_comments']).'</p>';
                       // endforeach;
               ?>
           </div>
@@ -378,7 +378,7 @@
         if($this->cooperatives_model->check_if_revert($coop_info->id)){
         foreach($supervising_comment as $cc) :
           echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
-         echo '<p>'.nl2br($cc['revert_tool']).'</p>'; 
+         echo '<p>'.nl2br($cc['revert_tool']).'</p>';
         ?>
       <table class="table"  with="100%">
           <thead>
@@ -414,7 +414,7 @@
             </tr>
           </tbody>
         </table>
-      <?php endforeach; } else { foreach($supervising_comment as $cc) : 
+      <?php endforeach; } else { foreach($supervising_comment as $cc) :
           echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
           echo '<p>'.nl2br($cc['tool_comments']).'</p>'; ?>
         <table class="table"  with="100%">
@@ -468,7 +468,7 @@
                     <span aria-hidden="true">&times;</span>
             </div>
             <div class="modal-body" style="table-layout: fixed;">
-                <pre><?php 
+                <pre><?php
                 foreach($supervising_comment as $c) :
                     echo 'Date: '.date("F d, Y",strtotime($c['date_created']));
                     echo '<ul type="square">';
@@ -499,7 +499,7 @@
                 <span aria-hidden="true">&times;</span>
         </div>
         <div class="modal-body" style="table-layout: fixed;">
-            <pre><?php 
+            <pre><?php
 //            print_r($cooperatives_comments);
             foreach($deferred_comments as $cc) :
                 echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
@@ -524,7 +524,7 @@
           <h4 class="modal-title" id="deferMemberModalLabel">The cooperative has been deferred because of the following reason/s:</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
-        <div class="modal-body form"> 
+        <div class="modal-body form">
           <input type="hidden" id="cooperativeID" name="cooperativeID" readonly>
 
           <table class="table"  with="100%">
@@ -538,7 +538,7 @@
             <tbody>
               <tr>
                 <td style="border:1px solid black;padding-top:5px;">
-                  <?php 
+                  <?php
                       foreach($deferred_comments as $cc) :
                         echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
                         echo '<ul type="square">';
@@ -548,7 +548,7 @@
                   ?></pre>
                 </td>
                 <td style="border:1px solid black;padding-top:5px;">
-                  <?php 
+                  <?php
                       foreach($deferred_comments as $cc) :
                         echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
                         echo '<ul type="square">';
@@ -558,7 +558,7 @@
                   ?></pre>
                 </td>
                 <td style="border:1px solid black;padding-top:5px;">
-                  <?php 
+                  <?php
                       foreach($deferred_comments as $cc) :
                         echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
                         echo '<ul type="square">';
@@ -583,7 +583,7 @@
           <h4 class="modal-title" id="deferMemberModalLabel">The cooperative has been deferred because of the following reason/s:</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
-        <div class="modal-body form"> 
+        <div class="modal-body form">
           <input type="hidden" id="cooperativeID" name="cooperativeID" readonly>
 
           <?php foreach($deferred_comments as $cc) :
@@ -626,7 +626,7 @@
             <tbody>
               <tr>
                 <td style="border:1px solid black;padding-top:5px;">
-                  <?php 
+                  <?php
                       foreach($deferred_comments as $cc) :
                         echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
                         echo '<ul type="square">';
@@ -636,7 +636,7 @@
                   ?>
                 </td>
                 <td style="border:1px solid black;padding-top:5px;">
-                  <?php 
+                  <?php
                       foreach($deferred_comments as $cc) :
                         echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
                         echo '<ul type="square">';
@@ -646,7 +646,7 @@
                   ?></pre>
                 </td>
                 <td style="border:1px solid black;padding-top:5px;">
-                  <?php 
+                  <?php
                       foreach($deferred_comments as $cc) :
                         echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
                         echo '<ul type="square">';
@@ -709,7 +709,7 @@
           <?php endforeach; ?>
 
               <!-- <div class="modal-body" style="table-layout: fixed;">
-                  <pre> <?php 
+                  <pre> <?php
       //            print_r($cooperatives_comments);
                   foreach($denied_comments as $cc) :
                       echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
@@ -777,7 +777,7 @@
             <?php if($coop_info->grouping == 'Union' && $coop_info->type_of_cooperative == 'Union') {?>
                 <?= $coop_info->proposed_name?> <?= $coop_info->grouping?> Of <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
             <?php } else { ?>
-                <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?> 
+                <?= $coop_info->proposed_name?> <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?> <?= $coop_info->grouping?>
             <?php } ?>
           <?php } else {?>
                 <?= $coop_info->proposed_name?> Youth <?= $coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>
@@ -824,7 +824,7 @@
         <p class="text-muted">
           <?php if($coop_info->area_of_operation=="Interregional"){
           $region_array = array();
-          
+
           foreach ($regions_island_list as $region_island_list){
             array_push($region_array, $region_island_list['regDesc']);
           }
@@ -904,7 +904,7 @@
           </small>
         <?php endif;?>
       </li>
-      
+
       <li class="list-group-item  flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1 font-weight-bold">Additional Information: Capitalization</h5>
@@ -923,7 +923,7 @@
           </small>
         <?php endif;?>
       </li>
-      
+
       <li class="list-group-item  flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
             <?php if($coop_info->grouping=="Federation"){
@@ -1036,7 +1036,11 @@
         </div>
         <?php if($coop_info->status!= 0 && $bylaw_complete && $article_complete && $grouping && $committees_complete && $purposes_complete): ?>
         <small class="text-muted">
+          <?php if($coop_info->created_at >= '2022-10-10'){ ?>
+            <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/simplified_survey" class="btn btn-info btn-sm">View</a>
+          <?php } else { ?>
             <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/survey" class="btn btn-info btn-sm">View</a>
+          <?php } ?>
         </small>
       <?php endif ?>
       </li>
@@ -1115,7 +1119,7 @@
               <div class="btn-group" role="group" aria-label="Basic example">
                 <!-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyCooperativeModal" data-cname="<?= $proposedName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Deny</button> -->
                 <button type="button" class="btn btn-secondary btn-sm btn-dark" data-toggle="modal" data-target="#revertCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Revert for re-evaluation</button>
-              </div>  
+              </div>
             <?php }?>
         </li>
     </ul>
@@ -1255,7 +1259,7 @@
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 font-weight-bold">Step 7</h5>
             <small class="text-muted">
-             
+
               <?php if($committees_complete == TRUE): ?>
                 <span class="badge badge-success">COMPLETE</span>
               <?php endif; ?>
@@ -1291,7 +1295,11 @@
             <?php // if($count == 0) {?>
             <?php // } else {?>
                 <small class="text-muted">
+                  <?php if($coop_info->created_at >= '2022-10-10'){ ?>
+                    <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/simplified_survey" class="btn btn-info btn-sm">View</a>
+                  <?php } else { ?>
                     <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/survey" class="btn btn-info btn-sm">View</a>
+                  <?php } ?>
                 </small>
             <?php // } ?>
         <?php endif ?>
@@ -1322,7 +1330,7 @@
                 <?php ;
                 if($document_one && $document_two && $document_completed): ?>
                     <span class="badge badge-success">COMPLETE</span>
-               
+
                 <?php else ://   (!$document_one && !$document_two && !$document_completed): ?>
                     <span class="badge badge-secondary">PENDING</span>
                 <?php endif;?>
@@ -1399,7 +1407,7 @@
                 if ($pay_from=='reservation'){
                   $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
                   $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
-                  if(!empty($coop_info->acronym_name)){ 
+                  if(!empty($coop_info->acronym_name)){
                     $acronym_name = '('.$coop_info->acronym_name.') ';
                   } else {
                       $acronym_name = '';
@@ -1413,7 +1421,7 @@
                       } else {
                         $payorname = ucwords($coop_info->proposed_name.' '.$coop_info->type_of_cooperative .' Cooperative '.$acronym_name.' '.$coop_info->grouping);
                       }
-                      
+
                   }
                   $amount_in_words=0;
                     $amount_in_words = ($rf+$lrf+$name_reservation_fee);
@@ -1449,12 +1457,12 @@
                     $datee = $series->date;
                     $amount = $series->amount;
                     $series = $series->refNo;
-                    
-                    
+
+
                     // $string = substr($lastseries, strrpos($lastseries, '-' )+1);
                     // $series = $string; // about-us
                   }
-                  
+
                   if($coop_info->category_of_cooperative == 'Tertiary'){
                     $registrationfeename = 'Tertiary';
                   } else if ($coop_info->category_of_cooperative == 'Secondary'){
@@ -1474,13 +1482,13 @@
                   <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($name_reservation_fee,2).'<br/>'.number_format($rf,2).'<br/>'.number_format($lrf,2).'<br/>'.number_format(100,2) ?>">
                   <input type="hidden" class="form-control" id="total" name="total" value="<?=$rf+$lrf+$name_reservation_fee?>">
                   <input type="hidden" class="form-control" id="nature" name="rCode" value="<?= $coop_info->rCode ?>">
-                
+
                  <input style="width:20%;" class="btn btn-info btn-sm" type="submit" id="offlineBtn" name="offlineBtn" value="Download O.P">
-                
+
 
             </form>
 
-                   
+
                 <?php
                 }
               }

@@ -85,7 +85,7 @@ class Documents extends CI_Controller{
                                   foreach($data['coop_type'] as $key => $docs_type)
                                   {
                                     if($key==0)
-                                    // { 
+                                    // {
                                     //   if($data['coop_info']->status==11) //deferred
                                     //   {
                                     //    $data['document_others']= $this->defered_count_documents($decoded_id,$docs_type['document_num']);
@@ -95,7 +95,7 @@ class Documents extends CI_Controller{
                                        $data['document_others']= $this->get_documentss($decoded_id,$docs_type['document_num']);//$this->count_documents_others($decoded_id,$docs_type['document_num']);
                                       // }
                                     }
-                                    
+
                                     if($key==1)
                                     {
                                       // if($data['coop_info']->status==11) //deferred
@@ -109,15 +109,15 @@ class Documents extends CI_Controller{
                                     }
                                   }
                                 }
-                                
-                               
+
+
                                 $data['title'] = 'List of Documents';
                                 $data['client_info'] = $this->user_model->get_user_info($user_id);
                                 $data['header'] = 'Documents';
                                 $data['uid'] = $this->session->userdata('user_id');
                                 $data['cid'] = $decoded_id;
                                 $data['encrypted_id'] = $id;
-    
+
                                 // if($data['coop_info']->status==11) //deferred
                                 // {
                                 //   $data['document_one']= $this->defered_count_documents($decoded_id,1);
@@ -150,7 +150,7 @@ class Documents extends CI_Controller{
                                   {
                                     $data['read_upload'] = $this->count_documents($decoded_id,42);
                                   }
-                                // }  
+                                // }
                                 $this->load->view('template/header', $data);
                                 if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                                   $this->load->view('documents/list_of_documents_federation', $data);
@@ -159,7 +159,7 @@ class Documents extends CI_Controller{
                                 } else {
                                     $this->load->view('documents/list_of_documents', $data);
                                 }
-                                
+
                                 $this->load->view('template/footer');
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
@@ -228,7 +228,7 @@ class Documents extends CI_Controller{
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                       }
-                      
+
                      if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                         $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                         if($data['purposes_complete']){
@@ -255,7 +255,7 @@ class Documents extends CI_Controller{
                                   foreach($data['coop_type'] as $key => $docs_type)
                                   {
                                     if($key==0)
-                                    { 
+                                    {
                                     //   if($data['coop_info']->status==11) //deferred
                                     //   {
                                     //    $data['document_others']= $this->defered_count_documents($decoded_id,$docs_type['document_num']);
@@ -265,16 +265,16 @@ class Documents extends CI_Controller{
                                        $data['document_others']= $this->get_documentss($decoded_id,$docs_type['document_num']);//$this->count_documents_others($decoded_id,$docs_type['document_num']);
                                       // }
                                     }
-                                    
+
                                     if($key==1)
                                     {
-                                     
+
                                        $data['document_others2']= $this->get_documentss($decoded_id,$docs_type['document_num']);
-                                      
+
                                     }
                                   }
-                                }  
-                                         
+                                }
+
                                   $data['cooperatives_comments_cds'] = $this->cooperatives_model->cooperatives_comments_cds($decoded_id);
                                   $data['cooperatives_comments_snr'] = $this->cooperatives_model->cooperatives_comments_snr($decoded_id);
                                   $data['cooperatives_comments_snr_defer'] = $this->cooperatives_model->cooperatives_comments_snr_defer($decoded_id);
@@ -292,7 +292,7 @@ class Documents extends CI_Controller{
                                   $data['denied_comments'] = $this->cooperatives_model->denied_comments($decoded_id);
                                   $data['cooperatives_comments_snr_revert'] = $this->cooperatives_model->cooperatives_comments_snr_revert($decoded_id);
                                   $data['cooperatives_comments_snr_revert_defer'] = $this->cooperatives_model->cooperatives_comments_snr_revert_defer($decoded_id);
-                                  
+
                                   $data['title'] = 'List of Documents';
                                   $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                                   $data['header'] = 'Documents';
@@ -306,7 +306,7 @@ class Documents extends CI_Controller{
                                   $data['document_others_unifed'] = $this->uploaded_document_model->get_document_others_unifed_info($decoded_id);
                                   $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
                                   $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
-                            
+
                                   $this->load->view('templates/admin_header', $data);
                                   if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                                     $this->load->view('documents/list_of_documents_federation', $data);
@@ -325,7 +325,7 @@ class Documents extends CI_Controller{
                                   $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                   redirect('cooperatives/'.$id);
                                 }
-                              } else { 
+                              } else {
                                 // echo"hear";
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
                                 redirect('cooperatives/'.$id);
@@ -336,7 +336,7 @@ class Documents extends CI_Controller{
                               $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
                               redirect('cooperatives/'.$id);
                             }
-                          } else { 
+                          } else {
                             // echo"dddddf";
                             $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
                             redirect('cooperatives/'.$id);
@@ -398,7 +398,7 @@ function view_document_one_branch($id = null,$filename = null,$doc_type=null){
 //                }else{
 //                  if($this->branches_model->check_submitted_for_evaluation($decoded_id)){
 //                    $data['coop_info'] = $this->branches_model->get_cooperative_info_by_admin($decoded_id);
-                
+
                         $this->output
                             ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
                             ->set_content_type('application/pdf','utf-8')
@@ -421,14 +421,14 @@ function view_document_one_branch($id = null,$filename = null,$doc_type=null){
       }
     }
   }
-  
+
 public function list_upload_pdf_branch($id =null,$doc_type=null)
 {
 
   if(!$this->session->userdata('logged_in'))
   {
   redirect(base_url());
- 
+
   }
   else
   {
@@ -449,17 +449,17 @@ public function list_upload_pdf_branch($id =null,$doc_type=null)
     $data['defered_uploaded_list_pdf'] =$this->defered_count_documents_branch($decoded_id,$doc_type);
     if($data['is_client'] ==1)
     {
-     
+
       $this->load->view('template/header',$data);
       $this->load->view('documents/list_of_uploaded_pdf_branch',$data);
       $this->load->view('documents/delete_pdf_branch_modal');
       $this->load->view('template/footer');
     }
     if($this->session->userdata('access_level')<=5 && $data['is_client']!=1 || ($this->session->userdata('access_level')==6)){
-             
+
     $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
     $data['header'] = 'Uploaded file';
-    $data['uid'] = $this->session->userdata('user_id');  
+    $data['uid'] = $this->session->userdata('user_id');
     // print_r($this->session->userdata());
      $this->load->view('templates/admin_header', $data);
      $this->load->view('documents/list_of_uploaded_pdf_branch',$data);
@@ -472,11 +472,11 @@ public function list_upload_pdf_branch($id =null,$doc_type=null)
        if(!$this->session->userdata('logged_in')){
           redirect('admins/login');
        }
-       
-    }      
-    
+
+    }
+
        // print_r($this->session->userdata());
-      
+
   }
 }
   public function count_documents_laboratory($coop_id,$num)
@@ -554,7 +554,7 @@ public function list_upload_pdf_branch($id =null,$doc_type=null)
     return $data;
 
   }
-  
+
   public function delete_pdf_branch()
   {
     if(!$this->session->userdata('logged_in')){
@@ -583,14 +583,14 @@ public function list_upload_pdf_branch($id =null,$doc_type=null)
                 $this->session->set_flashdata('delete_error', 'Failed to delete in database.');
                   redirect('/documents/list_upload_pdf_branch/'.$coop_id.'/'.$doc_type);
             }
-           
+
        }
        else
        {
             $this->session->set_flashdata('delete_error', 'Error file not exist.');
                   redirect('/documents/list_upload_pdf_branch/'.$coop_id.'/'.$doc_type);
        }
-      
+
 
     }
   }
@@ -623,14 +623,14 @@ public function list_upload_pdf_branch($id =null,$doc_type=null)
                 $this->session->set_flashdata('delete_error', 'Failed to delete in database.');
                   redirect('/documents/list_upload_pdf_laboratory_updating/'.$coop_id.'/'.$doc_type);
             }
-           
+
        }
        else
        {
             $this->session->set_flashdata('delete_error', 'Error file not exist.');
                   redirect('/documents/list_upload_pdf_laboratory_updating/'.$coop_id.'/'.$doc_type);
        }
-      
+
 
     }
   }
@@ -663,14 +663,14 @@ public function list_upload_pdf_branch($id =null,$doc_type=null)
                 $this->session->set_flashdata('delete_error', 'Failed to delete in database.');
                   redirect('/documents/list_upload_pdf_laboratory/'.$coop_id.'/'.$doc_type);
             }
-           
+
        }
        else
        {
             $this->session->set_flashdata('delete_error', 'Error file not exist.');
                   redirect('/documents/list_upload_pdf_laboratory/'.$coop_id.'/'.$doc_type);
        }
-      
+
 
     }
   }
@@ -682,7 +682,7 @@ public function list_upload_pdf($id =null,$doc_type=null)
 {
   if(!$this->session->userdata('logged_in'))
   {
-  redirect(base_url()); 
+  redirect(base_url());
   }
   else
   {
@@ -702,17 +702,17 @@ public function list_upload_pdf($id =null,$doc_type=null)
     $data['coop_info'] = $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
     if($data['is_client'] ==1)
     {
-     
+
       $this->load->view('template/header',$data);
       $this->load->view('documents/list_of_uploaded_pdf',$data);
       $this->load->view('documents/delete_pdf_modal');
       $this->load->view('template/footer');
     }
     if($this->session->userdata('access_level')<=5 && $data['is_client']!=1 ){
-             
+
     $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
     $data['header'] = 'Uploaded file';
-    $data['uid'] = $this->session->userdata('user_id');  
+    $data['uid'] = $this->session->userdata('user_id');
     // print_r($this->session->userdata());
      $this->load->view('templates/admin_header', $data);
      $this->load->view('documents/list_of_uploaded_pdf',$data);
@@ -725,11 +725,11 @@ public function list_upload_pdf($id =null,$doc_type=null)
        if(!$this->session->userdata('logged_in')){
           redirect('admins/login');
        }
-       
-    }      
-    
+
+    }
+
        // print_r($this->session->userdata());
-      
+
   }
 }
 
@@ -740,7 +740,7 @@ public function list_upload_pdf_laboratory($id =null,$doc_type=null)
   if(!$this->session->userdata('logged_in'))
   {
   redirect(base_url());
- 
+
   }
   else
   {
@@ -762,17 +762,17 @@ public function list_upload_pdf_laboratory($id =null,$doc_type=null)
     $data['defered_uploaded_list_pdf'] =$this->defered_count_documents_branch($decoded_id,$doc_type);
     if($data['is_client'] ==1)
     {
-     
+
       $this->load->view('template/header',$data);
       $this->load->view('documents/list_of_uploaded_pdf_laboratory',$data);
       $this->load->view('documents/delete_pdf_lab_modal');
       $this->load->view('template/footer');
     }
     if($this->session->userdata('access_level')<=5 && $data['is_client']!=1 ){
-             
+
     $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
     $data['header'] = 'Uploaded file';
-    $data['uid'] = $this->session->userdata('user_id');  
+    $data['uid'] = $this->session->userdata('user_id');
     // print_r($this->session->userdata());
      $this->load->view('templates/admin_header', $data);
      $this->load->view('documents/list_of_uploaded_pdf_laboratory',$data);
@@ -785,11 +785,11 @@ public function list_upload_pdf_laboratory($id =null,$doc_type=null)
        if(!$this->session->userdata('logged_in')){
           redirect('admins/login');
        }
-       
-    }      
-    
+
+    }
+
        // print_r($this->session->userdata());
-      
+
   }
 }
 
@@ -799,7 +799,7 @@ public function list_upload_pdf_laboratory_updating($id =null,$doc_type=null)
   if(!$this->session->userdata('logged_in'))
   {
   redirect(base_url());
- 
+
   }
   else
   {
@@ -821,17 +821,17 @@ public function list_upload_pdf_laboratory_updating($id =null,$doc_type=null)
     $data['defered_uploaded_list_pdf'] =$this->defered_count_documents_branch($decoded_id,$doc_type);
     if($data['is_client'] ==1)
     {
-     
+
       $this->load->view('template/header',$data);
       $this->load->view('documents/list_of_uploaded_pdf_laboratory_updating',$data);
       $this->load->view('documents/delete_pdf_lab_updating_modal');
       $this->load->view('template/footer');
     }
     if($this->session->userdata('access_level')<=5 && $data['is_client']!=1 || ($this->session->userdata('access_level')==6)){
-             
+
     $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
     $data['header'] = 'Uploaded file';
-    $data['uid'] = $this->session->userdata('user_id');  
+    $data['uid'] = $this->session->userdata('user_id');
     // print_r($this->session->userdata());
      $this->load->view('templates/admin_header', $data);
      $this->load->view('documents/list_of_uploaded_pdf_laboratory_updating',$data);
@@ -844,11 +844,11 @@ public function list_upload_pdf_laboratory_updating($id =null,$doc_type=null)
        if(!$this->session->userdata('logged_in')){
           redirect('admins/login');
        }
-       
-    }      
-    
+
+    }
+
        // print_r($this->session->userdata());
-      
+
   }
 }
 
@@ -884,7 +884,7 @@ public function delete_pdf()
                 $this->session->set_flashdata('delete_error', 'Failed to delete in database.');
                   redirect('/documents/list_upload_pdf/'.$coop_id.'/'.$doc_type);
             }
-           
+
        }
        else
        {
@@ -901,13 +901,13 @@ public function delete_pdf()
             // $this->session->set_flashdata('delete_error', 'Error file not exist.');
                   redirect('/documents/list_upload_pdf/'.$coop_id.'/'.$doc_type);
        }
-      
+
 
     }
   }
 //end modify
 
-  //modify 
+  //modify
   public function do_upload_laborator(){
     if(!$this->session->userdata('logged_in'))
     {
@@ -937,18 +937,18 @@ public function delete_pdf()
             break;
           case 26:
             $docname ='Board_Resolution';
-            break;  
+            break;
           case 42:
             $docname ='Other_requiredments';
-            break;  
-          
+            break;
+
           default:
             $docname='Unlabeled_document';
             break;
           }//end switch
           // echo $CooperativeID.' '.$laboratoryID.' '.$user_id.' '.$document_name;
           // echo"<pre>"; print_r($items);echo"<pre>";
-          
+
           $coop_info= $this->laboratories_model->get_lab_info($laboratoryID);
 
           // print_r($data['coop_info']);
@@ -969,10 +969,10 @@ public function delete_pdf()
             else
             {
 
-                       
+
               //delete data in db
               $file_existed = $this->check_doc_first($CooperativeID,$laboratoryID,$doctype);
-              // echo"<pre>";print_r($file_existed);echo"<pre>";  
+              // echo"<pre>";print_r($file_existed);echo"<pre>";
               if($file_existed!=NULL)
               {
                   $file_to_remove = $config['upload_path'].$file_existed->filename;
@@ -990,7 +990,7 @@ public function delete_pdf()
                     echo "unable to read file";
                   }
               }
-              
+
 
 
               $data = array('upload_data' => $this->upload->data());
@@ -1012,7 +1012,7 @@ public function delete_pdf()
                            $this->session->set_flashdata(array('status_msg'=>"danger",'doc_msg'=>"Failed to upload document please contact system administrator."));
                           redirect('laboratories/'.$items['encrypted_id'].'/UploadDocuments');
                         }
-                  }//upload lab do  
+                  }//upload lab do
             }//if not do upload
           }
           else
@@ -1021,8 +1021,8 @@ public function delete_pdf()
             // $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for complianceaaaaaa.');
             // redirect('laboratories/'.$items['encrypted_id']);
           }//end status
-        }//end if user admin 
-      }  
+        }//end if user admin
+      }
       else
       {
        redirect('laboratories/'.$items['encrypted_id']);
@@ -1049,7 +1049,7 @@ public function delete_pdf()
 
   }
   //end modify
- 
+
   //end modify
   public function count_documents($coop_id,$num)
   {
@@ -1199,7 +1199,7 @@ public function delete_pdf()
                               } else {
                                 $f = new pdf();
                                 $f->set_option("isPhpEnabled", true);
-                                
+
                                 if($data['coop_info']->cofc == 'Tertiary'){
                                   $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation_tertiary', $data, TRUE);
                                 } else {
@@ -1209,7 +1209,7 @@ public function delete_pdf()
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
                                 $f->render();
-                                
+
                                 $this->load->library('session');
                                 $path = 'articles_of_cooperation_primary.pdf';
                                 $getTotalPages = $f->get_canvas()->get_page_count();
@@ -1233,7 +1233,7 @@ public function delete_pdf()
                               // $f->setPaper('folio', 'portrait');
                               // $f->load_html($html2);
                               // $f->render();
-                              
+
                               // $this->load->library('session');
                               // $path = 'articles_of_cooperation_primary.pdf';
                               // $getTotalPages = $f->get_canvas()->get_page_count();
@@ -1351,7 +1351,7 @@ public function delete_pdf()
                                     } else {
                                       $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation', $data, TRUE);
                                     }
-                                  
+
                                     $f = new pdf();
                                      $f->set_option("isPhpEnabled", true);
                                     $f->setPaper('folio', 'portrait');
@@ -1367,7 +1367,7 @@ public function delete_pdf()
                                   );
                                   $this->session->set_userdata($user_data);
                                 }
-                                
+
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                 redirect('cooperatives/'.$id);
@@ -1433,11 +1433,11 @@ public function delete_pdf()
                       if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                         $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                         if($data['committees_complete'] || $data['coop_info']->type_of_cooperative == 'Technology Service'){
-                          // if($data['coop_info']->created_at >= '2022-03-08'){
-                          //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                          // } else {
+                          if($data['coop_info']->created_at >= '2022-10-10'){
+                            $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                          } else {
                             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          // }
+                          }
                           if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                             $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                             if($data['staff_complete']){
@@ -1447,15 +1447,15 @@ public function delete_pdf()
                               $data['purposes_list'] = explode(";",$this->purpose_model->get_all_purposes($data['coop_info']->id)->content);
                               $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
                               $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
-                              
+
                               $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
                               $data['directors_list'] = $this->cooperator_model->get_list_of_directors($decoded_id);
-                              
-                              
+
+
                               $data['regular_cooperator_list'] = $this->cooperator_model->get_all_regular_cooperator_of_coop($decoded_id);
                               $data['associate_cooperator_list'] = $this->cooperator_model->get_all_associate_cooperator_of_coop($decoded_id);
                               $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-                              
+
                               if($data['coop_info']->type_of_cooperative == 'Technology Service'){
                                 $data['treasurer_of_coop'] = $this->cooperator_model->get_treasurer_of_coop_ts($decoded_id);
                                 $data['no_of_directors'] = $this->affiliators_model->no_of_directors_ts($decoded_id);
@@ -1471,7 +1471,7 @@ public function delete_pdf()
                               } else {
                                 $data['cooperators_list_board'] = $this->cooperator_model->get_all_cooperator_of_coop_board($decoded_id);
                               }
-                              
+
                               if($data['coop_info']->area_of_operation == 'Interregional'){
                                 $data['regions_island_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
                               }
@@ -1498,7 +1498,7 @@ public function delete_pdf()
                               } else {
                                 $html2 = $this->load->view('documents/primary/youth/articles_of_cooperation_for_primary_youth', $data, TRUE);
                               }
-                              
+
                               if($data['coop_info']->status != 12){
                                 $data['encrypted_id'] = $id;
                                 $data['title'] = 'Articles of Cooperation';
@@ -1506,7 +1506,7 @@ public function delete_pdf()
                                 $data['header'] = 'Documents';
                                 $this->load->view('template/header', $data);
                                 if($data['coop_info']->is_youth == 0 && $data['coop_info']->type_of_cooperative != 'Technology Service'){
-                                  $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data); 
+                                  $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
                                 } else if($data['coop_info']->type_of_cooperative == 'Technology Service'){
                                   $this->load->view('documents/primary/technology_service/articles_of_cooperation_for_primary_ts', $data);
                                 } else {
@@ -1517,7 +1517,7 @@ public function delete_pdf()
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
                                 $f->render();
-                                
+
                                 $this->load->library('session');
                                 $path = 'articles_of_cooperation_primary.pdf';
                                 $getTotalPages = $f->get_canvas()->get_page_count();
@@ -1638,7 +1638,7 @@ public function delete_pdf()
                                   $data['encrypted_id'] = $id;
                                   $this->load->view('templates/admin_header', $data);
                                   if($data['coop_info']->is_youth == 0 && $data['coop_info']->type_of_cooperative != 'Technology Service'){
-                                    $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data); 
+                                    $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data);
                                   } else if($data['coop_info']->type_of_cooperative == 'Technology Service'){
                                     $this->load->view('documents/primary/technology_service/articles_of_cooperation_for_primary_ts', $data);
                                   } else {
@@ -1646,7 +1646,7 @@ public function delete_pdf()
                                   }
                                   $this->load->view('templates/admin_footer');
                                 } else {
-                                  
+
                                   if($data['coop_info']->is_youth == 0 && $data['coop_info']->type_of_cooperative != 'Technology Service'){
                                     $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary', $data, TRUE);
                                   } else if($data['coop_info']->type_of_cooperative == 'Technology Service'){
@@ -1710,7 +1710,7 @@ public function delete_pdf()
       }
     }
   }
-  
+
   function branch($id = null){
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
@@ -1721,7 +1721,7 @@ public function delete_pdf()
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
             if($this->branches_model->check_own_branch($decoded_id,$user_id)){
-              
+
                 $branch_info = $this->branches_model->get_branch_info($user_id,$decoded_id);
                 $data['branch_info'] = $branch_info;
                 // Ammend
@@ -1755,7 +1755,7 @@ public function delete_pdf()
                 $data['document_40'] = $this->uploaded_document_model->get_document_40_info($branch_info->id,$branch_info->application_id);
                 $data['document_others_unifed'] = $this->uploaded_document_model->get_document_42_info($branch_info->id,$branch_info->application_id);
                 $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['branch_info']->type);
-                
+
                 $data['in_chartered_cities'] =false;
                 // $this->debug();
                 if($this->charter_model->in_charter_city($data['branch_info']->cCode))
@@ -1767,11 +1767,11 @@ public function delete_pdf()
                 if(isset($data['ca_user_info'])>0){
                   $data['cafsis_info'] = $this->profile_model->get_saved_data_document($data['ca_user_info']->id);
                 }
-                
+
                 $this->load->view('template/header', $data);
                 $this->load->view('documents/list_of_documents_branch', $data);
                 $this->load->view('template/footer');
-              
+
             }else{
               $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
               redirect('branches');
@@ -1802,9 +1802,9 @@ public function delete_pdf()
                   $data['encrypted_branch_id'] = $id;
                   // $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
                   if($this->branches_model->check_if_amended($branch_info->regNo)){
-                      
+
                     $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->ammend_id));
-                    
+
                     $data['encrypted_id_others'] = encrypt_custom($this->encryption->encrypt($branch_info_amend->branch_id));
                   } else {
                     $data['encrypted_id'] = encrypt_custom($this->encryption->encrypt($branch_info->application_id));
@@ -1849,7 +1849,7 @@ public function delete_pdf()
                 $data['document_40'] = $this->uploaded_document_model->get_document_40_info($branch_info->id,$branch_info->application_id);
                 $data['document_others_unifed'] = $this->uploaded_document_model->get_document_42_info($branch_info->id,$branch_info->application_id);
 
-                
+
                 $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
                 $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
                 $data['business_activities'] =  $this->branches_model->get_all_business_activities($branch_info->id);
@@ -1866,7 +1866,7 @@ public function delete_pdf()
 //                  $this->session->set_flashdata('redirect_applications_message', 'The branches is not yet submitted for evaluation.');
 //                  redirect('branches');
 //                }
-              
+
             }
           }
         }else{
@@ -1948,7 +1948,7 @@ public function delete_pdf()
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
                                 $f->render();
-                                
+
                                 $this->load->library('session');
                                 $path = 'articles_of_cooperation_union.pdf';
                                 $getTotalPages = $f->get_canvas()->get_page_count();
@@ -1962,11 +1962,11 @@ public function delete_pdf()
                               // $f = new pdf();
                               // $f->set_option("isPhpEnabled", true);
                               // $html2 = $this->load->view('documents/union/articles_of_cooperation_for_union', $data, TRUE);
-                             
+
                               // $f->setPaper('folio', 'portrait');
                               // $f->load_html($html2);
                               // $f->render();
-                              
+
                               // $this->load->library('session');
                               // $path = 'articles_of_cooperation_union.pdf';
                               // $getTotalPages = $f->get_canvas()->get_page_count();
@@ -2080,7 +2080,7 @@ public function delete_pdf()
                                   $f->setPaper('folio', 'portrait');
                                   $f->load_html($html2);
                                   $f->render();
-                                  
+
                                   $this->load->library('session');
                                   $path = 'articles_of_cooperation_union.pdf';
                                   $getTotalPages = $f->get_canvas()->get_page_count();
@@ -2216,7 +2216,7 @@ public function delete_pdf()
                               // $f->setPaper('folio', 'portrait');
                               // $f->load_html($html2);
                               // $f->render();
-                              
+
                               // $this->load->library('session');
                               // $path = 'articles_of_cooperation_primary.pdf';
                               // $getTotalPages = $f->get_canvas()->get_page_count();
@@ -2321,7 +2321,7 @@ public function delete_pdf()
                                 } else {
                                   $html2 = $this->load->view('documents/federation/articles_of_cooperation_for_federation', $data, TRUE);
                                 }
-                              
+
                                 $f = new pdf();
                                  $f->set_option("isPhpEnabled", true);
                                 $f->setPaper('folio', 'portrait');
@@ -2400,11 +2400,11 @@ public function delete_pdf()
                       if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                         $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                         if($data['committees_complete'] || $data['coop_info']->type_of_cooperative == 'Technology Service'){
-                          // if($data['coop_info']->created_at >= '2022-03-08'){
-                          //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                          // } else {
+                          if($data['coop_info']->created_at >= '2022-10-10'){
+                            $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                          } else {
                             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          // }
+                          }
                           if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                             $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                             if($data['staff_complete']){
@@ -2416,7 +2416,7 @@ public function delete_pdf()
                               $data['members_additional_requirements'] = explode(";",$data['bylaw_info']->additional_requirements_for_membership);
                               $data['members_additional_conditions_to_vote'] = explode(";",$data['bylaw_info']->additional_conditions_to_vote);
                               $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
-                              
+
                               if($data['coop_info']->type_of_cooperative == 'Technology Service'){
                                 $data['cooperator_directors'] = $this->affiliators_model->get_all_board_of_director_only($user_id);
                                 $data['no_of_directors'] = $this->affiliators_model->no_of_directors($user_id);
@@ -2425,10 +2425,10 @@ public function delete_pdf()
                                 $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
                               }
                               // echo $this->db->last_query();
-                              
+
                               // $data['cooperator_directors'] = $this->cooperator_model->get_list_of_directors($decoded_id);
                               // $this->debug($data['cooperator_directors']);
-                              
+
                               if($data['coop_info']->type_of_cooperative == 'Technology Service'){
                                 $data['cooperators_list_regular'] = $this->affiliators_model->get_all_cooperator_of_coop_ts($decoded_id);
                                 $data['cooperator_vicechairperson'] = $this->affiliators_model->get_vicechairperson_of_coop_ts($decoded_id);
@@ -2439,9 +2439,9 @@ public function delete_pdf()
                                 $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
                                 $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
                               }
-                              $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id); 
+                              $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
                               $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
-                             // $this->load->view('documents/primary/bylaws_for_primary', $data); 
+                             // $this->load->view('documents/primary/bylaws_for_primary', $data);
                               if($data['coop_info']->status != 12){
                                 $data['encrypted_id'] = $id;
                                 $data['title'] = 'Bylaws';
@@ -2453,7 +2453,7 @@ public function delete_pdf()
                                 } else if($data['coop_info']->type_of_cooperative == 'Technology Service'){
                                   $this->load->view('documents/primary/technology_service/bylaws_for_primary_ts', $data);
                                 } else {
-                                  $this->load->view('documents/primary/bylaws_for_primary', $data); 
+                                  $this->load->view('documents/primary/bylaws_for_primary', $data);
                                 }
                                 $this->load->view('template/footer');
                               } else {
@@ -2466,7 +2466,7 @@ public function delete_pdf()
                                   $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
                                 }
 
-                                $f = new pdf(); 
+                                $f = new pdf();
                                 $f->set_option("isPhpEnabled", true);
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
@@ -2531,11 +2531,11 @@ public function delete_pdf()
                         if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                           $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                           if($data['committees_complete'] || $data['coop_info']->type_of_cooperative == 'Technology Service'){
-                            // if($data['coop_info']->created_at >= '2022-03-08'){
-                            //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                            // } else {
+                            if($data['coop_info']->created_at >= '2022-10-10'){
+                              $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                            } else {
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            // }
+                            }
                             if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                               if($data['staff_complete']){
@@ -2546,14 +2546,13 @@ public function delete_pdf()
                                 $data['assoc_ar_qualifications'] = explode(";",$data['bylaw_info']->associate_qualifications);
                                 $data['members_additional_requirements'] = explode(";",$data['bylaw_info']->additional_requirements_for_membership);
                                 $data['members_additional_conditions_to_vote'] = explode(";",$data['bylaw_info']->additional_conditions_to_vote);
-                                // $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
-                                // $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
-                                // $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
+                                $data['cooperators_list'] = $this->cooperator_model->get_all_cooperator_of_coop($decoded_id);
+                                $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
+                                $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
 
                                 if($data['coop_info']->type_of_cooperative == 'Technology Service'){
-                                  $data['cooperator_directors'] = $this->affiliators_model->get_all_board_of_director_only($data['coop_info']->users_id);
-                                  // echo $this->db->last_query();
-                                  $data['no_of_directors'] = $this->affiliators_model->no_of_directors($data['coop_info']->users_id);
+                                  $data['cooperator_directors'] = $this->affiliators_model->get_all_board_of_director_only($user_id);
+                                  $data['no_of_directors'] = $this->affiliators_model->no_of_directors($user_id);
                                 } else {
                                   $data['cooperator_directors'] = $this->cooperator_model->get_all_board_of_director_only($decoded_id);
                                   $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
@@ -2569,9 +2568,8 @@ public function delete_pdf()
                                   $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
                                   $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
                                 }
-
                                 // $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
-                                // $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
+                                $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                                 $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
                                 $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
                               // $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
@@ -2587,7 +2585,7 @@ public function delete_pdf()
                                   } else if($data['coop_info']->type_of_cooperative == 'Technology Service'){
                                     $this->load->view('documents/primary/technology_service/bylaws_for_primary_ts', $data);
                                   } else {
-                                    $this->load->view('documents/primary/bylaws_for_primary', $data); 
+                                    $this->load->view('documents/primary/bylaws_for_primary', $data);
                                   }
 
                                   $this->load->view('templates/admin_footer');
@@ -2696,10 +2694,10 @@ public function delete_pdf()
                               // $this->debug($data['cooperator_directors']);
                               $data['no_of_directors'] = $this->unioncoop_model->no_of_directors($user_id);
                               $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
-                              // $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id); 
+                              // $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
                               $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
-                              $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_union($user_id); 
-                             // $this->load->view('documents/primary/bylaws_for_primary', $data); 
+                              $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_union($user_id);
+                             // $this->load->view('documents/primary/bylaws_for_primary', $data);
                               // $html2 = $this->load->view('documents/union/bylaws_for_union', $data);
 
                               if($data['coop_info']->status != 12){
@@ -2714,7 +2712,7 @@ public function delete_pdf()
 
                                 $html2 = $this->load->view('documents/union/bylaws_for_union', $data, TRUE);
 
-                                $f = new pdf(); 
+                                $f = new pdf();
                                 $f->set_option("isPhpEnabled", true);
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
@@ -2725,7 +2723,7 @@ public function delete_pdf()
 
                                 // $html2 = $this->load->view('documents/union/bylaws_for_union', $data, TRUE);
 
-                                // $f = new pdf(); 
+                                // $f = new pdf();
                                 // $f->set_option("isPhpEnabled", true);
                                 // $f->setPaper('folio', 'portrait');
                                 // $f->load_html($html2);
@@ -2810,7 +2808,7 @@ public function delete_pdf()
                                 $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                                 $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
                                 $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
-                                $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_union($data['coop_info']->users_id); 
+                                $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_union($data['coop_info']->users_id);
                               // $html2 = $this->load->view('documents/primary/bylaws_for_primary', $data, TRUE);
 
                                 if($data['coop_info']->status != 12){
@@ -2825,7 +2823,7 @@ public function delete_pdf()
 
                                   $html2 = $this->load->view('documents/union/bylaws_for_union', $data, TRUE);
 
-                                  $f = new pdf(); 
+                                  $f = new pdf();
                                   $f->set_option("isPhpEnabled", true);
                                   $f->setPaper('folio', 'portrait');
                                   $f->load_html($html2);
@@ -2899,7 +2897,7 @@ public function delete_pdf()
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } 
+                    }
                     else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
@@ -2939,7 +2937,7 @@ public function delete_pdf()
                               $data['no_of_directors'] = $this->affiliators_model->no_of_directors($user_id);
                               $data['cooperator_chairperson'] = $this->affiliators_model->get_chairperson_of_coop($user_id);
                               $data['cooperator_vicechairperson'] = $this->affiliators_model->get_vicechairperson_of_coop($user_id);
-                              $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_fed($user_id); 
+                              $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_fed($user_id);
 
                               if($data['coop_info']->status != 12){
                                 $data['encrypted_id'] = $id;
@@ -2961,7 +2959,7 @@ public function delete_pdf()
                                   $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data, TRUE);
                                 }
 
-                                $f = new pdf(); 
+                                $f = new pdf();
                                 $f->set_option("isPhpEnabled", true);
                                 $f->setPaper('folio', 'portrait');
                                 $f->load_html($html2);
@@ -2977,7 +2975,7 @@ public function delete_pdf()
                               // } else {
                               //   $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data, TRUE);
                               // }
-                              
+
                               //   $f = new pdf();
                               //   $f->setPaper('folio', 'portrait');
                               //   $f->load_html($html2);
@@ -3040,13 +3038,13 @@ public function delete_pdf()
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$data['coop_info']->users_id);
-                    } 
+                    }
                     else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids);
                     }
-                      
+
                     if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
@@ -3078,8 +3076,8 @@ public function delete_pdf()
                                 // $data['cooperator_chairperson'] = $this->cooperator_model->get_chairperson_of_coop($decoded_id);
                                 // $data['cooperator_vicechairperson'] = $this->cooperator_model->get_vicechairperson_of_coop($decoded_id);
                                 $data['primary_consideration'] = explode(";",$data['bylaw_info']->primary_consideration);
-                                $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_fed($data['coop_info']->users_id); 
-                              
+                                $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop_fed($data['coop_info']->users_id);
+
                                 if($data['coop_info']->status != 12){
                                   $data['encrypted_id'] = $id;
                                   $data['title'] = 'Bylaws';
@@ -3100,7 +3098,7 @@ public function delete_pdf()
                                     $html2 = $this->load->view('documents/federation/bylaws_for_federation', $data, TRUE);
                                   }
 
-                                  $f = new pdf(); 
+                                  $f = new pdf();
                                   $f->set_option("isPhpEnabled", true);
                                   $f->setPaper('folio', 'portrait');
                                   $f->load_html($html2);
@@ -3108,7 +3106,7 @@ public function delete_pdf()
                                   $f->render();
                                   $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
                                 }
-                                
+
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                 redirect('cooperatives/'.$id);
@@ -3178,11 +3176,11 @@ public function delete_pdf()
                       if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                         $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                         if($data['committees_complete'] || $data['coop_info']->type_of_cooperative == 'Technology Service'){
-                          // if($data['coop_info']->created_at >= '2022-03-08'){
-                          //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                          // } else {
+                          if($data['coop_info']->created_at >= '2022-10-10'){
+                            $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                          } else {
                             $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                          // }
+                          }
                           if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                             $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                             if($data['staff_complete']){
@@ -3266,11 +3264,11 @@ public function delete_pdf()
                         if($data['article_complete'] || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                           $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                           if($data['committees_complete'] || $data['coop_info']->type_of_cooperative == 'Technology Service'){
-                            // if($data['coop_info']->created_at >= '2022-03-08'){
-                            //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                            // } else {
+                            if($data['coop_info']->created_at >= '2022-10-10'){
+                              $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                            } else {
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            // }
+                            }
                             if($data['economic_survey_complete'] || $data['coop_info']->category_of_cooperative = 'Secondary' || $data['coop_info']->category_of_cooperative = 'Tertiary'){
                               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                               if($data['staff_complete']){
@@ -3352,7 +3350,7 @@ public function delete_pdf()
                   //       $model = 'affiliators_model';
                   //       $ids = $user_id;
                   //       $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                  //   } 
+                  //   }
                   //   else {
                   //       $model = 'cooperator_model';
                   //       $ids = $decoded_id;
@@ -3386,7 +3384,7 @@ public function delete_pdf()
                               // $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary', $data);
                               $f = new pdf();
                               $html2 = $this->load->view('documents/union/treasurer_affidavit_union', $data, TRUE);
-                              
+
 
                               // $f->setIsRemoteEnabled(true);
                               // $f->setIsFontSubsettingEnabled(true);
@@ -3539,7 +3537,7 @@ public function delete_pdf()
                         $model = 'affiliators_model';
                         $ids = $user_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($decoded_id,$user_id);
-                    } 
+                    }
                     else {
                         $model = 'cooperator_model';
                         $ids = $decoded_id;
@@ -3573,7 +3571,7 @@ public function delete_pdf()
                               // $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary', $data);
                               $f = new pdf();
                               $html2 = $this->load->view('documents/federation/treasurer_affidavit_federation', $data, TRUE);
-                              
+
 
                               // $f->setIsRemoteEnabled(true);
                               // $f->setIsFontSubsettingEnabled(true);
@@ -3729,8 +3727,8 @@ public function delete_pdf()
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    
-                    
+
+
                   if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -3778,7 +3776,7 @@ public function delete_pdf()
                                 $data['client_info'] = $this->user_model->get_user_info($user_id);
                                 $data['header'] = 'Documents';
                                 $this->load->view('template/header', $data);
-                                $this->load->view('documents/economic_survey', $data); 
+                                $this->load->view('documents/economic_survey', $data);
                                 $this->load->view('template/footer');
                               } else {
                                  // $this->load->view('documents/economic_survey', $data);
@@ -3860,8 +3858,8 @@ public function delete_pdf()
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    
-                      
+
+
                     if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
@@ -3873,11 +3871,11 @@ public function delete_pdf()
                             $data['gad_count'] = $this->committee_model->committee_complete_count($decoded_id);
                         }
                       if($data['gad_count']>0){
-                            // if($data['coop_info']->created_at >= '2022-03-08'){
-                            //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                            // } else {
+                            if($data['coop_info']->created_at >= '2022-10-10'){
+                              $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                            } else {
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            // }
+                            }
                             if($data['economic_survey_complete']){
                               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                               if($data['staff_complete']){
@@ -3997,8 +3995,8 @@ public function delete_pdf()
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    
-                    
+
+
                   if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -4060,7 +4058,7 @@ public function delete_pdf()
                                 $data['client_info'] = $this->user_model->get_user_info($user_id);
                                 $data['header'] = 'Documents';
                                 $this->load->view('template/header', $data);
-                                $this->load->view('documents/simplified_economic_survey', $data); 
+                                $this->load->view('documents/simplified_economic_survey', $data);
                                 $this->load->view('template/footer');
                               } else {
                                  // $this->load->view('documents/economic_survey', $data);
@@ -4143,8 +4141,8 @@ public function delete_pdf()
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    
-                      
+
+
                     if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                       $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                       if($data['purposes_complete']){
@@ -4156,11 +4154,11 @@ public function delete_pdf()
                             $data['gad_count'] = $this->committee_model->committee_complete_count($decoded_id);
                         }
                       if($data['gad_count']>0){
-                            // if($data['coop_info']->created_at >= '2022-03-08'){
-                            //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                            // } else {
+                            if($data['coop_info']->created_at >= '2022-10-10'){
+                              $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                            } else {
                               $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                            // }
+                            }
                             // $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
                             if($data['economic_survey_complete']){
                               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
@@ -4309,7 +4307,7 @@ public function delete_pdf()
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    
+
                     $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                       if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union') || $data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                         $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
@@ -4621,7 +4619,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           if($this->uploaded_document_model->check_document_of_cooperative($decoded_branch_id,$decoded_id,5,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->branches_model->check_own_branch($decoded_branch_id,$user_id)){
-                
+
                   // $this->load->view('template_pdf/whole_template_pdf',$data);
                   $this->output
                       ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
@@ -4629,8 +4627,8 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                       ->set_output(
                         file_get_contents(UPLOAD_DIR.$decoded_filename)
                       );
- 
-                
+
+
               }else{
                 $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
                 redirect('branches');
@@ -4639,7 +4637,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
               if($this->session->userdata('access_level')==5){
                 redirect('admins/login');
               }else{
-                
+
                   if($this->branches_model->check_submitted_for_evaluation($decoded_branch_id)){
                     $this->output
                         ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
@@ -4647,7 +4645,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         ->set_output(
                           file_get_contents(UPLOAD_DIR.$decoded_filename)
                         );
-                                  
+
                   }else{
                     $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.');
                     redirect('branches');
@@ -4684,7 +4682,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           if($this->uploaded_document_model->check_document_of_cooperative($decoded_branch_id,$decoded_id,6,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->branches_model->check_own_branch($decoded_branch_id,$user_id)){
-                
+
                   // $this->load->view('template_pdf/whole_template_pdf',$data);
                   $this->output
                       ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
@@ -4692,8 +4690,8 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                       ->set_output(
                         file_get_contents(UPLOAD_DIR.$decoded_filename)
                       );
- 
-                
+
+
               }else{
                 $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
                 redirect('branches');
@@ -4702,7 +4700,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
               if($this->session->userdata('access_level')==5){
                 redirect('admins/login');
               }else{
-                
+
                   if($this->branches_model->check_submitted_for_evaluation($decoded_branch_id)){
                     $this->output
                         ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
@@ -4714,7 +4712,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                     $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.');
                     redirect('branches');
                   }
-                
+
               }
             }
           }else{
@@ -4746,7 +4744,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           if($this->uploaded_document_model->check_document_of_cooperative($decoded_branch_id,$decoded_id,7,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->branches_model->check_own_branch($decoded_branch_id,$user_id)){
-                
+
                   // $this->load->view('template_pdf/whole_template_pdf',$data);
                   $this->output
                       ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
@@ -4754,8 +4752,8 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                       ->set_output(
                         file_get_contents(UPLOAD_DIR.$decoded_filename)
                       );
- 
-                
+
+
               }else{
                 $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
                 redirect('branches');
@@ -4764,7 +4762,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
               if($this->session->userdata('access_level')==5){
                 redirect('admins/login');
               }else{
-                
+
                   if($this->branches_model->check_submitted_for_evaluation($decoded_branch_id)){
                     $this->output
                         ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
@@ -4772,12 +4770,12 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         ->set_output(
                           file_get_contents(UPLOAD_DIR.$decoded_filename)
                         );
-                    
+
                   }else{
                     $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.');
                     redirect('branches');
                   }
-                
+
               }
             }
           }else{
@@ -4793,7 +4791,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       }
     }
   }
-  
+
   function view_document_8($id = null,$branch_id=null,$filename = null){
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
@@ -4809,7 +4807,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           if($this->uploaded_document_model->check_document_of_cooperative($decoded_branch_id,$decoded_id,8,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->branches_model->check_own_branch($decoded_branch_id,$user_id)){
-                
+
                   // $this->load->view('template_pdf/whole_template_pdf',$data);
                   $this->output
                       ->set_header('Content-Disposition: inline; filename="certificate_of_compliance.pdf"')
@@ -4817,8 +4815,8 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                       ->set_output(
                         file_get_contents(UPLOAD_DIR.$decoded_filename)
                       );
- 
-                
+
+
               }else{
                 $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
                 redirect('branches');
@@ -4827,7 +4825,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
               if($this->session->userdata('access_level')==5){
                 redirect('admins/login');
               }else{
-                
+
                   if($this->branches_model->check_submitted_for_evaluation($decoded_branch_id)){
                     $this->output
                         ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
@@ -4835,12 +4833,12 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         ->set_output(
                           file_get_contents(UPLOAD_DIR.$decoded_filename)
                         );
-                    
+
                   }else{
                     $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.');
                     redirect('branches');
                   }
-                
+
               }
             }
           }else{
@@ -4856,7 +4854,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       }
     }
   }
-  
+
   function view_document_9($id = null,$branch_id=null,$filename = null){
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
@@ -4872,7 +4870,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           if($this->uploaded_document_model->check_document_of_cooperative($decoded_branch_id,$decoded_id,9,$decoded_filename)){
             if($this->session->userdata('client')){
               if($this->branches_model->check_own_branch($decoded_branch_id,$user_id)){
-                
+
                   // $this->load->view('template_pdf/whole_template_pdf',$data);
                   $this->output
                       ->set_header('Content-Disposition: inline; filename="oath_of_undertaking.pdf"')
@@ -4880,8 +4878,8 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                       ->set_output(
                         file_get_contents(UPLOAD_DIR.$decoded_filename)
                       );
- 
-                
+
+
               }else{
                 $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
                 redirect('branches');
@@ -4890,7 +4888,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
               if($this->session->userdata('access_level')==5){
                 redirect('admins/login');
               }else{
-                
+
                   if($this->branches_model->check_submitted_for_evaluation($decoded_branch_id)){
                     $this->output
                         ->set_header('Content-Disposition: inline; filename="Pre_Registration.pdf"')
@@ -4898,12 +4896,12 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         ->set_output(
                           file_get_contents(UPLOAD_DIR.$decoded_filename)
                         );
-                    
+
                   }else{
                     $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.');
                     redirect('branches');
                   }
-                
+
               }
             }
           }else{
@@ -4920,7 +4918,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
     }
   }
 
-  //modify 
+  //modify
   public function upload_manual_operation($id,$doctype)
   {
     if(!$this->session->userdata('logged_in')){
@@ -4928,7 +4926,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
     }
     else
     {
-      
+
       $user_id = $this->session->userdata('user_id');
       $laboratory_id=$this->encryption->decrypt(decrypt_custom($id));
       $lab_query = $this->db->get_where('laboratories',array('id'=>$laboratory_id));
@@ -4987,8 +4985,8 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    
-                    
+
+
                   if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -5105,8 +5103,8 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    
-                    
+
+
                   if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -5222,8 +5220,8 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    
-                    
+
+
                   if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -5340,8 +5338,8 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    
-                    
+
+
                   if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -5458,8 +5456,8 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                     }
-                    
-                    
+
+
                   if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                     $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                     if($data['purposes_complete']){
@@ -5694,7 +5692,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_branch_id = $this->encryption->decrypt(decrypt_custom($this->input->post('branchID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
+
           $data['coop_info'] = $this->branches_model->get_branch_info($decoded_uid,$decoded_id);
 //          if(!$this->branches_model->check_submitted_for_evaluation($decoded_id)){
            $random_ = random_string('alnum',5);
@@ -5743,7 +5741,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       }
     }
   }
-  
+
   function upload_document_6($id = null){
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
@@ -5798,7 +5796,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_branch_id = $this->encryption->decrypt(decrypt_custom($this->input->post('branchID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
+
           $data['coop_info'] = $this->branches_model->get_branch_info($decoded_uid,$decoded_id);
 //          if(!$this->branches_model->check_submitted_for_evaluation($decoded_id)){
            $random_ = random_string('alnum',5);
@@ -6013,7 +6011,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       }
     }
   }
-  
+
   function do_upload_7(){
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
@@ -6027,7 +6025,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_branch_id = $this->encryption->decrypt(decrypt_custom($this->input->post('branchID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
+
           $data['coop_info'] = $this->branches_model->get_branch_info($decoded_uid,$decoded_id);
 //          if(!$this->branches_model->check_submitted_for_evaluation($decoded_id)){
            $random_ = random_string('alnum',5);
@@ -6090,7 +6088,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_branch_id = $this->encryption->decrypt(decrypt_custom($this->input->post('branchID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
+
           $data['coop_info'] = $this->branches_model->get_branch_info($decoded_uid,$decoded_id);
 //          if(!$this->branches_model->check_submitted_for_evaluation($decoded_id)){
            $random_ = random_string('alnum',5);
@@ -6149,7 +6147,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_branch_id = $this->encryption->decrypt(decrypt_custom($this->input->post('branchID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
+
           $data['coop_info'] = $this->branches_model->get_branch_info($decoded_uid,$decoded_id);
 //          if(!$this->branches_model->check_submitted_for_evaluation($decoded_id)){
            $random_ = random_string('alnum',5);
@@ -6208,7 +6206,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_branch_id = $this->encryption->decrypt(decrypt_custom($this->input->post('branchID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
+
           $data['coop_info'] = $this->laboratories_model->get_branch_info($decoded_uid,$decoded_id);
 //          if(!$this->branches_model->check_submitted_for_evaluation($decoded_id)){
            $random_ = random_string('alnum',5);
@@ -6253,7 +6251,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       }
     }
   }
-  
+
   function upload_document_8($id = null){
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
@@ -6294,7 +6292,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       }
     }
   }
-  
+
   function do_upload_8(){
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
@@ -6308,7 +6306,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_branch_id = $this->encryption->decrypt(decrypt_custom($this->input->post('branchID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
+
           $data['coop_info'] = $this->branches_model->get_branch_info($decoded_uid,$decoded_id);
 //          if(!$this->branches_model->check_submitted_for_evaluation($decoded_id)){
            $random_ = random_string('alnum',5);
@@ -6353,7 +6351,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       }
     }
   }
-  
+
   function upload_document_9($id = null){
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
@@ -6394,7 +6392,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
       }
     }
   }
-  
+
   function do_upload_9(){
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
@@ -6408,7 +6406,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_branch_id = $this->encryption->decrypt(decrypt_custom($this->input->post('branchID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
+
           $data['coop_info'] = $this->branches_model->get_branch_info($decoded_uid,$decoded_id);
 //          if(!$this->branches_model->check_submitted_for_evaluation($decoded_id)){
            $random_ = random_string('alnum',5);
@@ -6467,7 +6465,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
         }else{
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
+
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($decoded_uid,$decoded_id);
           if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
             $config['upload_path'] = UPLOAD_DIR;
@@ -6526,7 +6524,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
         }else{
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
+
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($decoded_uid,$decoded_id);
           if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
            $random_ = random_string('alnum',5);
@@ -6538,7 +6536,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
             } else {
               $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_surety_bond.pdf';
             }
-            
+
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
             $this->load->library('upload', $config);
@@ -6596,9 +6594,9 @@ function do_upload_others(){
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
           $coop_title = preg_replace('/\s+/', '_', $this->input->post('coop_title'));
           $coop_id = $this->input->post('document_num');
-          
+
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($decoded_uid,$decoded_id);
-          if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){  
+          if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
             $random_ = random_string('alnum',5);
             $config['upload_path'] = UPLOAD_DIR;
             $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_'.$coop_title.'.pdf';
@@ -6639,8 +6637,8 @@ function do_upload_others(){
       }
     }
   }
-  //ANJURY END  
-  
+  //ANJURY END
+
   //modify by json
 function do_upload_two_(){
     if(!$this->session->userdata('logged_in')){
@@ -6654,9 +6652,9 @@ function do_upload_two_(){
         }else{
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
+
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($decoded_uid,$decoded_id);
-          if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){  
+          if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
             $random_ = random_string('alnum',5);
             $config['upload_path'] = UPLOAD_DIR;
             if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
@@ -6666,7 +6664,7 @@ function do_upload_two_(){
             } else {
               $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_pre_registration.pdf';
             }
-            
+
             $config['allowed_types'] = 'pdf';
             $config['overwrite'] = true;
             $this->load->library('upload', $config);
@@ -6718,9 +6716,9 @@ function do_upload_two_(){
         }else{
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
+
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($decoded_uid,$decoded_id);
-          if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){  
+          if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
             $random_ = random_string('alnum',5);
             $config['upload_path'] = UPLOAD_DIR;
             $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_bod_resolution.pdf';
@@ -6774,9 +6772,9 @@ function do_upload_two_(){
         }else{
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
+
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($decoded_uid,$decoded_id);
-          if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){  
+          if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
             $random_ = random_string('alnum',5);
             $config['upload_path'] = UPLOAD_DIR;
             $config['file_name'] = $random_.'_'.$decoded_uid.'_'.$decoded_id.'_sbao.pdf';
@@ -6830,9 +6828,9 @@ function do_upload_two_(){
         }else{
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
+
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($decoded_uid,$decoded_id);
-          if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){  
+          if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
             $random_ = random_string('alnum',5);
             $config['upload_path'] = UPLOAD_DIR;
             $config['file_name'] = $this->input->post('file2');
@@ -6873,7 +6871,7 @@ function do_upload_two_(){
       }
     }
   }
-  
+
   function do_upload_two(){
     if(!$this->session->userdata('logged_in')){
       redirect('users/login');
@@ -6886,8 +6884,8 @@ function do_upload_two_(){
         }else{
           $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
           $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
-          
-          if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){  
+
+          if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
             $config['upload_path'] = UPLOAD_DIR;
             $config['file_name'] = $decoded_uid.'_'.$decoded_id.'_pre_registration.pdf';
             $config['allowed_types'] = 'pdf';
@@ -6946,14 +6944,14 @@ function do_upload_two_(){
               $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
               $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
               $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
-              $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id); 
+              $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
 
               $data['client_info'] = $this->user_model->get_user_info($user_id);
               $data['header'] = 'Documents';
               $this->load->view('template/header', $data);
               $html2 = $this->load->view('documents/primary/bylaws_for_primary_branch', $data);
               $this->load->view('template/footer');
-              
+
               // $f = new pdf();
               // $f->setPaper('folio', 'portrait');
               // $f->load_html($html2);
@@ -6982,7 +6980,7 @@ function do_upload_two_(){
                 $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
                 $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular($decoded_id);
                 $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
-                $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id); 
+                $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
 
                 $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                 $data['header'] = 'Documents';
@@ -6991,7 +6989,7 @@ function do_upload_two_(){
                 $this->load->view('templates/admin_footer');
 
                 // $html2 = $this->load->view('documents/primary/bylaws_for_primary_branch', $data, TRUE);
-                // $J = new pdf();       
+                // $J = new pdf();
                 // $J->set_option('isRemoteEnabled',TRUE);
                 // $J->set_paper([0,0,612,936], "portrait"); //mm to point
                 // $J->load_html($html2);
@@ -7032,7 +7030,7 @@ function do_upload_two_(){
               $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
               $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular_amend($decoded_id);
               $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
-              $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id); 
+              $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
 
               // $html2 = $this->load->view('documents/primary/bylaws_for_primary_branch_amend', $data);
               $html2 = $this->load->view('documents/primary/bylaws_for_primary_branch_amend', $data, TRUE);
@@ -7064,9 +7062,9 @@ function do_upload_two_(){
                 $data['no_of_directors'] = $this->cooperator_model->no_of_directors($decoded_id);
                 $data['cooperators_list_regular'] = $this->cooperator_model->get_all_cooperator_of_coop_regular_amend($decoded_id);
                 $data['Agriculture_type'] = $this->committee_model->check_credit_committe_in_agriculture($decoded_id);
-                $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id); 
+                $data['committees_others'] = $this->committee_model->get_all_others_committees_of_coop($decoded_id);
                 $html2 = $this->load->view('documents/primary/bylaws_for_primary_branch_amend', $data, TRUE);
-                $J = new pdf();       
+                $J = new pdf();
                 $J->set_option('isRemoteEnabled',TRUE);
                 $J->set_paper([0,0,612,936], "portrait"); //mm to point
                 $J->load_html($html2);
@@ -7119,7 +7117,7 @@ function do_upload_two_(){
                   if($data['coop_info']->area_of_operation == 'Interregional'){
                     $data['regions_island_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
                   }
-                              
+
                   if($this->charter_model->in_charter_city($data['coop_info']->cCode))
                   {
                   $data['in_chartered_cities']=true;
@@ -7135,11 +7133,11 @@ function do_upload_two_(){
                   // $f = new pdf();
                   // $f->set_option("isPhpEnabled", true);
                   // $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data,TRUE);
-                 
+
                   // $f->setPaper('folio', 'portrait');
                   // $f->load_html($html2);
                   // $f->render();
-                  
+
                   // $this->load->library('session');
                   // $path = 'articles_of_cooperation_primary.pdf';
                   // $getTotalPages = $f->get_canvas()->get_page_count();
@@ -7191,7 +7189,7 @@ function do_upload_two_(){
               $this->load->view('templates/admin_header', $data);
               $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch', $data);
               $this->load->view('templates/admin_footer');
-                                
+
             }
           }
         }
@@ -7248,11 +7246,11 @@ function do_upload_two_(){
                   $f = new pdf();
                   $f->set_option("isPhpEnabled", true);
                   $html2 = $this->load->view('documents/primary/articles_of_cooperation_for_primary_branch_amend', $data, TRUE);
-                 
+
                   $f->setPaper('folio', 'portrait');
                   $f->load_html($html2);
                   $f->render();
-                  
+
                   $this->load->library('session');
                   $path = 'articles_of_cooperation_primary.pdf';
                   $getTotalPages = $f->get_canvas()->get_page_count();
@@ -7293,7 +7291,7 @@ function do_upload_two_(){
               $data['in_chartered_cities']=true;
               $data['chartered_cities'] =$this->charter_model->get_charter_city($data['coop_info']->cCode);
               }
-              
+
               $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
               $data['commonBond_'] = $this->amendment_model->get_common_bond($data['coop_info']);
 
@@ -7304,7 +7302,7 @@ function do_upload_two_(){
               $f->load_html($html2);
               $f->render();
               $f->stream("articles_of_cooperation_primary.pdf", array("Attachment"=>0));
-                                
+
             }
           }
         }
@@ -7360,7 +7358,7 @@ function do_upload_two_(){
                 $this->load->view('templates/admin_header', $data);
                 $html2 = $this->load->view('documents/primary/treasurer_affidavit_primary_bs', $data);
                 $this->load->view('templates/admin_footer');
-                
+
                 // $f = new pdf();
                 // $f->setPaper('folio', 'portrait');
                 // $f->load_html($html2);

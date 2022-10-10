@@ -23,7 +23,7 @@ class Committee_model extends CI_Model{
         ->limit(1)
         ->get();
         if ($query->num_rows() > 0)
-        {           
+        {
             $row = $query->row_array();
         }
         $data['orig_committee_id'] = $row['id'];
@@ -53,7 +53,7 @@ class Committee_model extends CI_Model{
         ->limit(1)
         ->get();
         if ($query->num_rows() > 0)
-        {           
+        {
             $row = $query->row_array();
         }
         $data['orig_committee_id'] = $row['id'];
@@ -83,7 +83,7 @@ class Committee_model extends CI_Model{
         ->limit(1)
         ->get();
         if ($query->num_rows() > 0)
-        {           
+        {
             $row = $query->row_array();
         }
         $data['orig_committee_id'] = $row['id'];
@@ -228,7 +228,7 @@ class Committee_model extends CI_Model{
       return true;
     }
   }
-  
+
   public function delete_committee_union($data){
     $this->db->trans_begin();
     $this->db->delete('committees_union',array('id' => $data));
@@ -255,28 +255,28 @@ class Committee_model extends CI_Model{
 
   public function isExisting($co_id){
     $query = $this->db->get_where('committees', array('cooperators_id'=>$co_id));
-    
+
     if ($query->num_rows()>0)
       return true;
     else
       return false;
   }
-  
+
    public function isExisting2($co_name,$user_id){
     $query = $this->db->get_where('committees', array('name'=>$co_name,'user_id'=>$user_id));
     if ($query->num_rows()>2)
       return true;
     else
       return false;
-  }  
-  
+  }
+
   public function isExistingFederation($co_id,$user_id){
     $query = $this->db->get_where('committees_federation', array('cooperators_id'=>$co_id,'user_id'=>$user_id));
     if ($query->num_rows()>0)
       return true;
     else
       return false;
-  }  
+  }
 
   public function isExisting2federation($co_name,$user_id){
     $query = $this->db->get_where('committees_federation', array('name'=>$co_name,'user_id'=>$user_id));
@@ -284,7 +284,7 @@ class Committee_model extends CI_Model{
       return true;
     else
       return false;
-  }  
+  }
 
   public function isExistingUnion($co_id,$user_id){
     $query = $this->db->get_where('committees_union', array('cooperators_id'=>$co_id,'user_id'=>$user_id));
@@ -292,7 +292,7 @@ class Committee_model extends CI_Model{
       return true;
     else
       return false;
-  }  
+  }
 
   public function isExisting2union($co_name,$user_id){
     $query = $this->db->get_where('committees_union', array('name'=>$co_name,'user_id'=>$user_id));
@@ -325,7 +325,7 @@ class Committee_model extends CI_Model{
     // $this->db->join('cooperators', 'cooperators.id = committees.cooperators_id', 'inner');
     // $this->db->join('cooperatives', 'cooperatives.id = cooperators.cooperatives_id', 'inner');
     // $this->db->where('cooperatives.id', $coop_id);
-    // $query = $this->db->get(); 
+    // $query = $this->db->get();
     $data =  $query->result_array();
     return $data;
   }
@@ -387,7 +387,7 @@ class Committee_model extends CI_Model{
     $data =  $query->result_array();
     return $data;
   }
-  
+
   public function get_all_committees_of_coop_union($coop_id){
     $this->db->select('committees_union.id as comid, committees_union.*');
     $this->db->from('committees_union');
@@ -398,7 +398,7 @@ class Committee_model extends CI_Model{
     $data =  $query->result_array();
     return $data;
   }
-  
+
   public function get_all_committees_of_coop_amendment($coop_id){
     $this->db->select('committees.id as comid, committees.* ,cooperators.*');
     $this->db->from('committees');
@@ -409,7 +409,7 @@ class Committee_model extends CI_Model{
     $data =  $query->result_array();
     return $data;
   }
-  
+
   public function get_all_committees_of_coop_gad($coop_id){
     // $this->db->select('committees.id as comid, committees.* ,cooperators.*,count(committees.id) AS count');
     // $this->db->from('committees');
@@ -422,7 +422,7 @@ class Committee_model extends CI_Model{
     $data =  $query->result_array();
     return $data;
   }
-  
+
   public function get_all_committees_of_coop_gad_amendment($amendment_id){
     // $this->db->select('committees.id as comid, committees.* ,cooperators.*,count(committees.id) AS count');
     // $this->db->from('committees');
@@ -447,7 +447,7 @@ class Committee_model extends CI_Model{
       return false;
     }
   }
-  
+
   public function get_all_custom_committee_names_of_coop($coop_id){
     $list_committee_names = array(
       "Audit",
@@ -714,7 +714,7 @@ class Committee_model extends CI_Model{
         return false;
     }
   }
-  
+
   public function get_all_required_count_federation($user_id){
     if($this->get_all_gad_count_federation($user_id) != 0){
         if($this->get_all_audit_count_federation($user_id) != 0){
@@ -738,7 +738,7 @@ class Committee_model extends CI_Model{
         return false;
     }
   }
-  
+
   public function get_all_required_count_union($user_id){
     if($this->get_all_gad_count_union($user_id) != 0){
         if($this->get_all_audit_count_union($user_id) != 0){
@@ -765,7 +765,114 @@ class Committee_model extends CI_Model{
 // END COUNT ALL REQUIRED
 
 // COMMITTEES REQUIRED
-  
+  public function get_all_audit($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->select('committees.name,cooperators.full_name');
+    $this->db->from('committees');
+    $this->db->join('cooperators' , 'cooperators.id = cooperators_id','inner');
+    $this->db->where('name = "Audit" AND user_id ='.$user_id.'');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_bod($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->select('full_name');
+    $this->db->from('cooperators');
+    $this->db->where('(position = "Board of Director" OR position = "Chairperson" OR position = "Vice-Chairperson") AND cooperatives_id ='.$cooperatives_id.'');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_election($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->select('committees.name,cooperators.full_name');
+    $this->db->from('committees');
+    $this->db->join('cooperators' , 'cooperators.id = cooperators_id','inner');
+    $this->db->where('name = "Election" AND user_id ='.$user_id.'');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_secretary($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->select('full_name');
+    $this->db->from('cooperators');
+    $this->db->where('(position = "Secretary") AND cooperatives_id ='.$cooperatives_id.'');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_treasurer($cooperatives_id){
+    $cooperatives_id = $this->security->xss_clean($cooperatives_id);
+    $this->db->select('full_name');
+    $this->db->from('cooperators');
+    $this->db->where('(position = "Treasurer") AND cooperatives_id ='.$cooperatives_id.'');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_medcon($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->select('committees.name,cooperators.full_name');
+    $this->db->from('committees');
+    $this->db->join('cooperators' , 'cooperators.id = cooperators_id','inner');
+    $this->db->where('name = "Mediation and Conciliation" AND user_id ='.$user_id.'');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_credit($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->select('committees.name,cooperators.full_name');
+    $this->db->from('committees');
+    $this->db->join('cooperators' , 'cooperators.id = cooperators_id','inner');
+    $this->db->where('name = "Credit" AND user_id ='.$user_id.'');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_education($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->select('committees.name,cooperators.full_name');
+    $this->db->from('committees');
+    $this->db->join('cooperators' , 'cooperators.id = cooperators_id','inner');
+    $this->db->where('name = "Education and Training" AND user_id ='.$user_id.'');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_ethics($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->select('committees.name,cooperators.full_name');
+    $this->db->from('committees');
+    $this->db->join('cooperators' , 'cooperators.id = cooperators_id','inner');
+    $this->db->where('name = "Ethics" AND user_id ='.$user_id.'');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_gad($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->select('committees.name,cooperators.full_name');
+    $this->db->from('committees');
+    $this->db->join('cooperators' , 'cooperators.id = cooperators_id','inner');
+    $this->db->where('name = "Gender and Development" AND user_id ='.$user_id.'');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_other($user_id){
+    $user_id = $this->security->xss_clean($user_id);
+    $this->db->select('committees.name,cooperators.full_name');
+    $this->db->from('committees');
+    $this->db->join('cooperators' , 'cooperators.id = cooperators_id','inner');
+    $this->db->where('type = "others" AND user_id ='.$user_id.'');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+
   public function get_all_gad_count($user_id){
     $user_id = $this->security->xss_clean($user_id);
     $this->db->where('name = "Gender and Development" AND user_id ='.$user_id.'');
@@ -845,7 +952,7 @@ class Committee_model extends CI_Model{
     $this->db->from('committees');
     return $this->db->count_all_results();
   }
-  
+
   public function get_all_gad_count_union($user_id){
     $user_id = $this->security->xss_clean($user_id);
     $this->db->where('name = "Gender and Development" AND user_id ='.$user_id.'');
@@ -882,5 +989,5 @@ class Committee_model extends CI_Model{
     $this->db->from('committees_union');
     return $this->db->count_all_results();
   }
-  
+
 }

@@ -62,11 +62,11 @@
             $data['list_cooperatives'] = $this->cooperatives_model->get_registeredcoop($data['client_info']->regno);
             $data['coop_info'] = $this->cooperatives_model->get_cooperative_migrated_info($data['client_info']->regno);
           }
-          
+
 //          $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives($this->session->userdata('user_id'));
           $data['count_cooperatives'] = $this->cooperatives_model->get_count_cooperatives($this->session->userdata('user_id'));
           // $data['coop_info'] = $this->cooperatives_model->get_cooperative_expiration($this->session->userdata('user_id'));
-  
+
           // if(!empty($data['coop_info']->id)){
           //     if($data['coop_info']->status != 15){
           //       if(date('Y-m-d H:i:s',strtotime($data['coop_info']->expire_at)) < date('Y-m-d H:i:s')){
@@ -83,7 +83,7 @@
           if(isset($data['coop_info']->id)){
             $data['is_update_cooperative'] = $this->cooperatives_update_model->check_date_registered($data['coop_info']->id);
           }
-          
+
           if(isset($_POST['tos']))
           {
             $data['tos'] = $_POST['tos'];
@@ -104,7 +104,7 @@
             redirect('updated_cooperative_info');
           } else {
             $page = ($this->uri->segment(2)) ? $this->uri->segment(2) : 0;
-            
+
             $data['title'] = 'List of Cooperatives';
             $data['header'] = 'Cooperatives';
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
@@ -120,23 +120,23 @@
             $config["per_page"] = 5;
             $config["uri_segment"] = 3;
             $config['page_query_string'] = TRUE;
-            $config['full_tag_open'] = '<ul class="pagination">';        
-            $config['full_tag_close'] = '</ul>';        
-            $config['first_link'] = 'First';        
-            $config['last_link'] = 'Last';        
-            $config['first_tag_open'] = '<li class="page-item"><span class="page-link">';        
-            $config['first_tag_close'] = '</span></li>';        
-            $config['prev_link'] = '&laquo';        
-            $config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';        
-            $config['prev_tag_close'] = '</span></li>';        
-            $config['next_link'] = '&raquo';        
-            $config['next_tag_open'] = '<li class="page-item"><span class="page-link">';        
-            $config['next_tag_close'] = '</span></li>';        
-            $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';        
-            $config['last_tag_close'] = '</span></li>';        
-            $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';        
-            $config['cur_tag_close'] = '</a></li>';        
-            $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';        
+            $config['full_tag_open'] = '<ul class="pagination">';
+            $config['full_tag_close'] = '</ul>';
+            $config['first_link'] = 'First';
+            $config['last_link'] = 'Last';
+            $config['first_tag_open'] = '<li class="page-item"><span class="page-link">';
+            $config['first_tag_close'] = '</span></li>';
+            $config['prev_link'] = '&laquo';
+            $config['prev_tag_open'] = '<li class="page-item"><span class="page-link">';
+            $config['prev_tag_close'] = '</span></li>';
+            $config['next_link'] = '&raquo';
+            $config['next_tag_open'] = '<li class="page-item"><span class="page-link">';
+            $config['next_tag_close'] = '</span></li>';
+            $config['last_tag_open'] = '<li class="page-item"><span class="page-link">';
+            $config['last_tag_close'] = '</span></li>';
+            $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+            $config['cur_tag_close'] = '</a></li>';
+            $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';
             $config['num_tag_close'] = '</span></li>';
             $this->pagination->initialize($config);
             $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
@@ -146,16 +146,16 @@
             } else {
               $per_page = 0;
             }
-            
+
             // echo $per_page;
-           
-            
+
+
 
           $this->benchmark->mark('code_start');
             if($this->session->userdata('access_level')==1){
               if($data['admin_info']->region_code=="00"){
               // Registered Coop Process by Head Office
-                // $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+                // $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
               // End Registered Coop Process by Head Office
                 // $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 if(isset($_POST['submit']))
@@ -168,12 +168,12 @@
                   'per_page'=>$config['per_page']=5,
                   'url_segment'=>2
                   );
-                  
+
                 $data['links']=$this->paginate($array);
                 $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_specialist_central_office($data['admin_info']->region_code);
               }else{
                 // Registered Coop Process by Head Office
-                  // $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+                  // $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
                 // End Registered Coop Process by Head Office
                 // $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_specialist2($data['admin_info']->region_code,$user_id, $config["per_page"], $per_page);
@@ -181,7 +181,7 @@
             }else if($this->session->userdata('access_level')==2){
               if($data['admin_info']->region_code=="00"){
                 // Registered Coop Process by Head Office
-                  // $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+                  // $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
                 // End Registered Coop Process by Head Office
                 // $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_ho_senior($data['admin_info']->region_code);
@@ -189,7 +189,7 @@
                 $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
               } else {
                 // Registered Coop Process by Head Office
-                  // $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+                  // $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
                 // End Registered Coop Process by Head Office
                 // $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
 
@@ -204,10 +204,10 @@
                   'per_page'=>$config['per_page']=5,
                   'url_segment'=>2
                   );
-                  
+
                 $data['links']=$this->paginate($array);
                 $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_senior2($data['admin_info']->region_code,$this->coopName, $config["per_page"], $per_page);
-                
+
                 // echo $this->db->last_query();
                 // $data['list_cooperative'] = $this->cooperatives_model->get_all_cooperatives_ho2($config["per_page"], $page);
                 // End Pagination
@@ -223,14 +223,14 @@
             }else{
               if($data['admin_info']->region_code=="00"){
                 // Registered Coop Process by Head Office
-                  // $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+                  // $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
                 // End Registered Coop Process by Head Office
                 // $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_ho_director($data['admin_info']->region_code);
                 $data['list_specialist'] = $this->admin_model->get_inspector($data['admin_info']->region_code);
               } else {
                 // Registered Coop Process by Head Office
-                  // $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+                  // $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
                 // End Registered Coop Process by Head Office
                 // $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 if(isset($_POST['submit']))
@@ -243,7 +243,7 @@
                   'per_page'=>$config['per_page']=5,
                   'url_segment'=>2
                   );
-                  
+
                 $data['links']=$this->paginate($array);
                 $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_director2($data['admin_info']->region_code,$this->coopName, $config["per_page"], $per_page);
 
@@ -262,7 +262,7 @@
             $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
             $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
 
-            $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
+            $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage());
             $this->load->view('templates/admin_header', $data);
             $this->load->view('applications/list_of_applications', $data);
             $this->load->view('applications/assign_admin_modal_inspector');
@@ -330,7 +330,7 @@
                   $regions = '';
                 }
 
-                if(!empty($this->input->post('is_youth'))){
+                if($this->input->post('is_youth') == 1){
                   $is_youth = 1;
                 } else {
                   $is_youth = 0;
@@ -398,11 +398,11 @@
               $data['business_activities'] =  $this->cooperatives_model->get_all_business_activities($decoded_id);
               $data['coop_type_upload_doc'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
               // $this->debug(  $data['coop_type_upload_doc']);
-              // $data['document_completed'] =''; 
+              // $data['document_completed'] ='';
               $array_upload[] = array();
               if(!empty($data['coop_type_upload_doc']))
               {
-                foreach ($data['coop_type_upload_doc'] as $coop) : 
+                foreach ($data['coop_type_upload_doc'] as $coop) :
                   //if uploaded or not
                   $coop['statuses']=$this->uploaded_document_model->check_document_exist($decoded_id,$coop['document_num']);
                   $array_upload[] = $coop['statuses'];
@@ -419,12 +419,12 @@
               else
               {
                  $data['document_completed'] =true;
-              }  
+              }
 
               if($data['coop_info']->area_of_operation == 'Interregional'){
                 $data['regions_island_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
               }
-              
+
               $data['bylawprimary'] = $data['coop_info']->category_of_cooperative=="Primary";
                 if($data['coop_info']->category_of_cooperative=="Primary"){
                     $bylawstf = $this->bylaw_model->check_bylaw_primary_complete($decoded_id);
@@ -484,7 +484,7 @@
                     } else {
                         $data['committees_complete'] = $this->committee_model->get_all_required_count($user_id);
                     }
-                  
+
               }
               if($capitalization_info != NULL){
                    $data['affiliator_complete'] = $this->affiliators_model->is_requirements_complete($decoded_id,$user_id);
@@ -493,14 +493,14 @@
               }
 //              $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
               $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
-              
+
               $data['affiliates_complete'] = $this->unioncoop_model->is_requirements_complete($user_id);
-              
-              // if($data['coop_info']->created_at >= '2022-03-08'){
-              //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-              // } else {
+
+              if($data['coop_info']->created_at >= '2022-10-10'){
+                $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+              } else {
                 $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-              // }
+              }
 
               $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
               $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);//surety
@@ -572,7 +572,7 @@
                   } else {
                         $data['cooperator_complete'] = $this->affiliators_model->is_requirements_complete($decoded_id,0);
                   }
-                  
+
                   $data['inssoc'] = explode(",",$data['coop_info']->name_of_ins_assoc);
 //                  $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
                   if($data['coop_info']->type_of_cooperative == 'Credit'){
@@ -591,11 +591,11 @@
                         }
                   }
 
-                  // if($data['coop_info']->created_at >= '2022-03-08'){
-                  //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                  // } else {
+                  if($data['coop_info']->created_at >= '2022-10-10'){
+                    $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                  } else {
                     $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                  // }
+                  }
                   // $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
                   $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
 
@@ -603,8 +603,8 @@
                       $data['affiliator_complete'] = $this->affiliators_model->is_requirements_complete($decoded_id,$data['coop_info']->users_id);
                   } else {
                       $data['affiliates_complete'] = $this->unioncoop_model->is_requirements_complete($data['coop_info']->users_id);
-                  } 
-                  
+                  }
+
                   $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                   $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
                   $count=0;
@@ -613,8 +613,8 @@
                   if($data['coop_info']->area_of_operation == 'Interregional'){
                     $data['regions_island_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
                   }
-                  
-                  foreach ($data['coop_type'] as $coop) : 
+
+                  foreach ($data['coop_type'] as $coop) :
 
                       $count++;
                       if($count == 1){
@@ -627,7 +627,7 @@
                       }
 
                   endforeach;
-                  
+
                   $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
                   $data['document_two'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
                   $data['document_three'] = $this->uploaded_document_model->get_document_three_info($decoded_id);
@@ -652,13 +652,13 @@
                     $data['cooperatives_comments_defer'] = $this->cooperatives_model->director_comments_defer($decoded_id);
                     $data['supervising_comment']  = $this->cooperatives_model->admin_supervising_cds_comments($decoded_id);
                   }
-                  
+
                   $data['denied_comments'] = $this->cooperatives_model->denied_comments($decoded_id);
                   $data['deferred_comments'] = $this->cooperatives_model->cooperatives_comments($decoded_id);
                   $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
                   $data['cooperatives_comments_snr_revert'] = $this->cooperatives_model->cooperatives_comments_snr_revert($decoded_id);
                   $data['cooperatives_comments_snr_revert_defer'] = $this->cooperatives_model->cooperatives_comments_snr_revert_defer($decoded_id);
-                  
+
                   $this->load->view('./templates/admin_header', $data);
                   if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                       $this->load->view('cooperative/federation_detail', $data);
@@ -702,16 +702,16 @@
             if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
               if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                 if($this->form_validation->run() == FALSE){
-                  $data['client_info'] = $this->user_model->get_user_info($user_id); 
+                  $data['client_info'] = $this->user_model->get_user_info($user_id);
                   $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
-                  
+
                   $data['title'] = 'Update Cooperative Details';
                   $data['header'] = 'Update Cooperative Information';
-                  
+
                   $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
                   $data['major_industries_by_coop_type'] = $this->major_industry_model->get_major_industries_by_type_name($data['coop_info']->type_of_cooperative);
                   $data['major_industry_list'] = $this->cooperatives_model->get_all_major_industry($decoded_id);
-               
+
                   $data['composition']= $this->cooperatives_model->get_composition();
                   if($data['coop_info']->area_of_operation == 'Interregional'){
                     $data['regions_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
@@ -728,7 +728,7 @@
                   $data['encrypted_id'] = $id;
                   $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
                   $data['inssoc'] = explode(",",$data['coop_info']->name_of_ins_assoc);
-                  
+
                   $this->load->view('./template/header', $data);
                   $this->load->view('cooperative/reservation_update', $data);
                   if($this->cooperatives_model->check_expired_reservation($decoded_id,$user_id)){
@@ -748,7 +748,7 @@
                       $category = substr($this->input->post('categoryOfCooperative'),0,strpos($this->input->post('categoryOfCooperative'),'-')-1);
                       $group = substr($this->input->post('categoryOfCooperative'), strpos($this->input->post('categoryOfCooperative'),'-')+2 , strlen($this->input->post('categoryOfCooperative')) - strpos($this->input->post('categoryOfCooperative'),'-')-2);
                     }
-                
+
                     $name_of_ins_assoc = array_filter($this->input->post('name_institution'));
                     if(count($name_of_ins_assoc)>0 )
                     {
@@ -765,8 +765,8 @@
                       $interregional = '';
                       $regions = '';
                     }
-                    
-                    if(!empty($this->input->post('is_youth'))){
+
+                    if($this->input->post('is_youth') == 1){
                       $is_youth = 1;
                     } else {
                       $is_youth = 0;
@@ -1007,7 +1007,7 @@
         }
       }
     }
-    
+
     public function delete_branches(){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
@@ -1056,7 +1056,7 @@
         }
       }
     }
-    
+
     public function evaluate($id = null){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
@@ -1111,7 +1111,7 @@
                               } else {
                                   $data['document_three'] = 1;
                               }
-                              
+
                               if(($data['document_one'] && $data['document_two'] && $data['document_three']) || $data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                                 if($this->cooperatives_model->check_if_deferred($decoded_id)){
                                   if($this->cooperatives_model->submit_for_reevaluation($user_id,$decoded_id)){
@@ -1133,7 +1133,7 @@
 
                                       $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
 
-                                      if(!empty($data['coop_info']->acronym_name)){ 
+                                      if(!empty($data['coop_info']->acronym_name)){
                                         $acronymname = '('.$data['coop_info']->acronym_name.')';
                                       }else{ $acronymname = '';}
 
@@ -1142,7 +1142,7 @@
                                       } else {
                                         $proposednameemail = $data['coop_info']->proposed_name.' '.$data['coop_info']->grouping.' '.$data['coop_info']->type_of_cooperative.' Cooperative '.$acronymname;
                                       }
-                                      
+
 
                                       if($this->admin_model->sendEmailToSeniorHO($proposednameemail,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info)){
                                       $this->session->set_flashdata('cooperative_success','Successfully resubmitted your application. Please Wait for an e-mail notification list of documents for submission');
@@ -1152,7 +1152,7 @@
                                     $this->session->set_flashdata('cooperative_error','Unable to submit your application');
                                     redirect('cooperatives/'.$id);
                                   }
-                                }else{ 
+                                }else{
                                   if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                                     if($this->cooperatives_model->submit_for_evaluation($user_id,$decoded_id)){
 
@@ -1167,7 +1167,7 @@
 
                                       $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
 
-                                      if(!empty($data['coop_info']->acronym_name)){ 
+                                      if(!empty($data['coop_info']->acronym_name)){
                                         $acronymname = '('.$data['coop_info']->acronym_name.')';
                                       }else{ $acronymname = '';}
 
@@ -1284,14 +1284,14 @@
 
         if($data['admin_info']->region_code=="00"){
           // Registered Coop Process by Head Office
-            $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+            $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
           // End Registered Coop Process by Head Office
           $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
           $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_ho_director($data['admin_info']->region_code);
           $data['list_specialist'] = $this->admin_model->get_inspector($data['admin_info']->region_code);
         } else {
           // Registered Coop Process by Head Office
-            $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+            $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
           // End Registered Coop Process by Head Office
           $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
           $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_director($data['admin_info']->region_code);
@@ -1363,7 +1363,7 @@
           );
 
           $success = $this->cooperatives_model->insert_coc_report($data_field);
-          
+
         } else {
 
           $this->db->select('*');
@@ -1391,7 +1391,7 @@
 
 
         $this->load->view('report/coc_view','');
- 
+
             set_time_limit(0);
             $html2 = $this->load->view('report/coc_view', $data1, TRUE);
             $J = new pdf();
@@ -1439,7 +1439,7 @@
 
                         $query = $this->db->get_where('admin',array('id'=>$decoded_specialist_id));
                         $admin_info = $query->row();
-                        
+
                         if($this->admin_model->sendEmailToSpecialist($coop_full_name,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$admin_info->email)){
                           if($this->cooperatives_model->assign_to_specialist($decoded_id,$decoded_specialist_id,$coop_full_name)){
                             $this->session->set_flashdata('list_success_message', 'Successfully assigned the application to an validator.');
@@ -1748,9 +1748,9 @@
                 }else{
                   if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
                     if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
-                      
+
                       //if(!$this->cooperatives_model->check_if_denied($decoded_id)){
-                        
+
                         $reason_tool_comments = $this->input->post('tool_comments',TRUE);
                         $reason_commment = $this->input->post('comment',TRUE);
                         $reason_documents = $this->input->post('documents',TRUE);
@@ -1780,9 +1780,9 @@
 
                                    $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
                                    // $coop_full_name = $this->input->post('cName',TRUE);
-                                   if(!empty($coop_info->acronym_name)){ 
+                                   if(!empty($coop_info->acronym_name)){
                                       $acronymname = '('.$coop_info->acronym_name.')';
-                                    } else { 
+                                    } else {
                                       $acronymname = '';
                                     }
 
@@ -1850,9 +1850,9 @@
 
                                     $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
 
-                                    if(!empty($coop_info->acronym_name)){ 
+                                    if(!empty($coop_info->acronym_name)){
                                       $acronymname = '('.$coop_info->acronym_name.')';
-                                    } else { 
+                                    } else {
                                       $acronymname = '';
                                     }
 
@@ -1861,7 +1861,7 @@
                                     } else {
                                       $coop_full_name = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$acronymname;
                                     }
-                                    
+
                                     if($coop_info->house_blk_no==null && $coop_info->street==null) $x=''; else $x=', ';
 
                                     $brgyforemail = ucwords($coop_info->house_blk_no).' '.ucwords($coop_info->street).$x.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.', '.$coop_info->region;
@@ -2006,9 +2006,9 @@
                                     $proposednameemail = $data['coop_info']->proposed_name.' '.$data['coop_info']->grouping.' '.$data['coop_info']->type_of_cooperative.' Cooperative '.$acronymname;
                                   }
 
-                                  if(!empty($coop_info->acronym_name)){ 
+                                  if(!empty($coop_info->acronym_name)){
                                       $acronymname = '('.$coop_info->acronym_name.')';
-                                  } else { 
+                                  } else {
                                     $acronymname = '';
                                   }
 
@@ -2034,7 +2034,7 @@
                                   } else {
                                     $status = 11;
                                   }
-                                  
+
                                   if($this->cooperatives_model->check_if_revert($decoded_id)){
                                     $comment = array(
                                         'cooperatives_id' => $decoded_id,
@@ -2139,9 +2139,9 @@
 
                                   $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
 
-                                  if(!empty($coop_info->acronym_name)){ 
+                                  if(!empty($coop_info->acronym_name)){
                                       $acronymname = '('.$coop_info->acronym_name.')';
-                                  } else { 
+                                  } else {
                                     $acronymname = '';
                                   }
 
@@ -2287,9 +2287,9 @@
 
                                   $coop_info = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
 
-                                  if(!empty($coop_info->acronym_name)){ 
+                                  if(!empty($coop_info->acronym_name)){
                                     $acronymname = '('.$coop_info->acronym_name.')';
-                                  } else { 
+                                  } else {
                                     $acronymname = '';
                                   }
 
@@ -2399,9 +2399,9 @@
                                     $data['admin_info_ho'] = $this->admin_model->get_admin_info($coop_info->evaluated_by);
                                   }
 
-                                  if(!empty($coop_info->acronym_name)){ 
+                                  if(!empty($coop_info->acronym_name)){
                                     $acronymname = '('.$coop_info->acronym_name.')';
-                                  } else { 
+                                  } else {
                                     $acronymname = '';
                                   }
 
@@ -2735,8 +2735,8 @@
                             $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Senior Cooperative Development Specialist.');
                             redirect('cooperatives');
                           }else{
-                             
-                             
+
+
                              if(strlen(trim($this->input->post('comment')))>0)
                              {
                               $usr_id = $this->session->userdata('user_id');
@@ -2759,7 +2759,7 @@
                                   $this->laboratory_comment($data3); // insert comment details
                                 }
                              }
-                             
+
 
                             $success = $this->cooperatives_model->approve_by_supervisor_laboratories($data['admin_info'],$decoded_id,$coop_full_name);
                             if($success){
@@ -2811,8 +2811,8 @@
         }
       }
     }
-    
-    
+
+
 
 
     //modify by json
@@ -2827,7 +2827,7 @@
         return "Error while trying to insert comment into database";
       }
     }
-    
+
     public function specialist(){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
@@ -2881,7 +2881,7 @@
         }
       }
     }
-    
+
     public function count_documents($coop_id,$num)
     {
       $query = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coop_id, 'document_num'=>$num,'status'=>1));
@@ -2897,7 +2897,7 @@
       return $data;
 
     }
-    
+
     public function count_documents_others($coop_id,$num)
     {
       $query = $this->db->where('document_num = '.$num.' AND cooperatives_id ='.$coop_id.' AND status = 1')->get('uploaded_documents');
@@ -2962,9 +2962,9 @@
         $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';
         $config['num_tag_close'] = '</span></li>';
         $this->pagination->initialize($config);
-        
-       
-       
+
+
+
         $links = $this->pagination->create_links();
         return $links;
     }

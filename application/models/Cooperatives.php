@@ -194,8 +194,8 @@
               $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
               $count=0;
               $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
-              
-                foreach ($data['coop_type'] as $coop) : 
+
+                foreach ($data['coop_type'] as $coop) :
 
                     $count++;
                     if($count == 1){
@@ -206,9 +206,9 @@
                         $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
                         $data['document_others2'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
                     }
-                    
+
                 endforeach;
-                
+
               $data['bylawprimary'] = $data['coop_info']->category_of_cooperative=="Primary";
                 if($data['coop_info']->category_of_cooperative=="Primary"){
                     $bylawstf = $this->bylaw_model->check_bylaw_primary_complete($decoded_id);
@@ -266,7 +266,7 @@
                     } else {
                         $data['committees_complete'] = $this->committee_model->get_all_required_count($user_id);
                     }
-                  
+
               }
 //              $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
               $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
@@ -340,12 +340,12 @@
                   $data['affiliator_complete'] = $this->affiliators_model->is_requirements_complete($data['coop_info']->users_id);
                   $data['affiliates_complete'] = $this->unioncoop_model->is_requirements_complete($data['coop_info']->users_id);
                   $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
-                  
+
                   $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['coop_info']->type_of_cooperative);
                   $count=0;
                   $data['document_others1'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
 
-                  foreach ($data['coop_type'] as $coop) : 
+                  foreach ($data['coop_type'] as $coop) :
 
                       $count++;
                       if($count == 1){
@@ -358,7 +358,7 @@
                       }
 
                   endforeach;
-                  
+
                   $data['document_one'] = $this->uploaded_document_model->get_document_one_info($decoded_id);
                   $data['document_two'] = $this->uploaded_document_model->get_document_two_info($decoded_id);
                   if($data['coop_info']->grouping == 'Federation'){
@@ -400,22 +400,22 @@
             if($this->cooperatives_model->check_own_cooperative($decoded_id,$user_id)){
               if(!$this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
                 if($this->form_validation->run() == FALSE){
-                  $data['client_info'] = $this->user_model->get_user_info($user_id); 
+                  $data['client_info'] = $this->user_model->get_user_info($user_id);
                   $data['members_composition'] = $this->cooperatives_model->get_coop_composition($decoded_id);
-                  
+
                   $data['title'] = 'Update Cooperative Details';
                   $data['header'] = 'Update Cooperative Information';
-                  
+
                   $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
                   $data['major_industries_by_coop_type'] = $this->major_industry_model->get_major_industries_by_type_name($data['coop_info']->type_of_cooperative);
                   $data['major_industry_list'] = $this->cooperatives_model->get_all_major_industry($decoded_id);
-               
+
                   $data['composition']= $this->cooperatives_model->get_composition();
                   $data['regions_list'] = $this->region_model->get_regions();
                   $data['encrypted_id'] = $id;
                   $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
                   $data['inssoc'] = explode(",",$data['coop_info']->name_of_ins_assoc);
-                  
+
                   $this->load->view('./template/header', $data);
                   $this->load->view('cooperative/reservation_update', $data);
                   if($this->cooperatives_model->check_expired_reservation($decoded_id,$user_id)){
@@ -435,10 +435,10 @@
                       $category = substr($this->input->post('categoryOfCooperative'),0,strpos($this->input->post('categoryOfCooperative'),'-')-1);
                       $group = substr($this->input->post('categoryOfCooperative'), strpos($this->input->post('categoryOfCooperative'),'-')+2 , strlen($this->input->post('categoryOfCooperative')) - strpos($this->input->post('categoryOfCooperative'),'-')-2);
                     }
-                    
+
                     $name_of_ins_assoc = $this->input->post('name_institution');
                     $name_of_ins_assoc = implode(", ",$this->input->post('name_institution'));
-                    
+
                     $field_data = array(
                       'users_id' => $this->session->userdata('user_id'),
                       'category_of_cooperative' => $category,
@@ -625,7 +625,7 @@
         }
       }
     }
-    
+
     public function delete_branches(){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
@@ -674,7 +674,7 @@
         }
       }
     }
-    
+
     public function evaluate($id = null){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
@@ -813,7 +813,7 @@
       echo json_encode($data);
     }
 
-    
+
 
     public function assign_specialist(){
       if(!$this->session->userdata('logged_in')){
@@ -1044,7 +1044,7 @@
                 }else{
                   if(!$this->cooperatives_model->check_expired_reservation_by_admin($decoded_id)){
                     if($this->cooperatives_model->check_submitted_for_evaluation($decoded_id)){
-                      
+
                       //if(!$this->cooperatives_model->check_if_denied($decoded_id)){
                         $reason_commment = $this->input->post('comment',TRUE);
                         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
@@ -1572,8 +1572,8 @@
                             $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Senior Cooperative Development Specialist.');
                             redirect('cooperatives');
                           }else{
-                             
-                             
+
+
                              if(strlen(trim($this->input->post('comment')))>0)
                              {
                               $usr_id = $this->session->userdata('user_id');
@@ -1596,7 +1596,7 @@
                                   $this->laboratory_comment($data3); // insert comment details
                                 }
                              }
-                             
+
 
                             $success = $this->cooperatives_model->approve_by_supervisor_laboratories($data['admin_info'],$decoded_id,$coop_full_name);
                             if($success){
@@ -1648,8 +1648,8 @@
         }
       }
     }
-    
-    
+
+
 
 
     //modify by json
@@ -1664,7 +1664,7 @@
         return "Error while trying to insert comment into database";
       }
     }
-    
+
     public function specialist(){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
@@ -1718,7 +1718,7 @@
         }
       }
     }
-    
+
     public function count_documents($coop_id,$num)
     {
       $query = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coop_id, 'document_num'=>$num,'status'=>1));
@@ -1734,7 +1734,7 @@
       return $data;
 
     }
-    
+
     public function count_documents_others($coop_id,$num)
     {
       $query = $this->db->where('document_num = '.$num.' AND cooperatives_id ='.$coop_id.' AND status = 1')->get('uploaded_documents');

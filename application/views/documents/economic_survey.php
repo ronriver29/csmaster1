@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en"> 
-  <head> 
+<html lang="en">
+  <head>
     <title>CoopRIS <?= $title ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content=""> 
+    <meta name="author" content="">
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <![endif]-->
@@ -20,7 +20,7 @@
     border-collapse: collapse;
 }
   }
-    <?php 
+    <?php
   if($coop_info->status == 12){
   ?>
   body{
@@ -29,7 +29,7 @@
     }
   <?php } ?>
   </style>
-  <?php 
+  <?php
 if($coop_info->status != 12){
 ?>
 <style type="text/css">
@@ -49,18 +49,18 @@ if($coop_info->status != 12){
 <body style="font-size:12">
 <script type="text/php">
         if (isset($pdf) ) {
-            $x = 570; 
+            $x = 570;
             $y=900;
             $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
             $font = $fontMetrics->get_font("BOOKOS");
-            
+
             $size = 12;
             $color = array(0,0,0);
             $word_space = 0.0;  //  default
             $char_space = 0.0;  //  default
             $angle = 0.0;   //  default
             $pdf->page_text($x, $y, $text,$font , $size, $color, $word_space, $char_space, $angle);
-            
+
         }
 </script>
 <div class="container-fluid text-monospace" id="printPage">
@@ -129,14 +129,14 @@ if($coop_info->status != 12){
             <tbody>
               <tr><!--foreach-->
                 <td>
-                  <?php 
+                  <?php
                   if($coop_info->common_bond_of_membership=='Residential')
                   {
                     echo"Working and/or residing in the area of operaion.";
                   }
                   else if($coop_info->common_bond_of_membership=='Occupational')
                   {
-                      foreach($members_composition as $compo) : 
+                      foreach($members_composition as $compo) :
                       echo $compo['composition'].'<br/>';
 
                      endforeach;
@@ -202,7 +202,7 @@ if($coop_info->status != 12){
               <td><u><?php echo($bylaw_info->kinds_of_members == 1) ? number_format(($total_regular['total_paid'] * $capitalization_info->par_value),2) : number_format((($total_regular['total_paid'] * $capitalization_info->par_value) + ($total_associate['total_paid'] * $capitalization_info->par_value)),2);?></u></td>
             </tr>
             <tr>
-              <td>Par value :</td> 
+              <td>Par value :</td>
               <td><u><?php echo(($bylaw_info->kinds_of_members == 1) ? number_format($capitalization_info->par_value,2) : number_format(($capitalization_info->par_value),2));?></u></td>
             </tr>
           </tbody>
@@ -413,7 +413,7 @@ if($coop_info->status != 12){
   <div class="row mb-2" >
     <div class="col-sm-12 col-md-12">
       <div class="table-responsive">
-        <?php 
+        <?php
           if($coop_info->status == 12){
         ?>
         <table class="table table-bordered table-sm" style="margin-left:-60px">
@@ -427,7 +427,7 @@ if($coop_info->status != 12){
               <th>STATUS OF APPOINTMENT</th>
               <th>MINIMUM EDUCATION EXPERIENCE/TRAINING</th>
               <th>MONTHLY COMPENSATION</th>
-             
+
             </tr>
           </thead>
           <tbody>
@@ -492,7 +492,7 @@ if($coop_info->status != 12){
     </div>
   </div>
   <div class="row">
-    <div class="col-sm-12 col-md-12"> 
+    <div class="col-sm-12 col-md-12">
       <div class="table-responsive text-center">
         <table class="table table-borderless table-sm table-director">
           <tbody>
@@ -506,7 +506,7 @@ if($coop_info->status != 12){
     </div>
   </div>
     <?php } ?>
- 
+
     <div class="row">
       <div class="col-sm-12 col-md-12">
         <div class="table-responsive text-center">
@@ -556,7 +556,7 @@ if($coop_info->status != 12){
                <?php if(!empty($cooperator_directors[6]['full_name'])):?>
                 <td><b><?=$cooperator_directors[6]['full_name']?></b><br>Director</td>
               <?php endif;?>
-               <?php if(!empty($cooperator_directors[7]['full_name'])):?>  
+               <?php if(!empty($cooperator_directors[7]['full_name'])):?>
                 <td><b><?=$cooperator_directors[7]['full_name']?></b><br>Director</td>
               <?php endif;?>
               </tr>
@@ -571,10 +571,10 @@ if($coop_info->status != 12){
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
-                 <?php if(!empty($cooperator_directors[8]['full_name'])):?>  
+                 <?php if(!empty($cooperator_directors[8]['full_name'])):?>
                 <td><b><?=$cooperator_directors[8]['full_name']?></b><br>Director</td>
               <?php endif;?>
-               <?php if(!empty($cooperator_directors[9]['full_name'])):?>  
+               <?php if(!empty($cooperator_directors[9]['full_name'])):?>
                 <td><b><?=$cooperator_directors[9]['full_name']?></b><br>Director</td>
               <?php endif;?>
               </tr>
@@ -589,13 +589,13 @@ if($coop_info->status != 12){
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
-                 <?php if(!empty($cooperator_directors[10]['full_name'])):?>  
+                 <?php if(!empty($cooperator_directors[10]['full_name'])):?>
                 <td><b><?=$cooperator_directors[10]['full_name']?></b><br>Director</td>
               <?php endif;?>
-               <?php if(!empty($cooperator_directors[11]['full_name'])):?>  
+               <?php if(!empty($cooperator_directors[11]['full_name'])):?>
                 <td><b><?=$cooperator_directors[11]['full_name']?></b><br>Director</td>
               <?php endif;?>
-               <?php if(!empty($cooperator_directors[12]['full_name'])):?>  
+               <?php if(!empty($cooperator_directors[12]['full_name'])):?>
                 <td><b><?=$cooperator_directors[12]['full_name']?></b><br>Director</td>
               <?php endif;?>
               </tr>
@@ -609,10 +609,10 @@ if($coop_info->status != 12){
         <div class="table-responsive text-center">
           <table class="table table-borderless table-sm table-director">
               <tr>
-                 <?php if(!empty($cooperator_directors[13]['full_name'])):?>  
+                 <?php if(!empty($cooperator_directors[13]['full_name'])):?>
                 <td><b><?=$cooperator_directors[13]['full_name']?></b><br>Director</td>
               <?php endif;?>
-               <?php if(!empty($cooperator_directors[14]['full_name'])):?>  
+               <?php if(!empty($cooperator_directors[14]['full_name'])):?>
                 <td><b><?=$cooperator_directors[14]['full_name']?></b><br>Director</td>
               <?php endif;?>
               </tr>
