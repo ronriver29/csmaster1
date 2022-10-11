@@ -496,7 +496,7 @@
 
               $data['affiliates_complete'] = $this->unioncoop_model->is_requirements_complete($user_id);
 
-              if($data['coop_info']->created_at >= '2022-10-10'){
+              if($data['coop_info']->created_at >= '2022-10-11'){
                 $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
               } else {
                 $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
@@ -591,7 +591,7 @@
                         }
                   }
 
-                  if($data['coop_info']->created_at >= '2022-10-10'){
+                  if($data['coop_info']->created_at >= '2022-10-11'){
                     $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
                   } else {
                     $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);

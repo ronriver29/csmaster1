@@ -678,7 +678,7 @@
         <div class="card-body">
           <h5 class="card-title">Economic Survey</h5>
           <p class="card-text">This is the generated Economic Survey.</p>
-          <?php if($coop_info->created_at >= '2022-10-10'){ ?>
+          <?php if($coop_info->created_at >= '2022-10-11'){ ?>
                 <a target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/simplified_economic_survey" class="btn btn-primary">View</a>
               <?php } else { ?>
                 <a target="_blank" href="<?php echo base_url();?>cooperatives/<?=$encrypted_id?>/documents/economic_survey" class="btn btn-primary">View</a>
