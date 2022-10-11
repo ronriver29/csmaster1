@@ -231,7 +231,6 @@ html2canvas([document.getElementById('mydiv')], {
   }
 });
 </script>
-<?=APPPATH?>..\assets\css\organizationalchart.css
 <?php if($coop_info->status == 12){
     $bar = '<hr class="bar" />'; ?>
     <link rel="stylesheet" href="<?=APPPATH?>../assets/css/organizationalchart.css" media="all">
