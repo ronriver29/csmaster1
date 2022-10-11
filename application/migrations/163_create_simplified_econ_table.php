@@ -12,7 +12,7 @@ class Migration_create_simplified_econ_table extends CI_Migration
           `documents` longtext NOT NULL,
           PRIMARY KEY (`id`),
           KEY `cooperatives_id` (`cooperatives_id`)
-        ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;");
+        ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;");
     }
 
     // public function up()
