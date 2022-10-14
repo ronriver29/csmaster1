@@ -51,7 +51,32 @@ class branches_model extends CI_Model{
     $data = $query->result_array();
     return $data;
   }
-  public function get_all_branches_regno($regno){
+  public function get_all_branches_regno_ho($regno){
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type_branch');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
+
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+
+    $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, branches.coopName, refcitymun.citymunCode as cCode');
+    $this->db->from('branches');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = branches.addrCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->join('registeredcoop', 'branches.regNo = registeredcoop.regNo');
+    // $this->db->where('branches.user_id', $user_id);
+    $this->db->where('(branches.status >= 21 OR branches.status = 1) AND branches.status != 0 AND branches.regNo = "'.$regno.'" AND registeredcoop.type IN ('.$typeofcoopimp.')');
+    $this->db->group_by('branches.branchName,branches.id');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_branches_regno($regno,$regioncode){
     $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, coopName, refcitymun.citymunCode as cCode');
     $this->db->from('branches');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = branches.addrCode','inner');
@@ -59,7 +84,7 @@ class branches_model extends CI_Model{
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     // $this->db->where('branches.user_id', $user_id);
-    $this->db->where('branches.status IN (1,21,81) AND branches.regNo = "'.$regno.'"');
+    $this->db->where('(branches.status >= 21 OR branches.status = 1) AND branches.status != 0 AND branches.regNo = "'.$regno.'" AND (SUBSTR(branches.addrCode,1,2) LIKE "%'.substr($regioncode,1,2).'" OR SUBSTR(branches.transferred_region,1,2) LIKE "%'.substr($regioncode,1,2).'")');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
@@ -133,7 +158,7 @@ class branches_model extends CI_Model{
     $data = $this->security->xss_clean($data);
     $BAC = $this->security->xss_clean($BAC);
     $batch_subtype = array();
-   
+
     $this->db->trans_begin();
     $this->db->insert('branches',$data);
     $id = $this->db->insert_id();
@@ -144,7 +169,7 @@ class branches_model extends CI_Model{
       );
     }
     $this->db->insert_batch('business_activities_branch', $batch_subtype);
-    
+
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -273,7 +298,73 @@ class branches_model extends CI_Model{
       $qrcode_replace = str_replace("LA","CA",$branch_info->qr_code);
     }
 
-    $this->db->update('branches', array('type'=>$bns_type,'status'=>68,'certNo'=>$cert_replace,'qr_code'=>$qrcode_replace),array('id'=>$branch_info->id));
+    if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
+        $rowarea = $row['brgy'];
+    } else if($branch_info->area_of_operation == 'Provincial') {
+        $rowarea = $branch_info->city;
+    } else if ($branch_info->area_of_operation == 'Regional') {
+        if($this->charter_model->in_charter_city($branch_info->cCode)){
+          $rowarea = $branch_info->city;
+        } else {
+          $rowarea = $branch_info->city.', '.$branch_info->province;
+        }
+    } else if ($branch_info->area_of_operation == 'Interregional') {
+        if($this->charter_model->in_charter_city($branch_info->cCode)){
+          $rowarea = $branch_info->city;
+        } else {
+          $rowarea = $branch_info->city.', '.$branch_info->province;
+        }
+    }else if ($branch_info->area_of_operation == 'National') {
+        if($this->charter_model->in_charter_city($branch_info->cCode)){
+          $rowarea = $branch_info->city;
+        } else {
+          $rowarea = $branch_info->city.', '.$branch_info->province;
+        }
+    }
+    $branchNameF = $rowarea.' '.$bns_type;
+
+    $x=$this->registered_branch_count_conv($branch_info->coopName,$branch_info->type,SUBSTR($branch_info->addrCode, 1, 6));
+    // echo $this->db->last_query();
+    $y=$this->registered_branch_count2();
+
+    if ($branch_info->category_of_cooperative =='Primary')
+          $pst="1";
+      else if ($branch_info->category_of_cooperative =='Secondary')
+        $pst="2";
+      else
+        $pst="3";
+
+    if($y==0){
+      $y=1;
+    } else {
+      $y=$y+1;
+    }
+    if ($branch_info->type=='Branch'){
+      $j='LA-'.$pst.$branch_info->rCode;
+      if($x == 0){
+            $branchName = 'Branch';
+            $x = 1;
+      } else {
+            $x = $x+1;
+            $branchName = 'Branch '.$x;
+      }
+    } else {
+      $j='CA-'.$pst.$branch_info->rCode;
+      if($x == 0){
+            $branchName = 'Satellite';
+            $x = 1;
+      } else {
+            $x = $x+1;
+            $branchName = 'Satellite '.$x;
+      }
+    }
+    $z = 9;
+    $stringcount = $z - strlen($y);
+    for($a=strlen($x);$a<$stringcount;$a++)
+      $j=$j.'0';
+    $j=$j.$y;
+
+    $this->db->update('branches', array('branchName'=>$branchNameF,'type'=>$bns_type,'status'=>68,'certNo'=>$j),array('id'=>$branch_info->id));
 
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
@@ -282,6 +373,16 @@ class branches_model extends CI_Model{
       $this->db->trans_commit();
       return array('success'=>true,'message'=>'Certification No. has been successfully generated.');
     }
+  }
+
+  public function registered_branch_count_conv($coopName,$branchsatellite,$subaddcode){
+      $query= $this->db->query("select * from branches where coopName = '".$coopName."' AND type = '".$branchsatellite."' AND (status = 21 OR status = 68) AND addrCode LIKE '".$subaddcode."%'");
+      return $query->num_rows();
+  }
+
+  public function registered_branch_count2(){
+      $query= $this->db->query("select * from branches where status = 21 OR status = 68");
+      return $query->num_rows();
   }
 
   public function register_branch_transfer($branch_info){
@@ -366,8 +467,8 @@ class branches_model extends CI_Model{
     $this->db->trans_begin();
     $this->db->update('branches', array('status'=>67,'ok_for_conversion'=>$date_of_or),array('id'=>$id));
     $this->db->update('payment', $data, $where);
-    
-    
+
+
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return array('success'=>false,'message'=>'Unable to save O.R. No.');
@@ -382,8 +483,8 @@ class branches_model extends CI_Model{
     $this->db->trans_begin();
     $this->db->update('branches', array('status'=>53,'ok_for_transfer'=>$date_of_or),array('id'=>$id));
     $this->db->update('payment', $data, $where);
-    
-    
+
+
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return array('success'=>false,'message'=>'Unable to save O.R. No.');
@@ -398,8 +499,8 @@ class branches_model extends CI_Model{
     $this->db->trans_begin();
     $this->db->update('branches', array('status'=>20,'date_of_or'=>$date_of_or),array('id'=>$id));
     $this->db->update('payment', $data, $where);
-    
-    
+
+
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return array('success'=>false,'message'=>'Unable to save O.R. No.');
@@ -409,28 +510,82 @@ class branches_model extends CI_Model{
     }
 
   }
-  public function get_all_branches_by_specialist_for_conversion($regcode,$admin_id){
-    $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode');
+  public function get_all_branches_by_specialist_for_conversion_ho($regcode,$admin_id){
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type_branch');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
+
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+
+    $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype');
     $this->db->from('branches');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = branches.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    // $this->db->like('refregion.regCode', $regcode);
+    $this->db->join('registeredcoop', 'registeredcoop.regNo = branches.regNo','inner');
+    $this->db->where('registeredcoop.type IN ('.$typeofcoopimp.')');
     $this->db->where(array('status'=>59,'evaluator_for_transfer_1'=>$admin_id));
+    $this->db->group_by('branches.branchName,branches.id');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
   }
-  public function get_all_branches_by_specialist_for_transfer($regcode,$admin_id){
-    $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode');
+  public function get_all_branches_by_specialist_for_conversion($regcode,$admin_id){
+    $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype');
+    $this->db->from('branches');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = branches.addrCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->join('registeredcoop', 'registeredcoop.regNo = branches.regNo','inner');
+    // $this->db->like('refregion.regCode', $regcode);
+    $this->db->where(array('status'=>59,'evaluator_for_transfer_1'=>$admin_id));
+    $this->db->group_by('branches.branchName,branches.id');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_branches_by_specialist_for_transfer_ho($regcode,$admin_id){
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type_branch');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
+
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+
+    $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype');
     $this->db->from('branches');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = branches.transferred_region','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->join('registeredcoop', 'registeredcoop.regNo = branches.regNo','inner');
+    $this->db->where('registeredcoop.type IN ('.$typeofcoopimp.')');
+    $this->db->where(array('status'=>45,'evaluator_for_transfer_1'=>$admin_id));
+    $this->db->group_by('branches.branchName,branches.id');
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_branches_by_specialist_for_transfer($regcode,$admin_id){
+    $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype');
+    $this->db->from('branches');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = branches.transferred_region','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->join('registeredcoop', 'registeredcoop.regNo = branches.regNo','inner');
     // $this->db->like('refregion.regCode', $regcode);
     $this->db->where(array('status'=>45,'evaluator_for_transfer_1'=>$admin_id));
+    $this->db->group_by('branches.branchName,branches.id');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
@@ -474,7 +629,7 @@ class branches_model extends CI_Model{
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
     // End Get Coop Type for HO
     $regcode2 = substr($regcode, '1');
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -483,7 +638,7 @@ class branches_model extends CI_Model{
     inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
     where branches.status IN (2)
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -506,7 +661,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
     // End Get Coop Type for HO
     $regcode2 = substr($regcode, '1');
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -515,13 +670,47 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     where branches.addrCode like "'.$regcode2.'%" AND branches.regCode != 0
     and branches.status IN (41,48)
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
     where branches.addrCode like "'.$regcode2.'%" AND branches.regCode != 0
     and branches.status in (41,48)');
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_branches_by_senior_for_conversion_ho($regcode){
+    // Get Coop Type for HO
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type_branch');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
+
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+    // End Get Coop Type for HO
+    $regcode2 = substr($regcode, '1');
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
+  inner join refbrgy on refbrgy.brgyCode = branches.addrCode
+    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+    inner join refprovince on refprovince.provCode = refcitymun.provCode
+    inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
+    inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
+    where x.regCode like "'.$regcode.'%" and branches.addrCode like "'.$regcode2.'%"
+    and branches.status IN (55,57,58,60,63,64,65,66,67,68) AND registeredcoop.type IN ('.$typeofcoopimp.')
+UNION
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
+  inner join refbrgy on refbrgy.brgyCode = branches.addrCode
+    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+    inner join refprovince on refprovince.provCode = refcitymun.provCode
+    inner join refregion on refregion.regCode = refprovince.regCode
+    left join registeredcoop on branches.regNo = registeredcoop.regNo
+    where refregion.regCode like "'.$regcode.'%" and branches.addrCode like "'.$regcode2.'%"
+    and branches.status in (55,57,58,60,63,64,65,66,67,68) AND registeredcoop.type IN ('.$typeofcoopimp.')');
     $data = $query->result_array();
     return $data;
   }
@@ -538,7 +727,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
     // End Get Coop Type for HO
     $regcode2 = substr($regcode, '1');
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -548,7 +737,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     where x.regCode like "'.$regcode.'%" and branches.addrCode like "'.$regcode2.'%"
     and branches.status IN (55,57,58,60,63,64,65,66,67,68)
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -556,6 +745,40 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     left join registeredcoop on branches.regNo = registeredcoop.regNo
     where refregion.regCode like "'.$regcode.'%" and branches.addrCode like "'.$regcode2.'%"
     and branches.status in (55,57,58,60,63,64,65,66,67,68)');
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_all_branches_by_senior_for_closure_ho($regcode){
+    // Get Coop Type for HO
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type_branch');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
+
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+    // End Get Coop Type for HO
+    $regcode2 = substr($regcode, '1');
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.type as rtype, refcitymun.citymunCode as cCode from branches
+  inner join refbrgy on refbrgy.brgyCode = branches.addrCode
+    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+    inner join refprovince on refprovince.provCode = refcitymun.provCode
+    inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
+    inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
+    where x.regCode like "'.$regcode.'%" and branches.addrCode like "'.$regcode2.'%"
+    and branches.status IN (30,33,35,37,38,39,29) AND registeredcoop.type IN ('.$typeofcoopimp.')
+UNION
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.type as rtype, refcitymun.citymunCode as cCode from branches
+  inner join refbrgy on refbrgy.brgyCode = branches.addrCode
+    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+    inner join refprovince on refprovince.provCode = refcitymun.provCode
+    inner join refregion on refregion.regCode = refprovince.regCode
+    left join registeredcoop on branches.regNo = registeredcoop.regNo
+    where refregion.regCode like "'.$regcode.'%" and branches.addrCode like "'.$regcode2.'%"
+    and branches.status in (30,33,35,37,38,39,29) AND registeredcoop.type IN ('.$typeofcoopimp.')');
     $data = $query->result_array();
     return $data;
   }
@@ -572,7 +795,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
     // End Get Coop Type for HO
     $regcode2 = substr($regcode, '1');
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.type as rtype, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -580,16 +803,16 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join registeredcoop on branches.regNo = registeredcoop.regNo
     inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
     where x.regCode like "'.$regcode.'%" and branches.addrCode like "'.$regcode2.'%"
-    and branches.status IN (30,33,35,37,38,39,29)
+    and branches.status IN (30,33,35,37,38,39,29) group by branches.branchName
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.type as rtype, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
-    left join registeredcoop on branches.regNo = registeredcoop.regNo
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
     where refregion.regCode like "'.$regcode.'%" and branches.addrCode like "'.$regcode2.'%"
-    and branches.status in (30,33,35,37,38,39,29)');
+    and branches.status in (30,33,35,37,38,39,29) group by branches.branchName');
     $data = $query->result_array();
     return $data;
   }
@@ -606,7 +829,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
     // End Get Coop Type for HO
     $regcode2 = substr($regcode, '1');
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -616,7 +839,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     where x.regCode like "'.$regcode.'%" and branches.addrCode like "'.$regcode2.'%"
     and branches.status IN (2)
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -629,7 +852,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
   }
 
   public function get_all_branches_by_director($regcode){
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -639,7 +862,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     where x.regCode like "'.$regcode.'%"
     and branches.status in (5)
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -647,11 +870,42 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     where refregion.regCode like "'.$regcode.'%"
     and branches.status in (13,14,15)');
     $data = $query->result_array();
-    return $data;   
+    return $data;
   }
+  public function get_all_branches_by_director_for_conversion_ho($regcode){
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type_branch');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
 
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
+  inner join refbrgy on refbrgy.brgyCode = branches.addrCode
+    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+    inner join refprovince on refprovince.provCode = refcitymun.provCode
+    inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
+    inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
+    where x.regCode like "'.$regcode.'%"
+    and branches.status in (56,61) AND registeredcoop.type IN ('.$typeofcoopimp.')
+UNION
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
+  inner join refbrgy on refbrgy.brgyCode = branches.addrCode
+    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+    inner join refprovince on refprovince.provCode = refcitymun.provCode
+    inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
+    where refregion.regCode like "'.$regcode.'%"
+    and branches.status in (56,61) AND registeredcoop.type IN ('.$typeofcoopimp.')');
+    $data = $query->result_array();
+    return $data;
+  }
   public function get_all_branches_by_director_for_conversion($regcode){
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -661,19 +915,51 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     where x.regCode like "'.$regcode.'%"
     and branches.status in (56,61)
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
     where refregion.regCode like "'.$regcode.'%"
     and branches.status in (56,61)');
     $data = $query->result_array();
-    return $data;   
+    return $data;
   }
+  public function get_all_branches_by_director_for_closure_ho($regcode){
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type_branch');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
 
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.type as rtype, refcitymun.citymunCode as cCode from branches
+  inner join refbrgy on refbrgy.brgyCode = branches.addrCode
+    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+    inner join refprovince on refprovince.provCode = refcitymun.provCode
+    inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
+    inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
+    where x.regCode like "'.$regcode.'%"
+    and branches.status in (5) AND registeredcoop.type IN ('.$typeofcoopimp.')
+UNION
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.type as rtype, refcitymun.citymunCode as cCode from branches
+  inner join refbrgy on refbrgy.brgyCode = branches.addrCode
+    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+    inner join refprovince on refprovince.provCode = refcitymun.provCode
+    inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
+    where refregion.regCode like "'.$regcode.'%"
+    and branches.status in (32,34,36) AND registeredcoop.type IN ('.$typeofcoopimp.')');
+    $data = $query->result_array();
+    return $data;
+  }
   public function get_all_branches_by_director_for_closure($regcode){
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.type as rtype, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -683,19 +969,20 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     where x.regCode like "'.$regcode.'%"
     and branches.status in (5)
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.type as rtype, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
     where refregion.regCode like "'.$regcode.'%"
     and branches.status in (32,34,36)');
     $data = $query->result_array();
-    return $data;   
+    return $data;
   }
 
   public function get_all_branches_by_director_for_transfer_within($regcode){
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -704,7 +991,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     where branches.addrCode like "'.$regcode.'%" AND branches.regCode != 0
     and branches.status in (42,45)
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -712,11 +999,42 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     where refregion.regCode like "'.$regcode.'%" AND branches.regCode != 0
     and branches.status in (42,45)');
     $data = $query->result_array();
-    return $data;   
+    return $data;
   }
 
+  public function get_all_branches_by_director_for_transfer_ho($regcode){
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type_branch');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
+
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
+  inner join refbrgy on refbrgy.brgyCode = branches.transferred_region
+    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+    inner join refprovince on refprovince.provCode = refcitymun.provCode
+    inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
+    where branches.transferred_region like "'.$regcode.'%"
+    and branches.status in (42,45,47) and registeredcoop.type IN ('.$typeofcoopimp.')
+UNION
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
+  inner join refbrgy on refbrgy.brgyCode = branches.transferred_region
+    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+    inner join refprovince on refprovince.provCode = refcitymun.provCode
+    inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
+    where refregion.regCode like "'.$regcode.'%"
+    and branches.status in (42,45,47) and registeredcoop.type IN ('.$typeofcoopimp.')');
+    $data = $query->result_array();
+    return $data;
+  }
   public function get_all_branches_by_director_for_transfer($regcode){
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
   inner join refbrgy on refbrgy.brgyCode = branches.transferred_region
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -725,17 +1043,18 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     where branches.transferred_region like "'.$regcode.'%"
     and branches.status in (42,45,47)
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
   inner join refbrgy on refbrgy.brgyCode = branches.transferred_region
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
     where refregion.regCode like "'.$regcode.'%"
     and branches.status in (42,45,47)');
     $data = $query->result_array();
-    return $data;   
+    return $data;
   }
- 
+
   public function get_all_business_activities($branch_id){
     $this->db->select('major_industry.id as bactivity_id, major_industry.description as bactivity_name, subclass.id as bactivitysubtype_id, subclass.description as bactivitysubtype_name');
     $this->db->from('business_activities_branch');
@@ -783,7 +1102,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
   }
 }
   public function get_branch_info($user_id,$branch_id){
-    $this->db->select('branches.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region, cooperatives.category_of_cooperative, cooperatives.type_of_cooperative, cooperatives.grouping, registeredcoop.application_id,registeredcoop.addrCode as mainAddr, registeredcoop.areaOfOperation as aoo,registeredcoop.type as registeredtype,cooperatives.area_of_operation,cooperatives.regions,registeredcoop.regNo');
+    $this->db->select('branches.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region, cooperatives.category_of_cooperative, cooperatives.type_of_cooperative, cooperatives.grouping, registeredcoop.application_id,registeredcoop.addrCode as mainAddr, registeredcoop.areaOfOperation as aoo,registeredcoop.type as registeredtype,cooperatives.area_of_operation,cooperatives.regions,registeredcoop.regNo,users.first_name,users.last_name,users.email');
     $this->db->from('branches');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = branches.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -791,6 +1110,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->join('registeredcoop','registeredcoop.regNo=branches.regNo','inner');
     $this->db->join('cooperatives','cooperatives.id=registeredcoop.application_id','inner');
+    $this->db->join('users','users.id = branches.user_id');
     $this->db->where(array('branches.user_id'=>$user_id,'branches.id'=>$branch_id));
     $query = $this->db->get();
     return $query->row();
@@ -955,7 +1275,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     $query = $this->db->get();
     return $query->row();
   }
-  
+
   public function update_not_expired_branch($user_id,$branch_id,$field_data,$subclass_array,$major_industry){
     $data = $this->security->xss_clean($field_data);
     $subclass_array = $this->security->xss_clean($subclass_array);
@@ -1319,7 +1639,7 @@ public function approve_by_admin($admin_info,$branch_id,$reason_commment,$step,$
     $this->db->update('branches',array('evaluator2'=>$admin_info->id,'status'=>8,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>NULL,'date_approved_director'=>$now,'temp_evaluation_comment'=>NULL, 'comment_by_director_level1'=>$comment_by_specialist_senior));
   else if($step==7)
     $this->db->update('branches',array('evaluator1'=>$admin_info->id,'status'=>23,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'comment_by_senior_level1'=>$comment_by_specialist_senior,'date_approved_director'=>$now));
-  else 
+  else
     $this->db->update('branches',array('evaluator5'=>$admin_info->id,'status'=>18,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'date_approved_director'=>$now));
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
@@ -1334,7 +1654,7 @@ public function approve_by_admin($admin_info,$branch_id,$reason_commment,$step,$
         $this->db->trans_rollback();
         return false;
       }
-    } 
+    }
     elseif($step==2){
       $branch=$this->get_branch_info_by_admin($branch_id);
       $senior_emails = $this->admin_model->get_emails_of_senior_by_region($branch->rCode);
@@ -1443,7 +1763,7 @@ public function approve_by_admin2($admin_info,$branch_id,$reason_commment,$step,
     $this->db->update('branches',array('evaluator2'=>$admin_info->id,'status'=>8,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>NULL,'date_approved_director'=>$now,'temp_evaluation_comment'=>NULL, 'comment_by_director_level1'=>$comment_by_specialist_senior));
   else if($step==7)
     $this->db->update('branches',array('evaluator1'=>$admin_info->id,'status'=>23,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'comment_by_senior_level1'=>$comment_by_specialist_senior,'date_approved_director'=>$now));
-  else 
+  else
     $this->db->update('branches',array('evaluator5'=>$admin_info->id,'status'=>18,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'date_approved_director'=>$now));
   // echo $this->db->last_query();
   if($this->db->trans_status() === FALSE){
@@ -1459,7 +1779,7 @@ public function approve_by_admin2($admin_info,$branch_id,$reason_commment,$step,
         $this->db->trans_rollback();
         return false;
       }
-    } 
+    }
     elseif($step==2){
       $branch=$this->get_branch_info_by_admin($branch_id);
       $senior_emails = $this->admin_model->get_emails_of_senior_by_region($branch->rCode);
@@ -1573,8 +1893,8 @@ public function approve_by_admin2_for_closure($admin_info,$branch_id,$reason_com
   else if($step==9)
     $this->db->update('branches',array('status'=>36,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
   else if($step==10)
-    $this->db->update('branches',array('status'=>37,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
-  else 
+    $this->db->update('branches',array('evaluator_for_closure_2'=>$admin_info->id,'status'=>37,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
+  else
     $this->db->update('branches',array('status'=>33,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'lapse_time'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'date_approved_senior'=>$now));
   // echo $this->db->last_query();
   if($this->db->trans_status() === FALSE){
@@ -1590,7 +1910,7 @@ public function approve_by_admin2_for_closure($admin_info,$branch_id,$reason_com
         $this->db->trans_rollback();
         return false;
       }
-    } 
+    }
     elseif($step==2){
       $branch=$this->get_branch_info_by_admin($branch_id);
       $senior_emails = $this->admin_model->get_emails_of_senior_by_region($branch->rCode);
@@ -1767,7 +2087,7 @@ public function all_bns_lapses_conversion(){
           $this->db->trans_commit();
           return true;
         }
-      
+
     }
   } else {
     return false;
@@ -1935,9 +2255,9 @@ public function deny_by_admin($admin_info,$branch_id,$reason_commment,$step){
     $this->db->update('branches',array('evaluator3'=>$admin_info->id,'status'=>10,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
   elseif($step==4)
     $this->db->update('branches',array('evaluator4'=>$admin_info->id,'status'=>13,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
-  else 
+  else
     $this->db->update('branches',array('evaluator5'=>$admin_info->id,'status'=>16,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
-  
+
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
@@ -1974,9 +2294,9 @@ public function deny_by_admin_for_transfer($admin_info,$branch_id,$reason_commme
     $this->db->update('branches',array('evaluator3'=>$admin_info->id,'status'=>10,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
   elseif($step==4)
     $this->db->update('branches',array('evaluator4'=>$admin_info->id,'status'=>13,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
-  else 
+  else
     $this->db->update('branches',array('evaluator5'=>$admin_info->id,'status'=>16,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
-  
+
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
@@ -2013,9 +2333,9 @@ public function deny_by_admin_for_conversion($admin_info,$branch_id,$reason_comm
     $this->db->update('branches',array('evaluator3'=>$admin_info->id,'status'=>10,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
   elseif($step==4)
     $this->db->update('branches',array('evaluator4'=>$admin_info->id,'status'=>13,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
-  else 
+  else
     $this->db->update('branches',array('evaluator5'=>$admin_info->id,'status'=>16,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
-  
+
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
@@ -2069,9 +2389,9 @@ public function defer_by_admin($admin_info,$branch_id,$reason_commment,$step){
     $this->db->update('branches',array('status'=>49,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
   elseif($step==10)
     $this->db->update('branches',array('evaluator_for_transfer_3'=>$admin_info->id,'status'=>64,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
-  else 
+  else
     $this->db->update('branches',array('evaluator5'=>$admin_info->id,'status'=>17,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'temp_evaluation_comment'=>$reason_commment));
-  
+
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
@@ -2211,7 +2531,7 @@ public function check_if_denied($branch_id){
 }
 
 public function check_if_amended($regNo){
-  $this->db->where(array('regNo'=>$regNo));
+  $this->db->where('regNo ="'.$regNo.'" AND amendment_no IS NOT NULL');
   $this->db->from('registeredamendment');
   if($this->db->count_all_results() == 0){
     return false;
@@ -2240,7 +2560,7 @@ public function get_coop($regNo){
   $this->db->where('regNo', $regNo);
   $this->db->order_by('registeredcoop.id','desc');
   $query = $this->db->get();
-  
+
   return $query->row();
 }
 
@@ -2254,7 +2574,7 @@ public function get_coop_amend($regNo){
   $this->db->where('regNo', $regNo);
   $this->db->order_by('registeredamendment.id','desc');
   $query = $this->db->get();
-  
+
   return $query->row();
 }
 
@@ -2268,20 +2588,55 @@ public function check_evaluator5_laboratories($branch_id){
     return false;
   }
 }
-  public function get_registered_branches($regcode){
+  public function get_registered_branches_ho($regcode){
+    // Get Coop Type for HO
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type_branch');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
+
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+
     $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
     inner join registeredcoop on branches.regNo = registeredcoop.regNo
     inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
-    where x.regCode like "'.$regcode.'%" 
-    and branches.status in (21,81) 
+    where x.regCode like "'.$regcode.'%"
+    and branches.status in (21,81) AND registeredcoop.type IN ('.$typeofcoopimp.')
     GROUP BY branches.regNo
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region from branches
+  inner join refbrgy on refbrgy.brgyCode = branches.addrCode
+    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+    inner join refprovince on refprovince.provCode = refcitymun.provCode
+    inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
+    where refregion.regCode like "'.$regcode.'%"
+    and branches.status in (21,81) AND registeredcoop.type IN ('.$typeofcoopimp.') GROUP BY branches.regNo');
+    $data = $query->result_array();
+    return $data;
+  }
+  public function get_registered_branches($regcode){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region from branches
+  inner join refbrgy on refbrgy.brgyCode = branches.addrCode
+    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+    inner join refprovince on refprovince.provCode = refcitymun.provCode
+    inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
+    inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
+    where x.regCode like "'.$regcode.'%"
+    and branches.status in (21,81)
+    GROUP BY branches.regNo
+UNION
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -2292,7 +2647,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     return $data;
   }
   public function outside_the_region_closure($regcode){
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -2302,7 +2657,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     where branches.regCode like "'.$regcode.'%"
     and branches.status in (32)
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -2313,7 +2668,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     return $data;
   }
   public function outside_the_region($regcode){
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -2323,7 +2678,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     where branches.regCode like "'.$regcode.'%"
     and branches.status in (23)
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -2345,7 +2700,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
 
     $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
     // End Get Coop Type for HO
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -2354,7 +2709,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
     where branches.status in (23)
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -2364,8 +2719,39 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     $data = $query->result_array();
     return $data;
   }
+  public function transferred_region_senior_ho($regcode){
+    $this->db->select('name');
+    $this->db->from('head_office_coop_type_branch');
+    $query = $this->db->get();
+    $typeofcoop = $query->result_array();
+    foreach($typeofcoop as $typesofcoop){
+      $cooparray[] = $typesofcoop['name'];
+    }
+
+    $typeofcoopimp = '"' . implode ( '", "', $cooparray ) . '"';
+
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
+  inner join refbrgy on refbrgy.brgyCode = branches.transferred_region
+    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+    inner join refprovince on refprovince.provCode = refcitymun.provCode
+    inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
+    where branches.transferred_region like "'.$regcode.'%"
+    and branches.status in (41,43,44,45,46,48,49,51,52,53,54) AND registeredcoop.type IN ('.$typeofcoopimp.')
+UNION
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
+  inner join refbrgy on refbrgy.brgyCode = branches.transferred_region
+    inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
+    inner join refprovince on refprovince.provCode = refcitymun.provCode
+    inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
+    where refregion.regCode like "'.$regcode.'%"
+    and branches.status in (41,43,44,45,46,48,49,51,52,53,54) AND registeredcoop.type IN ('.$typeofcoopimp.')');
+    $data = $query->result_array();
+    return $data;
+  }
   public function transferred_region_senior($regcode){
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
   inner join refbrgy on refbrgy.brgyCode = branches.transferred_region
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -2373,19 +2759,21 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join registeredcoop on branches.regNo = registeredcoop.regNo
     where branches.transferred_region like "'.$regcode.'%"
     and branches.status in (41,43,44,45,46,48,49,51,52,53,54)
+    group by branches.branchName
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
   inner join refbrgy on refbrgy.brgyCode = branches.transferred_region
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
+    inner join registeredcoop on branches.regNo = registeredcoop.regNo
     where refregion.regCode like "'.$regcode.'%"
-    and branches.status in (41,43,44,45,46,48,49,51,52,53,54)');
+    and branches.status in (41,43,44,45,46,48,49,51,52,53,54) group by branches.branchName');
     $data = $query->result_array();
     return $data;
   }
   public function outside_the_region_senior_closure($regcode){
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refcitymun.citymunCode as cCode, refregion.regDesc as region from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refcitymun.citymunCode as cCode, refregion.regDesc as region from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -2395,7 +2783,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     where branches.regCode like "%'.$regcode.'"
     and branches.status >= 30 AND branches.status <=39
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refcitymun.citymunCode as cCode, refregion.regDesc as region from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refcitymun.citymunCode as cCode, refregion.regDesc as region from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -2406,7 +2794,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     return $data;
   }
   public function outside_the_region_senior($regcode){
-    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refcitymun.citymunCode as cCode, refregion.regDesc as region from branches 
+    $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refcitymun.citymunCode as cCode, refregion.regDesc as region from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -2416,7 +2804,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     where branches.regCode like "'.$regcode.'%"
     and branches.status in (24,17) AND evaluator5 IS NULL
 UNION
-select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refcitymun.citymunCode as cCode, refregion.regDesc as region from branches 
+select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refcitymun.citymunCode as cCode, refregion.regDesc as region from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -2434,7 +2822,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     return $query->row();
 
   }
-  
+
   public function get_branch_info_bylaws($coop_id){
     $this->db->select('cooperatives.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
     $this->db->from('cooperatives');
@@ -2458,10 +2846,10 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     $query = $this->db->get();
     return $query->row();
   }
-  
+
   public function update_not_branch_reason($user_id,$coop_id,$field_data){
     $data = $this->security->xss_clean($field_data);
-    
+
     $this->db->trans_begin();
     $this->db->where(array('user_id'=>$user_id,'id'=>$coop_id));
     $this->db->update('branches',$data);
@@ -2476,7 +2864,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
 
   public function update_not_expired_branches($user_id,$coop_id,$field_data){
     $data = $this->security->xss_clean($field_data);
-    
+
     $this->db->trans_begin();
     $this->db->where(array('user_id'=>$user_id,'id'=>$coop_id));
     $this->db->update('branches',$data);
@@ -2491,7 +2879,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
 
   public function update_not_expired_branches_migrated($coop_id,$field_data){
     $data = $this->security->xss_clean($field_data);
-    
+
     $this->db->trans_begin();
     $this->db->where(array('id'=>$coop_id));
     $this->db->update('branches',$data);
@@ -2503,7 +2891,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
       return true;
     }
   }
-  
+
   public function insert_comment_history($data_field){
         $this->db->trans_begin();
         $this->db->insert('branches_comment',$data_field);
@@ -2529,7 +2917,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
             return true;
         }
   }
-  
+
   public function insert_conversion_comment_history($data_field){
         $this->db->trans_begin();
         $this->db->insert('conversion_comment',$data_field);
@@ -2751,7 +3139,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
       return false;
     }
   }
-  
+
 
   public function change_status_branches($decoded_id,$status){
     $decoded_id = $this->security->xss_clean($decoded_id);
@@ -2787,7 +3175,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = "Good day! A letter of Intent for transfer of ".$type." with the following details has been submitted: <p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Region of Cooperative:</b>".$coop_region."</li>
         <b><li> Name of ".$type.":</b>".$proposedbranch."</li>
@@ -2828,7 +3216,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = "Good day! An application for transfer of  ".$type." with the following details has been submitted for your evaluation: <p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Region of Cooperative:</b>".$coop_region."</li>
         <b><li> Name of ".$type.":</b>".$proposedbranch."</li>
@@ -2869,7 +3257,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = "Good day! An application for closure of ".$type." with the following details has been submitted for your evaluation: <p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Region of Cooperative:</b>".$coop_region."</li>
         <b><li> Name of ".$type.":</b>".$proposedbranch."</li>
@@ -2898,7 +3286,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     $burl = base_url();
       $message="Good day!  A letter of Intent for conversion of ".$type." evaluated by Sr. CDS with the following details has been submitted: <p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Region of Cooperative:</b>".$regionname."</li>
         <b><li> Name of ".$type.":</b>".$proposedbranch."</li>
@@ -2907,7 +3295,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
         <b><li> Contact Number: </b>".$contactnumber."</li>
         <b><li> Email Address: </b>".$email."</li>
       </ol>";
-    
+
 
     $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($email);
@@ -2926,7 +3314,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     $burl = base_url();
       $message="Good day!  A letter of Intent for transfer of ".$type." evaluated by Sr. CDS with the following details has been submitted: <p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Region of Cooperative:</b>".$regionname."</li>
         <b><li> Name of ".$type.":</b>".$proposedbranch."</li>
@@ -2935,7 +3323,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
         <b><li> Contact Number: </b>".$contactnumber."</li>
         <b><li> Email Address: </b>".$email."</li>
       </ol>";
-    
+
 
     $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($email);
@@ -2966,7 +3354,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = "Good day!  An application for conversion of ".$type." with the following details has been submitted for your evaluation: <p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Region of Cooperative:</b>".$coop_region."</li>
         <b><li> Name of ".$type.":</b>".$proposedbranch."</li>
@@ -3007,7 +3395,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = "Good day!  A letter of Intent for closure of ".$type." with the following details has been submitted: <p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Region of Cooperative:</b>".$coop_region."</li>
         <b><li> Name of ".$type.":</b>".$proposedbranch."</li>
@@ -3048,7 +3436,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = "Good day! An application from ".$coop_region." for establishment of ".$type." with the following details has been submitted:<p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Name of Proposed ".$type.":</b>".$proposedbranch."</li>
         <b><li> Address of Proposed ".$type.":</b>".$brgy."</li>
@@ -3075,7 +3463,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     $subject = 'Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "Your application for ".$type." with the following details has been submitted and subject for validation and evaluation.<br><br> 
+    $message = "Your application for ".$type." with the following details has been submitted and subject for validation and evaluation.<br><br>
 
 a. Name of proposed ".$type.": ".$proposedbranch."<br>
 b. Adress of proposed ".$type.": ".$brgyforemail."";
@@ -3095,7 +3483,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
     $subject = 'Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "The Letter of Intent for conversion of ".$type." with the following details has been successfully submitted:<br><br> 
+    $message = "The Letter of Intent for conversion of ".$type." with the following details has been successfully submitted:<br><br>
 
 a. Name of proposed ".$type.": ".$proposedbranch."<br>
 b. Adress of proposed ".$type.": ".$brgyforemail."";
@@ -3115,7 +3503,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
     $subject = 'Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "The Letter of Intent for transfer of ".$type." with the following details has been successfully submitted:<br><br> 
+    $message = "The Letter of Intent for transfer of ".$type." with the following details has been successfully submitted:<br><br>
 
 a. Name of proposed ".$type.": ".$proposedbranch."<br>
 b. Adress of proposed ".$type.": ".$brgyforemail."";
@@ -3135,7 +3523,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
     $subject = 'Application';  //email subject
     $burl = base_url();
     //sending confirmEmail($receiver) function calling link to the user, inside message body
-    $message = "The Letter of Intent for closure of ".$type." with the following details has been successfully submitted:<br><br> 
+    $message = "The Letter of Intent for closure of ".$type." with the following details has been successfully submitted:<br><br>
 
 a. Name of proposed ".$type.": ".$proposedbranch."<br>
 b. Adress of proposed ".$type.": ".$brgyforemail."";
@@ -3157,7 +3545,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
     //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = "You are assigned to validate the application for transfer of ".$type." with the following details: <p>
 
-    <ol type='a'> 
+    <ol type='a'>
       <b><li> Name of Cooperative:</b>".$proposedname."</li>
       <b><li> Name of Proposed ".$type.":</b>".$proposedbranch."</li>
       <b><li> Address of Proposed ".$type.":</b>".$brgy."</li>
@@ -3183,7 +3571,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
     //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = "You are assigned to validate the application for conversion of ".$type." with the following details: <p>
 
-    <ol type='a'> 
+    <ol type='a'>
       <b><li> Name of Cooperative:</b>".$proposedname."</li>
       <b><li> Region of Cooperative:</b>".$coopregion."</li>
       <b><li> Name of Proposed ".$type.":</b>".$proposedbranch."</li>
@@ -3221,7 +3609,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = "A validated application for transfer of ".$type." with the following details has been submitted for your evaluation:<p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of CDS II/Validator:</b>".$fullnamesupervising."</li>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Region of Cooperative:</b>".$coopregion."</li>
@@ -3263,7 +3651,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = "A validated application for conversion of ".$type." with the following details has been submitted for your evaluation:<p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of CDS II/Validator:</b>".$fullnamesupervising."</li>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Region of Cooperative:</b>".$coopregion."</li>
@@ -3305,7 +3693,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = "A validated application for establishment of ".$type." with the following details has been submitted for your evaluation:<p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of CDS II/Validator:</b>".$fullnamesupervising."</li>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Region of Cooperative:</b>".$coopregion."</li>
@@ -3336,7 +3724,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
     //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = "Senior CDS evaluated application for closure of ".$type." with the following details has been submitted for your evaluation and approval/denial/defermen <p>
 
-    <ol type='a'> 
+    <ol type='a'>
       <b><li> Name of Cooperative:</b>".$proposedname."</li>
       <b><li> Region of Cooperative:</b>".$coopregion."</li>
       <b><li> Name of ".$type.":</b>".$proposedbranch."</li>
@@ -3376,7 +3764,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = "Good day!  A letter of Intent for closure of ".$type." evaluated by Sr. CDS with the following details has been submitted: <p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Region of Cooperative:</b>".$coopregion."</li>
         <b><li> Name of ".$type.":</b>".$proposedbranch."</li>
@@ -3418,7 +3806,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = "Senior CDS evaluated application for transfer of ".$type." with the following details has been submitted for your evaluation and approval/denial/deferment:  <p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Region of Cooperative:</b>".$coopregion."</li>
         <b><li> Name of ".$type.":</b>".$proposedbranch."</li>
@@ -3461,7 +3849,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
         //sending confirmEmail($receiver) function calling link to the user, inside message body
         $message = "Good day!  A letter of Intent for transfer of ".$type." evaluated by Sr. CDS with the following details has been submitted: <p>
 
-        <ol type='a'> 
+        <ol type='a'>
           <b><li> Name of Cooperative:</b>".$proposedname."</li>
           <b><li> Region of Cooperative:</b>".$coopregion."</li>
           <b><li> Name of ".$type.":</b>".$proposedbranch."</li>
@@ -3492,7 +3880,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
     //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = "Senior CDS evaluated application for conversion of ".$type." with the following details has been submitted for your evaluation and approval/denial/deferment: <p>
 
-    <ol type='a'> 
+    <ol type='a'>
       <b><li> Name of Cooperative:</b>".$proposedname."</li>
       <b><li> Region of Cooperative:</b>".$coopregion."</li>
       <b><li> Name of ".$type.":</b>".$proposedbranch."</li>
@@ -3520,7 +3908,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
     //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = "Good day!  A letter of Intent for conversion of ".$type." evaluated by Sr. CDS with the following details has been submitted: <p>
 
-    <ol type='a'> 
+    <ol type='a'>
       <b><li> Name of Cooperative:</b>".$proposedname."</li>
       <b><li> Region of Cooperative:</b>".$coopregion."</li>
       <b><li> Name of ".$type.":</b>".$proposedbranch."</li>
@@ -3548,7 +3936,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
     //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = "Senior CDS evaluated application for establishment of ".$type." with the following details has been submitted for your evaluation and approval/denial/deferment: <p>
 
-    <ol type='a'> 
+    <ol type='a'>
       <b><li> Name of CDS II/Validator:</b>".$fullnamecds."</li>
       <b><li> Name of Cooperative:</b>".$proposedname."</li>
       <b><li> Region of Cooperative:</b>".$coopregion."</li>
@@ -3585,7 +3973,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
   This refers to the application for transfer of ".$type." of the proposed ".$proposedname.".<br><br>
 
     Upon review of the documents submitted online the following are our findings:<p> <br>
-    
+
     <br>".nl2br($comment)."<br>
 
     <br>Please comply immediately with the above-mentioned findings within 15 days. <br>
@@ -3625,7 +4013,7 @@ Very truly yours,<br>
   This refers to the application for conversion of ".$type." office of the proposed ".$proposedname.".<br><br>
 
     Upon review of the documents submitted online the following are our findings:<p> <br>
-    
+
     <br>".nl2br($comment)."<br>
 
     <br>Please comply immediately with the above-mentioned findings within 15 days. <br>
@@ -3664,7 +4052,7 @@ Very truly yours,<br>
   This refers to the application for closure of ".$type." office of the proposed ".$proposedbranch.".<br><br>
 
     Upon review of the documents submitted online the following are our findings:<p> <br>
-    
+
     <br>".nl2br($comment)."<br>
 
     <br>Please comply immediately with the above-mentioned findings within 15 days. <br>
@@ -3704,7 +4092,7 @@ Very truly yours,<br>
   This refers to the application for ".$type." of the proposed ".$proposedname.".<br><br>
 
     Upon review of the documents submitted online the following are our findings:<p> <br>
-    
+
     <br>".nl2br($comment)."<br>
 
     <br>Please comply immediately with the above-mentioned findings within 15 days. <br>
@@ -3747,7 +4135,7 @@ Very truly yours,<br>
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = "Good day! A deferred application for establishment of ".$type." with the following details has been submitted:<p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Name of Proposed ".$type.":</b>".$proposedbranch."</li>
         <b><li> Address of Proposed ".$type.":</b>".$brgy."</li>
@@ -3787,7 +4175,7 @@ Very truly yours,<br>
     This refers to the application for transfer of ".$type." of the proposed ".$coop_full_name.".<br><br>
 
     Based on the evaluation of the submitted application documents for ".$type.", we regret to inform you that the application is denied due to:<p> <br>
-    
+
     ".trim(preg_replace('/\s\s+/', '<br>', $reason_commment))."<br><br>
 
     Very truly yours,<br>
@@ -3804,7 +4192,7 @@ Very truly yours,<br>
     }else{
         return false;
     }
-  } 
+  }
 
   public function sendEmailToClientDeny($coop_full_name,$brgyforemail,$reason_commment,$email,$type,$rdregion){
     //$step_str = (($step==1) ? "First" : (($step==2) ? "Second" : "Third"));
@@ -3824,7 +4212,7 @@ Very truly yours,<br>
     This refers to the application for ".$type." of the proposed ".$coop_full_name.".<br><br>
 
     Based on the evaluation of the submitted application documents for ".$type.", we regret to inform you that the application is denied due to:<p> <br>
-    
+
     ".trim(preg_replace('/\s\s+/', '<br>', $reason_commment))."<br><br>
 
     Very truly yours,<br>
@@ -3841,7 +4229,7 @@ Very truly yours,<br>
     }else{
         return false;
     }
-  } 
+  }
 
   public function sendEmailToClientDenyConversion($coop_full_name,$brgyforemail,$reason_commment,$email,$type,$rdregion){
     //$step_str = (($step==1) ? "First" : (($step==2) ? "Second" : "Third"));
@@ -3861,7 +4249,7 @@ Very truly yours,<br>
     This refers to the application for conversion of ".$type." of the proposed ".$coop_full_name.".<br><br>
 
     Based on the evaluation of the submitted application documents for ".$type.", we regret to inform you that the application is denied due to:<p> <br>
-    
+
     ".trim(preg_replace('/\s\s+/', '<br>', $reason_commment))."<br><br>
 
     Very truly yours,<br>
@@ -3878,7 +4266,7 @@ Very truly yours,<br>
     }else{
         return false;
     }
-  } 
+  }
 
   public function sendEmailToSeniorBranchApprove($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type,$fullnamesupervising,$regionname){
     if(sizeof($senioremail)>0){
@@ -3898,7 +4286,7 @@ Very truly yours,<br>
       //sending confirmEmail($receiver) function calling link to the user, inside message body
       $message = "Good day! An application from ".$regionname." for establishment of ".$type." with the following details has been submitted:<p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Name of Proposed ".$type.":</b>".$proposedbranch."</li>
         <b><li> Address of Proposed ".$type.":</b>".$brgy."</li>
@@ -3928,7 +4316,7 @@ Very truly yours,<br>
 
    $message = "Good day!  A letter of Intent for closure of ".$type." evaluated by Sr. CDS with the following details has been submitted: <p>
 
-      <ol type='a'> 
+      <ol type='a'>
         <b><li> Name of Cooperative:</b>".$proposedname."</li>
         <b><li> Region of Cooperative:</b>".$regionname."</li>
         <b><li> Name of ".$type.":</b>".$proposedbranch."</li>
@@ -3937,7 +4325,7 @@ Very truly yours,<br>
         <b><li> Contact Number: </b>".$contactnumber."</li>
         <b><li> Email Address: </b>".$email."</li>
       </ol>";
-    
+
 
     $this->email->from($from,'ecoopris CDA (No Reply)');
     $this->email->to($email);
@@ -4098,7 +4486,7 @@ System (E-CoopRIS)";
 
           1.Oath of Undertaking signed by the Chairperson of the cooperative for the specific services/activities to be undertaken by the proposed satellite office;
 
-           2. Certification as to available space and manpower to manage the office. 
+           2. Certification as to available space and manpower to manage the office.
 
           Submit the above required documents within 30 days from the date of e-mail notification. Failure to submit the same shall be considered as an abandonment of your interest to pursue your application and thus, will be removed from the Electronic-Cooperative Registration Information
           System (E-CoopRIS).</pre>";
@@ -4137,7 +4525,7 @@ System (E-CoopRIS)";
     //sending confirmEmail($receiver) function calling link to the user, inside message body
     $message = "You are assigned to validate the  application for establishment of ".$type." with the following details: <p>
 
-    <ol type='a'> 
+    <ol type='a'>
       <b><li> Name of Cooperative:</b>".$proposedname."</li>
       <b><li> Region of Cooperative:</b>".$coopregion."</li>
       <b><li> Name of Proposed ".$type.":</b>".$proposedbranch."</li>
@@ -4156,7 +4544,7 @@ System (E-CoopRIS)";
         return false;
     }
   }
-  
+
   public function sendEmailToDirectorHO_OR($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type,$regionname){
     $from = "ecoopris@cda.gov.ph";    //senders email address
     $subject = $proposedname.' Application';  //email subject
@@ -4165,7 +4553,7 @@ System (E-CoopRIS)";
 
     $message = "Good day! An application from ".$regionname." for establishment of ".$type." with the following details has been submitted: <p>
 
-    <ol type='a'> 
+    <ol type='a'>
       <b><li> Name of Cooperative:</b>".$proposedname."</li>
       <b><li> Name of Proposed ".$type.":</b>".$proposedbranch."</li>
       <b><li> Address of Proposed ".$type.":</b>".$brgy."</li>
@@ -4200,11 +4588,11 @@ System (E-CoopRIS)";
   }
 
   public function get_director($id){
-      
+
       // $query = $this->db->query('select * from admin where access_level=3 and region_code=(select region_code from admin where id ='.$id.')');
-    
+
     $query = $this->db->get_where('admin',array('id'=>$id,'active'=>1));
-      return $query->row(); 
-      
+      return $query->row();
+
   }
 }

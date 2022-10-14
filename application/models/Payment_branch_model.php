@@ -18,12 +18,50 @@ class Payment_branch_model extends CI_Model{
     return true;
   }
 
+  public function pay_offline_conversion($branch_id){
+    $branch_id = $this->security->xss_clean($branch_id);
+    $this->db->where('id',$branch_id);
+    $this->db->update('branches',array('status'=>66));
+    
+    return true;
+  }
+
+  public function pay_offline_transfer($branch_id){
+    $branch_id = $this->security->xss_clean($branch_id);
+    $this->db->where('id',$branch_id);
+    $this->db->update('branches',array('status'=>52));
+    
+    return true;
+  }
+
   public function pay_online($branch_id){
     $branch_id = $this->security->xss_clean($branch_id);
     $this->db->where('id',$branch_id);
-    $this->db->update('branches',array('status'=>20));
+    $this->db->update('branches',array('status'=>19));
     
     return true;
+  }
+
+  public function update_payment_online($bns_id,$merchantrefno){
+
+    $bns_id = $this->security->xss_clean($bns_id);
+    $merchantrefno = $this->security->xss_clean($merchantrefno);
+
+    $this->db->where('bns_id',$bns_id);
+    $this->db->update('payment',array('merchantrefno' => $merchantrefno));
+    return true;
+
+  }
+
+  public function update_payment_online_lab($lab_id,$merchantrefno){
+
+    $lab_id = $this->security->xss_clean($lab_id);
+    $merchantrefno = $this->security->xss_clean($merchantrefno);
+
+    $this->db->where('lab_id',$lab_id);
+    $this->db->update('payment',array('merchantrefno' => $merchantrefno));
+    return true;
+
   }
 
   public function check_payment_not_exist($data){
@@ -105,6 +143,14 @@ class Payment_branch_model extends CI_Model{
     return true;
   }
   
+  public function pay_online_laboratories($branch_id){
+    $branch_id = $this->security->xss_clean($branch_id);
+    $this->db->where('id',$branch_id);
+    $this->db->update('laboratories',array('status'=>19));
+    
+    return true;
+  }
+
   public function check_payment_not_exist_laboratories($data){
     $data = $this->security->xss_clean($data);
     $this->db->select ('*');

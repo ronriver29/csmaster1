@@ -22,7 +22,7 @@ class Uploaded_Document_model extends CI_Model{
       return true;
     }
   }
-  
+
   public function add_document_info_amendment($branchID,$coopid,$docnum,$filename,$status){
     $data = $this->security->xss_clean($data);
     $this->db->trans_begin();
@@ -87,7 +87,7 @@ class Uploaded_Document_model extends CI_Model{
       return true;
     }
   }
-  
+
   public function get_document_one_info($coopid){
     $coopid = $this->security->xss_clean($coopid);
     $query = $this->db->get_where('uploaded_documents',array('cooperatives_id'=>$coopid,'document_num'=>1));
@@ -172,7 +172,85 @@ class Uploaded_Document_model extends CI_Model{
     $data = $query->row();
     return $data;
   }
-  
+  public function get_document_42_info_updating_lab($branchID){
+    // $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'document_num'=>42));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_43_info($branchID,$coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'document_num'=>43));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_44_info($branchID,$coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'document_num'=>44));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_45_info($branchID,$coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'document_num'=>45));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_46_info($branchID,$coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'document_num'=>46));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_47_info($branchID,$coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'document_num'=>47));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_48_info($branchID,$coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'document_num'=>48));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_49_info($branchID,$coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'document_num'=>49));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_50_info($branchID,$coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'document_num'=>50));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_51_info($branchID,$coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'document_num'=>51));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_52_info($branchID,$coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'document_num'=>52));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_53_info($branchID,$coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'document_num'=>53));
+    $data = $query->row();
+    return $data;
+  }
+  public function get_document_54_info($branchID,$coopid){
+    $coopid = $this->security->xss_clean($coopid);
+    $query = $this->db->get_where('uploaded_documents',array('branch_id'=>$branchID,'document_num'=>54));
+    $data = $query->row();
+    return $data;
+  }
+
   public function check_document_of_cooperative($branchID,$coopid,$document_num,$filename){
     $coopid = $this->security->xss_clean($coopid);
     $filename = $this->security->xss_clean($filename);

@@ -29,12 +29,12 @@
           if($this->session->userdata('client')){
               if(!$this->branches_model->check_submitted_for_evaluation($decoded_id)){
                 if($this->form_validation->run() == FALSE){
-                  $data['client_info'] = $this->user_model->get_user_info($user_id); 
+                  $data['client_info'] = $this->user_model->get_user_info($user_id);
 //                  $data['members_composition'] = $this->branches_model->get_coop_composition($decoded_id);
-                  
+
                   $data['title'] = 'Update Cooperative Details';
                   $data['header'] = 'Update Cooperative Information';
-                  
+
                   $data['branch_info'] = $this->branches_model->get_branch_info($user_id,$decoded_id);
 
                   $data['last_query'] = $this->db->last_query();
@@ -75,25 +75,25 @@
                       $category = substr($this->input->post('categoryOfCooperative'),0,strpos($this->input->post('categoryOfCooperative'),'-')-1);
                       $group = substr($this->input->post('categoryOfCooperative'), strpos($this->input->post('categoryOfCooperative'),'-')+2 , strlen($this->input->post('categoryOfCooperative')) - strpos($this->input->post('categoryOfCooperative'),'-')-2);
                     }
-                    
+
                     $BAC = $this->input->post('BAC');
                     $provDesc = $this->branches_model->prov($this->input->post('province'));
                     $cityDesc = $this->branches_model->city($this->input->post('city'));
-                    $branchCount =$this->branches_model->branch_count($this->input->post('regNo'),substr($this->input->post('city'),0,6),$this->input->post('typeOfBranch')); 
-                    
+                    $branchCount =$this->branches_model->branch_count($this->input->post('regNo'),substr($this->input->post('city'),0,6),$this->input->post('typeOfBranch'));
+
                     $data['branch_info'] = $this->branches_model->get_branch_info($user_id,$decoded_id);
                     $data['registered_info'] = $this->branches_model->get_registered_coop($data['branch_info']->regNo);
-                    
-                    if(substr($this->input->post('barangay'), 0, 2)==substr($this->input->post('barangay2'), 0, 2)){ // empty($this->input->post('region2')) || 
+
+                    if(substr($this->input->post('barangay'), 0, 2)==substr($this->input->post('barangay2'), 0, 2)){ // empty($this->input->post('region2')) ||
                         $regCodeBranch = 0;
-                    } else if (substr($data['registered_info']->addrCode, 0, 2) == substr($this->input->post('barangay'), 0, 2)){ 
+                    } else if (substr($data['registered_info']->addrCode, 0, 2) == substr($this->input->post('barangay'), 0, 2)){
                         $regCodeBranch = 0;
                     } else {
                         $regCodeBranch = '0'.substr($data['registered_info']->addrCode, 0, 2);
                     }
 
                     // echo substr($data['registered_info']->addrCode, 0, 2).'-'.substr($this->input->post('barangay'), 0, 2);
-                    // echo  $this->input->post('typeOfbranchsatellite'); 
+                    // echo  $this->input->post('typeOfbranchsatellite');
 
                     $field_data = array(
                       'user_id' => $this->session->userdata('user_id'),
@@ -229,7 +229,7 @@
         // }
       }
     }
-     public function specialist(){
+    public function specialist(){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
@@ -301,6 +301,13 @@
 
                       $coop_region = $this->branches_model->get_coop_region($branch_info->regNo);
 
+                      // $message = $_POST['message'];
+                      // $webAPIKey = "YOUR WEB API KEY";
+                      // $senderID= "YOUR APPROVED SENDER ID";
+                      // $recipient=$_POST['mobile'];
+                      //
+                      // $this->admin_model->sendSingleSMS($recipient, $senderID, $message,$webAPIKey);
+
                       // echo $coop_full_name.'-'.$branchname.'-'.$brgyforemail.'-'.$fullnameforemail.'-'.$data['client_info']->contact_number.'-'.$data['client_info']->email.'-'.$emaildirect.'-'.$branch_info->type;
                       if($this->branches_model->sendEmailToSpecialistBranch($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$emaildirect,$branch_info->type,$coop_region->region)){
                           if($this->branches_model->assign_to_specialist($decoded_id,$decoded_specialist_id,$coop_full_name)){
@@ -322,7 +329,7 @@
                     $this->session->set_flashdata('redirect_applications_message', 'The cooperative you trying to assign to an evaluator is not yet submitted for evaluation.');
                     redirect('branches');
                   }
-              
+
 
               }
             }
@@ -349,12 +356,12 @@
         $data = $this->branches_model->get_coop($regNo);
         echo json_encode($data);
       }
-      
+
     }
 
     public function check_coverage_validity(){
       if($this->input->get('fieldId') && $this->input->get('fieldValue') && $this->input->get('coopArea')){
-        
+
         if ($this->input->get('coopArea')!='National' && $this->input->get('fieldValue')!= 'National' &&
         $this->input->get('fieldValue')>$this->input->get('coopArea'))
           $result = array($this->input->get('fieldId'),false);
@@ -370,8 +377,6 @@
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
       }else{
-      // $this->output->enable_profiler(TRUE);
-      // $this->benchmark->mark('code_start');
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
         if($this->session->userdata('client')){
@@ -379,17 +384,22 @@
           $data['client_info'] = $this->user_model->get_user_info($user_id);
           $data['header'] = 'Branches and Satellites';
           $data['list_branches'] = $this->branches_model->get_all_branches($this->session->userdata('user_id'));
+          // $data['list_of_migrated'] = $this->branches_model->get_all_branches_migrated($this->session->userdata('user_id'));
+          // echo $this->db->last_query();
           $data['coopreg_info'] = $this->branches_model->getCoopRegNo($user_id);
           $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
 //              $data['regno'] = $data['coopreg_info']->regNo;
           if(empty($data['coopreg_info'])){
             $data['date2'] = date('m/d/Y');
+            $data['list_of_migrated'] = '';
           } else {
+            $data['list_of_migrated'] = $this->branches_model->get_all_branches_migrated($data['coopreg_info']->regNo);
             $data['dateregistered'] = $data['coopreg_info']->dateRegistered;
             $datelang = str_replace("-", "/", $data['dateregistered']);
             $data['date2'] = $datelang;
           }
           $data['coop_exists'] = $this->branches_model->getCoopifExists($user_id);
+          $data['regions_list'] = $this->region_model->get_regions();
           // foreach($list_branches as $branch){
           //   $cCode = $branch['cCode'];
           // }
@@ -403,6 +413,7 @@
           $this->load->view('template/header', $data);
           $this->load->view('applications/list_of_branches', $data);
           $this->load->view('cooperative/delete_modal_branch');
+          $this->load->view('applications/transfer_modal');
           $this->load->view('template/footer');
         }else{
           if($this->session->userdata('access_level')==5){
@@ -412,7 +423,7 @@
             $data['header'] = 'Branches and Satellites';
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
             $this->load->view('templates/admin_header', $data);
-            
+
             if($this->session->userdata('access_level')==1){
               if($data['admin_info']->region_code=="0"){
                 $data['registered_branches'] = $this->branches_model->get_registered_branches($data['admin_info']->region_code);
@@ -423,7 +434,7 @@
               }
             }else if($this->session->userdata('access_level')==2){
               if($data['admin_info']->region_code=="00"){
-                $data['registered_branches'] = $this->branches_model->get_registered_branches($data['admin_info']->region_code);
+                $data['registered_branches'] = $this->branches_model->get_registered_branches_ho($data['admin_info']->region_code);
                 $data['list_branches'] = $this->branches_model->get_all_branches_by_senior_ho($data['admin_info']->region_code);
                 $data['outside_the_region_senior'] = $this->branches_model->get_all_branches_by_senior_ho($data['admin_info']->region_code);
                 // $data['outside_the_region_senior'] = $this->branches_model->outside_the_region_senior($data['admin_info']->region_code);
@@ -451,16 +462,13 @@
 
             $date_ = ('Y-m-d -3 year');
             $data['date2']  = $date_;
-      // $this->benchmark->mark('code_end');
-      // $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
-      
             $this->load->view('applications/list_of_branches', $data);
             $this->load->view('applications/assign_branch_admin_modal');
             $this->load->view('admin/grant_privilege_supervisor_branch');
             $this->load->view('admin/revoke_privilege_supervisor_branch');
             $this->load->view('templates/admin_footer');
           }
-        } 
+        }
       }
     }
 
@@ -474,7 +482,7 @@
               $data['title'] = 'Registration Details';
               $data['client_info'] = $this->user_model->get_user_info($user_id);
               $data['header'] = 'Registration';
-              // $data['regions_list'] = $this->region_model->get_regions();             
+              // $data['regions_list'] = $this->region_model->get_regions();
               $data['coopreg_info'] = $this->branches_model->getCoopRegNo($user_id);
               // $data['last_query'] = $this->db->last_query();
               if($data['coopreg_info']->area_of_operation == 'Interregional'){
@@ -499,11 +507,11 @@
               } else {
                   $data['regno'] = $data['coopreg_info']->regNo;
               }
-              
+
               if ($this->form_validation->run() == FALSE){
                 $this->load->view('./template/header', $data);
                 $this->load->view('branches/registration_detail', $data);
-               $this->load->view('cooperative/terms_and_condition');
+               // $this->load->view('cooperative/terms_and_condition');
                 $this->load->view('./template/footer');
               }else{
 
@@ -636,9 +644,9 @@
               $data['document_8'] = $this->uploaded_document_model->get_document_8_info($decoded_id,$branch_info->application_id);
               $data['document_9'] = $this->uploaded_document_model->get_document_9_info($decoded_id,$branch_info->application_id);
               $data['document_40'] = $this->uploaded_document_model->get_document_40_info($decoded_id,$branch_info->application_id);
-              
+
               $data['branches_comments'] = $this->branches_model->branches_comments_client($decoded_id);
-              
+
               $data['submitted'] = $this->branches_model->check_submitted_for_evaluation($decoded_id);
 
               $data['in_chartered_cities'] = false;
@@ -649,7 +657,7 @@
                 $data['in_chartered_cities']=true;
                 $data['chartered_cities'] = $this->charter_model->get_charter_city($data['branch_info']->cCode);
               }
-              
+
               if($data['branch_info']->area_of_operation == 'Interregional'){
                 $data['regions_island_list'] = $this->region_model->get_selected_regions($data['branch_info']->regions);
               }
@@ -672,7 +680,7 @@
           show_404();
         }
       }
-    }   
+    }
 
     public function evaluate($id = null){
       if(!$this->session->userdata('logged_in')){
@@ -683,7 +691,7 @@
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
             if($this->branches_model->check_own_branch($decoded_id,$user_id)){
-              
+
                 $branch_info = $this->branches_model->get_branch_info($user_id,$decoded_id);
                 $document_5 = $this->uploaded_document_model->get_document_5_info($decoded_id,$branch_info->application_id);
                 $document_6 = $this->uploaded_document_model->get_document_6_info($decoded_id,$branch_info->application_id);
@@ -704,7 +712,7 @@
                 if($this->db->count_all_results()>0){
                   $status = 24;
                 }
-                
+
                 if($data['branch_info']->status == 1 && $data['branch_info']->regCode == 0 || $data['branch_info']->evaluator4 != NULL){
                     $stat = 2;
                 } else {
@@ -727,7 +735,7 @@
                         }else{
                           if($this->branches_model->submit_for_evaluation($user_id,$decoded_id,$same,$branch_info->rCode)){
                             if($data['branch_info']->house_blk_no==null && $data['branch_info']->street==null) $x=''; else $x=', ';
-                            
+
                             $data['client_info'] = $this->user_model->get_user_info($user_id);
 
                             $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
@@ -742,7 +750,7 @@
                             } else {
                               $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
                             }
-                            
+
                             if(($data['branch_info']->status == 1 && $data['branch_info']->regCode != 0) ||($data['branch_info']->status == 17 && $data['branch_info']->regCode != 0 && $data['branch_info']->evaluator5 == NULL)){
                               $senior_info = $this->admin_model->get_senior_info($data['branch_info']->regCode);
                             } else {
@@ -780,6 +788,13 @@
                             } else {
                               $sendemailtosenior = 'sendEmailToSeniorBranch';
                             }
+
+                            // $message = $_POST['message'];
+                            // $webAPIKey = "YOUR WEB API KEY";
+                            // $senderID= "YOUR APPROVED SENDER ID";
+                            // $recipient=$_POST['mobile'];
+                            //
+                            // $this->admin_model->sendSingleSMS($recipient, $senderID, $message,$webAPIKey);
 
                             if($this->branches_model->$sendemailtosenior($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info,$data['branch_info']->type,'',$coop_region->region)){
                               if($this->branches_model->sendEmailToClientBranch($data['client_info']->email,$data['branch_info']->type,$proposedbranch,$brgyforemail)){
@@ -823,7 +838,7 @@
                         }else{
                           if($this->branches_model->submit_for_evaluation($user_id,$decoded_id,$same,$branch_info->rCode)){
                             if($data['branch_info']->house_blk_no==null && $data['branch_info']->street==null) $x=''; else $x=', ';
-                            
+
                             $data['client_info'] = $this->user_model->get_user_info($user_id);
 
                             $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
@@ -838,7 +853,7 @@
                             } else {
                               $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
                             }
-                            
+
                             if(($data['branch_info']->status == 1 && $data['branch_info']->regCode != 0) ||($data['branch_info']->status == 17 && $data['branch_info']->regCode != 0 && $data['branch_info']->evaluator5 == NULL)){
                               $senior_info = $this->admin_model->get_senior_info($data['branch_info']->regCode);
                             } else {
@@ -875,6 +890,14 @@
                             } else {
                               $sendemailtosenior = 'sendEmailToSeniorBranch';
                             }
+
+                            // $message = $_POST['message'];
+                            // $webAPIKey = "YOUR WEB API KEY";
+                            // $senderID= "YOUR APPROVED SENDER ID";
+                            // $recipient=$_POST['mobile'];
+                            //
+                            // $this->admin_model->sendSingleSMS($recipient, $senderID, $message,$webAPIKey);
+
                             if($this->branches_model->$sendemailtosenior($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info,$data['branch_info']->type,'',$coop_region->region)){
                               if($this->branches_model->sendEmailToClientBranch($data['client_info']->email,$data['branch_info']->type,$proposedbranch,$brgyforemail)){
                                 $this->session->set_flashdata('branch_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
@@ -946,7 +969,7 @@
               if($this->session->userdata('access_level')==5){
                 redirect('admins/login');
               }else{
-                
+
                   // if($this->branches_model->check_submitted_for_evaluation($decoded_id)){
                     if(!$this->branches_model->check_if_denied($decoded_id)){
                       $branch_info = $this->branches_model->get_branch_info_by_admin($decoded_id);
@@ -972,7 +995,7 @@
                                   // echo '<script>alert('.printf("%02d", 0).');</script>';
                                   $data['director_info'] = $this->admin_model->get_director_info($regioncode);
 
-                                  // echo $this->db->last_query();
+                                  echo $data['director_info'] ;
 
                                   if($this->admin_model->is_active_director($data['director_info']->id)){
                                     $data['director_info'] = $this->admin_model->get_emails_of_director_by_region($regioncode);
@@ -1023,22 +1046,23 @@
                                     $emaildirect = $directorinfo['email'];
                                   }
 
-                                  if($step == 6){
-                                    $this->branches_model->sendEmailToSeniorBranchApprove($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info,$branch_info->type,'',$seniorregionname->regDesc);
-                                  } else if($step == 5){
-                                    $this->branches_model->sendEmailToClientApproveBranch($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info,$branch_info->type,'',$seniorregionname->regDesc);
-                                  }
-                                      
-                                  // if($this->branches_model->sendEmailToSeniorBranchApprove($coop_full_name,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$emaildirect,$branch_info->type,'',$seniorregionname)){
+                                  // $message = $_POST['message'];
+                                  // $webAPIKey = "YOUR WEB API KEY";
+                                  // $senderID= "YOUR APPROVED SENDER ID";
+                                  // $recipient=$_POST['mobile'];
+                                  //
+                                  // $this->admin_model->sendSingleSMS($recipient, $senderID, $message,$webAPIKey);
+
+                                  if($this->branches_model->sendEmailToSeniorBranchApprove($coop_full_name,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$emaildirect,$branch_info->type,'',$seniorregionname)){
                                       $success = $this->branches_model->approve_by_admin($admin_info,$decoded_id,$reason_commment,5,$comment_by_specialist_senior);
-                                    // }
+                                    }
                                       if($success){
                                         $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been approved.');
                                         redirect('branches');
                                       }else{
                                         $this->session->set_flashdata('list_error_message', 'Unable to approve branch.');
                                         redirect('branches');
-                                      }   
+                                      }
                                   }
                                 }else{
                                   $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist.');
@@ -1056,7 +1080,7 @@
                               }else{
                                 $this->session->set_flashdata('list_error_message', 'Unable to approve branch.');
                                 redirect('branches');
-                              }  
+                              }
                             }
                           }else{
                             $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist of Cooperative Main Branch.');
@@ -1126,6 +1150,14 @@
                                     // foreach($data['senior_info'] as $seniorinfo){
                                     //   $emailsenior = $seniorinfo['email'];
                                     // }
+
+                                    // $message = $_POST['message'];
+                                    // $webAPIKey = "YOUR WEB API KEY";
+                                    // $senderID= "YOUR APPROVED SENDER ID";
+                                    // $recipient=$_POST['mobile'];
+                                    //
+                                    // $this->admin_model->sendSingleSMS($recipient, $senderID, $message,$webAPIKey);
+
                                       if($step == 6){
                                         $this->branches_model->sendEmailToSeniorBranchApprove($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info,$branch_info->type,'',$seniorregionname->regDesc);
                                       } else if($step == 5){
@@ -1139,7 +1171,7 @@
                                     }else{
                                       $this->session->set_flashdata('list_error_message', 'Unable to approve branch.');
                                       redirect('branches');
-                                    }      
+                                    }
                                   }
                                 }else{
                                   $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist.');
@@ -1157,7 +1189,7 @@
                               }else{
                                 $this->session->set_flashdata('list_error_message', 'Unable to approve branch.');
                                 redirect('branches');
-                              }  
+                              }
                             }
                           }else{
                             $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist of Cooperative Main Branch.');
@@ -1243,6 +1275,14 @@
                                   }
 
                                   $coop_region = $this->branches_model->get_coop_region($branch_info->regNo);
+
+                                  // $message = $_POST['message'];
+                                  // $webAPIKey = "YOUR WEB API KEY";
+                                  // $senderID= "YOUR APPROVED SENDER ID";
+                                  // $recipient=$_POST['mobile'];
+                                  //
+                                  // $this->admin_model->sendSingleSMS($recipient, $senderID, $message,$webAPIKey);
+
                                   if($branch_info->status == 24)
                                   {
                                     if($this->branches_model->sendEmailToDirectorHO_OR($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$emaildirect,$branch_info->type,$coop_region->region)){
@@ -1278,7 +1318,7 @@
 //                              $this->session->set_flashdata('list_error_message', 'Unable to approve branch.');
 //                              redirect('branches');
 //                            }
-//                          } 
+//                          }
                         }else{
                           if($this->branches_model->check_evaluator1($decoded_id)){
                             if($this->branches_model->check_evaluator2($decoded_id)){
@@ -1294,7 +1334,7 @@
                                     );
                                 // $this->debug($data_field);
                              $coop_full_name = $this->input->post('bName',TRUE);
-                        
+
                                 $success = $this->branches_model->insert_comment_history($data_field);
                                 $reason_commment='';
 
@@ -1307,7 +1347,7 @@
                                   $seniorinfo = $this->admin_model->get_emails_of_senior_by_region($regioncode);
 
                                   $data['suvervising_info'] = $this->admin_model->get_specialst_info($branch_info->evaluator3);
-                                  
+
                                 // } else {
                                   // $data['director_info'] = $this->admin_model->get_emails_of_supervisor_by_region($regioncode);
                                 // }
@@ -1348,6 +1388,14 @@
                                 // }
 
                                 $coop_region = $this->branches_model->get_coop_region($branch_info->regNo);
+
+                                // $message = $_POST['message'];
+                                // $webAPIKey = "YOUR WEB API KEY";
+                                // $senderID= "YOUR APPROVED SENDER ID";
+                                // $recipient=$_POST['mobile'];
+                                //
+                                // $this->admin_model->sendSingleSMS($recipient, $senderID, $message,$webAPIKey);
+
                                 // echo $coop_full_name.'-'.$branchname.'-'.$brgyforemail.'-'.$fullnameforemail.'-'.$data['client_info']->contact_number.'-'.$data['client_info']->email.'-'.$emaildirect.'-'.$branch_info->type;
                                 if($this->branches_model->sendEmailToSeniorFromCDSBranch($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$seniorinfo,$branch_info->type,$data['suvervising_info']->full_name,$coop_region->region)){
                                   $success = $this->branches_model->approve_by_admin2($admin_info,$decoded_id,$reason_commment,3,$comment_by_specialist_senior,$coop_full_name);
@@ -1377,7 +1425,7 @@
                   //   $this->session->set_flashdata('redirect_applications_message', 'The branch you trying to approve is not yet submitted for evaluation.');
                   //   redirect('branches');
                   // }
-                
+
               }
             }
           }else{
@@ -1399,7 +1447,7 @@
 
           $branch_info = $this->branches_model->get_branch_info_by_admin($decoded_id);
           $coop_full_name = $this->input->post('bnameorig',TRUE);
-          
+
           if($branch_info->house_blk_no==null && $branch_info->street==null) $x=''; else $x=', ';
 
           $brgyforemail = ucwords($branch_info->house_blk_no).' '.ucwords($branch_info->street).$x.' '.$branch_info->brgy.', '.$branch_info->city.', '.$branch_info->province.', '.$branch_info->region;
@@ -1414,9 +1462,9 @@
                 if($this->session->userdata('access_level')==5){
                   redirect('admins/login');
                 }else{
-                  
+
                     if($this->branches_model->check_submitted_for_evaluation($decoded_id)){
-                      
+
                       //if(!$this->branches_model->check_if_denied($decoded_id)){
                         $reason_commment = $this->input->post('comment',TRUE);
                         $admin_info = $this->admin_model->get_admin_info($user_id);
@@ -1433,6 +1481,13 @@
 
                                       $rdregion = $this->branches_model->get_region_name($admin_info->region_code);
 
+                                      // $message = $_POST['message'];
+                                      // $webAPIKey = "YOUR WEB API KEY";
+                                      // $senderID= "YOUR APPROVED SENDER ID";
+                                      // $recipient=$_POST['mobile'];
+                                      //
+                                      // $this->admin_model->sendSingleSMS($recipient, $senderID, $message,$webAPIKey);
+
                                       if($this->branches_model->sendEmailToClientDeny($coop_full_name,$brgyforemail,$reason_commment,$data['client_info']->email,$branch_info->type,$rdregion)){
                                         $success = $this->branches_model->deny_by_admin($admin_info,$decoded_id,$reason_commment,5);
                                         if($success){
@@ -1441,7 +1496,7 @@
                                         }else{
                                           $this->session->set_flashdata('list_error_message', 'Unable to deny branch.');
                                           redirect('branches');
-                                        } 
+                                        }
                                       } else {
                                         $this->session->set_flashdata('list_error_message', 'Unable to deny branch.');
                                           redirect('branches');
@@ -1449,7 +1504,7 @@
                                     }else{
                                       $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated by the Director.');
                                       redirect('branches');
-                                    }     
+                                    }
                                   }
                                 }else{
                                   $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist.');
@@ -1460,6 +1515,13 @@
                                 redirect('branches');
                               }
                             }else{
+                              // $message = $_POST['message'];
+                              // $webAPIKey = "YOUR WEB API KEY";
+                              // $senderID= "YOUR APPROVED SENDER ID";
+                              // $recipient=$_POST['mobile'];
+                              //
+                              // $this->admin_model->sendSingleSMS($recipient, $senderID, $message,$webAPIKey);
+
                               if($this->branches_model->sendEmailToClientDeny($coop_full_name,$brgyforemail,$reason_commment,$data['client_info']->email,$branch_info->type)){
                                 $success = $this->branches_model->deny_by_admin($admin_info,$decoded_id,$reason_commment,2);
                                 if($success){
@@ -1468,7 +1530,7 @@
                                 }else{
                                   $this->session->set_flashdata('list_error_message', 'Unable to deny branch.');
                                   redirect('branches');
-                                }  
+                                }
                               } else {
                                 $this->session->set_flashdata('list_error_message', 'Unable to deny branch.');
                                   redirect('branches');
@@ -1491,6 +1553,14 @@
                                     $rdregion = $this->branches_model->get_region_name($admin_info->region_code);
 
                                     // echo $coop_full_name;
+
+                                    // $message = $_POST['message'];
+                                    // $webAPIKey = "YOUR WEB API KEY";
+                                    // $senderID= "YOUR APPROVED SENDER ID";
+                                    // $recipient=$_POST['mobile'];
+                                    //
+                                    // $this->admin_model->sendSingleSMS($recipient, $senderID, $message,$webAPIKey);
+
                                     if($this->branches_model->sendEmailToClientDeny($coop_full_name,$brgyforemail,$reason_commment,$data['client_info']->email,$branch_info->type,$rdregion->regDesc)){
                                       $success = $this->branches_model->deny_by_admin($admin_info,$decoded_id,$reason_commment,5);
                                       if($success){
@@ -1503,7 +1573,7 @@
                                     } else {
                                       $this->session->set_flashdata('list_error_message', 'Unable to deny branch.');
                                         redirect('branches');
-                                    }        
+                                    }
                                   }
                                 }else{
                                   $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist.');
@@ -1521,7 +1591,7 @@
                               }else{
                                 $this->session->set_flashdata('list_error_message', 'Unable to deny branch.');
                                 redirect('branches');
-                              }  
+                              }
                             }
                           }else{
                             $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist of Cooperative Main Branch.');
@@ -1560,7 +1630,7 @@
                               $this->session->set_flashdata('list_error_message', 'Unable to deny branch.');
                               redirect('branches');
                             }
-                          } 
+                          }
                         }else{
                           if($this->branches_model->check_evaluator1($decoded_id)){
                             if($this->branches_model->check_evaluator2($decoded_id)){
@@ -1594,7 +1664,7 @@
                       $this->session->set_flashdata('redirect_applications_message', 'The branch you trying to deny is not yet submitted for evaluation.');
                       redirect('branches');
                     }
-                  
+
                 }
             }
           }else{
@@ -1622,7 +1692,7 @@
                 if($this->session->userdata('access_level')==5){
                   redirect('admins/login');
                 }else{
-                  
+
                     if($this->branches_model->check_submitted_for_evaluation($decoded_id)){
                       if(!$this->branches_model->check_if_denied($decoded_id)){
                         $reason_commment = $this->input->post('comment',TRUE);
@@ -1651,7 +1721,7 @@
                                     $data['branch_info'] = $branch_info;
 
                                     if($data['branch_info']->house_blk_no==null && $data['branch_info']->street==null) $x=''; else $x=', ';
-                            
+
                                     $data['client_info'] = $this->user_model->get_user_info($data['branch_info']->user_id);
 
                                     $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
@@ -1666,7 +1736,7 @@
                                     } else {
                                       $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
                                     }
-                                    
+
                                     $data['senior_info'] = $this->admin_model->get_senior_info($regioncode);
 
                                     $brgyforemail = ucwords($data['branch_info']->house_blk_no).' '.ucwords($data['branch_info']->street).$x.' '.$data['branch_info']->brgy.', '.$data['branch_info']->city.', '.$data['branch_info']->province.', '.$data['branch_info']->region;
@@ -1711,6 +1781,13 @@
                                     $rdregion = $this->branches_model->get_region_name($admin_info->region_code);
 
                                     // echo $rdregion;
+                                    // $message = $_POST['message'];
+                                    // $webAPIKey = "YOUR WEB API KEY";
+                                    // $senderID= "YOUR APPROVED SENDER ID";
+                                    // $recipient=$_POST['mobile'];
+                                    //
+                                    // $this->admin_model->sendSingleSMS($recipient, $senderID, $message,$webAPIKey);
+
                                     if($this->branches_model->sendEmailToClientDeferBranch($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type,$reason_commment,$data['admin_info']->region_code,$reg_officials_info,$rdregion->regDesc)){
                                         if($success){
                                           $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been deferred.');
@@ -1718,7 +1795,7 @@
                                         }else{
                                           $this->session->set_flashdata('list_error_message', 'Unable to defer branch.');
                                           redirect('branches');
-                                        }  
+                                        }
                                       }else{
                                         $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated by the Director.');
                                         redirect('branches');
@@ -1741,7 +1818,7 @@
                               }else{
                                 $this->session->set_flashdata('list_error_message', 'Unable to defer branch.');
                                 redirect('branches');
-                              }  
+                              }
                             }
                           }else{
                             $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist of Cooperative Main Branch.');
@@ -1774,7 +1851,7 @@
                                     $success = $this->branches_model->defer_by_admin($admin_info,$decoded_id,$reason_commment,$step);
 
                                     if($data['branch_info']->house_blk_no==null && $data['branch_info']->street==null) $x=''; else $x=', ';
-                            
+
                                     $data['client_info'] = $this->user_model->get_user_info($data['branch_info']->user_id);
 
                                     $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
@@ -1789,7 +1866,7 @@
                                     } else {
                                       $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
                                     }
-                                    
+
                                     $data['senior_info'] = $this->admin_model->get_senior_info_dir_defer($regioncode);
 
                                     $brgyforemail = ucwords($data['branch_info']->house_blk_no).' '.ucwords($data['branch_info']->street).$x.' '.$data['branch_info']->brgy.', '.$data['branch_info']->city.', '.$data['branch_info']->province.', '.$data['branch_info']->region;
@@ -1832,6 +1909,13 @@
                                     }
                                     $rdregion = $this->branches_model->get_region_name($admin_info->region_code);
 
+                                    // $message = $_POST['message'];
+                                    // $webAPIKey = "YOUR WEB API KEY";
+                                    // $senderID= "YOUR APPROVED SENDER ID";
+                                    // $recipient=$_POST['mobile'];
+                                    //
+                                    // $this->admin_model->sendSingleSMS($recipient, $senderID, $message,$webAPIKey);
+
                                     if($this->branches_model->sendEmailToClientDeferBranch($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$data['senior_info']->email,$data['branch_info']->type,$reason_commment,$data['admin_info']->region_code,$reg_officials_info,$rdregion->regDesc)){
                                       if($success){
                                         $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been deferred.');
@@ -1840,7 +1924,7 @@
                                         $this->session->set_flashdata('list_error_message', 'Unable to defer branch.');
                                         redirect('branches');
                                       }
-                                    }      
+                                    }
                                   }
                                 }else{
                                   $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist.');
@@ -1858,7 +1942,7 @@
                               }else{
                                 $this->session->set_flashdata('list_error_message', 'Unable to defer branch.');
                                 redirect('branches');
-                              }  
+                              }
                             }
                           }else{
                             $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist of Cooperative Main Branch.');
@@ -1897,7 +1981,7 @@
                               $this->session->set_flashdata('list_error_message', 'Unable to defer branch.');
                               redirect('branches');
                             }
-                          } 
+                          }
                         }else{
                           if($this->branches_model->check_evaluator1($decoded_id)){
                             if($this->branches_model->check_evaluator2($decoded_id)){
@@ -1931,7 +2015,7 @@
                       $this->session->set_flashdata('redirect_applications_message', 'The branch you trying to deny is not yet submitted for evaluation.');
                       redirect('branches');
                     }
-                  
+
                 }
             }
           }else{
@@ -1974,7 +2058,7 @@
         return FALSE;
       }
     }
-    
+
     public function get_cooperative_info(){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
@@ -2039,7 +2123,7 @@
         }
       }
     }
-  
+
 
     public function saveor($was){
       $data = array(
@@ -2052,7 +2136,7 @@
 
       $this->branches_model->save_OR(array('id' => $this->input->post('payment_id')), $data,$this->input->post('bid'),$date_of_or);
       echo json_encode(array("status" => TRUE, "message"=>"O.R. No has been saved."));
-      
+
     }
     public function get_branch_info(){
       if(!$this->session->userdata('logged_in')){

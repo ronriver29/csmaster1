@@ -16,8 +16,8 @@
   </div>
 </div>
 <?php endif; ?>
-<?php
-$plus = date('Y-m-d',strtotime($date2));
+<?php 
+$plus = date('Y-m-d',strtotime($date2)); 
 $tomorrow = date('Y-m-d',strtotime($plus . "+3 year"));
 $now = date('Y-m-d');
 
@@ -31,7 +31,7 @@ if($tomorrow>=$now){
 <?php }  //else { ?>
   <?php
     if(!$coop_exists && $is_client){
-
+    
     ?>
     <div class="col-sm-12 col-md-12">
         <div class="alert alert-info text-justify" role="alert">
@@ -53,7 +53,7 @@ if($tomorrow>=$now){
     </div>
     <div class="col-sm-12 col-md-12">
         <div class="alert alert-info text-justify" role="alert">
-           a.  The cooperative incur net loss for the last three consecutive years and its net worth is not progressive for the last three years from the date of application.<br>
+           a.  The cooperative incur net loss for the last three consecutive years and its net worth is not progressive for the last three years from the date of application.<br>                                                                       
 
            b. The principal office do not have the required minimum paid-up capital, as provided for in the Articles of Cooperation, to wit: <br>
             Paid-up Capital&emsp;&emsp;&emsp;Category of Coop<br>
@@ -112,7 +112,7 @@ if($tomorrow>=$now){
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
     <?php
     if($coop_exists){
-
+    
     ?>
     <a class="btn btn-color-blue btn-block" href="<?php echo base_url();?>branches/registration" role="button">New Branch/Satellite Registration</a>
   <?php } ?>
@@ -149,7 +149,6 @@ if($tomorrow>=$now){
               </tr>
             </thead>
             <tbody>
-              <?php //echo '<pre>'; echo print_r($list_branches); echo '</pre>';?>
               <?php foreach ($list_branches as $branch) : ?>
                 <tr>
                   <td><?= $branch['coopName']?></td>
@@ -177,7 +176,11 @@ if($tomorrow>=$now){
                         $brancharea = $branch['city'].', '.$branch['province'];
                       }
                   }
-
+                  if($branch['migrated'] == 1){
+                    $brancharea = $branch['branchName'];
+                  } else {
+                    $brancharea = $brancharea .' '.$branch['branchName'];
+                  }
                     // if($branch['area_of_operation'] == 'Provincial'){
                     //     $brancharea = $branch['city'];
                     // } else if ($branch['area_of_operation'] == 'Municipality/City'){
@@ -186,7 +189,7 @@ if($tomorrow>=$now){
                     //     $brancharea = $branch['brgy'].', '. $branch['city'];
                     // }
                   ?>
-                  <td><?php echo $brancharea .' '.$branch['branchName']?></td>
+                  <td><?php echo $brancharea;?></td>
                   <td>
                     <?php if($branch['house_blk_no']==null && $branch['street']==null) $x=''; else $x=', ';?>
                     <?=$branch['house_blk_no']?> <?=$branch['street'].$x?> <?=$branch['brgy']?>, <?=$branch['city']?>, <?= $branch['province']?> <?=$branch['region']?>
@@ -211,54 +214,14 @@ if($tomorrow>=$now){
                         <?php if($branch['status']==22) echo "FOR PAYMENT"; ?>
                         <?php if($branch['status']==23) echo "FOR EVALUATION"; ?>
                         <?php if($branch['status']==24) echo "FOR VALIDATION"; ?>
-                        <!-- Closure -->
-                        <?php if($branch['status']==30 || $branch['status']==32) echo "LETTER SUBMISSION SUCCESSFUL"; ?>
-                        <?php if($branch['status']==33 && $branch['sent_lapse_notif'] == 0) echo "LETTER RECEIVED"; ?>
-                        <?php if($branch['status']==33 && $branch['sent_lapse_notif'] == 1) echo "FOR UPLOADING"; ?>
-                        <?php if($branch['status']==34) echo "FOR UPLOADING"; ?>
-                        <?php if($branch['status']==35) echo "FOR EVALUATION"; ?>
-                        <?php if($branch['status']==36) echo "FOR EVALUATION"; ?>
-                        <?php if($branch['status']==37) echo "APPROVED APPLICATION FOR CLOSURE"; ?>
-                        <?php if($branch['status']==38) echo "DEFERRED"; ?>
-                        <?php if($branch['status']==39) echo "FOR PRINTING OF ORDER OF CLOSURE"; ?>
-                        <?php if($branch['status']==29) echo "ISSUED ORDER OF CLOSURE"; ?>
-                        <!-- End Closure -->
-                        <!-- Transfer -->
-                        <?php if($branch['status']==40) echo "TRANSFER"; ?>
-                        <?php if($branch['status']==41) echo "LETTER SUBMISSION SUCCESSFUL"; ?>
-                        <?php if($branch['status']==42) echo "LETTER SUBMISSION SUCCESSFUL"; ?>
-                        <?php if($branch['status']==43 && $branch['sent_lapse_notif'] == 0) echo "LETTER RECEIVED"; ?>
-                        <?php if($branch['status']==43 && $branch['sent_lapse_notif'] == 1) echo "FOR UPLOADING"; ?>
-                        <?php if($branch['status']==44) echo "FOR VALIDATION"; ?>
-                        <?php if($branch['status']==45) echo "FOR VALIDATION"; ?>
-                        <?php if($branch['status']==46) echo "FOR EVALUATION"; ?>
-                        <?php if($branch['status']==47) echo "FOR EVALUATION"; ?>
-                        <?php if($branch['status']==48) echo "APPROVED FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS"; ?>
-                        <?php if($branch['status']==49) echo "DEFERRED"; ?>
-                        <?php if($branch['status']==50) echo "DENIED"; ?>
-                        <?php if($branch['status']==51) echo "FOR PAYMENT"; ?>
-                        <?php if($branch['status']==52) echo "SAVE O.R"; ?>
-                        <?php if($branch['status']==53) echo "FOR PRINTING OF ORDER OF TRANSFER"; ?>
-                        <?php if($branch['status']==54) echo "ISSUED ORDER OF TRANSFER"; ?>
-                        <!-- End Transfer -->
-                        <!-- Conversion -->
-                        <?php if($branch['status']==55) echo "LETTER SUBMISSION SUCCESSFUL"; ?>
-                        <?php if($branch['status']==56) echo "LETTER SUBMISSION SUCCESSFUL"; ?>
-                        <?php if($branch['status']==57 && $branch['sent_lapse_notif'] == 0) echo "LETTER RECEIVED"; ?>
-                        <?php if($branch['status']==57 && $branch['sent_lapse_notif'] == 1) echo "FOR UPLOADING"; ?>
-                        <?php if($branch['status']==58) echo "FOR VALIDATION"; ?>
-                        <?php if($branch['status']==59) echo "FOR VALIDATION"; ?>
-                        <?php if($branch['status']==60) echo "FOR EVALUATION"; ?>
-                        <?php if($branch['status']==61) echo "FOR EVALUATION"; ?>
-                        <?php if($branch['status']==62) echo "DENIED"; ?>
-                        <?php if($branch['status']==63) echo "APPROVED. FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS"; ?>
-                        <?php if($branch['status']==64) echo "DEFERRED"; ?>
-                        <?php if($branch['status']==65) echo "FOR PAYMENT"; ?>
-                        <?php if($branch['status']==66) echo "SAVE O.R"; ?>
-                        <?php if($branch['status']==67) echo "FOR PRINTING OF COA/LOA"; ?>
-                        <?php if($branch['status']==68) echo "ISSUED COA/LOA"; ?>
-                        <!-- ENd Conversion -->
                       <?php else : ?>
+                        <?php 
+                          if($branch['type'] == 'Branch'){
+                            $branchtype = 'Satellite';
+                          } else {
+                            $branchtype = 'Branch';
+                          }
+                        ?>
                         <?php if($branch['status']==2 && $branch['evaluator5']==NULL) echo "FOR VALIDATION";
                         else if($branch['status']==2 && $branch['evaluator5']!=NULL) echo "FOR RE-EVALUATION";
                         else if($branch['status']==3) echo "DENIED BY SENIOR CDS";
@@ -266,7 +229,7 @@ if($tomorrow>=$now){
                         else if($branch['status']==5) echo "SUBMITTED BY SENIOR CDS";
                         else if($branch['status']==6) echo "DENIED BY DIRECTOR";
                         else if($branch['status']==7) echo "DEFERRED BY DIRECTOR";
-                        else if($branch['status']==8 || $branch['status']==9)echo "FOR VALIDATION";
+                        else if($branch['status']==8 || $branch['status']==9)echo "FOR VALIDATION";                        
                         else if($branch['status']==10) echo "DENIED BY CDS II";
                         else if($branch['status']==11) echo "DEFERRED BY CDS II";
                         else if($branch['status']==12 && $branch['evaluator5']>0) echo "FOR RE-EVALUATION";
@@ -285,8 +248,26 @@ if($tomorrow>=$now){
                         else if($branch['status']==21) echo "REGISTERED";
                         else if($branch['status']==22) echo "FOR PAYMENT";
                         else if($branch['status']==23) echo "SUBMITTED BY SENIOR CDS";
-                        else if($branch['status']==24) echo "FOR VALIDATION"; ?>
+                        else if($branch['status']==24) echo "FOR VALIDATION"; 
 
+                        else if($branch['status']==55) echo "LETTER INTENT-CONVERT TO ".$branchtype."";
+                        else if($branch['status']==56) echo "LETTER INTENT-CONVERT TO ".$branchtype."";
+                        // else if($branch['status']==57) echo "LETTER RECEIVED";
+                        else if($branch['status']==57 && $branch['sent_lapse_notif'] == 0) echo "LETTER RECEIVED";
+                        else if($branch['status']==57 && $branch['sent_lapse_notif'] == 1) echo "FOR UPLOADING";
+                        else if($branch['status']==58) echo "APPLICATION FOR CONVERSION TO ".$branchtype."/FOR ASSIGNMENT OF VALIDATOR";
+                        else if($branch['status']==59) echo "FOR VALIDATION";
+                        else if($branch['status']==60) echo "VALIDATION REPORT CONVERSION-SUBMITTED BY CDS II / FOR EVALUATION";
+                        else if($branch['status']==61) echo "APPLICATION FOR CONVERSION SUBMITTED BY SR.CDS / FOR EVALUATION";
+                        else if($branch['status']==62) echo "DENIED";
+                        else if($branch['status']==63) echo "APPROVED. FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS";
+                        else if($branch['status']==64) echo "DEFERRED";
+                        else if($branch['status']==65) echo "FOR PAYMENT";
+                        else if($branch['status']==66) echo "SAVE O.R";
+                        else if($branch['status']==67) echo "FOR PRINTING OF COA/LOA";
+                        else if($branch['status']==68) echo "ISSUED COA/LOA";
+                      ?>
+                          
                       <?php endif ?>
 
                       </span>
@@ -298,31 +279,17 @@ if($tomorrow>=$now){
                       <?php if($branch['status']<2||$branch['status']==16||$branch['status']==17) : ?>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteBranchModal" data-cname="<?= $branch['branchName']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>"><i class='fas fa-trash'></i><?php echo ($branch['status']==16 || $branch['status']==17) ? "Delete": "Cancel" ?></button>
                       <?php endif;?>
-                      <?php if($branch['status']>=21 && $branch['status']<=39) : ?>
+                      <?php if($branch['status']==21) : ?>
                         <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/bns_closure" class="btn btn-warning" style="color:white;"><i class='fas fa-eye'></i> Close</a>
-                      <?php endif;?>
-                      <?php if($branch['status']>=40 && $branch['status']<=54) : ?>
                         <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/bns_transfer" class="btn btn-success" style="color:white;"><i class='fas fa-eye'></i> Transfer</a>
-
-                        <?php if($branch['status']==40) : ?>
-                        <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/bns_transfer" data-toggle="modal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-target="#TransferRegionModal" class="btn btn-warning" style="color:white;"><i class='fas fa-user-check'></i>Edit Region</a>
-                        <?php endif;?>
-
-                      <?php endif;?>
-                      <?php if($branch['status']==21 || ($branch['status'] >= 55 && $branch['status'] <= 65)) : ?>
-                        <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/bns_conversion" class="btn btn" style="background-color:#008CBA;color:white;"><i class='fas fa-eye'></i> Conversion</a>
-                      <?php endif;?>
-                      <?php if($branch['status']==21 && $branch['status'] != 36) : ?>
-                        <!-- <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/bns_transfer" class="btn btn-success" style="color:white;"><i class='fas fa-eye'></i> Transfer</a> -->
-                        <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/bns_transfer" data-toggle="modal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-target="#TransferRegionModal" class="btn btn-success"><i class='fas fa-user-check'></i> Transfer</a>
                       <?php endif;?>
                       </div>
                     </td>
                   <?php endif;?>
-
+                 
 
                   <?php if(!$is_client) :?>
-                    <?php
+                    <?php 
                       if($branch['area_of_operation'] == 'Barangay' || $branch['area_of_operation'] == 'Municipality/City'){
                         $brancharea = $branch['brgy'];
                     } else if($branch['area_of_operation'] == 'Provincial') {
@@ -344,19 +311,26 @@ if($tomorrow>=$now){
                     <td>
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                         <?php if($branch['status']==9 && $branch['evaluator3']!=0 && $admin_info->access_level==2): ?>
-                          <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-cname="<?=$brancharea.' '?><?= $branch['branchName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Re-Assign Validator</a>
+                          <?php if(!in_array($branch['rtype'],$typearr) || $admin_info->region_code == '00'){?>
+                            <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-cname="<?=$brancharea.' '?><?= $branch['branchName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Re-Assign Validator</a>
+                          <?php } ?>
                         <?php endif; ?>
-                        <?php  if(($branch['status']>=2 && $branch['status']<17 && $admin_info->access_level == 1) || ($branch['status']>9 && $branch['status']<17 && $admin_info->access_level == 2 || $admin_info->access_level == 3)  && $branch['status']!=8 || ($branch['status']==2 && $admin_info->access_level == 2 || ($branch['status']>9 && $branch['status']<17 && $supervising_ && $admin_info->access_level==4))) : ?>
-                          <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
+                        <?php  if(($branch['status']>=2 && $branch['status']<17 && $admin_info->access_level == 1) || ($branch['status']>9 && $branch['status']<17 && $admin_info->access_level == 2 || $admin_info->access_level == 3)  && $branch['status']!=8 || ($branch['status']==2 && $admin_info->access_level == 2 || ($branch['status']>9 && $branch['status']<17 && $supervising_ && $admin_info->access_level==4)) || $branch['status'] == 55 || $branch['status'] == 59 || $branch['status'] == 67 || $branch['status'] == 68 || $branch['status'] >= 60 && $branch['status'] <= 61 && $branch['status'] != 57) : ?>
+                          <?php if(!in_array($branch['rtype'],$typearr) || $admin_info->region_code == '00' || $branch['status'] == 68){?>
+                            <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/documents_conversion" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
+                          <?php } ?>
+                          
+                        <?php elseif($branch['status']==58): ?>
+                          <?php if(!in_array($branch['rtype'],$typearr) || $admin_info->region_code == '00'){?>
+                            <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-cname="<?=$brancharea.' '?><?= $branch['branchName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Assign to Validator</a>
+                          <?php } ?>
+                        <?php elseif($branch['status']==63): ?>
+                          <?php if(!in_array($branch['rtype'],$typearr) || $admin_info->region_code == '00'){?>
+                            <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/forpaymentbranches_for_conversion" class="btn btnOkForPayment btn-color-blue"> OK For Payment</a>
+                            <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/documents_conversion" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
+                          <?php } ?>
 
-                        <?php elseif($branch['status']==8 && $branch['evaluator3']==0): ?>
-                          <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-cname="<?=$brancharea.' '?><?= $branch['branchName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Assign to Validator</a>
-
-                        <?php elseif($branch['status']==18): ?>
-                          <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/forpaymentbranches" class="btn btnOkForPayment btn-color-blue"> OK For Payment</a>
-                          <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
-
-                        <?php elseif($branch['status']==19): ?>
+                        <?php elseif($branch['status']==66): ?>
                           <?php if($branch['area_of_operation'] == 'Barangay' || $branch['area_of_operation'] == 'Municipality/City'){
                                 $branch_name = $branch['brgy'];
                             } else if($branch['area_of_operation'] == 'Provincial') {
@@ -381,12 +355,24 @@ if($tomorrow>=$now){
                                 }
                             }
                         ?>
+                        <?php if(!in_array($branch['rtype'],$typearr) || $admin_info->region_code == '00'){?>
                           <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment(<?=$branch['id']?>,'<?= encrypt_custom($this->encryption->encrypt($branch['coopName'].' - '.$branch_name.' '.$branch['branchName']))?>')" value="Save O.R. No.">
+                        <?php } ?>
 
                         <?php elseif($branch['status']==21 || $branch['status']==20): ?>
                           <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/registration" class="btn btn-info"><i class='fas fa-print'></i> Print Registration</a>
                         <?php endif; ?>
 
+                        <?php if($branch['status']==67 || $branch['status']==68): ?>
+                          <?php if(!in_array($branch['rtype'],$typearr) || $admin_info->region_code == '00'){?>
+                            &nbsp;<a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/registration_conversion" class="btn btn-info"><i class='fas fa-print'></i> Print COA / LOA</a>
+                          <?php } ?>
+                        <?php endif; ?>
+
+                        <?php if($branch['status']==59 && $admin_info->access_level == 2): ?>
+                          &nbsp;<a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-cname="<?=$brancharea.' '?><?= $branch['branchName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Re-Assign to Validator</a>
+                        <?php endif; ?>
+                      
                       </div>
                     </td>
                   <?php endif;?>
@@ -398,160 +384,11 @@ if($tomorrow>=$now){
       </div>
     </div>
   </div>
-<?php if($is_client) : ?>
-  <div class="col-sm-12 col-md-12">
-    <h3>Migrated Data</h3>
-    <div class="card border-top-blue shadow-sm mb-4">
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-bordered" id="cooperativesTable3">
-            <thead>
-              <tr>
-                <th>Name of Cooperative</th>
-                <th>Branch/Satellite Name</th>
-                <th>Location</th>
-                <th>Status</th>
-                <th>Action </th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-              if($list_of_migrated > 0){ foreach ($list_of_migrated as $branch_migrated) : ?>
-                <tr>
-                  <td><?= $branch_migrated['coopName']?></td>
-                  <?php
-                    if(isset($branch_migrated['city'])){
-                      $branch_migrated['city'] = $branch_migrated['city'];
-                    } else {
-                      $branch_migrated['city'] = '';
-                    }
-
-                    if(isset($branch_migrated['brgy'])){
-                      $branch_migrated['brgy'] = $branch_migrated['brgy'];
-                    } else {
-                      $branch_migrated['brgy'] = '';
-                    }
-
-                    if(isset($branch_migrated['province'])){
-                      $branch_migrated['province'] = $branch_migrated['province'];
-                    } else {
-                      $branch_migrated['province'] = '';
-                    }
-
-                    if(isset($branch_migrated['region'])){
-                      $branch_migrated['region'] = $branch_migrated['region'];
-                    } else {
-                      $branch_migrated['region'] = '';
-                    }
-
-                    if($branch_migrated['area_of_operation'] == 'Provincial'){
-                        $brancharea = $branch_migrated['city'];
-                    } else if ($branch_migrated['area_of_operation'] == 'Municipality/City'){
-                        $brancharea = $branch_migrated['brgy'];
-                    } else {
-                        $brancharea = $branch_migrated['brgy'].', '. $branch_migrated['city'];
-                    }
-                  ?>
-                  <td><?=$branch_migrated['branchName']?></td>
-                  <td>
-                    <?php if($branch_migrated['house_blk_no']==null && $branch_migrated['street']==null) $x=''; else $x=', ';?>
-                    <?=$branch_migrated['house_blk_no']?> <?=$branch_migrated['street'].$x?> <?=$branch_migrated['brgy']?>, <?=$branch_migrated['city']?>, <?= $branch_migrated['province']?> <?=$branch_migrated['region']?>
-                  </td>
-                  <td>
-                    <span class="badge badge-secondary">
-                      <!-- Closure -->
-                      <?php if($branch_migrated['stat']==30 || $branch_migrated['stat']==32) echo "LETTER SUBMISSION SUCCESSFUL"; ?>
-                      <?php if($branch_migrated['stat']==33 && $branch_migrated['sent_lapse_notif'] == 0) echo "LETTER RECEIVED"; ?>
-                      <?php if($branch_migrated['stat']==33 && $branch_migrated['sent_lapse_notif'] == 1) echo "FOR UPLOADING"; ?>
-                      <?php if($branch_migrated['stat']==34) echo "FOR UPLOADING"; ?>
-                      <?php if($branch_migrated['stat']==35) echo "FOR EVALUATION"; ?>
-                      <?php if($branch_migrated['stat']==36) echo "FOR EVALUATION"; ?>
-                      <?php if($branch_migrated['stat']==37) echo "APPROVED APPLICATION FOR CLOSURE"; ?>
-                      <?php if($branch_migrated['stat']==38) echo "DEFERRED"; ?>
-                      <?php if($branch_migrated['stat']==39) echo "FOR PRINTING OF ORDER OF CLOSURE"; ?>
-                      <?php if($branch_migrated['stat']==29) echo "ISSUED ORDER OF CLOSURE"; ?>
-                      <!-- End Closure -->
-                      <!-- Transfer -->
-                      <?php if($branch_migrated['stat']==40) echo "TRANSFER"; ?>
-                      <?php if($branch_migrated['stat']==41) echo "LETTER SUBMISSION SUCCESSFUL"; ?>
-                      <?php if($branch_migrated['stat']==42) echo "LETTER SUBMISSION SUCCESSFUL"; ?>
-                      <?php if($branch_migrated['stat']==43 && $branch_migrated['sent_lapse_notif'] == 0) echo "LETTER RECEIVED"; ?>
-                      <?php if($branch_migrated['stat']==43 && $branch_migrated['sent_lapse_notif'] == 1) echo "FOR UPLOADING"; ?>
-                      <?php if($branch_migrated['stat']==44) echo "FOR VALIDATION"; ?>
-                      <?php if($branch_migrated['stat']==45) echo "FOR VALIDATION"; ?>
-                      <?php if($branch_migrated['stat']==46) echo "FOR EVALUATION"; ?>
-                      <?php if($branch_migrated['stat']==47) echo "FOR EVALUATION"; ?>
-                      <?php if($branch_migrated['stat']==48) echo "APPROVED FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS"; ?>
-                      <?php if($branch_migrated['stat']==49) echo "DEFERRED"; ?>
-                      <?php if($branch_migrated['stat']==50) echo "DENIED"; ?>
-                      <?php if($branch_migrated['stat']==51) echo "FOR PAYMENT"; ?>
-                      <?php if($branch_migrated['stat']==52) echo "SAVE O.R"; ?>
-                      <?php if($branch_migrated['stat']==53) echo "FOR PRINTING OF ORDER OF TRANSFER"; ?>
-                      <?php if($branch_migrated['stat']==54) echo "ISSUED ORDER OF TRANSFER"; ?>
-                      <!-- End Transfer -->
-                      <!-- Conversion -->
-                      <?php if($branch_migrated['stat']==55) echo "LETTER SUBMISSION SUCCESSFUL"; ?>
-                      <?php if($branch_migrated['stat']==56) echo "LETTER SUBMISSION SUCCESSFUL"; ?>
-                      <?php if($branch_migrated['stat']==57 && $branch_migrated['sent_lapse_notif'] == 0) echo "LETTER RECEIVED"; ?>
-                      <?php if($branch_migrated['stat']==57 && $branch_migrated['sent_lapse_notif'] == 1) echo "FOR UPLOADING"; ?>
-                      <?php if($branch_migrated['stat']==58) echo "FOR VALIDATION"; ?>
-                      <?php if($branch_migrated['stat']==59) echo "FOR VALIDATION"; ?>
-                      <?php if($branch_migrated['stat']==60) echo "FOR EVALUATION"; ?>
-                      <?php if($branch_migrated['stat']==61) echo "FOR EVALUATION"; ?>
-                      <?php if($branch_migrated['stat']==62) echo "DENIED"; ?>
-                      <?php if($branch_migrated['stat']==63) echo "APPROVED. FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS"; ?>
-                      <?php if($branch_migrated['stat']==64) echo "DEFERRED"; ?>
-                      <?php if($branch_migrated['stat']==65) echo "FOR PAYMENT"; ?>
-                      <?php if($branch_migrated['stat']==66) echo "SAVE O.R"; ?>
-                      <?php if($branch_migrated['stat']==67) echo "FOR PRINTING OF COA/LOA"; ?>
-                      <?php if($branch_migrated['stat']==68) echo "ISSUED COA/LOA"; ?>
-                      <!-- ENd Conversion -->
-
-                      <?php if($branch_migrated['stat']==81) echo "UPDATED"; ?>
-                      <?php if($branch_migrated['stat']==0) echo "REGISTERED"; ?>
-                      <?php if($branch_migrated['stat']==80) echo "FOR VALIDATION BY AUTHORIZED PERSONNEL"; ?>
-                    </span>
-                  </td>
-                  <td>
-                    <?php if($branch_migrated['status'] == 21 || $branch_migrated['status'] == 0 || $branch_migrated['status'] == 80) { ?>
-                      <a href="<?php echo base_url();?>branch_update/<?= encrypt_custom($this->encryption->encrypt($branch_migrated['b_id'])) ?>/view" class="btn btn-info" style="color:white;"><i class='fas fa-eye'></i> Update </a>
-                      <?php } ?>
-                      <?php if($branch_migrated['certNo'] != '' && $branch_migrated['dateRegistered'] != NULL) { ?>
-                        <?php if($branch_migrated['status']==81 || ($branch_migrated['status']>=21 && $branch_migrated['status']<=39 && $branch_migrated['status']!=0)) : ?>
-                          <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch_migrated['b_id'])) ?>/bns_closure" class="btn btn-warning" style="color:white;"><i class='fas fa-eye'></i> Close</a>
-                        <?php endif;?>
-                        <?php if($branch_migrated['status']>=40 && $branch_migrated['status']<=54) : ?>
-                          <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch_migrated['b_id'])) ?>/bns_transfer" class="btn btn-success" style="color:white;"><i class='fas fa-eye'></i> Transfer</a>
-
-                          <?php if($branch_migrated['status']==40) : ?>
-                          <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch_migrated['b_id'])) ?>/bns_transfer" data-toggle="modal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_migrated['b_id']))?>" data-target="#TransferRegionModal" class="btn btn-warning" style="color:white;"><i class='fas fa-user-check'></i>Edit Region</a>
-                          <?php endif;?>
-
-                        <?php endif;?>
-                        <?php if($branch_migrated['status']==81 || ($branch_migrated['status'] >= 55 && $branch_migrated['status'] <= 68)) : ?>
-                          <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch_migrated['b_id'])) ?>/bns_conversion" class="btn btn" style="background-color:#008CBA;color:white;"><i class='fas fa-eye'></i> Conversion</a>
-                        <?php endif;?>
-                        <?php if($branch_migrated['status']==81 && $branch_migrated['status'] != 36) : ?>
-                          <!-- <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['b_id'])) ?>/bns_transfer" class="btn btn-success" style="color:white;"><i class='fas fa-eye'></i> Transfer</a> -->
-                          <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch_migrated['b_id'])) ?>/bns_transfer" data-toggle="modal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_migrated['b_id']))?>" data-target="#TransferRegionModal" class="btn btn-success"><i class='fas fa-user-check'></i> Transfer</a>
-                        <?php endif;?>
-                      <?php } ?>
-                  </td>
-
-                </tr>
-                <?php endforeach; } ?>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-</div>
-<?php endif; ?>
 <?php //} ?>
 <?php if($is_client) :?>
 <?php else : ?>
 <?php
-  if($admin_info->access_level == 3 || $admin_info->access_level == 2){
+  if($admin_info->access_level == 33){
 ?>
 <div class="col-sm-12 col-md-12">
     <?php if($admin_info->region_code != '00'){ ?>
@@ -571,7 +408,7 @@ if($tomorrow>=$now){
               </tr>
             </thead>
             <tbody>
-              <?php if($admin_info->access_level == 3){
+              <?php if($admin_info->access_level == 3){ 
                 foreach ($outside_the_region as $outside_the_region) : ?>
                 <tr>
                   <td><?= $outside_the_region['coopName']?></td>
@@ -584,7 +421,7 @@ if($tomorrow>=$now){
                                   $brancharea = $outside_the_region['city'];
                                 } else {
                                   $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
-                                }
+                                } 
                             } else if ($outside_the_region['area_of_operation'] == 'Interregional') {
                                 if($this->charter_model->in_charter_city($outside_the_region['cCode'])){
                                   $brancharea = $outside_the_region['city'];
@@ -625,19 +462,19 @@ if($tomorrow>=$now){
                                   $brancharea = $outside_the_region['city'];
                                 } else {
                                   $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
-                                }
+                                } 
                             } else if ($outside_the_region['area_of_operation'] == 'Interregional') {
                                 if($this->charter_model->in_charter_city($outside_the_region['cCode'])){
                                   $brancharea = $outside_the_region['city'];
                                 } else {
                                   $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
-                                }
+                                } 
                             } else if ($outside_the_region['area_of_operation'] == 'National') {
                                 if($this->charter_model->in_charter_city($outside_the_region['cCode'])){
                                   $brancharea = $outside_the_region['city'];
                                 } else {
                                   $brancharea = $outside_the_region['city'].', '.$outside_the_region['province'];
-                                }
+                                } 
                             }
                         ?>
                   <td><?php echo $brancharea.' '.$outside_the_region['branchName']?></td>
@@ -651,10 +488,10 @@ if($tomorrow>=$now){
                         <?php if($outside_the_region['status']==17) echo "DEFERRED"; ?>
                         <?php if($outside_the_region['status']==24) echo "FOR VALIDATION"; ?>
                       <?php else : ?>
-                        <?php
+                        <?php 
                         if($outside_the_region['status']==17) echo "DEFERRED BY DIRECTOR";
                         else if($outside_the_region['status']==24) echo "FOR VALIDATION"; ?>
-
+                          
                       <?php endif ?>
                       </span>
                   </td>
@@ -673,7 +510,7 @@ if($tomorrow>=$now){
     </div>
 </div>
 <?php } ?>
-
+<!-- 
 <div class="col-sm-12 col-md-12">
     <h3>Registered</h3>
     <div class="card border-top-blue shadow-sm mb-4">
@@ -715,9 +552,6 @@ if($tomorrow>=$now){
                             <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch_registered['regNo'])) ?>/branch_registered" class="btn btn-warning" style="color:white;width:70%;"><i class='fas fa-eye'></i> View More </a>
                             <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch_registered['id'])) ?>/registration" class="btn btn-info"><i class='fas fa-print'></i> Print Registration</a></center>
                         <?php endif; ?>
-                        <?php if($branch_registered['status']==81 || $branch_registered['status']==20): ?><center>
-                            <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch_registered['regNo'])) ?>/branch_registered" class="btn btn-warning" style="color:white;width:70%;"><i class='fas fa-eye'></i> View More </a>
-                        <?php endif; ?>
                   </td>
                 </tr>
                 <?php endforeach; ?>
@@ -728,7 +562,7 @@ if($tomorrow>=$now){
     </div>
 </div>
     <?php endif;?>
-</div>
+</div> -->
 
 
 <!-- Bootstrap modal -->
@@ -739,13 +573,13 @@ if($tomorrow>=$now){
         <div class="modal-header">
           <h5 class="modal-title"></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
+        </div> 
         <div class="modal-body form">
-          <input type="hidden" value="" name="payment_id" id="payment_id"/>
-          <input type="hidden" value="" name="bid" id="branch_ID"/>
+          <input type="hidden" value="" name="payment_id" id="payment_id"/> 
+          <input type="hidden" value="" name="bid" id="branch_ID"/> 
           <div class="row">
             <div class="col-md-12">
-
+              
 
               <table width="100%" class="bord">
                 <tr>
@@ -796,13 +630,13 @@ if($tomorrow>=$now){
                   <td class="bord" colspan="2">Total </td>
                   <td class="taas"  width="8%">Php </td>
                   <td class="taas" align="right" width="13%"><b id="total"></b></td>
-                </tr>
+                </tr>       
               </table>
               <table id="test"></table>
 
             </div>
           </div>
-        </div><!-- /.modal-content -->
+        </div><!-- /.modal-content -->    
         <div class="modal-footer">
             <button type="button" id="saveOR" onclick= "save()" class="btn btn-primary">Save</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -818,7 +652,7 @@ if($tomorrow>=$now){
   $(document).ready(function(){
   function GetNow()
   {
-    var currentdate = new Date();
+    var currentdate = new Date(); 
     var month = currentdate.getMonth() + 1;
     var day = currentdate.getDate();
     var date1 = (currentdate.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '')  + day);
@@ -834,7 +668,7 @@ if($tomorrow>=$now){
        $("#msgdate").text("Date of O.R. should not be future date");
       setTimeout(function(){
           $("#msgdate").text("");
-      },5000);
+      },5000);    
     }
     else if(selectedDate == now)
     {
@@ -844,7 +678,7 @@ if($tomorrow>=$now){
     {
       $("#msgdate").text("");
     }
-
+  
   });
 });
 </script>
@@ -857,7 +691,7 @@ if($tomorrow>=$now){
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty();
     $.ajax({
-        url : "<?php echo base_url('branches/payment')?>/" + coop_id,
+        url : "<?php echo base_url('for_conversion/payment')?>/" + coop_id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -873,20 +707,20 @@ if($tomorrow>=$now){
             $('#tDate').text(formated_date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
-            $('#branch_ID').val(coop_id);
+            $('#branch_ID').val(coop_id);   
             $('#word').text(s);
-            // $('#branch_ID').val(coop_id);
+            // $('#branch_ID').val(coop_id);   
             $('#word').text(s+' Pesos');
             $('#nature').text(data.nature);
             $('#particulars').html(data.particulars);
             $('#amount').html(data.amount);
             $('#total').text(parseFloat(data.total).toFixed(2));
-
-
+          
+            
             $('#paymentModal').modal('show'); // show bootstrap modal
             $('.modal-title').text('Order of Payment');
             // console.log(data);
-
+ 
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
@@ -909,7 +743,7 @@ if($tomorrow>=$now){
 
     var x = $('#orNo').val();
     var y = $('#orDate').val();
-
+    
     if (x==''){
       alert('Missing O.R. No.');
     } else if (y==''){
@@ -918,7 +752,7 @@ if($tomorrow>=$now){
     else{
       var paymentFormData = new FormData($('#paymentForm')[0]);
       $.ajax({
-          url : "<?php echo base_url('branches/saveor')?>/" + 'fuck',
+          url : "<?php echo base_url('for_conversion/saveORConversion')?>/" + 'fuck',
           type: "POST",
           data: paymentFormData,
           contentType: false,
@@ -930,24 +764,24 @@ if($tomorrow>=$now){
               {
                   $('#paymentModal').modal('hide');
                   $('#paymentForm')[0].reset();
-                  window.location.href="<?php echo base_url('branches')?>";
+                  window.location.href="<?php echo base_url('for_conversion')?>";
               }
               else
               {
-                  for (var i = 0; i < data.inputerror.length; i++)
+                  for (var i = 0; i < data.inputerror.length; i++) 
                   {
                       $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
                       $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
                   }
               }
-
+   
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
               alert('Error adding / update data!');
              // $('#saveOR').text('save'); //change button text
-              //$('#saveOR').attr('disabled',false); //set button enable
-
+              //$('#saveOR').attr('disabled',false); //set button enable 
+   
           }
       });
     }
