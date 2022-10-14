@@ -131,6 +131,7 @@ class branches_model extends CI_Model{
     return $query->row();
   }
   public function get_all_branches_migrated($regno){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->distinct();
     $this->db->select('bc.id as b_id,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region,bc.status AS stat,bc.sent_lapse_notif,bc.house_blk_no,bc.street,bc.area_of_operation,r.coopName,bc.branchName,bc.status,bc.certNo,bc.dateRegistered');
     $this->db->from('branches bc');
