@@ -514,7 +514,7 @@ if($tomorrow>=$now){
                   </td>
                   <td>
                     <?php if($branch_migrated['status'] == 21 || $branch_migrated['status'] == 0 || $branch_migrated['status'] == 80) { ?>
-                      <a href="<?php echo base_url();?>branch_update/<?= encrypt_custom($this->encryption->encrypt($branch_migrated['b_id'])) ?>/view" class="btn btn-info" style="color:white;"><i class='fas fa-eye'></i> Update </a>
+                      <a href="<?php echo base_url();?>branch_update/<?= encrypt_custom($this->encryption->encrypt($branch_migrated['b_id'])) ?>/view" class="btn btn-info" style="color:white;"><i class='fas fa-eye'></i> Update <?=$branch_migrated['b_id'] ?></a>
                       <?php } ?>
                       <?php if($branch_migrated['certNo'] != '' && $branch_migrated['dateRegistered'] != NULL) { ?>
                         <?php if($branch_migrated['status']==81 || ($branch_migrated['status']>=21 && $branch_migrated['status']<=39 && $branch_migrated['status']!=0)) : ?>

@@ -60,7 +60,7 @@
             $data['header'] = 'Branches and Satellites';
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
             $this->load->view('templates/admin_header', $data);
-            
+
             if($this->session->userdata('access_level')==1){
               if($data['admin_info']->region_code=="0"){
                 $data['registered_branches'] = $this->branches_model->get_registered_branches($data['admin_info']->region_code);
@@ -105,7 +105,7 @@
             $this->load->view('admin/revoke_privilege_supervisor_branch');
             $this->load->view('templates/admin_footer');
           }
-        } 
+        }
       }
     }
 
@@ -150,7 +150,7 @@
                 $data['in_chartered_cities']=true;
                 $data['chartered_cities'] = $this->charter_model->get_charter_city($data['branch_info']->cCode);
               }
-              
+
               if($data['branch_info']->area_of_operation == 'Interregional'){
                 $data['regions_island_list'] = $this->region_model->get_selected_regions($data['branch_info']->regions);
               }
@@ -194,7 +194,7 @@
               $this->load->view('./templates/admin_header', $data);
               $this->load->view('cooperative/evaluation/approve_modal_branch_update',$data);
               $this->load->view('branches/branch_detail_update', $data);
-              $this->load->view('./templates/admin_footer');            
+              $this->load->view('./templates/admin_footer');
             }
           }
         }else{
@@ -220,7 +220,7 @@
               if($this->session->userdata('access_level')==5){
                 redirect('admins/login');
               }else{
-                
+
                   // if($this->branches_model->check_submitted_for_evaluation($decoded_id)){
                     if(!$this->branches_model->check_if_denied($decoded_id)){
                       $branch_info = $this->branches_model->get_branch_info_by_admin($decoded_id);
@@ -240,7 +240,7 @@
                                     );
                                 // $this->debug($data_field);
                              $coop_full_name = $this->input->post('bName',TRUE);
-                        
+
                                 $success = $this->branches_model->insert_comment_history($data_field);
                                 $reason_commment='';
 
@@ -253,7 +253,7 @@
                                   $seniorinfo = $this->admin_model->get_emails_of_senior_by_region($regioncode);
 
                                   $data['suvervising_info'] = $this->admin_model->get_specialst_info($branch_info->evaluator3);
-                                  
+
                                 // } else {
                                   // $data['director_info'] = $this->admin_model->get_emails_of_supervisor_by_region($regioncode);
                                 // }
@@ -295,7 +295,7 @@
 
                                 $coop_region = $this->branches_model->get_coop_region($branch_info->regNo);
                                 // echo $coop_full_name.'-'.$branchname.'-'.$brgyforemail.'-'.$fullnameforemail.'-'.$data['client_info']->contact_number.'-'.$data['client_info']->email.'-'.$emaildirect.'-'.$branch_info->type;
-                                
+
                                   $success = $this->branch_update_model->approve_by_admin2($admin_info,$decoded_id,$reason_commment,1,$comment_by_specialist_senior,$coop_full_name);
                                   if($success){
                                     $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been submitted.');
@@ -304,7 +304,7 @@
                                     $this->session->set_flashdata('list_error_message', 'Unable to approve branch.');
                                     redirect('branches');
                                   }
-                                
+
                     }else{
                       $this->session->set_flashdata('redirect_applications_message', 'The branch you trying to approve is already denied.');
                       redirect('branches');
@@ -313,7 +313,7 @@
                   //   $this->session->set_flashdata('redirect_applications_message', 'The branch you trying to approve is not yet submitted for evaluation.');
                   //   redirect('branches');
                   // }
-                
+
               }
             }
           }else{
@@ -324,7 +324,7 @@
         }
       }
     }
-    
+
     public function evaluate($id = null){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
@@ -334,7 +334,7 @@
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
             if($this->branches_model->check_own_branch($decoded_id,$user_id)){
-              
+
                 $branch_info = $this->branches_model->get_branch_info($user_id,$decoded_id);
                 $document_5 = $this->uploaded_document_model->get_document_5_info($decoded_id,$branch_info->application_id);
                 $document_6 = $this->uploaded_document_model->get_document_6_info($decoded_id,$branch_info->application_id);
@@ -355,7 +355,7 @@
                 if($this->db->count_all_results()>0){
                   $status = 80;
                 }
-                
+
                 if($data['branch_info']->status == 0 || $data['branch_info']->status == 21){
                     $stat = 80;
                 }
@@ -376,7 +376,7 @@
                         }else{
                           if($this->branches_model->submit_for_evaluation($user_id,$decoded_id,$same,$branch_info->rCode)){
                             if($data['branch_info']->house_blk_no==null && $data['branch_info']->street==null) $x=''; else $x=', ';
-                            
+
                             $data['client_info'] = $this->user_model->get_user_info($user_id);
 
                             $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
@@ -391,7 +391,7 @@
                             } else {
                               $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
                             }
-                            
+
                             if(($data['branch_info']->status == 1 && $data['branch_info']->regCode != 0) ||($data['branch_info']->status == 17 && $data['branch_info']->regCode != 0 && $data['branch_info']->evaluator5 == NULL)){
                               $senior_info = $this->admin_model->get_senior_info($data['branch_info']->regCode);
                             } else {
@@ -458,7 +458,7 @@
   //                       }else{
   //                         if($this->branches_model->submit_for_evaluation($user_id,$decoded_id,$same,$branch_info->rCode)){
   //                           if($data['branch_info']->house_blk_no==null && $data['branch_info']->street==null) $x=''; else $x=', ';
-                            
+
   //                           $data['client_info'] = $this->user_model->get_user_info($user_id);
 
   //                           $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
@@ -473,7 +473,7 @@
   //                           } else {
   //                             $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
   //                           }
-                            
+
   //                           if(($data['branch_info']->status == 1 && $data['branch_info']->regCode != 0) ||($data['branch_info']->status == 17 && $data['branch_info']->regCode != 0 && $data['branch_info']->evaluator5 == NULL)){
   //                             $senior_info = $this->admin_model->get_senior_info($data['branch_info']->regCode);
   //                           } else {
@@ -525,7 +525,7 @@
   //                       $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
   //                       redirect('branch_update/'.$id.'/view');
   //                     }
-                    
+
   //                 }
                 }else{
               $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
@@ -554,12 +554,12 @@
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
             if($this->form_validation->run() == FALSE){
-              $data['client_info'] = $this->user_model->get_user_info($user_id); 
+              $data['client_info'] = $this->user_model->get_user_info($user_id);
 //                  $data['members_composition'] = $this->branches_model->get_coop_composition($decoded_id);
-              
+
               $data['title'] = 'Updating Branch/Satellite Details';
               $data['header'] = 'Updating Branch/Satellite Information';
-              
+
               $data['branch_info'] = $this->branches_model->get_branch_info_migrated($decoded_id);
 
               $data['last_query'] = $this->db->last_query();
@@ -597,25 +597,25 @@
                 $category = substr($this->input->post('categoryOfCooperative'),0,strpos($this->input->post('categoryOfCooperative'),'-')-1);
                 $group = substr($this->input->post('categoryOfCooperative'), strpos($this->input->post('categoryOfCooperative'),'-')+2 , strlen($this->input->post('categoryOfCooperative')) - strpos($this->input->post('categoryOfCooperative'),'-')-2);
               }
-              
+
               $BAC = $this->input->post('BAC');
               $provDesc = $this->branches_model->prov($this->input->post('province'));
               $cityDesc = $this->branches_model->city($this->input->post('city'));
-              $branchCount =$this->branches_model->branch_count($this->input->post('regNo'),substr($this->input->post('city'),0,6),$this->input->post('typeOfBranch')); 
-              
+              $branchCount =$this->branches_model->branch_count($this->input->post('regNo'),substr($this->input->post('city'),0,6),$this->input->post('typeOfBranch'));
+
               $data['branch_info'] = $this->branches_model->get_branch_info($user_id,$decoded_id);
               $data['registered_info'] = $this->branches_model->get_registered_coop($data['branch_info']->regNo);
-              
-              if(substr($this->input->post('barangay'), 0, 2)==substr($this->input->post('barangay2'), 0, 2)){ // empty($this->input->post('region2')) || 
+
+              if(substr($this->input->post('barangay'), 0, 2)==substr($this->input->post('barangay2'), 0, 2)){ // empty($this->input->post('region2')) ||
                   $regCodeBranch = 0;
-              } else if (substr($data['registered_info']->addrCode, 0, 2) == substr($this->input->post('barangay'), 0, 2)){ 
+              } else if (substr($data['registered_info']->addrCode, 0, 2) == substr($this->input->post('barangay'), 0, 2)){
                   $regCodeBranch = 0;
               } else {
                   $regCodeBranch = '0'.substr($data['registered_info']->addrCode, 0, 2);
               }
 
               // echo substr($data['registered_info']->addrCode, 0, 2).'-'.substr($this->input->post('barangay'), 0, 2);
-              // echo  $this->input->post('typeOfbranchsatellite'); 
+              // echo  $this->input->post('typeOfbranchsatellite');
 
               $field_data = array(
                 'user_id' => $this->session->userdata('user_id'),
@@ -650,12 +650,12 @@
             }
           } else if($this->session->userdata('access_level')==6){
             if($this->form_validation->run() == FALSE){
-              $data['client_info'] = $this->user_model->get_user_info($user_id); 
+              $data['client_info'] = $this->user_model->get_user_info($user_id);
     //                  $data['members_composition'] = $this->branches_model->get_coop_composition($decoded_id);
               $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
               $data['title'] = 'Updating Branch/Satellite Details';
               $data['header'] = 'Updating Branch/Satellite Information';
-              
+
               $data['branch_info'] = $this->branches_model->get_branch_info_migrated($decoded_id);
 
               $data['last_query'] = $this->db->last_query();
@@ -713,10 +713,10 @@
               //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you trying to update is already expired.');
               //   // redirect('cooperatives');
               // }
-            }     
+            }
         }
-        } 
+        }
       }
-    }   
+    }
   }
 ?>
