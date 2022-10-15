@@ -1,12 +1,6 @@
-<!-- <div class="row">
-  <div class="col-sm-12 col-md-12">
-    <div class="alert alert-primary" role="alert">
-      WELCOME!!!
-    </div>
-  </div>
-</div> -->
+
 <?php
-    if($gc == 0){ 
+    if($gc == 0){
         echo '<div class="alert alert-danger" role="alert">';
             echo '<h4 class="alert-heading">Unable to Create Laboratories.</h4>';
             echo '<hr>';
@@ -16,9 +10,10 @@
                     echo '<li>No Cooperatives created.</li>';
                 echo '</ul>';
         echo '</div>';
-                
+
         } else {
 ?>
+
 <?php if(!$is_client && $admin_info->access_level == 3 &&  $admin_info->is_director_active == 0) : ?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
@@ -62,7 +57,7 @@
 <?php if($this->session->flashdata('error_message')): ?>
 <div class="row">
   <div class="col-sm-12 col-md-12">
-    <div class="alert alert-success text-center" role="alert">
+    <div class="alert alert-danger text-center" role="alert">
       <?php echo $this->session->flashdata('error_message'); ?>
     </div>
   </div>
@@ -125,10 +120,10 @@
               <?php foreach ($list_laboratories as $laboratory) : ?>
                 <!-- <tr> modify by jayson -->
 
-       
-                  
+
+
                   <td><?=$laboratory['laboratoryName'].' Laboratory Cooperative'?></td>
-                  <td><?=$laboratory['coopName']?></td> 
+                  <td><?=$laboratory['coopName']?></td>
                   <td>
                     <?php if($laboratory['house_blk_no']==null && $laboratory['streetName']==null) $x=''; else $x=', ';?>
                     <?=$laboratory['house_blk_no']?> <?=$laboratory['streetName'].$x?> <?=$laboratory['brgy']?>, <?=$laboratory['city']?>, <?= $laboratory['province']?> <?=$laboratory['region']?>
@@ -140,7 +135,7 @@
                         <?php if($laboratory['status']==1) echo "PENDING"; ?>
                         <?php if($laboratory['status']>=2 && $laboratory['status']<=15 ) echo "FOR VALIDATION"; ?>
                         <!-- <?php if($laboratory['status']==16) echo "DENIED"; ?> -->
-                       
+
                         <?php if($laboratory['status']==25) echo "DENIED"; ?>
                         <?php if($laboratory['status']==24) echo "DEFFERED"; ?>
                         <?php if($laboratory['status']==18) echo "FOR PRINT AND SUBMIT"; ?>
@@ -172,12 +167,12 @@
                       <?php if($laboratory['status']<2||$laboratory['status']==16||$laboratory['status']==17) : ?>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteLabModal" data-cname="<?= "Laboratory Cooperative of ".$laboratory['laboratoryName']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($laboratory['id']))?>"><i class='fas fa-trash'></i><?php echo ($laboratory['status']==16 || $laboratory['status']==17) ? "Delete": "Cancel" ?></button>
                       <?php endif;?>
-                      
-                      
+
+
                       </div>
                     </td>
                   <?php endif;?>
-              
+
 
                   <?php if(!$is_client) :?>
                     <td>
@@ -189,20 +184,20 @@
 
                         <?php elseif($laboratory['status']==8 && $laboratory['third_evaluated_by']==0): ?>
                           <a href="<?php echo base_url();?>laboratories/<?= encrypt_custom($this->encryption->encrypt($laboratory['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($laboratory['id']))?>" data-cname="<?= $laboratory['labName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Assign to Evaluator</a>
-                        
+
                         <?php elseif($laboratory['status']==18): ?>
                           <a href="<?php echo base_url();?>laboratories/<?= encrypt_custom($this->encryption->encrypt($laboratory['id'])) ?>/laboratories_forpayment" class="btn btn-color-blue"> OK For Payment</a>
 
-                        
+
                        <?php elseif($laboratory['status']==20): ?>
                           <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment('<?= encrypt_custom($this->encryption->encrypt($laboratory['laboratoryName']))?>','<?= encrypt_custom($this->encryption->encrypt($laboratory['labName']))?>')" value="Save O.R. No.">
                            <?php elseif($laboratory['status']==21): ?>
                           <a href="<?php echo base_url();?>laboratories/<?= encrypt_custom($this->encryption->encrypt($laboratory['id'])) ?>/laboratories_registration" class="btn btn-info"><i class='fas fa-print'></i> Print Registration</a>
                         <?php endif; ?>
-                      
+
                       </div>
                     </td>
-                   <?php } //end of access leve admin 3 and 5 ?> 
+                   <?php } //end of access leve admin 3 and 5 ?>
 
                      <?php if($admin_accesslevel==2 || ($admin_accesslevel==5)){?>
                       <?php $accepted = array(2,3,4,5,6,7,9,10,11,24); ?>
@@ -213,24 +208,24 @@
 
                         <?php elseif($laboratory['status']==8 && $laboratory['third_evaluated_by']==0): ?>
                           <a href="<?php echo base_url();?>laboratories/<?= encrypt_custom($this->encryption->encrypt($laboratory['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($laboratory['id']))?>" data-cname="<?= $laboratory['labName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Assign to Evaluator</a>
-                        
+
                         <?php elseif($laboratory['status']==18): ?>
                           <a href="<?php echo base_url();?>laboratories/<?= encrypt_custom($this->encryption->encrypt($laboratory['id'])) ?>/laboratories_forpayment" class="btn btn-color-blue"> OK For Payment</a>
 
                            <a href="<?php echo base_url();?>laboratories/<?= encrypt_custom($this->encryption->encrypt($laboratory['id'])) ?>/laboratories_documents/document_view_review" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
-                        
+
                        <?php elseif($laboratory['status']==20): ?>
                           <input class="btn btn-color-blue offset-md-10" type="button" id="addOff" onclick="showPayment('<?= encrypt_custom($this->encryption->encrypt($laboratory['laboratoryName']))?>','<?= encrypt_custom($this->encryption->encrypt($laboratory['labName']))?>')" value="Save O.R. No.">
                            <?php elseif($laboratory['status']==21): ?>
                           <a href="<?php echo base_url();?>laboratories/<?= encrypt_custom($this->encryption->encrypt($laboratory['id'])) ?>/laboratories_registration" class="btn btn-info"><i class='fas fa-print'></i> Print Registration</a>
                         <?php endif; ?>
-                      
+
                       </div>
                     </td>
-                   <?php } //end of access leve admin 2 and 5 ?> 
+                   <?php } //end of access leve admin 2 and 5 ?>
 
                   <?php endif;?>
-                 
+
                 </tr>
               <?php endforeach; ?>
 
@@ -241,7 +236,79 @@
       </div>
     </div>
   </div>
+<?php if($is_client) : ?>
+  <div class="col-sm-12 col-md-12">
+    <h3>Migrated Data</h3>
+    <div class="card border-top-blue shadow-sm mb-4">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="cooperativesTable3">
+            <thead>
+              <tr>
+                <th>Name of Laboratory</th>
+                <th>Name of Cooperative</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Action </th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($list_of_migrated as $lab_migrated) : ?>
+                <tr>
+                  <td><?= $lab_migrated['laboratoryName']?></td>
+                  <td><?= $lab_migrated['coopName']?></td>
+                  <?php
+                    if(isset($lab_migrated['city'])){
+                      $lab_migrated['city'] = $lab_migrated['city'];
+                    } else {
+                      $lab_migrated['city'] = '';
+                    }
 
+                    if(isset($lab_migrated['brgy'])){
+                      $lab_migrated['brgy'] = $lab_migrated['brgy'];
+                    } else {
+                      $lab_migrated['brgy'] = '';
+                    }
+
+                    if(isset($lab_migrated['province'])){
+                      $lab_migrated['province'] = $lab_migrated['province'];
+                    } else {
+                      $lab_migrated['province'] = '';
+                    }
+
+                    if(isset($lab_migrated['region'])){
+                      $lab_migrated['region'] = $lab_migrated['region'];
+                    } else {
+                      $lab_migrated['region'] = '';
+                    }
+
+                    if($lab_migrated['area_of_operation'] == 'Provincial'){
+                        $brancharea = $lab_migrated['city'];
+                    } else if ($lab_migrated['area_of_operation'] == 'Municipality/City'){
+                        $brancharea = $lab_migrated['brgy'];
+                    } else {
+                        $brancharea = $lab_migrated['brgy'].', '. $lab_migrated['city'];
+                    }
+                  ?>
+                  <td>
+                    <?php if($lab_migrated['house_blk_no']==null && $lab_migrated['streetName']==null) $x=''; else $x=', ';?>
+                    <?=$lab_migrated['house_blk_no']?> <?=$lab_migrated['streetName'].$x?> <?=$lab_migrated['brgy']?>, <?=$lab_migrated['city']?>, <?= $lab_migrated['province']?> <?=$lab_migrated['region']?>
+                  </td>
+                  <td>
+                      <span class="badge badge-secondary">REGISTERED</span>
+                  </td>
+                  <td>
+                      <a href="<?php echo base_url();?>laboratories_update/<?= encrypt_custom($this->encryption->encrypt($lab_migrated['b_id'])) ?>/view" class="btn btn-info" style="color:white;"><i class='fas fa-eye'></i> Update </a>
+                  </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+<?php endif; ?>
 <?php if($is_client) :?>
 <?php else : ?>
   <h3 style="margin-left:30px;">Registered</h3>
@@ -260,10 +327,10 @@
               </tr>
             </thead>
             <tbody>
-       
+
               <?php foreach ($registered_laboratories as $laboratory1) : ?>
                 <td><?='Laboratory Cooperative of '.$laboratory1['laboratoryName']?></td>
-                <td><?=$laboratory1['coopName']?></td> 
+                <td><?=$laboratory1['coopName']?></td>
                 <td>
                   <?php if($laboratory1['house_blk_no']==null && $laboratory1['streetName']==null) $x=''; else $x=', ';?>
                   <?=$laboratory1['house_blk_no']?> <?=$laboratory1['streetName'].$x?> <?=$laboratory1['brgy']?>, <?=$laboratory1['city']?>, <?= $laboratory1['province']?> <?=$laboratory1['region']?>
@@ -294,13 +361,13 @@
         <div class="modal-header">
           <h5 class="modal-title"></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div> 
+        </div>
         <div class="modal-body form">
-          <input type="hidden" value="" name="payment_id" id="payment_id"/> 
-          <input type="hidden" value="" name="bid" id="branch_ID"/> 
+          <input type="hidden" value="" name="payment_id" id="payment_id"/>
+          <input type="hidden" value="" name="bid" id="branch_ID"/>
           <div class="row">
             <div class="col-md-12">
-              
+
 
               <table width="100%" class="bord">
                 <tr>
@@ -312,7 +379,7 @@
                   <td class="bord">
                    <span><strong><?= date('d-m-Y')?></strong></span>
                    <input type="hidden" id="laboratoryID" name="laboratoryID" value="<?= encrypt_custom($this->encryption->encrypt($laboratory['id'])) ?>" />
-          
+
                   </td>
                 </tr>
                 <tr>
@@ -350,7 +417,7 @@
                   <td width="23%"></td>
                   <td class="pera" width="" id="particulars" style="font-weight: bold;text-align: center"></td>
                    <td class="pera" width="8%" valign="top">Php </td>
-                  <td  class="pera" align="right" width="13%" id="amount" style="font-weight: bold;"></td> 
+                  <td  class="pera" align="right" width="13%" id="amount" style="font-weight: bold;"></td>
                 </tr>
                 <tr>
                   <td colspan="4"></td>
@@ -359,13 +426,13 @@
                   <td class="bord" colspan="2">Total </td>
                   <td class="taas"  width="8%">Php </td>
                   <td class="taas" align="right" width="13%"><b id="total"></b></td>
-                </tr>       
+                </tr>
               </table>
               <table id="test"></table>
 
             </div>
           </div>
-        </div><!-- /.modal-content -->    
+        </div><!-- /.modal-content -->
         <div class="modal-footer">
             <button type="button" id="saveOR" onclick= "save()" class="btn btn-primary">Save</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -381,7 +448,7 @@
   $(document).ready(function(){
   function GetNow()
   {
-    var currentdate = new Date(); 
+    var currentdate = new Date();
     var month = currentdate.getMonth() + 1;
     var day = currentdate.getDate();
     var date1 = (currentdate.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '')  + day);
@@ -397,7 +464,7 @@
        $("#msgdate").text("Date of O.R. should not be future date");
       setTimeout(function(){
           $("#msgdate").text("");
-      },5000);    
+      },5000);
     }
     else if(selectedDate == now)
     {
@@ -407,13 +474,13 @@
     {
       $("#msgdate").text("");
     }
-  
+
   });
 });
 </script>
 
 <script type="text/javascript">
-  
+
   function showPayment(labname,coop_name) {
     //save_method = 'add';
     $('#paymentForm')[0].reset(); // reset form on modals
@@ -441,19 +508,19 @@
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
             $('#refno').text(data.refNo);
-            // $('#branch_ID').val(coop_id);   
+            // $('#branch_ID').val(coop_id);
             $('#word').text(s);
             // $('#nature').text(data.nature);
             $('#nature').text("Laboratory Registration");
             $('#particulars').html(data.particulars);
             $('#amount').html(data.amount);
             $('#total').text(parseFloat(data.total).toFixed(2));
-          
-            
+
+
             $('#paymentModal').modal('show'); // show bootstrap modal
             $('.modal-title').text('Order of Payment');
 
- 
+
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
@@ -465,7 +532,7 @@
   function save(){
 
     var x = $('#orNo').val();
-    
+
     if (x==''){
       alert('Missing O.R. No.');
     }
@@ -488,20 +555,20 @@
               }
               else
               {
-                  for (var i = 0; i < data.inputerror.length; i++) 
+                  for (var i = 0; i < data.inputerror.length; i++)
                   {
                       $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
                       $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
                   }
               }
-   
+
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
               alert('Error adding / update data!');
              // $('#saveOR').text('save'); //change button text
-              //$('#saveOR').attr('disabled',false); //set button enable 
-   
+              //$('#saveOR').attr('disabled',false); //set button enable
+
           }
       });
     }

@@ -62,7 +62,7 @@ class laboratories_model extends CI_Model{
     }
     return $data;
   }
-  
+
   //modify by json
   public function check_submitted_doc($coopID,$labID,$docType)
   {
@@ -75,7 +75,7 @@ class laboratories_model extends CI_Model{
     {
         return FALSE;
     }
-   
+
   }
 
  // start modify sss
@@ -90,7 +90,7 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
   $this->db->trans_begin();
   $this->db->where('id',$laboratory_id);
   $this->db->update('laboratories',array('status'=>18,'third_evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL,'dateRegistered'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(10*24*60*60)))));
-  
+
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
@@ -102,16 +102,20 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
       $this->db->trans_rollback();
       return false;
     }
-  
+
       $this->db->trans_commit();
       return true;
-    
+
   }
 }
 // end modify
 
   public function check_own_branch($branch_id,$user_id){
     $query2 = $this->db->get_where('laboratories', array('user_id' => $user_id,'id'=> $branch_id));
+    return $query2->num_rows() > 0 ? true : false;
+  }
+  public function check_own_branch_updating($decoded_id){
+    $query2 = $this->db->get_where('laboratories', array('id'=> $decoded_id));
     return $query2->num_rows() > 0 ? true : false;
   }
   public function get_all_laboratories($user_id){
@@ -155,13 +159,13 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
     $data = $query->result_array();
     return $data;
   }
-  
+
   public function add_branch($data,$BAC){
 
     $data = $this->security->xss_clean($data);
     $BAC = $this->security->xss_clean($BAC);
     $batch_subtype = array();
-   
+
     $this->db->trans_begin();
     $this->db->insert('laboratories',$data);
     $id = $this->db->insert_id();
@@ -172,7 +176,7 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
 //      );
 //    }
 //    $this->db->insert_batch('business_activities_branch', $batch_subtype);
-    
+
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -186,11 +190,11 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
     $data = $this->security->xss_clean($data);
     // $BAC = $this->security->xss_clean($BAC);
     // $batch_subtype = array();
-   
+
     $this->db->trans_begin();
     $this->db->update('laboratories',$data,array('id'=>$id));
-    
-  
+
+
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -252,13 +256,13 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
         // $addrCode = $row->addCode
         $rCode = $row->regCode;
       }
-     
-      //check if there already registered with the same region 
+
+      //check if there already registered with the same region
       $last_digit=$this->check_laboratory_exist($rCode)+1;
       $zeros='0000000';
       $pst = 1; // Primary
       $grtd_cert='CR-'.$pst.$rCode.$zeros.$last_digit;
-     
+
       if($this->db->update('laboratories',array('certNo'=>$grtd_cert),array('id'=>$laboratoryID)))
       {
          // $c =$this->db->get_where('laboratories',array('id'=>$laboratoryID));
@@ -266,14 +270,14 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
          // echo"<br>". $this->db->last_query();
         return true;
       }
-     
+
     }
     else
     {
       return false; //no records found.
     }
-     
-  
+
+
     // $this->db->update('laboratories', array('branchName'=>$branchName,'status'=>21,'certNo'=>$j,'dateRegistered'=>date('Y-m-d',now('Asia/Manila'))),array('id'=>$branch_id));
 
     // if($this->db->trans_status() === FALSE){
@@ -299,7 +303,7 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
         if($qry->num_rows()>0)
         {
             $data = count($qry->result());
-           
+
         }
         else
         {
@@ -329,7 +333,7 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
 
     return ($query->num_rows()>=1)? $query->num_rows()+1:'';
   }
-  
+
   public function count_cooperators($cooperatives_id){
     $query=$this->db->query('select COUNT(*) as CountCooperators from laboratories_cooperators where laboratory_id ="'.$cooperatives_id.'"');
 
@@ -345,7 +349,7 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
     $this->db->trans_begin();
     $this->db->update('laboratories', array('status'=>21),array('id'=>$id));
     $this->db->update('payment', $data, $where);
-    
+
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return array('success'=>false,'message'=>'Unable to save O.R. No.');
@@ -368,7 +372,7 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
       return false;
     }
   }
-  
+
 
   // public function get_all_laboratories_by_specialist($regcode,$admin_id){
   //   $this->db->select('laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
@@ -397,7 +401,7 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
     return $data;
   }
   public function get_all_laboratories_by_senior($regcode){
-    $query = $this->db->query('select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories 
+    $query = $this->db->query('select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories
   inner join refbrgy on refbrgy.brgyCode = laboratories.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -407,13 +411,13 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
     where x.regCode like "'.$regcode.'%"
     and laboratories.status in (2)
 UNION
-select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories 
+select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories
 inner join registeredcoop on registeredcoop.application_id=laboratories.cooperative_id
   inner join refbrgy on refbrgy.brgyCode = registeredcoop.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
-    
+
     where refregion.regCode like "'.$regcode.'%"
     and laboratories.status in (8,10,11,18,19,20,24)');
     $data = $query->result_array();
@@ -421,7 +425,7 @@ inner join registeredcoop on registeredcoop.application_id=laboratories.cooperat
   }
 
   public function get_all_laboratories_by_director($regcode){
-    $query = $this->db->query('select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories 
+    $query = $this->db->query('select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories
   inner join refbrgy on refbrgy.brgyCode = laboratories.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -431,20 +435,20 @@ inner join registeredcoop on registeredcoop.application_id=laboratories.cooperat
     where x.regCode like "'.$regcode.'%"
     and laboratories.status in (5)
 UNION
-select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories 
+select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories
 inner join registeredcoop on registeredcoop.application_id=laboratories.cooperative_id
   inner join refbrgy on refbrgy.brgyCode = registeredcoop.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
-    
+
     where refregion.regCode like "'.$regcode.'%"
     and laboratories.status in (12,13,14,15,24)');
     $data = $query->result_array();
-    return $data;   
+    return $data;
 
   }
- 
+
   public function get_all_business_activities($branch_id){
     $this->db->select('major_industry.id as bactivity_id, major_industry.description as bactivity_name, subclass.id as bactivitysubtype_id, subclass.description as bactivitysubtype_name');
     $this->db->from('business_activities_branch');
@@ -494,8 +498,21 @@ inner join registeredcoop on registeredcoop.application_id=laboratories.cooperat
 //    $query = $this->db->get();
 //    return $query->row();
 //  }
+  public function get_lab_info_updating($laboratory_id){
+    $this->db->select('laboratories.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region,  registeredcoop.application_id,registeredcoop.addrCode as mainAddr,registeredcoop.coopName,cooperatives.id AS cooperative_id,registeredcoop.coopName AS labName');
+    $this->db->from('laboratories');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = laboratories.addrCode','left');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','left');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','left');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','left');
+    $this->db->join('registeredcoop','registeredcoop.regNo=laboratories.coop_id','inner');
+    $this->db->join('cooperatives','cooperatives.id=registeredcoop.application_id','inner');
+    $this->db->where(array('laboratories.id'=>$laboratory_id));
+    $query = $this->db->get();
+    return $query->row();
+  }
   public function get_branch_info($user_id,$laboratory_id){
-    $this->db->select('laboratories.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region,  registeredcoop.application_id,registeredcoop.addrCode as mainAddr,registeredcoop.coopName');
+    $this->db->select('laboratories.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province, refregion.regCode as rCode, refregion.regDesc as region,  registeredcoop.application_id,registeredcoop.addrCode as mainAddr,registeredcoop.coopName,users.email');
     $this->db->from('laboratories');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = laboratories.addrCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
@@ -503,6 +520,7 @@ inner join registeredcoop on registeredcoop.application_id=laboratories.cooperat
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->join('registeredcoop','registeredcoop.regNo=laboratories.coop_id','inner');
     $this->db->join('cooperatives','cooperatives.id=registeredcoop.application_id','left');
+    $this->db->join('users','users.id=laboratories.user_id');
     $this->db->where(array('laboratories.user_id'=>$user_id,'laboratories.id'=>$laboratory_id));
     $query = $this->db->get();
     return $query->row();
@@ -525,7 +543,7 @@ inner join registeredcoop on registeredcoop.application_id=laboratories.cooperat
     $query = $this->db->get();
     return $query->row();
   }
-  
+
   public function update_not_expired_branch($user_id,$branch_id,$field_data,$subclass_array,$major_industry){
     $data = $this->security->xss_clean($field_data);
     $subclass_array = $this->security->xss_clean($subclass_array);
@@ -657,6 +675,39 @@ public function submit_for_evaluation($user_id,$branch_id,$same,$rCode){
 
   $this->db->trans_begin();
   $this->db->where(array('user_id'=>$user_id,'id'=>$branch_id));
+  if ($same==8)
+    $this->db->update('laboratories',array('first_evaluated_by'=>$sa->id,'status'=>2,'dateApplied'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
+  else
+    $this->db->update('laboratories',array('status'=>$same,'dateApplied'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
+
+  if($this->db->trans_status() === FALSE){
+    $this->db->trans_rollback();
+    return false;
+  }else{
+    $this->db->trans_commit();
+    return true;
+  }
+}
+public function submit_for_evaluation_admin($user_id,$branch_id,$same,$rCode){
+  $user_id = $this->security->xss_clean($user_id);
+  $branch_id = $this->security->xss_clean($branch_id);
+  if ($same==8){
+    $this->db->select('id');
+    $this->db->from('admin');
+    $this->db->where('region_code',$rCode);
+    $this->db->where('access_level',2);
+    $query=$this->db->get();
+    $sa = $query->row();
+    $this->db->select('id');
+    $this->db->from('admin');
+    $this->db->where('region_code',$rCode);
+    $this->db->where('access_level',3);
+    $query2=$this->db->get();
+    $dir = $query2->row();
+  }
+
+  $this->db->trans_begin();
+  $this->db->where(array('id'=>$branch_id));
   if ($same==8)
     $this->db->update('laboratories',array('first_evaluated_by'=>$sa->id,'status'=>2,'dateApplied'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
   else
@@ -828,7 +879,7 @@ public function approve_by_admin($admin_info,$branch_id,$reason_commment,$step){
     $this->db->update('laboratories',array('evaluator3'=>$admin_info->id,'status'=>12,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
   else if($step==4)
     $this->db->update('laboratories',array('evaluator4'=>$admin_info->id,'status'=>15,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
-  else 
+  else
     $this->db->update('laboratories',array('evaluator5'=>$admin_info->id,'status'=>18,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
@@ -843,7 +894,7 @@ public function approve_by_admin($admin_info,$branch_id,$reason_commment,$step){
         $this->db->trans_rollback();
         return false;
       }
-    } 
+    }
     elseif($step==2){
       $branch=$this->get_branch_info_by_admin($branch_id);
       $senior_emails = $this->admin_model->get_emails_of_senior_by_region($branch->rCode);
@@ -907,9 +958,9 @@ public function deny_by_admin($admin_info,$branch_id,$reason_commment,$step){
     $this->db->update('laboratories',array('evaluator3'=>$admin_info->id,'status'=>10,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
   elseif($step==4)
     $this->db->update('laboratories',array('evaluator4'=>$admin_info->id,'status'=>13,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
-  else 
+  else
     $this->db->update('laboratories',array('evaluator5'=>$admin_info->id,'status'=>16,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
-  
+
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
@@ -936,7 +987,7 @@ public function deny_by_admin($admin_info,$branch_id,$reason_commment,$step){
 }
 
 public function defer_by_admin($admin_info,$branch_id,$reason_commment,$step){
-  
+
   $this->db->trans_begin();
   $this->db->where('id',$branch_id);
   if ($step==1)
@@ -947,9 +998,9 @@ public function defer_by_admin($admin_info,$branch_id,$reason_commment,$step){
     $this->db->update('laboratories',array('evaluator3'=>$admin_info->id,'status'=>11,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
   elseif($step==4)
     $this->db->update('laboratories',array('evaluator4'=>$admin_info->id,'status'=>14,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
-  else 
+  else
     $this->db->update('laboratories',array('evaluator5'=>$admin_info->id,'status'=>17,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
-  
+
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
@@ -998,7 +1049,7 @@ public function check_submitted_for_evaluation($labID){
     $status = $row['status'];
   }
 
-  
+
   if($status==2){
     return true;
 
@@ -1192,7 +1243,7 @@ public function get_coop($regNo){
   $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
   $this->db->where('regNo', $regNo);
   $query = $this->db->get();
-  
+
   return $query->row();
 }
 public function check_own_cooperative($coop_id,$user_id){
@@ -1221,6 +1272,20 @@ public function get_cooperative_info($user_id,$coop_id){
   $query = $this->db->get();
   return $query->row();
 }
+
+public function get_cooperative_info_updating($coop_id){
+  $this->db->select('laboratories.*,laboratories.status as lab_status,cooperatives.area_of_operation as area_of_operation, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,cooperatives.regions');
+  $this->db->from('laboratories');
+  $this->db->join('refbrgy' , 'refbrgy.brgyCode = laboratories.addrCode','inner');
+  $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+  $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+  $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+  $this->db->join('cooperatives','laboratories.cooperative_id = cooperatives.id','left');
+  $this->db->where(array('laboratories.id'=>$coop_id));
+  $query = $this->db->get();
+  return $query->row();
+}
+
 public function check_expired_reservation_by_admin($coop_id){
   $query = $this->db->get_where('laboratories',array('id'=> $coop_id));
   $data = $query->row();
@@ -1274,7 +1339,7 @@ public function get_cooperative_info_by_admin($coop_id){
 //    $query = $this->db->get();
 //    return $query->row();
 //  }
-  
+
   public function get_laboratories_info_by_admin($coop_id){
     $this->db->select('laboratories.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,registeredcoop.coopName as coopName');
     $this->db->from('laboratories');
@@ -1295,8 +1360,7 @@ public function get_cooperative_info_by_admin($coop_id){
     return $query->row();
   }
   public function get_registered_laboratories($regcode){
-    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
-    $query = $this->db->query('select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories 
+    $query = $this->db->query('select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories
   inner join refbrgy on refbrgy.brgyCode = laboratories.addrCode
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -1310,7 +1374,7 @@ public function get_cooperative_info_by_admin($coop_id){
     return $data;
   }
 // UNION
-// select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories 
+// select laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,registeredcoop.coopName as coopName from laboratories
 //   inner join refbrgy on refbrgy.brgyCode = laboratories.addrCode
 //     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
 //     inner join refprovince on refprovince.provCode = refcitymun.provCode
@@ -1347,7 +1411,7 @@ public function deny_by_director($id,$user_id,$user_access_level,$comment)
           $coopname = $row->coopname;
           $labname = $row->laboratoryName;
           $lab_user_id = $row->lab_userid;
-          //get email 
+          //get email
           $email_query = $this->db->query("select email from users where id='$lab_user_id'");
           if($email_query->num_rows()>0)
           {
@@ -1357,13 +1421,13 @@ public function deny_by_director($id,$user_id,$user_access_level,$comment)
             }//endforeach
           }
           if($row->status ==25)
-          {  
+          {
               $lab_data = array(
               'status'=>25,
               'third_evaluated_by'=>$user_id,
               'evaluation_comment'=> "Denied by Director",
               'lastUpdated' => $row->lastUpdated //get last updated date
-              );  
+              );
               $comment_data = array(
                 'user_id'=>$user_id,
                 'user_access_level'=>$user_access_level,
@@ -1372,7 +1436,7 @@ public function deny_by_director($id,$user_id,$user_access_level,$comment)
                 'created_at' =>date('Y-m-d h:i:s',(now('Asia/Manila')))
               );
               $this->db->update('laboratories',$lab_data,array('id'=>$id));
-              
+
               if(!$this->db->update('laboratory_comment',$comment_data,array('user_id'=>$user_id,'user_access_level'=>$user_access_level,'laboratory_id'=>$id,'laboratory_status'=>25)))
               {
                 return json_encode("failed to updated existing denied laboratory commit");
@@ -1380,7 +1444,7 @@ public function deny_by_director($id,$user_id,$user_access_level,$comment)
 
               // $this->sendEmailToClientDenyLaboratory($email,$coopname,$labname,$comment);
               $this->db->trans_commit();
-              return true;  
+              return true;
           }
           else
           {
@@ -1389,7 +1453,7 @@ public function deny_by_director($id,$user_id,$user_access_level,$comment)
               'third_evaluated_by'=>$user_id,
               'evaluation_comment'=> "Denied by Director",
               'lastUpdated' => date('Y-m-d h:i:s',(now('Asia/Manila')))
-              );  
+              );
               $comment_data = array(
                 'user_id'=>$user_id,
                 'user_access_level'=>$user_access_level,
@@ -1399,13 +1463,13 @@ public function deny_by_director($id,$user_id,$user_access_level,$comment)
                 'created_at' =>date('Y-m-d h:i:s',(now('Asia/Manila')))
               );
               $this->db->update('laboratories',$lab_data,array('id'=>$id));
-              $this->db->insert('laboratory_comment',$comment_data); 
-              // $this->sendEmailToClientDenyLaboratory($email,$coopname,$labname,$comment);//send email to client 
+              $this->db->insert('laboratory_comment',$comment_data);
+              // $this->sendEmailToClientDenyLaboratory($email,$coopname,$labname,$comment);//send email to client
               $this->db->trans_commit();
-              return true;    
+              return true;
               }//end if status 25
         }//end foreach
-      }//end of if check    
+      }//end of if check
     } //end tras status
 }
 
@@ -1429,7 +1493,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
           $coopname = $row->coopname;
           $labname = $row->laboratoryName;
           $lab_user_id = $row->lab_userid;
-          //get email 
+          //get email
           $email_query = $this->db->query("select email from users where id='$lab_user_id'");
           if($email_query->num_rows()>0)
           {
@@ -1439,13 +1503,13 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
             }//endforeach
           }
           if($row->status ==24)
-          {  
+          {
               $lab_data = array(
               'status'=>24,
               'third_evaluated_by'=>$user_id,
               'evaluation_comment'=> "Deferred by Director",
               'lastUpdated' => $row->lastUpdated //get last updated date
-              );  
+              );
               $comment_data = array(
                 'user_id'=>$user_id,
                 'user_access_level'=>$user_access_level,
@@ -1455,7 +1519,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
                 'created_at' =>date('Y-m-d h:i:s',(now('Asia/Manila')))
               );
               $this->db->update('laboratories',$lab_data,array('id'=>$id));
-              
+
               // if(!$this->db->update('laboratory_comment',$comment_data,array('user_id'=>$user_id,'user_access_level'=>$user_access_level,'laboratory_id'=>$id,'laboratory_status'=>24)))
               // {
               //   return json_encode("failed to updated existing deferred laboratory commit");
@@ -1467,7 +1531,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
 
               $this->sendEmailToClientDeferLaboratory($email,$coopname,$labname,$comment);
               $this->db->trans_commit();
-              return true;  
+              return true;
           }
           else
           {
@@ -1476,7 +1540,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
               'third_evaluated_by'=>$user_id,
               'evaluation_comment'=> "Denied by Director",
               'lastUpdated' => date('Y-m-d h:i:s',(now('Asia/Manila')))
-              );  
+              );
               $comment_data = array(
                 'user_id'=>$user_id,
                 'user_access_level'=>$user_access_level,
@@ -1486,13 +1550,13 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
                 'created_at' =>date('Y-m-d h:i:s',(now('Asia/Manila')))
               );
               $this->db->update('laboratories',$lab_data,array('id'=>$id));
-              $this->db->insert('laboratory_comment',$comment_data); 
-              $this->sendEmailToClientDeferLaboratory($email,$coopname,$labname,$comment);//send email to client 
+              $this->db->insert('laboratory_comment',$comment_data);
+              $this->sendEmailToClientDeferLaboratory($email,$coopname,$labname,$comment);//send email to client
               $this->db->trans_commit();
-              return true;    
+              return true;
               }//end if status 25
         }//end foreach
-      }//end of if check    
+      }//end of if check
     } //end tras status
 }
 
@@ -1534,6 +1598,24 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
         return false;
     }
   }
+
+  public function get_all_lab_migrated($regno){
+    $this->db->distinct();
+    $this->db->select('r.coopName,lab.laboratoryName,lab.house_blk_no,lab.streetName,lab.id as b_id,c.area_of_operation,c.regions, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+    $this->db->from('laboratories lab');
+    $this->db->join('registeredcoop r' , 'lab.coop_id = r.regNo ','inner');
+    $this->db->join('cooperatives c', 'r.application_id = c.id','inner');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = r.addrCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->group_by('lab.id,r.regNo');
+    $this->db->where('lab.coop_id', $regno);
+    $query = $this->db->get();
+    $data = $query->result_array();
+    return $data;
+  }
+
   public function getCoopRegNo($user_id){
     $this->db->select('registeredcoop.regNo as regNo, articles_of_cooperation.guardian_cooperative as gc,cooperatives.area_of_operation,cooperatives.regions, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
     $this->db->from('registeredcoop');
@@ -1564,10 +1646,10 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
 
   public function admin_comment_limit1($laboratory_id,$user_level)
   {
-    
+
    if($user_level==2)
    {
-  
+
       $qry = $this->db->order_by('id', 'DESC')->get_where('laboratory_comment',array('laboratory_id'=>$laboratory_id,'user_access_level'=>$user_level),1);
           if($qry->num_rows()>0)
           {
@@ -1576,7 +1658,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
                   $row['comment_by']='Senior Comment';
                   $data[]=$row;
                 }
-              
+
           }
           else
           {
@@ -1591,7 +1673,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
       {
         foreach($check_query->result_array() as $row)
         {
-          $row['comment_by']='Director Comment';  
+          $row['comment_by']='Director Comment';
           $data[]=$row;
         }
 
@@ -1606,9 +1688,9 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
          //      }
          //      if($row['user_access_level']==3)
          //      {
-         //        $row['comment_by']='Director Comment';  
+         //        $row['comment_by']='Director Comment';
          //      }
-              
+
          //      $data[]=$row;
          //    }
          //  }
@@ -1628,10 +1710,10 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
 
   public function admin_comment($laboratory_id,$user_level)
   {
-    
+
    if($user_level==2)
    {
-  
+
       $qry = $this->db->get_where('laboratory_comment',array('laboratory_id'=>$laboratory_id,'user_access_level'=>$user_level));
           if($qry->num_rows()>0)
           {
@@ -1640,7 +1722,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
                   $row['comment_by']='Senior Comment';
                   $data[]=$row;
                 }
-              
+
           }
           else
           {
@@ -1655,7 +1737,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
       {
         foreach($check_query->result_array() as $row)
         {
-          $row['comment_by']='Director Comment';  
+          $row['comment_by']='Director Comment';
           $data[]=$row;
         }
 
@@ -1670,9 +1752,9 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
          //      }
          //      if($row['user_access_level']==3)
          //      {
-         //        $row['comment_by']='Director Comment';  
+         //        $row['comment_by']='Director Comment';
          //      }
-              
+
          //      $data[]=$row;
          //    }
          //  }
@@ -1688,7 +1770,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
       }
      return $data;
    }
-    
+
     // if($qry->num_rows()>0)
     // {
     //   foreach($qry->result_array() as $row)
@@ -1708,7 +1790,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
     // {
     //   $data =  NULL;
     // }
- 
+
   }
 
   public function get_cooperatve_types($cooperative_type_id)
@@ -1719,7 +1801,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
      return $data;
 
     }
-    
+
   public function coop_dtl($cooperative_id)
   {
     $qry =$this->db->get_where('cooperatives',array('id'=>$cooperative_id));
@@ -1787,7 +1869,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
         //sending confirmEmail($receiver) function calling link to the user, inside message body
         $message = "Good day! An application for establishment of Laboratory with the following details has been submitted:<p>
 
-        <ol type='a'> 
+        <ol type='a'>
           <b><li> Name of Cooperative:</b>".$coopname."</li>
           <b><li> Name of Proposed of Laboratory:</b>".$proposedname."</li>
           <b><li> Address of Proposed Laboratory:</b>".$brgy."</li>
@@ -1880,7 +1962,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
     This refers to the application for laboratory of the proposed ".$coop_full_name.".<br><br>
 
     Based on the evaluation of the submitted application documents for registration, we regret to inform you that the application is denied due to:<p> <br>
-    
+
     ".trim(preg_replace('/\s\s+/', '<br>', $reason_commment))."";
 
     $this->email->from($from,'ecoopris CDA (No Reply)');
@@ -1911,11 +1993,11 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
     This refers to the application for laboratory of the proposed ".$coop_full_name.".<br><br>
 
     Upon review of the documents submitted online the following are our findings:<p> <br>
-    
+
     ".trim(preg_replace('/\s\s+/', '<br>', $comment))."
 
 
-    Please comply immediately with the above-mentioned findings within 15 days. 
+    Please comply immediately with the above-mentioned findings within 15 days.
 
     Should you need further information or clarification, please feel free to contact Registration Division/Section at telephone numbers ".$reg_officials_info['contact']." or email us at ".$reg_officials_info['email'].".<br><br>
 

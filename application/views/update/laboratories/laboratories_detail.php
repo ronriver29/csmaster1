@@ -1,9 +1,13 @@
 <div class="row mb-2">
   <div class="col-sm-12 col-md-2">
-    <a class="btn btn-secondary btn-sm btn-block"  href="<?php echo base_url();?>laboratories" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php if($is_client) : ?>
+    <a class="btn btn-secondary btn-sm btn-block"  href="<?php echo base_url();?>laboratories_update" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+  <?php else : ?>
+    <a class="btn btn-secondary btn-sm btn-block"  href="<?php echo base_url();?>updated_laboratory_info" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+  <?php endif; ?>
   </div>
   <div class="col-sm-12 col-md-2">
-      <?php if($branch_info->status==24):  ?> <!-- modify by json -->
+      <?php if($lab_info_updating->status==24):  ?> <!-- modify by json -->
 
 
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-lg3">* Director Findings</button>
@@ -97,7 +101,7 @@
   </div>
 </div>
 <?php endif; ?>
-<!--<?php if($branch_info->status==0): ?>
+<!--<?php if($lab_info_updating->status==0): ?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-warning text-center" role="alert">
@@ -108,7 +112,7 @@
 <?php endif; ?>-->
 
 
-<?php if($branch_info->status==25): //old 16 ?> <!-- modified by json -->
+<?php if($lab_info_updating->status==25): //old 16 ?> <!-- modified by json -->
 
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
@@ -123,7 +127,7 @@
 
 
 <?php if(!$is_client):?>
-<?php if($branch_info->status==12):  ?> <!-- modify by json -->
+<?php if($lab_info_updating->status==12):  ?> <!-- modify by json -->
 <?php if(isset($comment_list_senior) && !empty($comment_list_senior)){?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
@@ -136,12 +140,12 @@
   <?php }?>
 <?php endif; ?>
 <?php endif; ?>
-<!-- <?php if($is_client && $branch_info->status==17 && strlen($branch_info->evaluation_comment) >= 1 && ($branch_info->evaluator1 > 0)) : ?>
+<!-- <?php if($is_client && $lab_info_updating->status==17 && strlen($lab_info_updating->evaluation_comment) >= 1 && ($lab_info_updating->evaluator1 > 0)) : ?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
       <div class="alert alert-danger" role="alert">
         <p class="font-weight-bold">The branch has been deferred because of the following reason/s:</p>
-        <pre><?= $branch_info->evaluation_comment ?></pre>
+        <pre><?= $lab_info_updating->evaluation_comment ?></pre>
       </div>
     </div>
   </div>
@@ -157,10 +161,10 @@
             </div>
             <div class="col-sm-6 col-md-4">
               <small class="float-right">
-                <?php if($branch_info->status!=0): ?>
+                <?php if($lab_info_updating->status!=0): ?>
                   <span class="badge badge-success">COMPLETE</span>
                 <?php endif; ?>
-                <?php if($branch_info->status==0) :?>
+                <?php if($lab_info_updating->status==0) :?>
                   <span class="badge badge-secondary">PENDING</span>
                 <?php endif; ?>
               </small>
@@ -181,18 +185,18 @@
         <small>
         <strong>Name of the Laboratory:</strong>
         <p class="text-muted">
-          <?=$branch_info->laboratoryName." Laboratory Cooperative"?>
+          <?=$lab_info_updating->laboratoryName." Laboratory Cooperative"?>
         </p>
         <hr>
 <!--        <strong>Branch</strong>
         <p class="text-muted">
-          <?= $branch_info->branchName?>
+          <?= $lab_info_updating->branchName?>
         </p>
         <hr>-->
         <strong>Address of the Laboratory</strong>
         <p class="text-muted">
-          <?php if($branch_info->house_blk_no==null && $branch_info->streetName==null) $x=''; else $x=', ';?>
-          <?=ucwords($branch_info->house_blk_no)?> <?=ucwords($branch_info->streetName).$x?> <?=$branch_info->brgy.', '?> <?=$branch_info->city.', '?> <?= $branch_info->province.', '?> <?=$branch_info->region?>
+          <?php if($lab_info_updating->house_blk_no==null && $lab_info_updating->streetName==null) $x=''; else $x=', ';?>
+          <?=ucwords($lab_info_updating->house_blk_no)?> <?=ucwords($lab_info_updating->streetName).$x?> <?=$lab_info_updating->brgy.', '?> <?=$lab_info_updating->city.', '?> <?= $lab_info_updating->province.', '?> <?=$lab_info_updating->region?>
         </p>
         <hr>
 <!--        <strong>Business Activities - Subclass</strong>
@@ -200,102 +204,68 @@
           <?php foreach($business_activities as $casd) : ?>
           &#9679; <?= $casd['bactivity_name'] ?> - <?= $casd['bactivitysubtype_name']?><br>
           <?php endforeach; ?>
-            $branch_info->bactivity_name
+            $lab_info_updating->bactivity_name
         </p>
         <hr>-->
 <!--        <strong>Area of Operation</strong>
         <p class="text-muted">
-          <?= $branch_info->area_of_operation?>
+          <?= $lab_info_updating->area_of_operation?>
         </p>
         <hr>-->
         <?php if($is_client) : ?>
           <strong>Status</strong>
           <p class="text-muted">
-            <?php if($branch_info->status==0) echo "EXPIRED"; ?>
-            <?php if($branch_info->status==1) echo "PENDING"; ?>
-            <?php if($branch_info->status>=2 && $branch_info->status<=15) echo "ON EVALUATION"; ?>
-            <?php if($branch_info->status==25) echo "DENIED"; ?>
-           <!--  <?php if($branch_info->status==17) echo "DEFERRED"; ?> -->
-            <?php if($branch_info->status==24) echo "DEFERRED"; ?>
-            <?php if($branch_info->status==18) echo "FOR PRINT & SUBMIT"; ?>
+            <?php if($lab_info_updating->status==0) echo "EXPIRED"; ?>
+            <?php if($lab_info_updating->status==1) echo "PENDING"; ?>
+            <?php if($lab_info_updating->status>=2 && $lab_info_updating->status<=15) echo "ON EVALUATION"; ?>
+            <?php if($lab_info_updating->status==25) echo "DENIED"; ?>
+           <!--  <?php if($lab_info_updating->status==17) echo "DEFERRED"; ?> -->
+            <?php if($lab_info_updating->status==24) echo "DEFERRED"; ?>
+            <?php if($lab_info_updating->status==18) echo "FOR PRINT & SUBMIT"; ?>
 
-            <?php if($branch_info->status==19) echo "FOR PAYMENT"; ?>
-            <?php if($branch_info->status==20) echo "WAITING FOR O.R."; ?>
-            <?php if($branch_info->status==21) echo "REGISTERED"; ?>
+            <?php if($lab_info_updating->status==19) echo "FOR PAYMENT"; ?>
+            <?php if($lab_info_updating->status==20) echo "WAITING FOR O.R."; ?>
+            <?php if($lab_info_updating->status==21) echo "REGISTERED"; ?>
           </p>
         <?php endif; ?>
       </small>
       </div>
 
-      <?php if(($is_client && ($branch_info->status<=1 || $branch_info->status==17)) || (!$is_client &&  $branch_info->status==9) ||  ($branch_info->status==24)): ?>
+      <?php if(($is_client && ($lab_info_updating->status==21))): ?>
         <div class="card-footer">
-          <a href="<?php echo base_url();?>laboratories/<?= $encrypted_id ?>/rupdate" class="btn btn-block btn-color-blue"><i class='fas fa-edit'></i> Update Basic Information</a>
+          <a href="<?php echo base_url();?>laboratories_update/<?= $encrypted_id ?>/rupdate" class="btn btn-block btn-color-blue"><i class='fas fa-edit'></i> Update Basic Information</a>
+        </div>
+      <?php endif; ?>
+      <?php if((!$is_client && ($lab_info_updating->status==30 || $lab_info_updating->status==31))): ?>
+        <div class="card-footer">
+          <a href="<?php echo base_url();?>laboratories_update/<?= $encrypted_id ?>/rupdate" class="btn btn-block btn-color-blue"><i class='fas fa-edit'></i> Update Basic Information</a>
         </div>
       <?php endif; ?>
     </div>
   </div>
-<?php if(!$is_client) : ?>
-  <div class="col-sm-12 col-md-8">
-    <ul class="list-group">
-      <li class="list-group-item  flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1 font-weight-bold">
-            Articles of Cooperation, By-Laws, Economic Survey, Treasurer's Affidavit, Audited Financial Statement and Uploaded documents
-          </h5>
-          <small class="text-muted">
-          <?php if($document_5 && $document_6 && $document_7): ?>
-            <span class="badge badge-success">COMPLETE</span>
-          <?php endif;?>
-          <?php if(!$document_5 && !$document_6 && !$document_7): ?>
-            <span class="badge badge-secondary">PENDING</span>
-          <?php endif;?>
-          </small>
-        </div>
-        <?php if($branch_info->status!= 0): ?>
-          <small class="text-muted">
-            <a href="<?php echo base_url();?>branches/<?= $encrypted_id ?>/documents" class="btn btn-info btn-sm">View</a>
-          </small>
-        <?php endif ?>
-      </li>
-        <li class="list-group-item  flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1 font-weight-bold">Finalize and review all the information provided. After reviewing the application, You can now evaluate the application.</h5>
-            <small class="text-muted">
-              <?php if($branch_info->status > 3) :?>
-                <span class="badge badge-success">COMPLETED</span>
-              <?php endif; ?>
-              <?php if($branch_info->status == 3) :?>
-                <span class="badge badge-secondary">PENDING</span>
-              <?php endif; ?>
-            </small>
-          </div>
-          <?php if(($branch_info->status>=2 && $branch_info->status<=15)  && $document_5 && $document_6 && $document_7): ?>
-            <small class="text-muted">
-              <div class="btn-group" role="group" aria-label="Basic example">
-
-              </div>
-            </small>
-          <?php endif; ?>
-        </li>
-    </ul>
-  </div>
-<?php else : ?>
     <div class="col-sm-12 col-md-8">
       <ul class="list-group">
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 font-weight-bold ">Step 1</h5>
             <small>
-              <?php if($branch_info->status!=0): ?>
+              <?php if($lab_info_updating->status!=0): ?>
                 <span class="badge badge-success">COMPLETE</span>
               <?php endif; ?>
-              <?php if($branch_info->status==0) :?>
+              <?php if($lab_info_updating->status==0) :?>
                 <span class="badge badge-secondary">PENDING</span>
               <?php endif; ?>
             </small>
           </div>
           <p class="mb-1 font-italic">Laboratory Registration and Basic Information.</p>
         </li>
+        <?php
+          if($lab_info_updating->addrCode != ''){
+            $allowed = true;
+          } else {
+            $allowed = false;
+          }
+        ?>
         <li class="list-group-item  flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1 font-weight-bold">Step 2</h5>
@@ -310,37 +280,48 @@
           </div>
           <p class="mb-1 font-italic">List of Members/Cooperators
           </p>
-          <?php if($branch_info->status!= 0 && ($branch_info->status!=25)): ?>
+
+          <?php if($lab_info_updating->status != 0 && ($lab_info_updating->status!=25)): ?>
             <small class="text-muted">
-              <a href="<?php echo base_url();?>laboratories/<?= $encrypted_id ?>/laboratories_cooperators" class="btn btn-info btn-sm">View</a>
+              <?php if($allowed){?>
+                <a href="<?php echo base_url();?>laboratories_update/<?= $encrypted_id ?>/laboratories_cooperators_update" class="btn btn-info btn-sm">View</a>
+              <?php } else { ?>
+                Please update basic information first.
+              <?php } ?>
             </small>
           <?php endif;?>
+
         </li>
           <li class="list-group-item  flex-column align-items-start">
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1 font-weight-bold">Step 3</h5>
               <small class="text-muted">
-                <?php if($branch_info->status > 1 && ($branch_info->status)!=24) :?>
+                <?php if($lab_info_updating->status > 1 && ($lab_info_updating->status)!=24) :?>
                 <span class="badge badge-success">COMPLETED</span>
                 <?php endif; ?>
-                <?php if($branch_info->status == 1) :?>
+                <?php if($lab_info_updating->status == 1) :?>
                 <span class="badge badge-secondary">PENDING</span>
                 <?php endif; ?>
               </small>
             </div>
             <p class="mb-1 font-italic">Finalize and review all the information you provide. After reviewing your application, click proceed for evaluation of your application.</p>
-            <?php if(($branch_info->status == 1) && $cooperators_count->CountCooperators >= 15 || ($branch_info->status == 24) || ($branch_info->status == 18)): ?>
-              <?php if($manual_operation && $board_resolution) :?>
+            <?php if(($lab_info_updating->status == 21 || $lab_info_updating->status == 30 || $lab_info_updating->status == 31)) : ?>
               <small class="text-muted">
-                <?php if($branch_info->status != 18){?>
-                <a href="<?php echo base_url();?>laboratories/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
-              <?php } ?>
-              <?php else: // end of manual and board?>
-                   <!-- <?php if(($branch_info->status == 1) && $cooperators_count->CountCooperators >= 15):?> -->
-
-               <!--  <?php endif; ?>   -->
-              <?php endif; ?>
-               <a href="<?php echo base_url();?>laboratories/<?= $encrypted_id ?>/UploadDocuments" class="btn btn-info btn-sm">View</a>
+                <?php if($allowed){?>
+                  <?php if($lab_info_updating->status == 21 && $lab_info_updating->status != 30){?>
+                    <a href="<?php echo base_url();?>laboratories_update/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
+                  <?php } ?>
+                  <a href="<?php echo base_url();?>laboratories_update/<?= $encrypted_id ?>/UploadDocuments" class="btn btn-info btn-sm">View</a>
+                <?php } else { ?>
+                  Please update basic information first.
+                <?php } ?>
+            <?php endif; ?>
+            <?php if(!$is_client && $lab_info_updating->status==30): ?>
+              <small class="text-muted">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <a href="<?php echo base_url();?>laboratories_update/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
+                </div>
+              </small>
             <?php endif; ?>
 
             </small>
@@ -350,17 +331,17 @@
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1 font-weight-bold">Step 4</h5>
               <small class="text-muted">
-               <!--  <?php if($branch_info->status == 19 || $branch_info->status == 20) :?>
+               <!--  <?php if($lab_info_updating->status == 19 || $lab_info_updating->status == 20) :?>
                 <span class="badge badge-success">COMPLETED</span>
                 <?php endif; ?>
-                <?php if($branch_info->status == 18) :?>
+                <?php if($lab_info_updating->status == 18) :?>
                 <span class="badge badge-secondary">PENDING</span>
                 <?php endif; ?> -->
 
-                 <?php if($branch_info->status == 18 || $branch_info->status ==19 ) :?>
+                 <?php if($lab_info_updating->status == 18 || $lab_info_updating->status ==19 ) :?>
                 <span class="badge badge-success">COMPLETED</span>
                 <?php endif; ?>
-                <?php if($branch_info->status <= 12) :?>
+                <?php if($lab_info_updating->status <= 12) :?>
                 <span class="badge badge-secondary">PENDING</span>
                 <?php endif; ?>
 
@@ -374,10 +355,10 @@
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1 font-weight-bold">Step 5</h5>
               <small class="text-muted">
-                <?php if($branch_info->status == 19 || $branch_info->status == 20) :?>
+                <?php if($lab_info_updating->status == 19 || $lab_info_updating->status == 20) :?>
                 <span class="badge badge-success">COMPLETED</span>
                 <?php endif; ?>
-                <?php if($branch_info->status <= 18) :?>
+                <?php if($lab_info_updating->status <= 18) :?>
                 <span class="badge badge-secondary">PENDING</span>
                 <?php endif; ?>
               </small>
@@ -385,60 +366,13 @@
             <p class="mb-1 font-italic">Wait for an e-mail notification of either the payment procedure or the list of documents for compliance. If your application has been approved, a payment button will appear and you can now proceed to payment.</p>
 
 
-            <?php if(($branch_info->status==19) && $cooperators_count->CountCooperators >= 15): ?>
+            <?php if(($lab_info_updating->status==19) && $cooperators_count->CountCooperators >= 15): ?>
               <small class="text-muted">
                 <a href="<?php echo base_url();?>laboratories/<?= $encrypted_id ?>/laboratories_payments_branch" class="btn btn-color-blue btn-sm ">Payment</a>
               </small>
             <?php endif ?>
 
-            <?php if($branch_info->status>=20 && $branch_info->status != 24 && $branch_info->status != 20 && $branch_info->status != 21): ?>
-              <?php echo form_open('laboratories_payments_branch/add_payment',array('id'=>'paymentForm','name'=>'paymentForm')); ?>
-
-              <?php
-
-                $report_exist = $this->db->where(array('payor'=>ucwords($branch_info->laboratoryName.' - '.$branch_info->labName)))->get('payment');
-
-                // echo $report_exist->num_rows();
-                if($report_exist->num_rows()==0){
-
-                  // if($coop_info->date_for_payment == NULL){
-                  //   $datee = date('d-m-Y',now('Asia/Manila'));
-                  //   $datee2 = date('Y-m-d',now('Asia/Manila'));
-                  // } else {
-                    // $datee = date('d-m-Y',strtotime($coop_info->date_for_payment));
-                    // $datee2 = date('Y-m-d',strtotime($coop_info->date_for_payment));
-                    $datee = date('d-m-Y',now('Asia/Manila'));
-                    $datee2 = date('Y-m-d',now('Asia/Manila'));
-                  // }
-                  $series = substr($branch_info->addrCode,0,2).'-'.date('Y-m',strtotime($datee)).'-'.$series;
-                } else {
-                  foreach($report_exist->result_array() as $row){
-                    $series = $row['refNo'];
-                    $datee = date('d-m-Y',strtotime($row['date']));
-                    $datee2 = date('Y-m-d',now('Asia/Manila'));
-                  }
-
-                  // $series =
-                }
-
-                $lab_fee =50.00;
-                ?>
-
-              <input type="hidden" class="form-control" id="cooperativeID" name="cooperativeID" value="<?=encrypt_custom($this->encryption->encrypt($branch_info->application_id)) ?>">
-              <input type="hidden" class="form-control" id="refno" name="refno" value="<?=$series ?>">
-              <input type="hidden" class="form-control" id="branchID" name="branchID" value="<?=$encrypted_id ?>">
-              <input type="hidden" class="form-control" id="payor" name="payor" value="<?=ucwords($branch_info->laboratoryName.'- '.$branch_info->labName)?>">
-              <input type="hidden" class="form-control" id="tDate" name="tDate" value="<?=$datee2 ?>">
-              <input type="hidden" class="form-control" id="nature" name="nature" value="Laboratory Registration">
-              <input type="hidden" class="form-control" id="particulars" name="particulars" value="Processing Fee">
-              <input type="hidden" class="form-control" id="amount" name="amount" value="<?=number_format($lab_fee,2)?>">
-              <input type="hidden" class="form-control" id="total" name="total" value="<?=$lab_fee?>">
-              <input type="hidden" class="form-control" id="rCode" name="rCode" value="<?= $branch_info->rCode ?>">
-
-                 <input style="width:20%;" class="btn btn-info btn-sm" type="submit" id="offlineBtn" name="offlineBtn" value="Download O.P">
-            <?php endif ?>
           </li>
       </ul>
     </div>
-<?php endif; ?>
 </div>
