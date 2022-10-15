@@ -745,7 +745,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join refregion on refregion.regCode = refprovince.regCode
     left join registeredcoop on branches.regNo = registeredcoop.regNo
     where refregion.regCode like "'.$regcode.'%" and branches.addrCode like "'.$regcode2.'%"
-    and branches.status in (55,57,58,60,63,64,65,66,67,68)');
+    and branches.status in (55,57,58,60,63,64,65,66,67,68) GROUP BY branches.branchName,branches.certNo,branches.addrCode');
     $data = $query->result_array();
     return $data;
   }
@@ -923,7 +923,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join refregion on refregion.regCode = refprovince.regCode
     inner join registeredcoop on branches.regNo = registeredcoop.regNo
     where refregion.regCode like "'.$regcode.'%"
-    and branches.status in (56,61)');
+    and branches.status in (56,61) GROUP BY branches.branchName,branches.certNo,branches.addrCode');
     $data = $query->result_array();
     return $data;
   }
@@ -977,7 +977,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join refregion on refregion.regCode = refprovince.regCode
     inner join registeredcoop on branches.regNo = registeredcoop.regNo
     where refregion.regCode like "'.$regcode.'%"
-    and branches.status in (32,34,36)');
+    and branches.status in (32,34,36) GROUP BY branches.branchName,branches.certNo,branches.addrCode');
     $data = $query->result_array();
     return $data;
   }
@@ -998,7 +998,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join refprovince on refprovince.provCode = refcitymun.provCode
     inner join refregion on refregion.regCode = refprovince.regCode
     where refregion.regCode like "'.$regcode.'%" AND branches.regCode != 0
-    and branches.status in (42,45)');
+    and branches.status in (42,45) GROUP BY branches.branchName,branches.certNo,branches.addrCode');
     $data = $query->result_array();
     return $data;
   }
@@ -1030,7 +1030,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join refregion on refregion.regCode = refprovince.regCode
     inner join registeredcoop on branches.regNo = registeredcoop.regNo
     where refregion.regCode like "'.$regcode.'%"
-    and branches.status in (42,45,47) and registeredcoop.type IN ('.$typeofcoopimp.')');
+    and branches.status in (42,45,47) and registeredcoop.type IN ('.$typeofcoopimp.') GROUP BY branches.branchName,branches.certNo,branches.addrCode');
     $data = $query->result_array();
     return $data;
   }
@@ -1051,7 +1051,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join refregion on refregion.regCode = refprovince.regCode
     inner join registeredcoop on branches.regNo = registeredcoop.regNo
     where refregion.regCode like "'.$regcode.'%"
-    and branches.status in (42,45,47)');
+    and branches.status in (42,45,47) GROUP BY branches.branchName,branches.certNo,branches.addrCode');
     $data = $query->result_array();
     return $data;
   }

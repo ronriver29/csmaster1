@@ -60,7 +60,7 @@
             $data['header'] = 'Branches and Satellites For Conversion';
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
             $this->load->view('templates/admin_header', $data);
-            
+
             $type_arr = array();
             $this->db->where(array('active'=>1));
             $this->db->from('head_office_coop_type_branch');
@@ -116,7 +116,7 @@
             $this->load->view('admin/revoke_privilege_supervisor_branch');
             $this->load->view('templates/admin_footer');
           }
-        } 
+        }
       }
     }
 
@@ -130,12 +130,12 @@
         if(is_numeric($decoded_id) && $decoded_id!=0){
               if(!$this->branches_model->check_submitted_for_evaluation($decoded_id)){
                 if($this->form_validation->run() == FALSE){
-                  $data['client_info'] = $this->user_model->get_user_info($user_id); 
+                  $data['client_info'] = $this->user_model->get_user_info($user_id);
 //                  $data['members_composition'] = $this->branches_model->get_coop_composition($decoded_id);
-                  
+
                   $data['title'] = 'Update Cooperative Details';
                   $data['header'] = 'Update Cooperative Information';
-                  
+
                   $data['branch_info'] = $this->branches_model->get_branch_info($user_id,$decoded_id);
 
                   $data['last_query'] = $this->db->last_query();
@@ -158,15 +158,15 @@
                   $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
 
                   $this->load->view('./template/header', $data);
-                  
+
 //                  if($this->branches_model->check_expired_reservation($decoded_id,$user_id)){
                     $this->load->view('cooperative/registration_update_conversion', $data);
-                  
+
 //                  }
                   $this->load->view('./template/footer', $data);
                 }else{
                   // if(!$this->branches_model->check_expired_reservation($decoded_id,$user_id)){
-                    $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID'))); 
+                    $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
                     $data['branch_info'] = $this->branches_model->get_branch_info($user_id,$decoded_id);
 
                     $field_data = array(
@@ -183,7 +183,7 @@
                         $this->session->set_flashdata('branches_success', 'Unable to update Branch/Satellite basic information.');
                         redirect('branches/'.$this->input->post('cooperativeID').'/bns_conversion');
                       }
-                    } 
+                    }
                 }
               }else{
                 $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
@@ -214,9 +214,9 @@
 
       $this->branches_model->save_OR_conversion(array('id' => $this->input->post('payment_id')), $data,$this->input->post('bid'),$date_of_or);
       echo json_encode(array("status" => TRUE, "message"=>"O.R. No has been saved."));
-      
+
     }
-    
+
     public function approve_branch(){
       if(!$this->session->userdata('logged_in')){
         redirect('users/login');
@@ -234,7 +234,7 @@
               if($this->session->userdata('access_level')==5){
                 redirect('admins/login');
               }else{
-                
+
                   // if($this->branches_model->check_submitted_for_evaluation($decoded_id)){
                     if(!$this->branches_model->check_if_denied($decoded_id)){
                       $branch_info = $this->branches_model->get_branch_info_by_admin($decoded_id);
@@ -326,7 +326,7 @@
                                       }else{
                                         $this->session->set_flashdata('list_error_message', 'Unable to approve branch.');
                                         redirect('for_conversion');
-                                      }   
+                                      }
                                   }
                                 }else{
                                   $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist.');
@@ -344,7 +344,7 @@
                               }else{
                                 $this->session->set_flashdata('list_error_message', 'Unable to approve branch.');
                                 redirect('for_conversion');
-                              }  
+                              }
                             }
                           }else{
                             $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist of Cooperative Main Branch.');
@@ -379,7 +379,7 @@
                                     if($this->db->count_all_results()>0 && $branch_info->status != 12){
                                       $regioncode = '00';
                                     }
-                                    
+
                                    $senior_info = $this->admin_model->get_senior_info($regioncode);
                                    // echo $this->db->last_query();
                                    // echo $branch_info->regCode.'-'.$regioncode;
@@ -442,7 +442,7 @@
                                     }else{
                                       $this->session->set_flashdata('list_error_message', 'Unable to approve branch.');
                                       redirect('for_conversion');
-                                    }      
+                                    }
                                   // }
                                 }else{
                                   $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist.');
@@ -460,7 +460,7 @@
                               }else{
                                 $this->session->set_flashdata('list_error_message', 'Unable to approve branch.');
                                 redirect('for_conversion');
-                              }  
+                              }
                             }
                           }else{
                             $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist of Cooperative Main Branch.');
@@ -574,7 +574,7 @@
                                         $success = $this->branches_model->approve_by_admin2_for_conversion($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior,$coop_full_name);
                                       }
                                     }
-                                    
+
                                   }
                                   if($success){
                                     $this->session->set_flashdata('list_success_message', 'Branch/Satellite has been submitted.');
@@ -601,7 +601,7 @@
 //                              $this->session->set_flashdata('list_error_message', 'Unable to approve branch.');
 //                              redirect('branches');
 //                            }
-//                          } 
+//                          }
                         }else{
                           if($this->branches_model->check_evaluator1($decoded_id)){
                             if($this->branches_model->check_evaluator2($decoded_id)){
@@ -617,7 +617,7 @@
                                     );
                                 // $this->debug($data_field);
                              $coop_full_name = $this->input->post('bName',TRUE);
-                        
+
                                 $success = $this->branches_model->insert_conversion_comment_history($data_field);
                                 $reason_commment='';
 
@@ -636,7 +636,7 @@
                                   $seniorinfo = $this->admin_model->get_emails_of_senior_by_region($regioncode);
 
                                   $data['suvervising_info'] = $this->admin_model->get_specialst_info($branch_info->evaluator3);
-                                  
+
                                 // } else {
                                   // $data['director_info'] = $this->admin_model->get_emails_of_supervisor_by_region($regioncode);
                                 // }
@@ -708,7 +708,7 @@
                   //   $this->session->set_flashdata('redirect_applications_message', 'The branch you trying to approve is not yet submitted for evaluation.');
                   //   redirect('branches');
                   // }
-                
+
               }
             }
           }else{
@@ -815,7 +815,7 @@
                   //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you trying to assign to an evaluator is not yet submitted for evaluation.');
                   //   redirect('branches');
                   // }
-              
+
 
               }
             }
@@ -842,7 +842,7 @@
                 if($this->session->userdata('access_level')==5){
                   redirect('admins/login');
                 }else{
-                  
+
                     // if($this->branches_model->check_evaluator_for_conversion2($decoded_id)){
                       if(!$this->branches_model->check_if_denied($decoded_id)){
                         $reason_commment = $this->input->post('comment',TRUE);
@@ -871,7 +871,7 @@
                                     $data['branch_info'] = $branch_info;
 
                                     if($data['branch_info']->house_blk_no==null && $data['branch_info']->street==null) $x=''; else $x=', ';
-                            
+
                                     $data['client_info'] = $this->user_model->get_user_info($data['branch_info']->user_id);
 
                                     $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
@@ -886,7 +886,7 @@
                                     // } else {
                                       $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
                                     // }
-                                    
+
                                     $data['senior_info'] = $this->admin_model->get_senior_info($regioncode);
 
                                     $brgyforemail = ucwords($data['branch_info']->house_blk_no).' '.ucwords($data['branch_info']->street).$x.' '.$data['branch_info']->brgy.', '.$data['branch_info']->city.', '.$data['branch_info']->province.', '.$data['branch_info']->region;
@@ -938,7 +938,7 @@
                                         }else{
                                           $this->session->set_flashdata('list_error_message', 'Unable to defer branch.');
                                           redirect('branches');
-                                        }  
+                                        }
                                       }else{
                                         $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated by the Director.');
                                         redirect('branches');
@@ -961,7 +961,7 @@
                               }else{
                                 $this->session->set_flashdata('list_error_message', 'Unable to defer branch.');
                                 redirect('branches');
-                              }  
+                              }
                             }
                           }else{
                             $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist of Cooperative Main Branch.');
@@ -994,11 +994,11 @@
 
                                   if($data['branch_info']->status == 34){
                                     $step = 7;
-                                  } 
+                                  }
                                     $success = $this->branches_model->defer_by_admin($admin_info,$decoded_id,$reason_commment,10);
 
                                     if($data['branch_info']->house_blk_no==null && $data['branch_info']->street==null) $x=''; else $x=', ';
-                            
+
                                     $data['client_info'] = $this->user_model->get_user_info($data['branch_info']->user_id);
 
                                     $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
@@ -1013,7 +1013,7 @@
                                     // } else {
                                       $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
                                     // }
-                                    
+
                                     $data['senior_info'] = $this->admin_model->get_senior_info_dir_defer($regioncode);
 
                                     $brgyforemail = ucwords($data['branch_info']->house_blk_no).' '.ucwords($data['branch_info']->street).$x.' '.$data['branch_info']->brgy.', '.$data['branch_info']->city.', '.$data['branch_info']->province.', '.$data['branch_info']->region;
@@ -1064,8 +1064,8 @@
                                         $this->session->set_flashdata('list_error_message', 'Unable to defer branch.');
                                         redirect('for_conversion');
                                       }
-                                    }      
-                                  
+                                    }
+
                                 }else{
                                   $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist.');
                                   redirect('for_conversion');
@@ -1082,7 +1082,7 @@
                               }else{
                                 $this->session->set_flashdata('list_error_message', 'Unable to defer branch.');
                                 redirect('for_conversion');
-                              }  
+                              }
                             }
                           }else{
                             $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist of Cooperative Main Branch.');
@@ -1121,7 +1121,7 @@
                               $this->session->set_flashdata('list_error_message', 'Unable to defer branch.');
                               redirect('for_conversion');
                             }
-                          } 
+                          }
                         }else{
                           if($this->branches_model->check_evaluator1($decoded_id)){
                             if($this->branches_model->check_evaluator2($decoded_id)){
@@ -1155,7 +1155,7 @@
                     //   $this->session->set_flashdata('redirect_applications_message', 'The branch you trying to deny is not yet submitted for evaluation.');
                     //   redirect('for_conversion');
                     // }
-                  
+
                 }
             }
           }else{
@@ -1179,7 +1179,7 @@
 
           $branch_info = $this->branches_model->get_branch_info_by_admin($decoded_id);
           $coop_full_name = $this->input->post('bnameorig',TRUE);
-          
+
           if($branch_info->house_blk_no==null && $branch_info->street==null) $x=''; else $x=', ';
 
           $brgyforemail = ucwords($branch_info->house_blk_no).' '.ucwords($branch_info->street).$x.' '.$branch_info->brgy.', '.$branch_info->city.', '.$branch_info->province.', '.$branch_info->region;
@@ -1194,9 +1194,9 @@
                 if($this->session->userdata('access_level')==5){
                   redirect('admins/login');
                 }else{
-                  
+
                     // if($this->branches_model->check_submitted_for_evaluation($decoded_id)){
-                      
+
                       //if(!$this->branches_model->check_if_denied($decoded_id)){
                         $reason_commment = $this->input->post('comment',TRUE);
                         $admin_info = $this->admin_model->get_admin_info($user_id);
@@ -1221,7 +1221,7 @@
                                         }else{
                                           $this->session->set_flashdata('list_error_message', 'Unable to deny branch.');
                                           redirect('branches');
-                                        } 
+                                        }
                                       } else {
                                         $this->session->set_flashdata('list_error_message', 'Unable to deny branch.');
                                           redirect('branches');
@@ -1229,7 +1229,7 @@
                                     }else{
                                       $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated by the Director.');
                                       redirect('branches');
-                                    }     
+                                    }
                                   }
                                 }else{
                                   $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist.');
@@ -1248,7 +1248,7 @@
                                 }else{
                                   $this->session->set_flashdata('list_error_message', 'Unable to deny branch.');
                                   redirect('branches');
-                                }  
+                                }
                               } else {
                                 $this->session->set_flashdata('list_error_message', 'Unable to deny branch.');
                                   redirect('branches');
@@ -1283,7 +1283,7 @@
                                     } else {
                                       $this->session->set_flashdata('list_error_message', 'Unable to deny branch.');
                                         redirect('for_conversion');
-                                    }        
+                                    }
                                   // }
                                 }else{
                                   $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist.');
@@ -1301,7 +1301,7 @@
                               }else{
                                 $this->session->set_flashdata('list_error_message', 'Unable to deny branch.');
                                 redirect('for_conversion');
-                              }  
+                              }
                             }
                           }else{
                             $this->session->set_flashdata('redirect_applications_message', 'Branch must be evaluated first by the Senior Cooperative Development Specialist of Cooperative Main Branch.');
@@ -1340,7 +1340,7 @@
                               $this->session->set_flashdata('list_error_message', 'Unable to deny branch.');
                               redirect('branches');
                             }
-                          } 
+                          }
                         }else{
                           if($this->branches_model->check_evaluator1($decoded_id)){
                             if($this->branches_model->check_evaluator2($decoded_id)){
@@ -1374,7 +1374,7 @@
                     //   $this->session->set_flashdata('redirect_applications_message', 'The branch you trying to deny is not yet submitted for evaluation.');
                     //   redirect('branches');
                     // }
-                  
+
                 }
             }
           }else{

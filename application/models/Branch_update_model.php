@@ -46,6 +46,7 @@ class Branch_update_model extends CI_Model{
     // Get Coop Type for HO
     // End Get Coop Type for HO
     // $this->db->limit($limit);
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, registeredcoop.coopName as RcoopName, refcitymun.citymunCode as cCode');
     $this->db->from('branches');
     $this->db->join('registeredcoop', ' branches.regNo = registeredcoop.regNo','left');
