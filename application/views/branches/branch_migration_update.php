@@ -136,7 +136,7 @@
             </div>
             <div class="row">
               <div class="col-sm-12 col-md-12 col-industry-subclass">
-                
+
               </div>
             </div><br>
             <!-- <div class="row">
@@ -177,7 +177,7 @@
                 <div class="form-group">
                   <label for="proposedName"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top"
                   data-html="true" title="<li>Don't include the type of your cooperative in your proposed name.</li><li>Don't include the word <b>cooperative</b>.</li>"></i> Proposed Name:</label>
-                 
+
                     <input type="text" class="form-control validate[required,funcCall[validateActivityNotNullUpdateCustom], funcCall[validateActivityInNameUpdateCustom],  <?php echo ($branch_info->status >0) ? "ajax[ajaxCoopNameUpdateCallPhp]" : "ajax[ajaxCoopNameExpiredCallPhp]";?>]" name="proposedName" id="proposedName" placeholder="" value="<?php if($branch_info->status > 0) : ?><?=$branch_info->brgy.', '. $branch_info->city.$branch_info->branchName;?> <?php endif;?>" disabled="">
                 </div>
               </div>
@@ -229,12 +229,12 @@
                 </div>
               </div>
                 <input type="hidden" class="custom-select validate[required]" name="region2" id="region2">
-                
+
              <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="province">Province</label>
                   <select class="custom-select" name="province" id="province">
-                    <?php 
+                    <?php
                     foreach($list_of_provinces as $province_list)
                     {
                       ?>
@@ -245,7 +245,7 @@
                   </select>
                 </div>
               </div>
-              
+
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                   <label for="city">City/Municipality</label>
@@ -261,7 +261,7 @@
                   </select>
                 </div>
               </div>
-           
+
               <div class="col-sm-12 col-md-4">
                 <div class="form-group">
                    <label for="barangay">Barangay</label>

@@ -603,7 +603,7 @@
               $cityDesc = $this->branches_model->city($this->input->post('city'));
               $branchCount =$this->branches_model->branch_count($this->input->post('regNo'),substr($this->input->post('city'),0,6),$this->input->post('typeOfBranch'));
 
-              $data['branch_info'] = $this->branches_model->get_branch_info($user_id,$decoded_id);
+              $data['branch_info'] = $this->branches_model->get_branch_info_migrated($decoded_id);
               $data['registered_info'] = $this->branches_model->get_registered_coop($data['branch_info']->regNo);
 
               if(substr($this->input->post('barangay'), 0, 2)==substr($this->input->post('barangay2'), 0, 2)){ // empty($this->input->post('region2')) ||
