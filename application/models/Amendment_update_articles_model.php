@@ -7,8 +7,8 @@ class Amendment_update_articles_model extends CI_Model{
     parent::__construct();
     //Codeigniter : Write Less Do More
   }
-  public function get_article_by_coop_id($coop_id,$amendment_id){
-    $data_coop_id = $this->security->xss_clean($coop_id);
+  public function get_article_by_coop_id($amendment_id){
+    // $data_coop_id = $this->security->xss_clean($coop_id);
     $data_amendment_id = $this->security->xss_clean($amendment_id);
     $data =null;
     $query = $this->db->get_where('amendment_articles_of_cooperation',array('amendment_id'=>$data_amendment_id));

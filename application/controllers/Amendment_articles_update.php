@@ -11,7 +11,6 @@ class Amendment_articles_update extends CI_Controller{
   $this->load->model('amendment_update_capitalization_model');
   $this->load->model('amendment_update_model');
   $this->load->model('amendment_update_bylaw_model');
-  $this->load->model('amendment_article_update_model');
   $this->load->model('amendment_update_cooperator_model');
   $this->load->model('user_model');
   $this->load->model('admin_model');
@@ -96,7 +95,7 @@ class Amendment_articles_update extends CI_Controller{
                           $data['client_info'] = $this->user_model->get_user_info($user_id);
                           $data['encrypted_id'] = $id;
                           $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
-                          $data['articles_info'] = $this->amendment_update_articles_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
+                          $data['articles_info'] = $this->amendment_update_articles_model->get_article_by_coop_id($this->decoded_id);
 
                           $data['total_regular'] = $this->amendment_update_cooperator_model->get_total_regular($cooperative_id,$this->decoded_id);
                      
@@ -156,7 +155,7 @@ class Amendment_articles_update extends CI_Controller{
               redirect('admins/login');
             }else{
               $this->load->model('region_model');
-                  $data['articles_info'] = $this->amendment_update_articles_model->get_article_by_coop_id($cooperative_id,$this->decoded_id); 
+                  $data['articles_info'] = $this->amendment_update_articles_model->get_article_by_coop_id($this->decoded_id); 
                   $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
                   // if($data['bylaw_complete']){
@@ -215,7 +214,7 @@ class Amendment_articles_update extends CI_Controller{
                               );
                               // $this->debug($data);
                               // echo $article_coop_id;
-                              if($this->amendment_article_update_model->update_article_primary($this->decoded_id,$data)){
+                              if($this->amendment_update_articles_model->update_article_primary($this->decoded_id,$data)){
                                 $this->session->set_flashdata('article_success', 'Successfully Updated.');
                                 redirect('amendment_update/'.$this->input->post('article_coop_id').'/articles_update');
                               }else{
@@ -291,7 +290,7 @@ class Amendment_articles_update extends CI_Controller{
                           $data['encrypted_id'] = $id;
                           $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
                 
-                          $data['articles_info'] = $this->amendment_update_articles_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
+                          $data['articles_info'] = $this->amendment_update_articles_model->get_article_by_coop_id($this->decoded_id);
                           // $this->debug(  $data['articles_info']);
                
                           $data['total_regular'] = $this->amendment_update_cooperator_model->get_total_regular($cooperative_id,$this->decoded_id);
@@ -386,7 +385,7 @@ class Amendment_articles_update extends CI_Controller{
             }else{
                 $this->load->model('region_model');
                 $this->load->model('admin_model');
-               $data['articles_info'] = $this->amendment_update_articles_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
+               $data['articles_info'] = $this->amendment_update_articles_model->get_article_by_coop_id($this->decoded_id);
                   $data['coop_info'] = $this->amendment_update_model->get_cooperative_info_by_admin($this->decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
                   // if($data['bylaw_complete']){
@@ -402,7 +401,7 @@ class Amendment_articles_update extends CI_Controller{
                             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                             $data['encrypted_id'] = $id;
                             $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
-                            // $data['articles_info'] = $this->amendment_article_update_model->get_article_by_coop_id_amend($this->decoded_id);
+                            // $data['articles_info'] = $this->amendment_update_articles_model->get_article_by_coop_id_amend($this->decoded_id);
                         
                         // Added By Anjury
                             // $data['total_regular'] = $this->amendment_update_cooperator_model->get_total_regular($cooperative_id,$this->decoded_id);
@@ -450,7 +449,7 @@ class Amendment_articles_update extends CI_Controller{
                                 'guardian_cooperative'=>$this->input->post('guardian_cooperative')
                               );
                             
-                              if($this->amendment_article_update_model->update_article_primary($article_coop_id,$data)){
+                              if($this->amendment_update_articles_model->update_article_primary($article_coop_id,$data)){
                                 $this->session->set_flashdata('article_success', 'Successfully Updated.');
                                 redirect('amendment_update/'.$this->input->post('article_coop_id').'/article_union');
                               }else{
