@@ -29,6 +29,7 @@ class Branch_update_model extends CI_Model{
     // Get Coop Type for HO
     // End Get Coop Type for HO
     // $this->db->limit($limit);
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, registeredcoop.coopName as RcoopName, refcitymun.citymunCode as cCode');
     $this->db->from('branches');
     $this->db->join('registeredcoop', ' branches.regNo = registeredcoop.regNo','left');
@@ -64,6 +65,7 @@ class Branch_update_model extends CI_Model{
     // Get Coop Type for HO
     // End Get Coop Type for HO
     // $this->db->limit($limit);
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, registeredcoop.coopName as RcoopName, refcitymun.citymunCode as cCode');
     $this->db->from('branches');
     $this->db->join('registeredcoop', ' branches.regNo = registeredcoop.regNo','left');
@@ -78,6 +80,7 @@ class Branch_update_model extends CI_Model{
   }
 
   public function get_all_updated_Branch_info2_registered_ho($regcode,$coopname,$limit,$start,$typearray){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->limit($limit,$start);
     $this->db->select('branches.*,branches.status as bstatus, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, registeredcoop.coopName, refcitymun.citymunCode as cCode,users.first_name,users.last_name');
     $this->db->from('branches');
@@ -97,6 +100,7 @@ class Branch_update_model extends CI_Model{
   }
 
   public function get_all_updated_Branch_info2_registered($regcode,$coopname,$limit,$start){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->limit($limit,$start);
     $this->db->select('branches.*,branches.status as bstatus, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, registeredcoop.coopName, refcitymun.citymunCode as cCode,users.first_name,users.last_name');
     $this->db->from('branches');
@@ -116,6 +120,7 @@ class Branch_update_model extends CI_Model{
   }
 
   public function get_all_updated_Branch_info_outside($regcode,$coopname,$limit,$start){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->limit($limit,$start);
     $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, registeredcoop.coopName, refcitymun.citymunCode as cCode');
     $this->db->from('branches');
@@ -133,6 +138,7 @@ class Branch_update_model extends CI_Model{
   }
 
   public function get_all_updated_Branch_info2($regcode,$coopname,$limit,$start){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->limit($limit,$start);
     $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, registeredcoop.coopName, refcitymun.citymunCode as cCode,registeredcoop.type as reg_type');
     $this->db->from('branches');
