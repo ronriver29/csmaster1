@@ -3832,7 +3832,7 @@ b. Adress of proposed ".$type.": ".$brgyforemail."";
   }
 
   public function sendEmailToDirectorTransfer($proposedname,$proposedbranch,$brgy,$fullname,$contactnumber,$email,$senioremail,$type,$fullnamecds,$coopregion){
-    echo print_r($senioremail);
+    // echo print_r($senioremail);
     if(sizeof($senioremail)>0){
       $receiver = "";
       if(sizeof($senioremail)>1){
