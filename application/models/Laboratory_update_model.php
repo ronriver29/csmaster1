@@ -58,6 +58,7 @@ class Laboratory_update_model extends CI_Model{
   }
 
   public function get_all_updated_Lab_info2_registered($regcode,$coopname,$limit,$start){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->limit($limit,$start);
     $this->db->select('laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, registeredcoop.coopName, refcitymun.citymunCode as cCode,users.first_name,users.last_name');
     $this->db->from('laboratories');
@@ -77,6 +78,7 @@ class Laboratory_update_model extends CI_Model{
   }
 
   public function get_all_updated_Lab_info2($regcode,$coopname,$limit,$start){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->limit($limit,$start);
     $this->db->select('laboratories.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, registeredcoop.coopName, refcitymun.citymunCode as cCode');
     $this->db->from('laboratories');
