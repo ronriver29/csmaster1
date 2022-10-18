@@ -1454,7 +1454,7 @@ public function submit_for_reevaluation($user_id,$branch_id,$same,$rCode){
   }
 }
 public function transfer_region($branch_id,$region,$houseblk,$street){
-  $specialist_id = $this->security->xss_clean($specialist_id);
+  // $specialist_id = $this->security->xss_clean($specialist_id);
   $branch_id = $this->security->xss_clean($branch_id);
   $this->db->trans_begin();
   $this->db->where(array('id'=>$branch_id));
