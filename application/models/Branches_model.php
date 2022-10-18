@@ -1035,6 +1035,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     return $data;
   }
   public function get_all_branches_by_director_for_transfer($regcode){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $query = $this->db->query('select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
   inner join refbrgy on refbrgy.brgyCode = branches.transferred_region
     inner join refcitymun on refcitymun.citymunCode = refbrgy.citymunCode
