@@ -555,7 +555,7 @@
                                   }
 
                                   $fullnamecds = '';
-                                  
+
                                   foreach($data['cds_info'] as $cdsinfo){
                                     $fullnamecds = $cdsinfo['full_name'];
                                   }
@@ -637,7 +637,7 @@
                                 // if($this->admin_model->is_active_director($data['director_info']->id)){
                                   $seniorinfo = $this->admin_model->get_emails_of_senior_by_region($regioncode);
 
-                                  $data['suvervising_info'] = $this->admin_model->get_specialst_info($branch_info->evaluator3);
+                                  $data['suvervising_info'] = $this->admin_model->get_specialst_info($branch_info->evaluator_for_transfer_3);
 
                                 // } else {
                                   // $data['director_info'] = $this->admin_model->get_emails_of_supervisor_by_region($regioncode);
