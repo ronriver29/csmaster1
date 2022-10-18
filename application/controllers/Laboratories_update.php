@@ -31,9 +31,7 @@
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
 
-        if($data['is_client']){
-          $items = array('user_id'=>$user_id);
-        }
+
 
         $items = array(
               'coop_id'=>$this->input->post('regNo'),
@@ -49,6 +47,11 @@
               'lastUpdated'=> date('Y-m-d h:i:s',now('Asia/Manila')),
               'first_evaluated_by' => $user_id
         );
+
+        if($data['is_client']){
+          $items['user_id'] = $user_id;
+        }
+        // print_r($items);
         // $this->debug($items);
           $update=$this->laboratories_model->update_laboratory($items,$decoded_id);
 
@@ -533,7 +536,7 @@
               $senior_info = $this->admin_model->get_senior_info($regioncode);
 
               if($lab_info->status == 21){
-                if($this->laboratories_model->submit_for_evaluation($user_id,$decoded_id,30,$lab_info->rCode)){
+                if($this->laboratories_model->submit_for_evaluation_migration($decoded_id,30,$lab_info->rCode)){
                     $this->session->set_flashdata('laboratories_success','Successfully submitted your application.');
                     redirect('laboratories_update/'.$id.'/view');
                     // echo $this->db->last_query();
@@ -831,7 +834,7 @@
             $this->upload->initialize($config);
             if(!($this->upload->do_upload('file42'))){
               $this->session->set_flashdata('document_40_error', $this->upload->display_errors('<p>', '</p>'));
-              redirect('branches/'.$this->input->post('branchID').'/UploadDocuments');
+              redirect('laboratories_update/'.$this->input->post('branchID').'/UploadDocuments');
             }else{
                 if($this->input->post('status')==17){
                     $status = 2;

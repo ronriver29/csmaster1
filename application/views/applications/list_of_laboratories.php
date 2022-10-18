@@ -295,7 +295,12 @@
                     <?=$lab_migrated['house_blk_no']?> <?=$lab_migrated['streetName'].$x?> <?=$lab_migrated['brgy']?>, <?=$lab_migrated['city']?>, <?= $lab_migrated['province']?> <?=$lab_migrated['region']?>
                   </td>
                   <td>
-                      <span class="badge badge-secondary">REGISTERED</span>
+                    <?php if($lab_migrated['status'] == 31){
+                      echo '<span class="badge badge-secondary">UPDATED</span>';
+                    } else {
+                      echo '<span class="badge badge-secondary">REGISTERED</span>';
+                    }?>
+
                   </td>
                   <td>
                       <a href="<?php echo base_url();?>laboratories_update/<?= encrypt_custom($this->encryption->encrypt($lab_migrated['b_id'])) ?>/view" class="btn btn-info" style="color:white;"><i class='fas fa-eye'></i> Update </a>

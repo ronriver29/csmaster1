@@ -126,7 +126,7 @@ public function approve_by_director_laboratories($admin_info,$laboratory_id){
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->join('registeredcoop','registeredcoop.application_id=laboratories.cooperative_id','inner');
-    $this->db->where('laboratories.user_id', $user_id);
+    $this->db->where('laboratories.user_id = '.$user_id.' AND laboratories.status != 31 AND laboratories.status != 30');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
@@ -647,6 +647,39 @@ inner join registeredcoop on registeredcoop.application_id=laboratories.cooperat
 public function delete_branch($branch_id){
   $this->db->trans_begin();
   $this->db->delete('laboratories',array('id' => $branch_id));
+  if($this->db->trans_status() === FALSE){
+    $this->db->trans_rollback();
+    return false;
+  }else{
+    $this->db->trans_commit();
+    return true;
+  }
+}
+public function submit_for_evaluation_migration($branch_id,$same,$rCode){
+  // $user_id = $this->security->xss_clean($user_id);
+  $branch_id = $this->security->xss_clean($branch_id);
+  if ($same==8){
+    $this->db->select('id');
+    $this->db->from('admin');
+    $this->db->where('region_code',$rCode);
+    $this->db->where('access_level',2);
+    $query=$this->db->get();
+    $sa = $query->row();
+    $this->db->select('id');
+    $this->db->from('admin');
+    $this->db->where('region_code',$rCode);
+    $this->db->where('access_level',3);
+    $query2=$this->db->get();
+    $dir = $query2->row();
+  }
+
+  $this->db->trans_begin();
+  $this->db->where(array('id'=>$branch_id));
+  if ($same==8)
+    $this->db->update('laboratories',array('first_evaluated_by'=>$sa->id,'status'=>2,'dateApplied'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
+  else
+    $this->db->update('laboratories',array('status'=>$same,'dateApplied'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
+
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
@@ -1602,7 +1635,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
   public function get_all_lab_migrated($regno){
     $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->distinct();
-    $this->db->select('r.coopName,lab.laboratoryName,lab.house_blk_no,lab.streetName,lab.id as b_id,c.area_of_operation,c.regions, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
+    $this->db->select('r.coopName,lab.status,lab.laboratoryName,lab.house_blk_no,lab.streetName,lab.id as b_id,c.area_of_operation,c.regions, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
     $this->db->from('laboratories lab');
     $this->db->join('registeredcoop r' , 'lab.coop_id = r.regNo ','inner');
     $this->db->join('cooperatives c', 'r.application_id = c.id','inner');
