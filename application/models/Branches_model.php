@@ -2143,9 +2143,9 @@ public function approve_by_admin2_for_transfer($admin_info,$branch_id,$reason_co
   $now = date('Y-m-d H:i:s');
   // echo '<script>alert('.$coop_full_name.');</script>';
   if($step==10)
-    $this->db->update('branches',array('evaluator_for_closure_1'=>$admin_info->id,'status'=>42,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
+    $this->db->update('branches',array('evaluator_for_transfer_1'=>$admin_info->id,'status'=>42,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
   else if($step==11)
-    $this->db->update('branches',array('evaluator_for_closure_1'=>$admin_info->id,'status'=>43,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'lapse_time'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
+    $this->db->update('branches',array('evaluator_for_transfer_2'=>$admin_info->id,'status'=>43,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'lapse_time'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
   else if($step==12)
     $this->db->update('branches',array('status'=>46,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
   else if($step==13)
