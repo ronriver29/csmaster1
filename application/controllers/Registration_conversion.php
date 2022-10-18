@@ -28,12 +28,12 @@ class registration_conversion extends CI_Controller{
       $branch_code = $this->branches_model->get_branch_addcode($decoded_id);
       if ($branch_info->category_of_cooperative =='Primary')
           $pst="1";
-      else if ($branch_info->category_of_cooperative =='Secondary')  
+      else if ($branch_info->category_of_cooperative =='Secondary')
         $pst="2";
       else
         $pst="3";
       $type=substr($branch_info->branchName, -7);
-      
+
       if($branch_info->status == 67){
         $this->branches_model->register_branch($branch_info);
       }
@@ -43,13 +43,13 @@ class registration_conversion extends CI_Controller{
         $x = $this->registration_model->registered_branch_count($branch_info->type,$branch_info->coopName,$branch_code->subaddcode);
         $branch_details = $this->branches_model->get_branch_info_by_admin($decoded_id);
         $cName=$branch_details->coopName.' - '.$branch_details->branchName;
-        
-        
-        if ($branch_details->qr_code==null || ($branch_details->qr_code='')){
+
+
+        // if ($branch_details->qr_code==null || ($branch_details->qr_code='')){
           if ($type=='Branch'){
-            $label='Certificate of Authority No:'; 
+            $label='Certificate of Authority No:';
           }else{
-            $label='Letter of Authority No:'; 
+            $label='Letter of Authority No:';
           }
           $qr_code_config = array();
           $qr_code_config['cacheable'] = $this->config->item('cacheable');
@@ -64,7 +64,7 @@ class registration_conversion extends CI_Controller{
           $this->ci_qr_code->initialize($qr_code_config);
 
           // get full name and user details
-          
+
           $image_name = $branch_details->certNo.".png";
 
           // create user content
@@ -88,28 +88,28 @@ class registration_conversion extends CI_Controller{
 
           // save image path in tree table
           $this->registration_model->save_branch_qr_code($branch_details->certNo, $image_name);
-        }
-        
-        $data1['signature'] = "../assets/img/AsecJoy.png"; 
+        // }
+
+        $data1['signature'] = "../assets/img/AsecJoy.png";
         $data1['chair'] = $this->registration_model->get_chairman()->chairman;
         $data1['effectivity_date'] = $this->registration_model->get_chairman()->effectivity_date;
         $data1['branch_info']=$branch_details;
         // $data1['director']=$this->registration_model->get_director($user_id)->full_name;
         $data1['type']=$type;
-        
+
         set_time_limit(0);
 
         // $this->load->view('cooperative/CO_view', $data1);
 
         $html2 = $this->load->view('cooperative/CO_view', $data1, TRUE);
 
-          $J = new pdf();       
+          $J = new pdf();
           $J->set_option('isRemoteEnabled',TRUE);
           $J->set_paper([0,0,612,936], "portrait"); //mm to point
           $J->load_html($html2);
           $J->render();
           $J->stream("certificate.pdf", array("Attachment"=>0));
-      
+
     }
   }
   public function debug($array)
