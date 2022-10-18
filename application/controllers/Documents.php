@@ -6158,7 +6158,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
             $this->upload->initialize($config);
             if(!($this->upload->do_upload('file42'))){
               $this->session->set_flashdata('document_40_error', $this->upload->display_errors('<p>', '</p>'));
-              if($data['coop_info']->status == 0 || $data['coop_info']->status == 81 || $data['coop_info']->status == 80){
+              if($this->input->post('status') == 0 || $this->input->post('status') == 81 || $this->input->post('status') == 80){
                 redirect('branch_update/'.$this->input->post('branchID').'/documents_branch_update');
               } else {
                 redirect('branches/'.$this->input->post('branchID').'/documents');
@@ -6175,7 +6175,7 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
               $data = array('upload_data' => $this->upload->data());
               if($this->uploaded_document_model->add_document_info_($decoded_id,$application_id,42,$this->upload->data('file_name'),$status)){
                 $this->session->set_flashdata('document_40_success', 'Successfully uploaded.');
-                if($data['coop_info']->status == 0 || $data['coop_info']->status == 81 || $data['coop_info']->status == 80){
+                if($this->input->post('status') == 0 || $this->input->post('status') == 81 || $this->input->post('status') == 80){
                   redirect('branch_update/'.$this->input->post('branchID').'/documents_branch_update');
                 } else {
                   redirect('branches/'.$this->input->post('branchID').'/documents');
