@@ -429,7 +429,18 @@
                                     if($branch_info->migrated == 1){
                                       $branchname = $branch_info->branchName;
                                     }
+                                    $data['director_info'] = $this->admin_model->get_director_info($regioncode);
 
+                                    if($this->admin_model->is_active_director($data['director_info']->id)){
+                                      $data['director_info'] = $this->admin_model->get_emails_of_director_by_region($regioncode);
+                                    } else {
+                                      $data['director_info'] = $this->admin_model->get_emails_of_supervisor_by_region($regioncode);
+                                    }
+
+                                    foreach($data['director_info'] as $directorinfo){
+                                      $emaildirect = $directorinfo['email'];
+                                    }
+                                    // echo $emaildirect;
                                     if($step == 2){
                                       $this->branches_model->sendEmailToClientApproveBranchConversion($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info,$branch_info->type,'',$seniorregionname->regDesc);
                                     } else if ($step == 5){
