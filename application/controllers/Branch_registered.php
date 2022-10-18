@@ -9,6 +9,7 @@ class Branch_registered extends CI_Controller{
     //Codeigniter : Write Less Do More
     $this->load->model('admin_model');
     $this->load->model('branches_model');
+    $this->load->model('region_model');
   }
 
   function index($id = null)
@@ -21,7 +22,7 @@ class Branch_registered extends CI_Controller{
         $regNo = $this->encryption->decrypt(decrypt_custom($id));
         $admin_user_id = $this->session->userdata('user_id');
         // if($this->admin_model->check_super_admin($admin_user_id)){
-          
+
           $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
           $data['users_list'] = $this->admin_model->get_all_user();
 

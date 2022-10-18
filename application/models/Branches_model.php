@@ -76,7 +76,7 @@ class branches_model extends CI_Model{
     $data = $query->result_array();
     return $data;
   }
-  public function get_all_branches_regno($regno,$regioncode){
+  public function get_all_branches_regno($regno){
     $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, coopName, refcitymun.citymunCode as cCode');
     $this->db->from('branches');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = branches.addrCode','inner');
@@ -84,7 +84,7 @@ class branches_model extends CI_Model{
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     // $this->db->where('branches.user_id', $user_id);
-    $this->db->where('(branches.status >= 21 OR branches.status = 1) AND branches.status != 0 AND branches.regNo = "'.$regno.'" AND (SUBSTR(branches.addrCode,1,2) LIKE "%'.substr($regioncode,1,2).'" OR SUBSTR(branches.transferred_region,1,2) LIKE "%'.substr($regioncode,1,2).'")');
+    $this->db->where('(branches.status >= 21 OR branches.status = 1) AND branches.status != 0 AND branches.regNo = "'.$regno.'"');
     $query = $this->db->get();
     $data = $query->result_array();
     return $data;
