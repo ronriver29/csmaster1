@@ -554,6 +554,8 @@
                                     $emaildirect = $directorinfo['email'];
                                   }
 
+                                  $fullnamecds = '';
+                                  
                                   foreach($data['cds_info'] as $cdsinfo){
                                     $fullnamecds = $cdsinfo['full_name'];
                                   }
