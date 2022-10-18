@@ -1600,6 +1600,7 @@ public function defer_by_director($id,$user_id,$user_access_level,$comment)
   }
 
   public function get_all_lab_migrated($regno){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->distinct();
     $this->db->select('r.coopName,lab.laboratoryName,lab.house_blk_no,lab.streetName,lab.id as b_id,c.area_of_operation,c.regions, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region');
     $this->db->from('laboratories lab');
