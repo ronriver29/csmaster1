@@ -736,7 +736,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join registeredcoop on branches.regNo = registeredcoop.regNo
     inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
     where x.regCode like "'.$regcode.'%" and branches.addrCode like "'.$regcode2.'%"
-    and branches.status IN (55,57,58,60,63,64,65,66,67,68)
+    and branches.status IN (55,57,58,60,63,64,65,66,67,68) GROUP BY branches.branchName,branches.certNo,branches.addrCode
 UNION
 select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
