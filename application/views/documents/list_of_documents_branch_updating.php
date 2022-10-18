@@ -47,7 +47,7 @@
                     $submit = 'Approve';
                 } else {
                     $submit = 'Submit';
-                } 
+                }
             ?>
 
           <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branch_name?> <?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" ><?=$submit?></button>
@@ -61,13 +61,13 @@
         <div class="btn-group float-right" role="group" aria-label="Basic example">
           <?php if($branch_info->status>=9) echo '<a class="btn btn-info btn-sm" href="'.base_url().'branches/'.$encrypted_branch_id.'/cooperative_tool/branch">Validation Tool</a>';
           ?>
-        <?php 
+        <?php
         if($branch_info->status != 18 && $branch_info->status != 23){
             if($admin_info->access_level == 3){
                 $submit = 'Approve';
             } else {
                 $submit = 'Submit';
-            } 
+            }
 
             if($branch_info->area_of_operation == 'Barangay' || $branch_info->area_of_operation == 'Municipality/City'){
                 $branch_name = $branch_info->brgy;
@@ -95,11 +95,11 @@
             ?>
             <?php if($admin_info->access_level ==2 || $admin_info->access_level ==1 || $is_active_director || $supervising_): ?>
             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if(($branch_info->tool_yn_answer==null && $branch_info->status>=9 || $branch_info->status>=23)) echo 'disabled';?> ><?=$submit?></button>
-            <?php endif; //endo fo coop info status ?>  
+            <?php endif; //endo fo coop info status ?>
             <?php if($admin_info->access_level == 3 && $is_active_director || $supervising_) { ?>
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyBranchModal" data-cname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-bname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer==null && $branch_info->status>=9) echo 'disabled';?> >Deny</button>
                 <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferBranchModal" data-comment="<?php foreach($branches_comments_cds as $cc) : echo $cc['comment']; endforeach;?>
-                        
+
 
 <?php foreach($branches_comments_snr as $cc) : echo $cc['comment'].'
 '; endforeach;?>
@@ -128,7 +128,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <pre><?php 
+        <pre><?php
 //            print_r($cooperatives_comments);
             foreach($branches_comments_snr as $cc) :
                 echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
@@ -136,7 +136,7 @@
                     echo '<li>'.$cc['comment'].'</li>';
                 echo '</ul>';
             endforeach;
-        ?></pre>    
+        ?></pre>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -170,7 +170,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <pre><?php 
+        <pre><?php
 //            print_r($cooperatives_comments);
             foreach($branches_comments_main as $cc) :
                 echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
@@ -178,7 +178,7 @@
                     echo '<li>'.$cc['comment'].'</li>';
                 echo '</ul>';
             endforeach;
-        ?></pre>    
+        ?></pre>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -212,7 +212,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <pre><?php 
+        <pre><?php
 //            print_r($cooperatives_comments);
             foreach($branches_comments_cds as $cc) :
                 echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
@@ -222,7 +222,7 @@
             endforeach;
                 echo '<p class="font-weight-bold">CDS Tool Findings:</p>';
                 echo '<p>'.$branch_info->tool_findings.'</p>';
-        ?></pre>    
+        ?></pre>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -260,7 +260,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <pre><?php 
+        <pre><?php
 //            print_r($cooperatives_comments);
             foreach($branches_comments_snr as $cc) :
                 echo 'Date: '.date("F d, Y",strtotime($cc['date_created']));
@@ -268,7 +268,7 @@
                     echo '<li>'.$cc['comment'].'</li>';
                 echo '</ul>';
             endforeach;
-        ?></pre>    
+        ?></pre>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -302,7 +302,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <pre><?php 
+        <pre><?php
 //            print_r($cooperatives_comments);
         if($branch_info->evaluator5 == NULL){
             foreach($branches_comments_level1_defer as $cc) :
@@ -319,7 +319,7 @@
                 echo '</ul>';
             endforeach;
         }
-        ?></pre>    
+        ?></pre>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -419,7 +419,7 @@
     </div>
   </div>
 <?php endif; ?>
-<?php if(!$is_client){ 
+<?php if(!$is_client){
   if($admin_info->access_level == 2){?><hr>
 <div class="row">
   <div class="col-sm-12 col-md-4">
@@ -486,7 +486,7 @@
         <p class="text-muted">
           <?php if($branch_info->area_of_operation=="Interregional"){
           $region_array = array();
-          
+
           foreach ($regions_island_list as $region_island_list){
             array_push($region_array, $region_island_list['regDesc']);
           }
@@ -515,7 +515,7 @@
         <div class="card-body">
           <h5 class="card-title">By Laws</h5>
           <p class="card-text">This is the generated Bylaws. </p>
-          <a target="_blank" href="
+          <!-- <a target="_blank" href="
           <?php if ($branch_info->category_of_cooperative === 'Primary'): ?>
                   <?= base_url().'branches/'.$encrypted_id.'/documents/bylaws_primary_branch_amend';?>
           <?php elseif ($branch_info->grouping === 'Union'): ?>
@@ -523,7 +523,7 @@
           <?php else: ?>
                   <?= base_url().'branches/'.$encrypted_id.'/documents/bylaws_federation';?>
           <?php endif; ?>
-          " class="btn btn-primary">View</a>
+          " class="btn btn-primary">View</a> -->
         </div>
       </div>
     </div>
@@ -534,7 +534,7 @@
         <div class="card-body">
           <h5 class="card-title">By Laws</h5>
           <p class="card-text">This is the cooperative Bylaws. </p>
-          <a target="_blank" href="
+          <!-- <a target="_blank" href="
           <?php if ($branch_info->category_of_cooperative === 'Primary'): ?>
                   <?= base_url().'branches/'.$encrypted_id.'/documents/bylaws_primary_branch';?>
           <?php elseif ($branch_info->grouping === 'Union'): ?>
@@ -542,7 +542,7 @@
           <?php else: ?>
                   <?= base_url().'branches/'.$encrypted_id.'/documents/bylaws_federation';?>
           <?php endif; ?>
-          " class="btn btn-primary">View</a>
+          " class="btn btn-primary">View</a> -->
         </div>
       </div>
     </div>
@@ -553,7 +553,7 @@
       <div class="card-body">
         <h5 class="card-title">Articles of Cooperation</h5>
         <p class="card-text">This is the cooperative Articles of Cooperation</p>
-        <a target="_blank" href="
+        <!-- <a target="_blank" href="
         <?php if ($branch_info->category_of_cooperative === 'Primary'): ?>
                 <?php $url_ =  base_url().'branches/'.$encrypted_id.'/documents/articles_cooperation_primary_branch_amend';?>
         <?php elseif ($branch_info->grouping === 'Union'): ?>
@@ -561,7 +561,7 @@
         <?php else: ?>
                 <?php $url_ =base_url().'branches/'.$encrypted_id.'/documents/articles_cooperation_federation';?>
         <?php endif; ?>
-        " class="btn btn-primary" id="btn-article">View</a>
+        " class="btn btn-primary" id="btn-article">View</a> -->
       </div>
     </div>
   </div>
@@ -571,7 +571,7 @@
       <div class="card-body">
         <h5 class="card-title">Articles of Cooperation</h5>
         <p class="card-text">This is the cooperative Articles of Cooperation</p>
-        <a target="_blank" href="
+        <!-- <a target="_blank" href="
         <?php if ($branch_info->category_of_cooperative === 'Primary'): ?>
                 <?php $url_ =  base_url().'branches/'.$encrypted_id.'/documents/articles_cooperation_primary_branch';?>
         <?php elseif ($branch_info->grouping === 'Union'): ?>
@@ -579,7 +579,7 @@
         <?php else: ?>
                 <?php $url_ =base_url().'branches/'.$encrypted_id.'/documents/articles_cooperation_federation';?>
         <?php endif; ?>
-        " class="btn btn-primary" id="btn-article">View</a>
+        " class="btn btn-primary" id="btn-article">View</a> -->
       </div>
     </div>
   </div>
@@ -590,7 +590,7 @@
       <div class="card-body">
         <h5 class="card-title">Treasurer's Affidavit</h5>
         <p class="card-text">This is the cooperative Treasurer's Affidavit.</p>
-        <a target="_blank" href="
+        <!-- <a target="_blank" href="
         <?php if ($branch_info->category_of_cooperative === 'Primary'): ?>
                 <?= base_url().'branches/'.$encrypted_id.'/documents/affidavit_primary_bs_amend';?>
         <?php elseif ($branch_info->grouping === 'Union'): ?>
@@ -598,7 +598,7 @@
         <?php else: ?>
                 <?= base_url().'branches/'.$encrypted_id.'/documents/affidavit_federation';?>
         <?php endif; ?>
-        " class="btn btn-primary">View</a>
+        " class="btn btn-primary">View</a> -->
       </div>
     </div>
   </div>
@@ -608,7 +608,7 @@
       <div class="card-body">
         <h5 class="card-title">Treasurer's Affidavit</h5>
         <p class="card-text">This is the cooperative Treasurer's Affidavit.</p>
-        <a target="_blank" href="
+        <!-- <a target="_blank" href="
         <?php if ($branch_info->category_of_cooperative === 'Primary'): ?>
                 <?= base_url().'branches/'.$encrypted_id.'/documents/affidavit_primary_bs';?>
         <?php elseif ($branch_info->grouping === 'Union'): ?>
@@ -616,7 +616,7 @@
         <?php else: ?>
                 <?= base_url().'branches/'.$encrypted_id.'/documents/affidavit_federation';?>
         <?php endif; ?>
-        " class="btn btn-primary">View</a>
+        " class="btn btn-primary">View</a> -->
       </div>
     </div>
   </div>
@@ -637,7 +637,7 @@
         <h5 class="card-title">Surety Bond of Accountable Officers</h5>
         <p class="card-text">This is the cooperative Surety Bond of Accountable Officers.</p>
             <a target="_blank" href="<?php echo base_url();?>branches/<?=$encrypted_id?>/documents/view_document_one/<?= encrypt_custom($this->encryption->encrypt($document_one->filename))?>" class="btn btn-primary">View</a>
-          
+
       </div>
     </div>
   </div>-->
@@ -651,12 +651,12 @@
     </div>
   </div>-->
 <!-- </div> -->
-<?php if(!$is_client){ 
+<?php if(!$is_client){
   if($admin_info->access_level == 2){?>
     </div>
   <?php } }?>
 <?php if($branch_info->type=='Branch') : ?>
-<?php if(!$is_client){ 
+<?php if(!$is_client){
   if($admin_info->access_level == 2){?>
 <div class="row">
 
@@ -733,7 +733,7 @@
     </div>
   </div>
 </div>
-<?php if(!$is_client){ 
+<?php if(!$is_client){
   if($admin_info->access_level == 2){?>
 <br>
 <?php }} ?>
@@ -805,7 +805,7 @@
             </p>
 
           <?php if(($is_client && $branch_info->status==21 && $branch_info->status != 81 && $branch_info->status != 80) || $branch_info->status == 0 || $branch_info->status==17 || (!$is_client)): ?>
-                <a href="<?php echo base_url();?>branches/<?=$encrypted_id_others?>/documents/upload_document_others_bns" class="btn btn-primary">Upload</a>
+                <a href="<?php echo base_url();?>branch_update/<?=$encrypted_id_others?>/documents_branch_update/upload_document_others_bns" class="btn btn-primary">Upload</a>
           <?php endif; ?>
 
         </div>
@@ -814,7 +814,7 @@
   <!-- OTHERS END -->
 </div>
   <?php else :?>
-<?php if(!$is_client){ 
+<?php if(!$is_client){
   if($admin_info->access_level == 2){?>
 <div class="row">
 
@@ -843,7 +843,7 @@
         <?php endif; ?>
       </div>
     </div>
-  </div>  
+  </div>
   <div class="col-sm-12 col-md-4">
     <div class="card">
       <div class="card-body">
@@ -920,8 +920,8 @@
         </div>
       </div>
   </div>
-  <!-- OTHERS END --> 
-<?php endif; ?>  
+  <!-- OTHERS END -->
+<?php endif; ?>
 
 
 
@@ -934,5 +934,5 @@
             return false;
       });
   });
-  
+
 </script>

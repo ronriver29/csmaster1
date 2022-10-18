@@ -180,6 +180,10 @@
               }
                 // $branch_name = $branch_info->city.', '.$in_chartered_cities ? $chartered_cities : $branch_info->province;
             }
+
+            if($branch_info->migrated == 1){
+              $branch_name = '';
+            }
           ?>
           <?=$branch_name.' '?><?= $branch_info->branchName?>
         </p>

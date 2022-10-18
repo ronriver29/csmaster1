@@ -14,7 +14,7 @@
       $this->load->model('admin_model');
       $this->load->model('charter_model');
       $this->load->model('user_model');
-    
+
     }
 
     public function index($id = null){
@@ -46,7 +46,7 @@
               $data['document_46'] = $this->uploaded_document_model->get_document_46_info($decoded_id,$branch_info->application_id);
 
               $data['branches_comments'] = $this->branches_model->branches_closure_comments_client($decoded_id);
-              
+
               $data['submitted'] = $this->branches_model->check_submitted_for_evaluation($decoded_id);
 
               $data['in_chartered_cities'] = false;
@@ -57,7 +57,7 @@
                 $data['in_chartered_cities']=true;
                 $data['chartered_cities'] = $this->charter_model->get_charter_city($data['branch_info']->cCode);
               }
-              
+
               if($data['branch_info']->area_of_operation == 'Interregional'){
                 $data['regions_island_list'] = $this->region_model->get_selected_regions($data['branch_info']->regions);
               }
@@ -81,7 +81,7 @@
           // show_404();
         }
       }
-    }   
+    }
 
     public function evaluate($id = null){
       if(!$this->session->userdata('logged_in')){
@@ -92,7 +92,7 @@
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
             if($this->branches_model->check_own_branch($decoded_id,$user_id)){
-              
+
                 $branch_info = $this->branches_model->get_branch_info($user_id,$decoded_id);
                 $document_5 = $this->uploaded_document_model->get_document_5_info($decoded_id,$branch_info->application_id);
                 $document_6 = $this->uploaded_document_model->get_document_6_info($decoded_id,$branch_info->application_id);
@@ -113,7 +113,7 @@
                 // if($this->db->count_all_results()>0){
                 //   $status = 24;
                 // }
-                
+
                 if($data['branch_info']->status == 1){
                     $stat = 2;
                 } else {
@@ -134,7 +134,7 @@
                         }else{
                           if($this->branches_model->submit_for_evaluation($user_id,$decoded_id,$same,$branch_info->rCode)){
                             if($data['branch_info']->house_blk_no==null && $data['branch_info']->street==null) $x=''; else $x=', ';
-                            
+
                             $data['client_info'] = $this->user_model->get_user_info($user_id);
 
                             $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
@@ -149,11 +149,11 @@
                             // } else {
                               $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
                             // }
-                            
+
                             if($data['branch_info']->regCode != 0){
                               $regioncode = $regioncode.','.$data['branch_info']->regCode;
                             }
-                            
+
                             $this->db->where(array('name'=>$data['branch_info']->type_of_cooperative,'active'=>1));
                             $this->db->from('head_office_coop_type_branch');
                             // End Get Count Coop Type
@@ -248,7 +248,7 @@
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
             if($this->branches_model->check_own_branch($decoded_id,$user_id)){
-              
+
                 $branch_info = $this->branches_model->get_branch_info($user_id,$decoded_id);
                 $document_5 = $this->uploaded_document_model->get_document_5_info($decoded_id,$branch_info->application_id);
                 $document_6 = $this->uploaded_document_model->get_document_6_info($decoded_id,$branch_info->application_id);
@@ -263,12 +263,12 @@
                     $status = 31;
                 } else if ($data['branch_info']->status==33 || $data['branch_info']->status==32 || $data['branch_info']->status==34){
                     $status = 35;
-                } else if ($data['branch_info']->status==38){ 
+                } else if ($data['branch_info']->status==38){
                     $status = 35;
                 } else {
                     $status = 30;
                 }
-                
+
                 if($data['branch_info']->status == 1 && $data['branch_info']->regCode == 0 || $data['branch_info']->evaluator4 != NULL){
                     $stat = 2;
                 } else {
@@ -288,7 +288,7 @@
                         }else{
                           if($this->branches_model->submit_for_evaluation($user_id,$decoded_id,$same,$branch_info->rCode)){
                             if($data['branch_info']->house_blk_no==null && $data['branch_info']->street==null) $x=''; else $x=', ';
-                            
+
                             $data['client_info'] = $this->user_model->get_user_info($user_id);
 
                             $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
@@ -303,7 +303,7 @@
                             } else {
                               $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
                             }
-                            
+
                             if(($data['branch_info']->status == 1 && $data['branch_info']->regCode != 0) ||($data['branch_info']->status == 17 && $data['branch_info']->regCode != 0 && $data['branch_info']->evaluator5 == NULL)){
                               $senior_info = $this->admin_model->get_senior_info($data['branch_info']->regCode);
                             } else {
@@ -341,7 +341,7 @@
                             } else {
                               $sendemailtosenior = 'sendEmailToSeniorBranchClosureForEva';
                             }
-                            
+
                             if($data['branch_info']->migrated == 1){
                               $proposedbranch = $data['branch_info']->branchName;
                             }

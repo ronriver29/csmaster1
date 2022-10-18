@@ -1,7 +1,11 @@
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
-    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>branches/<?= $encrypted_branch_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
-    <h5 class="text-primary text-right">Other Requirements </h5>
+    <?php if($coop_info->status == 0 || $coop_info->status == 80 || $coop_info->status == 81){?>
+      <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>branch_update/<?= $encrypted_branch_id ?>/documents_branch_update" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php } else { ?>
+      <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>branches/<?= $encrypted_branch_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php } ?>
+      <h5 class="text-primary text-right">Other Requirements</h5>
   </div>
 </div>
 <div class="row">

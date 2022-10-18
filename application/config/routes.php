@@ -30,7 +30,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 | This route indicates which controller class should be loaded if the
 | URI contains no data. In the above example, the "welcome" class
-| would be loaded. 
+| would be loaded.
 |
 |	$route['404_override'] = 'errors/page_missing';
 |
@@ -101,6 +101,7 @@ $route['branches/(:any)/registration_conversion'] = 'registration_conversion/ind
 $route['branches/(:any)/registration_transfer'] = 'registration_transfer/index/$1';
 $route['branch_update/(:any)/evaluate'] = 'branch_update/evaluate/$1';
 $route['branch_update/(:any)/documents_branch_update'] = 'documents_branch_update/branch/$1';
+$route['branch_update/(:any)/documents_branch_update/upload_document_others_bns'] = 'documents_branch_update/upload_document_others_bns/$1';
 $route['branch_update/(:any)/view'] = 'branch_update/view/$1';
 $route['branch_update/(:any)/bupdate']  =  'branch_update/bupdate/$1';
 $route['branch_update/approve_branch'] = 'branch_update/approve_branch';
@@ -393,7 +394,7 @@ $route['cooperatives/(:any)/capitalization'] = 'capitalization/index/$1';
 
 $route['amendment/(:any)/amendment_documents/view_document_one/(:any)/(:any)'] = 'amendment_documents/view_document_one/$1/$2/$3';
 $route['amendment/(:any)/amendment_documents/view_document_two/(:any)'] = 'amendment_documents/view_document_two/$1/$2';
-$route['amendment_documents/list_upload_pdf'] = 'amendment_documents/list_upload_pdf/$1/$2'; 
+$route['amendment_documents/list_upload_pdf'] = 'amendment_documents/list_upload_pdf/$1/$2';
 
 $route['amendment/(:any)/amendment_documents/doc_link_view/(:any)'] = 'amendment_documents/doc_link_view/$1/$2';
 $route['amendment/(:any)/amendmentbylaws/check_minimum_associate_subscription'] = 'amendmentbylaws/check_minimum_associate_subscription/$1';
@@ -552,7 +553,7 @@ $route['App_process/update']='App_process/update_';
 $route['App_process/spec_table/(:nay)']='App_process/spec_table/$1';
 //upload amendment
 $route['amendment_upload'] ='amendment_upload';
-//end upload 
+//end upload
 
 
 // Account Approval
@@ -594,7 +595,7 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 	$route['cooperatives_update/(:any)/unioncoop_update'] = 'unioncoop_update/index/$1';
 	$route['cooperatives_update/(:any)/affiliators/unioncoop_update'] = 'affiliators/edit_unioncoop/$1';
 	$route['unioncoop_update/(:any)/update_cc'] = 'unioncoop_update/update_cc/$1';
-	
+
 	// Federation
 	$route['cooperatives_update/(:any)/affiliators_update'] = 'affiliators_update/index/$1';
 	$route['cooperatives_update/(:any)/affiliators_update/add_affiliators'] = 'affiliators_update/add_affiliators/$1';
@@ -663,7 +664,7 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 
 	$route['amendment_update/(:any)/purposes'] = 'amendment_update_purposes/index/$1';
 	$route['amendment_update/(:any)/amendment_purposes/edit'] = 'amendment_update_purposes/edit/$1';
-	//Articles of Cooperation	
+	//Articles of Cooperation
 	$route['amendment_update/(:any)/articles_update'] = 'amendment_articles_update/index/$1';
 	$route['amendment_update/(:any)/article_union'] = 'amendment_articles_update/union/$1';
 	$route['amendment_update/(:any)/articles_update'] = 'amendment_articles_update/primary/$1';
@@ -688,11 +689,10 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 	$route['registered_updated/(:num)'] = 'updated_amendment_info/registered_updated';
 	$route['amendment_update/(:any)/amendment_cooperatora']  = 'amendment_update_cooperator/export/$1';
 	// $route['union_update/update_cc']='union_update/update_cc';
-	// $route['amendment_documents/(:any)/amendment_documents/custom_acbl'] = 'amendment_documents/custom_acbl/$1'; 
+	// $route['amendment_documents/(:any)/amendment_documents/custom_acbl'] = 'amendment_documents/custom_acbl/$1';
 $route['reset_migration'] = 'migrate/resetMigration';
 $route['undo_migration'] = 'migrate/undoMigration';
 $route['seeding_data/seed_luba'] = 'seeding_data/seed_luba';
 $route['seeding_data/unseed_luba'] = 'seeding_data/unseed_luba';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-

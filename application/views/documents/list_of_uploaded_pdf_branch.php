@@ -1,6 +1,10 @@
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
-    <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>branches/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php if($branch_info->status == 0 || $branch_info->status == 81 || $branch_info->status == 80){?>
+      <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>branch_update/<?= $encrypted_id ?>/documents_branch_update" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php } else { ?>
+      <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>branches/<?= $encrypted_id ?>/documents" role="button"><i class="fas fa-arrow-left"></i> Go Back</a>
+    <?php } ?>
     <h5 class="text-primary text-right">
       <?php if($is_client) : ?>
       <?php endif;?>
@@ -50,20 +54,20 @@
                 <th>Date</th>
                 <!-- <th>status</th> -->
               <th></th>
-                
+
               </tr>
             </thead>
             <tbody>
-            <?php if(isset($uploaded_list_pdf)) :?> 
+            <?php if(isset($uploaded_list_pdf)) :?>
           <?php $a=1;foreach($uploaded_list_pdf as $row): ?>
               <tr>
                 <td> <?=$a++;?></td>
                 <td><?=$row['filename']?></td>
                 <td><?=date('F-d-Y',strtotime($row['created_at']))?></td>
               <!--   <td><?=$row['status']?></td> -->
-               
+
                 <td>
-                   
+
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                     <a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>branches/<?=$encrypted_id?>/documents/view_document_one_branch/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
                         <?php if($is_client) : ?>
@@ -71,7 +75,7 @@
                         <?php endif;?>
                   </div>
                 </td>
-             
+
               </tr>
           <?php endforeach; ?>
       <?php else: echo"<tr><td>No Documents found</td></td>"; ?>
@@ -99,20 +103,20 @@
                 <th>Date</th>
                 <!-- <th>status</th> -->
               <th></th>
-                
+
               </tr>
             </thead>
             <tbody>
-            <?php if(isset($defered_uploaded_list_pdf)) :?> 
+            <?php if(isset($defered_uploaded_list_pdf)) :?>
           <?php $a=1;foreach($defered_uploaded_list_pdf as $row): ?>
               <tr>
                 <td> <?=$a++;?></td>
                 <td><?=$row['filename']?></td>
                 <td><?=date('F-d-Y',strtotime($row['created_at']))?></td>
               <!--   <td><?=$row['status']?></td> -->
-               
+
                 <td>
-                   
+
 
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                     <a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>branches/<?=$encrypted_id?>/documents/view_document_one_branch/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
@@ -121,7 +125,7 @@
                         <?php endif;?>
                   </div>
                 </td>
-             
+
               </tr>
           <?php endforeach; ?>
       <?php else: echo"<tr><td>No Documents found</td></td>"; ?>
@@ -134,7 +138,7 @@
   </div>
 </div>
 <?php } ?>
-<?php if($is_client) : 
+<?php if($is_client) :
 
 else :?>
 <h3>New Upload</h3>
@@ -151,20 +155,20 @@ else :?>
                 <th>Date</th>
                 <!-- <th>status</th> -->
               <th></th>
-                
+
               </tr>
             </thead>
             <tbody>
-            <?php if(isset($defered_uploaded_list_pdf)) :?> 
+            <?php if(isset($defered_uploaded_list_pdf)) :?>
           <?php $a=1;foreach($defered_uploaded_list_pdf as $row): ?>
               <tr>
                 <td> <?=$a++;?></td>
                 <td><?=$row['filename']?></td>
                 <td><?=date('F-d-Y',strtotime($row['created_at']))?></td>
               <!--   <td><?=$row['status']?></td> -->
-               
+
                 <td>
-                   
+
 
                   <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                     <a class="btn btn-primary" target="_blank" href="<?php echo base_url();?>branches/<?=$encrypted_id?>/documents/view_document_one_branch/<?= encrypt_custom($this->encryption->encrypt($row['filename']))?>/<?=$doc_types?>">View</a>
@@ -173,7 +177,7 @@ else :?>
                         <?php endif; ?>
                   </div>
                 </td>
-             
+
               </tr>
           <?php endforeach; ?>
       <?php else: echo"<tr><td>No Documents found</td></td>"; ?>

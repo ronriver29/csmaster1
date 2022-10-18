@@ -445,88 +445,6 @@
                         $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
                         redirect('branch_update/'.$id.'/view');
                       }
-  // /*Else Satellite*/} else {
-  //                     if(!$this->branches_model->check_submitted_for_evaluation($decoded_id)){
-  //                       if($this->branches_model->check_if_deferred($decoded_id)){
-  //                         if($this->branches_model->submit_for_reevaluation($user_id,$decoded_id,$same,$branch_info->rCode)){
-  //                           $this->session->set_flashdata('cooperative_success','Successfully resubmitted your application. Please wait again for an e-mail of either the payment procedure or the list of documents for compliance');
-  //                           redirect('branch_update/'.$id.'/view');
-  //                         }else{
-  //                           $this->session->set_flashdata('cooperative_error','Unable to submit your application');
-  //                           redirect('branch_update/'.$id.'/view');
-  //                         }
-  //                       }else{
-  //                         if($this->branches_model->submit_for_evaluation($user_id,$decoded_id,$same,$branch_info->rCode)){
-  //                           if($data['branch_info']->house_blk_no==null && $data['branch_info']->street==null) $x=''; else $x=', ';
-
-  //                           $data['client_info'] = $this->user_model->get_user_info($user_id);
-
-  //                           $fullnameforemail = $data['client_info']->last_name.', '.$data['client_info']->first_name.' '.$data['client_info']->middle_name;
-
-  //                           // Get Count Coop Type for HO
-  //                           $this->db->where(array('name'=>$data['branch_info']->type_of_cooperative,'active'=>1));
-  //                           $this->db->from('head_office_coop_type_branch');
-  //                           // End Get Count Coop Type
-  //                           if($this->db->count_all_results()>0)
-  //                           {
-  //                             $regioncode = '00';
-  //                           } else {
-  //                             $regioncode = '0'.mb_substr($data['branch_info']->addrCode, 0, 2);
-  //                           }
-
-  //                           if(($data['branch_info']->status == 1 && $data['branch_info']->regCode != 0) ||($data['branch_info']->status == 17 && $data['branch_info']->regCode != 0 && $data['branch_info']->evaluator5 == NULL)){
-  //                             $senior_info = $this->admin_model->get_senior_info($data['branch_info']->regCode);
-  //                           } else {
-  //                             $senior_info = $this->admin_model->get_senior_info($regioncode);
-  //                           }
-
-  //                           $brgyforemail = ucwords($data['branch_info']->house_blk_no).' '.ucwords($data['branch_info']->street).$x.' '.$data['branch_info']->brgy.', '.$data['branch_info']->city.', '.$data['branch_info']->province.', '.$data['branch_info']->region;
-
-  //                           $proposednameemail = $data['branch_info']->coopName;
-
-  //                           if($data['branch_info']->area_of_operation == 'Barangay' || $data['branch_info']->area_of_operation == 'Municipality/City'){
-  //                               $proposedbranch = $data['branch_info']->brgy.' '.$data['branch_info']->type;
-  //                           } else if($data['branch_info']->area_of_operation == 'Provincial') {
-  //                               $proposedbranch = $data['branch_info']->city.' '.$data['branch_info']->type;
-  //                           } else if ($data['branch_info']->area_of_operation == 'Regional' || $data['branch_info']->area_of_operation == 'Interregional') {
-  //                               if($this->charter_model->in_charter_city($data['branch_info']->cCode))
-  //                               {
-  //                                 $proposedbranch = $data['branch_info']->city.' '.$data['branch_info']->type;
-  //                               } else {
-  //                                 $proposedbranch = $data['branch_info']->city.', '.$data['branch_info']->province.' '.$data['branch_info']->type;
-  //                               }
-  //                           } else if ($data['branch_info']->area_of_operation == 'National') {
-  //                             if($this->charter_model->in_charter_city($data['branch_info']->cCode))
-  //                               {
-  //                                 $proposedbranch = $data['branch_info']->city.' '.$data['branch_info']->type;
-  //                               } else {
-  //                                 $proposedbranch = $data['branch_info']->city.', '.$data['branch_info']->province.' '.$data['branch_info']->type;
-  //                               }
-  //                           }
-
-  //                           // $proposedbranch = $data['branch_info']->coopName.' '.$data['branch_info']->type;
-  //                           if($data['branch_info']->status == 17){
-  //                             $sendemailtosenior = 'sendEmailToSeniorDeferBranch';
-  //                           } else {
-  //                             $sendemailtosenior = 'sendEmailToSeniorBranch';
-  //                           }
-  //                           if($this->branches_model->$sendemailtosenior($proposednameemail,$proposedbranch,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$senior_info,$data['branch_info']->type,'',$coop_region->region)){
-  //                             if($this->branches_model->sendEmailToClientBranch($data['client_info']->email,$data['branch_info']->type,$proposedbranch,$brgyforemail)){
-  //                               $this->session->set_flashdata('branch_success','Successfully submitted your application. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
-  //                               redirect('branch_update/'.$id.'/view');
-  //                             }
-  //                           }
-  //                         }else{
-  //                           $this->session->set_flashdata('branch_error','Unable to submit your application');
-  //                           redirect('branch_update/'.$id.'/view');
-  //                         }
-  //                       }
-  //                     }else{
-  //                       $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
-  //                       redirect('branch_update/'.$id.'/view');
-  //                     }
-
-  //                 }
                 }else{
               $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
               redirect('branches');
@@ -535,7 +453,7 @@
             if($this->session->userdata('access_level')==5){
               redirect('admins/login');
             }else{
-              redirect('branches');
+              redirect('branch_update');
             }
           }
         }else{

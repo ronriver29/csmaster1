@@ -83,7 +83,7 @@ class Documents_branch_update extends CI_Controller{
                                   foreach($data['coop_type'] as $key => $docs_type)
                                   {
                                     if($key==0)
-                                    // { 
+                                    // {
                                     //   if($data['coop_info']->status==11) //deferred
                                     //   {
                                     //    $data['document_others']= $this->defered_count_documents($decoded_id,$docs_type['document_num']);
@@ -93,7 +93,7 @@ class Documents_branch_update extends CI_Controller{
                                        $data['document_others']= $this->get_documentss($decoded_id,$docs_type['document_num']);//$this->count_documents_others($decoded_id,$docs_type['document_num']);
                                       // }
                                     }
-                                    
+
                                     if($key==1)
                                     {
                                       // if($data['coop_info']->status==11) //deferred
@@ -107,15 +107,15 @@ class Documents_branch_update extends CI_Controller{
                                     }
                                   }
                                 }
-                                
-                               
+
+
                                 $data['title'] = 'List of Documents';
                                 $data['client_info'] = $this->user_model->get_user_info($user_id);
                                 $data['header'] = 'Documents';
                                 $data['uid'] = $this->session->userdata('user_id');
                                 $data['cid'] = $decoded_id;
                                 $data['encrypted_id'] = $id;
-    
+
                                 // if($data['coop_info']->status==11) //deferred
                                 // {
                                 //   $data['document_one']= $this->defered_count_documents($decoded_id,1);
@@ -148,7 +148,7 @@ class Documents_branch_update extends CI_Controller{
                                   {
                                     $data['read_upload'] = $this->count_documents($decoded_id,42);
                                   }
-                                // }  
+                                // }
                                 $this->load->view('template/header', $data);
                                 if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                                   $this->load->view('documents/list_of_documents_federation', $data);
@@ -157,7 +157,7 @@ class Documents_branch_update extends CI_Controller{
                                 } else {
                                     $this->load->view('documents/list_of_documents', $data);
                                 }
-                                
+
                                 $this->load->view('template/footer');
                               }else{
                                 $this->session->set_flashdata('redirect_message', 'Please complete first your list of staff.');
@@ -226,7 +226,7 @@ class Documents_branch_update extends CI_Controller{
                         $ids = $decoded_id;
                         $data['cooperator_complete'] = $this->$model->is_requirements_complete($ids,$data['capitalization_info']->associate_members);
                       }
-                      
+
                      if($data['cooperator_complete'] || ($data['coop_info']->grouping == 'Union' && $data['coop_info']->type_of_cooperative == 'Union')){
                         $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
                         if($data['purposes_complete']){
@@ -253,7 +253,7 @@ class Documents_branch_update extends CI_Controller{
                                   foreach($data['coop_type'] as $key => $docs_type)
                                   {
                                     if($key==0)
-                                    { 
+                                    {
                                     //   if($data['coop_info']->status==11) //deferred
                                     //   {
                                     //    $data['document_others']= $this->defered_count_documents($decoded_id,$docs_type['document_num']);
@@ -263,16 +263,16 @@ class Documents_branch_update extends CI_Controller{
                                        $data['document_others']= $this->get_documentss($decoded_id,$docs_type['document_num']);//$this->count_documents_others($decoded_id,$docs_type['document_num']);
                                       // }
                                     }
-                                    
+
                                     if($key==1)
                                     {
-                                     
+
                                        $data['document_others2']= $this->get_documentss($decoded_id,$docs_type['document_num']);
-                                      
+
                                     }
                                   }
-                                }  
-                                         
+                                }
+
                                   $data['cooperatives_comments_cds'] = $this->cooperatives_model->cooperatives_comments_cds($decoded_id);
                                   $data['cooperatives_comments_snr'] = $this->cooperatives_model->cooperatives_comments_snr($decoded_id);
                                   $data['cooperatives_comments_snr_defer'] = $this->cooperatives_model->cooperatives_comments_snr_defer($decoded_id);
@@ -290,7 +290,7 @@ class Documents_branch_update extends CI_Controller{
                                   $data['denied_comments'] = $this->cooperatives_model->denied_comments($decoded_id);
                                   $data['cooperatives_comments_snr_revert'] = $this->cooperatives_model->cooperatives_comments_snr_revert($decoded_id);
                                   $data['cooperatives_comments_snr_revert_defer'] = $this->cooperatives_model->cooperatives_comments_snr_revert_defer($decoded_id);
-                                  
+
                                   $data['title'] = 'List of Documents';
                                   $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                                   $data['header'] = 'Documents';
@@ -304,7 +304,7 @@ class Documents_branch_update extends CI_Controller{
                                   $data['document_others_unifed'] = $this->uploaded_document_model->get_document_others_unifed_info($decoded_id);
                                   $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
                                   $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
-                            
+
                                   $this->load->view('templates/admin_header', $data);
                                   if($data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
                                     $this->load->view('documents/list_of_documents_federation', $data);
@@ -323,7 +323,7 @@ class Documents_branch_update extends CI_Controller{
                                   $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                   redirect('cooperatives/'.$id);
                                 }
-                              } else { 
+                              } else {
                                 // echo"hear";
                                 $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
                                 redirect('cooperatives/'.$id);
@@ -334,7 +334,7 @@ class Documents_branch_update extends CI_Controller{
                               $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
                               redirect('cooperatives/'.$id);
                             }
-                          } else { 
+                          } else {
                             // echo"dddddf";
                             $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
                             redirect('cooperatives/'.$id);
@@ -374,7 +374,7 @@ class Documents_branch_update extends CI_Controller{
         if(is_numeric($decoded_id) && $decoded_id!=0){
           if($this->session->userdata('client')){
             // if($this->branches_model->check_own_branch($decoded_id,$user_id)){
-              
+
                 $branch_info = $this->branches_model->get_branch_info_migrated($decoded_id);
                 $data['branch_info'] = $branch_info;
                 // Ammend
@@ -410,7 +410,7 @@ class Documents_branch_update extends CI_Controller{
                 $data['document_40'] = $this->uploaded_document_model->get_document_40_info($branch_info->id,$branch_info->application_id);
                 $data['document_others_unifed'] = $this->uploaded_document_model->get_document_42_info($branch_info->id,$branch_info->application_id);
                 $data['coop_type'] = $this->cooperatives_model->get_type_of_coop($data['branch_info']->type);
-                
+
                 $data['in_chartered_cities'] =false;
                 // $this->debug();
                 if($this->charter_model->in_charter_city($data['branch_info']->cCode))
@@ -422,11 +422,11 @@ class Documents_branch_update extends CI_Controller{
                 if(isset($data['ca_user_info'])>0){
                   $data['cafsis_info'] = $this->profile_model->get_saved_data_document($data['ca_user_info']->id);
                 }
-                
+
                 $this->load->view('template/header', $data);
                 $this->load->view('documents/list_of_documents_branch_updating', $data);
                 $this->load->view('template/footer');
-              
+
             // }else{
             //   $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
             //   redirect('branches');
@@ -502,7 +502,7 @@ class Documents_branch_update extends CI_Controller{
                 $data['document_40'] = $this->uploaded_document_model->get_document_40_info($branch_info->id,$branch_info->application_id);
                 $data['document_others_unifed'] = $this->uploaded_document_model->get_document_42_info($branch_info->id,$branch_info->application_id);
 
-                
+
                 $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
                 $data['is_active_director'] = $this->admin_model->is_active_director($user_id);
                 $data['business_activities'] =  $this->branches_model->get_all_business_activities($branch_info->id);
@@ -519,12 +519,53 @@ class Documents_branch_update extends CI_Controller{
 //                  $this->session->set_flashdata('redirect_applications_message', 'The branches is not yet submitted for evaluation.');
 //                  redirect('branches');
 //                }
-              
+
             }
           }
         }else{
           show_404();
         }
+    }
+  }
+
+  function upload_document_others_bns($id = null){
+    if(!$this->session->userdata('logged_in')){
+      redirect('users/login');
+    }else{
+      $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
+      $user_id = $this->session->userdata('user_id');
+      $data['is_client'] = $this->session->userdata('client');
+      if(is_numeric($decoded_id) && $decoded_id!=0){
+        // if($this->session->userdata('client')){
+          // if($this->branches_model->check_own_branch($decoded_id,$user_id)){
+              $data['coop_info'] = $this->branches_model->get_branch_info_migrated($decoded_id);
+                $data['client_info'] = $this->user_model->get_user_info($user_id);
+                $data['title'] = 'Upload Document';
+                $data['header'] = 'Upload Document';
+                $data['encrypted_branch_id'] = $id;
+                $data['coop_info'] = $this->branches_model->get_branch_info_migrated($decoded_id);
+                $data['encrypted_id'] = $id;
+                $data['encrypted_uid'] = encrypt_custom($this->encryption->encrypt($user_id));
+                $data['uid'] = $user_id;
+                $data['coopid'] = $decoded_id;
+                $this->load->view('./template/header', $data);
+                $this->load->view('cooperative/upload_form/upload_document_others_bns', $data);
+                $this->load->view('./template/footer');
+          // }else{
+          //   $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!.');
+          //   redirect('branches');
+          // }
+        // }else{
+        //   if($this->session->userdata('access_level')==5){
+        //     redirect('admins/login');
+        //   }else{
+        //     $this->session->set_flashdata('redirect_message', 'Unauthorized!!.');
+        //     redirect('branches/'.$id);
+        //   }
+        // }
+      }else{
+        show_404();
+      }
     }
   }
 }

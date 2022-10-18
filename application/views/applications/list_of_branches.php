@@ -298,7 +298,7 @@ if($tomorrow>=$now){
                       <?php if($branch['status']<2||$branch['status']==16||$branch['status']==17) : ?>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteBranchModal" data-cname="<?= $branch['branchName']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>"><i class='fas fa-trash'></i><?php echo ($branch['status']==16 || $branch['status']==17) ? "Delete": "Cancel" ?></button>
                       <?php endif;?>
-                      <?php if($branch['status']>=21 && $branch['status']<=39) : ?>
+                      <?php if($branch['status']>=25 && $branch['status']<=39) : ?>
                         <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/bns_closure" class="btn btn-warning" style="color:white;"><i class='fas fa-eye'></i> Close</a>
                       <?php endif;?>
                       <?php if($branch['status']>=40 && $branch['status']<=54) : ?>

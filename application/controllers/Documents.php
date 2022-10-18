@@ -5952,9 +5952,8 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
                 $this->load->view('cooperative/upload_form/upload_document_others_bns', $data);
                 $this->load->view('./template/footer');
           }else{
-            echo $decoded_id.'-'.$user_id;
-            // $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!!!!.');
-            // redirect('branches');
+            $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!.');
+            redirect('branches');
           }
         }else{
           if($this->session->userdata('access_level')==5){
@@ -6159,7 +6158,13 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
             $this->upload->initialize($config);
             if(!($this->upload->do_upload('file42'))){
               $this->session->set_flashdata('document_40_error', $this->upload->display_errors('<p>', '</p>'));
-              redirect('branches/'.$this->input->post('branchID').'/documents');
+              if($data['coop_info']->status == 0 || $data['coop_info']->status == 81 || $data['coop_info']->status == 80){
+                redirect('branch_update/'.$this->input->post('branchID').'/documents_branch_update');
+              } else {
+                redirect('branches/'.$this->input->post('branchID').'/documents');
+              }
+
+              // redirect('branches/'.$this->input->post('branchID').'/documents');
             }else{
                 if($this->input->post('status')==17){
                     $status = 2;
@@ -6170,7 +6175,11 @@ function view_document_5($id = null,$branch_id=null,$filename = null){
               $data = array('upload_data' => $this->upload->data());
               if($this->uploaded_document_model->add_document_info_($decoded_id,$application_id,42,$this->upload->data('file_name'),$status)){
                 $this->session->set_flashdata('document_40_success', 'Successfully uploaded.');
-                redirect('branches/'.$this->input->post('branchID').'/documents');
+                if($data['coop_info']->status == 0 || $data['coop_info']->status == 81 || $data['coop_info']->status == 80){
+                  redirect('branch_update/'.$this->input->post('branchID').'/documents_branch_update');
+                } else {
+                  redirect('branches/'.$this->input->post('branchID').'/documents');
+                }
               }else{
                 $file = $config['upload_path'].$config['file_name'];
                 if(is_readable($file) && unlink($file)){
