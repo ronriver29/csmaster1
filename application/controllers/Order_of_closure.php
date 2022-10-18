@@ -28,29 +28,29 @@ class order_of_closure extends CI_Controller{
       $branch_info = $this->branches_model->get_branch_info_by_admin($decoded_id);
       $branch_code = $this->branches_model->get_branch_addcode($decoded_id);
         if ($branch_info->status==39){
-          $this->branches_model->branch_closure($type,$decoded_id,$branch_info->rCode,$pst,$branch_info->type,$branch_info->coopName,$branch_info->branchName,$branch_code->subaddcode);
+          $this->branches_model->branch_closure($decoded_id,$branch_info->rCode,$branch_info->type,$branch_info->coopName,$branch_info->branchName,$branch_code->subaddcode);
         }
       }
 
         $data1['director']=$this->branches_model->get_director($branch_info->evaluator_for_closure_2)->full_name;
 
-        $data1['signature'] = "../assets/img/AsecJoy.png"; 
+        $data1['signature'] = "../assets/img/AsecJoy.png";
         $data1['chair'] = $this->registration_model->get_chairman()->chairman;
         $data1['effectivity_date'] = $this->registration_model->get_chairman()->effectivity_date;
         $data1['branch_info']=$branch_info;
-        
+
         set_time_limit(0);
 
         $html2 = $this->load->view('cooperative/ooc_view', $data1, TRUE);
 
-        $J = new pdf();       
+        $J = new pdf();
         $J->set_option('isRemoteEnabled',TRUE);
         $J->set_paper([0,0,612,936], "portrait"); //mm to point
         $J->load_html($html2);
         $J->render();
         $J->stream("certificate.pdf", array("Attachment"=>0));
-      
-    
+
+
   }
   public function OrdinalIndicator($dateRegistered)
   {
@@ -72,7 +72,7 @@ class order_of_closure extends CI_Controller{
               break;
             case 2:
               $ordinal_indicator='nd';
-              break;  
+              break;
             case 3:
               $ordinal_indicator='rd';
               break;
@@ -81,7 +81,7 @@ class order_of_closure extends CI_Controller{
               break;
           }
         }
-        
+
         return $date_day.$ordinal_indicator;//$num_day.$ordinal_indicator;
   }
   public function debug($array)

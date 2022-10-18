@@ -4574,7 +4574,7 @@ System (E-CoopRIS)";
     }
   }
 
-  public function branch_closure($type,$branch_id,$rCode,$pst,$branchsatellite,$coopName,$branchName,$subaddcode){
+  public function branch_closure($branch_id,$rCode,$branchsatellite,$coopName,$branchName,$subaddcode){
     $this->db->trans_begin();
 
     $this->db->update('branches', array('status'=>29,'date_closure'=>date('Y-m-d',now('Asia/Manila'))),array('id'=>$branch_id));
