@@ -892,7 +892,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join registeredcoop on branches.regNo = registeredcoop.regNo
     inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
     where x.regCode like "'.$regcode.'%"
-    and branches.status in (56,61) AND registeredcoop.type IN ('.$typeofcoopimp.')
+    and branches.status in (56,61) AND registeredcoop.type IN ('.$typeofcoopimp.') GROUP BY branches.branchName,branches.certNo,branches.addrCode
 UNION
 select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
@@ -901,7 +901,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join refregion on refregion.regCode = refprovince.regCode
     inner join registeredcoop on branches.regNo = registeredcoop.regNo
     where refregion.regCode like "'.$regcode.'%"
-    and branches.status in (56,61) AND registeredcoop.type IN ('.$typeofcoopimp.')');
+    and branches.status in (56,61) AND registeredcoop.type IN ('.$typeofcoopimp.') GROUP BY branches.branchName,branches.certNo,branches.addrCode');
     $data = $query->result_array();
     return $data;
   }
@@ -914,7 +914,7 @@ select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, ref
     inner join registeredcoop on branches.regNo = registeredcoop.regNo
     inner join refbrgy as x on x.brgyCode = registeredcoop.addrCode
     where x.regCode like "'.$regcode.'%"
-    and branches.status in (56,61)
+    and branches.status in (56,61) GROUP BY branches.branchName,branches.certNo,branches.addrCode
 UNION
 select branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, refcitymun.citymunCode as cCode,registeredcoop.type as rtype from branches
   inner join refbrgy on refbrgy.brgyCode = branches.addrCode
