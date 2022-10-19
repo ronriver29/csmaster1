@@ -25,7 +25,7 @@ class cooperative_tool extends CI_Controller{
       $data['is_client'] = $this->session->userdata('client');
       if($this->session->userdata('client')){
         $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-        redirect('cooperatives');    
+        redirect('cooperatives');
       }else{
         if($this->session->userdata('access_level')==5){
           redirect('admins/login');
@@ -35,9 +35,9 @@ class cooperative_tool extends CI_Controller{
           $data['header'] = 'Cooperative';
           $data['encrypted_id'] = $id;
           $data['coop_info'] = $this->cooperatives_model->get_cooperative_info_by_admin($decoded_id);
-          
+
           $data['cooperatives_comments_cds'] = $this->cooperatives_model->cooperatives_comments_cds($decoded_id);
-          
+
           if(!empty($data['coop_info']->tool_yn_answer))
             $data['ans']=$data['coop_info']->tool_yn_answer;
           else
@@ -63,11 +63,11 @@ class cooperative_tool extends CI_Controller{
           } else {
             $this->load->view('cooperative/evaluation/coop_tool', $data);
           }
-          
+
           $this->load->view('./template/footer', $data);
         }
       }
-    }                          
+    }
   }
 
   public function save($id = null){
@@ -79,7 +79,7 @@ class cooperative_tool extends CI_Controller{
       $data['is_client'] = $this->session->userdata('client');
       if($this->session->userdata('client')){
         $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-        redirect('cooperatives');    
+        redirect('cooperatives');
       }else{
         if($this->session->userdata('access_level')==5){
           redirect('admins/login');
@@ -89,7 +89,7 @@ class cooperative_tool extends CI_Controller{
             $remark='';
             $yn='';
             foreach ($this->input->post('ans') as $itm) {
-             
+
               $yn=$yn.$itm;
             }
             foreach ($this->input->post('sagot') as $itm) {
@@ -106,20 +106,20 @@ class cooperative_tool extends CI_Controller{
               'tool_remark' => $remark,
               'tool_findings' => $this->input->post('findings'),
               'tool_comment' => $this->input->post('comments'),
-            );   
-            
+            );
+
             $data1 = $this->security->xss_clean($data1);
 
             if($this->coop_tool_model->edit_data($data1,$decoded_id)){
-              redirect('cooperatives/'.$this->input->post('id'));    
+              redirect('cooperatives/'.$this->input->post('id'));
             }else{
               echo 'server error';
             }
-            
-          }  
+
+          }
         }
       }
-    }                             
+    }
   }
 
   function branch($id = null){
@@ -131,7 +131,7 @@ class cooperative_tool extends CI_Controller{
       $data['is_client'] = $this->session->userdata('client');
       if($this->session->userdata('client')){
         $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-        redirect('cooperatives');    
+        redirect('cooperatives');
       }else{
         if($this->session->userdata('access_level')==5){
           redirect('admins/login');
@@ -163,7 +163,7 @@ class cooperative_tool extends CI_Controller{
           $this->load->view('./template/footer', $data);
         }
       }
-    }                          
+    }
   }
 
   function branch_conversion($id = null){
@@ -175,7 +175,7 @@ class cooperative_tool extends CI_Controller{
       $data['is_client'] = $this->session->userdata('client');
       if($this->session->userdata('client')){
         $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-        redirect('cooperatives');    
+        redirect('cooperatives');
       }else{
         if($this->session->userdata('access_level')==5){
           redirect('admins/login');
@@ -186,12 +186,12 @@ class cooperative_tool extends CI_Controller{
           $data['encrypted_id'] = $id;
           $data['branch_info'] = $this->branches_model->get_branch_info_by_admin($decoded_id);
 
-          if(!empty($data['branch_info']->tool_yn_answer))
-            $data['ans']=$data['branch_info']->tool_yn_answer;
+          if(!empty($data['branch_info']->tool_yn_answer_conv))
+            $data['ans']=$data['branch_info']->tool_yn_answer_conv;
           else
             $data['ans']=null;
-          if(!empty($data['branch_info']->tool_remark))
-            $data['rem']=explode('~^~',$data['branch_info']->tool_remark);
+          if(!empty($data['branch_info']->tool_remark_conv))
+            $data['rem']=explode('~^~',$data['branch_info']->tool_remark_conv);
           else
             $data['rem']=null;
           if(!empty($data['branch_info']->tool_comment))
@@ -207,7 +207,7 @@ class cooperative_tool extends CI_Controller{
           $this->load->view('./template/footer', $data);
         }
       }
-    }                          
+    }
   }
 
   function branch_transfer($id = null){
@@ -219,7 +219,7 @@ class cooperative_tool extends CI_Controller{
       $data['is_client'] = $this->session->userdata('client');
       if($this->session->userdata('client')){
         $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-        redirect('cooperatives');    
+        redirect('cooperatives');
       }else{
         if($this->session->userdata('access_level')==5){
           redirect('admins/login');
@@ -230,12 +230,12 @@ class cooperative_tool extends CI_Controller{
           $data['encrypted_id'] = $id;
           $data['branch_info'] = $this->branches_model->get_branch_info_by_admin($decoded_id);
 
-          if(!empty($data['branch_info']->tool_yn_answer))
-            $data['ans']=$data['branch_info']->tool_yn_answer;
+          if(!empty($data['branch_info']->tool_yn_answer_trans))
+            $data['ans']=$data['branch_info']->tool_yn_answer_trans;
           else
             $data['ans']=null;
-          if(!empty($data['branch_info']->tool_remark))
-            $data['rem']=explode('~^~',$data['branch_info']->tool_remark);
+          if(!empty($data['branch_info']->tool_remark_trans))
+            $data['rem']=explode('~^~',$data['branch_info']->tool_remark_trans);
           else
             $data['rem']=null;
           if(!empty($data['branch_info']->tool_comment))
@@ -251,7 +251,7 @@ class cooperative_tool extends CI_Controller{
           $this->load->view('./template/footer', $data);
         }
       }
-    }                          
+    }
   }
 
   public function save_branch_conversion($id = null){
@@ -263,7 +263,7 @@ class cooperative_tool extends CI_Controller{
       $data['is_client'] = $this->session->userdata('client');
       if($this->session->userdata('client')){
         $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-        redirect('cooperatives');    
+        redirect('cooperatives');
       }else{
         if($this->session->userdata('access_level')==5){
           redirect('admins/login');
@@ -283,24 +283,24 @@ class cooperative_tool extends CI_Controller{
             $remark=substr_replace($remark, "", -1);
 
             $data1 = array(
-              'tool_yn_answer' => $yn,
-              'tool_remark' => $remark,
+              'tool_yn_answer_conv' => $yn,
+              'tool_remark_conv' => $remark,
               'tool_findings' => $this->input->post('findings'),
               'tool_comment' => $this->input->post('comments'),
-            );   
-            
+            );
+
             $data1 = $this->security->xss_clean($data1);
 
             if($this->coop_tool_model->edit_branch($data1,$decoded_id)){
-              redirect('branches/'.$this->input->post('id').'/documents_conversion');    
+              redirect('branches/'.$this->input->post('id').'/documents_conversion');
             }else{
               echo 'server error';
             }
-            
-          }  
+
+          }
         }
       }
-    }                             
+    }
   }
 
   public function save_branch_transfer($id = null){
@@ -312,7 +312,7 @@ class cooperative_tool extends CI_Controller{
       $data['is_client'] = $this->session->userdata('client');
       if($this->session->userdata('client')){
         $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-        redirect('cooperatives');    
+        redirect('cooperatives');
       }else{
         if($this->session->userdata('access_level')==5){
           redirect('admins/login');
@@ -332,24 +332,24 @@ class cooperative_tool extends CI_Controller{
             $remark=substr_replace($remark, "", -1);
 
             $data1 = array(
-              'tool_yn_answer' => $yn,
-              'tool_remark' => $remark,
+              'tool_yn_answer_trans' => $yn,
+              'tool_remark_trans' => $remark,
               'tool_findings' => $this->input->post('findings'),
               'tool_comment' => $this->input->post('comments'),
-            );   
-            
+            );
+
             $data1 = $this->security->xss_clean($data1);
 
             if($this->coop_tool_model->edit_branch($data1,$decoded_id)){
-              redirect('branches/'.$this->input->post('id').'/documents_transfer');    
+              redirect('branches/'.$this->input->post('id').'/documents_transfer');
             }else{
               echo 'server error';
             }
-            
-          }  
+
+          }
         }
       }
-    }                             
+    }
   }
 
   public function save_branch($id = null){
@@ -361,7 +361,7 @@ class cooperative_tool extends CI_Controller{
       $data['is_client'] = $this->session->userdata('client');
       if($this->session->userdata('client')){
         $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
-        redirect('cooperatives');    
+        redirect('cooperatives');
       }else{
         if($this->session->userdata('access_level')==5){
           redirect('admins/login');
@@ -385,19 +385,19 @@ class cooperative_tool extends CI_Controller{
               'tool_remark' => $remark,
               'tool_findings' => $this->input->post('findings'),
               'tool_comment' => $this->input->post('comments'),
-            );   
-            
+            );
+
             $data1 = $this->security->xss_clean($data1);
 
             if($this->coop_tool_model->edit_branch($data1,$decoded_id)){
-              redirect('branches/'.$this->input->post('id').'/documents');    
+              redirect('branches/'.$this->input->post('id').'/documents');
             }else{
               echo 'server error';
             }
-            
-          }  
+
+          }
         }
       }
-    }                             
+    }
   }
 }

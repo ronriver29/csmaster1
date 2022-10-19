@@ -496,11 +496,6 @@
                                     $step = 4;
                                   }
 
-                                  // $this->db->where(array('name'=>$branch_info->registeredtype,'active'=>1));
-                                  // $this->db->from('head_office_coop_type_branch');
-                                  // if($this->db->count_all_results()>0 && $branch_info->status != 12){
-                                  //   $step = 7;
-                                  // }
                                   $data_field = array(
                                         'branches_id' => $decoded_id,
                                         'comment' => $comment_by_specialist_senior,
@@ -508,20 +503,7 @@
                                         'user_level' => $data['admin_info']->access_level
                                     );
                                   $success = $this->branches_model->insert_conversion_comment_history($data_field);
-                                  // $success = $this->branches_model->approve_by_admin($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior);
 
-                                  // Get Count Coop Type for HO
-                                  //   $this->db->where(array('name'=>$branch_info->registeredtype,'active'=>1));
-                                  //   $this->db->from('head_office_coop_type_branch');
-                                  // // End Get Count Coop Type
-                                  // if($this->db->count_all_results()>0)
-                                  // {
-                                  //   if($branch_info->evaluator4 != 0){
-                                  //     $regioncode = "0".mb_substr($branch_info->addrCode, 0, 2);
-                                  //   } else {
-                                  //     $regioncode = "00";
-                                  //   }
-                                  // } else {
                                     $regioncode = "0".mb_substr($branch_info->addrCode, 0, 2);
 
                                     $this->db->where(array('name'=>$branch_info->registeredtype,'active'=>1));
@@ -529,12 +511,6 @@
                                     if($this->db->count_all_results()>0 && $branch_info->status != 12){
                                       $regioncode = '00';
                                     }
-                                  // }
-                                  // $query= $this->db->get_where('admin',array('region_code'=>$data,'is_director_active'=>1,'access_level'=>3));
-                                  // echo $regioncode;
-                                  // echo '<script>alert('.printf("%02d", 0).');</script>';
-                                  // $data['director_info'] = $this->admin_model->get_director_info($regioncode);
-                                  // $tempcount = count($data['director_info']);
 
                                   $this->db->where(array('region_code'=>$regioncode,'is_director_active'=>1,'access_level'=>3));
                                   $this->db->from('admin');
@@ -648,7 +624,7 @@
                                 // if($this->admin_model->is_active_director($data['director_info']->id)){
                                   $seniorinfo = $this->admin_model->get_emails_of_senior_by_region($regioncode);
 
-                                  $data['suvervising_info'] = $this->admin_model->get_specialst_info($branch_info->evaluator_for_transfer_1);
+                                  $data['suvervising_info'] = $this->admin_model->get_specialst_info($branch_info->evaluator_for_conversion_2);
 
                                 // } else {
                                   // $data['director_info'] = $this->admin_model->get_emails_of_supervisor_by_region($regioncode);

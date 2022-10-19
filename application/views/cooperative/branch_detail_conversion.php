@@ -402,7 +402,7 @@
                 $now_lapse = date('Y-m-d', strtotime("-1 months"));
                 $lapse_time = date('Y-m-d', strtotime($branch_info->lapse_time));
                 // echo $lapse_time.'-'.$now_lapse;
-                //if($now_lapse >= $lapse_time){ ?>
+                if($now_lapse >= $lapse_time){ ?>
                   <a href="<?php echo base_url();?>branches/<?= $encrypted_id ?>/documents_conversion_submission" class="btn btn-info btn-sm">View</a>
                   <?php
                   if($branch_info->type == 'Branch'){
@@ -419,9 +419,9 @@
                     }
                   }?>
                 <?php
-                // } else {
-                //   echo 'Please wait for one-month posting period';
-                // }
+                } else {
+                  echo 'Please wait for one-month posting period';
+                }
                 ?>
 
 

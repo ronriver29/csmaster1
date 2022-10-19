@@ -106,7 +106,7 @@
             ?>
 
             <?php if(($admin_info->access_level ==2 || $admin_info->access_level ==1 || $is_active_director || $supervising_) && $branch_info->status != 68): ?>
-            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branchname?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if(($branch_info->tool_yn_answer==null && $branch_info->status != 55 && $branch_info->status != 61)) echo 'disabled';?>><?=$submit?></button>
+            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branchname?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if(($branch_info->tool_yn_answer_conv==null && $branch_info->status != 55 && $branch_info->status != 61)) echo 'disabled';?>><?=$submit?></button>
             <?php endif; //endo fo coop info status ?>
             <?php if($branch_info->status== 61 && $admin_info->access_level == 3 && ($is_active_director || $supervising_)) { ?>
                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyBranchModal" data-cname="<?= $branchname?>" data-bname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>">Deny</button>

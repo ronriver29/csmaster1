@@ -536,7 +536,7 @@
                                   }
 
                                   $fullnamecds = '';
-                                  
+
                                   foreach($data['cds_info'] as $cdsinfo){
                                     $fullnamecds = $cdsinfo['full_name'];
                                   }
@@ -544,9 +544,9 @@
                                   $coop_region = $this->branches_model->get_coop_region($branch_info->regNo);
                                   if($step == 8)
                                   {
-                                    if($this->branches_model->sendEmailToClientForUploading($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$emaildirect,$branch_info->type,$fullnamecds,$coop_region->region)){
-                                      $success = $this->branches_model->approve_by_admin2_for_closure($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior,$coop_full_name);
-                                    }
+                                    // if($this->branches_model->sendEmailToClientForUploading($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$emaildirect,$branch_info->type,$fullnamecds,$coop_region->region)){
+                                    //   $success = $this->branches_model->approve_by_admin2_for_closure($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior,$coop_full_name);
+                                    // }
                                   } else if($step == 9){
                                     if($this->branches_model->sendEmailToDirectorClosure9($branch_info->coopName,$branchname,$brgyforemail,$fullnameforemail,$data['client_info']->contact_number,$data['client_info']->email,$emaildirect,$branch_info->type,$fullnamecds,$coop_region->region)){
                                       $success = $this->branches_model->approve_by_admin2_for_closure($admin_info,$decoded_id,$reason_commment,$step,$comment_by_specialist_senior,$coop_full_name);

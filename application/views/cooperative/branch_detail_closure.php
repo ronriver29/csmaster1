@@ -386,15 +386,25 @@
             <p class="mb-1 font-italic">Wait for an e-mail notification list of documents for submission / Submission of documents.</p>
             <?php if($branch_info->status == 33 || $branch_info->status == 34 || $branch_info->status == 37 || $branch_info->status == 38): ?>
               <small class="text-muted">
-                <a href="<?php echo base_url();?>branches/<?= $encrypted_id ?>/documents_closure_submission" class="btn btn-info btn-sm">View</a>
-                <?php if($branch_info->status == 33 || $branch_info->status == 34 || $branch_info->status == 38): ?>
                 <?php
-                if($document_44 && $document_45 && $document_46) {
-                  echo '<a href="'.base_url().'bns_closure/'.$encrypted_id.'/evaluation_for_submission" class="btn btn-color-blue btnFinalize btn-sm" >Submit</a>';
+                $now_lapse = date('Y-m-d', strtotime("-3 months"));
+                $lapse_time = date('Y-m-d', strtotime($branch_info->lapse_time));
+                // echo $lapse_time.'-'.$now_lapse;
+                  if($now_lapse >= $lapse_time){ ?>
+                  <a href="<?php echo base_url();?>branches/<?= $encrypted_id ?>/documents_closure_submission" class="btn btn-info btn-sm">View</a>
+                  <?php if($branch_info->status == 33 || $branch_info->status == 34 || $branch_info->status == 38): ?>
+                  <?php
+                  if($document_44 && $document_45 && $document_46) {
+                    echo '<a href="'.base_url().'bns_closure/'.$encrypted_id.'/evaluation_for_submission" class="btn btn-color-blue btnFinalize btn-sm" >Submit</a>';
+                  } else {
+                    $disabled = '';
+                  }?>
+                  <?php endif;?>
+                <?php
                 } else {
-                  $disabled = '';
-                }?>
-                <?php endif;?>
+                  echo 'Please wait for three-month posting period';
+                }
+                ?>
               </small>
             <?php endif;?>
           </li>

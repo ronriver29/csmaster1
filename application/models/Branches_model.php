@@ -530,7 +530,7 @@ class branches_model extends CI_Model{
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->join('registeredcoop', 'registeredcoop.regNo = branches.regNo','inner');
     $this->db->where('registeredcoop.type IN ('.$typeofcoopimp.')');
-    $this->db->where(array('status'=>59,'evaluator_for_transfer_1'=>$admin_id));
+    $this->db->where(array('status'=>59,'evaluator_for_conversion_2'=>$admin_id));
     $this->db->group_by('branches.branchName,branches.id');
     $query = $this->db->get();
     $data = $query->result_array();
@@ -545,7 +545,7 @@ class branches_model extends CI_Model{
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
     $this->db->join('registeredcoop', 'registeredcoop.regNo = branches.regNo','inner');
     // $this->db->like('refregion.regCode', $regcode);
-    $this->db->where(array('status'=>59,'evaluator_for_transfer_1'=>$admin_id));
+    $this->db->where(array('status'=>59,'evaluator_for_conversion_2'=>$admin_id));
     $this->db->group_by('branches.branchName,branches.id');
     $query = $this->db->get();
     $data = $query->result_array();
@@ -1496,7 +1496,7 @@ public function assign_to_specialist_for_conversion($branch_id,$specialist_id,$c
   $query = $this->db->get_where('admin',array('id'=>$specialist_id));
   $admin_info = $query->row();
   $this->db->where(array('id'=>$branch_id));
-  $this->db->update('branches',array('status'=>59,'evaluator_for_transfer_1'=>$specialist_id));
+  $this->db->update('branches',array('status'=>59,'evaluator_for_conversion_2'=>$specialist_id));
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
@@ -1897,7 +1897,7 @@ public function approve_by_admin2_for_closure($admin_info,$branch_id,$reason_com
   else if($step==10)
     $this->db->update('branches',array('evaluator_for_closure_2'=>$admin_info->id,'status'=>37,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
   else
-    $this->db->update('branches',array('status'=>33,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'lapse_time'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'date_approved_senior'=>$now));
+    $this->db->update('branches',array('status'=>33,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluator_for_closure_1' => $admin_info->id,'lapse_time'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'date_approved_senior'=>$now));
   // echo $this->db->last_query();
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
@@ -2200,13 +2200,13 @@ public function approve_by_admin2_for_conversion($admin_info,$branch_id,$reason_
   if($step==1)
     $this->db->update('branches',array('evaluator_for_closure_1'=>$admin_info->id,'status'=>56,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
   else if($step==2)
-    $this->db->update('branches',array('evaluator_for_closure_1'=>$admin_info->id,'status'=>57,'lapse_time'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
+    $this->db->update('branches',array('evaluator_for_conversion_1'=>$admin_info->id,'status'=>57,'lapse_time'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
   else if($step==3)
     $this->db->update('branches',array('status'=>60,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
   else if($step==4)
-    $this->db->update('branches',array('evaluator_for_transfer_2'=>$admin_info->id,'status'=>61,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
+    $this->db->update('branches',array('evaluator_for_conversion_1'=>$admin_info->id,'status'=>61,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
   else if($step==5)
-    $this->db->update('branches',array('evaluator_for_transfer_3'=>$admin_info->id,'status'=>63,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'date_approved_director'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
+    $this->db->update('branches',array('evaluator_for_conversion_3'=>$admin_info->id,'status'=>63,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'date_approved_director'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
   // echo $this->db->last_query();
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
@@ -2328,7 +2328,7 @@ public function deny_by_admin_for_conversion($admin_info,$branch_id,$reason_comm
   $this->db->trans_begin();
   $this->db->where('id',$branch_id);
   if ($step==1)
-    $this->db->update('branches',array('evaluator_for_transfer_3'=>$admin_info->id,'status'=>62,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
+    $this->db->update('branches',array('evaluator_for_conversion_3'=>$admin_info->id,'status'=>62,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
   elseif($step==2)
     $this->db->update('branches',array('evaluator2'=>$admin_info->id,'status'=>6,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment));
   elseif($step==3)
@@ -2390,7 +2390,7 @@ public function defer_by_admin($admin_info,$branch_id,$reason_commment,$step){
   elseif($step==8)
     $this->db->update('branches',array('status'=>49,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
   elseif($step==10)
-    $this->db->update('branches',array('evaluator_for_transfer_3'=>$admin_info->id,'status'=>64,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
+    $this->db->update('branches',array('evaluator_for_conversion_3'=>$admin_info->id,'status'=>64,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
   else
     $this->db->update('branches',array('evaluator5'=>$admin_info->id,'status'=>17,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila'))),'evaluation_comment'=>$reason_commment,'temp_evaluation_comment'=>$reason_commment));
 
