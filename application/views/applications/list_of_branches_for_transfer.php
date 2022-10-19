@@ -16,8 +16,8 @@
   </div>
 </div>
 <?php endif; ?>
-<?php 
-$plus = date('Y-m-d',strtotime($date2)); 
+<?php
+$plus = date('Y-m-d',strtotime($date2));
 $tomorrow = date('Y-m-d',strtotime($plus . "+3 year"));
 $now = date('Y-m-d');
 
@@ -31,7 +31,7 @@ if($tomorrow>=$now){
 <?php }  //else { ?>
   <?php
     if(!$coop_exists && $is_client){
-    
+
     ?>
     <div class="col-sm-12 col-md-12">
         <div class="alert alert-info text-justify" role="alert">
@@ -53,7 +53,7 @@ if($tomorrow>=$now){
     </div>
     <div class="col-sm-12 col-md-12">
         <div class="alert alert-info text-justify" role="alert">
-           a.  The cooperative incur net loss for the last three consecutive years and its net worth is not progressive for the last three years from the date of application.<br>                                                                       
+           a.  The cooperative incur net loss for the last three consecutive years and its net worth is not progressive for the last three years from the date of application.<br>
 
            b. The principal office do not have the required minimum paid-up capital, as provided for in the Articles of Cooperation, to wit: <br>
             Paid-up Capital&emsp;&emsp;&emsp;Category of Coop<br>
@@ -112,7 +112,7 @@ if($tomorrow>=$now){
   <div class="col-sm-12 offset-md-8 col-md-4 mb-2">
     <?php
     if($coop_exists){
-    
+
     ?>
     <a class="btn btn-color-blue btn-block" href="<?php echo base_url();?>branches/registration" role="button">New Branch/Satellite Registration</a>
   <?php } ?>
@@ -225,7 +225,7 @@ if($tomorrow>=$now){
                         else if($branch['status']==5) echo "SUBMITTED BY SENIOR CDS";
                         else if($branch['status']==6) echo "DENIED BY DIRECTOR";
                         else if($branch['status']==7) echo "DEFERRED BY DIRECTOR";
-                        else if($branch['status']==8 || $branch['status']==9)echo "FOR VALIDATION";                        
+                        else if($branch['status']==8 || $branch['status']==9)echo "FOR VALIDATION";
                         else if($branch['status']==10) echo "DENIED BY CDS II";
                         else if($branch['status']==11) echo "DEFERRED BY CDS II";
                         else if($branch['status']==12 && $branch['evaluator5']>0) echo "FOR RE-EVALUATION";
@@ -245,7 +245,7 @@ if($tomorrow>=$now){
                         else if($branch['status']==22) echo "FOR PAYMENT";
                         else if($branch['status']==23) echo "SUBMITTED BY SENIOR CDS";
                         else if($branch['status']==24) echo "FOR VALIDATION"; ?>
-                        <?php 
+                        <?php
                         $addrCode = '0'.mb_substr($branch['addrCode'], 0, 2);
                         $transreg = '0'.mb_substr($branch['transferred_region'], 0, 2);
                           if($addrCode != $transreg){
@@ -256,7 +256,7 @@ if($tomorrow>=$now){
                             if($branch['status']==45) echo "FOR VALIDATION";
                             if($branch['status']==46) echo "VALIDATION REPORT-SUBMITTED BY CDS II / FOR EVALUATION";
                             if($branch['status']==47) echo "APPLICATION FOR TRANSFER (".$branch['region'].") SUBMITTED BY SR.CDS";
-                            if($branch['status']==48) echo "APPROVED FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS"; 
+                            if($branch['status']==48) echo "APPROVED FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS";
                             if($branch['status']==49) echo "DEFERRED";
                             if($branch['status']==50) echo "DENIED";
                             if($branch['status']==51) echo "FOR PAYMENT";
@@ -265,12 +265,14 @@ if($tomorrow>=$now){
                             if($branch['status']==54) echo "ISSUED ORDER OF TRANSFER";
                           } else {
                             if($branch['status']==41 || $branch['status']==42) echo "LETTER INTENT-TRANSFER";
-                            if($branch['status']==43) echo "FOR UPLOADING";
+                            if($branch['status']==43 && $branch['sent_lapse_notif'] == 0) echo "LETTER RECEIVED";
+                            if($branch['status']==43 && $branch['sent_lapse_notif'] == 1) echo "FOR UPLOADING";
+                            // if($branch['status']==43) echo "FOR UPLOADING";
                             if($branch['status']==44) echo "APPLICATION FOR TRANSFER SUBMITTED/FOR ASSIGNMENT OF VALIDATOR";
                             if($branch['status']==45) echo "FOR VALIDATION";
                             if($branch['status']==46) echo "VALIDATION REPORT-SUBMITTED BY CDS II / FOR EVALUATION";
                             if($branch['status']==47) echo "APPLICATION FOR TRANSFER-SUBMITTED BY SR.CDS/FOR EVALUATION";
-                            if($branch['status']==48) echo "APPROVED FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS"; 
+                            if($branch['status']==48) echo "APPROVED FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS";
                             if($branch['status']==49) echo "DEFERRED";
                             if($branch['status']==50) echo "DENIED";
                             if($branch['status']==51) echo "FOR PAYMENT";
@@ -279,7 +281,7 @@ if($tomorrow>=$now){
                             if($branch['status']==54) echo "ISSUED ORDER OF TRANSFER";
                           }
                         ?>
-                          
+
                       <?php endif ?>
 
                       </span>
@@ -298,10 +300,10 @@ if($tomorrow>=$now){
                       </div>
                     </td>
                   <?php endif;?>
-                 
+
 
                   <?php if(!$is_client) :?>
-                    <?php 
+                    <?php
                       if($branch['area_of_operation'] == 'Barangay' || $branch['area_of_operation'] == 'Municipality/City'){
                         $brancharea = $branch['brgy'];
                     } else if($branch['area_of_operation'] == 'Provincial') {
@@ -331,7 +333,7 @@ if($tomorrow>=$now){
                           <?php if(!in_array($branch['rtype'],$typearr) || $admin_info->region_code == '00'){?>
                             <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/documents_transfer" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
                           <?php } ?>
-                          
+
                         <?php // elseif($branch['status']==8 && $branch['evaluator3']==0): ?>
                           <!-- <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-cname="<?=$brancharea.' '?><?= $branch['branchName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Assign to Validator</a> -->
                         <?php elseif($branch['status']==44): ?>
@@ -383,7 +385,7 @@ if($tomorrow>=$now){
                             &nbsp;<a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/registration_cloa" class="btn btn-info"><i class='fas fa-print'></i> Print Registration</a>
                           <?php } ?>
                         <?php endif; ?>
-                        
+
                         <?php if($branch['status']==45 && $admin_info->access_level == 2): ?>
                           &nbsp;<a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($branch['id'])) ?>/assign" data-toggle="modal" data-target="#assignBranchSpecialistModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch['id']))?>" data-cname="<?=$brancharea.' '?><?= $branch['branchName']?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Re-Assign to Validator</a>
                         <?php endif; ?>
@@ -423,7 +425,7 @@ if($tomorrow>=$now){
               </tr>
             </thead>
             <tbody>
-              <?php if($admin_info->access_level == 3){ 
+              <?php if($admin_info->access_level == 3){
                 foreach ($transferred_branch as $transferred) : ?>
                 <tr>
                   <td><?= $transferred['coopName']?></td>
@@ -436,7 +438,7 @@ if($tomorrow>=$now){
                                   $brancharea = $transferred['city'];
                                 } else {
                                   $brancharea = $transferred['city'].', '.$transferred['province'];
-                                } 
+                                }
                             } else if ($transferred['area_of_operation'] == 'Interregional') {
                                 if($this->charter_model->in_charter_city($transferred['cCode'])){
                                   $brancharea = $transferred['city'];
@@ -457,7 +459,7 @@ if($tomorrow>=$now){
                     <?=$transferred['house_blk_no']?> <?=$transferred['street'].$x?> <?=$transferred['brgy']?>, <?=$transferred['city']?>, <?= $transferred['province']?> <?=$transferred['region']?>
                   </td>
                   <td>
-                    <?php 
+                    <?php
                         $addrCode = '0'.mb_substr($transferred['addrCode'], 0, 2);
                         $transreg = '0'.mb_substr($transferred['transferred_region'], 0, 2);
                         $regionname = $this->branches_model->get_region_name($transreg);
@@ -468,7 +470,7 @@ if($tomorrow>=$now){
                             if($transferred['status']==45) echo "VALIDATION REPORT TRANSFER-SUBMITTED BY CDS II / FOR EVALUATION";
                             if($transferred['status']==46) echo "APPLICATION FOR TRANSFER (".$regionname->regDesc.") SUBMITTED BY SR.CDS / FOR EVALUATION";
                             if($transferred['status']==47) echo "APPLICATION FOR TRANSFER (".$regionname->regDesc.") SUBMITTED BY SR.CDS / FOR EVALUATION";
-                            if($transferred['status']==48) echo "APPROVED FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS"; 
+                            if($transferred['status']==48) echo "APPROVED FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS";
                             if($transferred['status']==49) echo "DEFERRED";
                             if($transferred['status']==50) echo "DENIED";
                           } else {
@@ -478,7 +480,7 @@ if($tomorrow>=$now){
                             if($transferred['status']==45) echo "VALIDATION REPORT TRANSFER-SUBMITTED BY CDS II / FOR EVALUATION";
                             if($transferred['status']==46) echo "APPLICATION FOR TRANSFER-SUBMITTED BY SR.CDS / FOR EVALUATION";
                             if($transferred['status']==47) echo "APPLICATION FOR TRANSFER-SUBMITTED BY SR.CDS / FOR EVALUATION";
-                            if($transferred['status']==48) echo "APPROVED FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS"; 
+                            if($transferred['status']==48) echo "APPROVED FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS";
                             if($transferred['status']==49) echo "DEFERRED";
                             if($transferred['status']==50) echo "DENIED";
                           }
@@ -502,19 +504,19 @@ if($tomorrow>=$now){
                                   $brancharea = $transferred['city'];
                                 } else {
                                   $brancharea = $transferred['city'].', '.$transferred['province'];
-                                } 
+                                }
                             } else if ($transferred['area_of_operation'] == 'Interregional') {
                                 if($this->charter_model->in_charter_city($transferred['cCode'])){
                                   $brancharea = $transferred['city'];
                                 } else {
                                   $brancharea = $transferred['city'].', '.$transferred['province'];
-                                } 
+                                }
                             } else if ($transferred['area_of_operation'] == 'National') {
                                 if($this->charter_model->in_charter_city($transferred['cCode'])){
                                   $brancharea = $transferred['city'];
                                 } else {
                                   $brancharea = $transferred['city'].', '.$transferred['province'];
-                                } 
+                                }
                             }
                         ?>
                   <td><?php echo $brancharea.' '.$transferred['branchName']?></td>
@@ -530,11 +532,11 @@ if($tomorrow>=$now){
 
                         <?php if($transferred['status']==44) echo "FOR VALIDATION"; ?>
                       <?php else : ?>
-                        <?php 
+                        <?php
                         if($transferred['status']==17) echo "DEFERRED BY DIRECTOR";
                         else if($transferred['status']==24) echo "FOR VALIDATION"; ?>
 
-                        <?php 
+                        <?php
                         $addrCode = '0'.mb_substr($transferred['addrCode'], 0, 2);
                         $transreg = '0'.mb_substr($transferred['transferred_region'], 0, 2);
                         $regionname = $this->branches_model->get_region_name($transreg);
@@ -545,7 +547,7 @@ if($tomorrow>=$now){
                             if($transferred['status']==45) echo "VALIDATION REPORT TRANSFER-SUBMITTED BY CDS II / FOR EVALUATION";
                             if($transferred['status']==46) echo "APPLICATION FOR TRANSFER (".$regionname->regDesc.") SUBMITTED BY SR.CDS / FOR EVALUATION";
                             if($transferred['status']==47) echo "APPLICATION FOR TRANSFER (".$regionname->regDesc.") SUBMITTED BY SR.CDS / FOR EVALUATION";
-                            if($transferred['status']==48) echo "APPROVED FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS"; 
+                            if($transferred['status']==48) echo "APPROVED FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS";
                             if($transferred['status']==49) echo "DEFERRED";
                             if($transferred['status']==50) echo "DENIED";
                           } else {
@@ -555,12 +557,12 @@ if($tomorrow>=$now){
                             if($transferred['status']==45) echo "VALIDATION REPORT TRANSFER-SUBMITTED BY CDS II / FOR EVALUATION";
                             if($transferred['status']==46) echo "APPLICATION FOR TRANSFER-SUBMITTED BY SR.CDS / FOR EVALUATION";
                             if($transferred['status']==47) echo "APPLICATION FOR TRANSFER-SUBMITTED BY SR.CDS / FOR EVALUATION";
-                            if($transferred['status']==48) echo "APPROVED FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS"; 
+                            if($transferred['status']==48) echo "APPROVED FOR PRINTING AND SUBMISSION OF THE REQUIREMENTS";
                             if($transferred['status']==49) echo "DEFERRED";
                             if($transferred['status']==50) echo "DENIED";
                           }
                         ?>
-                          
+
                       <?php endif ?>
                       </span>
                   </td>
@@ -568,7 +570,7 @@ if($tomorrow>=$now){
                     <?php if($transferred['status']==24 || $transferred['status']==46){?>
                       <a href="<?php echo base_url();?>branches/<?= encrypt_custom($this->encryption->encrypt($transferred['id'])) ?>/documents_transfer" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
                     <?php } ?>
-                    
+
                   </td>
                 </tr>
                 <?php endforeach; ?>
@@ -580,7 +582,7 @@ if($tomorrow>=$now){
     </div>
 </div>
 <?php } ?>
-<!-- 
+<!--
 <div class="col-sm-12 col-md-12">
     <h3>Registered</h3>
     <div class="card border-top-blue shadow-sm mb-4">
@@ -643,13 +645,13 @@ if($tomorrow>=$now){
         <div class="modal-header">
           <h5 class="modal-title"></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div> 
+        </div>
         <div class="modal-body form">
-          <input type="hidden" value="" name="payment_id" id="payment_id"/> 
-          <input type="hidden" value="" name="bid" id="branch_ID"/> 
+          <input type="hidden" value="" name="payment_id" id="payment_id"/>
+          <input type="hidden" value="" name="bid" id="branch_ID"/>
           <div class="row">
             <div class="col-md-12">
-              
+
 
               <table width="100%" class="bord">
                 <tr>
@@ -700,13 +702,13 @@ if($tomorrow>=$now){
                   <td class="bord" colspan="2">Total </td>
                   <td class="taas"  width="8%">Php </td>
                   <td class="taas" align="right" width="13%"><b id="total"></b></td>
-                </tr>       
+                </tr>
               </table>
               <table id="test"></table>
 
             </div>
           </div>
-        </div><!-- /.modal-content -->    
+        </div><!-- /.modal-content -->
         <div class="modal-footer">
             <button type="button" id="saveOR" onclick= "save()" class="btn btn-primary">Save</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -722,7 +724,7 @@ if($tomorrow>=$now){
   $(document).ready(function(){
   function GetNow()
   {
-    var currentdate = new Date(); 
+    var currentdate = new Date();
     var month = currentdate.getMonth() + 1;
     var day = currentdate.getDate();
     var date1 = (currentdate.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '')  + day);
@@ -738,7 +740,7 @@ if($tomorrow>=$now){
        $("#msgdate").text("Date of O.R. should not be future date");
       setTimeout(function(){
           $("#msgdate").text("");
-      },5000);    
+      },5000);
     }
     else if(selectedDate == now)
     {
@@ -748,7 +750,7 @@ if($tomorrow>=$now){
     {
       $("#msgdate").text("");
     }
-  
+
   });
 });
 </script>
@@ -777,20 +779,20 @@ if($tomorrow>=$now){
             $('#tDate').text(formated_date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
-            $('#branch_ID').val(coop_id);   
+            $('#branch_ID').val(coop_id);
             $('#word').text(s);
-            // $('#branch_ID').val(coop_id);   
+            // $('#branch_ID').val(coop_id);
             $('#word').text(s+' Pesos');
             $('#nature').text(data.nature);
             $('#particulars').html(data.particulars);
             $('#amount').html(data.amount);
             $('#total').text(parseFloat(data.total).toFixed(2));
-          
-            
+
+
             $('#paymentModal').modal('show'); // show bootstrap modal
             $('.modal-title').text('Order of Payment');
             // console.log(data);
- 
+
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
@@ -813,7 +815,7 @@ if($tomorrow>=$now){
 
     var x = $('#orNo').val();
     var y = $('#orDate').val();
-    
+
     if (x==''){
       alert('Missing O.R. No.');
     } else if (y==''){
@@ -838,20 +840,20 @@ if($tomorrow>=$now){
               }
               else
               {
-                  for (var i = 0; i < data.inputerror.length; i++) 
+                  for (var i = 0; i < data.inputerror.length; i++)
                   {
                       $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
                       $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
                   }
               }
-   
+
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
               alert('Error adding / update data!');
              // $('#saveOR').text('save'); //change button text
-              //$('#saveOR').attr('disabled',false); //set button enable 
-   
+              //$('#saveOR').attr('disabled',false); //set button enable
+
           }
       });
     }
