@@ -18,15 +18,15 @@
       }else{
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
-        
+
             $data['title'] = 'Updated Branch/Satellite Information';
             $data['header'] = 'Updated Branch/Satellite Information';
             $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
-            
+
             $this->benchmark->mark('code_start');
               if($data['admin_info']->region_code=="00"){
               //   // Registered Coop Process by Head Office
-              //     $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+              //     $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
               //   // End Registered Coop Process by Head Office
               //   $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
               //   $data['list_cooperatives'] = $this->cooperatives_model->get_all_cooperatives_by_ho_senior($data['admin_info']->region_code);
@@ -35,7 +35,7 @@
               // Head Office
                 // $data['list_cooperatives_registered'] = $this->cooperatives_update_model->get_all_cooperatives_registration_ho($data['admin_info']->region_code);
                 $data['list_branches'] = '';
-                
+
                 if($this->input->post('submit')) {
                   $coopname = $this->input->post('coopname');
                   $limit = $this->input->post('limit');
@@ -57,7 +57,7 @@
                 // $data['list_cooperatives_defer_deny'] = $this->cooperatives_update_model->get_all_cooperatives_by_senior_defer_deny($data['admin_info']->region_code);
               } else {
               //   // Registered Coop Process by Head Office
-              //     $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code); 
+              //     $data['list_cooperatives_registered_by_ho'] = $this->cooperatives_model->get_all_cooperatives_registration_by_ho($data['admin_info']->region_code);
               //   // End Registered Coop Process by Head Office
 
               // Head Office
@@ -88,13 +88,13 @@
                 // $data['list_specialist'] = $this->admin_model->get_all_specialist_by_region($data['admin_info']->region_code);
               }
             $this->benchmark->mark('code_end');
-            $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
+            $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage());
       }
             $this->load->view('templates/admin_header', $data);
             $this->load->view('applications/list_of_updated_branch_info', $data);
             $this->load->view('applications/assign_admin_modal');
             $this->load->view('templates/admin_footer');
-          
+
       }
 
     public function view($id = null){
@@ -104,7 +104,7 @@
         $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
         $user_id = $this->session->userdata('user_id');
         $data['is_client'] = $this->session->userdata('client');
-            
+
         $data['title'] = 'Account Approval Detail';
         $data['header'] = 'Account Information';
         $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
@@ -125,7 +125,7 @@
         $this->load->helper('download');
         $data = file_get_contents(UPLOAD_DIR.'/'.$id);
         force_download('file.pdf', $data);
-      
+
     }
 
     public function approve($id = null,$email){
@@ -155,16 +155,16 @@
         $from = "ecoopris@cda.gov.ph";    //senders email address
         $subject = 'Cooperative Account Application';  //email subject
         $burl = base_url();
-           
+
         $message = "Good Day! Your Account has been Approved!<br><br>Your Password is: ".$temp_passwd." You may now Login.";
-       
+
         $this->email->from($from,'ecoopris CDA (No Reply)');
         $this->email->to($email);
         $this->email->subject($subject);
         $this->email->message($message);
         $this->email->send();
 
-        
+
 
         $this->db->where(array('id'=>$decoded_id));
         $this->db->update('users',$data);
@@ -200,9 +200,9 @@
         $from = "ecoopris@cda.gov.ph";    //senders email address
         $subject = 'Cooperative Account Application';  //email subject
         $burl = base_url();
-           
+
         $message = "Your Account has been Denied";
-       
+
         $this->email->from($from,'ecoopris CDA (No Reply)');
         $this->email->to($email);
         $this->email->subject($subject);
@@ -220,7 +220,7 @@
           $this->session->set_flashdata(array('email_sent_success'=>'Account has been denied.'));
           redirect('account_approval');
         }
-      
+
     }
 
     public function paginate($array)
@@ -250,9 +250,9 @@
         $config['num_tag_open'] = '<li class="page-item"><span class="page-link">';
         $config['num_tag_close'] = '</span></li>';
         $this->pagination->initialize($config);
-        
-       
-       
+
+
+
         $links = $this->pagination->create_links();
         return $links;
     }

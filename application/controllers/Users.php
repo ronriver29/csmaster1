@@ -19,7 +19,7 @@ class Users extends CI_Controller{
     }
   }
 
-  public function login() 
+  public function login()
   {
     if($this->session->userdata('logged_in')){
       redirect('cooperatives');
@@ -39,7 +39,7 @@ class Users extends CI_Controller{
         );
         if($this->user_model->login_user($data)){
           $user_data = $this->user_model->check_email_verified($data);
-          if($user_data){    
+          if($user_data){
            $this->session->set_userdata($user_data);
             $this->session->set_flashdata('login_success', 'You are now logged in.');
             redirect('cooperatives');
@@ -92,7 +92,7 @@ class Users extends CI_Controller{
           'address' => $this->input->post('hAddress'),
           'password' => password_hash($this->input->post('pword'), PASSWORD_BCRYPT),
           'hash' => md5(rand(0, 1000)),
-          'type_id' => $this->input->post('type_id'), 
+          'type_id' => $this->input->post('type_id'),
           'valid_id_number' => $this->input->post('validIdNo'),
         );
           // print_r($data);
@@ -108,7 +108,7 @@ class Users extends CI_Controller{
             echo 'server error';
           }
         }//end isset
-        
+
       // }
     }
   }
@@ -153,17 +153,17 @@ class Users extends CI_Controller{
           {
             $is_taken = $row['is_taken'];
           }
-          
+
         }
 
         if($is_taken == '1'){
           $this->session->set_flashdata(array('email_sent_warning'=>'This Registration is already Taken'));
                 redirect('users/use_registered_email');
-        } 
+        }
         // elseif($email_taken->num_rows() > 0) {
         //   $this->session->set_flashdata(array('email_sent_warning'=>'Email already Taken.'));
         //         redirect('users/use_registered_email');
-        // } 
+        // }
         else {
           if ($coop_exist->num_rows()==0){
               $this->session->set_flashdata(array('email_sent_warning'=>'Email or Registration Number does not match.'));
@@ -171,14 +171,14 @@ class Users extends CI_Controller{
             // echo '<script>alert("adsdaddadddddd");</script>';
           } else {
               $temp_passwd = random_string('alnum',8); //create temp password
-              
+
               $u_data = array(
                 'last_name' => $this->input->post('LastName'),
                 'first_name' => $this->input->post('Name'),
                 'middle_name' => $this->input->post('middle_name'),
                 'birthdate' => $this->input->post('bDate'),
                 'contact_number' => $this->input->post('mNo'),
-                'type_id' => $this->input->post('type_id'), 
+                'type_id' => $this->input->post('type_id'),
                 'valid_id_number' => $this->input->post('validIdNo'),
                 'address' => $this->input->post('hAddress'),
                 'password'=>password_hash($temp_passwd, PASSWORD_BCRYPT),
@@ -191,13 +191,13 @@ class Users extends CI_Controller{
               $regcoop_data = array(
                 'addrCode' => $this->input->post('barangay')
               );
-              
+
               $update_passwd = $this->db->update('users',$u_data,array('email'=>$this->input->post('eAddress'),'is_taken = 0 OR is_taken IS NULL'));
               {
                 $update_regcoop_address = $this->db->update('registeredcoop',$regcoop_data,array('regNo'=>$this->input->post('regno')));
                 if($update_passwd)
-                {   
-                    
+                {
+
                     $reg_name = $this->db->get_where('registeredcoop',array('regNo'=>$this->input->post('regno')));
                     foreach($reg_name->result_array() as $row)
                     {
@@ -209,8 +209,8 @@ class Users extends CI_Controller{
                     {
                       $this->session->set_flashdata(array('email_sent_success'=>"".$coopName.". You're account credentials have been sent to your email."));
                       redirect('users/login');
-                    } 
-                    else 
+                    }
+                    else
                     {
                        $data['alert_class'] ='danger';
                     $this->session->set_flashdata(array('resetpsswd_msg'=>"Error while trying to send the data to your email. Plaese Contact System Administrator."));
@@ -224,7 +224,7 @@ class Users extends CI_Controller{
             }
           }
         }//end isset
-        
+
       // }
     }
   }
@@ -257,7 +257,7 @@ class Users extends CI_Controller{
     } else {
       $this->create_new_email_account();
     }
-        
+
   }
   public function create_new_email_account()
   {
@@ -296,7 +296,7 @@ class Users extends CI_Controller{
         } elseif($coop_exist_taken->num_rows() > 0) {
           $this->session->set_flashdata(array('email_sent_warning'=>'Registration Number already Taken.'));
                 redirect('users/create_new_email_account');
-        } 
+        }
         elseif($email_taken->num_rows() > 0) {
           $this->session->set_flashdata(array('email_sent_warning'=>'Email already Taken.'));
                 redirect('users/create_new_email_account');
@@ -308,7 +308,7 @@ class Users extends CI_Controller{
               $regCode = $reg['addrCode'];
               $type = $reg['type'];
             }
-          } 
+          }
 
           // Get Count Coop Type for HO
             $this->db->where(array('name'=>$type,'active'=>1));
@@ -331,7 +331,7 @@ class Users extends CI_Controller{
             foreach($getAdminEmail->result_array() as $email){
               $AdminEmail = $email['email'];
             }
-          } 
+          }
           // else {
           //   $this->session->set_flashdata(array('email_sent_warning'=>'Registered Cooperatives has no Region assign. Please contact the System Admin'));
 
@@ -377,7 +377,7 @@ class Users extends CI_Controller{
             'address' => $this->input->post('hAddress'),
             'password' => password_hash($this->input->post('pword'), PASSWORD_BCRYPT),
             'hash' => md5(rand(0, 1000)),
-            'type_id' => $this->input->post('type_id'), 
+            'type_id' => $this->input->post('type_id'),
             'valid_id_number' => $this->input->post('validIdNo'),
             'addrCode' => $this->input->post('barangay'),
             'chairperson' => $this->input->post('chairperson')
@@ -398,7 +398,7 @@ class Users extends CI_Controller{
 
           }//end isset
         }
-          
+
       // }
     }
   }
@@ -454,8 +454,8 @@ class Users extends CI_Controller{
               {
                  $data['alert_class'] ='success';
                 $this->session->set_flashdata(array('resetpsswd_msg'=>"Success check your email to recover your account"));
-              } 
-              else 
+              }
+              else
               {
                  $data['alert_class'] ='danger';
               $this->session->set_flashdata(array('resetpsswd_msg'=>"Error while trying to send the data to your email. Plaese Contact System Administrator."));
@@ -465,8 +465,8 @@ class Users extends CI_Controller{
           {
             $this->session->set_flashdata(array('resetpsswd_msg' => "Failed to recover your password."));
           }
-        } 
-        
+        }
+
 
       }
       else
@@ -478,7 +478,7 @@ class Users extends CI_Controller{
       $msg= '';
       $this->load->view('./template/header', $head);
         $this->load->view('client/v_forgotpassword',$data);
-        $this->load->view('./template/footer'); 
+        $this->load->view('./template/footer');
   }
 
    public function sendEmailpassword($email,$temppassword){
@@ -489,7 +489,7 @@ class Users extends CI_Controller{
       $keywords = preg_split("/@/", $email);
       $message = "Your account has been reset. Please see your updated login details below. <br>".
       "<ul><li>Username/email: ".$email."</li><li>Password: ".$temppassword."</li></ul><br/>
-      Once logged in, we suggest you to change your password immediately. 
+      Once logged in, we suggest you to change your password immediately.
       ";
       $this->email->from($from,'ecoopris CDA (No Reply)');
       $this->email->to($email);
@@ -520,7 +520,7 @@ class Users extends CI_Controller{
       else
       {
 
-     
+
         //check current password
         $check_query = $this->db->get_where('users',array('id'=>$u_id));
         if($check_query->num_rows()>0)
@@ -541,7 +541,7 @@ class Users extends CI_Controller{
                   $data['alert_class'] = 'success';
                    $this->session->set_flashdata(array('change_password_msg'=>"Successfully password changed."));//password match';
                  }
-               
+
             }
             else
             {
@@ -555,7 +555,7 @@ class Users extends CI_Controller{
         {
           echo "no user found.";
         }
-       }// end of confirm password  
+       }// end of confirm password
     }
 
 
@@ -563,7 +563,7 @@ class Users extends CI_Controller{
       $data['header'] = 'Change Password';
        $this->load->view('./template/header',$data);
         $this->load->view('client/v_change_passwd',$data);
-        $this->load->view('./template/footer',$data); 
+        $this->load->view('./template/footer',$data);
 
   }
 
@@ -629,7 +629,7 @@ class Users extends CI_Controller{
           ->set_output(
           file_get_contents('user_guide/user_manual/'.$filename)
           );
-    }  
+    }
 
     public function authorization($file_name)
     {
@@ -641,14 +641,14 @@ class Users extends CI_Controller{
           ->set_output(
           file_get_contents('user_guide/user_manual/'.$filename)
           );
-    }  
+    }
 
     function reArrayFiles($file)
     {
         $file_ary = array();
         $file_count = count($file['name']);
         $file_key = array_keys($file);
-       
+
         for($i=0;$i<$file_count;$i++)
         {
             foreach($file_key as $val)

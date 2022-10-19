@@ -252,6 +252,7 @@
             }
 
             $this->branches_model->all_bns_lapses();
+            $this->branches_model->all_bns_lapses_closure();
             $this->branches_model->all_bns_lapses_conversion();
             // echo $this->db->last_query();
             // echo print_r($this->branches_model->all_bns_lapses());

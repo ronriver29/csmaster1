@@ -2046,6 +2046,31 @@ public function approve_by_admin2_for_closure($admin_info,$branch_id,$reason_com
   }
 }
 
+public function all_bns_lapses_closure(){
+  $now_lapse = date('Y-m-d', strtotime("-3 months"));
+  $this->db->select('branches.type,users.email,branches.id,branches.status');
+  $this->db->from('branches');
+  $this->db->join('users' , 'users.id = branches.user_id','inner');
+  $this->db->where('branches.lapse_time LIKE "%'.$now_lapse.'%" AND sent_lapse_notif = 0');
+  $query = $this->db->get();
+  $client_info = $query->result_array();
+
+  if($query->num_rows() != 0){
+    foreach($client_info as $ci){
+      // return $ci['type'].'asdasd';
+        if($this->sendEmailToClientLapseTransfer($ci['type'],$ci['email'])){
+          $this->db->trans_begin();
+          $this->db->where('id',$ci['id'],'status',33);
+          $this->db->update('branches',array('sent_lapse_notif'=>1,'lastUpdated'=>date('Y-m-d h:i:s',(now('Asia/Manila')))));
+          $this->db->trans_commit();
+          return true;
+        }
+    }
+  } else {
+    return false;
+  }
+}
+
 public function all_bns_lapses(){
   $now_lapse = date('Y-m-d', strtotime("-3 months"));
   $this->db->select('branches.type,users.email,branches.id,branches.status');

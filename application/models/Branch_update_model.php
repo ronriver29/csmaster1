@@ -122,7 +122,7 @@ class Branch_update_model extends CI_Model{
   public function get_all_updated_Branch_info_outside($regcode,$coopname,$limit,$start){
     $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
     $this->db->limit($limit,$start);
-    $this->db->select('branches.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, registeredcoop.coopName, refcitymun.citymunCode as cCode');
+    $this->db->select('branches.*, registeredcoop.type as reg_type,refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region, registeredcoop.coopName, refcitymun.citymunCode as cCode');
     $this->db->from('branches');
     $this->db->join('registeredcoop', ' branches.regNo = registeredcoop.regNo','left');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = branches.addrCode','inner');

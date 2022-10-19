@@ -603,6 +603,18 @@
                 $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
                 $subclass_array = $this->input->post('subClass');
                 $major_industry = $this->input->post('majorIndustry');
+
+                $data['branch_info'] = $this->branches_model->get_branch_info_migrated($decoded_id);
+                $data['registered_info'] = $this->branches_model->get_registered_coop($data['branch_info']->regNo);
+
+                if(substr($this->input->post('barangay'), 0, 2)==substr($this->input->post('barangay2'), 0, 2)){ // empty($this->input->post('region2')) ||
+                    $regCodeBranch = 0;
+                } else if (substr($data['registered_info']->addrCode, 0, 2) == substr($this->input->post('barangay'), 0, 2)){
+                    $regCodeBranch = 0;
+                } else {
+                    $regCodeBranch = '0'.substr($data['registered_info']->addrCode, 0, 2);
+                }
+                
                 $field_data = array(
                   // 'user_id' => $this->session->userdata('user_id'),
                 'regCode' => $regCodeBranch,
