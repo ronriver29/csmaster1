@@ -56,7 +56,7 @@
                 }
             ?>
 
-          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branchname?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if(($branch_info->tool_yn_answer==null && $branch_info->status != 41)) echo 'disabled';?>><?=$submit?></button>
+          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branchname?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if(($branch_info->tool_yn_answer_trans==null && $branch_info->status != 41)) echo 'disabled';?>><?=$submit?></button>
         <?php if($branch_info->status == 47){ ?>
           <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyBranchModal" data-cname="<?= $branchname?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>">Deny</button>
           <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferBranchModal" data-cname="<?= $branchname?>" data-comment="<?= $branch_info->comment_by_senior_level1?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>">Defer</button>
@@ -113,14 +113,14 @@
             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveBranchModal"  data-cname="<?= $branchname?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" ><?=$submit?></button>
             <?php endif; //endo fo coop info status ?>
             <?php if($branch_info->status!= 42 && $admin_info->access_level == 3 && ($is_active_director || $supervising_)) { ?>
-                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyBranchModal" data-cname="<?= $branchname?>" data-bname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer==null && $branch_info->status>=9) echo 'disabled';?> >Deny</button>
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#denyBranchModal" data-cname="<?= $branchname?>" data-bname="<?= $branch_name.' '?><?= $branch_info->branchName?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer_trans==null && $branch_info->status>=9) echo 'disabled';?> >Deny</button>
                 <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#deferBranchModal" data-comment="<?php foreach($branches_comments_cds as $cc) : echo $cc['comment']; endforeach;?>
 
 
 <?php foreach($branches_comments_snr as $cc) : echo $cc['comment'].'
 '; endforeach;?>
 
-<?= $branch_info->tool_findings?>" data-cname="<?= $branchname?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer==null && $branch_info->status>=9) echo 'disabled';?> >Defer</button>
+<?= $branch_info->tool_findings?>" data-cname="<?= $branchname?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($branch_info->id))?>" <?php if($branch_info->tool_yn_answer_trans==null && $branch_info->status>=9) echo 'disabled';?> >Defer</button>
             <?php } ?>
         <?php  } ?>
 
