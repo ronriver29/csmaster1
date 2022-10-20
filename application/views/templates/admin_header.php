@@ -47,7 +47,7 @@
             <?php if($admin_info->access_level != 5) : ?>
               <small class="font-italic">
                 <?php
-                 // $reg_desc = (($admin_info->region_code =="0") ? "Central Office" : $this->region_model->get_region_by_code($admin_info->region_code)->regDesc); 
+                 // $reg_desc = (($admin_info->region_code =="0") ? "Central Office" : $this->region_model->get_region_by_code($admin_info->region_code)->regDesc);
                     if($admin_info->region_code == "0")
                     {
                       $reg_desc ="Head Office";
@@ -59,9 +59,9 @@
                     }
                     echo $reg_desc;
                 ?>
-                
+
                 </small>
-              
+
             <?php endif;?>
           </div>
         </div>
@@ -87,18 +87,18 @@
           <li>
             <a href="<?php echo base_url();?>admins/not_updated"><i class="fas fa-user-tie"></i> List of not Updated Cooperatives</a>
           </li>
-          <li>   
+          <li>
             <a href="<?php echo base_url();?>admins/all_signatory"><i class="fas fa-handshake"></i> COC Signatory</a>
-          </li>  
-          <li>   
+          </li>
+          <li>
             <a href="<?php echo base_url();?>admins/cooperatives_list"><i class="fas fa-handshake"></i> All Cooperatives List</a>
           </li>
-             <li>   
+             <li>
             <a href="<?php echo base_url();?>admins/amendment_list"><i class="fas fa-handshake"></i> All Amendments List</a>
           </li>
-           <li>   
+           <li>
             <a href="<?php echo base_url();?>admins/branches_list"><i class="fas fa-handshake"></i> All Branches List</a>
-          </li> 
+          </li>
 
         <li>
           <a href="#pageSubmenu7" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> API</a>
@@ -106,19 +106,19 @@
             <li>
                <a href="#pageSubmenu8" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> Davao</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu8">
-                 
+
                       <li>
                         <a href="<?php echo base_url();?>api_access" style="padding-left:5%;"><i class="fas fa-cog"></i> Settings</a>
                       </li>
                       <li>
                         <a href="<?php echo base_url();?>api_access/request"><i class="fas fa-cog"></i> Api request </a>
                       </li>
-                 
+
                 </ul>
             </li>
           </ul>
         </li>
-        <li>
+        <!-- <li>
           <a href="#pageSubmenuRep" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> Reports</a>
           <ul class="collapse list-unstyled" id="pageSubmenuRep">
             <li>
@@ -151,7 +151,7 @@
                   </li>
                 </li>
           </ul>
-        </li>
+        </li> -->
           <!-- <li>
               <a href="<?php echo base_url();?>report"><i class="fas fa-cog"></i> Query Builder</a>
             </li> -->
@@ -191,7 +191,7 @@
                 </li>
             </ul>
             </li>
-            
+
             <!-- <li>
               <a href="<?php echo base_url();?>admins/change_passwd"><i class="fas fa-cog"></i> SMS Messages Page</a>
             </li> -->
@@ -203,11 +203,11 @@
           </ul>
         </li>
 
-        <li>   
+        <li>
           <a href="<?php echo base_url();?>api_settings/messages_list"><i class="fas fa-cog"></i> SMS Messages</a>
         </li>
         <?php endif; ?>
-      
+
         <?php if($admin_info->access_level < 5) : ?>
           <li>
             <a href="#pageSubmenu5" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-handshake"></i> Cooperatives Menu</a>
@@ -228,30 +228,30 @@
               </li>
             </ul>
           </li>
-          <!-- <li>   
+          <!-- <li>
             <a href="<?php echo base_url();?>cooperatives"><i class="fas fa-handshake"></i> Cooperatives</a>
           </li> -->
-         
-           <li>   
+
+           <li>
 
             <a href="<?php echo base_url();?>branches"><i class="fas fa-handshake"></i> Branches and Satellites</a>
           </li>
-            <li>   
+            <li>
 
             <a href="<?php echo base_url();?>For_closure"><i class="fas fa-handshake"></i> Closure of Branches and Satellites</a>
           </li>
-          <li>   
+          <li>
 
             <a href="<?php echo base_url();?>For_transfer"><i class="fas fa-handshake"></i> Transfer of Branches and Satellites</a>
           </li>
-          <li>   
+          <li>
 
             <a href="<?php echo base_url();?>For_conversion"><i class="fas fa-handshake"></i> Conversion of Branches and Satellites</a>
           </li>
-          <li>   
+          <li>
             <a href="<?php echo base_url();?>laboratories"><i class="fas fa-handshake"></i> Laboratories</a>
           </li>
-        <!--   <li>   
+        <!--   <li>
             <a href="<?php echo base_url();?>amendment"><i class="fas fa-handshake"></i> Amendment</a>
           </li>   -->
 
@@ -276,9 +276,9 @@
           </li>
 
           <?php if($admin_info->access_level == 2) : ?>
-          <li>   
+          <li>
             <a href="<?php echo base_url();?>account_approval"><i class="fas fa-handshake"></i> Account Approval</a>
-          </li> 
+          </li>
           <?php endif; ?>
         <?php endif; ?>
         <?php if($admin_info->access_level == 6) : ?>
@@ -307,7 +307,7 @@
               </li>
             </ul>
           </li>
-          <!--  <li>   
+          <!--  <li>
             <a href="<?php echo base_url();?>updated_amendment_info"><i class="fas fa-handshake"></i> Updated Amendment Info</a>
           </li>  -->
           <li>
@@ -364,7 +364,7 @@
               </li>
           </li>
         <?php endif; ?>
-       
+
         <li>
 
           <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> Settings</a>
@@ -372,11 +372,11 @@
              <li>
               <a href="<?php echo base_url();?>admins/change_passwd"><i class="fas fa-sign-out-alt"></i> Change password</a>
             </li>
-            
+
             <li>
               <a href="<?php echo base_url();?>admins/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </li>
-            
+
           </ul>
         </li>
       </ul>
