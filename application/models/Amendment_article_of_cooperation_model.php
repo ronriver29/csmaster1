@@ -11,9 +11,7 @@ class Amendment_article_of_Cooperation_model extends CI_Model{
   {
 
     parent::__construct();
-
     //Codeigniter : Write Less Do More
-
   }
 
   public function get_article_by_coop_id($coop_id,$amendment_id){
