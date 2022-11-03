@@ -24,6 +24,37 @@ class Amendment_capitalization_model extends CI_Model{
     unset($query);
     return $data;
   }
+
+  public function total_amount_of_paid_up_capital($amendment_id)
+  {
+    $amendment_id= $this->security->xss_clean($amendment_id);
+    $data =0;
+    $query= $this->db->select("total_amount_of_paid_up_capital")->from("amendment_capitalization")->where('amendment_id',$amendment_id)->get();
+    if($query->num_rows()==1)
+    {
+      foreach($query->result_array() as $row)
+      {
+        $data = $row['total_amount_of_paid_up_capital'];
+      }
+    }
+    return $data ;
+  }
+
+   public function coop_total_amount_of_paid_up_capital($cooperative_id)
+  {
+    $cooperative_id= $this->security->xss_clean($cooperative_id);
+    $data =0;
+    $query= $this->db->select("total_amount_of_paid_up_capital")->from("capitalization")->where('cooperatives_id',$cooperative_id)->get();
+    if($query->num_rows()==1)
+    {
+      foreach($query->result_array() as $row)
+      {
+        $data = $row['total_amount_of_paid_up_capital'];
+      }
+    }
+    return $data ;
+  }
+
   public function amend_get_capitalization_by_coop_id($coop_id){
     $data = $this->security->xss_clean($coop_id);
     $query = $this->db->get_where('amendment_capitalization',array('cooperatives_id'=>$data));

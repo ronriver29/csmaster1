@@ -54,6 +54,7 @@
 <div class="row">
 
   <div class="col-sm-12 col-md-12">
+
 <?php if(!$requirements_complete): ?> 
     <div class="alert alert-info text-justify" role="alert">
        Note:
@@ -97,6 +98,9 @@
       
        <?php endif; ?> 
        <?php // if(!$ten_percent) echo '<li>Members should only subscribed <strong>10%</strong> of the total subscribed shares</li>'; ?>
+       <li>Excel file is for batch upload of members and for adding new member only.</li>
+         <li>For every successful upload of file, excel file must be downloaded for the updated list of members from the system before you can add new member.</li>
+         <li>Modification should be done using the "Edit" function of the system and not on the excel file. </li>
        </ul>
     </div>
 <?php else: ?> 
@@ -105,25 +109,30 @@
     <div class="alert alert-success text-justify" role="alert">
        Note:
        <ul>
-            <li>If you want to add more members and/or increase subscribed and paid share of member(s), you need to update your capitalization.</li>
+          <li>If you want to add more members and/or increase subscribed and paid share of member(s), you need to update your capitalization.</li>
+          <li>Excel file is for batch upload of members and for adding new member only.</li>
+          <li>For every successful upload of file, excel file must be downloaded for the updated list of members from the system before you can add new member.</li>
+         <li>Modification should be done using the "Edit" function of the system and not on the excel file. </li>
+
        </ul>
     </div>
     <?php }//end of check if equal shares paid?>
  <?php endif; ?> 
   </div>
-
+ 
   <?php if($is_client && ($coop_info->status ==15) || ($this->session->userdata('access_level')==6)): ?>
-   <?php /* <div class=" col-md-12"><small><i>Batch upload/download excel file</i></small></div>
+<div class=" col-md-12"><small><i>Batch upload/download excel file</i></small></div>
     <div class="col-sm-12  col-md-2 mb-2" >
       <small><button type="button"  class="btn btn-primary btn-xs"  data-toggle="modal" data-target="#UploadCooperatorModal" >Upload excel file</i> </button></small>
     </div>
 
     <div class="col-sm-12  col-md-2 mb-2" style="border-right: 1px solid #ccc;">
       <small>
-      <a class="btn btn-success btn-xs" role="button"href="<?php echo base_url();?>amendment_update_cooperator/export" role="button"><!-- <i class="fas fa-download"></i> -->Download Excel Form <!-- <i class="fas fa-file-excel"> --></i>
+      <a class="btn btn-success btn-xs" role="button"href="<?php echo base_url();?>amendment_update_cooperator/export/<?=$encrypted_id?>" role="button"><!-- <i class="fas fa-download"></i> -->Download Excel Form <!-- <i class="fas fa-file-excel"> --></i>
       </a>
       </small>
-    </div> */?>
+
+    </div>
     <!-- <div class="col-sm-12 offset-md-4 col-md-4 mb-2" > -->
    <div class="col-sm-12 offset-md-8 col-md-4 mb-2" > 
       <a class="btn btn-color-blue btn-block" role="button"href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/amendment_cooperator/add" role="button"><i class="fas fa-plus"></i> Add Cooperator
@@ -165,7 +174,7 @@
                   <td><?= $cooperator['number_of_paid_up_shares']?></td>
                   <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                      <button type="button" class="btn btn-info" data-fname="<?=$cooperator['full_name']?>" data-placeissuance="<?= $cooperator['place_of_issuance']?>" data-dateissued="<?= $cooperator['proof_date_issued']?>" data-valididno="<?= $cooperator['proof_of_identity_number']?>" data-validid="<?= $cooperator['proof_of_identity']?>" data-paid="<?= $cooperator['number_of_paid_up_shares']?>" data-subscribed="<?= $cooperator['number_of_subscribed_shares']?>" data-membertype="<?= $cooperator['type_of_member']?>" data-pos="<?= $cooperator['position']?>" data-paddress="<?= $cooperator['house_blk_no'].' '.$cooperator['streetName'].' '.$cooperator['brgy'].', '.$cooperator['city'].' '.$cooperator['province'].' '.$cooperator['region']?>" data-bdate="<?=$cooperator['birth_date']?>" data-gender="<?=$cooperator['gender']?>" data-toggle="modal" data-target="#fullInfoCooperatorModal" ><i class='fas fa-eye'></i> View</button>
+                      <button type="button" class="btn btn-info" data-fname="<?=$cooperator['full_name']?>" data-placeissuance="<?= $cooperator['place_of_issuance']?>" data-dateissued="<?= date('m-d-Y', strtotime($cooperator['proof_date_issued']))?>" data-valididno="<?= $cooperator['proof_of_identity_number']?>" data-validid="<?= $cooperator['proof_of_identity']?>" data-paid="<?= $cooperator['number_of_paid_up_shares']?>" data-subscribed="<?= $cooperator['number_of_subscribed_shares']?>" data-membertype="<?= $cooperator['type_of_member']?>" data-pos="<?= $cooperator['position']?>" data-paddress="<?= $cooperator['house_blk_no'].' '.$cooperator['streetName'].' '.$cooperator['brgy'].', '.$cooperator['city'].' '.$cooperator['province'].' '.$cooperator['region']?>" data-bdate="<?=date('m-d-Y', strtotime($cooperator['birth_date']))?>" data-gender="<?=$cooperator['gender']?>" data-toggle="modal" data-target="#fullInfoCooperatorModal" ><i class='fas fa-eye'></i> View</button>
                       <?php if(($is_client && $coop_info->status ==15) || $this->session->userdata('access_level')==6): ?>
                         <a href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>/amendment_cooperator/<?= encrypt_custom($this->encryption->encrypt($cooperator['id'])) ?>/edit" class="btn btn-warning text-white"><i class="fas fa-edit"></i> Edit</a>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCooperatorModal" data-fname="<?=$cooperator['full_name']?>" data-coopid="<?= $encrypted_id ?>" data-cooperatorid="<?= encrypt_custom($this->encryption->encrypt($cooperator['id']))?>"><i class='fas fa-trash'></i> Delete</button>
