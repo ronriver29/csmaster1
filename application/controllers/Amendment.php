@@ -1401,28 +1401,34 @@ class amendment extends CI_Controller{
               $data['header'] = 'Amendment Information';
               $data['coop_info'] = $this->amendment_model->get_cooperative_info($coop_id,$user_id,$this->decoded_id);
               $data['coop_info_primary'] = $this->cooperatives_model->get_cooperative_info_by_admin($coop_id);
-              $data['is_from_updating'] =$this->amendment_model->is_from_updating($data['coop_info']->regNo);
+              $data['is_from_updating'] =false;//$this->amendment_model->is_from_updating($data['coop_info']->regNo);
               $data['bylaw_doc_complete'] = true;
                $data['articles_doc_complete'] =true;
-              if($data['is_from_updating'])
-              {
+              // if($data['is_from_updating'])
+              // {
 
-                if($data['coop_info']->custom_acbl==1){
-                  $data['acbl'] = $this->amendment_model->get_acbl($this->decoded_id,$data['coop_info']->category_of_cooperative);
-                   if($data['acbl']['articles'])
-                   {
-                       $data['articles_doc_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,41);
-                   }
-                   if($data['acbl']['bylaws'])
-                   {
-                        $data['bylaw_doc_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,40);
+              //   if($data['coop_info']->custom_acbl==1){
+              //     $data['acbl'] = $this->amendment_model->get_acbl($this->decoded_id,$data['coop_info']->category_of_cooperative);
+              //      if($data['acbl']['articles'])
+              //      {
+              //          $data['articles_doc_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,41);
+              //      }
+              //      if($data['acbl']['bylaws'])
+              //      {
+              //           $data['bylaw_doc_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,40);
                  
-                   }
-                }
+              //      }
+              //   }
 
                  
               
+              // }
+              if($data['is_from_updating'])
+              {
+                $data['bylaw_doc_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,40);
+                $data['articles_doc_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,41);
               }
+
               $data['coop_type_compare'] = false;
               if($data['coop_info_primary']->type_of_cooperative == $data['coop_info']->type_of_cooperative)
               {
@@ -1633,7 +1639,7 @@ class amendment extends CI_Controller{
                    $this->load->view('cooperative/amendment_details', $data);
                   break;
               }
-              $this->load->view('amendment/confirmModal');
+              // $this->load->view('amendment/confirmModal');
               $this->load->view('./template/footer');
           }else{
             $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
