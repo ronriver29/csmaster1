@@ -19,7 +19,7 @@
     border-collapse: collapse;
 }
   }
-    <?php 
+    <?php
   if($coop_info->status == 12){
   ?>
   body{
@@ -28,7 +28,7 @@
     }
   <?php } ?>
   </style>
-  <?php 
+  <?php
 if($coop_info->status != 12){
 ?>
 <style type="text/css">
@@ -48,18 +48,18 @@ if($coop_info->status != 12){
 <body style="font-size:12">
 <script type="text/php">
         if (isset($pdf) ) {
-            $x = 570; 
+            $x = 570;
             $y=900;
             $text = "{PAGE_NUM}";//" of {PAGE_COUNT}";
             $font = $fontMetrics->get_font("BOOKOS");
-            
+
             $size = 12;
             $color = array(0,0,0);
             $word_space = 0.0;  //  default
             $char_space = 0.0;  //  default
             $angle = 0.0;   //  default
             $pdf->page_text($x, $y, $text,$font , $size, $color, $word_space, $char_space, $angle);
-            
+
         }
 </script>
 <div class="container-fluid text-monospace" id="printPage">
@@ -468,7 +468,7 @@ if($coop_info->status != 12){
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
         <p class="text-justify font-weight-regular">Section 5. <i class="font-weight-bold">Election of Directors.</i> The members of the Board of Directors shall be elected, by secret ballot, by the duly authorized representatives, who are duly authorized representatives, who are entitled to vote during the annual regular general assembly meeting or special general assembly meeting called for the purpose. </p>
-        <p class="text-justify font-weight-regular" style="text-indent: 50px;"> Unless earlier removed for cause, or have resigned or become incapacitated, they shall hold office for a term of <?=num_format_custom($bylaw_info->director_hold_term) ?> (<?=$bylaw_info->director_hold_term?>) years or until their successors shall have been elected and qualified; Provided, that majority of the elected directors obtaining the highest number of votes during the first election after registration shall serve for two (2) years, and the remaining directors for one (1) years. Thereafter, all directors shall serve for a term of two (2) years.</p> 
+        <p class="text-justify font-weight-regular" style="text-indent: 50px;"> Unless earlier removed for cause, or have resigned or become incapacitated, they shall hold office for a term of <?=num_format_custom($bylaw_info->director_hold_term) ?> (<?=$bylaw_info->director_hold_term?>) years or until their successors shall have been elected and qualified; Provided, that majority of the elected directors obtaining the highest number of votes during the first election after registration shall serve for two (2) years, and the remaining directors for one (1) years. Thereafter, all directors shall serve for a term of two (2) years.</p>
         <p class="text-justify font-weight-regular" style="text-indent: 50px;">The term of the cooperating directors shall expire upon the election of their successors in the first regular general assembly after registration.</p>
     </div>
   </div>
@@ -695,8 +695,8 @@ if($coop_info->status != 12){
         <div class="col-sm-12 col-md-12 text-left">
             <p class="text-justify font-weight-regular">Section <?=$count_row++?>. <i class="font-weight-bold">Functions and Responsibilities.</i> <?=$rowCom['func_and_respons']?>.</p>
         </div>
-      </div>  
-      
+      </div>
+
   <?php
       }//end foreach
     }

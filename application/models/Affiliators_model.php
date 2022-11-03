@@ -9,7 +9,7 @@ class Affiliators_model extends CI_Model{
     //Codeigniter : Write Less Do More
     $this->load->database();
   }
- 
+
   public function get_registered_coop($area_of_operation,$addresscode,$type_of_cooperative,$coopname,$regno){
     $where_array = array();
     if($coopname != '') {
@@ -185,7 +185,7 @@ class Affiliators_model extends CI_Model{
         return $data;
         }
     }
-    
+
 public function get_registered_coop_tech_service($area_of_operation,$addresscode,$type_of_cooperative){
     if($area_of_operation == 'Barangay'){
         $this->db->select('registeredcoop.*, registeredcoop.id as registered_id,cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
@@ -373,7 +373,7 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
     public function add_affiliators($data){
         $this->db->insert('affiliators',$data);
     }
-    
+
     public function existing_affiliators($user_id,$registeredno){
         $this->db->select('*');
         $this->db->from('affiliators');
@@ -382,7 +382,7 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         $data = $this->db->count_all_results();
         return $data;
     }
-    
+
     public function get_applied_coop($user_id){
         $this->db->select("affiliators.*, affiliators.id AS aff_id, registeredcoop.*, registeredcoop.id as registered_id, cooperatives.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region");
         $this->db->from('affiliators');
@@ -427,7 +427,7 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         $data = $query->result_array();
         return $data;
     }
-    
+
     public function get_applied_coop_for_committees($user_id){
         $this->db->select('application_id');
         $this->db->from('affiliators');
@@ -436,7 +436,7 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         $data = $query->result_array();
         return $data;
     }
-    
+
     public function delete_affiliators($data){
     $this->db->trans_begin();
     $this->db->delete('affiliators',array('id' => $data));
@@ -449,7 +449,7 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         }
 
     }
-    
+
     public function is_requirements_complete($decoded_id,$user_id){
         if($this->check_no_of_directors($user_id) && $this->check_chairperson($user_id) && $this->check_vicechairperson($user_id) && $this->check_treasurer($user_id) && $this->check_secretary($user_id) && $this->check_directors_odd_number($user_id)){
             if($this->check_all_minimum_regular_subscription($decoded_id,$user_id) && $this->check_all_minimum_regular_pay($decoded_id,$user_id) && $this->check_regular_total_shares_paid_is_correct($this->get_total_regular($user_id,$decoded_id))){
@@ -461,7 +461,7 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
             return false;
         }
     }
-    
+
     public function check_no_of_directors($cooperatives_id){
         $position = array('Chairperson', 'Vice-Chairperson', 'Board of Director');
         $cooperatives_id = $this->security->xss_clean($cooperatives_id);
@@ -544,7 +544,7 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         $decoded_id = $this->security->xss_clean($decoded_id);
         $user_id = $this->security->xss_clean($user_id);
     //    $temp = $this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id)->regular_percentage_shares_subscription;
-        
+
         if($user_id == 0){
             $temp = 0;
         } else {
@@ -564,7 +564,7 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         $decoded_id = $this->security->xss_clean($decoded_id);
         $user_id = $this->security->xss_clean($user_id);
     //    $temp = $this->bylaw_model->get_bylaw_by_coop_id($cooperatives_id)->regular_percentage_shares_pay;
-        
+
         if($user_id == 0){
             $temp = 0;
         } else {
@@ -625,7 +625,7 @@ $this->last_query = $this->db->last_query();
     $this->db->where('user_id', $cooperatives_id);
     $query=$this->db->get();
     return $query->row();
-  
+
   }
 
   public function get_total_regular($user_id,$cooperatives_id){
@@ -643,7 +643,7 @@ $this->last_query = $this->db->last_query();
     $capitalization_info = $query2->row();
     $capitalization_no_of_subscribed = 0;
     $capitalization_no_of_paid = 0;
-    
+
     // Jiee
         $this->db->where(array('cooperatives_id' => $cooperatives_id));
         $this->db->from('capitalization');
@@ -655,10 +655,10 @@ $this->last_query = $this->db->last_query();
         $capitalization_no_of_paid = $capitalization_info->total_no_of_paid_up_capital;
         }
     //
-    
+
     $totalSubscribed = 0;
     $totalPaid = 0;
-    
+
     $totalPaid = ($data->total_paid==null) ? 0 : $data->total_paid;
     $totalSubscribed = ($data->total_subscribed==null) ? 0 : $data->total_subscribed;
 //    $totalSubscribed = $data->total_subscribed;
@@ -680,7 +680,7 @@ $this->last_query = $this->db->last_query();
     $capitalization_info = $query2->row();
     $capitalization_no_of_subscribed = 0;
     $capitalization_no_of_paid = 0;
-    
+
     // Jiee
         $this->db->where(array('cooperatives_id' => $cooperatives_id));
         $this->db->from('capitalization');
@@ -692,10 +692,10 @@ $this->last_query = $this->db->last_query();
         $capitalization_no_of_paid = $capitalization_info->total_no_of_paid_up_capital;
         }
     //
-    
+
     $totalSubscribed = 0;
     $totalPaid = 0;
-    
+
     $totalPaid = ($data->total_paid==null) ? 0 : $data->total_paid;
     $totalSubscribed = ($data->total_subscribed==null) ? 0 : $data->total_subscribed;
 //    $totalSubscribed = $data->total_subscribed;
@@ -870,7 +870,7 @@ $this->last_query = $this->db->last_query();
 
   public function get_chairperson_of_coop($cooperatives_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
-    $query = $this->db->get_where('affiliators','user_id = '.$cooperatives_id.' AND (position LIKE "Chairperson%" OR position LIKE "%Chairperson")');
+    $query = $this->db->get_where('affiliators','user_id = '.$cooperatives_id.' AND (position LIKE "Chairperson%" OR position LIKE "%Chairperson") ORDER BY position ASC');
     $data = $query->row();
     return $data;
   }
