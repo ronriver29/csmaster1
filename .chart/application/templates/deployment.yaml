@@ -50,7 +50,7 @@ spec:
         image: {{ .Values.web.container }}
         resources:
           requests:
-            cpu: "500m"
+            cpu: "1"
             memory: "1Gi"
         imagePullPolicy: IfNotPresent
         name: php
@@ -87,9 +87,9 @@ spec:
             mountPath: /var/www/shared-volume
             subPath: uploads-ris
         resources:
-          requests:
-            cpu: "100m"
-            memory: "10Mi"
+          limits:
+            cpu: "500m"
+            memory: "100Mi"
         ports:
           - containerPort: 80
         livenessProbe:
