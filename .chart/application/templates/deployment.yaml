@@ -49,7 +49,7 @@ spec:
           value: {{ .Values.env.url }}
         image: {{ .Values.web.container }}
         resources:
-          requests:
+          limits:
             cpu: "1"
             memory: "1Gi"
         imagePullPolicy: IfNotPresent
