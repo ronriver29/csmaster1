@@ -48,10 +48,10 @@ spec:
         - name: ENVIRONMENT_URL
           value: {{ .Values.env.url }}
         image: {{ .Values.web.container }}
-        resources:
-          limits:
-            cpu: "1"
-            memory: "1Gi"
+        #resources:
+        #  limits:
+        #    cpu: "1"
+        #    memory: "1Gi"
         imagePullPolicy: IfNotPresent
         name: php
         volumeMounts:
