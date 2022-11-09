@@ -468,7 +468,7 @@ public function get_registered_coop_tech_service($area_of_operation,$addresscode
         $this->db->where('user_id',$cooperatives_id);
         $this->db->where('(position LIKE "Chairperson%" OR position LIKE "Vice-Chairperson%" OR position LIKE "Board of Director%")');
         $this->db->from('affiliators');
-        if($this->db->count_all_results()>=5 && $this->db->count_all_results()<=15){
+        if($this->db->count_all_results()>=3 && $this->db->count_all_results()<=15){
           return true;
         }else{
           return false;
