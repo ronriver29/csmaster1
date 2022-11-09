@@ -86,10 +86,10 @@ spec:
           - name: shared-volume
             mountPath: /var/www/shared-volume
             subPath: uploads-ris
-        resources:
-          limits:
-            cpu: "500m"
-            memory: "100Mi"
+        #resources:
+        #  limits:
+        #    cpu: "500m"
+        #    memory: "100Mi"
         ports:
           - containerPort: 80
         livenessProbe:
