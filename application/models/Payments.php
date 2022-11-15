@@ -50,7 +50,12 @@ class Payments extends CI_Controller{
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                         }
                       if($data['gad_count']>0){
-                      $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                        if($data['coop_info']->created_at >= '2022-10-11'){
+                          $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                        } else {
+                          $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                        }
+                      // $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
                       if($data['economic_survey_complete']){
                         $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                         if($data['staff_complete']){
@@ -154,7 +159,7 @@ class Payments extends CI_Controller{
   public function add_payment()
   {
     if ($this->input->post('offlineBtn')){
-      
+
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
       $this->Payment_model->pay_offline($decoded_id);
       $data=array(
@@ -170,7 +175,7 @@ class Payments extends CI_Controller{
 
       if ($this->Payment_model->check_payment_not_exist($data))
         $this->Payment_model->save_payment($data,$this->input->post('rCode'));
-      
+
       $user_id = $this->session->userdata('user_id');
 
       $data1['tDate'] = $this->Payment_model->get_payment_info($data)->date;
