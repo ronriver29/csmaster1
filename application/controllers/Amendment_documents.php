@@ -418,10 +418,12 @@ public function doc_link_view($id,$document_num)
               //         if($data['cooperator_complete']){
               //           $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
               //           if($data['purposes_complete']){
-                                        ->set_content_type('application/pdf','utf-8')
-                                        ->set_output(
-                                          file_get_contents(UPLOAD_AMD_DIR.$file_name)
-                                        );
+                                     $this->output
+                                      ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
+                                      ->set_content_type('application/pdf','utf-8','CoopRIS')
+                                      ->set_output(
+                                        file_get_contents(UPLOAD_AMD_DIR.$file_name)
+                                      );
                                   // }else{
                                   //   $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
                                   //   redirect('amendment/'.$id);
