@@ -69,7 +69,7 @@ class Payments extends CI_Controller{
       redirect('users/login');
 
     }else{
-      $this->load->model('Payment_model');  
+      $this->load->model('Payment_model');
       $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
 
       $user_id = $this->session->userdata('user_id');
@@ -124,7 +124,7 @@ class Payments extends CI_Controller{
 
                     }
 
-                    
+
 
                     if($data['cooperator_complete']){
 
@@ -144,17 +144,17 @@ class Payments extends CI_Controller{
 
                       if($data['gad_count']>0){
 
-                      // if($data['coop_info']->created_at >= '2022-03-08'){
+                      if($data['coop_info']->created_at >= '2022-10-11'){
 
-                      //   $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
+                        $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
 
-                      // } else {
+                      } else {
 
                         $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
 
-                      // }
+                      }
 
-                      
+
 
                       if($data['economic_survey_complete'] || $data['coop_info']->grouping == 'Union' || $data['coop_info']->grouping == 'Federation' || $data['coop_info']->type_of_cooperative == 'Technology Service'){
 
@@ -377,10 +377,10 @@ class Payments extends CI_Controller{
   public function add_payment()
 
   {
-     $this->load->model('Payment_model');  
+     $this->load->model('Payment_model');
     if ($this->input->post('offlineBtn')){
 
-      
+
 
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
 
@@ -414,7 +414,7 @@ class Payments extends CI_Controller{
 
         $this->Payment_model->save_payment($data,$this->input->post('rCode'));
 
-      
+
 
       $user_id = $this->session->userdata('user_id');
 
@@ -474,7 +474,7 @@ class Payments extends CI_Controller{
 
       $data1['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
 
-      $data1['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id); 
+      $data1['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
 
       $data1['name_reservation_fee']=100.00;
 
@@ -514,7 +514,7 @@ class Payments extends CI_Controller{
 
       $user_id = $this->session->userdata('user_id');
 
-      
+
 
       $data['encrypted_id'] = $decoded_id;
 
@@ -564,7 +564,7 @@ class Payments extends CI_Controller{
 
     }
 
-      
+
 
     public function error(){
 
@@ -577,4 +577,3 @@ class Payments extends CI_Controller{
     }
 
 }
-

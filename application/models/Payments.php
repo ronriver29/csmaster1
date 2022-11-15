@@ -50,12 +50,7 @@ class Payments extends CI_Controller{
                             $data['gad_count'] = $this->committee_model->get_all_gad_count($user_id);
                         }
                       if($data['gad_count']>0){
-                        if($data['coop_info']->created_at >= '2022-10-11'){
-                          $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
-                        } else {
-                          $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
-                        }
-                      // $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
+                      $data['economic_survey_complete'] = $this->economic_survey_model->check_survey_complete($decoded_id);
                       if($data['economic_survey_complete']){
                         $data['staff_complete'] = $this->staff_model->requirements_complete($decoded_id);
                         if($data['staff_complete']){
