@@ -405,64 +405,14 @@ public function doc_link_view($id,$document_num)
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
         if(file_exists(UPLOAD_AMD_DIR.$file_name)){
-//          if($this->amendment_uploaded_document_model->check_document_of_cooperative(0,$this->decoded_id,1,$decoded_filename)){
-            if($this->session->userdata('client')){
-              $this->amendment_model->check_own_cooperative_($this->decoded_id,$user_id);
-              $this->amendment_model->check_expired_reservation_($this->decoded_id,$user_id);
-              // if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
-              //   if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
-              //     $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
-              //     $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
-              //     if($data['bylaw_complete']){
-              //         $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($cooperative_id,$this->decoded_id);
-              //         if($data['cooperator_complete']){
-              //           $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
-              //           if($data['purposes_complete']){
-                                     $this->output
-                                      ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
-                                      ->set_content_type('application/pdf','utf-8','CoopRIS')
-                                      ->set_output(
-                                        file_get_contents(UPLOAD_AMD_DIR.$file_name)
-                                      );
-                                  // }else{
-                                  //   $this->session->set_flashdata('redirect_message', 'Please complete first the list of staff.');
-                                  //   redirect('amendment/'.$id);
-                                  // }
-                                // }else{
-                                //   $this->session->set_flashdata('redirect_message', 'Please complete first the economic survey additional information.');
-                                //   redirect('amendment/'.$id);
-                                // }
-                              }else{
-                                $this->session->set_flashdata('redirect_message', 'Please complete first the list of committee.');
-                                redirect('amendment/'.$id);
-                              }
-                            }else{
-                              $this->session->set_flashdata('redirect_message', 'Please complete first the article of cooperation additional information.');
-                              redirect('amendment/'.$id);
-                            }
-                          }else{
-                            $this->session->set_flashdata('redirect_message', 'Please complete first the cooperative&apos;s purpose.');
-                            redirect('amendment/'.$id);
-                          }
-                        }else{
-                          $this->session->set_flashdata('redirect_message', 'Please complete first the list of cooperator.');
-                          redirect('amendment/'.$id);
-                        }
-                    }else{
-                      $this->session->set_flashdata('redirect_message', 'Please complete first the bylaw additional information.');
-                      redirect('amendment/'.$id);
-                    }
-                  // }else{
-                  //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative is not yet submitted for evaluation.');
-                  //   redirect('amendment'.$id);
-                  // }
-                // }
-              // }
-            }
-//          }else{
-//            $this->session->set_flashdata('redirect_documents', 'Unauthorized!!.');
-//            redirect('cooperatives/'.$id.'/documents');
-//          }
+
+        $this->output
+        ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
+        ->set_content_type('application/pdf','utf-8','CoopRIS')
+        ->set_output(
+        file_get_contents(UPLOAD_AMD_DIR.$file_name)
+        );
+
         }else{
           $this->session->set_flashdata('redirect_documents', 'Uploaded file not exists.');
           redirect('amendment/'.$id.'/amendment_documents');
