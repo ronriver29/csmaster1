@@ -959,6 +959,54 @@ public function doc_link_view($id,$document_num)
     
   }
 
+  // function do_upload_7(){
+
+  //     if($this->input->post('uploadOtherDocumentBtn')){
+
+  //       if($this->session->userdata('access_level') && $this->session->userdata('access_level')==5){
+  //         redirect('admins/login');
+  //       }else if($this->session->userdata('access_level') && $this->session->userdata('access_level')<5){
+  //         redirect('branches');
+  //       }else{
+  //         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativesID')));
+  //         $decoded_branch_id = $this->encryption->decrypt(decrypt_custom($this->input->post('branchID')));
+  //         $decoded_uid = $this->encryption->decrypt(decrypt_custom($this->input->post('uID')));
+
+  //         if(!$this->branches_model->check_submitted_for_evaluation($decoded_branch_id)){
+  //           $config['upload_path'] = UPLOAD_AMD_DIR;
+  //           $config['file_name'] = $decoded_uid.'_'.$this->decoded_id.'_certification.pdf';
+  //           $config['allowed_types'] = 'pdf';
+  //               'filename'=>$this->upload->data('file_name'),
+  //               'status'=> $status_docs,
+  //               'created_at'=>date('Y-m-d h:i:s',now('Asia/Manila')),
+  //               'author'=>$this->session->userdata('user_id')
+  //             );
+           
+  //             if($this->amendment_uploaded_document_model->add_document_info_amendment($file_array)){
+  //               $this->session->set_flashdata('document_one_success', 'Successfully uploaded document.');
+  //               redirect('amendment/'.$this->input->post('amendment_id').'/amendment_documents');
+  //             }else{
+  //               $file = $config['upload_path'].$config['file_name'];
+  //               if(is_readable($file) && unlink($file)){
+  //                 $this->session->set_flashdata('document_one_error', 'Please reupload document one.');
+  //                 redirect('amendment/'.$this->input->post('amendment_id').'/amendment_documents');
+  //               }else{
+  //                 $this->session->set_flashdata('document_one_error', 'Please reupload document one.');
+  //                 redirect('amendment/'.$this->input->post('amendment_id').'/amendment_documents');
+  //               }
+  //             }
+  //           }
+  //         }else{
+  //           $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
+  //           redirect('amendment/'.$this->input->post('cooperativesID'));
+  //         }
+  //       }
+  //     }else{
+  //       redirect('amendment');
+  //     }
+    
+  // }
+
   function do_upload_7(){
 
       if($this->input->post('uploadOtherDocumentBtn')){
@@ -976,33 +1024,36 @@ public function doc_link_view($id,$document_num)
             $config['upload_path'] = UPLOAD_AMD_DIR;
             $config['file_name'] = $decoded_uid.'_'.$this->decoded_id.'_certification.pdf';
             $config['allowed_types'] = 'pdf';
-                'filename'=>$this->upload->data('file_name'),
-                'status'=> $status_docs,
-                'created_at'=>date('Y-m-d h:i:s',now('Asia/Manila')),
-                'author'=>$this->session->userdata('user_id')
-              );
-           
-              if($this->amendment_uploaded_document_model->add_document_info_amendment($file_array)){
-                $this->session->set_flashdata('document_one_success', 'Successfully uploaded document.');
-                redirect('amendment/'.$this->input->post('amendment_id').'/amendment_documents');
+            $config['overwrite'] = true;
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+            if(!($this->upload->do_upload('file7'))){
+              $this->session->set_flashdata('document_7_error', $this->upload->display_errors('<p>', '</p>'));
+              redirect('branches/'.$this->input->post('branchID').'/documents');
+            }else{
+              $data = array('upload_data' => $this->upload->data());
+              if($this->uploaded_document_model->add_document_info($decoded_branch_id,$this->decoded_id,7,$this->upload->data('file_name'))){
+                $this->session->set_flashdata('document_7_success', 'Successfully uploaded Certification.');
+                redirect('branches/'.$this->input->post('branchID').'/documents');
               }else{
                 $file = $config['upload_path'].$config['file_name'];
                 if(is_readable($file) && unlink($file)){
-                  $this->session->set_flashdata('document_one_error', 'Please reupload document one.');
-                  redirect('amendment/'.$this->input->post('amendment_id').'/amendment_documents');
+                  $this->session->set_flashdata('document_7_error', 'Please reupload Certification.');
+                  redirect('branches/'.$this->input->post('branchID').'/documents');
                 }else{
-                  $this->session->set_flashdata('document_one_error', 'Please reupload document one.');
-                  redirect('amendment/'.$this->input->post('amendment_id').'/amendment_documents');
+                  $this->session->set_flashdata('document_7_error', 'Please reupload Certification.');
+                  redirect('branches/'.$this->input->post('branchID').'/documents');
                 }
               }
             }
           }else{
             $this->session->set_flashdata('redirect_message', 'You already submitted this for evaluation. Please wait for an e-mail of either the payment procedure or the list of documents for compliance.');
-            redirect('amendment/'.$this->input->post('cooperativesID'));
+            redirect('branches/'.$this->input->post('branchID'));
           }
         }
       }else{
-        redirect('amendment');
+        redirect('branches');
+
       }
     
   }
