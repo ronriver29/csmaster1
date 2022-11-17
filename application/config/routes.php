@@ -101,7 +101,6 @@ $route['branches/(:any)/registration_conversion'] = 'registration_conversion/ind
 $route['branches/(:any)/registration_transfer'] = 'registration_transfer/index/$1';
 $route['branch_update/(:any)/evaluate'] = 'branch_update/evaluate/$1';
 $route['branch_update/(:any)/documents_branch_update'] = 'documents_branch_update/branch/$1';
-$route['branch_update/(:any)/documents_branch_update/upload_document_others_bns'] = 'documents_branch_update/upload_document_others_bns/$1';
 $route['branch_update/(:any)/view'] = 'branch_update/view/$1';
 $route['branch_update/(:any)/bupdate']  =  'branch_update/bupdate/$1';
 $route['branch_update/approve_branch'] = 'branch_update/approve_branch';
@@ -181,12 +180,12 @@ $route['branches/(:any)/branch_registered'] = 'branch_registered/index/$1';
 
 $route['laboratories/(:any)/laboratory_registered'] = 'laboratory_registered/index/$1';
 $route['laboratories/coop_info/(:any)'] = 'laboratories/coop_info/$1';
-$route['laboratories/approve_laboratories_2'] ='Laboratories/approve_laboratories_2'; //modify
-$route['laboratories/payment'] = 'Laboratories/payment'; //modify by
-$route['laboratories/deny_laboratory'] = 'laboratories/deny_laboratory';//modify by json
-$route['laboratories/defer_laboratory'] = 'laboratories/defer_laboratory';//modify by json
+$route['laboratories/approve_laboratories_2'] ='Laboratories/approve_laboratories_2';
+$route['laboratories/payment'] = 'Laboratories/payment';
+$route['laboratories/deny_laboratory'] = 'laboratories/deny_laboratory';
+$route['laboratories/defer_laboratory'] = 'laboratories/defer_laboratory';
 $route['laboratories/registration'] = 'laboratories/registration';
-$route['laboratories/get_cooperative_info'] = 'laboratories/get_cooperative_info';//modify
+$route['laboratories/get_cooperative_info'] = 'laboratories/get_cooperative_info';
 $route['laboratories/(:any)'] = 'laboratories/view/$1';
 $route['laboratories/(:any)/laboratories_cooperators'] = 'laboratories_cooperators/index/$1';
 $route['laboratories/(:any)/laboratories_cooperators/add'] = 'laboratories_cooperators/add/$1';
@@ -271,7 +270,7 @@ $route['cooperatives/(:any)/affiliators/check_edit_position_not_exist/(:any)/(:a
 $route['cooperatives/(:any)/evaluate'] = 'cooperatives/evaluate/$1';
 // $route['cooperatives/(:any)/documents/view_document_one/(:any)'] = 'documents/view_document_one/$1/$2';
 $route['cooperatives/sp'] = 'cooperatives/sp';
-//modiy by json
+
 $route['cooperatives/(:any)/documents/view_document_one/(:any)/(:any)'] = 'documents/view_document_one/$1/$2/$3';
 $route['cooperatives/(:any)/documents/view_document_two/(:any)'] = 'documents/view_document_two/$1/$2';
 $route['cooperatives/(:any)/documents/view_document_three/(:any)'] = 'documents/view_document_three/$1/$2';
@@ -362,15 +361,15 @@ $route['cooperatives/phpinfo']= 'cooperatives/phpinfos';
 
 
 $route['amendment/get_specific_CompositionOfmembers'] ='amendment/get_specific_CompositionOfmembers';
-$route['amendment/check_amendment_name_exists'] = 'amendment/check_amendment_name_exists'; //modified by json
-$route['amendment/(:any)/check_amendment_name_exists'] = 'amendment/check_amendment_name_exists'; //modified by json
+$route['amendment/check_amendment_name_exists'] = 'amendment/check_amendment_name_exists';
+$route['amendment/(:any)/check_amendment_name_exists'] = 'amendment/check_amendment_name_exists';
 
 
 $route['amendment/check_coop_name_update_exists'] = 'amendment/check_coop_name_update_exists';
-$route['amendment/(:any)/major_industry_description_subclass_ajax'] = 'amendment/major_industry_description_subclass_ajax'; //modified
-$route['amendment/major_industry_description_subclass_ajax'] = 'amendment/major_industry_description_subclass_ajax'; //modified
-$route['amendment/(:any)/get_specific_subclassAjax'] = 'amendment/get_specific_subclassAjax'; //modified
-$route['amendment/(:any)/amendment_cooperators/check_edit_cooperator_not_exist'] = 'amendment_cooperators/check_edit_cooperator_not_exist'; //modified
+$route['amendment/(:any)/major_industry_description_subclass_ajax'] = 'amendment/major_industry_description_subclass_ajax';
+$route['amendment/major_industry_description_subclass_ajax'] = 'amendment/major_industry_description_subclass_ajax';
+$route['amendment/(:any)/get_specific_subclassAjax'] = 'amendment/get_specific_subclassAjax';
+$route['amendment/(:any)/amendment_cooperators/check_edit_cooperator_not_exist'] = 'amendment_cooperators/check_edit_cooperator_not_exist';
 $route['amendment/(:any)/cooperators/check_edit_position_not_exist'] = 'cooperators/check_edit_position_not_exist';
 $route['amendment/approve_cooperative'] = 'amendment/approve_cooperative';
 $route['amendment/defer_cooperative'] = 'amendment/defer_cooperative';
@@ -405,7 +404,7 @@ $route['amendment/(:any)/amendment_documents/upload_document_other'] = 'amendmen
 $route['amendment/(:any)/amendment_documents/upload_cooptype_document/(:any)'] = 'amendment_documents/upload_cooptype_document/$1/$2';
 $route['amendment/(:any)/amendment_documents/upload_acbl/(:any)'] = 'amendment_documents/upload_acbl/$1/$2';
 $route['amendment_documents/do_upload_cooptype_document'] = 'amendment_documents/do_upload_cooptype_document';
-$route['amendment/amendmentbylaws/check_minimum_associate_pay_amendment'] ='amendmentbylaws/check_minimum_associate_pay_amendment'; //modify by json
+$route['amendment/amendmentbylaws/check_minimum_associate_pay_amendment'] ='amendmentbylaws/check_minimum_associate_pay_amendment';
 $route['amendment/get_business_activities_of_coop'] = 'amendment/get_business_activities_of_coop';
 $route['amendment/get_cooperative_info'] = 'amendment/get_cooperative_info';
 $route['amendment/get_cooperative_info_by_admin'] = 'amendment/get_cooperative_info_by_admin';
@@ -413,10 +412,10 @@ $route['amendment/composition'] = 'amendment/composition';
 $route['amendment/(:any)/composition'] = 'amendment/composition';
 $route['amendment/(:any)/amendment_update']  =  'amendment/amendment_update/$1';
 $route['amendment/(:any)/amendment_cooperators/(:any)/edit'] = 'amendment_cooperators/edit/$1/$2';
-$route['amendment/(:any)/get_coopTypeID_ajax'] ='amendment/get_coopTypeID_ajax';//modified by json
-$route['amendment/get_major_industry_ajax'] ='amendment/get_major_industry_ajax';//modified by json
-$route['amendment/(:any)/get_major_industry_ajax'] ='amendment/get_major_industry_ajax';//modified by json
-$route['amendment/composition_of_members_'] ='amendment/composition_of_members_';//modified by json
+$route['amendment/(:any)/get_coopTypeID_ajax'] ='amendment/get_coopTypeID_ajax';
+$route['amendment/get_major_industry_ajax'] ='amendment/get_major_industry_ajax';
+$route['amendment/(:any)/get_major_industry_ajax'] ='amendment/get_major_industry_ajax';
+$route['amendment/composition_of_members_'] ='amendment/composition_of_members_';
 $route['amendment/(:any)/amendment_payments'] = 'amendment_payments/index/$1';
 $route['amendment/(:any)/evaluate'] = 'amendment/evaluate/$1';
 $route['amendment/test']='amendment/test';
@@ -432,8 +431,8 @@ $route['amendment/(:any)/document/affidavit_union'] = 'amendment_documents/affid
 $route['amendment/(:any)/amendment_documents/articles_cooperation_primary'] = 'amendment_documents/articles_cooperation_primary/$1';
 $route['amendment/(:any)/amendment_documents/bylaws_primary'] = 'amendment_documents/bylaws_primary/$1';
 $route['amendment/(:any)/amendment_documents'] = 'amendment_documents/index/$1';
-$route['amendment/(:any)/amendment_documents/economic_survey'] = 'amendment_documents/economic_survey/$1';//modified json
-$route['amendment/coop_type'] = 'amendment/coop_type'; //modify by json
+$route['amendment/(:any)/amendment_documents/economic_survey'] = 'amendment_documents/economic_survey/$1';
+$route['amendment/coop_type'] = 'amendment/coop_type';
 $route['amendment/(:any)/amendment_staff/(:any)/edit'] = 'amendment_staff/edit/$1/$2';
 $route['amendment/(:any)/amendment_staff/add'] = 'amendment_staff/add/$1';
 $route['amendment/(:any)/amendment_staff'] = 'amendment_staff/index/$1';
@@ -465,7 +464,7 @@ $route['amendment/(:any)/amendment_cooperators/api/barangays'] = 'api/barangays/
 $route['amendment/amendment_cooperators/check_position_not_exist'] = 'amendment_cooperators/check_position_not_exist';
 $route['amendment/amendment_cooperators/check_cooperator_not_exist'] = 'amendment_cooperators/check_cooperator_not_exist';
 
-$route['amendment/specialist'] = 'amendment/specialist'; //json
+$route['amendment/specialist'] = 'amendment/specialist';
 $route['amendment/cooperative_type_ajax'] ='/amendment/cooperative_type_ajax';
 $route['amendment/(:any)/amendmentbylaws/check_minimum_associate_pay_amendment'] ='amendmentbylaws/check_minimum_associate_pay_amendment';
 
@@ -517,6 +516,12 @@ $route['admins/not_updated'] = 'admins/not_updated';
 $route['admins/change_passwd'] = 'admins/change_passwd';
 $route['admins/login'] = 'admins/login';
 $route['admins/login'] = 'admins/login';
+
+$route['payment_inquiry/index'] = 'payment_inquiry/index';
+$route['payment_inquiry/cooperatives_inquiry'] = 'payment_inquiry/cooperatives_inquiry';
+$route['payment_inquiry/bns_inquiry'] = 'payment_inquiry/bns_inquiry';
+$route['payment_inquiry/laboratory_inquiry'] = 'payment_inquiry/laboratory_inquiry';
+$route['payment_inquiry/amendment_inquiry'] = 'payment_inquiry/amendment_inquiry';
 
 $route['koolreport/autoload'] = 'koolreport/core/autoload.php';
 $route['api/cooperative_types'] = 'api/cooperative_types/index';
@@ -632,8 +637,6 @@ $route['account_approval/(:any)/deny/(:any)'] = 'account_approval/deny/$1/$2';
 	$route['cooperatives_update/(:any)/documents_update/upload_document_two'] = 'documents_update/upload_document_two/$1';
 	$route['cooperatives_update/(:any)/documents_update/upload_document_others/(:any)'] = 'documents_update/upload_document_others/$1/$2';
 	$route['cooperatives_update/(:any)/documents_update/upload_document_others_unifed'] = 'documents_update/upload_document_others_unifed/$1';
-	//
-//
 
 	$route['amendment_update/(:any)'] = 'amendment_update/view/$1';
 	$route['amendment_update/(:any)/update'] = 'amendment_update/update/$1';
