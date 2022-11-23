@@ -9,7 +9,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Payments extends CI_Controller{
 
 
-
   public function __construct()
 
   {
@@ -17,48 +16,26 @@ class Payments extends CI_Controller{
     parent::__construct();
 
     //Codeigniter : Write Less Do More
-
     $this->load->model('cooperatives_model');
-
     $this->load->model('committee_model');
-
     $this->load->model('capitalization_model');
-
     $this->load->model('affiliators_model');
-
     $this->load->model('unioncoop_model');
-
     $this->load->model('bylaw_model');
-
     $this->load->model('economic_survey_model');
-
     $this->load->model('staff_model');
-
     $this->load->model('economic_survey_model');
-
     $this->load->model('uploaded_document_model');
-
     $this->load->model('user_model');
-
     $this->load->model('article_of_cooperation_model');
-
     $this->load->model('user_model');
-
     $this->load->model('payment_model');
-
     $this->load->model('capitalization_model');
-
     $this->load->model('cooperator_model');
-
-
-
     $this->load->library('pdf');
-
     $this->load->library('Numbertowords');
 
   }
-
-
 
   function index($id = null)
 
@@ -69,7 +46,7 @@ class Payments extends CI_Controller{
       redirect('users/login');
 
     }else{
-      $this->load->model('Payment_model');
+      $this->load->model('payment_model');
       $decoded_id = $this->encryption->decrypt(decrypt_custom($id));
 
       $user_id = $this->session->userdata('user_id');
@@ -144,7 +121,7 @@ class Payments extends CI_Controller{
 
                       if($data['gad_count']>0){
 
-                      if($data['coop_info']->created_at >= '2022-10-11'){
+                      if($data['coop_info']->created_at >= '2022-03-08'){
 
                         $data['economic_survey_complete'] = $this->economic_survey_model->simplified_check_survey_complete($decoded_id);
 
@@ -187,41 +164,26 @@ class Payments extends CI_Controller{
                                     $this->db->where("(refNo IS NOT NULL OR refNo != '' AND nature = 'Registration') AND YEAR(date) = '".$current_year."'");
 
                                     $series = $this->db->count_all_results();
-
+                                    // echo $this->db->last_query();
                                     $data['series'] = $series + 1;
 
                                   // End
-
                                     $data['client_info'] = $this->user_model->get_user_info($user_id);
-
                                     $data['title'] = 'Payment Details';
-
                                     $data['header'] = 'Order of Payment';
-
                                     $data['encrypted_id'] = $id;
-
                                     $data['encrypted_user_id'] = encrypt_custom($this->encryption->encrypt($user_id));
-
                                     $data['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
-
                                     $data['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-
                                     $data['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
-
                                     $data['no_of_cooperator'] = $this->cooperator_model->get_total_number_of_cooperators($decoded_id);
-
                                     $data['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
-
                                     $data['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-
                                     $data['name_reservation_fee']=100.00;
-
                                     $data['pay_from']='reservation';
-
+                                    // $_SESSION['payment_session'] = $decoded_id;
                                     $this->load->view('./template/header', $data);
-
                                     $this->load->view('cooperative/payment_form', $data);
-
                                     $this->load->view('./template/footer', $data);
 
                                   }else{
@@ -377,14 +339,12 @@ class Payments extends CI_Controller{
   public function add_payment()
 
   {
-     $this->load->model('Payment_model');
+     $this->load->model('payment_model');
     if ($this->input->post('offlineBtn')){
-
-
 
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
 
-      $this->Payment_model->pay_offline($decoded_id);
+      $this->payment_model->pay_offline($decoded_id);
 
       $data=array(
 
@@ -402,6 +362,8 @@ class Payments extends CI_Controller{
 
         'total'  => $this->input->post('total'),
 
+        'cooperatives_id' => $decoded_id,
+
         'payment_option'=> 'offline',
 
         'status' => 0
@@ -410,9 +372,9 @@ class Payments extends CI_Controller{
 
 
 
-      if ($this->Payment_model->check_payment_not_exist($data))
+      if ($this->payment_model->check_payment_not_exist($data))
 
-        $this->Payment_model->save_payment($data,$this->input->post('rCode'));
+        $this->payment_model->save_payment($data,$this->input->post('rCode'));
 
 
 
@@ -460,9 +422,9 @@ class Payments extends CI_Controller{
 
           }
 
-      $data1['tDate'] = $this->Payment_model->get_payment_info($data)->date;
+      $data1['tDate'] = $this->payment_model->get_payment_info($data)->date;
 
-      $data1['nature'] = $this->Payment_model->get_payment_info($data)->nature;
+      $data1['nature'] = $this->payment_model->get_payment_info($data)->nature;
 
 
 
@@ -500,79 +462,199 @@ class Payments extends CI_Controller{
 
 
 
-     // $this->session->set_flashdata('redirect_applications_message', 'Payment request has been submitted');
+      $this->session->set_flashdata('payment_success', 'Payment request has been submitted');
 
-      //redirect('cooperatives');
+      // redirect('cooperatives/'.$this->input->post('cooperativeID').'/payments');
 
-    }
-
-     else if ($this->input->post('onlineBtn')){
-
-      //change status GET YOUR CERTIFICATE
-
+    } else if ($this->input->post('onlineBtn')){
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
+      // $this->payment_model->pay_offline($decoded_id);
+      $data=array(
+        'cooperatives_id' => $decoded_id,
+        'refNo' => $this->input->post('refNo'),
+        'payor' => $this->input->post('payor'),
+        'date'    => $this->input->post('tDate'),
+        'nature'  => "Registration",
+        'particulars'  => $this->input->post('particulars'),
+        'amount'  => $this->input->post('amount'),
+        'total'  => $this->input->post('total'),
+        'payment_option'=> 'online',
+        'status' => 0
+      );
 
-      $user_id = $this->session->userdata('user_id');
+      if ($this->payment_model->check_payment_not_exist($data))
+        $this->payment_model->save_payment_online($data,$this->input->post('rCode'));
+        $user_id = $this->session->userdata('user_id');
+        $report_exist = $this->db->where(array('payor'=>$this->input->post('payor')))->order_by("id","DESC")->get('payment');
 
+          // if($report_exist->num_rows()==0){
+          //   // Payment Series
+          //   $current_year = date('Y');
+          //   $this->db->select('*');
+          //   $this->db->from('payment');
+          //   $this->db->where("(refNo IS NOT NULL OR refNo != '') AND YEAR(date) = '".$current_year."'");
+          //   $series = $this->db->count_all_results();
+          //   $data1['series'] = $series + 1;
+          //   // End Payment Series
+          // } else {
+          //   $this->db->select('*');
+          //   $this->db->from('payment');
+          //   $this->db->where('payor',$this->input->post('payor'));
+          //   $this->db->order_by("id","DESC");
+          //   $query = $this->db->get();
+          //   $series = $query->row();
+          //   $lastseries = $series->refNo;
+          //   $string = substr($lastseries, strrpos($lastseries, '-' )+1);
+          //   $data1['series'] = $string; // about-us
+          // }
+      $data1['cooperatives_id'] = $this->payment_model->get_payment_info($data)->cooperatives_id;
+      $data1['tTransactionNo'] = $this->payment_model->get_payment_info($data)->transactionNo;
+      $data1['tDate'] = $this->payment_model->get_payment_info($data)->date;
+      $data1['nature'] = $this->payment_model->get_payment_info($data)->nature;
+      $data1['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
+      $data1['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+      $data1['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
+      $data1['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+      $data1['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
+      $data1['name_reservation_fee']=100.00;
+      $data1['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
 
+      // echo $data1['tTransactionNo'];
+      $way_up = $this->input->post('refNo').'-'.date('Hi');
+      $hash = strtolower(md5('2018070336'.$way_up.($this->input->post('total') * 100)));
 
-      $data['encrypted_id'] = $decoded_id;
+      $refno_replace = str_replace('-','',$this->input->post('refNo'));
+      $this->payment_model->update_payment_online($decoded_id,$way_up);
 
-      $data['is_client'] = $this->session->userdata('client');
+      $enc_user_id = encrypt_custom($this->encryption->encrypt($user_id));
+      $enc_decoded_id = encrypt_custom($this->encryption->encrypt($decoded_id));
 
-      $data['client_info'] = $this->user_model->get_user_info($user_id);
+      $params = array(
+        'MerchantCode' => '2018070336',
+        'MerchantRefNo' => $way_up,
+        'Particulars' => 'transaction_type=Cooperative Name Reservation;TransactionNo='.$refno_replace.';Regional Office='.$this->input->post('rDesc').';Reservation Number='.$data1['tTransactionNo'].';Name of Applicant='.$this->input->post('name_of_applicant').';Proposed Name of Cooperative='.$this->input->post('proposed_name').';',
+        'Amount' => $this->input->post('total'),
+        'PayorName' => $this->input->post('payor'),
+        'PayorEmail' => $this->input->post('payoremail'),
+        'ReturnURLError' => base_url('payments/error/'.$enc_user_id),
+        // 'ReturnURLOK' => 'http://ecoopris.cmvsd.com/ris_updating/payments/ok',
+        // 'ReturnURLError' => base_url('payments/error/'.$user_id.'/'.$decoded_id),
+        'ReturnURLOK' => base_url('payments/ok/'.$enc_user_id.'/'.$enc_decoded_id),
+        'Hash' => $hash,
+      );
 
-      $data['title'] = 'Payment Details';
+      // redirect();
+      $url = 'https://222.127.109.48/epp20200915/?';
+      // $url = 'https://epaymentportal.landbank.com/?';
 
-      $data['header'] = 'Online Payment';
+      $postData = '';
+        //create name value pairs seperated by &
+        foreach($params as $k => $v)
+        {
+          $postData .= $k . '='.$v.'&';
+        }
 
-  //     $this->Payment_model->pay_online($decoded_id);
-
-  //     $this->session->set_flashdata('redirect_applications_message', 'Thank you for paying online. You may now get your certificate.');
-
-  //    redirect('cooperatives');
-
-  //    }else{
-
-  //     $this->session->set_flashdata('redirect_applications_message', 'Error');
-
-  //    redirect('cooperatives');}
-
-
-
-  // Anjury Modification
-
-      $this->load->view('./template/header', $data);
-
-      $this->load->view('cooperative/payment_form_online', $data);
-
-      $this->load->view('./template/footer', $data);
-
-      }
+      $complete_url = $url.$postData;
+      header("Location: ".$complete_url."");
+        }
 
     }
 
+    public function postCURL($_url, $_param){
+
+        $postData = '';
+        //create name value pairs seperated by &
+        foreach($_param as $k => $v)
+        {
+          $postData .= $k . '='.$v.'&';
+        }
+        rtrim($postData, '&');
 
 
-    public function ok(){
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL,$_url);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        // curl_setopt($ch, CURLOPT_HEADER, false);
+        // curl_setopt($ch, CURLOPT_POST, count($postData));
+        echo print_r($postData);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 
+        // $output=curl_exec($ch);
 
+        // curl_close($ch);
 
-      $data['sta']='ok';
-
-       $this->load->view('payment_form',$data);
-
+        return $postData;
     }
 
+    public function ok($user_id = null,$coop_id = null){
+      $user_id = $this->encryption->decrypt(decrypt_custom($user_id));
+      $coop_id = $this->encryption->decrypt(decrypt_custom($coop_id));
 
+      $query= $this->db->get_where('users', array('id' => $user_id));
+      $row = $query->row();
 
-    public function error(){
+      $user_data = array(
+        'user_id' => $row->id,
+        'email' => $row->email,
+        'client' => true,
+        'logged_in' => true
+      );
 
+      $this->session->set_userdata($user_data);
 
+      $decoded_id = $coop_id;
 
-      $data['sta']='error';
+      $query_epp = $this->db->get_where('payment', array('cooperatives_id' => $decoded_id));
+      $epp = $query_epp->row();
 
-       $this->load->view('payment_form',$data);
+      $merchantrefno = $epp->merchantrefno;
+
+      $hash = strtolower(md5('2018070336'.$merchantrefno.'9fd681eab5130912791ec76fa1572995'));
+      $postdata = array(
+      'MerchantCode' => '2018070336',
+      'MerchantRefNo' => $merchantrefno,
+      'Hash' => $hash
+      );
+
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_URL, "https://222.127.109.48/epp20200915/api2-status.php");
+      curl_setopt($ch, CURLOPT_POST, 1);
+      curl_setopt($ch, CURLOPT_HEADER, 0);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+      $output = curl_exec($ch);
+
+      $obj = $output;
+
+      curl_close($ch);
+
+      // echo print_r($obj);
+
+      $this->payment_model->pay_online($decoded_id,$obj);
+
+      $this->session->set_flashdata('list_success_message', 'Payment Success');
+      echo ("<script LANGUAGE='JavaScript'>window.location='".base_url()."cooperatives';</script>");
+    }
+
+    public function error($user_id = null){
+      $user_id = $this->encryption->decrypt(decrypt_custom($user_id));
+
+      $query= $this->db->get_where('users', array('id' => $user_id));
+      $row = $query->row();
+
+      $user_data = array(
+        'user_id' => $row->id,
+        'email' => $row->email,
+        'client' => true,
+        'logged_in' => true
+      );
+
+      $this->session->set_userdata($user_data);
+
+      $this->session->set_flashdata('list_error_message', 'Payment Failed');
+      echo ("<script LANGUAGE='JavaScript'>window.location='".base_url()."cooperatives';</script>");
 
     }
 
