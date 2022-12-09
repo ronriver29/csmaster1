@@ -163,12 +163,12 @@
                     <option value="">--</option>
 
                     <option value="Primary">Primary</option>
-                    <?php /*
+                    <?php 
                   <option value="Secondary">Secondary</option>
 
                     <option value="Tertiary">Tertiary</option>
 
-                     <option value="Others">Others</option> */?>
+                     <option value="Others">Others</option> ?>
 
                   </select>
 
