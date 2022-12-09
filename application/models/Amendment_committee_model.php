@@ -279,7 +279,7 @@ class Amendment_committee_model extends CI_Model{
       "Ethics",
       "Credit",
       "Gender and Development");
-    $this->db->select('amendment_committees.name');
+    $this->db->select('amendment_committees.name,amendment_committees.func_and_respons');
     $this->db->from('amendment_committees');
     $this->db->distinct();
     $this->db->where_not_in('amendment_committees.name',$list_committee_names);

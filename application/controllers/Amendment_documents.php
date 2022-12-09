@@ -34,8 +34,8 @@ class Amendment_documents extends CI_Controller{
           if($this->session->userdata('client')){
             // if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
             //   if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
-              $this->amendment_model->check_expired_reservation_($this->decoded_id,$user_id);
-              $this->amendment_model->check_own_cooperative_($this->decoded_id,$user_id);
+          		$this->amendment_model->check_expired_reservation_($this->decoded_id,$user_id);
+          		$this->amendment_model->check_own_cooperative_($this->decoded_id,$user_id);
                 $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
                 $data['coop_info_primary'] = $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
 
@@ -107,7 +107,7 @@ class Amendment_documents extends CI_Controller{
                                       }
                                       $cdatas[]=$coopRow;
                                     }
-                                    unset($coopRow);  
+                                  	unset($coopRow);	
                                     $data['coop_types_'] = $cdatas;
                                   }
                                   else
@@ -407,8 +407,8 @@ public function doc_link_view($id,$document_num)
         if(file_exists(UPLOAD_AMD_DIR.$file_name)){
 //          if($this->amendment_uploaded_document_model->check_document_of_cooperative(0,$this->decoded_id,1,$decoded_filename)){
             if($this->session->userdata('client')){
-              $this->amendment_model->check_own_cooperative_($this->decoded_id,$user_id);
-              $this->amendment_model->check_expired_reservation_($this->decoded_id,$user_id);
+            	$this->amendment_model->check_own_cooperative_($this->decoded_id,$user_id);
+            	$this->amendment_model->check_expired_reservation_($this->decoded_id,$user_id);
               // if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
               //   if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
               //     $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
@@ -422,7 +422,7 @@ public function doc_link_view($id,$document_num)
               //             if($data['article_complete']){
               //               $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
               //               if($data['committees_complete']){
-                                
+                             		
                                   $this->output
                                       ->set_header('Content-Disposition: inline; filename="Surety_Bond.pdf"')
                                       ->set_content_type('application/pdf','utf-8','CoopRIS')
@@ -467,9 +467,9 @@ public function doc_link_view($id,$document_num)
                 //   redirect('amendment');
                 // }else{
                   // if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$this->decoded_id)){
-                    $this->auth->check_access_level($this->session->userdata('access_level'));
-                    $this->amendment_model->check_expired_reservation_by_admin_($this->decoded_id);
-                    $this->amendment_model->check_submitted_for_evaluation_($this->decoded_id);
+                  	$this->auth->check_access_level($this->session->userdata('access_level'));
+                  	$this->amendment_model->check_expired_reservation_by_admin_($this->decoded_id);
+                  	$this->amendment_model->check_submitted_for_evaluation_($this->decoded_id);
                     $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
                    $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
                     if($data['bylaw_complete']){
@@ -558,9 +558,9 @@ public function doc_link_view($id,$document_num)
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
         if($this->session->userdata('client')){
-      $this->amendment_model->check_own_cooperative_($this->decoded_id,$user_id);
-      $this->amendment_model->check_expired_reservation_($this->decoded_id,$user_id);
-      $this->amendment_model->check_submitted_for_evaluation_($this->decoded_id);
+			$this->amendment_model->check_own_cooperative_($this->decoded_id,$user_id);
+			$this->amendment_model->check_expired_reservation_($this->decoded_id,$user_id);
+			$this->amendment_model->check_submitted_for_evaluation_($this->decoded_id);
               $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
               // $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
                
@@ -577,19 +577,19 @@ public function doc_link_view($id,$document_num)
               //           $data['committees_complete'] = $this->amendment_committee_model->committee_complete_count_amendment($this->decoded_id);
                       
               //           if($data['committees_complete']){    
-              $data['client_info'] = $this->user_model->get_user_info($user_id);
-              $data['title'] = 'Upload Document';
-              $data['header'] = 'Upload Document';
-              $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
-              $data['encrypted_id'] = $id;
-              $data['encrypted_doc_num']= $document_num;
-              $data['encrypted_uid'] = encrypt_custom($this->encryption->encrypt($user_id));
-              $data['uid'] = $user_id;
-              $data['coopid'] = $this->decoded_id;
-              $data['document_titled'] = $doc_titled;
-              $this->load->view('./template/header', $data);
-              $this->load->view('amendment/upload_form/upload_cooptype_document', $data);
-              $this->load->view('./template/footer');
+							$data['client_info'] = $this->user_model->get_user_info($user_id);
+							$data['title'] = 'Upload Document';
+							$data['header'] = 'Upload Document';
+							$data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
+							$data['encrypted_id'] = $id;
+							$data['encrypted_doc_num']= $document_num;
+							$data['encrypted_uid'] = encrypt_custom($this->encryption->encrypt($user_id));
+							$data['uid'] = $user_id;
+							$data['coopid'] = $this->decoded_id;
+							$data['document_titled'] = $doc_titled;
+							$this->load->view('./template/header', $data);
+							$this->load->view('amendment/upload_form/upload_cooptype_document', $data);
+							$this->load->view('./template/footer');
               //           }else{
               //             $this->session->set_flashdata('redirect_message', 'Please complete first your list of committee.');
               //             redirect('amendment/'.$id);
@@ -1106,7 +1106,7 @@ public function count_documents_coop($coop_id,$num)
        $this->load->model('region_model');
       if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
         if($this->session->userdata('client')){
-          $data['client_info'] = $this->user_model->get_user_info($user_id);
+        	$data['client_info'] = $this->user_model->get_user_info($user_id);
           if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
             if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
               $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
@@ -1243,19 +1243,19 @@ public function count_documents_coop($coop_id,$num)
                               if($data['coop_info']->area_of_operation == 'Interregional'){
                                 $data['regions_island_list'] = $this->region_model->get_selected_regions($data['coop_info']->regions);
                               }
-                              $data['encrypted_id'] = $id;  
+              					      $data['encrypted_id'] = $id;	
                               $data['articles_pages'] = $this->amendment_model->no_of_doc($this->decoded_id,'articles');
                                 if($data['coop_info']->status !=12)
                                 {
-                                  $data['title'] = 'Amendment Articles';
-                                $data['header'] = 'Document';
-                                $this->load->view('./template/header', $data);
+                                	$data['title'] = 'Amendment Articles';
+                    						$data['header'] = 'Document';
+                   						  $this->load->view('./template/header', $data);
                                 $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary_html', $data);
-                                $this->load->view('./template/footer', $data);
+                    						$this->load->view('./template/footer', $data);
                                 }
                                 else
                                 {
-                                   $this->load->library('pdf');
+                                	 $this->load->library('pdf');
                                 $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data,TRUE);
                                 $f = new pdf();
                                 $f->set_option("isPhpEnabled", true);
@@ -1323,10 +1323,10 @@ public function count_documents_coop($coop_id,$num)
               redirect('amendment');
             }else{
               if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$this->decoded_id)){
-                $this->auth->authuserLevelAmd($this->session->userdata('access_level'),[1,2,3,4]);
-                $this->load->model('admin_model');
-                $this->load->model('region_model');
-                $data['admin_info'] = $this->admin_model->get_admin_info($user_id);
+              	$this->auth->authuserLevelAmd($this->session->userdata('access_level'),[1,2,3,4]);
+              	$this->load->model('admin_model');
+              	$this->load->model('region_model');
+              	$data['admin_info'] = $this->admin_model->get_admin_info($user_id);
                 $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
                 $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
                
@@ -1469,18 +1469,18 @@ public function count_documents_coop($coop_id,$num)
                               // $data['new_reg_coop'] = $check_date_reg_new ;
 
                                  $data['articles_pages'] = $this->amendment_model->no_of_doc($this->decoded_id,'articles');
-                                $data['encrypted_id'] = $id;  
+                                $data['encrypted_id'] = $id;	
                                 if($data['coop_info']->status !=12)
                                 {
-                                  $data['title'] = 'Amendment Articles';
-                                $data['header'] = 'Document';
-                               $this->load->view('./templates/admin_header', $data);
-                                        $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary_html', $data);
-                                $this->load->view('./templates/admin_footer', $data);
+                                	$data['title'] = 'Amendment Articles';
+                    						$data['header'] = 'Document';
+                   						 $this->load->view('./templates/admin_header', $data);
+                                      	$this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary_html', $data);
+                    						$this->load->view('./templates/admin_footer', $data);
                                 }
                                 else
                                 {
-                                   $this->load->library('pdf');
+                                	 $this->load->library('pdf');
                                 $html2 = $this->load->view('documents/primary/amendment_articles_of_cooperation_for_primary', $data,TRUE);
                                 $f = new pdf();
                                 $f->set_option("isPhpEnabled", true);
@@ -2201,46 +2201,46 @@ public function count_documents_coop($coop_id,$num)
                               $data['encrypted_id'] = $id;
                               if($data['coop_info']->status !=12)
                               {
-                                $data['title'] = 'Document';
-                                $data['header'] = 'Document';
-                                $this->load->view('./template/header', $data);
-                                $this->load->view('documents/primary/amendment_bylaws_for_primary_html',$data);
-                                $this->load->view('./template/footer', $data);
+                              	$data['title'] = 'Document';
+              					        $data['header'] = 'Document';
+                              	$this->load->view('./template/header', $data);
+                              	$this->load->view('documents/primary/amendment_bylaws_for_primary_html',$data);
+                              	$this->load->view('./template/footer', $data);
                               }
                               else
                               {
-                                 $this->load->library('pdf');
-                                  $html2 = $this->load->view('documents/primary/amendment_bylaws_for_primary', $data, TRUE);
-                                  $f = new pdf();
-                                  $f->set_option("isPhpEnabled", true);
-                                  $f->setPaper('folio', 'portrait');
-                                  $f->load_html($html2);
-                                  // $f->setBasePath(public_path()); // This line resolve
-                                  $f->render();
-                                  $this->load->library('session');
-                                  $path = 'amendment_bylaws_for_primary.pdf';
-                                  $getTotalPages = $f->get_canvas()->get_page_count();
-                                  $user_data = array(
-                                  // 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
-                                  'total_pages' => $getTotalPages
-                                  );
-                                  $this->session->set_userdata($user_data);
+                              	 $this->load->library('pdf');
+                  								$html2 = $this->load->view('documents/primary/amendment_bylaws_for_primary', $data, TRUE);
+                  								$f = new pdf();
+                  								$f->set_option("isPhpEnabled", true);
+                  								$f->setPaper('folio', 'portrait');
+                  								$f->load_html($html2);
+                  								// $f->setBasePath(public_path()); // This line resolve
+                  								$f->render();
+                  								$this->load->library('session');
+                  								$path = 'amendment_bylaws_for_primary.pdf';
+                  								$getTotalPages = $f->get_canvas()->get_page_count();
+                  								$user_data = array(
+                  								// 'pagecount' => $canvas->page_text(5, 5, "{PAGE_COUNT}", '', 8, 0)
+                  								'total_pages' => $getTotalPages
+                  								);
+                  								$this->session->set_userdata($user_data);
 
-                                  $data_doc = array(
-                                  'amendment_id' => $this->decoded_id,
-                                  'name' => 'bylaws',
-                                  'total_pages' => $this->session->userdata('total_pages')
-                                  );
-                                  if($this->check_if_exist_doc($this->decoded_id,'bylaws'))
-                                  {
-                                  $this->db->where('amendment_id', $this->decoded_id);
-                                  $this->db->update('document_info', $data_doc,array('amendment_id'=>$this->decoded_id,'name'=>'bylaws'));
-                                  }
-                                  else
-                                  {
-                                  $this->db->insert('document_info',$data_doc);
-                                  }
-                                  $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
+                  								$data_doc = array(
+                  								'amendment_id' => $this->decoded_id,
+                  								'name' => 'bylaws',
+                  								'total_pages' => $this->session->userdata('total_pages')
+                  								);
+                  								if($this->check_if_exist_doc($this->decoded_id,'bylaws'))
+                  								{
+                  								$this->db->where('amendment_id', $this->decoded_id);
+                  								$this->db->update('document_info', $data_doc,array('amendment_id'=>$this->decoded_id,'name'=>'bylaws'));
+                  								}
+                  								else
+                  								{
+                  								$this->db->insert('document_info',$data_doc);
+                  								}
+                  								$f->stream("bylaws_primary.pdf", array("Attachment"=>0));
 
                               }
 
@@ -2420,23 +2420,23 @@ public function count_documents_coop($coop_id,$num)
                               $data['encrypted_id'] = $id;
                                if($data['coop_info']->status !=12)
                               {
-                                $data['title'] = 'Document';
-                                $data['header'] = 'Bylaws';
-                                $this->load->view('./templates/admin_header', $data);
-                                $this->load->view('documents/primary/amendment_bylaws_for_primary_html',$data);
-                                $this->load->view('./templates/admin_footer', $data);
+                              	$data['title'] = 'Document';
+              					        $data['header'] = 'Bylaws';
+                              	$this->load->view('./templates/admin_header', $data);
+                              	$this->load->view('documents/primary/amendment_bylaws_for_primary_html',$data);
+                              	$this->load->view('./templates/admin_footer', $data);
                               }
                               else
                               {
-                                 $this->load->library('pdf');
-                                $html2 = $this->load->view('documents/primary/amendment_bylaws_for_primary', $data, TRUE);
-                                $f = new pdf();
-                                $f->set_option("isPhpEnabled", true);
-                                $f->setPaper('folio', 'portrait');
-                                $f->load_html($html2);
-                                // $f->setBasePath(public_path()); // This line resolve
-                                $f->render();
-                                $this->load->library('session');
+                              	 $this->load->library('pdf');
+                								$html2 = $this->load->view('documents/primary/amendment_bylaws_for_primary', $data, TRUE);
+                								$f = new pdf();
+                								$f->set_option("isPhpEnabled", true);
+                								$f->setPaper('folio', 'portrait');
+                								$f->load_html($html2);
+                								// $f->setBasePath(public_path()); // This line resolve
+                								$f->render();
+                								$this->load->library('session');
                                   $path = 'amendment_bylaws_for_primary.pdf';
                                   $getTotalPages = $f->get_canvas()->get_page_count();
                                   $user_data = array(
@@ -2459,7 +2459,7 @@ public function count_documents_coop($coop_id,$num)
                                   {
                                   $this->db->insert('document_info',$data_doc);
                                   }
-                                $f->stream("bylaws_primary.pdf", array("Attachment"=>0));
+                								$f->stream("bylaws_primary.pdf", array("Attachment"=>0));
 
                               }
 
@@ -2858,8 +2858,8 @@ public function count_documents_coop($coop_id,$num)
       $data['is_client'] = $this->session->userdata('client');
       if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
         if($this->session->userdata('client')){
-          $this->amendment_model->check_own_cooperative_($this->decoded_id,$user_id);
-          $this->amendment_model->check_expired_reservation_($this->decoded_id,$user_id);
+        	$this->amendment_model->check_own_cooperative_($this->decoded_id,$user_id);
+        	$this->amendment_model->check_expired_reservation_($this->decoded_id,$user_id);
           // if($this->amendment_model->check_own_cooperative($cooperative_id,$this->decoded_id,$user_id)){
           //   if(!$this->amendment_model->check_expired_reservation($cooperative_id,$this->decoded_id,$user_id)){
               $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
@@ -3017,9 +3017,9 @@ public function count_documents_coop($coop_id,$num)
             // }else{
             $this->load->model('admin_model');
             $this->load->model('region_model');
-            $this->auth->check_access_level($this->session->userdata('access_level'));
-            $this->amendment_model->check_expired_reservation_by_admin_($this->decoded_id);
-            $this->amendment_model->check_submitted_for_evaluation_($this->decoded_id);
+        		$this->auth->check_access_level($this->session->userdata('access_level'));
+        		$this->amendment_model->check_expired_reservation_by_admin_($this->decoded_id);
+        		$this->amendment_model->check_submitted_for_evaluation_($this->decoded_id);
               // if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$this->decoded_id)){
                 $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
                 // $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_bylaw_model->check_bylaw_primary_complete($cooperative_id,$this->decoded_id) : true;
@@ -3157,9 +3157,9 @@ public function count_documents_coop($coop_id,$num)
       }
   }
   function affidavit_union($id=null){
-    $this->load->model("unioncoop_model");
+  	$this->load->model("unioncoop_model");
     $this->load->model('amendment_union_model');
-    $this->load->library('pdf');
+  	$this->load->library('pdf');
      $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
      $cooperative_id = $this->amendment_model->coop_dtl($this->decoded_id);
       $user_id = $this->session->userdata('user_id');
@@ -3260,8 +3260,8 @@ public function count_documents_coop($coop_id,$num)
       }
   }
   function affidavit_federation($id=null){
-     $this->load->library('pdf');
-     $this->load->model('affiliators_model');
+  	 $this->load->library('pdf');
+  	 $this->load->model('affiliators_model');
      $this->load->model('amendment_affiliators_model');
      $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
      $cooperative_id  = $this->amendment_model->coop_dtl($this->decoded_id);
@@ -3271,8 +3271,8 @@ public function count_documents_coop($coop_id,$num)
         if($this->session->userdata('client')){
           // if($this->cooperatives_model->check_own_cooperative($this->decoded_id,$user_id)){
           //   if(!$this->cooperatives_model->check_expired_reservation($this->decoded_id,$user_id)){
-            $this->amendment_model->check_own_cooperative_($this->decoded_id,$user_id);
-            $this->amendment_model->check_expired_reservation_($this->decoded_id,$user_id);
+          	$this->amendment_model->check_own_cooperative_($this->decoded_id,$user_id);
+          	$this->amendment_model->check_expired_reservation_($this->decoded_id,$user_id);
               $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$this->decoded_id);
               $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($this->decoded_id);
               // $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->bylaw_model->check_bylaw_primary_complete($this->decoded_id) : true;
@@ -3384,18 +3384,18 @@ public function count_documents_coop($coop_id,$num)
           // }
         }else{
 
-          $this->auth->check_access_level($this->session->userdata('access_level'));
-          $this->amendment_model->check_expired_reservation_by_admin_($this->decoded_id);
-          $this->amendment_model->check_submitted_for_evaluation_($this->decoded_id);
-            $data['title'] = "Treasurer's Affidavit for Primary";
-        $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
-        $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($this->decoded_id);
-        $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
-        $data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
-          $data['no_of_cooperator'] = $this->amendment_affiliators_model->get_total_number_of_cooperators($this->decoded_id);
-        $data['total_regular'] = $this->affiliators_model->get_total_regular($data['coop_info']->users_id,$this->decoded_id);
-        // $data['total_associate'] = $this->cooperator_model->get_total_associate($this->decoded_id);
-        $data['treasurer_of_coop'] = $this->affiliators_model->get_treasurer_of_coop($data['coop_info']->users_id);
+        	$this->auth->check_access_level($this->session->userdata('access_level'));
+        	$this->amendment_model->check_expired_reservation_by_admin_($this->decoded_id);
+        	$this->amendment_model->check_submitted_for_evaluation_($this->decoded_id);
+        		$data['title'] = "Treasurer's Affidavit for Primary";
+				$data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
+				$data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($this->decoded_id);
+				$data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
+				$data['article_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
+				  $data['no_of_cooperator'] = $this->amendment_affiliators_model->get_total_number_of_cooperators($this->decoded_id);
+				$data['total_regular'] = $this->affiliators_model->get_total_regular($data['coop_info']->users_id,$this->decoded_id);
+				// $data['total_associate'] = $this->cooperator_model->get_total_associate($this->decoded_id);
+				$data['treasurer_of_coop'] = $this->affiliators_model->get_treasurer_of_coop($data['coop_info']->users_id);
         if($this->amendment_model->if_had_amendment($data['coop_info']->regNo,$this->decoded_id))
         {
         $amendment_dtl = $this->amendment_model->get_last_amendment_info($this->decoded_id,$data['coop_info']->regNo);
@@ -3412,13 +3412,13 @@ public function count_documents_coop($coop_id,$num)
         $data['total_new_cooperators_added'] = 0;
         }
 
-        $html2 = $this->load->view('documents/federation/amendment_treasurer_affidavit_federation', $data, TRUE);
-        $f = new pdf();
-        $f->set_option("isPhpEnabled", true);
-        $f->setPaper('folio', 'portrait');
-        $f->load_html($html2);
-        $f->render();
-        $f->stream("treasurer_affidavit_primary.pdf", array("Attachment"=>0));
+				$html2 = $this->load->view('documents/federation/amendment_treasurer_affidavit_federation', $data, TRUE);
+				$f = new pdf();
+				$f->set_option("isPhpEnabled", true);
+				$f->setPaper('folio', 'portrait');
+				$f->load_html($html2);
+				$f->render();
+				$f->stream("treasurer_affidavit_primary.pdf", array("Attachment"=>0));
         }
       }else{
         show_404();

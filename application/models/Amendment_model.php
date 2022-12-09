@@ -241,7 +241,7 @@ class amendment_model extends CI_Model{
      $query=$this->db->query('select * from composition_of_members order by composition asc');
     // $query = $this->db->get();
 
-    return $query->result(); 
+    return $query->result();
   }
   public function get_payment_info($amendment_id){
     $this->db->select('*');
@@ -255,7 +255,7 @@ class amendment_model extends CI_Model{
     $this->db->trans_begin();
     $this->db->update('amend_coop', array('status'=>14),array('id'=>$di));
     $this->db->update('payment', $data, $where);
-    
+
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return array('success'=>false,'message'=>'Unable to save O.R. No.');
@@ -266,12 +266,13 @@ class amendment_model extends CI_Model{
   }
 
   public function get_all_cooperatives($user_id){
-    $this->db->select('amend_coop.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->select('amend_coop.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region,payment.payment_option');
     $this->db->from('amend_coop');
     $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->join('payment', 'payment.amendment_id = amend_coop.id','left');
     $this->db->where('amend_coop.users_id', $user_id)->order_by('amend_coop.id','desc');
     $query = $this->db->get();
     $data = $query->result_array();
@@ -297,7 +298,7 @@ class amendment_model extends CI_Model{
     unset($regcode);
     unset($admin_id);
     return $data;
-  }  
+  }
   public function get_all_cooperatives_by_specialist_count($regcode,$admin_id){
     $this->db->select('amend_coop.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
     $this->db->from('amend_coop');
@@ -309,7 +310,7 @@ class amendment_model extends CI_Model{
     $this->db->where(array('status'=>3,'evaluated_by'=>$admin_id));
     $query =$this->db->get();
     return $query->num_rows();// $this->db->count_all_results();
-  }  
+  }
   // public function get_all_cooperatives_by_specialist($regcode,$admin_id){
   //   $this->db->select('amend_coop.*, refbrgy.brgyDesc as brgy, refcitymun.citymunDesc as city, refprovince.provDesc as province, refregion.regDesc as region');
   //   $this->db->from('amend_coop');
@@ -446,7 +447,7 @@ class amendment_model extends CI_Model{
     $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-    // $this->db->like('refregion.regCode', $regcode);  
+    // $this->db->like('refregion.regCode', $regcode);
     $this->db->where('status IN ("9") AND amend_coop.id IN('.$amendment_id_arr.') AND ho=1');
     $query = $this->db->get();
     $data = $query->result_array();
@@ -481,7 +482,7 @@ class amendment_model extends CI_Model{
     $this->db->like('refregion.regCode', $regcode);
     $this->db->where('status IN ("7","8","9","17") AND  ho=0');
     return $this->db->count_all_results();
-    
+
   }
 
   public function get_all_cooperatives_by_director($regcode,$amendment_id,$start,$limit){
@@ -530,7 +531,7 @@ class amendment_model extends CI_Model{
   //   $this->db->where('status IN ("7","8","9","17") AND amend_coop.id IN ('.$amendment_id_arr.') AND ho=0 AND in_change_region=1');
   //   // $this->db->where_in('status',array('7','8','9'));
   //   $query2 = $this->db->get();
-  
+
   //   if($query2->num_rows()>0)
   //   {
   //       $data2 = $query2->result_array();
@@ -589,30 +590,38 @@ class amendment_model extends CI_Model{
   }
   public function get_cooperative_info($cooperative_id,$user_id,$amendment_id){
     $this->db->select("`amend_coop.id`,
-  `amend_coop.regNo`, 
-  `amend_coop.amendmentNo`, 
-  `amend_coop.users_id`, 
-  `amend_coop.category_of_cooperative`, 
-  `amend_coop.type_of_cooperative`, 
+  `amend_coop.regNo`,
+  `amend_coop.amendmentNo`,
+  `amend_coop.users_id`,
+  `amend_coop.category_of_cooperative`,
+  `amend_coop.type_of_cooperative`,
   `amend_coop.cooperative_type_id`,
   `amend_coop.grouping`,
-  `amend_coop.proposed_name`, 
-  `amend_coop.acronym`, 
+  `amend_coop.proposed_name`,
+  `amend_coop.acronym`,
   `amend_coop.common_bond_of_membership`,
-  `amend_coop.comp_of_membership`, 
+  `amend_coop.comp_of_membership`,
   `amend_coop.field_of_membership`,
   `amend_coop.name_of_ins_assoc`,
   `amend_coop.capital_contribution`,
-  `amend_coop.area_of_operation`, 
+  `amend_coop.area_of_operation`,
   `amend_coop.refbrgy_brgyCode`,
-  `amend_coop.interregional`, 
+  `amend_coop.interregional`,
   `amend_coop.regions`,
-  `amend_coop.street`, 
-  `amend_coop.house_blk_no`, 
-  `amend_coop.status`, 
+  `amend_coop.street`,
+  `amend_coop.house_blk_no`,
+  `amend_coop.status`,
   `amend_coop.in_change_region`,
-  `amend_coop.previous_region`, 
+  `amend_coop.previous_region`,
   `amend_coop.expire_at`,
+  `amend_coop.tool_yn_answer`,
+  `amend_coop.tool_remark`,
+  `amend_coop.tool_findings`,
+  `amend_coop.tool_comment`,
+  `amend_coop.evaluated_by`,
+  `amend_coop.second_evaluated_by`,
+  `amend_coop.third_evaluated_by`,
+  `amend_coop.comment_by_specialist`,
   `amend_coop.ho`,
   `amend_coop.migrated`,
   `amend_coop.custom_acbl`,refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region");
@@ -673,29 +682,29 @@ class amendment_model extends CI_Model{
 
   public function get_cooperative_info_by_admin($amendment_id){
     $this->db->select("`amend_coop.id`,
-  `amend_coop.regNo`, 
-  `amend_coop.amendmentNo`, 
-  `amend_coop.users_id`, 
-  `amend_coop.category_of_cooperative`, 
-  `amend_coop.type_of_cooperative`, 
+  `amend_coop.regNo`,
+  `amend_coop.amendmentNo`,
+  `amend_coop.users_id`,
+  `amend_coop.category_of_cooperative`,
+  `amend_coop.type_of_cooperative`,
   `amend_coop.cooperative_type_id`,
   `amend_coop.grouping`,
-  `amend_coop.proposed_name`, 
-  `amend_coop.acronym`, 
+  `amend_coop.proposed_name`,
+  `amend_coop.acronym`,
   `amend_coop.common_bond_of_membership`,
-  `amend_coop.comp_of_membership`, 
+  `amend_coop.comp_of_membership`,
   `amend_coop.field_of_membership`,
   `amend_coop.name_of_ins_assoc`,
   `amend_coop.capital_contribution`,
-  `amend_coop.area_of_operation`, 
+  `amend_coop.area_of_operation`,
   `amend_coop.refbrgy_brgyCode`,
-  `amend_coop.interregional`, 
+  `amend_coop.interregional`,
   `amend_coop.regions`,
-  `amend_coop.street`, 
-  `amend_coop.house_blk_no`, 
-  `amend_coop.status`, 
+  `amend_coop.street`,
+  `amend_coop.house_blk_no`,
+  `amend_coop.status`,
   `amend_coop.in_change_region`,
-  `amend_coop.previous_region`, 
+  `amend_coop.previous_region`,
   `amend_coop.expire_at`,
   `amend_coop.tool_yn_answer`,
   `amend_coop.tool_remark`,
@@ -721,33 +730,33 @@ class amendment_model extends CI_Model{
   }
 
   public function get_last_amendment_info($current_amendment_id,$regNo)
-  { 
+  {
       // $this->db->select('amend_coop.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,amend_coop.type_of_cooperative');
      $this->db->select("`amend_coop.id`,
-        `amend_coop.cooperative_id`, 
-        `amend_coop.regNo`, 
-        `amend_coop.amendmentNo`, 
-        `amend_coop.users_id`, 
-        `amend_coop.category_of_cooperative`, 
-        `amend_coop.type_of_cooperative`, 
+        `amend_coop.cooperative_id`,
+        `amend_coop.regNo`,
+        `amend_coop.amendmentNo`,
+        `amend_coop.users_id`,
+        `amend_coop.category_of_cooperative`,
+        `amend_coop.type_of_cooperative`,
         `amend_coop.cooperative_type_id`,
         `amend_coop.grouping`,
-        `amend_coop.proposed_name`, 
-        `amend_coop.acronym`, 
+        `amend_coop.proposed_name`,
+        `amend_coop.acronym`,
         `amend_coop.common_bond_of_membership`,
-        `amend_coop.comp_of_membership`, 
+        `amend_coop.comp_of_membership`,
         `amend_coop.field_of_membership`,
         `amend_coop.name_of_ins_assoc`,
         `amend_coop.capital_contribution`,
-        `amend_coop.area_of_operation`, 
+        `amend_coop.area_of_operation`,
         `amend_coop.refbrgy_brgyCode`,
-        `amend_coop.interregional`, 
+        `amend_coop.interregional`,
         `amend_coop.regions`,
-        `amend_coop.street`, 
-        `amend_coop.house_blk_no`, 
-        `amend_coop.status`, 
+        `amend_coop.street`,
+        `amend_coop.house_blk_no`,
+        `amend_coop.status`,
         `amend_coop.in_change_region`,
-        `amend_coop.previous_region`, 
+        `amend_coop.previous_region`,
         `amend_coop.expire_at`,
         `amend_coop.ho`,
         `amend_coop.migrated`,
@@ -833,7 +842,7 @@ class amendment_model extends CI_Model{
       }
     }
     return $data;
-  }  
+  }
   public function get_cooperative_info_by_admin_payment($amendment_id){
     $this->db->select('amend_coop.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,amend_coop.type_of_cooperative, payment.date_of_or as dateRegistered');
     $this->db->from('amend_coop');
@@ -865,7 +874,7 @@ class amendment_model extends CI_Model{
 
   public function if_had_amendment($regNo,$amendment_id)
   {
-    $qry = $this->db->query("select amend_coop.regNo,amend_coop.amendmentNo,reg.amendment_no  from amend_coop 
+    $qry = $this->db->query("select amend_coop.regNo,amend_coop.amendmentNo,reg.amendment_no  from amend_coop
 left join registeredamendment as reg ON reg.regNo = amend_coop.regNo
 where amend_coop.regNo ='$regNo' and amend_coop.status IN(15,41) and amend_coop.id <> '$amendment_id'  order by amend_coop.id desc limit 1");
     if($qry->num_rows()>0)
@@ -884,7 +893,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN(15,41) and amend_coop.
     {
       return false;
     }
-    $qry = $this->db->query("select amend_coop.regNo,amend_coop.amendmentNo,reg.amendment_no  from amend_coop 
+    $qry = $this->db->query("select amend_coop.regNo,amend_coop.amendmentNo,reg.amendment_no  from amend_coop
 left join registeredamendment as reg ON reg.regNo = amend_coop.regNo
 where amend_coop.regNo ='$regNo' and amend_coop.status IN(15,41) and amend_coop.id <> '$amendment_id'  order by amend_coop.id desc limit 1");
     if($qry->num_rows()>0)
@@ -899,7 +908,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN(15,41) and amend_coop.
 
    public function if_had_amendment_new($regNo)
   {
-      $qry = $this->db->query("select amend_coop.regNo,amend_coop.amendmentNo,reg.amendment_no  from amend_coop 
+      $qry = $this->db->query("select amend_coop.regNo,amend_coop.amendmentNo,reg.amendment_no  from amend_coop
 left join registeredamendment as reg ON reg.regNo = amend_coop.regNo
 where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend_coop.id desc limit 1");
     if($qry->num_rows()>0)
@@ -914,7 +923,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
 
   public function if_had_amendment_for_cor($regNo,$current_amendment_id)
   {
-//     $qry = $this->db->query("select amend_coop.regNo,amend_coop.amendmentNo,reg.amendment_no  from amend_coop 
+//     $qry = $this->db->query("select amend_coop.regNo,amend_coop.amendmentNo,reg.amendment_no  from amend_coop
 // left join registeredamendment as reg ON reg.regNo = amend_coop.regNo
 // where amend_coop.regNo ='$regNo' and amend_coop.id !='$current_amendment_id' and amend_coop.status =15 order by amend_coop.id desc limit 1");
     $qry = $this->db->query("select * from registeredamendment where regNo ='$regNo' and amendment_id <> '$current_amendment_id' order by id desc ");
@@ -948,7 +957,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
          return  $this->add_amendment($data,$major_industry,$subtypes_array,$members_composition,$type_of_coop_id_array,$data_bylaws);
         break;
     }
-  
+
   }
 
   public function add_amendment($data_amendment,$major_industry,$subtypes_array,$members_composition,$type_of_coop_id_array,$data_bylaws)
@@ -964,7 +973,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
 
     $this->db->trans_begin();
     $this->db->insert('amend_coop',$data_amendment);
-    $id = $this->last_insert_id($data_amendment['users_id'])->id;//last inserted amendment id 
+    $id = $this->last_insert_id($data_amendment['users_id'])->id;//last inserted amendment id
 
 
     if($major_industry!='' || $major_industry!=null)
@@ -988,8 +997,8 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
 
 
     //capitalization
-     $qry_capitalization = $this->db->get_where('amendment_capitalization',array('amendment_id'=>$last_amendment_dtl->id)); 
-  
+     $qry_capitalization = $this->db->get_where('amendment_capitalization',array('amendment_id'=>$last_amendment_dtl->id));
+
     if($qry_capitalization->num_rows()>0)
     {
       foreach($qry_capitalization->result_array() as $cap_rows)
@@ -1000,8 +1009,8 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       }
       unset($cap_rows);
         $this->db->insert('amendment_capitalization',$data_capitalization);
-    } 
-  
+    }
+
     //end capitalization
 
 
@@ -1026,28 +1035,28 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       unset($coop_rows);
        $this->db->insert_batch('amendment_cooperators',$data_cooperators);
     }
- 
 
 
-    //committees 
-    $query_comittees=$this->db->query("select * from amendment_committees where amendment_id='$last_amendment_dtl->id'"); 
+
+    //committees
+    $query_comittees=$this->db->query("select * from amendment_committees where amendment_id='$last_amendment_dtl->id'");
      if($query_comittees->num_rows()>0)
-      { 
+      {
         foreach($query_comittees->result_array() as $row_committees)
-        { 
+        {
           $row_committees['amendment_id']=$id;
           unset($row_committees['id']);
           $row_committees['user_id'] = $this->session->userdata('user_id');;
           $data_committees[] = $row_committees;
-        } 
+        }
           $this->db->insert_batch('amendment_committees',$data_committees);
         unset($row_committees);
-      }   
+      }
 
       //affiliators
       if($data_amendment['grouping'] =='Federation')
       {
-        $qry_affiliates = $this->db->get_where('amendment_affiliators',array('amendment_fed_id'=>$last_amendment_dtl->id)); 
+        $qry_affiliates = $this->db->get_where('amendment_affiliators',array('amendment_fed_id'=>$last_amendment_dtl->id));
         if($qry_affiliates->num_rows()>0)
         {
           foreach($qry_affiliates->result_array() as $afrow)
@@ -1098,7 +1107,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       $this->db->insert('amendment_articles_of_cooperation',$data_articles_cooperation);
     }
 
-   
+
 
     $compo = explode(',',$members_composition);
     $this->db->select('id');
@@ -1122,14 +1131,14 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     unset($batch_composition);
     }
 
-    
-      $type_coop = explode(',',$data_amendment['type_of_cooperative']); 
+
+      $type_coop = explode(',',$data_amendment['type_of_cooperative']);
       // return  var_dump(explode(',',$last_amendment_dtl->type_of_cooperative));
       // return var_dump($type_coop);
 
        foreach($type_coop as $key => $rowcoop_type)
        {
-       
+
         if(in_array($rowcoop_type,explode(',',$last_amendment_dtl->type_of_cooperative)))
         {
           $query_purposes = $this->db->query("SELECT cooperative_type,content FROM amendment_purposes WHERE amendment_id='$last_amendment_dtl->id' AND cooperative_type='$rowcoop_type'");
@@ -1153,18 +1162,18 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
             'amendment_id' => $id,
             'cooperative_type'=>$rowcoop_type,
             'content'  => $this->get_purpose_content($rowcoop_type,$data_amendment['grouping'])
-             );  
+             );
                $this->db->insert_batch('amendment_purposes',$temp_purpose);
-        }  
-   
+        }
+
        }
        unset($rowcoop_type);
-    
+
       // }
-       
+
      //end of purposes
-     
- 
+
+
       //amendment_bylaws
     $bylaws_coop_info = $this->amendment_by_laws($last_amendment_dtl->id,$id);
     $bylaws_amendment = array_filter($bylaws_coop_info);
@@ -1175,7 +1184,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     $this->db->insert('amendment_bylaws',$bylaws_amendment);
     //amendmnet_bylaws
     $this->db->update('amendment_bylaws',$data_bylaws,array('amendment_id'=>$id));
-  
+
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -1186,7 +1195,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
 
   }
 
- 
+
    function get_addrCode_coop($amendment_fed_id,$cooperative_id)
   {
     $arr_query =[];
@@ -1199,7 +1208,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
       $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
       $this->db->where("cooperatives.id='$coop_id_affiliators'");
-     
+
       $query = $this->db->get();
 
       if($query->num_rows()>0)
@@ -1207,24 +1216,24 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
         $row=[];
         foreach($query->result_array() as $k => $row)
         {
-       
+
           unset($row['id']);
           $row['addrCode'] = $row['refbrgy_brgyCode'];
           unset($row['refbrgy_brgyCode']);
            $this->db->update('amendment_affiliators',$row,array('amendment_fed_id'=>$amendment_fed_id,'cooperative_id'=>$coop_id_affiliators));
-         
+
         }
-        
-       
+
+
       }
-     
+
     }
     unset($row);
     unset($coop_id_affiliators);
     unset($cooperative_id);
     unset($amendment_fed_id);
- 
-   
+
+
   }
 
   public function add_new_amendment($data,$major_industry,$subtypes_array,$members_composition,$type_of_coop_id_array,$data_bylaws)
@@ -1241,11 +1250,11 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
         return $this->add_cooperative($data,$major_industry,$subtypes_array,$members_composition,$type_of_coop_id_array,$data_bylaws);
         break;
     }
-  
+
   }
   public function add_cooperative($data,$major_industry,$subtypes_array,$members_composition,$type_of_coop_id_array,$data_bylaws){
     $data = $this->security->xss_clean($data);
-  
+
     $major_industry = $this->security->xss_clean($major_industry);
     $subtypes_array = $this->security->xss_clean($subtypes_array);
     $members_composition = $this->security->xss_clean($members_composition);
@@ -1265,7 +1274,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     $this->db->insert('amend_coop',$data);
     $id = $this->db->insert_id();
 
-      $major_data= array_combine($major_industry,$subtypes_array); 
+      $major_data= array_combine($major_industry,$subtypes_array);
       foreach($major_data as $major => $subclasses)
       {
         $qrys = $this->db->query("select id,cooperative_type_id from industry_subclass_by_coop_type where major_industry_id='$major' and subclass_id='$subclasses'");
@@ -1297,9 +1306,9 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
           $this->db->insert('amendment_capitalization',$data_capitalization);
           unset($data_capitalization);
         }
-      
-        
-      
+
+
+
          //amendment cooperator
         $qry_cooperator = $this->db->get_where('cooperators',array('cooperatives_id'=>$cooperative_ID));
         if($qry_cooperator->num_rows()>0)
@@ -1316,25 +1325,25 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
           unset($qry_cooperator);
           $this->db->insert_batch('amendment_cooperators',$data_cooperators);
           unset($data_cooperators);
-        } 
+        }
 
-    $query_comittees=$this->db->get_where("committees",$committee_where); 
+    $query_comittees=$this->db->get_where("committees",$committee_where);
      if($query_comittees->num_rows()>0)
-      { 
+      {
         foreach($query_comittees->result_array() as $row_committees)
-        { 
+        {
           $row_committees['amendment_id']=$id;
           unset($row_committees['id']);
           unset($row_committees['committees_year']);
           unset($row_committees['cooperators_id']);
           // $row_committees['user_id'] = $this->session->userdata('user_id');
           $data_committees[] = $row_committees;
-        } 
+        }
           $this->db->insert_batch('amendment_committees',$data_committees);
         unset($row_committees);
-      }   
-    
-    //end committees 
+      }
+
+    //end committees
 
 
 
@@ -1373,7 +1382,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       unset($composition);
     $this->db->insert_batch('amendment_members_composition_of_cooperative', $batch_composition);
     }
-   
+
     //amendment purposes
        $qry_purposes = $this->db->get_where('cooperatives',array('id'=>$cooperative_ID));
         if($qry_purposes->num_rows()>0)
@@ -1381,7 +1390,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
          foreach($qry_purposes->result_array() as $row)
          {
           $coop_types = $row['type_of_cooperative'];
-         } 
+         }
          unset($row);
         }
 
@@ -1415,12 +1424,12 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
           'cooperative_type'=>$rowcoop_type,
           'content'  => $this->get_purpose_content($rowcoop_type,$data['grouping'])
            );
-        }  
+        }
       }
       unset($rowcoop_type);
       $this->db->insert_batch('amendment_purposes',$temp_purpose);
      unset($temp_purpose);
-   
+
 
     $bylaws_coop_info = $this->cooperative_by_laws($cooperative_ID,$id);
     unset($bylaws_coop_info['annual_regular_meeting_day_date']);
@@ -1467,21 +1476,21 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     }
 
 
-    $query_comittees=$this->db->get_where("committees_union",['user_id'=>$this->session->userdata('user_id')]); 
+    $query_comittees=$this->db->get_where("committees_union",['user_id'=>$this->session->userdata('user_id')]);
      if($query_comittees->num_rows()>0)
-      { 
+      {
         foreach($query_comittees->result_array() as $row_committees)
-        { 
+        {
           $row_committees['amendment_id']=$id;
           unset($row_committees['id']);
           unset($row_committees['cooperators_id']);
           // $row_committees['user_id'] = $this->session->userdata('user_id');
           $data_committees[] = $row_committees;
-        } 
+        }
           $this->db->insert_batch('amendment_committees',$data_committees);
         unset($row_committees);
-      }   
-    //end committees 
+      }
+    //end committees
 
 
 
@@ -1521,7 +1530,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       unset($composition);
     $this->db->insert_batch('amendment_members_composition_of_cooperative', $batch_composition);
     }
-   
+
     //amendment purposes
        $qry_purposes = $this->db->get_where('cooperatives',array('id'=>$data['cooperative_id']));
         if($qry_purposes->num_rows()>0)
@@ -1529,7 +1538,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
          foreach($qry_purposes->result_array() as $row)
          {
           $coop_types = $row['type_of_cooperative'];
-         } 
+         }
          unset($row);
         }
 
@@ -1563,12 +1572,12 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
           'cooperative_type'=>$rowcoop_type,
           'content'  => $this->get_purpose_content($rowcoop_type,$data['grouping'])
            );
-        }  
+        }
       }
       unset($rowcoop_type);
       $this->db->insert_batch('amendment_purposes',$temp_purpose);
      unset($temp_purpose);
-   
+
 
     $bylaws_coop_info = $this->cooperative_by_laws($data['cooperative_id'],$id);
     unset($bylaws_coop_info['annual_regular_meeting_day_date']);
@@ -1580,7 +1589,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     unset($id);
     unset($bylaws_coop_info);
     unset($bylaws_amendment);
-   
+
 
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
@@ -1616,21 +1625,21 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     }
 
 
-     //committees 
-    $query_comittees=$this->db->query("select * from amendment_committees where amendment_id='$last_amendment_dtl->id'"); 
+     //committees
+    $query_comittees=$this->db->query("select * from amendment_committees where amendment_id='$last_amendment_dtl->id'");
      if($query_comittees->num_rows()>0)
-      { 
+      {
         foreach($query_comittees->result_array() as $row_committees)
-        { 
+        {
           $row_committees['amendment_id']=$id;
           unset($row_committees['id']);
           $row_committees['user_id'] = $this->session->userdata('user_id');;
           $data_committees[] = $row_committees;
-        } 
+        }
           $this->db->insert_batch('amendment_committees',$data_committees);
         unset($row_committees);
-      }   
-    //end committees 
+      }
+    //end committees
 
 
     //articles of cooperation
@@ -1670,7 +1679,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     // return  $batch_composition;
     $this->db->insert_batch('amendment_members_composition_of_cooperative', $batch_composition);
     }
-   
+
    //amendment purposes
       // if(strcasecmp($data['type_of_cooperative'], $last_amendment_dtl->type_of_cooperative)==0)
       // {
@@ -1686,9 +1695,9 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       //        );
       //         $this->db->insert('amendment_purposes',$data_p);
       //     }
-         
-        
-        
+
+
+
       // }
       // else
       // {
@@ -1697,18 +1706,18 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       //  // $original_type_coop = explode(',',$last_amendment_dtl->type_of_cooperative);
       //  foreach($type_coop as $key => $rowcoop_type)
       //  {
-      
+
       //    $temp_purpose[] = array(
       //   'cooperatives_id' => $cooperative_ID,
       //   'amendment_id' => $id,
       //   'cooperative_type'=>$rowcoop_type,
       //   'content'  => $this->get_purpose_content($rowcoop_type,$data_amendment['grouping'])
       //    );
-          
+
       //  }
       // $this->db->insert_batch('amendment_purposes',$temp_purpose);
       // }
-        $type_coop = explode(',',$data['type_of_cooperative']); 
+        $type_coop = explode(',',$data['type_of_cooperative']);
        foreach($type_coop as $key => $rowcoop_type)
        {
         if($last_amendment_dtl->type_of_cooperative == $rowcoop_type)
@@ -1734,14 +1743,14 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
             'amendment_id' => $id,
             'cooperative_type'=>$rowcoop_type,
             'content'  => $this->get_purpose_content($rowcoop_type,$data['grouping'])
-             );  
-        }  
-   
+             );
+        }
+
        }
        unset($rowcoop_type);
       $this->db->insert_batch('amendment_purposes',$temp_purpose);
      //end of purposes
-     
+
     //amendment_bylaws
     $bylaws_coop_info = $this->amendment_by_laws($last_amendment_dtl->id,$id);
     $bylaws_amendment = array_filter($bylaws_coop_info);
@@ -1752,9 +1761,9 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     $this->db->insert('amendment_bylaws',$bylaws_amendment);
     //amendmnet_bylaws
 
-    
+
     $this->db->update('amendment_bylaws',$data_bylaws,array('amendment_id'=>$id));
-   
+
 
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
@@ -1783,7 +1792,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     $this->db->insert('amend_coop',$data);
     $id = $this->db->insert_id();
 
-      $major_data= array_combine($major_industry,$subtypes_array); 
+      $major_data= array_combine($major_industry,$subtypes_array);
       foreach($major_data as $major => $subclasses)
       {
         $qrys = $this->db->query("select id,cooperative_type_id from industry_subclass_by_coop_type where major_industry_id='$major' and subclass_id='$subclasses'");
@@ -1816,7 +1825,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
         }
 
         // $committee_where  =['user_id'=> $this->session->userdata('user_id')];
-        $qry_affiliates = $this->db->get_where('affiliators',array('user_id'=>$data['users_id'])); 
+        $qry_affiliates = $this->db->get_where('affiliators',array('user_id'=>$data['users_id']));
         if($qry_affiliates->num_rows()>0)
         {
           $application_id_arr = [];
@@ -1834,29 +1843,29 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
             $data_affiliators[] = $afrow;
           }
           unset($afrow);
-          $this->db->insert_batch('amendment_affiliators',$data_affiliators); 
+          $this->db->insert_batch('amendment_affiliators',$data_affiliators);
           $this->get_addrCode_coop($id, $application_id_arr);//update address of affiliators
           unset($application_id_arr);
           unset($data_affiliators);
         }
-      
 
 
-    $query_comittees=$this->db->get_where("committees_federation",['user_id'=>$this->session->userdata('user_id')]); 
+
+    $query_comittees=$this->db->get_where("committees_federation",['user_id'=>$this->session->userdata('user_id')]);
      if($query_comittees->num_rows()>0)
-      { 
+      {
         foreach($query_comittees->result_array() as $row_committees)
-        { 
+        {
           $row_committees['amendment_id']=$id;
           unset($row_committees['id']);
           unset($row_committees['cooperators_id']);
           // $row_committees['user_id'] = $this->session->userdata('user_id');
           $data_committees[] = $row_committees;
-        } 
+        }
           $this->db->insert_batch('amendment_committees',$data_committees);
         unset($row_committees);
-      }   
-    //end committees 
+      }
+    //end committees
 
 
 
@@ -1896,7 +1905,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       unset($composition);
     $this->db->insert_batch('amendment_members_composition_of_cooperative', $batch_composition);
     }
-   
+
     //amendment purposes
        $qry_purposes = $this->db->get_where('cooperatives',array('id'=>$data['cooperative_id']));
         if($qry_purposes->num_rows()>0)
@@ -1904,7 +1913,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
          foreach($qry_purposes->result_array() as $row)
          {
           $coop_types = $row['type_of_cooperative'];
-         } 
+         }
          unset($row);
         }
 
@@ -1938,12 +1947,12 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
           'cooperative_type'=>$rowcoop_type,
           'content'  => $this->get_purpose_content($rowcoop_type,$data['grouping'])
            );
-        }  
+        }
       }
       unset($rowcoop_type);
       $this->db->insert_batch('amendment_purposes',$temp_purpose);
      unset($temp_purpose);
-   
+
 
     $bylaws_coop_info = $this->cooperative_by_laws($data['cooperative_id'],$id);
     unset($bylaws_coop_info['annual_regular_meeting_day_date']);
@@ -1955,7 +1964,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     unset($id);
     unset($bylaws_coop_info);
     unset($bylaws_amendment);
-   
+
 
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
@@ -1985,7 +1994,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     $this->db->insert('amend_coop',$data);
     $id = $this->db->insert_id();
 
-      $major_data= array_combine($major_industry,$subtypes_array); 
+      $major_data= array_combine($major_industry,$subtypes_array);
       foreach($major_data as $major => $subclasses)
       {
         $qrys = $this->db->query("select id,cooperative_type_id from industry_subclass_by_coop_type where major_industry_id='$major' and subclass_id='$subclasses'");
@@ -2004,8 +2013,8 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
 
 
       //capitalization
-     $qry_capitalization = $this->db->get_where('amendment_capitalization',array('amendment_id'=>$last_amendment_dtl->id)); 
-  
+     $qry_capitalization = $this->db->get_where('amendment_capitalization',array('amendment_id'=>$last_amendment_dtl->id));
+
     if($qry_capitalization->num_rows()>0)
     {
       foreach($qry_capitalization->result_array() as $cap_rows)
@@ -2016,30 +2025,30 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       }
       unset($cap_rows);
         $this->db->insert('amendment_capitalization',$data_capitalization);
-    } 
-  
+    }
+
     //end capitalization
 
- 
-    //committees 
-    $query_comittees=$this->db->query("select * from amendment_committees where amendment_id='$last_amendment_dtl->id'"); 
+
+    //committees
+    $query_comittees=$this->db->query("select * from amendment_committees where amendment_id='$last_amendment_dtl->id'");
      if($query_comittees->num_rows()>0)
-      { 
+      {
         foreach($query_comittees->result_array() as $row_committees)
-        { 
+        {
           $row_committees['amendment_id']=$id;
           unset($row_committees['id']);
           $row_committees['user_id'] = $this->session->userdata('user_id');;
           $data_committees[] = $row_committees;
-        } 
+        }
           $this->db->insert_batch('amendment_committees',$data_committees);
         unset($row_committees);
-      }   
+      }
 
       //affiliators
       if($data['grouping'] =='Federation')
       {
-        $qry_affiliates = $this->db->get_where('amendment_affiliators',array('amendment_fed_id'=>$last_amendment_dtl->id)); 
+        $qry_affiliates = $this->db->get_where('amendment_affiliators',array('amendment_fed_id'=>$last_amendment_dtl->id));
         if($qry_affiliates->num_rows()>0)
         {
           foreach($qry_affiliates->result_array() as $afrow)
@@ -2095,7 +2104,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       unset($composition);
     $this->db->insert_batch('amendment_members_composition_of_cooperative', $batch_composition);
     }
-   
+
 
        //amendment purposes
       // if(strcasecmp($data['type_of_cooperative'], $last_amendment_dtl->type_of_cooperative)==0)
@@ -2114,7 +2123,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       //         unset($data_p);
       //         unset($p);
       //     }
-         
+
       // }
       // else
       // {
@@ -2123,21 +2132,21 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       //  // $original_type_coop = explode(',',$last_amendment_dtl->type_of_cooperative);
       //  foreach($type_coop as $key => $rowcoop_type)
       //  {
-      
+
       //    $temp_purpose[] = array(
       //   'cooperatives_id' => $data['cooperative_id'],
       //   'amendment_id' => $id,
       //   'cooperative_type'=>$rowcoop_type,
       //   'content'  => $this->get_purpose_content($rowcoop_type,$data['grouping'])
       //    );
-         
+
       //  }
       // $this->db->insert_batch('amendment_purposes',$temp_purpose);
       // unset($rowcoop_type);
       // unset($temp_purpose);
 
       // }
-       $type_coop = explode(',',$data['type_of_cooperative']); 
+       $type_coop = explode(',',$data['type_of_cooperative']);
        foreach($type_coop as $key => $rowcoop_type)
        {
         if($last_amendment_dtl->type_of_cooperative == $rowcoop_type)
@@ -2163,14 +2172,14 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
             'amendment_id' => $id,
             'cooperative_type'=>$rowcoop_type,
             'content'  => $this->get_purpose_content($rowcoop_type,$data['grouping'])
-             );  
-        }  
-   
+             );
+        }
+
        }
        unset($rowcoop_type);
       $this->db->insert_batch('amendment_purposes',$temp_purpose);
      //end of purposes
-   
+
 
     $bylaws_coop_info = $this->amendment_by_laws($last_amendment_dtl->id,$id);
     $bylaws_amendment = array_filter($bylaws_coop_info);
@@ -2193,7 +2202,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     }
   } //union
 
-  
+
   public function get_amendment_cooperators_id($orig_cooperator_id)
   {
     $qry = $this->db->query("select id from amendment_cooperators where orig_cooperator_id='$orig_cooperator_id' order by id desc limit 1");
@@ -2207,7 +2216,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     }
   }
 
-  //amend bylaws 
+  //amend bylaws
   public function amendment_by_laws($last_amendment_id,$amendment_id)
   {
     $qry= $this->db->get_where("amendment_bylaws",array('amendment_id'=>$last_amendment_id));
@@ -2267,14 +2276,14 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
     $amendment_info = $this->get_cooperative_info23($coop_id,$amendment_id);
 
     if($major_industry!=NULL && $subclass_array !=NULL)
-     { 
+     {
        $query_type = $this->db->query("select * from industry_subclass_by_coop_type where cooperative_type_id IN({$param1}) AND major_industry_id IN($major_industry) AND subclass_id IN($subclass_array)");
         // return $this->db->last_query();
        if($query_type->num_rows()>0){
          $this->db->delete('business_activities_cooperative_amendment',array('amendment_id'=>$amendment_id));
         foreach($query_type->result_array() as $row)
         {
-        
+
           $row['cooperatives_id'] =$data['cooperative_id'];
           $row['amendment_id'] = $amendment_id;
           $row['industry_subclass_by_coop_type_id'] = $row['id'];
@@ -2284,10 +2293,10 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
         unset($row);
        }
     }
-      
+
     $this->db->update('amend_coop',$data,array('users_id'=>$user_id,'id'=>$amendment_id));
 
-  
+
    //if Common bond of memebship is occupation
     if($data['common_bond_of_membership'] == 'Occupational')
     {
@@ -2310,7 +2319,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       //delete if not occupational
       $this->db->delete('amendment_members_composition_of_cooperative',array('amendment_id'=>$amendment_id));
     }
- 
+
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
       return false;
@@ -2386,7 +2395,7 @@ public function delete_cooperative($amendment_id){
   $this->db->delete('amendment_unioncoop',array('amd_union_id'=>$amendment_id)); //modified by json
   $this->db->delete('amendment_bylaws',array('amendment_id'=>$amendment_id)); //modified by json
   $this->db->delete('amendment_capitalization',array('amendment_id'=>$amendment_id)); //modified by json
-  $this->db->delete('amendment_articles_of_cooperation',array('amendment_id'=>$amendment_id)); 
+  $this->db->delete('amendment_articles_of_cooperation',array('amendment_id'=>$amendment_id));
   $this->db->delete('amendment_economic_survey',array('amendment_id'=>$amendment_id)); //modified by json
   $this->db->delete('amendment_staff',array('amendment_id'=>$amendment_id)); //modified by json
   $this->db->delete('business_activities_cooperative_amendment',array('amendment_id'=>$amendment_id));
@@ -2420,19 +2429,19 @@ public function submit_for_evaluation($user_id,$amendment_id,$region_code){
     {
       $previous_regions_array = array($previous_coop_info->rCode);
     }
- 
- 
+
+
   $this->db->trans_begin();
    //not in change region
    if(in_array($region_code,$previous_regions_array))
-  { 
-      $senior_info =$this->senior_info($region_code); 
+  {
+      $senior_info =$this->senior_info($region_code);
       $this->db->where(array('users_id'=>$user_id,'id'=>$amendment_id));
       $this->db->update('amend_coop',array('status'=>2,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(30*24*60*60)))));
   }
-  else 
+  else
   { //in change region
-    $senior_info =$this->senior_info($previous_coop_info->rCode); 
+    $senior_info =$this->senior_info($previous_coop_info->rCode);
     $previous_region = $previous_coop_info->rCode;
     $this->db->where(array('users_id'=>$user_id,'id'=>$amendment_id));
     $this->db->update('amend_coop',array('status'=>2,'in_change_region'=>1,'previous_region'=>$previous_region,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(30*24*60*60)))));
@@ -2450,9 +2459,9 @@ public function submit_for_evaluation($user_id,$amendment_id,$region_code){
         $this->email->clear(true);
         $process++;
           $senior_email =  $row['email'];
-          
+
            if($this->email_model->sendEmailfirstSubmissionAmendment($client_info,$senior_email,$amendment_info)){
-          
+
            $success++;
            // return true;
           }
@@ -2523,11 +2532,11 @@ public function submit_for_reevaluation($user_id,$amendment_id,$region_code){
    //not in change region
    if(in_array($region_code,$previous_regions_array))
   {
-     $senior_info =$this->senior_info($region_code); 
+     $senior_info =$this->senior_info($region_code);
   }
   else
   { //in change region
-    $senior_info =$this->senior_info($previous_coop_info->rCode); 
+    $senior_info =$this->senior_info($previous_coop_info->rCode);
   }
 
   $this->db->where(array('users_id'=>$user_id,'id'=> $amendment_id));
@@ -2550,7 +2559,7 @@ public function submit_for_reevaluation($user_id,$amendment_id,$region_code){
              $this->db->trans_rollback();
              return false;
             }
-      } unset($row);  
+      } unset($row);
        if($process == $success && $this->email_model->sendEmailtoClientResubmission($client_info))
         {
           return true;
@@ -2558,7 +2567,7 @@ public function submit_for_reevaluation($user_id,$amendment_id,$region_code){
         else
         {
           return false;
-        } 
+        }
 
   }
 }
@@ -2581,7 +2590,7 @@ public function assign_to_specialist($amendment_id,$specialist_id){
   unset($client_qry);
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
-       return false; 
+       return false;
   }else{
 
      if($this->email_model->sendEmailToSpecialistAmendment($admin_info,$client_info,$amendment_info)){
@@ -2590,17 +2599,17 @@ public function assign_to_specialist($amendment_id,$specialist_id){
        return true;
      }else{
        $this->db->trans_rollback();
-       return false;  
+       return false;
      }
   }
-} 
+}
 public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$coop_type,$specialist_info){
   $amentmentID =  $this->security->xss_clean($coop_id);
   $temp = $this->get_cooperative_info_by_admin($coop_id);
                 $ho =0;
                $amendment_id_ho = array();
                $amendment_id  = array();
-             
+
                  $types_coop = explode(',',$coop_type);
                  $ho_arr = $this->get_ho_list();
                  $result = count(array_intersect($types_coop, $ho_arr)) ? true : false;
@@ -2610,7 +2619,7 @@ public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$coop
                  }
                  // else
                  // { //no ho coop
-                    
+
                  // }
   $cooperative_id = $this->coop_dtl($amentmentID);
   $amendment_info =$this->get_cooperative_info23($cooperative_id,$amentmentID);
@@ -2636,8 +2645,8 @@ public function approve_by_specialist($admin_info,$coop_id,$coop_full_name,$coop
    //   $this->db->trans_rollback();
    //   return false;
    // }
-      
-  
+
+
 }
 
 public function get_specific_admin_info($admin_id)
@@ -2661,13 +2670,13 @@ public function approve_by_senior($admin_info,$coop_id,$coop_full_name,$data_com
   {
     $already_deffered = true;
   }
- 
- 
+
+
   $this->db->trans_begin();
   $this->db->where('id',$coop_id);
   $this->db->update('amend_coop',array('status'=>9,'second_evaluated_by'=>$admin_info->id,'evaluation_comment'=>NULL));
-  
-  $cooperative_id = $this->coop_dtl($amentmentID);    
+
+  $cooperative_id = $this->coop_dtl($amentmentID);
   $amendment_info =$this->get_cooperative_info23($cooperative_id,$amentmentID);
   $client_qry = $this->db->get_where('users',array('id'=>$amendment_info->users_id));
   $client_info = $client_qry->row();
@@ -2678,18 +2687,18 @@ public function approve_by_senior($admin_info,$coop_id,$coop_full_name,$data_com
   {
     $director_email = $director['email'];
   }
- 
+
   //if comment is not empty
   if(strlen($data_comment['comment'])>0)
   {
     $this->db->insert('amendment_comment',$data_comment); //insert comment
   }
-  
+
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
   }else{
-    
+
 
    if($this->email_model->sendEmailToDirectorAmendment($admin_info,$client_info,$amendment_info,$director_email,$cds_fullname)){
      $this->db->trans_commit();
@@ -2789,7 +2798,7 @@ public function approve_by_director($admin_info,$coop_id,$comment){
   {
     $proposedName =$client_info->proposed_name.' '.$client_info->type_of_cooperative. ' Cooperative'.$acronym_;
   }
- 
+
   $regNo = $client_info->regNo;
   $this->db->trans_begin();
   // $this->db->insert('amendment_comment',$comment);
@@ -2804,8 +2813,8 @@ public function approve_by_director($admin_info,$coop_id,$comment){
     $this->db->trans_rollback();
     return false;
   }else{
-   
-   
+
+
    if($this->email_model->sendEmailToClientAmendmentApprove($proposedName,$client_info->email,$coop_id,$client_info->category_of_cooperative)){
      $this->db->trans_commit();
      return true;
@@ -2822,7 +2831,7 @@ public function approve_by_director($admin_info,$coop_id,$comment){
 }
 
 public function deny_by_admin($admin_id,$coop_id,$data_comment,$step,$admin_info){
-    $cooperative_id = $this->coop_dtl($coop_id);  
+    $cooperative_id = $this->coop_dtl($coop_id);
    $amendment_info =$this->get_cooperative_info23($cooperative_id,$coop_id);
     $this->db->insert('amendment_comment',$data_comment); //insert comment
   $this->db->trans_begin();
@@ -2831,7 +2840,7 @@ public function deny_by_admin($admin_id,$coop_id,$data_comment,$step,$admin_info
     $this->db->update('amend_coop',array('evaluated_by'=>$admin_id,'status'=>4,'updated_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60)))));
   else if($step==2)
     $this->db->update('amend_coop',array('second_evaluated_by'=>$admin_id,'status'=>7,'updated_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60)))));
-  else 
+  else
     $this->db->update('amend_coop',array('third_evaluated_by'=>$admin_id,'status'=>10,'updated_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60)))));
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
@@ -2862,22 +2871,22 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_c
   $amentmentID = $this->security->xss_clean($coop_id);
   $admin_info = $this->admin_model->get_admin_info($admin_id);
 
-  $cooperative_id = $this->coop_dtl($amentmentID);    
+  $cooperative_id = $this->coop_dtl($amentmentID);
   $amendment_info =$this->get_cooperative_info23($cooperative_id,$amentmentID);
   $this->db->trans_begin();
 
   if($step ==4)
-  { 
+  {
     $this->db->update('amend_coop',array('third_evaluated_by'=>$admin_id,'status'=>17,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60)))),array('id'=>$coop_id));
   }elseif ($step==3){
       $this->db->update('amend_coop',array('third_evaluated_by'=>$admin_id,'status'=>11,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60)))),array('id'=>$coop_id));
   }
-  
+
 
         $query3  = $this->db->get_where('regional_officials',array('region_code'=>$admin_info->region_code));
         if($query3->num_rows()>0)
         {
-          $reg_officials_info = $query3->row_array(); 
+          $reg_officials_info = $query3->row_array();
         }
         else
         {
@@ -2886,7 +2895,7 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_c
               'contact' => '00000000'
              );
         }
-    
+
         $this->db->insert('amendment_comment',$data_comment);
         $this->db->select('amend_coop.proposed_name, amend_coop.type_of_cooperative, amend_coop.grouping, users.*');
         $this->db->from('amend_coop');
@@ -2897,7 +2906,7 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_c
         if($step ==4)
         {
           $director_info = $this->admin_model->get_director_info($admin_info->region_code);
-         
+
           if($this->admin_model->sendEmailToDirectorRevertAmendment($amendment_info,$director_info))
            {
             $this->db->trans_commit();
@@ -2909,7 +2918,7 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_c
         }
         else
         {
-         
+
            if($this->admin_model->sendEmailToClientDeferAmendment($client_info,$data_comment,$amendment_info,$reg_officials_info)){
           $this->db->trans_commit();
           return true;
@@ -2918,12 +2927,12 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_c
             return false;
           }
         }
-       
+
   // if ($step==1)
   //   $this->db->update('amend_coop',array('evaluated_by'=>$admin_id,'status'=>5,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment));
   // else if($step==2)
   //   $this->db->update('amend_coop',array('second_evaluated_by'=>$admin_id,'status'=>8,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment));
-  // else 
+  // else
   //   $this->db->update('amend_coop',array('third_evaluated_by'=>$admin_id,'status'=>11,'expire_at'=>date('Y-m-d h:i:s',(now('Asia/Manila')+(15*24*60*60))),'evaluation_comment'=>$reason_commment));
   // if($this->db->trans_status() === FALSE){
   //   $this->db->trans_rollback();
@@ -2936,7 +2945,7 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_c
     //     if($query3->num_rows()>0)
     //     {
     //       $reg_officials_info = $query3->row_array();
-          
+
 
     //     }
     //     else
@@ -2946,7 +2955,7 @@ public function defer_by_admin($admin_id,$coop_id,$reason_commment,$step,$data_c
     //           'contact' => '00000000'
     //          );
     //     }
-    
+
     //     $this->db->insert('amendment_comment',$data_comment);
     //     $this->db->select('amend_coop.proposed_name, amend_coop.type_of_cooperative, amend_coop.grouping, users.*');
     //     $this->db->from('amend_coop');
@@ -3198,12 +3207,12 @@ public function check_last_evaluated_($amendment_id,$encrypted_id){
   $this->db->where(array('id'=>$amendment_id));
   $query = $this->db->get();
   $data = $query->row();
-  $coop_status = $data->status; 
-  unset($query); 
-  if($coop_status>=10 && ($coop_status !=17)){ 
+  $coop_status = $data->status;
+  unset($query);
+  if($coop_status>=10 && ($coop_status !=17)){
     $this->session->set_flashdata('redirect_applications_message', 'Cooperative already evaluated by a Director/Supervising CDS.');
       redirect('amendment/');
-  }else{ 
+  }else{
      return false;
   }
 }
@@ -3227,7 +3236,7 @@ public function check_if_denied_($amendment_id){
   $query = $this->db->get();
   $data = $query->row();
   unset($query);
-  $coop_status = $data->status; 
+  $coop_status = $data->status;
   if($coop_status==4 || $coop_status==7 || $coop_status==10){
    $this->session->set_flashdata('redirect_applications_message', 'The cooperative you trying to defer is already denied.');
     redirect('amendment');
@@ -3250,7 +3259,7 @@ public function check_if_denied_($amendment_id){
     $data = $query->result_array();
 
     //$query2 = $this->db->get_where('cooperative_type',array('id'=>$ajax['typeOfCooperative']));
-    
+
     foreach($data as $coop){
       $coop_name = strtolower(str_replace(' ', '', $coop['proposed_name']));
       if(strcasecmp($temp,$coop_name)==0 && $coop['type_id'] == $ajax['typeOfCooperative']){
@@ -3304,7 +3313,7 @@ public function check_if_denied_($amendment_id){
 
   public function  get_purpose_content($coop_type,$grouping){
   if($grouping =='Primary')
-  {  
+  {
     $data = array(
       'Advocacy'=> 'Promoting and advocating cooperativism among its members and the public through socially oriented projects, education and training, research and communication and other similar activities to reach out to its intended beneficiaries;'.
         'Promoting and advancing the economic and social status of the members;'.
@@ -3581,7 +3590,7 @@ public function check_if_denied_($amendment_id){
       {
         //no amendment yet get primary coop
         $data = $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
-        
+
       }
      return $data;
     }
@@ -3649,7 +3658,7 @@ public function check_if_denied_($amendment_id){
       }
       return $data;
     }
-  
+
     public function tool_findings($amendment_id)
     {
       $data=null;
@@ -3677,7 +3686,7 @@ public function check_if_denied_($amendment_id){
       }
       return $data;
     }
-      
+
      public function admin_comment_value($amendment_id,$access_level)
     {
       $query = $this->db->get_where('amendment_comment',array('amendment_id'=>$amendment_id,'access_level'=>$access_level));
@@ -3861,7 +3870,7 @@ public function check_if_denied_($amendment_id){
     {
         foreach($query->result_array() as $row)
         {
-          $data[] = $row['name']; 
+          $data[] = $row['name'];
         }
     }
     else
@@ -3870,7 +3879,7 @@ public function check_if_denied_($amendment_id){
     }
     return $data;
   }
-  
+
   public function get_common_bond($amendment_info)
   {
     $cooperative_id = $this->coop_dtl($amendment_info->id);
@@ -3884,7 +3893,7 @@ public function check_if_denied_($amendment_id){
       $previous_coop_info= $this->cooperatives_model->get_cooperative_info_by_admin($cooperative_id);
        $members_composition_previous = $this->cooperatives_model->get_coop_composition($amendment_info->id);
     }
-    
+
     // return $previous_coop_info;
     $openTag ='';
     $closeTag ='';
@@ -3895,39 +3904,39 @@ public function check_if_denied_($amendment_id){
     }
     $data = '';
     $members_composition = $this->amendment_model->get_coop_composition($amendment_info->id);
-   
+
     if($amendment_info->common_bond_of_membership == 'Associational')
     {
       $name_ins_assoc = explode(',',$amendment_info->name_of_ins_assoc);
-          $data .= $amendment_info->field_of_membership; 
+          $data .= $amendment_info->field_of_membership;
           $data .= ' of ';
           $count= count($name_ins_assoc) -1;
           foreach($name_ins_assoc as $key => $ins_assoc)
           {
-           
+
              $data .= $ins_assoc;
              if($key<$count)
              {
               $data .= ', ';
              }
-          } 
+          }
            return $openTag.$data.$closeTag;
     }
     else if($amendment_info->common_bond_of_membership == 'Institutional')
     {
       $name_ins_assoc = explode(',',$amendment_info->name_of_ins_assoc);
-          $data .= $amendment_info->field_of_membership; 
+          $data .= $amendment_info->field_of_membership;
           $data .= ' of ';
           $count= count($name_ins_assoc) -1;
           foreach($name_ins_assoc as $key => $ins_assoc)
           {
-           
+
              $data .= $ins_assoc;
              if($key<$count)
              {
               $data .= ', ';
              }
-          } 
+          }
            return $openTag.$data.$closeTag;
     }
     else if ($amendment_info->common_bond_of_membership == 'Occupational')
@@ -3939,35 +3948,35 @@ public function check_if_denied_($amendment_id){
           array_push($orig_compo,$compo_previous['composition']);
         }
         // return $orig_compo;
-          if(is_array($members_composition)) 
+          if(is_array($members_composition))
           {
               foreach($members_composition as $keys => $compo)
-            { 
+            {
               if(in_array($compo['composition'],$orig_compo))
               {
-                // $compo['composition']; 
+                // $compo['composition'];
               }
               else
               {
                  $compo['composition'] =   '<b>'.$compo['composition'].'</b>';
               }
-                $data .= $compo['composition']; 
+                $data .= $compo['composition'];
                 if($keys<$counts)
                 {
                   $data .= ', ';
                 }
             }
-          } 
-          return $data; 
+          }
+          return $data;
     }
    else
    {
-         $data .= ' of members working and/or residing in the area of operation'; 
+         $data .= ' of members working and/or residing in the area of operation';
           return $openTag.$data.$closeTag;
    }
-  
+
   }
-  
+
 
   public function get_composition_of_members()
   {
@@ -3995,7 +4004,7 @@ public function check_if_denied_($amendment_id){
   $this->db->trans_begin();
   $this->db->where('id',$decoded_id);
   $this->db->update('amend_coop',$data);
-  
+
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
@@ -4004,7 +4013,7 @@ public function check_if_denied_($amendment_id){
     return true;
   }
 }
-  
+
    public function get_cooperative_info_by_admin_previous($coop_id){
     $this->db->select('cooperatives.*, refbrgy.brgyCode as bCode, refbrgy.brgyDesc as brgy, refcitymun.citymunCode as cCode,refcitymun.citymunDesc as city, refprovince.provCode as pCode,refprovince.provDesc as province,refregion.regCode as rCode, refregion.regDesc as region,cooperatives.type_of_cooperative');
     $this->db->from('cooperatives');
@@ -4057,7 +4066,7 @@ public function check_if_denied_($amendment_id){
     {
        $data = $query->result_array();
     }
-   
+
     return $data;
   }
 
@@ -4076,7 +4085,7 @@ public function check_if_denied_($amendment_id){
               $this->db->update('amend_coop',array('amendmentNo'=>$amendment_no++),array('id'=>$row['id']));
 
             }
-            
+
           }
      }
      // return $query->num_rows();
@@ -4094,7 +4103,7 @@ public function check_if_denied_($amendment_id){
      {
       $data = null;
      }
-  
+
     return $data;
   }
 
@@ -4228,7 +4237,7 @@ public function check_if_denied_($amendment_id){
     $amendment_info = $this->get_amendment_info($amendment_id);
     $last_amendment_info = $this->get_last_amendment_info($amendment_info->id,$amendment_info->regNo);
     $bylaw_info = $this->amendment_bylaw_model->get_bylaw_by_coop_id($amendment_id);
-    $capitalization_info= $this->amendment_capitalization_model->get_capitalization_by_coop_id($amendment_id); 
+    $capitalization_info= $this->amendment_capitalization_model->get_capitalization_by_coop_id($amendment_id);
     $articles_info = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($amendment_info->cooperative_id,$amendment_id);
     $no_of_bod = $this->amendment_cooperator_model->check_directors_odd_number_amendment($amendment_id);
     $purposes =$this->amendment_purpose_model->get_purposes($amendment_id);
@@ -4236,7 +4245,7 @@ public function check_if_denied_($amendment_id){
     {
     //next amendment
       $previous_coop_info= $this->amendment_info_not_own_id($amendment_info->id,$amendment_info->regNo);
-      $previous_capitalization_info = $this->amendment_capitalization_model->get_capitalization_by_coop_id($last_amendment_info->id); 
+      $previous_capitalization_info = $this->amendment_capitalization_model->get_capitalization_by_coop_id($last_amendment_info->id);
       $acronym_ = $previous_coop_info->acronym;
       $no_of_bod_previous = $this->amendment_cooperator_model->check_directors_odd_number($last_amendment_info->cooperative_id,$last_amendment_info->id);
      $purposes_previous=$this->amendment_purpose_model->get_purposes($last_amendment_info->id);
@@ -4303,9 +4312,9 @@ public function check_if_denied_($amendment_id){
           $membership_fee = $this->compare_param($bylaw_info->membership_fee,$bylaw_info_previous->membership_fee);
 
           $act_upon_membership_days = $this->compare_param($bylaw_info->act_upon_membership_days,$bylaw_info_previous->act_upon_membership_days);
-          $additional_conditions_to_vote = $this->compare_param($bylaw_info->additional_conditions_to_vote,$bylaw_info_previous->additional_conditions_to_vote);  
+          $additional_conditions_to_vote = $this->compare_param($bylaw_info->additional_conditions_to_vote,$bylaw_info_previous->additional_conditions_to_vote);
           $annual_regular_meeting_day = $this->compare_param($bylaw_info->annual_regular_meeting_day,$bylaw_info_previous->annual_regular_meeting_day);
-    
+
           $members_percent_quorom = $this->compare_param($bylaw_info->members_percent_quorom,$bylaw_info_previous->members_percent_quorom);
           $number_of_absences_disqualification = $this->compare_param($bylaw_info->number_of_absences_disqualification,$bylaw_info_previous->number_of_absences_disqualification);
           $percent_of_absences_all_meettings = $this->compare_param($bylaw_info->percent_of_absences_all_meettings,$bylaw_info_previous->percent_of_absences_all_meettings);
@@ -4364,33 +4373,33 @@ public function check_if_denied_($amendment_id){
                     $kinds_of_members,
                     $additional_requirements_for_membership,
                     $regular_qualifications,
-                    $associate_qualifications, 
+                    $associate_qualifications,
                     $membership_fee,
                     $act_upon_membership_days,
-                    $additional_conditions_to_vote,  
-                    $annual_regular_meeting_day, 
+                    $additional_conditions_to_vote,
+                    $annual_regular_meeting_day,
                      $committee_others,
                     // $annual_regular_meeting_day_date,
-                    // $annual_regular_meeting_day_venue, 
+                    // $annual_regular_meeting_day_venue,
                     $members_percent_quorom,
                     $number_of_absences_disqualification,
-                    $percent_of_absences_all_meettings, 
+                    $percent_of_absences_all_meettings,
                     $director_hold_term,
-                    $member_invest_per_month, 
-                    $member_percentage_annual_interest, 
-                    $member_percentage_service, 
-                    $percent_reserve_fund, 
-                    $percent_education_fund, 
+                    $member_invest_per_month,
+                    $member_percentage_annual_interest,
+                    $member_percentage_service,
+                    $percent_reserve_fund,
+                    $percent_education_fund,
                     $percent_community_fund,
-                    $percent_optional_fund, 
-                    $non_member_patron_years, 
+                    $percent_optional_fund,
+                    $non_member_patron_years,
                     $amendment_votes_members_with,
-                    $minimum_subscribed_share_regular, 
-                    $minimum_paid_up_share_regular, 
+                    $minimum_subscribed_share_regular,
+                    $minimum_paid_up_share_regular,
                     $minimum_subscribed_share_associate,
-                    $minimum_paid_up_share_associate, 
+                    $minimum_paid_up_share_associate,
         );
-          
+
           $and = '';
           $bylaws = false;
           $articles = false;
@@ -4405,10 +4414,10 @@ public function check_if_denied_($amendment_id){
           if($articles && $bylaws)
           {
             $and=' AND ';
-          }  
-         
+          }
 
-          return $acbl = array('articles'=>$articles,'bylaws'=>$bylaws);                     
+
+          return $acbl = array('articles'=>$articles,'bylaws'=>$bylaws);
   }
 
    public function acbl_union($amendment_id)
@@ -4487,9 +4496,9 @@ public function check_if_denied_($amendment_id){
           $membership_fee = $this->compare_param($bylaw_info->membership_fee,$bylaw_info_previous->membership_fee);
 
           $act_upon_membership_days = $this->compare_param($bylaw_info->act_upon_membership_days,$bylaw_info_previous->act_upon_membership_days);
-          $additional_conditions_to_vote = $this->compare_param($bylaw_info->additional_conditions_to_vote,$bylaw_info_previous->additional_conditions_to_vote);  
+          $additional_conditions_to_vote = $this->compare_param($bylaw_info->additional_conditions_to_vote,$bylaw_info_previous->additional_conditions_to_vote);
           $annual_regular_meeting_day = $this->compare_param($bylaw_info->annual_regular_meeting_day,$bylaw_info_previous->annual_regular_meeting_day);
-    
+
           $members_percent_quorom = $this->compare_param($bylaw_info->members_percent_quorom,$bylaw_info_previous->members_percent_quorom);
           $number_of_absences_disqualification = $this->compare_param($bylaw_info->number_of_absences_disqualification,$bylaw_info_previous->number_of_absences_disqualification);
           $percent_of_absences_all_meettings = $this->compare_param($bylaw_info->percent_of_absences_all_meettings,$bylaw_info_previous->percent_of_absences_all_meettings);
@@ -4532,27 +4541,27 @@ public function check_if_denied_($amendment_id){
                     $kinds_of_members,
                     $additional_requirements_for_membership,
                     $regular_qualifications,
-                    $associate_qualifications, 
+                    $associate_qualifications,
                     $membership_fee,
                     $act_upon_membership_days,
-                    $additional_conditions_to_vote,  
-                    $annual_regular_meeting_day, 
-                     $committee_others, 
+                    $additional_conditions_to_vote,
+                    $annual_regular_meeting_day,
+                     $committee_others,
                     $members_percent_quorom,
                     $number_of_absences_disqualification,
-                    $percent_of_absences_all_meettings, 
+                    $percent_of_absences_all_meettings,
                     $director_hold_term,
-                    $member_invest_per_month, 
-                    $member_percentage_annual_interest, 
-                    $member_percentage_service, 
-                    $percent_reserve_fund, 
-                    $percent_education_fund, 
+                    $member_invest_per_month,
+                    $member_percentage_annual_interest,
+                    $member_percentage_service,
+                    $percent_reserve_fund,
+                    $percent_education_fund,
                     $percent_community_fund,
-                    $percent_optional_fund, 
-                    $non_member_patron_years, 
+                    $percent_optional_fund,
+                    $non_member_patron_years,
                     $amendment_votes_members_with
         );
-          
+
           $and = '';
           $bylaws = false;
           $articles = false;
@@ -4567,9 +4576,9 @@ public function check_if_denied_($amendment_id){
           if($articles && $bylaws)
           {
             $and=' AND ';
-          }  
-        
-          return $acbl = array('articles'=>$articles,'bylaws'=>$bylaws);                     
+          }
+
+          return $acbl = array('articles'=>$articles,'bylaws'=>$bylaws);
   }
 
     public function acbl_federation($amendment_id)
@@ -4591,7 +4600,7 @@ public function check_if_denied_($amendment_id){
     $amendment_info = $this->get_amendment_info($amendment_id);
     $last_amendment_info = $this->get_last_amendment_info($amendment_info->id,$amendment_info->regNo);
     $bylaw_info = $this->amendment_bylaw_model->get_bylaw_by_coop_id($amendment_id);
-    $capitalization_info= $this->amendment_capitalization_model->get_capitalization_by_coop_id($amendment_id); 
+    $capitalization_info= $this->amendment_capitalization_model->get_capitalization_by_coop_id($amendment_id);
     $articles_info = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($amendment_info->cooperative_id,$amendment_id);
     $no_of_bod = $this->amendment_cooperator_model->check_directors_odd_number_amendment($amendment_id);
     $purposes =$this->amendment_purpose_model->get_purposes($amendment_id);
@@ -4599,7 +4608,7 @@ public function check_if_denied_($amendment_id){
     {
     //next amendment
       $previous_coop_info= $this->amendment_info_not_own_id($amendment_info->id,$amendment_info->regNo);
-      $previous_capitalization_info = $this->amendment_capitalization_model->get_capitalization_by_coop_id($last_amendment_info->id); 
+      $previous_capitalization_info = $this->amendment_capitalization_model->get_capitalization_by_coop_id($last_amendment_info->id);
       $acronym_ = $previous_coop_info->acronym;
       $no_of_bod_previous = $this->amendment_cooperator_model->check_directors_odd_number($last_amendment_info->cooperative_id,$last_amendment_info->id);
      $purposes_previous=$this->amendment_purpose_model->get_purposes($last_amendment_info->id);
@@ -4666,9 +4675,9 @@ public function check_if_denied_($amendment_id){
           $membership_fee = $this->compare_param($bylaw_info->membership_fee,$bylaw_info_previous->membership_fee);
 
           $act_upon_membership_days = $this->compare_param($bylaw_info->act_upon_membership_days,$bylaw_info_previous->act_upon_membership_days);
-          $additional_conditions_to_vote = $this->compare_param($bylaw_info->additional_conditions_to_vote,$bylaw_info_previous->additional_conditions_to_vote);  
+          $additional_conditions_to_vote = $this->compare_param($bylaw_info->additional_conditions_to_vote,$bylaw_info_previous->additional_conditions_to_vote);
           $annual_regular_meeting_day = $this->compare_param($bylaw_info->annual_regular_meeting_day,$bylaw_info_previous->annual_regular_meeting_day);
-    
+
           $members_percent_quorom = $this->compare_param($bylaw_info->members_percent_quorom,$bylaw_info_previous->members_percent_quorom);
           $number_of_absences_disqualification = $this->compare_param($bylaw_info->number_of_absences_disqualification,$bylaw_info_previous->number_of_absences_disqualification);
           $percent_of_absences_all_meettings = $this->compare_param($bylaw_info->percent_of_absences_all_meettings,$bylaw_info_previous->percent_of_absences_all_meettings);
@@ -4688,7 +4697,7 @@ public function check_if_denied_($amendment_id){
           $minimum_paid_up_share_associate =$this->compare_param($capitalization_info->minimum_paid_up_share_associate,$previous_capitalization_info->minimum_paid_up_share_associate);
           $purposes_=false;
           $purposes_ = $this->compare_param($purposes_previous->content,$purposes->content);
-  
+
           $committee_others =$this->commitee_others($amendment_id);
           if(strcasecmp($address, $address_previous)!=0)
           {
@@ -4727,33 +4736,33 @@ public function check_if_denied_($amendment_id){
                     $kinds_of_members,
                     $additional_requirements_for_membership,
                     $regular_qualifications,
-                    $associate_qualifications, 
+                    $associate_qualifications,
                     $membership_fee,
                     $act_upon_membership_days,
-                    $additional_conditions_to_vote,  
-                    $annual_regular_meeting_day, 
+                    $additional_conditions_to_vote,
+                    $annual_regular_meeting_day,
                      $committee_others,
                     // $annual_regular_meeting_day_date,
-                    // $annual_regular_meeting_day_venue, 
+                    // $annual_regular_meeting_day_venue,
                     $members_percent_quorom,
                     $number_of_absences_disqualification,
-                    $percent_of_absences_all_meettings, 
+                    $percent_of_absences_all_meettings,
                     $director_hold_term,
-                    $member_invest_per_month, 
-                    $member_percentage_annual_interest, 
-                    $member_percentage_service, 
-                    $percent_reserve_fund, 
-                    $percent_education_fund, 
+                    $member_invest_per_month,
+                    $member_percentage_annual_interest,
+                    $member_percentage_service,
+                    $percent_reserve_fund,
+                    $percent_education_fund,
                     $percent_community_fund,
-                    $percent_optional_fund, 
-                    $non_member_patron_years, 
+                    $percent_optional_fund,
+                    $non_member_patron_years,
                     $amendment_votes_members_with,
-                    $minimum_subscribed_share_regular, 
-                    $minimum_paid_up_share_regular, 
+                    $minimum_subscribed_share_regular,
+                    $minimum_paid_up_share_regular,
                     $minimum_subscribed_share_associate,
-                    $minimum_paid_up_share_associate, 
+                    $minimum_paid_up_share_associate,
         );
-          
+
           $and = '';
           $bylaws = false;
           $articles = false;
@@ -4768,14 +4777,14 @@ public function check_if_denied_($amendment_id){
           if($articles && $bylaws)
           {
             $and=' AND ';
-          }  
-         
+          }
 
-          return $acbl = array('articles'=>$articles,'bylaws'=>$bylaws);                   
+
+          return $acbl = array('articles'=>$articles,'bylaws'=>$bylaws);
   }
 
   public function compare_param($param1,$param2)
-  {   
+  {
     if(strcasecmp($param1,$param2)!=0)
     {
           return 'true';
@@ -4783,7 +4792,7 @@ public function check_if_denied_($amendment_id){
     else
     {
           return 'false';
-    } 
+    }
   }
 
   public function get_acbl($amendment_id,$categoryCoop)
@@ -4796,14 +4805,14 @@ public function check_if_denied_($amendment_id){
         case 'Tertiary':
         case 'Secondary':
           $acbl=$this->acbl_federation($amendment_id);
-          break;  
-        
+          break;
+
         default:
           $acbl=$this->acbl($amendment_id);
           break;
       }
       return $acbl;
-  }  
+  }
   public function year_registered($regNo)
   {
     $query = $this->db->query("select date(now()) as dateNow,dateRegistered,DATEDIFF(date(now()),STR_TO_DATE(dateRegistered,'%m-%d-%Y'))/365 as date_dif from registeredcoop where regNo = '$regNo'");
@@ -4869,10 +4878,10 @@ on regcoop.application_id = coop.id where regcoop.regNo ='$regNo'");
        foreach($query->result_array() as $row)
        {
         $data_amd[] = $row;
-       } 
+       }
     }
    if($this->amendment_model->if_had_amendment($amendment_info->regNo,$amendment_id))
-   {   
+   {
     $last_amendment_info = $this->get_last_amendment_info($amendment_info->id,$amendment_info->regNo);
        $last_reg_amendment_id = $last_amendment_info->id;
        $query_coop =  $this->db->query("select name from amendment_committees where type='others' and amendment_id='$last_reg_amendment_id'");
@@ -4895,13 +4904,13 @@ on regcoop.application_id = coop.id where regcoop.regNo ='$regNo'");
           }
         }
    }
-  
+
       if($data_amd ==NULL && ($data_coop ==NULL))
       {
         return 'false';
       }
       else
-      {   
+      {
          foreach($data_amd as $key => $comm)
          {
           $coop_comm =NULL;
@@ -4913,18 +4922,18 @@ on regcoop.application_id = coop.id where regcoop.regNo ='$regNo'");
            {
             $coop_comm['name'] =null;
            }
-            
+
              if(strcasecmp($coop_comm['name'],$comm['name'])!=0)
              {
               array_push($array_boolean, 'true');
              }
          }
-         
+
          if(in_array('true',$array_boolean))
          {
           return 'true';
          }
-      }   
+      }
   }
 
   public function check_if_revert($amendment_id)
@@ -4934,7 +4943,7 @@ on regcoop.application_id = coop.id where regcoop.regNo ='$regNo'");
     if($data != 0){
       return true;
     }else{
-      return false; 
+      return false;
     }
   }
 
@@ -4989,7 +4998,7 @@ on regcoop.application_id = coop.id where regcoop.regNo ='$regNo'");
     else
     {
       //has registered coop already get the reg number
-       $query = $this->db->query("select coop.id as cooperative_id,registeredcoop.regNo from cooperatives as coop 
+       $query = $this->db->query("select coop.id as cooperative_id,registeredcoop.regNo from cooperatives as coop
 left join registeredcoop on registeredcoop.application_id = coop.id
 where coop.users_id = '$user_id' and coop.status =15");
         foreach($query->result_array() as $row)
@@ -5006,13 +5015,13 @@ where coop.users_id = '$user_id' and coop.status =15");
             }
         }
     }
-    
+
   }
 
   public function primary_coop_name($coop_id)
   {
     $previous_coop_info= $this->cooperatives_model->get_cooperative_info_by_admin($coop_id);
-    
+
     $acronym='';
     if(strlen($previous_coop_info->acronym_name)>0)
     {
@@ -5046,7 +5055,7 @@ where coop.users_id = '$user_id' and coop.status =15");
             $regno = NULL;
           }
           return $regno;
-      }   
+      }
     }
     public function load_regNo_reg($user_id)
     {
@@ -5063,7 +5072,7 @@ where coop.users_id = '$user_id' and coop.status =15");
         $data = NULL;
       }
       return $data;
- 
+
     }
 
 
@@ -5077,7 +5086,7 @@ where coop.users_id = '$user_id' and coop.status =15");
       }
       else
       {
-        $data = $proposed_name; 
+        $data = $proposed_name;
       }
      return $data;
     }
@@ -5092,11 +5101,11 @@ where coop.users_id = '$user_id' and coop.status =15");
         {
           foreach($query->result_array() as $row)
           {
-            
+
             if($row['amendmentNo'] ==0)
             {
               $proposedName =$this->primary_name($regNo);
-             
+
             }
             else
             {
@@ -5121,7 +5130,7 @@ where coop.users_id = '$user_id' and coop.status =15");
                 {
                   $proposedName = ltrim(rtrim($row['proposed_name'])).' '.$row['type_of_cooperative'].' Cooperative '.$acronym;
                 }
-              
+
               }
             }
           }
@@ -5149,7 +5158,7 @@ where coop.users_id = '$user_id' and coop.status =15");
         {
           foreach($query->result_array() as $row)
           {
-            
+
             if($row['amendmentNo'] ==0)
             {
               $proposedName =$this->primary_name($regNo);
@@ -5163,7 +5172,7 @@ where coop.users_id = '$user_id' and coop.status =15");
                // var_dump($this->db->last_query());
               }
               else
-              { 
+              {
                 // var_dump('3');
                 $acronym='';
                 if(strlen($row['acronym'])>0)
@@ -5179,7 +5188,7 @@ where coop.users_id = '$user_id' and coop.status =15");
                 {
                   $proposedName = ltrim(rtrim($row['proposed_name'])).' '.$row['type_of_cooperative'].' Cooperative '.$acronym;
                 }
-              
+
               }
             }
           }
@@ -5209,7 +5218,7 @@ where coop.users_id = '$user_id' and coop.status =15");
           }
           unset($row);
        }
-         
+
       return $proposedName;
     }
     public function coopName_from_migration($amendment_no,$regNo)
@@ -5246,7 +5255,7 @@ where coop.users_id = '$user_id' and coop.status =15");
       return $amendment_no;
     }
 
-     //list of major subclass 
+     //list of major subclass
     public function list_of_subclasss($major_id)
     {
       $qry = $this->db->query("select distinct subclass_id from industry_subclass_by_coop_type where major_industry_id=".$major_id);

@@ -547,7 +547,20 @@
             }
             else
             {
-               $proposedName_ = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping.' '.$acronym_;
+              switch ($coop_info->category_of_cooperative) {
+                case 'Secondary':
+                case 'Tertiary':
+                  $proposedName_ = $coop_info->proposed_name.' Federation of '.$coop_info->type_of_cooperative.' Cooperative '.$acronym_;
+                  break;
+                case 'Others':
+                  $proposedName_ = $coop_info->proposed_name.' Union Cooperative '.$acronym_; 
+                  break;
+                default:
+                     $proposedName_ = $coop_info->proposed_name.' '.$coop_info->type_of_cooperative.' Cooperative '.$coop_info->grouping.' '.$acronym_;
+                  break;
+              }
+
+           
             }
            ?>
     
@@ -1203,7 +1216,7 @@
 
             <?php }//end else */?> 
              
-               <?php if($status_document_cooptype && $ga_complete && $bod_sec_complete): ?>
+               <?php if($status_document_cooptype && $ga_complete && $bod_sec_complete && $bylaw_doc_complete && $articles_doc_complete): ?>
                 <span class="badge badge-success">COMPLETE</span>
                 <?php else: ?>
              
@@ -1219,9 +1232,24 @@
             <?php endif;?>
           </p>
           <?php if($coop_info->status!= 0 && $bylaw_complete && $purposes_complete && $article_complete && $complete_position): //&& $cooperator_complete && $committees_complete && $economic_survey_complete && $staff_complete ?>
-            <small class="text-muted">
-              <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_documents" class="btn btn-info btn-sm">View</a>
+            
+          <?php if($is_from_updating){ ?>
+            <?php if($coop_info->custom_acbl == NULL):?>
+             <small class="text-muted">
+              <button data-toggle="modal" data-target="#confirmModal" class="btn btn-info btn-sm">View</button>
             </small>
+            <?php else: ?>
+               <small class="text-muted">
+              <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_documents" class="btn btn-info btn-sm">View</a>
+            </small> 
+            <?php endif;?>
+          <?php }else{?>
+             <small class="text-muted">
+              <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_documents" class="btn btn-info btn-sm">View</a>
+          <?php } ?>
+
+
+
           <?php endif ?>
         </li>
 
@@ -1238,7 +1266,7 @@
               </small>
             </div>
             <p class="mb-1 font-italic">Finalize and review all the information you provide. After reviewing your application, click proceed for evaluation of your application.</p>
-              <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $affiliator_complete && $committees_complete && $status_document_cooptype && $ga_complete && $bod_sec_complete && $complete_position){ ?>
+              <?php if(($coop_info->status == 1||$coop_info->status == 11) && $bylaw_complete && $purposes_complete && $article_complete && $affiliator_complete && $committees_complete && $status_document_cooptype && $ga_complete && $bod_sec_complete && $complete_position && $bylaw_doc_complete && $articles_doc_complete){ ?>
               <small class="text-muted">
                 <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/evaluate" class="btn btn-color-blue btnFinalize btn-sm ">Submit</a>
               </small>
@@ -1307,48 +1335,174 @@
                 }
                
                 $name_comparison = strcasecmp($orig_proposedName_formated,$proposeName);
-              
+                
+                 $basic_reservation_fee =300;
+                $name_reservation_fee =0;
                 if($name_comparison!=0)
                 {
                 
                   $name_reservation_fee = 100;
                 } 
                     
-                     $rf=0;
-                     $percentage_amount = 0;
-                     $total_amendment_fee = 0;
-                    //fixed amount
-                    $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_capitalization->total_amount_of_paid_up_capital;
-                    //amendment paid up is greater than coop total paid up
-                    if($diff_amount>0)
-                    {
-                      $percentage_amount= $diff_amount * 0.001; // 1 over 10 of 1% 
-                      $total_reservation_fee = $percentage_amount+ $basic_reservation_fee;
-                      $rf = $total_reservation_fee;
+                    //  $rf=0;
+                    //  $percentage_amount = 0;
+                    //  $total_amendment_fee = 0;
+                    // //fixed amount
+                    // $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_capitalization->total_amount_of_paid_up_capital;
+                    // //amendment paid up is greater than coop total paid up
+                    // if($diff_amount>0)
+                    // {
+                    //   $percentage_amount= $diff_amount * 0.001; // 1 over 10 of 1% 
+                    //   $total_reservation_fee = $percentage_amount+ $basic_reservation_fee;
+                    //   $rf = $total_reservation_fee;
 
-                    }
-                    else
-                    {
-                      $rf =  $basic_reservation_fee;
-                    }
+                    // }
+                    // else
+                    // {
+                    //   $rf =  $basic_reservation_fee;
+                    // }
+                    // // $lrf=(($rf+$name_reservation_fee)*.01>10) ?($rf+$name_reservation_fee)*.01 : 10;
+                    //  $lrf=$rf*0.01;
+                    //  if($lrf<10)
+                    //  {
+                    //   $lrf=10;
+
+                    //  }
+                   
+                     
+                    //  if($percentage_amount>0)
+                    //  {
+                    //    $total_amendment_fee   = $percentage_amount +$basic_reservation_fee;
+                        
+                    //  }
+                    //  else
+                    //  {
+                    //     $total_amendment_fee   = 300;
+                    //  }
+
+                       $rf=0;
+                 $percentage_amount = 0;
+                 $total_amendment_fee = 0;
+
+                  
+
+                switch ($coop_info->category_of_cooperative) {
+                  case 'Others':
+                    
+                      $desc = 'increased amount from dues and contribution';
+                      $rf = ($coop_info->capital_contribution - $coop_info_orig->capital_contribution);
+
+                        $diff_amount= $rf;
+                        if($diff_amount>0)
+                        {
+                          $percentage_amount= $diff_amount * 0.001; // 1 over 10 of 1% 
+                          $total_reservation_fee = $percentage_amount+ $basic_reservation_fee;
+                          $rf = $total_reservation_fee;
+                        }
+                        else
+                        {
+                          $rf =  $basic_reservation_fee;
+                        }
+
+                        $lrf=(($rf)*.01>10) ?($rf)*.01 : 10;
+                        if($lrf>10)
+                        {
+                          $total_amendment_fee=$lrf+$basic_reservation_fee;
+                        }
+                        else
+                        {
+                           $total_amendment_fee=$basic_reservation_fee;
+                        }
+                         if($percentage_amount>0)
+                         {
+                           $total_amendment_fee   = $percentage_amount +$basic_reservation_fee;  
+                         }
+                         else
+                         {
+                            $total_amendment_fee   = 300;
+                         }
+                           $amount_in_words = ($total_amendment_fee+$lrf+$name_reservation_fee);
+                         
+                      
+                    break;
+                  case 'Tertiary':
+                  case 'Secondary':
+                          $desc = 'increased in paid up capital';
+                      $coop_total_amount_of_paid_up_capital=0;
+                  
+                      $coop_total_amount_of_paid_up_capital= $coop_capitalization->total_amount_of_paid_up_capital;
+                    
+                        //fixed amount
+                      $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_total_amount_of_paid_up_capital;
+                      //amendment paid up is greater than coop total paid up
+                      if($diff_amount>0)
+                      {
+                        $percentage_amount= $diff_amount * 0.001; // 1 over 10 of 1% 
+                        $total_reservation_fee = $percentage_amount+ $basic_reservation_fee;
+                        $rf = $total_reservation_fee;
+                      }
+                      else
+                      {
+                        $rf =  $basic_reservation_fee;
+                      }
+
                     // $lrf=(($rf+$name_reservation_fee)*.01>10) ?($rf+$name_reservation_fee)*.01 : 10;
                      $lrf=$rf*0.01;
                      if($lrf<10)
                      {
                       $lrf=10;
-
                      }
-                   
-                     
+
+              
                      if($percentage_amount>0)
                      {
-                       $total_amendment_fee   = $percentage_amount +$basic_reservation_fee;
-                        
+                       $total_amendment_fee   = $percentage_amount +$basic_reservation_fee;  
                      }
                      else
                      {
                         $total_amendment_fee   = 300;
                      }
+                       $amount_in_words = ($total_amendment_fee+$lrf+$name_reservation_fee);
+                    break;  
+                  default:
+                      $desc = 'increased in paid up capital';
+                      $coop_total_amount_of_paid_up_capital=0;
+                  
+                      $coop_total_amount_of_paid_up_capital= $coop_capitalization->total_amount_of_paid_up_capital;
+                    
+                        //fixed amount
+                      $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_total_amount_of_paid_up_capital;
+                      //amendment paid up is greater than coop total paid up
+                      if($diff_amount>0)
+                      {
+                        $percentage_amount= $diff_amount * 0.001; // 1 over 10 of 1% 
+                        $total_reservation_fee = $percentage_amount+ $basic_reservation_fee;
+                        $rf = $total_reservation_fee;
+                      }
+                      else
+                      {
+                        $rf =  $basic_reservation_fee;
+                      }
+
+                    // $lrf=(($rf+$name_reservation_fee)*.01>10) ?($rf+$name_reservation_fee)*.01 : 10;
+                     $lrf=$rf*0.01;
+                     if($lrf<10)
+                     {
+                      $lrf=10;
+                     }
+
+              
+                     if($percentage_amount>0)
+                     {
+                       $total_amendment_fee   = $percentage_amount +$basic_reservation_fee;  
+                     }
+                     else
+                     {
+                        $total_amendment_fee   = 300;
+                     }
+                       $amount_in_words = ($total_amendment_fee+$lrf+$name_reservation_fee);
+                    break;
+                }
                   }
 
 

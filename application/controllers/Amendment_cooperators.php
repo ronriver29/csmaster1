@@ -15,7 +15,8 @@ class Amendment_cooperators extends CI_Controller{
     parent::__construct();
 
     //Codeigniter : Write Less Do More
-
+    $this->load->library('auth');
+    $this->auth->checkLogin();
     $this->load->model("amendment_capitalization_model");
 
     $this->load->model("amendment_cooperator_model");
@@ -36,11 +37,11 @@ class Amendment_cooperators extends CI_Controller{
 
   {
 
-    if(!$this->session->userdata('logged_in')){
+    // if(!$this->session->userdata('logged_in')){
 
-      redirect('users/login');
+    //   redirect('users/login');
 
-    }else{
+    // }else{
 
       
 
@@ -183,7 +184,7 @@ class Amendment_cooperators extends CI_Controller{
                       'url_segment'=>4
 
                       );
-
+                     $data['total_regular_cooperators_in_page'] = $array['total_rows'];      
                     $data['links']=$this->paginate($array);
 
                     $data['list_cooperators_regular'] = $this->amendment_cooperator_model->cooperator_coop_regular($cooperative_id,$this->decoded_id,$config['per_page'],$page);
@@ -343,7 +344,7 @@ class Amendment_cooperators extends CI_Controller{
                       'url_segment'=>4
 
                       );
-
+                    $data['total_regular_cooperators_in_page'] = $array['total_rows'];    
                     $data['links']=$this->paginate($array);
 
                     $data['list_cooperators_regular'] = $this->amendment_cooperator_model->cooperator_coop_regular($cooperative_id,$this->decoded_id,$config['per_page'],$page);
@@ -400,7 +401,7 @@ class Amendment_cooperators extends CI_Controller{
 
         }
 
-    }
+    // }
 
   }
 

@@ -81,7 +81,7 @@ class Amendment_committees extends CI_Controller{
                       $data['media_concil'] = (in_array("Mediation and Conciliation",$exist_position) ? true : false);
                       $data['gender_dev'] = (in_array('Gender and Development',$exist_position) ? true : false);
                       $data['audit'] = (in_array('Audit',$exist_position) ? true : false);
-             
+                      $data['credit'] = (in_array('Credit',$exist_position) ? true : false);
                         $type_coop_array_ = explode(',',$data['coop_info']->type_of_cooperative);
                         $count_type ='';
                         $count_type = count($type_coop_array_);
@@ -89,9 +89,9 @@ class Amendment_committees extends CI_Controller{
                         $data['complete_position']=false;
                         if($count_type > 1)
                         {
-                             if(in_array('Credit', $type_coop_array_))
+                             if(in_array('Credit', $type_coop_array_) || in_array('Agriculture', $type_coop_array_))
                             {
-                              $data['credit'] = (in_array('Credit',$exist_position) ? true : false);
+                              
                               if($data['credit'] && $data['election'] && $data['ethics'] && $data['media_concil'] &&  $data['gender_dev'] && $data['audit'])
                               {
                                 $data['complete_position']=true;

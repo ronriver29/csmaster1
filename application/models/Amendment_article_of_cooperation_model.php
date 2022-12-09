@@ -81,7 +81,7 @@ class Amendment_article_of_Cooperation_model extends CI_Model{
     $query = $this->db->get_where('amendment_bylaws',array('amendment_id'=>$amendment_id));
 
     $data = $query->row();
-    $common_share=0;
+
     $query2 = $this->db->get_where('amendment_articles_of_cooperation',array('amendment_id'=>$amendment_id));
 
     $data2 = array();
@@ -89,7 +89,7 @@ class Amendment_article_of_Cooperation_model extends CI_Model{
     if($query2->num_rows()>0) {
 
         $data2 = $query2->row();
-        $common_share = $data2->common_share;
+
         foreach ($data2 as $key => $value){
 
           if(empty($value)) $counter++;
@@ -104,7 +104,7 @@ class Amendment_article_of_Cooperation_model extends CI_Model{
 
         $temp = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$amendment_id);
 
-        if($common_share >= $temp['total_subscribed'] && $common_share <= ($temp['total_subscribed']*4)){
+        if($data2->common_share >= $temp['total_subscribed'] && $data2->common_share <= ($temp['total_subscribed']*4)){
 
           return true;
 

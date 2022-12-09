@@ -209,8 +209,7 @@ class Amendment_articles extends CI_Controller{
 
                           $data['articles_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
 
-                          // $this->debug(  $data['articles_info']);
-
+                        
                           // if(!$data['articles_info']) {
 
                           //   $data['articles_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
@@ -288,12 +287,7 @@ class Amendment_articles extends CI_Controller{
 
                                 );
 
-                                // $this->debug($datas);
-
-                                // echo $article_coop_id;
-
-                                // $this->debug($this->amendment_article_of_cooperation_model->update_article_primary($article_coop_id,$datas));
-
+                         
                                 if($this->amendment_article_of_cooperation_model->update_article_primary($this->decoded_id,$datas)){
 
                                   
@@ -372,29 +366,7 @@ class Amendment_articles extends CI_Controller{
 
           }else{
 
-            // $access_array = array(1,2);
-
-            // if($this->session->userdata('access_level')==5){
-
-            //   redirect('admins/login');
-
-            // }else if(!in_array($this->session->userdata('access_level'),$access_array)){
-
-            //   redirect('amendment');
-
-            // }else{
-             
-
-              // if($this->amendment_model->check_expired_reservation_by_admin($cooperative_id,$this->decoded_id)){
-
-              //   $this->session->set_flashdata('redirect_applications_message', 'The cooperative you viewed is already expired.');
-
-              //   redirect('amendment');
-
-              // }else{
-
-                // if($this->amendment_model->check_submitted_for_evaluation($cooperative_id,$this->decoded_id)){
-                  $this->auth->authuserLevelAmd($this->session->userdata('access_level'),array(1,2));
+                  $this->auth->authuserLevelAmd($this->session->userdata('access_level'),array(1,2)); 
                   $this->load->model('admin_model');
                   $this->load->model('region_model');
                   $this->amendment_model->check_expired_reservation_by_admin_($this->decoded_id);
@@ -435,7 +407,7 @@ class Amendment_articles extends CI_Controller{
 
                       if(in_array($this->amendment_model->get_cooperative_info_by_admin($this->decoded_id)->category_of_cooperative,$array_category)){
 
-                          if($this->form_validation->run() == FALSE){
+                          if(!isset($_POST['articlesPrimaryBtn'])){
 
                             $data['title'] = 'Articles of Cooperation';
 
@@ -449,26 +421,18 @@ class Amendment_articles extends CI_Controller{
 
                             $data['articles_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
 
-                        
-
-                        // Added By Anjury
 
                             $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($cooperative_id,$this->decoded_id);
-
                                 if($data['total_regular']==0){
 
                                   $data['total_regular'] = $this->amendment_cooperator_model->get_total_regular($this->decoded_id);
-
                                 }
-
-                                
 
                             $data['total_associate'] = $this->amendment_cooperator_model->get_total_associate($cooperative_id,$this->decoded_id);
 
                                 if($data['total_associate']==0) {
 
                                   $data['total_associate'] = $this->cooperator_model->get_total_associate($this->decoded_id);
-
                                 }
 
                              $data['encrypted_articles_id'] = encrypt_custom($this->encryption->encrypt($data['articles_info']->id)); //modified
@@ -614,7 +578,7 @@ class Amendment_articles extends CI_Controller{
 
                           $data['articles_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$this->decoded_id);
 
-                          // $this->debug(  $data['articles_info']);
+                      
 
                           // if(!$data['articles_info']) {
 
@@ -688,12 +652,10 @@ class Amendment_articles extends CI_Controller{
 
           }else{
 
-            // if($this->session->userdata('access_level')!=6){
 
-            //   redirect('admins/login');
-
-            // }else{
                   $this->auth->authuserLevelAmd($this->session->userdata('access_level'),[1,2]);
+                  $this->load->model('admin_model');
+                  $this->load->model('region_model');
                   $data['articles_info'] = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($cooperative_id,$this->decoded_id); 
 
                   $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
@@ -714,7 +676,7 @@ class Amendment_articles extends CI_Controller{
 
                     
 
-                        if(!isset($_POST['articlesPrimaryBtn'])){
+                        if(!isset($_POST['articlesUnionBtn'])){
 
                             $data['title'] = 'Articles of Cooperation';
 
@@ -768,7 +730,7 @@ class Amendment_articles extends CI_Controller{
 
                             $this->load->view('templates/admin_header', $data);
 
-                            $this->load->view('update/amendment/articles/articles_union_form', $data);
+                              $this->load->view('amendment/articles_cooperation_info/articles_union_form', $data);
 
                             $this->load->view('templates/admin_footer', $data);
 
@@ -808,9 +770,7 @@ class Amendment_articles extends CI_Controller{
 
                               );
 
-                              // $this->debug($data);
-
-                              // echo $article_coop_id;
+                           
 
                               if($this->amendment_article_of_cooperation_model->update_article_primary($article_coop_id,$data)){
 

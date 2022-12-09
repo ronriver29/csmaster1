@@ -1,6 +1,6 @@
-<div class="row"> 
+<div class="row">
   <div class="col-md-12">
-<?php if($this->session->flashdata('amendment_msg')) :?>       
+<?php if($this->session->flashdata('amendment_msg')) :?>
        <div class="alert alert-<?=$this->session->flashdata('msg_class')?> alert-dismissible">
          <button type = "button" class="close" data-dismiss = "alert">x</button>
          <?=$this->session->flashdata('amendment_msg')?>
@@ -9,7 +9,7 @@
  </div>
 </div>
 
-<?php 
+<?php
 if($is_client && !$has_registered_coop):?>
 <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
@@ -43,7 +43,7 @@ if($is_client && !$has_registered_coop):?>
     <div class="alert alert-success text-center" role="alert">
       <?php echo $this->session->flashdata('list_success_message'); ?>
     </div>
-  </div> 
+  </div>
 </div>
 <?php endif; ?>
 <?php if($this->session->flashdata('list_error_message')): ?>
@@ -80,16 +80,16 @@ if($is_client && !$has_registered_coop):?>
     <div class="card border-top-blue shadow-sm mb-4">
       <div class="card-body">
         <?php if(!$is_client) { ?>
-          <?php echo form_open('amendment',array('id'=>'cooperativesAddForm','name'=>'cooperativesAddForm')); ?> 
+          <?php echo form_open('amendment',array('id'=>'cooperativesAddForm','name'=>'cooperativesAddForm')); ?>
            <div class="row rd-row">
-          
+
             <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label for="areaOfOperation">Proposed Name: </label>
                 <input type="text" name="coopName" class="form-control"/>
               </div>
             </div>
-          </div> 
+          </div>
            <div class="row col-sm-6 col-md-1 align-self-center col-reserve-btn">
                 <input class="btn btn-color-blue" type="submit" name="submit" value="submit" style="float:left;">
             </div>
@@ -107,7 +107,7 @@ if($is_client && !$has_registered_coop):?>
                 <?php if(!$is_client) : ?>
                   <th>Office Address</th>
                 <?php endif;?>
-               
+
                 <th>Status</th>
                 <th>Action </th>
               </tr>
@@ -143,26 +143,42 @@ if($is_client && !$has_registered_coop):?>
                     }
                     else
                     {
-                      if($cooperative['migrated']!=1)
-                      {  
-                      $proposeNames = $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative']. ' Cooperative '.$acronym_;
-                      }
-                      else
-                      {
+
+                       if($cooperative['migrated']==1)
+                        {
                          $proposeNames = $cooperative['proposed_name'];
-                      }
+
+                        }
+                        else
+                        {
+                          switch ($cooperative['category_of_cooperative']) {
+                          case 'Secondary':
+                          case 'Tertiary':
+                            $proposeNames = $cooperative['proposed_name'].' Federation of '.$cooperative['type_of_cooperative'].' Cooperative '.$acronym_;
+                            break;
+                          case 'Others':
+                            $proposeNames = $cooperative['proposed_name'].' Union Cooperative '.$acronym_;
+                            break;
+                          default:
+                                $proposeNames = $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative']. ' Cooperative '.$acronym_;
+                            break;
+                           }
+                        }
                     }
-                  
-                    echo $this->amendment_model->proposed_name_comparison($cooperative['regNo'],$cooperative['amendmentNo'],$proposeNames);
-                    ?>  
-                    <td><?= (strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($cooperative['regNo'],$cooperative['amendmentNo']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?></td>
+                   // var_dump($this->amendment_model->proposed_name_comparison($cooperative['regNo'],$cooperative['id'],$proposeNames));echo $this->db->last_query();
+                    // var_dump($cooperative['migrated']);
+                   echo $this->amendment_model->proposed_name_comparison($cooperative['regNo'],$cooperative['amendmentNo'],$proposeNames);
+                    ?>
+                    <td>
+
+                      <?= (strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->last_proposed_name($cooperative['regNo'],$cooperative['amendmentNo']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?></td>
                   <?php if(!$is_client) : ?>
                     <td>
                       <?php if($cooperative['house_blk_no']==null && $cooperative['street']==null) $x=''; else $x=', ';?>
                       <?=$cooperative['house_blk_no']?> <?=$cooperative['street'].$x?><?=$cooperative['brgy']?>, <?=$cooperative['city']?>, <?= $cooperative['province']?> <?=$cooperative['region']?>
                     </td>
                   <?php endif; ?>
-                
+
                   <td>
                       <span class="badge badge-secondary">
                       <?php if($is_client) : ?>
@@ -177,14 +193,15 @@ if($is_client && !$has_registered_coop):?>
                         else if($cooperative['status']==11 && !$this->amendment_model->check_if_revert($cooperative['id'])) echo "DEFERRED";
                         else if($cooperative['status']==11 && $this->amendment_model->check_if_revert($cooperative['id'])) echo "REVERTED-DEFERRED";
                         else if($cooperative['status']==12) echo "FOR PRINTING & SUBMISSION";
-                        else if($cooperative['status']==13) echo "PAY AT CDA";
+                        else if($cooperative['status']==13 && $cooperative['payment_option']=='online') echo "PAID via LinkBiz";
+                        else if($cooperative['status']==13 && $cooperative['payment_option']=='offline') echo "PAY AT CDA";
                         else if($cooperative['status']==14) echo "GET YOUR CERTIFICATE";
                         else if($cooperative['status']==15) echo "REGISTERED";
                         else if($cooperative['status']==16) echo "FOR PAYMENT";
-                        else if($cooperative['status']==17) echo "FOR REVERSION-FOR RE-EVALUATION"; 
+                        else if($cooperative['status']==17) echo "FOR REVERSION-FOR RE-EVALUATION";
                         else if($cooperative['status']==41) echo "UPDATED"; ?>
                       <?php else : ?>
-                        <?php /*if($cooperative['status']==2)echo "FOR VALIDATION"; 
+                        <?php /*if($cooperative['status']==2)echo "FOR VALIDATION";
                          else if($cooperative['status']==3) echo "FOR VALIDATION";
                         else if($cooperative['status']==4) echo "DENIED BY CDS II";
                         else if($cooperative['status']==5) echo "DEFERRED BY CDS II";
@@ -201,10 +218,10 @@ if($is_client && !$has_registered_coop):?>
                         else if($cooperative['status']==12) echo "FOR PRINT&SUBMIT";
                         else if($cooperative['status']==13) echo "WAITING FOR O.R.";
                         else if($cooperative['status']==14) echo "FOR PRINTING";
-                        else if($cooperative['status']==15) echo "REGISTERED"; 
+                        else if($cooperative['status']==15) echo "REGISTERED";
                         else if($cooperative['status']==16) echo "FOR PAYMENT";
                         else if($cooperative['status']==17) echo "REVERT FOR RE-EVALUATION"; */?>
-                        <?php if($cooperative['status']==2 || $cooperative['status']==3)echo "FOR VALIDATION"; 
+                        <?php if($cooperative['status']==2 || $cooperative['status']==3)echo "FOR VALIDATION";
                         else if($cooperative['status']==4) echo "DENIED BY CDS II";
                         else if($cooperative['status']==5) echo "DEFERRED BY CDS II";
                         else if($cooperative['status']==6 && $cooperative['third_evaluated_by']>0) echo "FOR RE-EVALUATION";
@@ -221,7 +238,7 @@ if($is_client && !$has_registered_coop):?>
                         else if($cooperative['status']==12) echo "FOR PRINT&SUBMIT";
                         else if($cooperative['status']==13) echo "WAITING FOR O.R.";
                         else if($cooperative['status']==14) echo "FOR PRINTING";
-                        else if($cooperative['status']==15) echo "REGISTERED"; 
+                        else if($cooperative['status']==15) echo "REGISTERED";
                         else if($cooperative['status']==16) echo "FOR PAYMENT";
                         else if($cooperative['status']==17) echo "FOR REVERSION-FOR RE-EVALUATION"; ?>
 
@@ -230,15 +247,15 @@ if($is_client && !$has_registered_coop):?>
                       </span>
                     </td>
 
-                  <?php if($is_client) :?> 
+                  <?php if($is_client) :?>
                     <?php
                       $url_ = 'amendment';
-                      if($cooperative['status'] ==41)
+                      if($cooperative['status'] ==41 || $cooperative['migrated']==1)
                       {
                         $url_ ='amendment_update';
                       }
                     ?>
-                    <td> 
+                    <td>
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                         <a href="<?php echo base_url();?><?=$url_?>/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View </a>
                       <?php if($cooperative['status']<2 || $cooperative['status']==10|| $cooperative['status']==11) : ?>
@@ -249,7 +266,7 @@ if($is_client && !$has_registered_coop):?>
                   <?php endif;?>
                   <?php if(!$is_client) :?>
 
-                    <?php 
+                    <?php
                     if(strlen($cooperative['acronym'])>0)
                     {
                       $acronym_ = '('.$cooperative['acronym'].')';
@@ -260,11 +277,11 @@ if($is_client && !$has_registered_coop):?>
                     }
                     if(count(explode(',',$cooperative['type_of_cooperative']))>1)
                     {
-                      $proposeName_ = $cooperative['proposed_name'].' Multipurpose Cooperative '.$acronym_.' '.$cooperative['grouping'];
+                      $proposeName_ = $cooperative['proposed_name'].' Multipurpose Cooperative '.$acronym_;
                     }
                     else
                     {
-                      $proposeName_ =  $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$acronym_.' '.$cooperative['grouping'];
+                      $proposeName_ =  $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative'].' Cooperative '.$acronym_;
                     }
                     ?>
                     <td>
@@ -272,19 +289,19 @@ if($is_client && !$has_registered_coop):?>
                       <?php if($admin_info->access_level == 1 || ($admin_info->access_level == 2 && $cooperative['status']==6 )) : ?>
                         <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View Cooperative</a>
                       <?php else: ?>
-                         
+
                         <?php if(($cooperative['status'] ==17) ||  $cooperative['status']>2 && $cooperative['status']<11  && $cooperative['status']!=3 && $cooperative['evaluated_by']!=0 ) : ?>
                           <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/amendment_documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
                         <?php elseif($cooperative['status']==2 && $cooperative['evaluated_by']==0): ?>
                           <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/assign" data-toggle="modal" data-target="#assignSpecialistAmendmentModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>" data-cname="<?= $proposeName_?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Assign Validator</a>
-                        <?php elseif($cooperative['status']==3): ?>  
+                        <?php elseif($cooperative['status']==3): ?>
                            <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/assign" data-toggle="modal" data-target="#assignSpecialistAmendmentModal" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>" data-cname="<?= $proposeName_?>" class="btn btn-color-blue"><i class='fas fa-user-check'></i> Re-assign Validator</a>
 
                         <?php elseif($cooperative['status']==12): ?>
                           <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/amendment_forpayment" class="btn btn-color-blue"> OK For Payment</a>
                           <!--  <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/amendment_documents" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a> -->
                             <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View Cooperative</a>
-                       
+
 
                         <?php elseif($cooperative['status']==13): ?>
                           <?php if(count(explode(',',$cooperative['type_of_cooperative']))>1):?>
@@ -295,8 +312,8 @@ if($is_client && !$has_registered_coop):?>
                           <?php else: ?>
                               <input class='btn btn-color-blue offset-md-10' type='button' id='addOff' onclick='showPayment("<?=encrypt_custom($this->encryption->encrypt($cooperative['id']))?>")' value="Save O.R. No.">
                           <?php endif; ?>
-                          
-                       
+
+
                         <?php elseif($cooperative['status']==14 || $cooperative['status']==15): ?>
                           <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>/amendment_registration" class="btn btn-info"><i class='fas fa-print'></i> Print Registration</a>
                         <?php endif; ?>
@@ -314,9 +331,9 @@ if($is_client && !$has_registered_coop):?>
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 </div>
-<?php endif; //end if has registered coop?>   
+<?php endif; //end if has registered coop?>
 
 <?php /* if(!$is_client && $admin_info->region_code != '00' && $admin_info->access_level==2) :?>
 <h4 style="
@@ -371,21 +388,21 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Deferred/Denied</h4>
                       $proposeNames = $cooperative['proposed_name'].' '.$cooperative['type_of_cooperative']. ' Cooperative '.$acronym_.' '.$cooperative['grouping'];
                     }
                    echo $this->amendment_model->proposed_name_comparison($cooperative['regNo'],$cooperative['amendmentNo'],$proposeNames);
-                    ?>  
+                    ?>
                     <td><?= (strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($cooperative['regNo'],$cooperative['amendmentNo']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?></td>
 
                   <td>
                       <?php if($cooperative['house_blk_no']==null && $cooperative['street']==null) $x=''; else $x=', ';?>
                       <?=$cooperative['house_blk_no']?> <?=$cooperative['street'].$x?><?=$cooperative['brgy']?>, <?=$cooperative['city']?>, <?= $cooperative['province']?> <?=$cooperative['region']?>
                   </td>
-                  <td>  
+                  <td>
                   <span class="badge badge-secondary">
                         <!-- <?php
                          if($cooperative['status']==10) echo "DENIED BY DIRECTOR";
                         else if($cooperative['status']==11) echo "DEFERRED BY DIRECTOR";
                         ?> -->
                         <?php if($is_client) : ?>
-                        
+
                       <?php else : ?>
                         <?php if($cooperative['status']==10) echo "DENIED BY DIRECTOR";
                         else if($cooperative['status']==11 && !$this->amendment_model->check_if_revert($cooperative['id'])) echo "DEFERRED";
@@ -395,13 +412,13 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Deferred/Denied</h4>
                   </span>
                   </td>
 
-                  <td> 
+                  <td>
                   <?php if($cooperative['status'] ==10 || $cooperative['status'] ==11 && $admin_info->access_level ==2):?>
                     <a href="<?php echo base_url();?>amendment/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View Document</a>
                   <?php endif;?>
-                  </td>                    
-            </tr>        
-        <?php    
+                  </td>
+            </tr>
+        <?php
           }
         ?>
         <tbody>
@@ -410,7 +427,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Deferred/Denied</h4>
     </div>
   </div>
 </div>
-<?php endif; */?>          
+<?php endif; */?>
 
 
 
@@ -468,7 +485,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
                       $proposeNames = $cooperative_registered['proposed_name'].' '.$cooperative_registered['type_of_cooperative']. ' Cooperative '.$acronym_;
                     }
                     echo $this->amendment_model->proposed_name_comparison($cooperative_registered['regNo'],$cooperative_registered['amendmentNo'],$proposeNames);
-                    ?>  
+                    ?>
                     <td><?= (strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($cooperative_registered['regNo'],$cooperative_registered['amendmentNo']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?></td>
 
                   <td>
@@ -505,7 +522,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
   </div><?endif; */?>
 
   <?php /*if(!$is_client && $admin_info->region_code != '00') :?>
-<div class="col-md-12">    
+<div class="col-md-12">
 <h4 style="
 padding: 15px 10px;
 background: #fff;
@@ -605,7 +622,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
         border-radius: 0;
         margin-bottom: 20px;
         box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by Head Office</h4>
-   
+
     </div>
 
     <div class="col-sm-12 col-md-12">
@@ -659,7 +676,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
                       </li>
                       <?php endif; //end of viewdoc array?>
                     </ul>
-                    
+
                   </td>
                 </tr>
                 <?php endforeach; ?>
@@ -684,7 +701,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
         border-radius: 0;
         margin-bottom: 20px;
         box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by Head Office</h4>
-   
+
     </div>
 
     <div class="col-sm-12 col-md-12">
@@ -714,7 +731,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
                     ?>
                   </td>
                    <td><?= (strcasecmp(trim(preg_replace('/\s\s+/', ' ',$this->amendment_model->get_last_proposed_name($cooperative_registered['regNo'],$cooperative_registered['amendmentNo']))),trim(preg_replace('/\s\s+/', ' ',$proposeNames)))!=0 ? $proposeNames : "")?>
-                     
+
                    </td>
 
                   <td>
@@ -740,7 +757,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
                       </li>
                       <?php endif; //end of viewdoc array?>
                     </ul>
-                    
+
                   </td>
                 </tr>
                 <?php endforeach; ?>
@@ -761,22 +778,22 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
         <div class="modal-header">
           <h5 class="modal-title"></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div> 
+        </div>
         <div class="modal-body form">
-          
-          <input type="hidden" name="payment_id" id="payment_id"> 
+
+          <input type="hidden" name="payment_id" id="payment_id">
           <input type="hidden" name="cid" id="cid">
           <div class="row">
             <div class="col-md-12">
-              
+
 
               <table width="100%" class="bord">
-                
+
                 <tr>
                   <td class="bord">Date</td>
                   <td class="bord" colspan="3"><b id="tDate"></b></td>
                 </tr>
-               
+
                 <tr>
                   <td class="bord">O.R. No</td>
                   <td class="bord"><input type="text" id="orNo" name="orNo" class="form-control" placeholder="Type here..." required></td>
@@ -822,12 +839,12 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
                   <td class="bord" colspan="2">Total </td>
                   <td class="taas"  width="8%">Php </td>
                   <td class="taas" align="right" width="13%"><b id="total"></b></td>
-                </tr>       
+                </tr>
               </table>
               <table id="test"></table>
             </div>
           </div>
-        </div><!-- /.modal-content -->    
+        </div><!-- /.modal-content -->
         <div class="modal-footer">
             <button type="button" id="saveOR" onclick= "save()" class="btn btn-primary">Save</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -843,8 +860,8 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
 <script type="text/javascript">
   $(document).ready(function(){
    function GetNow()
-  { 
-    var currentdate = new Date(); 
+  {
+    var currentdate = new Date();
     var month = currentdate.getMonth() + 1;
     var day = currentdate.getDate();
     var date1 = (currentdate.getFullYear() + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' + (('' + day).length < 2 ? '0' : '')  + day);
@@ -860,7 +877,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
        $("#msgdate").text("Date of O.R. should not be future date");
       setTimeout(function(){
           $("#msgdate").text("");
-      },5000);    
+      },5000);
     }
     else if(selectedDate == now)
     {
@@ -870,7 +887,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
     {
       $("#msgdate").text("");
     }
-  
+
   });
 });
 </script>
@@ -890,31 +907,32 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
         dataType: "JSON",
         data: {coop_id:coop_id},
         success: function(data)
-        { 
+        { console.log(data);
           var currentdate = new Date(data.date);
           var month = currentdate.getMonth() + 1;
           var day = currentdate.getDate();
           var formated_date = ( (('' + day).length < 2 ? '0' : '')  + day + '-' + (('' + month).length < 2 ? '0' : '') + month + '-' +currentdate.getFullYear());
 
-         
+
             var s=convert(data.total);
             $('#ref_nos').text(data.refNo);
             $('#payment_id').val(data.id);
             $('#tDate').text(formated_date);
             $('#payor').text(data.payor);
             $('#tNo').text(data.transactionNo);
-            $('#cid').val(coop_id);   
+            $('#cid').val(coop_id);
             $('#word').text(s);
             $('#nature').text(data.nature);
             $('#particulars').html(data.particulars);
-            $('#amount').html(data.amount); 
-            $('#total').text(parseFloat(data.total).toFixed(2));
- 
-            
+            $('#amount').html(data.amount);
+              $('#total').text(data.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            // $('#total').text(parseFloat(data.total).toFixed(2));
+
+
             $('#paymentModal').modal('show'); // show bootstrap modal
             $('.modal-title').text('Order of Payment');
 
- 
+
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
@@ -924,7 +942,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
   }
 
   function save(){
-    var x = $('#orNo').val(); 
+    var x = $('#orNo').val();
     if (x==''){
       alert('Missing O.R. No.');
     }
@@ -951,20 +969,20 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Outside the Reg
               }
               else
               {
-                  for (var i = 0; i < data.inputerror.length; i++) 
+                  for (var i = 0; i < data.inputerror.length; i++)
                   {
                       $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
                       $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
                   }
               }
-   
+
           },
           error: function (jqXHR, textStatus, errorThrown)
           {
               alert('Error adding / update data!');
              // $('#saveOR').text('save'); //change button text
-              //$('#saveOR').attr('disabled',false); //set button enable 
-   
+              //$('#saveOR').attr('disabled',false); //set button enable
+
           }
       });
     }

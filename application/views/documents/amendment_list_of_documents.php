@@ -90,8 +90,6 @@
 
     <h5 class="text-primary text-right">
 
-      Step 8
-
     </h5> 
 
   <?php else :?>

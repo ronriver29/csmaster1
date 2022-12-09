@@ -119,115 +119,6 @@
 		<tr>
 
 			<?php
-
-				// $artilces_array = array($typeOfcoop,
-
-				// 					    $proposeName,
-
-				// 					    $acronym_c,
-
-				// 					    $common_bond,
-
-				// 					    $areaOf_operation,
-
-				// 					    $fieldOfmemship,
-
-				// 					    $address1,
-
-				// 					    $authorized_share_capital,
-
-				// 							$common_share,
-
-				// 							$preferred_share,
-
-				// 							$par_value,
-
-				// 							$authorized_share_capital,
-
-				// 							$total_amount_of_subscribed_capital,
-
-				// 							// $amount_of_common_share_subscribed,
-
-				// 							$amount_of_preferred_share_subscribed,
-
-				// 							$total_amount_of_paid_up_capital,
-
-				// 							// $amount_of_common_share_paidup,
-
-				// 							$amount_of_preferred_share_paidup,
-
-				// 							$purposes,
-
-				// 							$no_of_bod
-
-				// 			       );
-
-				// // echo "<pre>";print_r($artilces_array);echo"</pre>";
-
-				// $bylaws_array = array(
-
-				// 			      $no_of_bod,
-
-				// 			      $kinds_of_members,
-
-				// 	          $additional_requirements_for_membership,
-
-				// 	          $regular_qualifications,
-
-				// 	          $associate_qualifications, 
-
-				// 	          $membership_fee,
-
-				// 	          $act_upon_membership_days,
-
-				// 	          $additional_conditions_to_vote,  
-
-				// 	          $annual_regular_meeting_day, 
-
-				// 	          // $annual_regular_meeting_day_date,
-
-				// 	          // $annual_regular_meeting_day_venue, 
-
-				// 	          $members_percent_quorom,
-
-				// 	          $number_of_absences_disqualification,
-
-				// 	          $percent_of_absences_all_meettings, 
-
-				// 	          $director_hold_term,
-
-				// 	          $member_invest_per_month, 
-
-				// 	          $member_percentage_annual_interest, 
-
-				// 	          $member_percentage_service, 
-
-				// 	          $percent_reserve_fund, 
-
-				// 	          $percent_education_fund, 
-
-				// 	          $percent_community_fund,
-
-				// 	          $percent_optional_fund, 
-
-				// 	          $non_member_patron_years, 
-
-				// 	          $amendment_votes_members_with,
-
-				// 	          $minimum_subscribed_share_regular, 
-
-				// 	          $minimum_paid_up_share_regular, 
-
-				// 	          $minimum_subscribed_share_associate,
-
-				// 	          $minimum_paid_up_share_associate,
-
-				// 	          $committees_others 
-
-				// );
-
-				// echo "<pre>";print_r($bylaws_array);echo"</pre>";
-
 				$and = '';
 
 				$and2='';
@@ -264,13 +155,6 @@
 
 					}
 
-			?>
-
-
-
-			<?php
-
-
 
 			$street='';
 
@@ -286,7 +170,7 @@
 
 			<td style="text-align: justify; text-indent: 40px;">This is to certify that the proposed amendments to the <?php if($acbl['articles']){?><b>ARTICLES OF COOPERATION</b><?php }?><?=$and;?><?php if($acbl['bylaws']){?><b>BY LAWS</b><?php }?> of the
 
-	                <b><?=$coop_info->coopName?></b>, with office address at <?= $coop_info->house_blk_no.$street.' '.$coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?> adopted in its <b><?=$bylaw_info->type?></b> Annual
+	                <b><?=$coop_info->coopName?></b>, with office address at <strong><?= $coop_info->house_blk_no.$street.' '.$coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?></strong> adopted in its <b><?=$bylaw_info->type?></b> Annual
 
 	                    General Assembly meeting held at <b><?=$coop_info->ga_venue?></b> on <b><?=date('F d, Y', strtotime($bylaw_info->annual_regular_meeting_day_date))?></b> were
 
@@ -478,7 +362,7 @@
 
 			<td style="text-align: justify; text-indent: 40px;">This is to certify that the proposed amendments to the <?php if($acbl['articles']){?><b>ARTICLES OF COOPERATION</b><?php }?><?=$and;?><?php if($acbl['bylaws']){?><b>BY LAWS</b><?php }?> of the
 
-	                 <b><?=$coop_info->coopName?></b>, with office address at <?= $coop_info->house_blk_no.$street.' '.$coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?> adopted in its <b><?=$bylaw_info->type?></b> Annual
+	                 <b><?=$coop_info->coopName?></b>, with office address at <strong><?= $coop_info->house_blk_no.$street.' '.$coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?></strong> adopted in its <b><?=$bylaw_info->type?></b> Annual
 
 	                    General Assembly meeting held at <b><?=$coop_info->ga_venue?></b> on <b><?=date('F d, Y', strtotime($bylaw_info->annual_regular_meeting_day_date))?></b> were
 
@@ -690,7 +574,7 @@
 
 			<td style="text-align: justify; text-indent: 40px;">This is to certify that the proposed amendments to the <?php if($acbl['articles']){?><b>ARTICLES OF COOPERATION</b><?php }?><?=$and;?><?php if($acbl['bylaws']){?><b>BY LAWS</b><?php }?> of the
 
-	                 <b><?=$coop_info->coopName?></b>, with office address at <?= $coop_info->house_blk_no.$street.' '.$coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?> adopted in its <b><?=$bylaw_info->type?></b> Annual
+	                 <b><?=$coop_info->coopName?></b>, with office address at <strong><?= $coop_info->house_blk_no.$street.' '.$coop_info->brgy?>, <?= $coop_info->city?>, <?= $coop_info->province?></strong> adopted in its <b><?=$bylaw_info->type?></b> Annual
 
 	                    General Assembly meeting held at <b><?=$coop_info->ga_venue?></b> on <b><?=date('F d, Y', strtotime($bylaw_info->annual_regular_meeting_day_date))?></b> were
 

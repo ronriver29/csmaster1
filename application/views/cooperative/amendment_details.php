@@ -2399,12 +2399,10 @@
 
             <?php }//end else */?> 
 
- 
+             
 
                <?php if($status_document_cooptype && $ga_complete && $bod_sec_complete && $bylaw_doc_complete && $articles_doc_complete): ?>
-                <?php
 
-                ?>
                 <span class="badge badge-success">COMPLETE</span>
 
                 <?php else: ?>
@@ -2443,15 +2441,15 @@
 
             <!-- </small> -->
             <?php if($is_from_updating){ ?>
-              <?php if($coop_info->custom_acbl == NULL):?>
+            <?php if($coop_info->custom_acbl == NULL):?>
+             <small class="text-muted">
+              <button data-toggle="modal" data-target="#confirmModal" class="btn btn-info btn-sm">View</button>
+            </small>
+            <?php else: ?>
                <small class="text-muted">
-                <button data-toggle="modal" data-target="#confirmModal" class="btn btn-info btn-sm">View</button>
-              </small>
-              <?php else: ?>
-                 <small class="text-muted">
-                <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_documents" class="btn btn-info btn-sm">View</a>
-              </small> 
-              <?php endif;?>
+              <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_documents" class="btn btn-info btn-sm">View</a>
+            </small> 
+            <?php endif;?>
           <?php }else{?>
              <small class="text-muted">
               <a href="<?php echo base_url();?>amendment/<?= $encrypted_id ?>/amendment_documents" class="btn btn-info btn-sm">View</a>

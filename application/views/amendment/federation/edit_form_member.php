@@ -7,12 +7,12 @@
 <link rel="stylesheet" href="<?=base_url('assets/plugins/bootstrap-select/bootstrap-select.min.css')?>" type="text/css"/>  
 <?php $total_subscribed = 0;?>
 <?php $total_paid = 0;?>
-<!-- <?php foreach ($list_cooperators as $cooperator) : ""?>
+ <?php foreach ($list_cooperators as $cooperator) : ""?>
     <?php 
         $total_subscribed += $cooperator['number_of_subscribed_shares'];
         $total_paid += $cooperator['number_of_paid_up_shares'];
     ?>
-<?php endforeach; ?> -->
+<?php endforeach; ?> 
 
 
 
@@ -46,13 +46,12 @@
               //   $available_subscribed_capital = '';
               // }
                 $available_paid_up_capital = isset($capitalization_info->total_no_of_paid_up_capital) ? (($capitalization_info->total_no_of_paid_up_capital - $total_paid)>=0 ? ($capitalization_info->total_no_of_paid_up_capital - $total_paid) + $capitalization_info->minimum_paid_up_share_regular : '') : '';
-              
-              
+          
               ?>
-              <input type='hidden' id='maxvalue'/>
-              <input type='hidden' id='maxvalue_asc' value="<?=$capitalization_info->total_no_of_subscribed_capital - $total_subscribed?>"/>
-              <input type='hidden' id='maxvalue2'/>
-              <input type='hidden' id='maxvalue_apuc' value="<?=$capitalization_info->total_no_of_paid_up_capital - $total_paid?>"/>
+              <!-- <input type='hidden' id='maxvalue'/> -->
+              <!-- <input type='' id='maxvalue_asc' value="<?=$capitalization_info->total_no_of_subscribed_capital - $total_subscribed?>"/> -->
+              <!-- <input type='hidden' id='maxvalue2'/> -->
+             <!--  <input type='' id='maxvalue_apuc' value="<?=$capitalization_info->total_no_of_paid_up_capital - $total_paid?>"/> -->
 
               <input type='hidden' id='available_subscribed_capital2' value="<?=$available_subscribed_capital?>" />
               <input type='hidden' id='available_paid_up_capital2' value="<?=$available_paid_up_capital?>" />
@@ -112,7 +111,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="subscribedShares2">No of subscribed shares:</label>
-                  <input type="number" min="1" max="<?=$available_subscribed_capital?>" class="form-control" id="subscribedShares2" name="subscribedShares2">
+                  <input type="number" min="<?=$capitalization_info->minimum_subscribed_share_regular?>" max="<?=$available_subscribed_capital?>" class="form-control" id="subscribedShares2" name="subscribedShares2" required>
                   <div style="color: red; font-size: 12px;" id="clicktoverify"><i>* Click the field to verify</i></div>
                   <div id="subscribed-note2" style="color: red; font-size: 12px;" required></div>
                 </div>
@@ -120,7 +119,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="paidShares2">No of paid-up Shares:</label>
-                  <input type="number"  class="form-control" id="paidShares2" name="paidShares2" >
+                  <input type="number" min="<?=$capitalization_info->minimum_paid_up_share_regular?>" max="<?=$available_paid_up_capital?>"  class="form-control" id="paidShares2" name="paidShares2" required>
                   <div style="color: red; font-size: 12px;" id="clicktoverify2"><i>* Click the field to verify</i></div>
                   <div id="paid-note2" style="color: red; font-size:12px;"></div>
                 </div>
@@ -131,14 +130,14 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="paidShares">Name of Representative:</label>
-                  <input type="text" class="form-control " id="repre" name="repre">
+                  <input type="text" class="form-control " id="repre" name="repre" required>
                   <!-- <input type="text" id="repre" name="repre" class="form-control validate[required]"> -->
                 </div>
               </div>
               <div class="col-md-4">
                   <div class="form-group">
                     <label for="validIdType">Proof of Identity: </label>
-                    <select class="custom-select " id="validIdType" name="validIdType" >
+                    <select class="custom-select " id="validIdType" name="validIdType" required>
                       <option selected>--</option>
                       <option value="Digitized Postal ID">Digitized Postal ID</option>
                       <option value="Driver's License">Driver's License</option>
@@ -162,7 +161,7 @@
                 <div class="col-sm-12 col-md-4">
                   <div class="form-group form-group-validIdNo">
                     <label for="validIdNo">Valid ID No.</label>
-                    <input type="text" class="form-control" id="validIdNo" name="validIdNo" >
+                    <input type="text" class="form-control" id="validIdNo" name="validIdNo" required>
                   </div>
                 </div>
               </div>
@@ -170,7 +169,7 @@
                 <div class="col-sm-12 col-md-3">
                   <div class="form-group">
                     <label for="dateIssued"><i class="fas fa-info-circle"  data-toggle="tooltip" data-placement="top" data-html="true" title="<li>In Accordance with Notarial Law.</li>"></i> Date Issued:</label>
-                    <input type="date" class="form-control " id="dateIssued" name="dateIssued">
+                    <input type="date" class="form-control " id="dateIssued" name="dateIssued" required>
                    <!-- <input type="text" class="form-control validate[required]" id="dateIssued" name="dateIssued"> -->
                     <!-- <small style="margin-left: 20px;"><span><i>  yyyy-mm-dd </i></span></small> -->
                     <input type="checkbox" name="dateIssued_chk" id="chkID" value="N/A"> <small>ID Date Issued not available</small>
@@ -179,7 +178,7 @@
                 <div class="col-sm-12 col-md-9">
                   <div class="form-group">
                     <label for="placeIssuance">Place of Issuance: </label>
-                    <textarea class="form-control " style="resize: none;" id="place_of_issuance" name="place_of_issuance" rows="1" ></textarea>
+                    <textarea class="form-control " style="resize: none;" id="place_of_issuance" name="place_of_issuance" rows="1" required></textarea>
                   </div>
                 </div>
               </div>
@@ -200,106 +199,106 @@
 <script>
  $(document).ready(function(){
 
-    var str3 = $("#maxvalue_apuc").val();
+    // var str3 = $("#maxvalue_apuc").val();
 
-    if(str3 >= $("#subscribedShares2").val()){
-      $("#paidShares2").one('click',function(){
-          var str4 = $("#paidShares2").val();
-          var str4 = parseInt(str4) + parseInt(str3);
-          // $('#maxvalue2').val(str4);
+    // if(str3 >= $("#subscribedShares2").val()){
+    //   $("#paidShares2").one('click',function(){
+    //       var str4 = $("#paidShares2").val();
+    //       var str4 = parseInt(str4) + parseInt(str3);
+    //       // $('#maxvalue2').val(str4);
 
-          $("#paidShares2").attr({
-             "max" : str4,        // substitute your own
-             "min" : 1          // values (or variables) here
-          });
-      });
-    }
+    //       $("#paidShares2").attr({
+    //          "max" : str4,        // substitute your own
+    //          "min" : 1          // values (or variables) here
+    //       });
+    //   });
+    // }
 
-    if(str3 == 0){
-        $("#paidShares2").one('click',function(){
-          $("#clicktoverify2").hide();
-            var str4 = $("#paidShares2").val();
-            $('#maxvalue2').val(str4);
+    // if(str3 == 0){
+    //     $("#paidShares2").one('click',function(){
+    //       $("#clicktoverify2").hide();
+    //         var str4 = $("#paidShares2").val();
+    //         $('#maxvalue2').val(str4);
 
-            $("#paidShares2").attr({
-               "max" : str4,        // substitute your own
-               "min" : 1          // values (or variables) here
-            });
-        });
-      } else {
-        $("#paidShares2").on('click',function(){
-          $("#clicktoverify2").hide();
-        });
-      }
+    //         $("#paidShares2").attr({
+    //            "max" : str4,        // substitute your own
+    //            "min" : 1          // values (or variables) here
+    //         });
+    //     });
+    //   } else {
+    //     $("#paidShares2").on('click',function(){
+    //       $("#clicktoverify2").hide();
+    //     });
+    //   }
 
-    $(".close").on('click',function(){
-      $("#clicktoverify2").show();
-      if(str3 == 0){
-        $("#paidShares2").one('click',function(){
-            var str4 = $("#paidShares2").val();
-            $('#maxvalue2').val(str4);
+    // $(".close").on('click',function(){
+    //   $("#clicktoverify2").show();
+    //   if(str3 == 0){
+    //     $("#paidShares2").one('click',function(){
+    //         var str4 = $("#paidShares2").val();
+    //         $('#maxvalue2').val(str4);
 
-            $("#paidShares2").attr({
-               "max" : str4,        // substitute your own
-               "min" : 1          // values (or variables) here
-            });
-        });
-      }
-    });
+    //         $("#paidShares2").attr({
+    //            "max" : str4,        // substitute your own
+    //            "min" : 1          // values (or variables) here
+    //         });
+    //     });
+    //   }
+    // });
 
-    var str2 = $("#maxvalue_asc").val();
+    // var str2 = $("#maxvalue_asc").val();
 
-    if(str2 == 0){
-        $("#subscribedShares2").one('click',function(){
-          $("#clicktoverify").hide();
-            var str = $("#subscribedShares2").val();
-            $('#maxvalue').val(str);
+    // if(str2 == 0){
+    //     $("#subscribedShares2").one('click',function(){
+    //       $("#clicktoverify").hide();
+    //         var str = $("#subscribedShares2").val();
+    //         $('#maxvalue').val(str);
 
-            $("#subscribedShares2").attr({
-               "max" : str,        // substitute your own
-               "min" : 1          // values (or variables) here
-            });
+    //         $("#subscribedShares2").attr({
+    //            "max" : str,        // substitute your own
+    //            "min" : 1          // values (or variables) here
+    //         });
 
-        });
+    //     });
         
-      } else {
-        $("#subscribedShares2").on('click',function(){
-          $("#clicktoverify").hide();
-        });
-      }
+    //   } else {
+    //     $("#subscribedShares2").on('click',function(){
+    //       $("#clicktoverify").hide();
+    //     });
+    //   }
 
-    if(str3 == 0 && str2){
-      var str = $("#subscribedShares2").val();
-      $('#maxvalue').val(str);
+    // if(str3 == 0 && str2){
+    //   var str = $("#subscribedShares2").val();
+    //   $('#maxvalue').val(str);
 
-      $("#subscribedShares2").attr({
-         "max" : str,        // substitute your own
-         "min" : 1          // values (or variables) here
-      });
+    //   $("#subscribedShares2").attr({
+    //      "max" : str,        // substitute your own
+    //      "min" : 1          // values (or variables) here
+    //   });
 
-      var str4 = $("#paidShares2").val();
-            $('#maxvalue2').val(str4);
+    //   var str4 = $("#paidShares2").val();
+    //         $('#maxvalue2').val(str4);
 
-            $("#paidShares2").attr({
-               "max" : str4,        // substitute your own
-               "min" : 1          // values (or variables) here
-            });
-    }
+    //         $("#paidShares2").attr({
+    //            "max" : str4,        // substitute your own
+    //            "min" : 1          // values (or variables) here
+    //         });
+    // }
 
-    $(".close").on('click',function(){
-      $("#clicktoverify").show();
-      if(str2 == 0){
-        $("#subscribedShares2").one('click',function(){
-            var str = $("#subscribedShares2").val();
-            $('#maxvalue').val(str);
+    // $(".close").on('click',function(){
+    //   $("#clicktoverify").show();
+    //   if(str2 == 0){
+    //     $("#subscribedShares2").one('click',function(){
+    //         var str = $("#subscribedShares2").val();
+    //         $('#maxvalue').val(str);
 
-            $("#subscribedShares2").attr({
-               "max" : str,        // substitute your own
-               "min" : 1          // values (or variables) here
-            });
-        });
-      }
-    });
+    //         $("#subscribedShares2").attr({
+    //            "max" : str,        // substitute your own
+    //            "min" : 1          // values (or variables) here
+    //         });
+    //     });
+    //   }
+    // });
 
     $("#chkID").on('click',function(){
 
