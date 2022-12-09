@@ -4,7 +4,6 @@
 // use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Amendment_update extends CI_Controller{
   public $decoded_id = null; 
-  public $data = '';
     public function __construct()
     {
       parent::__construct();
@@ -434,7 +433,6 @@ class Amendment_update extends CI_Controller{
                   $data['coop_info'] = $this->amendment_update_model->get_coop_info2($this->decoded_id);
                   $data['coop_info2'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$this->decoded_id);
                   $data['name_of_coop_primary'] = $this->amendment_update_model->name_coop_primary($data['client_info']->regno);
-
                   $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
                   $coopTypeName= $data['coop_info']->type_of_cooperative;
                   $typeName_arr = explode(',',$coopTypeName);
@@ -482,7 +480,6 @@ class Amendment_update extends CI_Controller{
                   {
                     $list_ofComposition[] = $this->CompositionOfmembers($com_row);
                   }
-                  unset($com_row);
                   $data['list_of_comp'] = $list_ofComposition;
                  }
 
@@ -500,7 +497,7 @@ class Amendment_update extends CI_Controller{
                   $list_subclass = $this->load_subclass($data['coop_info']->cooperative_type_id);
                   $data['load_major'] = $list_majors;
                   $data['load_subclass'] = $list_subclass;
-                  // var_dump($data['coop_info']);
+
                   $qry_business_act = $this->db->get_where('business_activities_cooperative_amendment',array('amendment_id'=>$this->decoded_id));
                  // $this->debug($this->db->last_query());
                   if($qry_business_act->num_rows()>0)
@@ -528,25 +525,25 @@ class Amendment_update extends CI_Controller{
                         {
                           $mdata[] = $this->list_of_majorindustry($ctype_id);
                         }
-                        unset($ctype_id);
+                     
                         $data['mjor_list']=$mdata;
                      
                         foreach($mdata as $m)
                         {
                             $subclass_data[]=$this->list_of_subclasss($m['major_industry_id']);
                         }
-                        unset($m);
+
                        foreach($subclass_data as $sdata){
                         foreach($sdata as $srow)
                         {
                           $list_subclass[]= $this->major_industry_description_subclass($srow['subclass_id']);
                         }
                        }
-                       unset($srow);
+
                        $data['list_subclass'] = $list_subclass;
-                      }  
-                      
-                    } unset($brow);
+                      }   
+
+                    }
                   }
                   // $data['members_compositions']=$this->amendment_update_model->get_composition_of_members($this->decoded_id);
                   // $this->debug( $data['members_composition']); 
@@ -775,24 +772,23 @@ class Amendment_update extends CI_Controller{
               { 
                    $admin_user_id = $this->session->userdata('user_id');
                   $user_id = $this->amendment_update_model->user_info_by_amendment_id($this->decoded_id)->users_id;
-                  // $data['client_info'] = $this->user_model->get_user_info($user_id); 
-
+                  // echo $this->db->last_query();
+                 
+                  // $this->debug($data['client_info']);
                   $data['members_composition'] = $this->amendment_update_model->get_coop_composition($this->decoded_id);
                   $data['title'] = 'Update Cooperative Details';
                   $data['header'] = 'Update Cooperative Information';
                   $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
                   $data['coop_info'] = $this->amendment_update_model->get_coop_info2($this->decoded_id);
                   $data['coop_info2'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$this->decoded_id);
-              
-                  $data['client_info'] = $this->user_model->get_user_info($data['coop_info2']->users_id); 
-
-                 if( $this->amendment_update_model->check_user_($data['coop_info']->regNo,$data['coop_info']->users_id))
+                 
+                  $data['client_info'] = $this->user_model->get_user_info($data['coop_info2']->users_id);
+                  if( $this->amendment_update_model->check_user_($data['coop_info']->regNo,$data['coop_info']->users_id))
                  {
                   $this->amendment_update_model->update_user_coop($data['coop_info']->regNo,$data['coop_info']->id);
                  }
-
                   $data['name_of_coop_primary'] = $this->amendment_update_model->name_coop_primary($data['client_info']->regno);
-                  
+                   
                   $data['bylaw_info'] = $this->amendment_update_bylaw_model->get_bylaw_by_coop_id($this->decoded_id);
                   $coopTypeName= $data['coop_info']->type_of_cooperative;
                   $typeName_arr = explode(',',$coopTypeName);

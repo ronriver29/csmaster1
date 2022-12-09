@@ -3778,7 +3778,7 @@ where coop.users_id = '$user_id' and coop.status =15");
     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode','inner');
     ($regcode !=='00' ? $this->db->like('refregion.regCode', $regcode) : '');
-    $this->db->where('amend_coop.status = 40 AND amend_coop.migrated=1 AND ho='.$ho.$coopName.$regNo);
+    $this->db->where('amend_coop.status = 40 AND amend_coop.users_id > 0 AND amend_coop.migrated=1 AND ho='.$ho.$coopName.$regNo);
     $query = $this->db->get();
     $datas=[];
     if($query->num_rows()>0)
@@ -3913,29 +3913,24 @@ where coop.users_id = '$user_id' and coop.status =15");
     return $data;
   }
 
-
-  public function update_user_coop($regNo,$amendment_id)
+   public function update_user_coop($regNo,$amendment_id)
   {
-    $query = $this->db->select('id')->from('users')->where(['regno'=>$regNo])->order_by('id','asc')->limit(1)->get();
+    $query = $this->db->select('users_id')->from('amend_coop')->where(['regNo'=>$regNo])->order_by('id','asc')->limit(1)->get();
     if($query->num_rows()>0)
     {
-    
       foreach ($query->result_array() as $row) {
-       $users_id =  $row['id'];
+       $users_id =  $row['users_id'];
       }
-      unset($row);
-      $this->db->update('amend_coop',['users_id'=>$users_id],['regNo'=>$regNo]);
+      $this->db->update('amend_coop',['users_id'=>$users_id],['id'=>$amendment_id]);
     }
   }
-
   public function check_user_($regNo,$current_user_id)
   {
-       // $query = $this->db->select('users_id')->from('amend_coop')->where(['regNo'=>$regNo])->order_by('id','asc')->limit(1)->get();
-      $query = $this->db->select('id')->from('users')->where(['regno'=>$regNo])->order_by('id','asc')->limit(1)->get();
+       $query = $this->db->select('users_id')->from('amend_coop')->where(['regNo'=>$regNo])->order_by('id','asc')->limit(1)->get();
     if($query->num_rows()>0)
     {
       foreach ($query->result_array() as $row) {
-       $users_id =  $row['id'];
+       $users_id =  $row['users_id'];
       }
       if($users_id !=$current_user_id)
       {

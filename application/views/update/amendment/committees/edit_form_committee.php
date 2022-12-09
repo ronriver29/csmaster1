@@ -30,6 +30,7 @@
               <?php 
                $count_type='';
                 $count_type = count(explode(',',$coop_info->type_of_cooperative));
+
               ?>
                <select class="custom-select validate[required]" name="committeeName" id="committeeName">
                                 <option value="Audit" <?php if($committee_info->name=="Audit") echo "selected";?> >Audit</option>
@@ -41,7 +42,7 @@
                  <?php if ($coop_info->type_of_cooperative == 'Credit' || $coop_info->type_of_cooperative == 'Agriculture' || $coop_info->type =='Multipurpose' || $coop_info->type_of_cooperative == 'Advocacy' || $coop_info->type_of_cooperative =='Agrarian Reform'  || $coop_info->type_of_cooperative =='Consumers' || $count_type>1){?>
                     <option id="A" value="Credit">Credit</option>
                   <?php } ?>
-                   <option value="Gender and Development" <?php if($committee_info->name=="Gender and Development") echo "selected";?> <?=($committee_info->type =='others' ? "disabled" : " ")?>>Gender and Development</option>
+
                     <?php foreach ($custom_committees as $custom_committee) : ?>
                     <option value="<?= $custom_committee['name'] ?> " <?php if($committee_info->name==$custom_committee['name']) echo "selected";?> > <?= $custom_committee['name'] ?> </option>
                   <?php endforeach;unset($custom_committee); ?>
