@@ -6,7 +6,7 @@
 
   </div>
 
-    
+
 
 </div>
 
@@ -108,7 +108,7 @@
 
         </div>
 
-        <div class="modal-body form"> 
+        <div class="modal-body form">
 
           <input type="hidden" id="cooperativeID" name="cooperativeID" readonly>
 
@@ -194,7 +194,7 @@
 
                 <td style="border:1px solid black;padding-top:5px;">
 
-                  <?php 
+                  <?php
 
                       foreach($deferred_comments as $cc) :
 
@@ -214,7 +214,7 @@
 
                 <td style="border:1px solid black;padding-top:5px;">
 
-                  <?php 
+                  <?php
 
                       foreach($deferred_comments as $cc) :
 
@@ -234,7 +234,7 @@
 
                 <td style="border:1px solid black;padding-top:5px;">
 
-                  <?php 
+                  <?php
 
                       foreach($deferred_comments as $cc) :
 
@@ -294,7 +294,7 @@
 
               <div class="modal-body" style="table-layout: fixed;">
 
-                  <pre> <?php 
+                  <pre> <?php
 
       //            print_r($cooperatives_comments);
 
@@ -646,7 +646,7 @@
 
       </li>
 
-      
+
 
       <li class="list-group-item  flex-column align-items-start">
 
@@ -684,7 +684,7 @@
 
       </li>
 
-      
+
 
       <li class="list-group-item  flex-column align-items-start">
 
@@ -1030,7 +1030,7 @@
 
                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> <?= $coop_info->grouping?> Of <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Submit</button>
 
-              <?php } else if($coop_info->grouping == 'Federation'){?> 
+              <?php } else if($coop_info->grouping == 'Federation'){?>
 
                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#approveCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> Federation of <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Submit</button>
 
@@ -1062,7 +1062,7 @@
 
                 <button type="button" class="btn btn-secondary btn-sm btn-dark" data-toggle="modal" data-target="#revertCooperativeModal"  data-cname="<?= $coop_info->proposed_name?> Federation of <?=$coop_info->type_of_cooperative?> Cooperative <?php if(!empty($coop_info->acronym_name)){ echo '('.$coop_info->acronym_name.')';}?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($coop_info->id))?>" <?php if($coop_info->tool_yn_answer==null) echo 'disabled';?> >Revert for re-evaluation</button>
 
-              </div>  
+              </div>
 
             <?php }?>
 
@@ -1342,7 +1342,7 @@
 
             <small class="text-muted">
 
-             
+
 
               <?php if($committees_complete == TRUE): ?>
 
@@ -1476,7 +1476,7 @@
 
                     <span class="badge badge-success">COMPLETE</span>
 
-               
+
 
                 <?php else ://   (!$document_two && !$document_completed): ?>
 
@@ -1658,7 +1658,7 @@
 
                 }
 
-                if(!empty($coop_info->acronym_name)){ 
+                if(!empty($coop_info->acronym_name)){
 
                     $acronym_name = '('.$coop_info->acronym_name.')';
 
@@ -1726,7 +1726,7 @@
 
                 }
 
-                
+
 
                 $amount_in_words=0;
 
@@ -1812,7 +1812,7 @@
 
                     $series = $series->refNo;
 
-                    
+
 
                     // echo $this->db->last_query();
 
@@ -1862,7 +1862,7 @@
 
                  <input style="width:20%;" class="btn btn-info btn-sm" type="submit" id="offlineBtn" name="offlineBtn" value="Download O.P">
 
-                
+
 
 
 
@@ -1870,7 +1870,7 @@
 
 
 
-                   
+
 
                 <?php
 
@@ -1891,4 +1891,3 @@
     <?php endif; ?>
 
 </div>
-

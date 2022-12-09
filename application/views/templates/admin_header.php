@@ -118,7 +118,7 @@
            </li>
          </ul>
        </li>
-       <li>
+       <!-- <li>
          <a href="#pageSubmenuRep" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-cog"></i> Reports</a>
          <ul class="collapse list-unstyled" id="pageSubmenuRep">
            <li>
@@ -151,7 +151,7 @@
                  </li>
                </li>
          </ul>
-       </li>
+       </li> -->
          <!-- <li>
              <a href="<?php echo base_url();?>report"><i class="fas fa-cog"></i> Query Builder</a>
            </li> -->
@@ -280,7 +280,7 @@
            <a href="<?php echo base_url();?>account_approval"><i class="fas fa-handshake"></i> Account Approval</a>
          </li>
 
-         <li>
+         <!-- <li>
           <a href="#pagePayments" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-handshake"></i> Payment Inquiry</a>
           <ul class="collapse list-unstyled" id="pagePayments">
             <li>
@@ -305,7 +305,7 @@
               <a href="<?php echo base_url();?>amendment/registered_ho"><i class="fas fa-cog"></i> Registered Coop Processed by Head Office</a>
             </li> -->
           </ul>
-        </li>
+        </li> -->
          <?php endif; ?>
        <?php endif; ?>
        <?php if($admin_info->access_level == 6) : ?>

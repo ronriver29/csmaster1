@@ -483,79 +483,79 @@ class Payments extends CI_Controller{
       );
 
       if ($this->payment_model->check_payment_not_exist($data))
-        $this->payment_model->save_payment_online($data,$this->input->post('rCode'));
-        $user_id = $this->session->userdata('user_id');
-        $report_exist = $this->db->where(array('payor'=>$this->input->post('payor')))->order_by("id","DESC")->get('payment');
+      //   $this->payment_model->save_payment_online($data,$this->input->post('rCode'));
+      //   $user_id = $this->session->userdata('user_id');
+      //   $report_exist = $this->db->where(array('payor'=>$this->input->post('payor')))->order_by("id","DESC")->get('payment');
 
-          // if($report_exist->num_rows()==0){
-          //   // Payment Series
-          //   $current_year = date('Y');
-          //   $this->db->select('*');
-          //   $this->db->from('payment');
-          //   $this->db->where("(refNo IS NOT NULL OR refNo != '') AND YEAR(date) = '".$current_year."'");
-          //   $series = $this->db->count_all_results();
-          //   $data1['series'] = $series + 1;
-          //   // End Payment Series
-          // } else {
-          //   $this->db->select('*');
-          //   $this->db->from('payment');
-          //   $this->db->where('payor',$this->input->post('payor'));
-          //   $this->db->order_by("id","DESC");
-          //   $query = $this->db->get();
-          //   $series = $query->row();
-          //   $lastseries = $series->refNo;
-          //   $string = substr($lastseries, strrpos($lastseries, '-' )+1);
-          //   $data1['series'] = $string; // about-us
-          // }
-      $data1['cooperatives_id'] = $this->payment_model->get_payment_info($data)->cooperatives_id;
-      $data1['tTransactionNo'] = $this->payment_model->get_payment_info($data)->transactionNo;
-      $data1['tDate'] = $this->payment_model->get_payment_info($data)->date;
-      $data1['nature'] = $this->payment_model->get_payment_info($data)->nature;
-      $data1['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
-      $data1['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
-      $data1['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
-      $data1['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
-      $data1['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
-      $data1['name_reservation_fee']=100.00;
-      $data1['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
+      //     // if($report_exist->num_rows()==0){
+      //     //   // Payment Series
+      //     //   $current_year = date('Y');
+      //     //   $this->db->select('*');
+      //     //   $this->db->from('payment');
+      //     //   $this->db->where("(refNo IS NOT NULL OR refNo != '') AND YEAR(date) = '".$current_year."'");
+      //     //   $series = $this->db->count_all_results();
+      //     //   $data1['series'] = $series + 1;
+      //     //   // End Payment Series
+      //     // } else {
+      //     //   $this->db->select('*');
+      //     //   $this->db->from('payment');
+      //     //   $this->db->where('payor',$this->input->post('payor'));
+      //     //   $this->db->order_by("id","DESC");
+      //     //   $query = $this->db->get();
+      //     //   $series = $query->row();
+      //     //   $lastseries = $series->refNo;
+      //     //   $string = substr($lastseries, strrpos($lastseries, '-' )+1);
+      //     //   $data1['series'] = $string; // about-us
+      //     // }
+      // $data1['cooperatives_id'] = $this->payment_model->get_payment_info($data)->cooperatives_id;
+      // $data1['tTransactionNo'] = $this->payment_model->get_payment_info($data)->transactionNo;
+      // $data1['tDate'] = $this->payment_model->get_payment_info($data)->date;
+      // $data1['nature'] = $this->payment_model->get_payment_info($data)->nature;
+      // $data1['coop_info'] = $this->cooperatives_model->get_cooperative_info($user_id,$decoded_id);
+      // $data1['bylaw_info'] = $this->bylaw_model->get_bylaw_by_coop_id($decoded_id);
+      // $data1['article_info'] = $this->article_of_cooperation_model->get_article_by_coop_id($decoded_id);
+      // $data1['total_regular'] = $this->cooperator_model->get_total_regular($decoded_id);
+      // $data1['total_associate'] = $this->cooperator_model->get_total_associate($decoded_id);
+      // $data1['name_reservation_fee']=100.00;
+      // $data1['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
 
-      // echo $data1['tTransactionNo'];
-      $way_up = $this->input->post('refNo').'-'.date('Hi');
-      $hash = strtolower(md5('2018070336'.$way_up.($this->input->post('total') * 100)));
+      // // echo $data1['tTransactionNo'];
+      // $way_up = $this->input->post('refNo').'-'.date('Hi');
+      // $hash = strtolower(md5('2018070336'.$way_up.($this->input->post('total') * 100)));
 
-      $refno_replace = str_replace('-','',$this->input->post('refNo'));
-      $this->payment_model->update_payment_online($decoded_id,$way_up);
+      // $refno_replace = str_replace('-','',$this->input->post('refNo'));
+      // $this->payment_model->update_payment_online($decoded_id,$way_up);
 
-      $enc_user_id = encrypt_custom($this->encryption->encrypt($user_id));
-      $enc_decoded_id = encrypt_custom($this->encryption->encrypt($decoded_id));
+      // $enc_user_id = encrypt_custom($this->encryption->encrypt($user_id));
+      // $enc_decoded_id = encrypt_custom($this->encryption->encrypt($decoded_id));
 
-      $params = array(
-        'MerchantCode' => '2018070336',
-        'MerchantRefNo' => $way_up,
-        'Particulars' => 'transaction_type=Cooperative Name Reservation;TransactionNo='.$refno_replace.';Regional Office='.$this->input->post('rDesc').';Reservation Number='.$data1['tTransactionNo'].';Name of Applicant='.$this->input->post('name_of_applicant').';Proposed Name of Cooperative='.$this->input->post('proposed_name').';',
-        'Amount' => $this->input->post('total'),
-        'PayorName' => $this->input->post('payor'),
-        'PayorEmail' => $this->input->post('payoremail'),
-        'ReturnURLError' => base_url('payments/error/'.$enc_user_id),
-        // 'ReturnURLOK' => 'http://ecoopris.cmvsd.com/ris_updating/payments/ok',
-        // 'ReturnURLError' => base_url('payments/error/'.$user_id.'/'.$decoded_id),
-        'ReturnURLOK' => base_url('payments/ok/'.$enc_user_id.'/'.$enc_decoded_id),
-        'Hash' => $hash,
-      );
+      // $params = array(
+      //   'MerchantCode' => '2018070336',
+      //   'MerchantRefNo' => $way_up,
+      //   'Particulars' => 'transaction_type=Cooperative Name Reservation;TransactionNo='.$refno_replace.';Regional Office='.$this->input->post('rDesc').';Reservation Number='.$data1['tTransactionNo'].';Name of Applicant='.$this->input->post('name_of_applicant').';Proposed Name of Cooperative='.$this->input->post('proposed_name').';',
+      //   'Amount' => $this->input->post('total'),
+      //   'PayorName' => $this->input->post('payor'),
+      //   'PayorEmail' => $this->input->post('payoremail'),
+      //   'ReturnURLError' => base_url('payments/error/'.$enc_user_id),
+      //   // 'ReturnURLOK' => 'http://ecoopris.cmvsd.com/ris_updating/payments/ok',
+      //   // 'ReturnURLError' => base_url('payments/error/'.$user_id.'/'.$decoded_id),
+      //   'ReturnURLOK' => base_url('payments/ok/'.$enc_user_id.'/'.$enc_decoded_id),
+      //   'Hash' => $hash,
+      // );
 
-      // redirect();
-      $url = 'https://222.127.109.48/epp20200915/?';
-      // $url = 'https://epaymentportal.landbank.com/?';
+      // // redirect();
+      // $url = 'https://222.127.109.48/epp20200915/?';
+      // // $url = 'https://epaymentportal.landbank.com/?';
 
-      $postData = '';
-        //create name value pairs seperated by &
-        foreach($params as $k => $v)
-        {
-          $postData .= $k . '='.$v.'&';
-        }
+      // $postData = '';
+      //   //create name value pairs seperated by &
+      //   foreach($params as $k => $v)
+      //   {
+      //     $postData .= $k . '='.$v.'&';
+      //   }
 
-      $complete_url = $url.$postData;
-      header("Location: ".$complete_url."");
+      // $complete_url = $url.$postData;
+      // header("Location: ".$complete_url."");
         }
 
     }
