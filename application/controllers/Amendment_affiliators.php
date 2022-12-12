@@ -49,11 +49,11 @@ class Amendment_affiliators extends CI_Controller{
                   
                     $data['bylaw_info'] = $this->amendment_bylaw_model->get_bylaw_by_coop_id($decoded_id);
                     $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($decoded_id); 
-                      // $this->debug( $data['capitalization_info']); echo $this->db->last_query()
-                    $data['minimum_regular_subscription'] = $data['capitalization_info']->minimum_subscribed_share_regular;
-                    $data['minimum_regular_pay'] =  $data['capitalization_info']->minimum_paid_up_share_regular;
-                    $data['minimum_associate_subscription'] =  $data['capitalization_info']->minimum_subscribed_share_associate;
-                    $data['minimum_associate_pay'] = $data['capitalization_info']->minimum_paid_up_share_associate;
+                    
+                    $data['minimum_regular_subscription'] = ($data['capitalization_info']!=NULL ? $data['capitalization_info']->minimum_subscribed_share_regular : '');
+                    $data['minimum_regular_pay'] =  ($data['capitalization_info']!=NULL ? $data['capitalization_info']->minimum_paid_up_share_regular : '');
+                    $data['minimum_associate_subscription'] =  ($data['capitalization_info']!=NULL ? $data['capitalization_info']->minimum_subscribed_share_associate : '');
+                    $data['minimum_associate_pay'] = ($data['capitalization_info']!=NULL ? $data['capitalization_info']->minimum_paid_up_share_associate : '');
                     $data['total_regular'] = $this->amd_affiliators_model->get_total_regular($decoded_id);
 
                    

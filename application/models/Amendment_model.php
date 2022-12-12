@@ -2079,9 +2079,10 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
 
       }
       unset($article_rows);
+      $this->db->insert('amendment_articles_of_cooperation',$data_articles_cooperation);
     }
 
-    $this->db->insert('amendment_articles_of_cooperation',$data_articles_cooperation);
+    
 
     $compo = explode(',',$members_composition);
     $this->db->select('id');
@@ -2146,13 +2147,16 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       // unset($temp_purpose);
 
       // }
+         $temp_purpose='';
        $type_coop = explode(',',$data['type_of_cooperative']);
        foreach($type_coop as $key => $rowcoop_type)
        {
         if($last_amendment_dtl->type_of_cooperative == $rowcoop_type)
         {
           $query_purposes = $this->db->query("SELECT cooperative_type,content FROM amendment_purposes WHERE amendment_id='$last_amendment_dtl->id'");
-          foreach($query_purposes->result() as $p)
+          if($query_purposes->num_rows()>0)
+          {
+             foreach($query_purposes->result() as $p)
           {
              $data_p = array(
                 'cooperatives_id' => $data['cooperative_id'],
@@ -2164,6 +2168,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
           }
           unset($p);
           unset($data_p);
+          }
         }
         else
         {
@@ -2174,10 +2179,12 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
             'content'  => $this->get_purpose_content($rowcoop_type,$data['grouping'])
              );
         }
-
+       
        }
-       unset($rowcoop_type);
-      $this->db->insert_batch('amendment_purposes',$temp_purpose);
+      
+        unset($rowcoop_type);
+       if($temp_purpose!=''){$this->db->insert_batch('amendment_purposes',$temp_purpose);}
+        unset($temp_purpose);
      //end of purposes
 
 
@@ -5224,7 +5231,8 @@ where coop.users_id = '$user_id' and coop.status =15");
     public function coopName_from_migration($amendment_no,$regNo)
     {
       $data='';
-      $query = $this->db->query("select coopName from registeredamendment where regNo='$regNo' and amendment_no='$amendment_no' order by id desc limit 1");
+      // $query = $this->db->query("select coopName from registeredamendment where regNo='$regNo' and amendment_no='$amendment_no' order by id desc limit 1");
+      $query = $this->db->query("select coopName from registeredamendment where regNo='$regNo' order by id desc limit 1");
       if($query->num_rows()==1)
       {
         foreach($query->result() as $row)
