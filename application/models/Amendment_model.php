@@ -4659,7 +4659,6 @@ public function check_if_denied_($amendment_id){
           $areaOf_operation = $this->compare_param($amendment_info->area_of_operation,$previous_coop_info->area_of_operation);
           $fieldOfmemship = $this->compare_param($amendment_info->field_of_membership,$previous_coop_info->field_of_membership);
           //articles of cooperation
-         var_dump($articles_info_previous);exit;
           $applicable_to_guardian =$this->compare_param($articles_info->guardian_cooperative,$articles_info_previous->guardian_cooperative);
           //capitalization
           $authorized_share_capital=$this->compare_param($capitalization_info->authorized_share_capital,$previous_capitalization_info->authorized_share_capital);
