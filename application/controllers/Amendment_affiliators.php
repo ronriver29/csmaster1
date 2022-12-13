@@ -38,8 +38,8 @@ class Amendment_affiliators extends CI_Controller{
                     $data['title'] = 'List of Members';
                     $data['header'] = 'List of Members';
                     $data['encrypted_id'] = $id;
-                    // $data['capitalization_info'] = $this->capitalization_model->get_capitalization_by_coop_id($decoded_id);
-                    // $capitalization_info = $data['capitalization_info'];
+                    $data['capitalization_info'] = $this->amendment_capitalization_model->get_capitalization_by_coop_id($decoded_id);
+                    
                     $data['requirements_complete'] = $this->amd_affiliators_model->is_requirements_complete($decoded_id,$user_id);
                     $data['directors_count'] = $this->amd_affiliators_model->check_no_of_directors($decoded_id);
                     $data['directors_count_odd'] = $this->amd_affiliators_model->check_directors_odd_number($decoded_id);
