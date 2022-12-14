@@ -103,22 +103,29 @@
           // $total_memship_fee = ucwords(num_format_custom($no_of_cooperator * $bylaw_info->membership_fee));
           //  $total_memship_fee_previous = ucwords(num_format_custom($no_of_cooperator_previous * $bylaw_info_previous->membership_fee));
           $total_memship_fee = $total_new_cooperators_added * $bylaw_info->membership_fee;
-           $total_memship_fee_previous = ucwords(num_format_custom($total_new_cooperators_added_previous * $bylaw_info_previous->membership_fee));
+           $total_memship_fee_previous = $total_new_cooperators_added_previous * $bylaw_info_previous->membership_fee;
            echo ($total_memship_fee!=$total_memship_fee_previous ? "<b>".ucwords(num_format_custom($total_memship_fee))."</b>" : ucwords(num_format_custom($total_memship_fee))).' Pesos';
+           // var_dump($total_new_cooperators_added_previous); 
+           // var_dump($bylaw_info_previous->membership_fee);
+           // var_dump($total_new_cooperators_added); var_dump($bylaw_info->membership_fee);
+           // var_dump($total_memship_fee);
+         
           ?> 
           (Php <?php echo number_format ($total_memship_fee,2); ?>).</li>
         <li>That I have actually received the total paid-up share capital and membership fee. </li>
       </ol>
   <div class="row mb-3">
-    <div class="col-sm-12 col-md-12 text-left" style="margin-top:-25px;text-align: justify;
+    <div class="col-sm-12 col-md-12 text-left" style="margin-top:-25px;text-align: justify;">
       <p class="text-justify" style="text-indent: 50px;">IN WITNESS WHEREOF, I have hereunto affixed my signature this ___________ day of ______________, 20___ in ________________, Philippines.</p>
-         <p class="font-weight-regular" style="text-align: right;"><?= $treasurer_of_coop->full_name?></p>
-         <span style="float:right;margin-bottom: 1.5em;margin-right: 5.5em;margin-top:-1em;">Affiant</span>
-       
-    <div class="col-sm-12 col-md-12 text-left" style="text-align: justify;
+         <p class="font-weight-regular" style="text-align: center;margin-top:25px;"><u><?= $treasurer_of_coop->full_name?></u></p>
+         <p style="text-align: center;margin-top:-20px;">Affiant</p>
+     
+    <div class="col-sm-12 col-md-12 text-left" style="text-align: justify;">
       <p class="text-justify" style="text-indent: 50px;">SUBSCRIBED AND SWORN TO before me this ________ day of ______________, 20____ in ________________, Philippines, by _______________________ who exhibited to me his/her Proof of Identity ___________ issued on ___________________, in ______________________, Philippines</p>
+    </div>
+  </div>      
   <div class="row">
-    <div class="col-xs-12 text-left" style="text-align: justify;
+    <div class="col-xs-12 text-left" style="text-align: justify;">
       <p class="font-weight-bold" style="text-indent: 0px;float:right;">NOTARY PUBLIC</p>
       <p class="font-weight-normal">
       Doc. No. : ___________________<br>
@@ -126,6 +133,7 @@
       Book No.: ____________________<br>
       Series of ____________________
       </p>
+    </div>
 </div>
 <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
 <script src="<?=base_url();?>assets/js/popper.min.js"></script>

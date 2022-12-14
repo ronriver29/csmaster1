@@ -304,7 +304,7 @@
             <li>
               <a href="<?php echo base_url();?>amendment/registered_ho"><i class="fas fa-cog"></i> Registered Coop Processed by Head Office</a>
             </li> -->
-          </ul>
+        <!--   </ul>
         </li> -->
          <?php endif; ?>
        <?php endif; ?>

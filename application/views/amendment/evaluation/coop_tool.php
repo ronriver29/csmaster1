@@ -481,7 +481,7 @@
 
           <?php if($coop_info->status==3): ?>
 
-          <div class="col-sm-12 offset-md-8 col-md-3 align-self-center order-xs-2 order-sm-2 order-1 col-signup-btn">
+          <div class="col-sm-12  col-md-12 align-self-center order-xs-2 order-sm-2 order-1 col-signup-btn">
 
               <input class="btn btn-block btn-color-blue" type="submit" id="coopBtn" name="coopBtn" value="Submit Validation Report">
 

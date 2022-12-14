@@ -81,10 +81,10 @@
     'normal' => $fontDir . '/open-sans-normal_bf11512877ef2223afd06e89358ef2fc',
   ),
   'ubuntu' => array(
-    '300' => $fontDir . '/ubuntu-300_613f08fb7b004bc5fb7c2c42bdbdac18',
-    'normal' => $fontDir . '/ubuntu-normal_73b0924b94291ad8979922ce92c32081',
-    '500' => $fontDir . '/ubuntu-500_8c749d055cc42f909e89de624315fe89',
-    'bold' => $fontDir . '/ubuntu-bold_1003df1dfadb71ff02ea82a49ac3f185',
+    '300' => $fontDir . '/ubuntu-300_6853395806f26ea96622b7d7ed589eef',
+    'normal' => $fontDir . '/ubuntu-normal_de3bd9cac4dd30ea4cc4e73c24e9f8d8',
+    '500' => $fontDir . '/ubuntu-500_a2b721aa8b573ae4e993309d614d3d20',
+    'bold' => $fontDir . '/ubuntu-bold_102fbdc70ebc97d5aacdcb5ef9ac8de3',
   ),
   'bookman old style' => array(
     'normal' => $fontDir . '/bookman-old-style-normal_b57ca395c9b7aef76ab55248f1f16b0b',

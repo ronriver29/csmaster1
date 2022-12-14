@@ -740,10 +740,15 @@ $this->last_query = $this->db->last_query();
   }
 
   public function get_treasurer_of_coop($cooperatives_id){
+    $data =NULL;
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $query = $this->db->get_where('affiliators','user_id = '.$cooperatives_id.' AND (position LIKE "Treasurer%" OR position LIKE "%Treasurer")');
     $this->db->from('affiliators');
-    $data = $query->row();
+    if($query->num_rows()>0)
+    {
+        $data = $query->row();
+    }
+    
     return $data;
   }
 

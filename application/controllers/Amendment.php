@@ -2054,7 +2054,7 @@ class amendment extends CI_Controller{
           $cooperative_id =$this->amendment_model->coop_dtl($this->decoded_id);
           $user_id = $this->session->userdata('user_id');
           // $data['is_client'] = $this->session->userdata('client');
-          $data['coop_info'] = $this->amendment_model->get_cooperative_info_by_admin($this->decoded_id);
+          $data['coop_info'] = $this->amendment_model->cooperative_info_admin($this->decoded_id);
           if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
             if($this->session->userdata('client')){
               $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
@@ -2246,6 +2246,7 @@ class amendment extends CI_Controller{
                             }
                             else
                             {
+                             
                                  $previous_coop_info = $this->amendment_model->previous_coop_info($data['coop_info']->cooperative_id,$this->decoded_id,$data['coop_info']->regNo);
                                 // return $previous_coop_info;
                                 $previous_regions_array = explode(',',$previous_coop_info->regions);

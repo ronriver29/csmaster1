@@ -263,7 +263,7 @@
             $data['is_acting_director'] = $this->admin_model->is_active_director($user_id);
             $data['supervising_'] = $this->admin_model->is_acting_director($user_id);
 
-            $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage());
+            // $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage());
             $this->load->view('templates/admin_header', $data);
             $this->load->view('applications/list_of_applications', $data);
             $this->load->view('applications/assign_admin_modal_inspector');

@@ -122,7 +122,7 @@ font-face {
 
     <div class="col-sm-12 col-md-12 text-left">
 
-      <p class="text-justify" style="text-indent: 50px;">I, <?= $treasurer_of_coop->representative?>, after having been duly sworn to in accordance with law, do hereby depose and say:</p>
+      <p class="text-justify" style="text-indent: 50px;">I, <?= (isset($treasurer_of_coop) ? $treasurer_of_coop->representative : "")?>, after having been duly sworn to in accordance with law, do hereby depose and say:</p>
 
     </div>
 
@@ -166,7 +166,7 @@ font-face {
 
          (Php <?php echo ($bylaw_info->kinds_of_members == 1) ? number_format((str_replace(',','',$total_regular['total_paid']) * str_replace(',','',$capitalization_info->par_value)),2) : number_format(((str_replace(',','',$total_regular['total_paid']) * str_replace(',','',$capitalization_info->par_value)) + (str_replace(',','',$total_associate['total_paid']) * str_replace(',','',$capitalization_info->par_value))),2);?>) which is at least twenty five (25%) percent of the subscribed capital; and</li>
 
-        <li>That the total membership fees paid is <?= ucwords(num_format_custom($no_of_cooperator * $bylaw_info->membership_fee)).' Pesos'?> (Php <?= number_format((str_replace(',','',$no_of_cooperator) * str_replace(',','',$bylaw_info->membership_fee)),2)?>).</li>
+        <li>That the total membership fees paid is  <?= ucwords(num_format_custom($total_new_cooperators_added * $bylaw_info->membership_fee)).' Pesos'?> (Php <?= number_format((str_replace(',','',$total_new_cooperators_added ) * str_replace(',','',($bylaw_info->membership_fee!=NULL ? $bylaw_info->membership_fee : 0) )),2)?>).</li>
 
         <li>That I have actually received the total paid-up share capital and membership fee. </li>
 
@@ -190,7 +190,7 @@ font-face {
 
     <div class="col-sm-12 col-md-12 text-center">
 
-         <p class="font-weight-regular" style="text-align: right;"><?= $treasurer_of_coop->representative?></p>
+         <p class="font-weight-regular" style="text-align: right;"><?= ($treasurer_of_coop!=NULL  ? $treasurer_of_coop->representative : '')?></p>
 
          <span style="float:right;margin-bottom: 1.5em;margin-right: 3.5em;margin-top:-1em;">Affiant</span>
 
