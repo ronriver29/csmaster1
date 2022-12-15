@@ -4484,6 +4484,7 @@ public function check_if_denied_($amendment_id){
       $previous_coop_info= $this->cooperatives_model->get_cooperative_info_by_admin($amendment_info->cooperative_id);
         $acronym_ = $previous_coop_info->acronym_name;
      $articles_info_previous = $this->article_of_cooperation_model->get_article_by_coop_id($amendment_info->cooperative_id);
+
       $purposes_previous=$this->purpose_model->get_all_purposes2($amendment_info->cooperative_id);
       //BYLAWS
       $bylaw_info_previous = $this->bylaw_model->get_bylaw_by_coop_id($amendment_info->cooperative_id);
@@ -4629,10 +4630,44 @@ public function check_if_denied_($amendment_id){
     //next amendment
       $previous_coop_info= $this->amendment_info_not_own_id($amendment_info->id,$amendment_info->regNo);
       $previous_capitalization_info = $this->amendment_capitalization_model->get_capitalization_by_coop_id($last_amendment_info->id);
+        $previous_authorized_share_capital =0;
+        $previous_common_share=0;
+        $previous_preferred_share=0;
+        $previous_par_value=0;
+        $previous_total_amount_of_subscribed_capital=0;
+        $previous_authorized_share_capital =0;
+        $previous_amount_of_preferred_share_subscribed=0;
+        $previous_total_amount_of_paid_up_capital=0;
+        $previous_amount_of_preferred_share_paidup =0;
+        $previous_minimum_subscribed_share_regular=0;
+        $previous_minimum_paid_up_share_regular=0;
+        $previous_minimum_subscribed_share_associate=0;
+        $previous_minimum_paid_up_share_associate=0;
+        if($previous_capitalization_info !=NULL)
+        {
+          $previous_authorized_share_capital=$previous_capitalization_info->authorized_share_capital;
+          $previous_common_share->previous_capitalization_info->common_share;
+          $previous_preferred_share= $previous_capitalization_info->preferred_share ;
+          $previous_par_value = $previous_capitalization_info->par_value;
+          $previous_authorized_share_capital   = $previous_capitalization_info->authorized_share_capital;
+          $previous_total_amount_of_subscribed_capital = $previous_capitalization_info->$previous_total_amount_of_subscribed_capital;
+          $previous_amount_of_preferred_share_subscribed = $previous_capitalization_info->amount_of_preferred_share_subscribed;
+          $previous_total_amount_of_paid_up_capital=$previous_capitalization_info->total_amount_of_paid_up_capital;
+          $previous_amount_of_preferred_share_paidup  = $previous_capitalization_info->amount_of_preferred_share_paidup;
+          $previous_minimum_subscribed_share_regular=$previous_capitalization_info->minimum_subscribed_share_regular; 
+          $previous_minimum_paid_up_share_regular= $previous_capitalization_info->minimum_paid_up_share_regular;
+          $previous_minimum_subscribed_share_associate= $previous_capitalization_info->minimum_subscribed_share_associate;
+          $previous_minimum_paid_up_share_associate = $previous_capitalization_info->minimum_paid_up_share_associate;
+        }
       $acronym_ = $previous_coop_info->acronym;
       $no_of_bod_previous = $this->amendment_cooperator_model->check_directors_odd_number($last_amendment_info->cooperative_id,$last_amendment_info->id);
      $purposes_previous=$this->amendment_purpose_model->get_purposes($last_amendment_info->id);
       $articles_info_previous = $this->amendment_article_of_cooperation_model->get_article_by_coop_id($last_amendment_info->cooperative_id,$last_amendment_info->id);
+       $previous_guardian_cooperative ='';
+       if($articles_info_previous!=NULL)
+       {
+          $guardian_cooperative = $articles_info_previous->guardian_cooperative;
+       }
       //BYLAW
       $bylaw_info_previous = $this->amendment_bylaw_model->get_bylaw_by_coop_id($last_amendment_info->id);
       if($this->charter_model->in_charter_city($previous_coop_info->cCode))
@@ -4647,8 +4682,10 @@ public function check_if_denied_($amendment_id){
       $previous_coop_info= $this->cooperatives_model->get_cooperative_info_by_admin($amendment_info->cooperative_id);
         $acronym_ = $previous_coop_info->acronym_name;
       $previous_capitalization_info = $this->capitalization_model->get_capitalization_by_coop_id($amendment_info->cooperative_id);
+  
       $no_of_bod_previous = $this->cooperator_model->check_directors_odd_number($amendment_info->cooperative_id);
      $articles_info_previous = $this->article_of_cooperation_model->get_article_by_coop_id($amendment_info->cooperative_id);
+       
       $purposes_previous=$this->purpose_model->get_all_purposes2($amendment_info->cooperative_id);
       //BYLAWS
       $bylaw_info_previous = $this->bylaw_model->get_bylaw_by_coop_id($amendment_info->cooperative_id);
@@ -4672,19 +4709,20 @@ public function check_if_denied_($amendment_id){
           $areaOf_operation = $this->compare_param($amendment_info->area_of_operation,$previous_coop_info->area_of_operation);
           $fieldOfmemship = $this->compare_param($amendment_info->field_of_membership,$previous_coop_info->field_of_membership);
           //articles of cooperation
-          $applicable_to_guardian =$this->compare_param($articles_info->guardian_cooperative,$articles_info_previous->guardian_cooperative);
+        
+          $applicable_to_guardian =$this->compare_param($articles_info->guardian_cooperative, $previous_guardian_cooperative);
           //capitalization
-          $authorized_share_capital=$this->compare_param($capitalization_info->authorized_share_capital,$previous_capitalization_info->authorized_share_capital);
-          $common_share= $this->compare_param($capitalization_info->common_share,$previous_capitalization_info->common_share);
-          $preferred_share= $this->compare_param($capitalization_info->preferred_share,$previous_capitalization_info->preferred_share,$amendment_id);
-          $par_value= $this->compare_param($capitalization_info->par_value,$previous_capitalization_info->par_value);
-          $authorized_share_capital= $this->compare_param($capitalization_info->authorized_share_capital,$previous_capitalization_info->authorized_share_capital);
-          $total_amount_of_subscribed_capital = $this->compare_param($capitalization_info->total_amount_of_subscribed_capital,$previous_capitalization_info->total_amount_of_subscribed_capital);
+          $authorized_share_capital=$this->compare_param($capitalization_info->authorized_share_capital,$previous_authorized_share_capital);
+          $common_share= $this->compare_param($capitalization_info->common_share,$previous_common_share);
+          $preferred_share= $this->compare_param($capitalization_info->preferred_share,$previous_preferred_share);
+          $par_value= $this->compare_param($capitalization_info->par_value,$previous_par_value);
+          $authorized_share_capital= $this->compare_param($capitalization_info->authorized_share_capital,$previous_authorized_share_capital);
+          $total_amount_of_subscribed_capital = $this->compare_param($capitalization_info->total_amount_of_subscribed_capital,$previous_total_amount_of_subscribed_capital);
           // $amount_of_common_share_subscribed= $this->compare_param($capitalization_info->amount_of_common_share_subscribed,$capitalization_info_previous->amount_of_common_share_subscribed);
-          $amount_of_preferred_share_subscribed = $this->compare_param($capitalization_info->amount_of_preferred_share_subscribed,$previous_capitalization_info->amount_of_preferred_share_subscribed);
-          $total_amount_of_paid_up_capital =  $this->compare_param($capitalization_info->total_amount_of_paid_up_capital,$previous_capitalization_info->total_amount_of_paid_up_capital);
+          $amount_of_preferred_share_subscribed = $this->compare_param($capitalization_info->amount_of_preferred_share_subscribed,$previous_amount_of_preferred_share_subscribed);
+          $total_amount_of_paid_up_capital =  $this->compare_param($capitalization_info->total_amount_of_paid_up_capital, $previous_total_amount_of_paid_up_capital);
           // $amount_of_common_share_paidup = $this->compare_param($capitalization_info->amount_of_common_share_paidup,$capitalization_info_previous->amount_of_common_share_paidup);
-          $amount_of_preferred_share_paidup =$this->compare_param($capitalization_info->amount_of_preferred_share_paidup,$previous_capitalization_info->amount_of_preferred_share_paidup);
+          $amount_of_preferred_share_paidup =$this->compare_param($capitalization_info->amount_of_preferred_share_paidup,$previous_amount_of_preferred_share_paidup);
           //cooperator
           $no_of_bod = $this->compare_param($no_of_bod,$no_of_bod_previous);
            //BYLAW
@@ -4711,10 +4749,10 @@ public function check_if_denied_($amendment_id){
           $percent_optional_fund = $this->compare_param($bylaw_info->percent_optional_fund,$bylaw_info_previous->percent_optional_fund);
           $non_member_patron_years = $this->compare_param($bylaw_info->non_member_patron_years,$bylaw_info_previous->non_member_patron_years);
           $amendment_votes_members_with = $this->compare_param($bylaw_info->amendment_votes_members_with,$bylaw_info_previous->amendment_votes_members_with);
-          $minimum_subscribed_share_regular =$this->compare_param($capitalization_info->minimum_subscribed_share_regular,$previous_capitalization_info->minimum_subscribed_share_regular);
-          $minimum_paid_up_share_regular =$this->compare_param($capitalization_info->minimum_paid_up_share_regular,$previous_capitalization_info->minimum_paid_up_share_regular);
-          $minimum_subscribed_share_associate =$this->compare_param($capitalization_info->minimum_subscribed_share_associate,$previous_capitalization_info->minimum_subscribed_share_associate);
-          $minimum_paid_up_share_associate =$this->compare_param($capitalization_info->minimum_paid_up_share_associate,$previous_capitalization_info->minimum_paid_up_share_associate);
+          $minimum_subscribed_share_regular =$this->compare_param($capitalization_info->minimum_subscribed_share_regular,$previous_minimum_subscribed_share_regular);
+          $minimum_paid_up_share_regular =$this->compare_param($capitalization_info->minimum_paid_up_share_regular,$previous_minimum_paid_up_share_regular);
+          $minimum_subscribed_share_associate =$this->compare_param($capitalization_info->minimum_subscribed_share_associate,$previous_minimum_subscribed_share_associate);
+          $minimum_paid_up_share_associate =$this->compare_param($capitalization_info->minimum_paid_up_share_associate,$previous_minimum_paid_up_share_associate);
           $purposes_=false;
           $purposes_ = $this->compare_param($purposes_previous->content,$purposes->content);
 
@@ -4805,6 +4843,8 @@ public function check_if_denied_($amendment_id){
 
   public function compare_param($param1,$param2)
   {
+    $param1 = (strlen($param1)>0 ? $param1 : '');
+     $param2 = (strlen($param2)>0 ? $param2 : '');
     if(strcasecmp($param1,$param2)!=0)
     {
           return 'true';
