@@ -35,22 +35,24 @@ class Amendment_article_of_Cooperation_model extends CI_Model{
     $article_info = $this->security->xss_clean($article_info);
 
     /*check record first if existing if not then create*/
+       $this->db->trans_begin();
+    $get_record = $this->db->where("amendment_id",$amendment_id)->get("amendment_articles_of_cooperation");
 
-    // $get_record = $this->db->where("id",$article_coop_id)->get("amendment_articles_of_cooperation");
+    if($get_record->num_rows()==0) {
 
-    // if($get_record->num_rows()==0) {
+        $this->db->insert('amendment_articles_of_cooperation', $article_info);
+        $this->db->trans_commit();
+    }
+    else
+    {   
+       $this->db->trans_commit();
+         $this->db->update('amendment_articles_of_cooperation',$article_info,array('amendment_id'=>$amendment_id));
+    }
 
-    //     $this->db->insert('amendment_articles_of_cooperation', array('cooperatives_id'=>$article_coop_id));
+   
 
-    //     $this->db->trans_commit();
 
-    // }
-
-    $this->db->trans_begin();
-
-    // $this->db->where('id', $article_coop_id);
-
-    $this->db->update('amendment_articles_of_cooperation',$article_info,array('amendment_id'=>$amendment_id));
+   
 
     if($this->db->trans_status() === FALSE){
 

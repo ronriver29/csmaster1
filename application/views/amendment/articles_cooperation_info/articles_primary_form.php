@@ -175,7 +175,18 @@
           </div>
 
         </div>
+         <?php
+         $guardian_cooperative ='';
+         $years_of_existence='';
+         $directors_turnover_days='';
+          if($articles_info!=NULL)
+          {
+              $guardian_cooperative = $articles_info->guardian_cooperative;
+              $years_of_existence = $articles_info->years_of_existence;
+              $directors_turnover_days  = $articles_info->directors_turnover_days ;
 
+          }
+         ?> 
 
 
          <div class="row">
@@ -186,7 +197,7 @@
 
                         <label for="cooperativeExistence"><strong>Applicable  to  Guardian Cooperative</strong></label>
 
-                        <input type="radio" value="1" name="guardian_cooperative" <?php if($articles_info->guardian_cooperative==1){ echo 'checked';}?>> Yes <input type="radio" value="0" name="guardian_cooperative" <?php if($articles_info->guardian_cooperative==0){ echo 'checked';}?>> No
+                        <input type="radio" value="1" name="guardian_cooperative" <?php if( $guardian_cooperative==1){ echo 'checked';}?>> Yes <input type="radio" value="0" name="guardian_cooperative" <?php if( $guardian_cooperative==0){ echo 'checked';}?>> No
 
            </div>
 
@@ -216,7 +227,7 @@
 
         			<label for="cooperativeExistence"><strong>How many years does the Cooperative should exist?</strong></label>
 
-        			<input type="number" value="<?= $articles_info->years_of_existence ?>"class="form-control validate[required,min[1],max[50],custom[integer]]" min="1" max="50" name="cooperativeExistence" id="cooperativeExistence" placeholder="Years" disabled>
+        			<input type="number" value="<?= $years_of_existence ?>"class="form-control validate[required,min[1],max[50],custom[integer]]" min="1" max="50" name="cooperativeExistence" id="cooperativeExistence" placeholder="Years" disabled>
 
         			<small id="emailHelp" class="form-text text-muted">Start from the date of registration </small>
 
@@ -244,7 +255,7 @@
 
         			<label for="turnOverDirectors"><strong>The Board of Directors shall serve until their successors shall have been elected and qualified within ___ days from the date of registration as provided in the By-laws.</strong></label>
 
-        			<input type="number" value="<?= $articles_info->directors_turnover_days?>"class="form-control validate[required,min[1],custom[integer]]" min="1" step="any" name="turnOverDirectors" id="turnOverDirectors" placeholder="Days" disabled>
+        			<input type="number" value="<?= $directors_turnover_days?>"class="form-control validate[required,min[1],custom[integer]]" min="1" step="any" name="turnOverDirectors" id="turnOverDirectors" placeholder="Days" disabled>
 
       		 </div>
 
