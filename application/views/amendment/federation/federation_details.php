@@ -16,7 +16,7 @@
     <div class="alert alert-info text-center" role="alert">
       <?php echo $this->session->flashdata('redirect_message'); ?>
     </div>
-  </div>
+  </div> 
 </div>
 <?php endif; ?>
 <?php if($this->session->flashdata('cooperative_success')): ?>
@@ -1428,9 +1428,9 @@
                   case 'Tertiary':
                   case 'Secondary':
                           $desc = 'increased in paid up capital';
-                      $coop_total_amount_of_paid_up_capital=0;
+                        $coop_total_amount_of_paid_up_capital=0;
                   
-                      $coop_total_amount_of_paid_up_capital= $coop_capitalization->total_amount_of_paid_up_capital;
+                      $coop_total_amount_of_paid_up_capital= $previous_total_paid_up_capital;
                     
                         //fixed amount
                       $diff_amount = $amendment_capitalization->total_amount_of_paid_up_capital - $coop_total_amount_of_paid_up_capital;

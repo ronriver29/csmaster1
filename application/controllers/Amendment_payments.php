@@ -319,7 +319,7 @@ class Amendment_payments extends CI_Controller{
                     switch ($data1['coop_info_orig']->category_of_cooperative) {
                     case 'Secondary':
                     case 'Tertiary':
-                    $data1['orig_proposedName_formated'] = $data1['coop_info']->proposed_name.' Federation of '. $data1['coop_info']->type_of_cooperative.' Cooperative '.$acronym;
+                    $data1['orig_proposedName_formated'] =  $data1['coop_info']->proposed_name.' Federation of '. $data1['coop_info']->type_of_cooperative.' Cooperative '.$acronym;
                     break;
                     case 'Others':
                     $data1['orig_proposedName_formated'] = $data1['coop_info']->proposed_name.' Union Cooperative '.$acronym;
@@ -415,7 +415,7 @@ class Amendment_payments extends CI_Controller{
                     switch ($data1['coop_info_orig']->category_of_cooperative) {
                     case 'Secondary':
                     case 'Tertiary':
-                    $data1['orig_proposedName_formated'] = $coop_info->proposed_name.' Federation of '.$coop_info->type_of_cooperative.' Cooperative '.$acronym;
+                    $data1['orig_proposedName_formated'] =  $data1['coop_info']->proposed_name.' Federation of '. $data1['coop_info']->type_of_cooperative.' Cooperative '.$acronym;
                     break;
                     case 'Others':
                     $data1['orig_proposedName_formated'] = $data1['coop_info']->proposed_name.' Union Cooperative '.$acronym;
