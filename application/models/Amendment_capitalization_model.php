@@ -77,6 +77,11 @@ class Amendment_capitalization_model extends CI_Model{
         // $this->db->where('cooperatives_id', $capitalization_coop_id);
         $this->db->where('amendment_id',$amendment_id);
         $this->db->update('amendment_capitalization',$capitalization_info);
+      }
+      else{
+        $capitalization_info['amendment_id'] = $amendment_id;
+        $this->db->trans_begin();
+        $this->db->insert('amendment_capitalization',$capitalization_info);
       } 
       // return $capitalization_info;
         if($this->db->trans_status() === FALSE){
@@ -123,6 +128,50 @@ class Amendment_capitalization_model extends CI_Model{
     } else {
         return false;
     }
+
+  }
+
+    public function check_capitalization_federation_complete($amendment_id){
+    $counter = 0;
+    $query_bylaws = $this->db->get_where('amendment_bylaws',array('amendment_id'=>$amendment_id));
+    $data_bylaws = $query_bylaws->row();
+    $query = $this->db->get_where('amendment_capitalization',array('amendment_id'=>$amendment_id));
+    if($query->num_rows()>0) {
+     $data = $query->row();
+        $required_fields = array(
+            "regular_members",
+            "authorized_share_capital",
+            "par_value",
+            "common_share",
+            "total_amount_of_subscribed_capital",
+            "total_no_of_subscribed_capital",
+            "total_amount_of_paid_up_capital",
+            "total_no_of_paid_up_capital",
+            "minimum_subscribed_share_regular",
+            "minimum_paid_up_share_regular",
+            );
+
+        if($data_bylaws->kinds_of_members==2){
+            $required_fields[] = "associate_members";
+            $required_fields[] = "preferred_share";
+            $required_fields[] = "minimum_subscribed_share_associate";
+            $required_fields[] = "minimum_paid_up_share_associate";
+        }
+        // return $required_fields;
+        foreach ($required_fields as $field){
+        
+          if($data->$field=="") $counter++;
+        }
+        // return $data;
+        if($counter==0) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+    
   }
  
   public function check_minimum_regular_subscription($ajax){

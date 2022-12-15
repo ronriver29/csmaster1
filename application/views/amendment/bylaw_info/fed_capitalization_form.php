@@ -67,7 +67,7 @@
 <?php
     $regular_members = isset($capitalization_info->regular_members) ? $capitalization_info->regular_members : "";
     $authorized_share_capital = isset($capitalization_info->authorized_share_capital) ? $capitalization_info->authorized_share_capital : "";
-    $par_value = isset($capitalization_info->par_value) ? $capitalization_info->par_value : 0;
+    $par_value = isset($capitalization_info->par_value) ? $capitalization_info->par_value : 100;
     $common_share = isset($capitalization_info->common_share) ? $capitalization_info->common_share : "";
     $total_amount_of_subscribed_capital = isset($capitalization_info->total_amount_of_subscribed_capital) ? $capitalization_info->total_amount_of_subscribed_capital : "";
     $amount_of_common_share_subscribed = isset($capitalization_info->amount_of_common_share_subscribed) ? $capitalization_info->amount_of_common_share_subscribed : "";
@@ -130,7 +130,7 @@
                         </td>
                         <td>Par Value</td>
                         <td>
-                            <input type="number" name="item[par_value]" id="par_value" class="form-control" value="<?=$par_value;?>" disabled/>
+                            <input type="number" name="item[par_value]" id="par_value" class="form-control" value="<?=$par_value;?>"/>
                         </td>
                     </tr>
                     <tr>
@@ -169,7 +169,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Amount of Common Share </td>
+                        <td>Amount of Common Share</td>
                         <td>
                             <input type="text" name="item[amount_of_common_share_subscribed]" id="amount_of_common_share_subscribed" class="form-control" value="<?=$total_regular['total_subscribed'] * $par_value?>" readonly=""/>
                             <br/>
@@ -203,9 +203,9 @@
                     <tr>
                         <td>Total amount of paid-up capital</td>
                         <td>
-                            <input type="number" name="item[total_amount_of_paid_up_capital]" id="total_amount_of_paid_up_capital" min='1000000' class="form-control" value="<?=$total_amount_of_paid_up_capital;?>"/>
+                            <input type="number" name="item[total_amount_of_paid_up_capital]" id="total_amount_of_paid_up_capital" min='5000000' class="form-control" value="<?=$total_amount_of_paid_up_capital;?>"/>
                             <br/>
-                            <span style="font-style: italic;font-size: 12px;">* Minimum Paid Up Capital must be 1,000,000.00</span>
+                            <span style="font-style: italic;font-size: 12px;">* Minimum Paid Up Capital must be 5,000,000.00</span>
                             <!-- <span id="total_amount_of_paid_up_capital_note"class="err-message-note"></span> -->
                         </td>
                         <td>Total no of paid-up capital</td>

@@ -1473,16 +1473,16 @@ class amendment extends CI_Controller{
               $data['cooperative_id']=encrypt_custom($this->encryption->encrypt($coop_id));
               $data['encrypted_id'] = $id;
     
-              /*BEGIN: UPDATE FOR CAPITALIZATION --by Fred */
-              $data['capitalization_complete'] =$this->amendment_capitalization_model->check_capitalization_primary_complete($this->decoded_id);// ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_capitalization_model->check_capitalization_primary_complete($this->decoded_id) : true;
-              // $this->debug(  $data['capitalization_complete']);
+      
               $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_article_of_cooperation_model->check_article_primary_complete($this->decoded_id) : true;
                 switch ($data['coop_info']->category_of_cooperative) {
                    case 'Secondary':
                    case 'Tertiary':
-                    $data['affiliator_complete'] = $this->affiliator_model->is_requirements_complete($this->decoded_id);
-                     $data['cooperator_complete'] =true;
+                      $data['affiliator_complete'] = $this->affiliator_model->is_requirements_complete($this->decoded_id);
+                      $data['cooperator_complete'] =true;
                       $data['union_complete'] =true;
+                      $data['capitalization_complete'] =$this->amendment_capitalization_model->check_capitalization_federation_complete($this->decoded_id);
+                     // $this->debug($data['capitalization_complete']);exit;
                      break;
                     
                    case 'Others':
@@ -1494,6 +1494,7 @@ class amendment extends CI_Controller{
                       $data['cooperator_complete'] = $this->amendment_cooperator_model->is_requirements_complete($coop_id,$this->decoded_id);
                        $data['affiliator_complete'] =true;
                         $data['union_complete'] = true;
+                        $data['capitalization_complete'] =$this->amendment_capitalization_model->check_capitalization_primary_complete($this->decoded_id);
                      break;
                  }
        
@@ -1619,7 +1620,7 @@ class amendment extends CI_Controller{
             
                $data['is_deferred'] = $this->amendment_model->if_past_deffered($this->decoded_id);
              
-                
+               
               $this->load->view('./template/header', $data);
               switch ($data['coop_info']->grouping) {
                 case 'Federation':

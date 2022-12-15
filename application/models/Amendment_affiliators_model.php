@@ -1084,7 +1084,7 @@ public $regNo='';
             $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
             $this->db->join('registeredcoop','registeredcoop.application_id = cooperatives.id','inner');
             $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-            $this->db->where('cooperatives.status IN (15,39) AND amend_coop.category_of_cooperative IN("Primary","Secondary") AND cooperatives.type_of_cooperative NOT IN("Bank","Cooperative Bank","Insurance")'.$CoopName.$CoopregNo);
+            $this->db->where('cooperatives.status IN (15,39) AND cooperatives.category_of_cooperative IN("Primary","Secondary") AND cooperatives.type_of_cooperative NOT IN("Bank","Cooperative Bank","Insurance")'.$CoopName.$CoopregNo);
             $this->db->order_by('cooperatives.id','ASC');
             $this->db->limit(1);
             $coop_info = $this->db->get();
