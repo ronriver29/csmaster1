@@ -4646,7 +4646,7 @@ public function check_if_denied_($amendment_id){
         if($previous_capitalization_info !=NULL)
         {
           $previous_authorized_share_capital=$previous_capitalization_info->authorized_share_capital;
-          $previous_common_share->previous_capitalization_info->common_share;
+          $previous_common_share= $previous_capitalization_info->common_share;
           $previous_preferred_share= $previous_capitalization_info->preferred_share ;
           $previous_par_value = $previous_capitalization_info->par_value;
           $previous_authorized_share_capital   = $previous_capitalization_info->authorized_share_capital;
