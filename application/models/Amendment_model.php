@@ -4650,7 +4650,7 @@ public function check_if_denied_($amendment_id){
           $previous_preferred_share= $previous_capitalization_info->preferred_share ;
           $previous_par_value = $previous_capitalization_info->par_value;
           $previous_authorized_share_capital   = $previous_capitalization_info->authorized_share_capital;
-          $previous_total_amount_of_subscribed_capital = $previous_capitalization_info->previous_total_amount_of_subscribed_capital;
+          $previous_total_amount_of_subscribed_capital = $previous_capitalization_info->total_amount_of_subscribed_capital;
           $previous_amount_of_preferred_share_subscribed = $previous_capitalization_info->amount_of_preferred_share_subscribed;
           $previous_total_amount_of_paid_up_capital=$previous_capitalization_info->total_amount_of_paid_up_capital;
           $previous_amount_of_preferred_share_paidup  = $previous_capitalization_info->amount_of_preferred_share_paidup;
