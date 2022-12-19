@@ -1731,7 +1731,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       // $this->db->insert_batch('amendment_purposes',$temp_purpose);
       // }
         $type_coop = explode(',',$data['type_of_cooperative']);
-       if(count($type_coop)>1)
+       if(count($type_coop)>0)
        {
          foreach($type_coop as $key => $rowcoop_type)
          {
@@ -1742,7 +1742,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
             {
                $data_p = array(
                   'cooperatives_id' => $data['cooperative_id'],
-                  'amendment_id' => $id,
+                  'amd_union_id_id' => $id,
                   'cooperative_type' => $p->cooperative_type,
                   'content' => $p->content
                );
@@ -1755,7 +1755,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
           {
                $temp_purpose[] = array(
               'cooperatives_id' =>$data['cooperative_id'],
-              'amendment_id' => $id,
+              'amd_union_id' => $id,
               'cooperative_type'=>$rowcoop_type,
               'content'  => $this->get_purpose_content($rowcoop_type,$data['grouping'])
                );

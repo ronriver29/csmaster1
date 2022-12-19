@@ -1,6 +1,6 @@
-<div class="col-md-12" style="color:#cccc;">
+<!-- <div class="col-md-12" style="color:#cccc;">
   <center><small> <?php print_r(isset($resources) ? $resources : '')?></small></center>
-</div>
+</div> -->
 </div>
 
 <script src="<?=base_url();?>assets/js/popper.min.js"></script>
