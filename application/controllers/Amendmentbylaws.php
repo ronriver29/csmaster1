@@ -148,6 +148,7 @@ class Amendmentbylaws extends CI_Controller{
                       $additionalRequirementsForMembership = substr_replace($additionalRequirementsForMembership, "", -1);
                     }
                     // var_dump( $additionalRequirementsForMembership);
+                    $additionaldelegatePowers='';
                     if($this->input->post('additionaldelegatePowers')){
                       $regQualificationsLength = sizeof($this->input->post('additionaldelegatePowers'));
                       $additionaldelegatePowers = '';
