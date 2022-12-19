@@ -1731,37 +1731,40 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       // $this->db->insert_batch('amendment_purposes',$temp_purpose);
       // }
         $type_coop = explode(',',$data['type_of_cooperative']);
-       foreach($type_coop as $key => $rowcoop_type)
+       if(count($type_coop)>1)
        {
-        if($last_amendment_dtl->type_of_cooperative == $rowcoop_type)
-        {
-          $query_purposes = $this->db->query("SELECT cooperative_type,content FROM amendment_purposes WHERE amendment_id='$last_amendment_dtl->id'");
-          foreach($query_purposes->result() as $p)
+         foreach($type_coop as $key => $rowcoop_type)
+         {
+          if($last_amendment_dtl->type_of_cooperative == $rowcoop_type)
           {
-             $data_p = array(
-                'cooperatives_id' => $data['cooperative_id'],
-                'amendment_id' => $id,
-                'cooperative_type' => $p->cooperative_type,
-                'content' => $p->content
-             );
-             $this->db->insert('amendment_purposes',$data_p);
+            $query_purposes = $this->db->query("SELECT cooperative_type,content FROM amendment_purposes WHERE amendment_id='$last_amendment_dtl->id'");
+            foreach($query_purposes->result() as $p)
+            {
+               $data_p = array(
+                  'cooperatives_id' => $data['cooperative_id'],
+                  'amendment_id' => $id,
+                  'cooperative_type' => $p->cooperative_type,
+                  'content' => $p->content
+               );
+               $this->db->insert('amendment_purposes',$data_p);
+            }
+            unset($p);
+            unset($data_p);
           }
-          unset($p);
-          unset($data_p);
-        }
-        else
-        {
-             $temp_purpose[] = array(
-            'cooperatives_id' =>$data['cooperative_id'],
-            'amendment_id' => $id,
-            'cooperative_type'=>$rowcoop_type,
-            'content'  => $this->get_purpose_content($rowcoop_type,$data['grouping'])
-             );
-        }
+          else
+          {
+               $temp_purpose[] = array(
+              'cooperatives_id' =>$data['cooperative_id'],
+              'amendment_id' => $id,
+              'cooperative_type'=>$rowcoop_type,
+              'content'  => $this->get_purpose_content($rowcoop_type,$data['grouping'])
+               );
+          }
 
-       }
-       unset($rowcoop_type);
-      $this->db->insert_batch('amendment_purposes',$temp_purpose);
+         }
+         unset($rowcoop_type);
+        $this->db->insert_batch('amendment_purposes',$temp_purpose);
+      }  
      //end of purposes
 
     //amendment_bylaws

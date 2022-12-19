@@ -2031,6 +2031,7 @@
                  $module = 'Members';
                  $moduleUrl = 'amendment_union';
                   $validateComplete = $union_complete;
+                  $capitalization_complete = true;
               break;
             case 'Federation':
                    $module = 'Members';

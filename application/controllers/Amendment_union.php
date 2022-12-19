@@ -40,7 +40,7 @@ class Amendment_union extends CI_Controller{
             $data['requirements_complete'] = $this->amd_union_model->is_requirements_complete($user_id);
             $data['cc_count'] = $this->amd_union_model->get_total_cc($decoded_id);
             $data['directors_count'] = $this->amd_union_model->check_no_of_directors($decoded_id);
-            $data['directors_count_odd'] = $this->amd_union_model->check_directors_odd_number($user_id);
+            $data['directors_count_odd'] = $this->amd_union_model->check_directors_odd_number($decoded_id);
             $data['total_directors'] = $this->amd_union_model->no_of_directors($decoded_id);
             $data['chairperson_count'] = $this->amd_union_model->check_chairperson($decoded_id);
             $data['vice_count'] = $this->amd_union_model->check_vicechairperson($decoded_id);
@@ -60,8 +60,9 @@ class Amendment_union extends CI_Controller{
             } else {
             $data['registered_coop'] = $this->amd_union_model->get_registered_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative,$this->regNo,$this->coopName); 
             }
+            // echo $this->db->last_query();exit;
             $data['msg'] = ($submit && isset($data['registered_coop']['msg']) ? $data['registered_coop']['msg'] :'');
-
+           // $this->debug( $data['msg']);
             $array =array(
                   'url'=>base_url()."amendment/".$id."/amendment_union",
                   'total_rows'=>$this->amd_union_model->get_applied_coop_count($decoded_id),
@@ -73,7 +74,7 @@ class Amendment_union extends CI_Controller{
 
             // $data['msg'] = ($submit && empty($data['registered_coop']) ? 'No data found.':'');
             $data['applied_coop'] = $this->amd_union_model->get_applied_coop($decoded_id);
-          // $this->debug($data['registered_coop']);
+          // $this->debug($data['registered_coop']); exit;
             $this->load->view('./template/header', $data);
             $this->load->view('amendment/union/union_list', $data);
             $this->load->view('amendment/union/full_info_modal');
@@ -161,9 +162,21 @@ class Amendment_union extends CI_Controller{
         $this->db->where_in('position',array('Chairperson','Vice-Chairperson','Treasurer','Secretary'));
         $this->db->from('amendment_unioncoop');
         $count = $this->db->count_all_results();
-        if($count==1){
+        $condition_in_position ='';
+        switch ($condition_in_position) {
+          case 'Chairperson':
+          case 'Vice-Chairperson':
+          case 'Board of Director':
+            $value = 5;
+            break;
+
+          default:
+            $value=1;
+            break;
+        }
+        if($count==$value){
           $this->session->set_flashdata('cooperator_error', 'Position already exists.');
-            redirect('amendment/'.$encrypted_post_coop_id.'/amendment_union');
+            redirect('amendment/'. $this->input->post('amendment_id').'/amendment_union');
         } else {
           if($query==0){
            
@@ -246,16 +259,17 @@ class Amendment_union extends CI_Controller{
         $data['cc_count'] = $this->amd_union_model->get_total_cc($user_id);
         $data['coop_info'] = $this->amendment_model->get_cooperative_info($cooperative_id,$user_id,$decoded_id);
         
-        $this->db->where('user_id',$user_id);
-        $this->db->where('id !=',$encrypted_post_coop_id);
-        $this->db->where('position', $this->input->post('position'));
-        $this->db->where_in('position',array('Chairperson','Vice-Chairperson','Treasurer','Secretary'));
-        $this->db->from('amendment_unioncoop');
-        $count = $this->db->count_all_results();
-        if($count==1){
-          $this->session->set_flashdata('cooperator_error', 'Position already exists.');
-            redirect('cooperatives/'.$encryptedcoopid.'/unioncoop');
-        } else {
+        // $this->db->where('user_id',$user_id);
+        // $this->db->where('id !=',$encrypted_post_coop_id);
+        // $this->db->where('position', $this->input->post('position'));
+        // $this->db->where_in('position',array('Chairperson','Vice-Chairperson','Treasurer','Secretary'));
+        // $this->db->from('amendment_unioncoop');
+        // $count = $this->db->count_all_results();
+        
+        // if($count==$value){
+        //   $this->session->set_flashdata('cooperator_error', 'Position already exists.');
+        //     redirect('amendment/'.$encryptedcoopid.'/amendment_union');
+        // } else {
           $u_data = array(
               'representative' => $this->input->post('repre'),
               'position' => $this->input->post('position'),
@@ -276,7 +290,7 @@ class Amendment_union extends CI_Controller{
             $this->session->set_flashdata('cooperator_success', 'Affiliator failed to Update');
             redirect('amendment_update/'.$encryptedcoopid.'/amendment_union');
           }
-        }
+        // }
     }
 
     function update_cc($id = null){

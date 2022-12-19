@@ -725,7 +725,6 @@ class Amendment_union_model extends CI_Model{
     public function is_requirements_complete($amendment_id){
       // $this->db->where('amd_union_id =',$amd_union_id);
       // $this->db->from('amendment_unioncoop');
-
       if($this->check_no_of_directors($amendment_id) && $this->check_chairperson($amendment_id) && $this->check_vicechairperson($amendment_id) && $this->check_treasurer($amendment_id) && $this->check_secretary($amendment_id) && $this->check_directors_odd_number($amendment_id)){
             if($this->check_total_coop($amendment_id) && $this->check_capital_contribution($amendment_id)){
                 return true;

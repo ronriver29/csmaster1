@@ -642,17 +642,21 @@ $region='';
 
             <strong>Composition of Members</strong>
             <p class="text-muted">
-              <?php foreach($members_composition as $compo) : ?>
+              <?php 
+              if($members_composition !=NULL)
+              { 
+                foreach($members_composition as $compo) : ?>
               &#9679; <?= $compo['composition'] ?><br>
               <?php endforeach; ?>
             </p>
-
             <?php
+              }  
            }
            else
            {
             
            }
+       
            ?>
        
       

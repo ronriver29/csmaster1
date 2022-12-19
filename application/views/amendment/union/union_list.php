@@ -165,7 +165,7 @@ if($business_activities !=null){
             </tr>
             </thead>
             <tbody>
-              <?php  if(!empty($registered_coop)):?>
+              <?php  if(!empty($registered_coop['result'])):?>
 
               <?php foreach ($registered_coop['result'] as $registeredcoop) : ?>
                 <tr>

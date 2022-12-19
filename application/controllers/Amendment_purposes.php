@@ -94,39 +94,29 @@ class Amendment_purposes extends CI_Controller{
                     $data['purpose_not_null'] = $this->amendment_purpose_model->check_not_null($cooperative_id,$this->decoded_id);
 
                     $data['purpose_blank_not_exists'] = $this->amendment_purpose_model->check_blank_not_exists($cooperative_id,$this->decoded_id);
-
-                    // echo $this->db->last_query();
-
+                    $data_contents=null;
                     $row = $this->amendment_purpose_model->get_all_purposes($cooperative_id,$this->decoded_id);
-
-                    // echo $this->db->last_query();
-
-                  
-
-                    foreach($row as $purpose_content)
-
+                    if($row!=null)
                     {
+                      foreach($row as $purpose_content)
+                      {
 
-                      $purpose_content['content_purpose']= explode(";",$purpose_content['content']);
+                        $purpose_content['content_purpose']= explode(";",$purpose_content['content']);
 
-                      unset($purpose_content['content']);
+                        unset($purpose_content['content']);
 
-                      // $purpose_content['content_purpose']=explode(";",$this->amendment_purpose_model->get_purpose_content($purpose_content['cooperative_type']));
+                        // $purpose_content['content_purpose']=explode(";",$this->amendment_purpose_model->get_purpose_content($purpose_content['cooperative_type']));
 
-                      // unset($purpose_content['content']);
+                        // unset($purpose_content['content']);
 
-                      $data_contents[]=$purpose_content;
+                        $data_contents[]=$purpose_content;
 
-                    }unset($purpose_content);
-
-        
-
+                      }unset($purpose_content);
+                    }
+                  
                     // $this->debug($data_contents);
 
                     $data['contents'] =$data_contents;
-
-                    
-
                     $this->load->view('template/header', $data);
 
                     $this->load->view('purposes/amendment_list_of_purposes', $data); 

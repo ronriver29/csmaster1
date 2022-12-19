@@ -29,7 +29,9 @@
           </div>
         </div> -->
           <div class="row row-purposes">
-            <?php $tempCount = sizeof($contents);
+            <?php 
+            // $contents = (is_array($contents) ? $contents : array(''));
+            // $tempCount = sizeof($contents);
             $key_counts=1;
             $a=1;
             

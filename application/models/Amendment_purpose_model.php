@@ -9,14 +9,19 @@ class Amendment_purpose_model extends CI_Model{
     //Codeigniter : Write Less Do More
   }
   public function get_all_purposes($cooperatives_id,$amendment_id){
+    $data =null;
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
      $amendment_id = $this->security->xss_clean($amendment_id);
     $query = $this->db->get_where('amendment_purposes',array('amendment_id'=>$amendment_id));
-    foreach($query->result_array() as $row)
+    if($query->num_rows()>0)
+    {
+       foreach($query->result_array() as $row)
     {
       $data[] = $row;
     }
-    unset($row);
+      unset($row);
+    }
+   
     return $data;
   }
   public function get_purposes_($amendment_id){
@@ -100,24 +105,32 @@ class Amendment_purpose_model extends CI_Model{
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $amendment_id = $this->security->xss_clean($amendment_id);
     $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id));
-    foreach($query->result() as $row)
+    if($query->num_rows()>0)
     {
-      // $data[] = $row->content;
-      if(strpos($row->content,'_') === false){
-       $row->status= 'true';
-      }else{
-        $row->status = 'false';
-      }
-      $data[] = $row->status;
-    } 
-    if(in_array('false',$data))
-    {
-      return false;
-    } 
+         foreach($query->result() as $row)
+        {
+          // $data[] = $row->content;
+          if(strpos($row->content,'_') === false){
+           $row->status= 'true';
+          }else{
+            $row->status = 'false';
+          }
+          $data[] = $row->status;
+        } 
+        if(in_array('false',$data))
+        {
+          return false;
+        } 
+        else
+        {
+          return true;
+        }
+    }
     else
     {
-      return true;
+      return false;
     }
+ 
   }
   public function check_purpose_complete($cooperatives_id,$amendment_id){
     $query = $this->db->query("select * from amendment_purposes where amendment_id ='$amendment_id'");

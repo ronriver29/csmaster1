@@ -1487,6 +1487,7 @@ class amendment extends CI_Controller{
                     
                    case 'Others':
                     $data['union_complete'] = $this->amendment_union_model->is_requirements_complete($this->decoded_id); 
+                    
                      $data['cooperator_complete'] =true;
                      $data['affiliator_complete'] = true;
                     break; 
