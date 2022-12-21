@@ -1730,6 +1730,7 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
       //  }
       // $this->db->insert_batch('amendment_purposes',$temp_purpose);
       // }
+      $temp_purpose=NULL;
         $type_coop = explode(',',$data['type_of_cooperative']);
        if(count($type_coop)>0)
        {
@@ -1763,7 +1764,8 @@ where amend_coop.regNo ='$regNo' and amend_coop.status IN (15,41) order by amend
 
          }
          unset($rowcoop_type);
-        $this->db->insert_batch('amendment_purposes',$temp_purpose);
+
+        if($temp_purpose!=NULL){$this->db->insert_batch('amendment_purposes',$temp_purpose);}
       }  
      //end of purposes
 

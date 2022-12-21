@@ -2046,7 +2046,7 @@
           }
           ?>
 
-              <?php if($validateComplete): ?>
+              <?php  if($validateComplete): ?>
 
                 <span class="badge badge-success">COMPLETE</span>
 

@@ -38,6 +38,17 @@ class Amendment_purpose_model extends CI_Model{
     }
     return $data;
   }
+
+  public function check_if_exist_purposes($amendment_id){
+     $amendment_id = $this->security->xss_clean($amendment_id);
+     $data =false;
+    $query = $this->db->get_where('amendment_purposes',array('amendment_id'=>$amendment_id));
+    if($query->num_rows()>0)
+    {
+      $data =true;
+    }
+    return $data;
+  }
   public function edit_purposes($amendment_id,$id,$data){
     $data = $this->security->xss_clean($data);
     $array_data = array(

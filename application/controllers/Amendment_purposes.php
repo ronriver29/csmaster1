@@ -32,20 +32,13 @@ class Amendment_purposes extends CI_Controller{
   function index($id = null)
 
   {
-
-
-         $this->load->model('amendment_affiliators_model','affiliator_model');
+        $this->load->model('amendment_affiliators_model','affiliator_model');
         $this->load->model('amendment_union_model','union_model');
         $this->decoded_id = $this->encryption->decrypt(decrypt_custom($id));
-
         $user_id = $this->session->userdata('user_id');
-
         $cooperative_id = $this->coop_dtl($this->decoded_id);
-
         $data['is_client'] = $this->session->userdata('client');
-
         if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
-
           if($this->session->userdata('client')){
 
             // if($this->amendment_model->check_own_cooperative($cooperative_id ,$this->decoded_id,$user_id)){
@@ -90,12 +83,15 @@ class Amendment_purposes extends CI_Controller{
                     $data['encrypted_id'] = $id;
 
                     $data['purposes_complete'] = $this->amendment_purpose_model->check_purpose_complete($cooperative_id,$this->decoded_id);
+                    $data['purpose_not_null']=true;
+                    $data['purpose_blank_not_exists']=true;
+                    if($data['coop_info']->type_of_cooperative!='Union')
+                    {
+                      $data['purpose_not_null'] = $this->amendment_purpose_model->check_not_null($cooperative_id,$this->decoded_id);
 
-                    $data['purpose_not_null'] = $this->amendment_purpose_model->check_not_null($cooperative_id,$this->decoded_id);
-
-                    $data['purpose_blank_not_exists'] = $this->amendment_purpose_model->check_blank_not_exists($cooperative_id,$this->decoded_id);
-                    $data_contents=null;
-                    $row = $this->amendment_purpose_model->get_all_purposes($cooperative_id,$this->decoded_id);
+                      $data['purpose_blank_not_exists'] = $this->amendment_purpose_model->check_blank_not_exists($cooperative_id,$this->decoded_id);
+                    }
+                    $row = $this->amendment_purpose_model->get_all_purposes('$cooperative_id',$this->decoded_id);
                     if($row!=null)
                     {
                       foreach($row as $purpose_content)
@@ -113,10 +109,21 @@ class Amendment_purposes extends CI_Controller{
 
                       }unset($purpose_content);
                     }
+                    else
+                    {
+                       $data_contents[]=[
+                      'cooperative_id'=>$cooperative_id,
+                      'amendment_id'=>$this->decoded_id,
+                      'cooperative_type'=> $data['coop_info']->type_of_cooperative,
+                      'content_purpose'=>['']
+                      ];
+                    }
+
                   
                     // $this->debug($data_contents);
 
                     $data['contents'] =$data_contents;
+                    // $this->debug($data['contents']);exit;
                     $this->load->view('template/header', $data);
 
                     $this->load->view('purposes/amendment_list_of_purposes', $data); 
@@ -236,26 +243,26 @@ class Amendment_purposes extends CI_Controller{
 
 
                       $row = $this->amendment_purpose_model->get_all_purposes($cooperative_id,$this->decoded_id);
-
-
-
-                  
-
-                    foreach($row as $purpose_content)
-
-                    {
-
-                      $purpose_content['content_purpose']= explode(";",$purpose_content['content']);
-
-                      unset($purpose_content['content']);
-
-                      // $purpose_content['content_purpose']=explode(";",$this->amendment_purpose_model->get_purpose_content($purpose_content['cooperative_type']));
-
-                      // unset($purpose_content['content']);
-
-                      $data_contents[]=$purpose_content;
-
-                    }unset($purpose_content);
+                      if($row!=null)
+                      {
+                        foreach($row as $purpose_content)
+                        {
+                        $purpose_content['content_purpose']= explode(";",$purpose_content['content']);
+                        unset($purpose_content['content']);
+                        // $purpose_content['content_purpose']=explode(";",$this->amendment_purpose_model->get_purpose_content($purpose_content['cooperative_type']));
+                        // unset($purpose_content['content']);
+                        $data_contents[]=$purpose_content;
+                        }unset($purpose_content);
+                      }
+                      else
+                      {
+                        $data_contents[]=[
+                        'cooperative_id'=>$cooperative_id,
+                        'amendment_id'=>$this->decoded_id,
+                        'cooperative_type'=> $data['coop_info']->type_of_cooperative,
+                        'content_purpose'=>['']
+                        ];
+                      }
 
                     $data['contents'] =$data_contents;
 
@@ -382,25 +389,29 @@ class Amendment_purposes extends CI_Controller{
 
                         $row = $this->amendment_purpose_model->get_all_purposes($cooperative_id,$this->decoded_id);
 
-                        foreach($row as $purpose_content)
-
+                        if($row!=null)
                         {
-
+                          foreach($row as $purpose_content)
+                          {
                           $purpose_content['content_purpose']= explode(";",$purpose_content['content']);
-
                           unset($purpose_content['content']);
-
+                          // $purpose_content['content_purpose']=explode(";",$this->amendment_purpose_model->get_purpose_content($purpose_content['cooperative_type']));
+                          // unset($purpose_content['content']);
                           $data_contents[]=$purpose_content;
-
+                          }unset($purpose_content);
+                        }
+                        else
+                        {
+                          $data_contents[]=[
+                          'id'=>0,
+                          'cooperative_id'=>$cooperative_id,
+                          'amendment_id'=>$this->decoded_id,
+                          'cooperative_type'=> $data['coop_info']->type_of_cooperative,
+                          'content_purpose'=>['']
+                          ];
                         }
 
-
-
                          $data['contents'] =$data_contents;
-
-
-                       
-
                         $this->load->view('template/header', $data);
 
                         $this->load->view('purposes/amendment_add_form_purposes', $data);
@@ -432,20 +443,23 @@ class Amendment_purposes extends CI_Controller{
                             $data_purposes = array(
 
                               'id' => $this->encryption->decrypt(decrypt_custom($row['id'])),
-
+                              'amendment_id' => $this->decoded_id,
                               'cooperative_type' =>$row['type_of_cooperative'],
-
                               'content' => $contents
-
                             );
 
                             // $this->debug( $data_purposes);
 
                                 $process++;
-
                                 $this->db->trans_begin();
-
-                                $this->db->update('amendment_purposes',$data_purposes,array('id'=>$data_purposes['id']));
+                                $check_purposes_exist=$this->amendment_purpose_model->check_if_exist_purposes($this->decoded_id);
+                                if($check_purposes_exist){
+                                  $this->db->update('amendment_purposes',$data_purposes,array('id'=>$data_purposes['id']));
+                                }
+                                else
+                                {
+                                   $this->db->insert('amendment_purposes',$data_purposes);
+                                }
 
                                 if($this->db->trans_status() === FALSE){
 
