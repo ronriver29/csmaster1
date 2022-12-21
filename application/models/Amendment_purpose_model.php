@@ -95,7 +95,7 @@ class Amendment_purpose_model extends CI_Model{
   public function check_not_null($cooperatives_id,$amendment_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $amendment_id = $this->security->xss_clean($amendment_id );
-    $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id));
+    $query = $this->db->get_where('amendment_purposes',array('amendment_id'=>$amendment_id));
     // $data =null;
     if($query->num_rows()>0)
     {
@@ -115,19 +115,29 @@ class Amendment_purpose_model extends CI_Model{
   public function check_blank_not_exists($cooperatives_id,$amendment_id){
     $cooperatives_id = $this->security->xss_clean($cooperatives_id);
     $amendment_id = $this->security->xss_clean($amendment_id);
-    $query = $this->db->get_where('amendment_purposes',array('cooperatives_id'=>$cooperatives_id,'amendment_id'=>$amendment_id));
+    $query = $this->db->get_where('amendment_purposes',array('amendment_id'=>$amendment_id));
     if($query->num_rows()>0)
     {
+
          foreach($query->result() as $row)
         {
-          // $data[] = $row->content;
-          if(strpos($row->content,'_') === false){
-           $row->status= 'true';
-          }else{
-            $row->status = 'false';
+          if($row->cooperative_type!='Union')
+          {
+                    // $data[] = $row->content;
+            if(strpos($row->content,'_') === false){
+             $row->status= 'true';
+            }else{
+              $row->status = 'false';
+            }
           }
+          else
+          {
+            $row->status='true';
+          }
+  
           $data[] = $row->status;
         } 
+        unset($row);
         if(in_array('false',$data))
         {
           return false;
@@ -144,7 +154,7 @@ class Amendment_purpose_model extends CI_Model{
  
   }
   public function check_purpose_complete($cooperatives_id,$amendment_id){
-    $query = $this->db->query("select * from amendment_purposes where amendment_id ='$amendment_id'");
+    $query = $this->db->query("select id from amendment_purposes where amendment_id ='$amendment_id'");
     if($query->num_rows() ==1)
     {
         if($this->check_not_null($cooperatives_id,$amendment_id) && $this->check_blank_not_exists($cooperatives_id,$amendment_id)){
