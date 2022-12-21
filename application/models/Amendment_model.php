@@ -4513,7 +4513,7 @@ public function check_if_denied_($amendment_id){
           $areaOf_operation = $this->compare_param($amendment_info->area_of_operation,$previous_coop_info->area_of_operation);
           $fieldOfmemship = $this->compare_param($amendment_info->field_of_membership,$previous_coop_info->field_of_membership);
           //articles of cooperation
-          $applicable_to_guardian =$this->compare_param($articles_info->guardian_cooperative,$articles_info_previous->guardian_cooperative);
+          $applicable_to_guardian =$this->compare_param($articles_info->guardian_cooperative,(isset($articles_info_previous)  ? $articles_info_previous->guardian_cooperative :'' ));
            //BYLAW
           $kinds_of_members = $this->compare_param($bylaw_info->kinds_of_members,$bylaw_info_previous->kinds_of_members);
           $additional_requirements_for_membership = $this->compare_param($bylaw_info->additional_requirements_for_membership,$bylaw_info_previous->additional_requirements_for_membership);
@@ -4539,7 +4539,7 @@ public function check_if_denied_($amendment_id){
           $non_member_patron_years = $this->compare_param($bylaw_info->non_member_patron_years,$bylaw_info_previous->non_member_patron_years);
           $amendment_votes_members_with = $this->compare_param($bylaw_info->amendment_votes_members_with,$bylaw_info_previous->amendment_votes_members_with);
           $purposes_=false;
-          $purposes_ = $this->compare_param($purposes_previous->content,$purposes->content);
+          $purposes_ = $this->compare_param((isset($purposes_previous->content) ? $purposes_previous->content : ''),(isset($purposes->content) ? $purposes->content : ''));
           $purposes_ = 'false';
           $committee_others =$this->commitee_others($amendment_id);
           if(strcasecmp($address, $address_previous)!=0)
