@@ -388,63 +388,33 @@ class Email_model extends CI_Model{
 
 
 
-   public function sendEmailtoAuthorized($authorized_email,$coop_info,$client_info)
+public function sendEmailtoAuthorized($authorized_email,$coop_info,$client_info)
+{
+  $address = $coop_info->house_blk_no.' '.$coop_info->street.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.' '.$coop_info->region;
+  $from = "ecoopris@cda.gov.ph";
+  $subject = 'Amendment Update Info';
+  $message = "<pre> Good day! An application to update the cooperative information with the following details had been submitted for evaluation. </pre>
+  <ol type='a'>
+  <b><li> Name of Cooperative:</b> ". $coop_info->coopName."</li>
+  <b><li> Region of Cooperative: </b>". $coop_info->region."</li>
+  <b><li> Registration Number: </b>". $coop_info->regNo."-".$coop_info->amendmentNo."</li>
+  <b><li> Address of Cooperative: </b>". $address."</li>
+  <b><li> Email address: </b>". $client_info->email."</li>
+  </ol>";
 
+  $this->email->from($from,'ecoopris CDA (No Reply)');
+  $this->email->to($authorized_email);
+  $this->email->subject($subject);
+  $this->email->message($message);
+  if($this->email->send())
   {
-
-    $address = $coop_info->house_blk_no.' '.$coop_info->street.' '.$coop_info->brgy.', '.$coop_info->city.', '.$coop_info->province.' '.$coop_info->region;
-
-    $from = "ecoopris@cda.gov.ph";   
-
-    $subject = 'Amendment Update Info';
-
-    $message = "<pre> Good day! An application to update the cooperative information with the following details had been submitted for evaluation. </pre>
-
-
-
-                    <ol type='a'>  
-
-                     <b><li> Name of Cooperative:</b> ". $coop_info->coopName."</li>                
-
-                     <b><li> Region of Cooperative: </b>". $coop_info->region."</li>                             
-
-                     <b><li> Registration Number: </b>". $coop_info->regNo."-".$coop_info->amendmentNo."</li>                                         
-
-                     <b><li> Address of Cooperative: </b>". $address."</li>
-
-                     <b><li> Email address: </b>". $client_info->email."</li>
-
-                    </ol>";       
-
-                       
-
-
-
-        $this->email->from($from,'ecoopris CDA (No Reply)');
-
-        $this->email->to($authorized_email);
-
-        $this->email->subject($subject);
-
-        $this->email->message($message);
-
-        if($this->email->send())
-
-        {
-
-        return true;
-
-        }
-
-        else
-
-        {
-
-        return false;
-
-        }
-
+  return true;
   }
+  else
+  {
+  return false;
+  }
+}
 
 
 

@@ -149,7 +149,7 @@ if($is_client && !$has_registered_coop):?>
                         else if($cooperative['status']==12) echo "FOR PRINTING & SUBMISSION";
                         else if($cooperative['status']==13) echo "PAY AT CDA";
                         else if($cooperative['status']==14) echo "GET YOUR CERTIFICATE";
-                        else if($cooperative['status']==15) echo "REGISTERED";
+                        else if($cooperative['status']==15) echo "FOR UPDATING";
                         else if($cooperative['status']==16) echo "FOR PAYMENT";
                         else if($cooperative['status']==17) echo "FOR REVERSION-FOR RE-EVALUATION"; 
                         else if($cooperative['status']==40) echo "FOR UPDATING";
@@ -210,7 +210,7 @@ if($is_client && !$has_registered_coop):?>
                   <?php if($is_client) :?>  
                     <td>
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                        <a href="<?php echo base_url();?>amendment_update/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> View </a>
+                        <a href="<?php echo base_url();?>amendment_update/<?= encrypt_custom($this->encryption->encrypt($cooperative['id'])) ?>" class="btn btn-info"><i class='fas fa-eye'></i> Click to update </a>
                       <?php if($cooperative['status']<2 || $cooperative['status']==10|| $cooperative['status']==11) : ?>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteAmendmentForm" data-cname="<?= $cooperative['proposed_name']?> <?= $cooperative['type_of_cooperative']?>" data-coopid="<?= encrypt_custom($this->encryption->encrypt($cooperative['id']))?>"><i class='fas fa-trash'></i><?php echo ($cooperative['status']==10 || $cooperative['status']==11) ? "Delete": "Cancel" ?></button>
                       <?php endif;?>

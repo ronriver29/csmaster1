@@ -86,7 +86,8 @@ class Amendment_affiliators_update extends CI_Controller{
                       }
                       if($data['coop_info']->category_of_cooperative=='Tertiary')
                       {
-                          $data['registered_coop'] = $this->affiliator_model->get_registered_coop_tertiary($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative,$this->regNo,$this->coopName);  
+                          $data['registered_coop'] = $this->affiliator_model->get_registered_coop_tertiary($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative,$this->regNo,$this->coopName); 
+                          
                       }
                     }
             

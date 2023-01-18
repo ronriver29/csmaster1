@@ -450,6 +450,38 @@ class amendment_update_model extends CI_Model{
     $query = $this->db->get();
     return $query->row();
   }
+
+  public function coop_info_in_evaluate_function($amendment_id)
+  {
+    $this->db->select('amend_coop.type_of_cooperative,refregion.regCode as rCode');
+    $this->db->from('amend_coop');
+    $this->db->join('registeredamendment' ,'registeredamendment.cooperative_id = amend_coop.cooperative_id','left');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->order_by('registeredamendment.id desc');
+    $this->db->limit(1);
+    $this->db->where(array('amend_coop.id'=>$amendment_id));
+    $query = $this->db->get();
+    return $query->row();
+  }
+  public function coop_info_to_email($amendment_id)
+  {
+    $this->db->select('amend_coop.amendmentNo,amend_coop.house_blk_no,amend_coop.street,amend_coop.regNo,registeredamendment.coopName, refbrgy.brgyDesc as brgy,refcitymun.citymunDesc as city,refprovince.provDesc as province, refregion.regDesc as region');
+    $this->db->from('amend_coop');
+    $this->db->join('registeredamendment' ,'registeredamendment.cooperative_id = amend_coop.cooperative_id','left');
+    $this->db->join('refbrgy' , 'refbrgy.brgyCode = amend_coop.refbrgy_brgyCode','inner');
+    $this->db->join('refcitymun', 'refcitymun.citymunCode = refbrgy.citymunCode','inner');
+    $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
+    $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
+    $this->db->order_by('registeredamendment.id desc');
+    $this->db->limit(1);
+    $this->db->where(array('amend_coop.id'=>$amendment_id));
+    $query = $this->db->get();
+    return $query->row();
+  }
+
   public function get_coop_info2($amendment_id)
   {
     $data =null;
@@ -1683,18 +1715,14 @@ public function delete_cooperative($amendment_id){
     return $data;
   }
 
-public function submit_to_authorized_user($amendment_id,$region_code,$user_id,$coop_info){
+public function submit_to_authorized_user($amendment_id,$region_code,$user_id){
   $this->load->model('email_model');
   $user_id = $this->security->xss_clean($user_id);
   $amendment_id = $this->security->xss_clean($amendment_id);
-  // $cooperative_id = $this->coop_dtl($amendment_id);
-  // $amendment_info = $this->coop_info_reg($amendment_id);//$this->get_cooperative_info23($cooperative_id,$amendment_id);
-  // return$amendment_info->coopName;
-  // $reg_coop_name = $amendment_info->coopName;
+  $coop_info = $this->coop_info_to_email($amendment_id);
   $client_qry = $this->db->get_where('users',array('id'=>$user_id));
   $client_info = $client_qry->row();
-  // return $coop_info;
-  // $admin_info = $this->admin_info_by_region($region_code);
+  
   $ho =0;
   if($region_code =='00')
   {
@@ -1721,7 +1749,7 @@ public function submit_to_authorized_user($amendment_id,$region_code,$user_id,$c
              return false;
             }
       }
-
+      unset($row);
           
     if($this->db->trans_status() === FALSE){
       $this->db->trans_rollback();
@@ -1841,6 +1869,7 @@ public function submit_by_authorized_user($amendment_id,$region_code){
         {
           $data[] = $row;
         }
+        unset($row);
       }
       return $data;
     }

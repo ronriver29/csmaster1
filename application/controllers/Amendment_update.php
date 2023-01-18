@@ -1673,16 +1673,14 @@ class Amendment_update extends CI_Controller{
         $user_id = $this->session->userdata('user_id');
         $cooperative_id = $this->amendment_update_model->coop_dtl($this->decoded_id);
         if(is_numeric($this->decoded_id) && $this->decoded_id!=0){
-           $data['coop_info2'] = $this->amendment_update_model->get_cooperative_info($cooperative_id,$this->decoded_id);
-           // $this->debug($data['coop_info2']);       
-           // var_dump($this->amendment_update_model->submit_to_authorized_user($this->decoded_id,$data['coop_info2']->rCode));
+           $data['coop_info2'] = $this->amendment_update_model->coop_info_in_evaluate_function($this->decoded_id);
            $region_code = $data['coop_info2']->rCode;
            if($data['coop_info2']->type_of_cooperative =='Bank' || $data['coop_info2']->type_of_cooperative =='Insurance')
            {
             $region_code = '00';
            }
-           // $this->debug($this->amendment_update_model->submit_to_authorized_user($this->decoded_id,$region_code,$user_id,$data['coop_info2']));
-          if($this->amendment_update_model->submit_to_authorized_user($this->decoded_id,$region_code,$user_id,$data['coop_info2']))
+         
+          if($this->amendment_update_model->submit_to_authorized_user($this->decoded_id,$region_code,$user_id))
           {                              
             $this->session->set_flashdata(array('msg_class'=>'success','amendment_msg'=>'Successfully submitted your application.'));   
             redirect('amendment_update/'.$id);                           
