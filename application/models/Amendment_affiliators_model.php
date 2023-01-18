@@ -949,7 +949,7 @@ public $regNo='';
                     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
                     $this->db->join('registeredamendment','registeredamendment.amendment_id = amend_coop.id','inner');
                     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-                    $this->db->where('amend_coop.category_of_cooperative IN("Primary","Secondary") AND amend_coop.type_of_cooperative NOT IN("Insurance") AND amend_coop.status IN(15,41) AND  addrCode LIKE "'.$addresscode.'%"'.$AmendmentName.$AmendmentregNo);
+                    $this->db->where('amend_coop.category_of_cooperative IN("Primary","Secondary") AND amend_coop.type_of_cooperative NOT IN("Bank","Cooperative Bank","Insurance") AND amend_coop.status = 41 AND  addrCode LIKE "'.$addresscode.'%"'.$AmendmentName.$AmendmentregNo);
                     $updated_amendment_qry =$this->db->get();
                     if($updated_amendment_qry->num_rows()==1)
                     {   

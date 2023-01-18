@@ -953,7 +953,7 @@ public function get_registered_coop_tertiary($area_of_operation,$addresscode,$ty
                                     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
                                     $this->db->join('registeredamendment','registeredamendment.amendment_id = amend_coop.id','inner');
                                     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-                                    $this->db->where('amend_coop.grouping NOT IN("Union") AND amend_coop.type_of_cooperative NOT IN("Bank","Cooperative Bank","Insurance") AND amend_coop.status = 41'.$AmendmentName.$AmendmentregNo);
+                                    $this->db->where('amend_coop.grouping NOT IN("Union") AND amend_coop.type_of_cooperative NOT IN("Insurance") AND amend_coop.status IN(15,41)'.$AmendmentName.$AmendmentregNo);
                                     $updated_amendment_qry =$this->db->get();
                                     if($updated_amendment_qry->num_rows()==1)
                                     {   
