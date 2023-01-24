@@ -605,7 +605,7 @@ public function get_registered_coop($area_of_operation,$addresscode,$type_of_coo
 
 public function get_registered_coop_tertiary($area_of_operation,$addresscode,$type_of_cooperative,$regNo,$coopName){
     $AmendmentName = (strlen($coopName)>0 ? " AND registeredamendment.coopName like '$coopName%'" : "");
-    $AmendmentregNo=(strlen($regNo)>0 ? " AND amend_coop.regNo='$regNo'" : "");
+    $AmendmentregNo=(strlen($regNo)>1 ? " AND amend_coop.regNo='$regNo'" : "");
     $CoopName = (strlen($coopName)>0 ? " AND registeredcoop.coopName like '%$coopName%'" : "");
     $CoopregNo=(strlen($regNo)>0 ? " AND registeredcoop.regNo='$regNo'" : "");
     $regNoamd=(strlen($regNo)>0 ? " AND registeredamendment.regNo='$regNo'" : "");
@@ -953,7 +953,7 @@ public function get_registered_coop_tertiary($area_of_operation,$addresscode,$ty
                                     $this->db->join('refprovince', 'refprovince.provCode = refcitymun.provCode','inner');
                                     $this->db->join('registeredamendment','registeredamendment.amendment_id = amend_coop.id','inner');
                                     $this->db->join('refregion', 'refregion.regCode = refprovince.regCode');
-                                    $this->db->where('amend_coop.grouping NOT IN("Union") AND amend_coop.type_of_cooperative NOT IN("Insurance") AND amend_coop.status IN(15,41)'.$AmendmentName.$AmendmentregNo);
+                                    $this->db->where('amend_coop.grouping  NOT IN("Union") AND amend_coop.type_of_cooperative NOT IN("Bank","Cooperative Bank","Insurance") AND amend_coop.status IN(15,41)'.$AmendmentName.$AmendmentregNo);
                                     $updated_amendment_qry =$this->db->get();
                                     if($updated_amendment_qry->num_rows()==1)
                                     {   
