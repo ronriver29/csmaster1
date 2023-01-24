@@ -138,7 +138,17 @@ class Admin_model extends CI_Model{
     // $this->db->join('cooperatives c','u.id = c.users_id');
     // $this->db->where(array('u.is_verified =' => 1));
   }
-
+  public function get_not_updated_data($coopName,$regNo,$limit){
+    $this->db->query('set session sql_mode = (select replace(@@sql_mode,"ONLY_FULL_GROUP_BY", ""))');
+    $this->db->select('*');
+    $this->db->from('registeredcoop');
+    $this->db->where('coopName LIKE "%'.$coopName.'%" AND regNo LIKE "%'.$regNo.'%" AND LENGTH(addrCode) <= 2');
+    $this->db->group_by('regNo');
+    $this->db->order_by('coopName','ASC');
+    $this->db->limit($limit);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
   public function get_all_new_user(){
     $this->db->select('u.*,c.id as application_id');
     $this->db->from('users u');

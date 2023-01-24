@@ -81,11 +81,11 @@ class Affiliators_update extends CI_Controller{
 //                    $data['list_cooperators_count'] = $this->cooperator_model->get_all_cooperator_of_coop_regular_count($decoded_id);
                     $data['list_cooperators_associate'] = $this->cooperator_model->get_all_cooperator_of_coop_associate($decoded_id);
                     $data['ten_percent'] = $this->cooperator_model->ten_percent($decoded_id);
-                    if($data['coop_info']->category_of_cooperative == 'Tertiary'){
-                      $data['registered_coop'] = $this->affiliators_model->get_registered_coop_secondary($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
-                    } else {
-                      $data['registered_coop'] = $this->affiliators_model->get_registered_coop_update($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
-                    }
+                    // if($data['coop_info']->category_of_cooperative == 'Tertiary'){
+                    //   $data['registered_coop'] = $this->affiliators_model->get_registered_coop_secondary($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                    // } else {
+                    //   $data['registered_coop'] = $this->affiliators_model->get_registered_coop_update($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                    // }
                     $data['user_id'] = $this->encryption->encrypt(encrypt_custom($user_id));
                     $data['applied_coop'] = $this->affiliators_model->get_applied_coop($user_id);
                     $data['applied_coop_count'] = count($this->affiliators_model->get_applied_coop($user_id));

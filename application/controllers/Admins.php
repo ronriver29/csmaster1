@@ -1370,7 +1370,46 @@ class Admins extends CI_Controller{
    //      }
    //    }
    //  }
+   public function not_updated(){
+    if(!$this->session->userdata('logged_in')){
+      redirect('admins/login');
+    }else{
+      if(!$this->session->userdata('client')){
+        $admin_user_id = $this->session->userdata('user_id');
+        if($this->admin_model->check_super_admin($admin_user_id)){
+          $data['title'] = 'List of Not Updated Migration';
+          $data['header'] = 'List of Not Updated Migration';
+          $data['admin_info'] = $this->admin_model->get_admin_info($admin_user_id);
+          
+          $this->benchmark->mark('code_start');
+          $data['not_migrated_data'] = $this->admin_model->get_not_updated_data('','',0);
+          $this->benchmark->mark('code_end');
+          
+          if($this->input->post('submit')) {
+            $coopName = $this->input->post('coopName');
+            $regNo = $this->input->post('regNo');
+            $limit = $this->input->post('limit');
 
+            // echo $coopName.'asdassdad';
+            $data['not_migrated_data'] = $this->admin_model->get_not_updated_data($coopName,$regNo,$limit);
+            // echo $this->db->last_query();
+          }
+          
+          $data['resources'] = array('elapstime'=>$this->benchmark->elapsed_time('code_start', 'code_end'),'memory usage'=>$this->benchmark->memory_usage()); 
+          $this->load->view('./templates/admin_header', $data);
+          $this->load->view('admin/list_of_not_updated_data', $data);
+          $this->load->view('admin/edit_reg_date_status', $data);
+          $this->load->view('./templates/admin_footer');
+        }else{
+          $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+          redirect('cooperatives');
+        }
+      }else{
+        $this->session->set_flashdata('redirect_applications_message', 'Unauthorized!!.');
+        redirect('cooperatives');
+      }
+    }
+  }
    public function cooperatives_list(){
       if(!$this->session->userdata('logged_in')){
         redirect('admins/login');
