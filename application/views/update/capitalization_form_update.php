@@ -141,7 +141,7 @@ $kinds_of_members = $bylaw_info->kinds_of_members;
                     <tr>
                         <td>Common Share</td> 
                         <td>
-                            <input type="number" name="item[common_share]" id="common_share" class="form-control" value="<?=$common_share?>" required/>
+                            <input type="number" name="item[common_share]" id="common_share" class="form-control" value="<?=$common_share?>"/>
                             <br/>
                             <span id="common_share_note" class="err-message-note"></span>
                         </td>
@@ -241,7 +241,7 @@ $kinds_of_members = $bylaw_info->kinds_of_members;
                     <tr>
                         <td>Total amount of paid-up capital</td>
                         <td>
-                            <input type="number" name="item[total_amount_of_paid_up_capital]" id="total_amount_of_paid_up_capital" class="form-control" value="<?=$total_amount_of_paid_up_capital;?>" required/>
+                            <input type="number" name="item[total_amount_of_paid_up_capital]" id="total_amount_of_paid_up_capital" class="form-control" value="<?=$total_amount_of_paid_up_capital;?>"/>
                             <br/>
                             <span id="total_amount_of_paid_up_capital_note"class="err-message-note"></span>
                         </td>
