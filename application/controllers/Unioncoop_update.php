@@ -70,11 +70,11 @@ class Unioncoop_update extends CI_Controller{
 //                    $data['list_cooperators_count'] = $this->cooperator_model->get_all_cooperator_of_coop_regular_count($decoded_id);
                     $data['list_cooperators_associate'] = $this->cooperator_model->get_all_cooperator_of_coop_associate($decoded_id);
                     $data['ten_percent'] = $this->cooperator_model->ten_percent($decoded_id);
-                    if($data['coop_info']->area_of_operation == 'Interregional'){
-                      $data['registered_coop'] = $this->unioncoop_model->get_registered_interregion($data['coop_info']->regions);
-                    } else {
-                      $data['registered_coop'] = $this->unioncoop_model->get_registered_fed_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
-                    }
+                    // if($data['coop_info']->area_of_operation == 'Interregional'){
+                    //   $data['registered_coop'] = $this->unioncoop_model->get_registered_interregion($data['coop_info']->regions);
+                    // } else {
+                    //   $data['registered_coop'] = $this->unioncoop_model->get_registered_fed_coop($data['coop_info']->area_of_operation,$data['coop_info']->refbrgy_brgyCode,$data['coop_info']->type_of_cooperative);
+                    // }
                     
                     // $data['last_query'] = $this->db->last_query();
 
