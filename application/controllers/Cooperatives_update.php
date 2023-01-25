@@ -803,7 +803,7 @@
               $data['capitalization_complete'] = $this->capitalization_update_model->check_capitalization_primary_complete($decoded_id);
               $data['purposes_complete'] = $this->purpose_model->check_purpose_complete($decoded_id);
               if(isset($data['coop_info']->category_of_cooperative)){
-                $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->article_update_model->check_article_primary_complete($decoded_id) : true;
+                $data['article_complete'] = ($data['coop_info']->category_of_cooperative=="Primary" || $data['coop_info']->category_of_cooperative=="Secondary" || $data['coop_info']->category_of_cooperative=="Tertiary") ? $this->article_update_model->check_article_primary_complete($decoded_id) : true;
               }
               $data['members_composition'] =  $this->cooperatives_model->get_coop_composition($decoded_id);
               $data['committees_complete'] = $this->committee_model->committee_complete_count($decoded_id);
