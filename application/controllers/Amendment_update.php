@@ -54,39 +54,39 @@ class Amendment_update extends CI_Controller{
                     }
               }
                
-              
-              $data['coop_type'] = $this->amendment_update_model->get_cooperatve_types($data['coop_info']->cooperative_type_id);;
-              $complete_upload = array();
-              foreach($data['coop_type'] as $coopRow)
-              {
-                if($this->check_is_uploaded($this->decoded_id,$coopRow['document_num']))
-                {
-                  $coopRow['status']='true';
-                }
-                else
-                {
-                  $coopRow['status']='false';
-                }
-                 $complete_upload[]= $coopRow['status'];
-              }
+              $data['status_document_cooptype'] = true;
+              // $data['coop_type'] = $this->amendment_update_model->get_cooperatve_types($data['coop_info']->cooperative_type_id);;
+              // $complete_upload = array();
+              // foreach($data['coop_type'] as $coopRow)
+              // {
+              //   if($this->check_is_uploaded($this->decoded_id,$coopRow['document_num']))
+              //   {
+              //     $coopRow['status']='true';
+              //   }
+              //   else
+              //   {
+              //     $coopRow['status']='false';
+              //   }
+              //    $complete_upload[]= $coopRow['status'];
+              // }
 
-              $data['ga_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,19);
-              $data['bod_sec_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,20);
-              if($data['coop_type_compare'])
-              {
-              $data['status_document_cooptype'] = true;
-              }
-              else
-              {
-              if(in_array('false', $complete_upload))
-              {
-              $data['status_document_cooptype'] = false;
-              }
-              else
-              {
-              $data['status_document_cooptype'] = true;
-              }
-              }
+              // $data['ga_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,19);
+              // $data['bod_sec_complete'] = $this->amendment_uploaded_document_model->check_is_uploaded($this->decoded_id,20);
+              // if($data['coop_type_compare'])
+              // {
+              // $data['status_document_cooptype'] = true;
+              // }
+              // else
+              // {
+              // if(in_array('false', $complete_upload))
+              // {
+              // $data['status_document_cooptype'] = false;
+              // }
+              // else
+              // {
+              // $data['status_document_cooptype'] = true;
+              // }
+              // }
                                                
                   $data['business_activities'] =  $this->amendment_update_model->get_all_business_activities($this->decoded_id);
                   $data['bylaw_complete'] = ($data['coop_info']->category_of_cooperative=="Primary") ? $this->amendment_update_bylaw_model->check_bylaw_primary_complete($coop_id,$this->decoded_id) : true;

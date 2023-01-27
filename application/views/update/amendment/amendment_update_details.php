@@ -1206,7 +1206,7 @@ $region='';
 
             <?php }//end else */?> 
            
-               <?php if($status_document_cooptype && $ga_complete && $bod_sec_complete): ?>
+               <?php if($status_document_cooptype): ?>
                 <span class="badge badge-success">COMPLETE</span>
                 <?php else: ?>
              
