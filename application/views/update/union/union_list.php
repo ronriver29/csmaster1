@@ -181,7 +181,7 @@
             </div>
           </div>
           <div class="col-sm-12 col-md-4">
-            <p style="padding-top: 2.5rem;font-style: italic;color:red;"><?=$msg?></p>
+            <p style="padding-top: 2.5rem;font-style: italic;color:red;"></p>
           </div>
         </div>
         <div class="row col-sm-6 col-md-1 align-self-center col-reserve-btn">
