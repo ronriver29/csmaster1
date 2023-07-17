@@ -324,7 +324,8 @@ if($coop_info->status != 12){
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Regular General Assembly Meeting.</i> The General Assembly shall hold its annual regular meeting every <?= $bylaw_info->annual_regular_meeting_day ?> at the principal office of the Federation or at any place in the Philippines within ninety (90) days after the close of its fiscal year. </p>
+        <!-- <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Regular General Assembly Meeting.</i> The General Assembly shall hold its annual regular meeting every <?= $bylaw_info->annual_regular_meeting_day ?> at the principal office of the Federation or at any place in the Philippines within ninety (90) days after the close of its fiscal year. </p> -->
+        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Regular General Assembly Meeting.</i> The General Assembly shall hold its annual regular meeting every <?= $bylaw_info->annual_regular_meeting_day ?> at the principal office of the Federation or at any place in the Philippines. </p>
     </div>
   </div>
   <div class="row">
