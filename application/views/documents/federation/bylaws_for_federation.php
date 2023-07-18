@@ -324,7 +324,7 @@ if($coop_info->status != 12){
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Regular General Assembly Meeting.</i> The General Assembly shall hold its annual regular meeting every <?= $bylaw_info->annual_regular_meeting_day ?> at the principal office of the Federation or at any place in the Philippines within ninety (90) days after the close of its fiscal year. </p>
+        <p class="text-justify font-weight-regular">Section 4. <i class="font-weight-bold">Regular General Assembly Meeting.</i> The General Assembly shall hold its annual regular meeting every <?= $bylaw_info->annual_regular_meeting_day ?> at the principal office of the Cooperative or at any place as may be determined by the Board. </p>
     </div>
   </div>
   <div class="row">
@@ -384,7 +384,7 @@ if($coop_info->status != 12){
   </div>
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
-        <p class="text-justify font-weight-regular">Section 8. <i class="font-weight-bold">Quorum for General Assembly Meeting.</i> During regular or special general assembly meeting, at least <?= num_format_custom($bylaw_info->members_percent_quorom)?> percent (<?= $bylaw_info->members_percent_quorom?>%) of the total number of members entitled to vote shall constitute a quorum. </p>
+        <p class="text-justify font-weight-regular">Section 8. <i class="font-weight-bold">Quorum for General Assembly Meeting.</i> During regular or special general assembly meeting, at least <?= num_format_custom($bylaw_info->members_percent_quorom)?> percent (<?= $bylaw_info->members_percent_quorom?>%) +1 of the total number of members entitled to vote shall constitute a quorum. </p>
     </div>
   </div>
   <div class="row mb-4">
