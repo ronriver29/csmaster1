@@ -340,7 +340,7 @@ class Payments extends CI_Controller{
 
   {
      $this->load->model('payment_model');
-    if ($this->input->post('offlineBtn')){
+    if ($this->input->post('offlineBtn')) {
 
       $decoded_id = $this->encryption->decrypt(decrypt_custom($this->input->post('cooperativeID')));
 
@@ -372,10 +372,10 @@ class Payments extends CI_Controller{
 
 
 
-      if ($this->payment_model->check_payment_not_exist($data))
+      if ($this->payment_model->check_payment_not_exist($data)) {
 
         $this->payment_model->save_payment($data,$this->input->post('rCode'));
-
+      }  
 
 
       $user_id = $this->session->userdata('user_id');
@@ -557,7 +557,7 @@ class Payments extends CI_Controller{
       // $complete_url = $url.$postData;
       // header("Location: ".$complete_url."");
         }
-
+      }
     }
 
     public function postCURL($_url, $_param){
