@@ -482,7 +482,7 @@ class Payments extends CI_Controller{
         'status' => 0
       );
 
-      if ($this->payment_model->check_payment_not_exist($data))
+      if ($this->payment_model->check_payment_not_exist($data)) {
       //   $this->payment_model->save_payment_online($data,$this->input->post('rCode'));
       //   $user_id = $this->session->userdata('user_id');
       //   $report_exist = $this->db->where(array('payor'=>$this->input->post('payor')))->order_by("id","DESC")->get('payment');
