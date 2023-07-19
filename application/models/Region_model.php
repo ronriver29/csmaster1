@@ -25,11 +25,23 @@ class Region_model extends CI_Model{
    
   }
 
-  public function get_selected_regions($data){
+  // Updated 07-19-2023
+  /* public function get_selected_regions($data){
       // $query= $this->db->get_where('islands', array('island_id' => $data));
       $query = $this->db->query("SELECT * FROM refregion WHERE regCode IN (".$data.") ORDER BY regDesc ASC");
       return $query->result_array();
-  }
+  } */
+
+  public function get_selected_regions($data) {
+    if (is_array($data) && !empty($data)) {
+        $dataString = implode(",", $data);
+        $query = $this->db->query("SELECT * FROM refregion WHERE regCode IN (" . $dataString . ") ORDER BY regDesc ASC");
+        return $query->result_array();
+    } else {
+        // Handle the case when $data is empty or not an array
+        return array(); // Return an empty array or null, depending on your needs
+    }
+}
 
   public function get_selected_islands($data){
       // $query= $this->db->get_where('islands', array('island_id' => $data));
