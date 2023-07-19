@@ -240,8 +240,8 @@ if($is_client && !$has_registered_coop):?>
                         else if($cooperative['status']==14) echo "FOR PRINTING";
                         else if($cooperative['status']==15) echo "REGISTERED"; 
                         else if($cooperative['status']==16) echo "FOR PAYMENT";
-                        else if($cooperative['status']==17) echo "FOR REVERSION-FOR RE-EVALUATION"; ?>
-                        else if($cooperative['status']==40) echo "FOR VALIDATION";
+                        else if($cooperative['status']==17) echo "FOR REVERSION-FOR RE-EVALUATION"; 
+                        else if($cooperative['status']==40) echo "FOR VALIDATION"; ?>
                       <?php endif ?>
 
                       </span>
