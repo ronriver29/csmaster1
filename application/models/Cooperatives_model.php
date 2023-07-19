@@ -1716,7 +1716,8 @@ public function assign_to_specialist($coop_id,$specialist_id,$coop_full_name){
   $query = $this->db->get_where('admin',array('id'=>$specialist_id));
   $admin_info = $query->row();
   $this->db->where(array('id'=>$coop_id));
-  $this->db->update('cooperatives',array('senior_assign_to_cds' =>date('Y-m-d H:i:s'),'status'=>3,'evaluated_by'=>$specialist_id));
+  //$this->db->update('cooperatives',array('senior_assign_to_cds' =>date('Y-m-d H:i:s'),'status'=>3,'evaluated_by'=>$specialist_id));
+  $this->db->update('cooperatives',array('status'=>3,'evaluated_by'=>$specialist_id));
   if($this->db->trans_status() === FALSE){
     $this->db->trans_rollback();
     return false;
