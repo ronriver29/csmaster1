@@ -1,3 +1,7 @@
+<?php $total_regular_cooperators_in_page = 0; ?> //updated 7-26-2023
+<?php $total_subscribed = 0; ?> //updated 7-26-2023
+<?php $total_paid = 0; ?> //updated 7-26-2023
+
 <div class="row mb-2">
   <div class="col-sm-12 col-md-12">
     <a class="btn btn-secondary btn-sm float-left"  href="<?php echo base_url();?>amendment_update/<?= $encrypted_id ?>" role="button"><i class="fas fa-arrow-left"></i> Go Back </a>
@@ -15,7 +19,7 @@
   {
     foreach ($list_cooperators as $cooperator) : ""?>
     <?php 
-
+        $total_regular_cooperators_in_page++; //updated 7-26-2023
         $total_subscribed += $cooperator['number_of_subscribed_shares'];
         $total_paid += $cooperator['number_of_paid_up_shares'];
     ?>
