@@ -22,7 +22,7 @@ class Payments extends CI_Controller{
     $this->load->model('affiliators_model');
     $this->load->model('unioncoop_model');
     $this->load->model('bylaw_model');
-    $this->load->model('economic_survey_model');
+    //$this->load->model('economic_survey_model');
     $this->load->model('staff_model');
     $this->load->model('economic_survey_model');
     $this->load->model('uploaded_document_model');
