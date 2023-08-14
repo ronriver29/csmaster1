@@ -1395,14 +1395,14 @@
               </small>
             </div>
             <p class="mb-1 font-italic">Wait for an e-mail notification of payment procedure.</p>
-            <?php if(($coop_info->status==16) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete /*&& $economic_survey_complete*/ && $staff_complete && $document_one && $document_two): ?> 
+            <?php if(($coop_info->status==16) /*&& $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two*/): ?> 
               <small class="text-muted">
                 <a href="<?php echo base_url();?>cooperatives/<?= $encrypted_id ?>/payments" class="btn btn-color-blue btn-sm ">Payment</a>
               </small>
             <?php endif ?>
              <!-- donwload payment form -->
               <?php
-              if(($coop_info->status ==13) && $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete /*&& $economic_survey_complete*/ && $staff_complete && $document_one && $document_two)
+              if(($coop_info->status ==13) /*&& $bylaw_complete && $purposes_complete && $article_complete && $grouping && $committees_complete && $economic_survey_complete && $staff_complete && $document_one && $document_two):*/)
               {
                 if ($pay_from=='reservation'){
                   $rf=(((($bylaw_info->kinds_of_members == 1) ? $total_regular['total_paid'] * $capitalization_info->par_value : $total_regular['total_paid'] * $capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value ) *0.001 >500 ) ? (($bylaw_info->kinds_of_members == 1) ?  ($total_regular['total_paid'] * $capitalization_info->par_value) : ($total_regular['total_paid'] *$capitalization_info->par_value + $total_associate['total_paid'] *$capitalization_info->par_value)) *0.001 : 500.00);
