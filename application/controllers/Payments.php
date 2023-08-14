@@ -244,13 +244,13 @@ class Payments extends CI_Controller{
 
                         }
 
-                      }else{
+                      }/*else{
 
                         $this->session->set_flashdata('redirect_message', 'Please complete first your economic survey additional information.');
 
                         redirect('cooperatives/'.$id);
 
-                      }
+                      }*/
 
                     }else{
 
