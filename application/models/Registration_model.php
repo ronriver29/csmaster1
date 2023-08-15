@@ -196,9 +196,13 @@ class registration_model extends CI_Model{
       $query= $this->db->query("select distinct regNo from registeredcoop");
       return $query->num_rows();
   }
-  public function registered_branch_count($coopName,$branchsatellite,$subaddcode){
-      $query= $this->db->query("select * from branches where coopName = '".$coopName."' AND type = '".$branchsatellite."' AND status = 21 AND addrCode LIKE '".$subaddcode."%'");
-      return $query->num_rows();
+  //public function registered_branch_count($coopName,$branchsatellite,$subaddcode){
+  //    $query= $this->db->query("select * from branches where coopName = '".$coopName."' AND type = '".$branchsatellite."' AND status = 21 AND addrCode LIKE '".$subaddcode."%'");
+  //    return $query->num_rows(); //Updated 08-15-2023
+  public function registered_branch_count($coopName, $branchsatellite, $subaddcode) {
+    $escapedCoopName = $this->db->escape_str($coopName);
+    $query = $this->db->query("SELECT * FROM branches WHERE coopName = '$escapedCoopName' AND type = '$branchsatellite' AND status = 21 AND addrCode LIKE '$subaddcode%'");
+    return $query->num_rows();
   }
   public function registered_branch_count2(){
       $query= $this->db->query("select * from branches where status = 21");
