@@ -7,6 +7,12 @@ class Amendment_update_purposes extends CI_Controller{
   {
     parent::__construct();
     //Codeigniter : Write Less Do More
+    //Updated 04-16-2023
+    $this->load->model('amendment_update_model');
+        $this->load->model('amendment_update_bylaw_model');
+        $this->load->model('amendment_update_purposes_model');
+        $this->load->model('amendment_update_cooperator_model');
+        $this->load->model('amendment_update_capitalization_model'); // Load the model here
   }
   function index($id = null)
   {
