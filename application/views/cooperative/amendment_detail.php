@@ -538,9 +538,9 @@
 
           <!-- <div class="col-md-12"> -->
 
-            <div class="form-group">
+            <!--<div class="form-group"> -->
 
-              <label for="compositionOfMembers1" id="name_institution_label">Name of Association</label>
+              <!--<label for="compositionOfMembers1" id="name_institution_label">Name of Association</label>
 
               <?php 
 
@@ -556,14 +556,32 @@
 
             endforeach;
 
-              ?>
+              ?> -->
 
             <!-- </div>   -->
 
-               <div class="assoc-wrapper"></div>          
+               <!--<div class="assoc-wrapper"></div> --> <!-- 08292023 -->
+               
+              <div class="form-group">
+                  <label for="compositionOfMembers1" id="name_institution_label">Name of Association</label>
 
-          
+                    <?php if (is_object($coop_info) && property_exists($coop_info, 'name_of_ins_assoc')): ?>
 
+                    <?php 
+                    $name_associational = explode(',', $coop_info->name_of_ins_assoc);
+                    foreach ($name_associational as $associational):
+                    ?>
+                     <input type="text" name="name_associational[]" id="name_associational" value="<?= $associational ?>" class="form-control"/><br>
+                      <?php endforeach; ?>
+
+                      <?php else: ?>
+
+                      <p>No association data available.</p>
+
+                    <?php endif; ?>
+                </div>
+                <div class="assoc-wrapper"></div> <!-- 08292023 -->
+         
              <button type="button" class="btn btn-success btn-sm float-right btn-assoc" id="addMoreInsBtn_Associational"  style="margin-top:35px;">
 
                 <i class="fas fa-plus"></i> Add Additional Name of Associational</button>
