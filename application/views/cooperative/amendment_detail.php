@@ -513,7 +513,8 @@
 
             <!-- ASSOCIATIONAL -->
 
-      <input type="hidden" value="<?=$coop_info->common_bond_of_membership?>" id="commonBond">
+      <!--<input type="hidden" value="<?=$coop_info->common_bond_of_membership?>" id="commonBond"> --> <!--08292023-->
+      <input type="hidden" value="<?= isset($coop_info->common_bond_of_membership) ? $coop_info->common_bond_of_membership : '' ?>" id="commonBond"> <!-- 08292023 -->
 
       <div class="row rd-row" id="common_bond_wrapper">      
 
