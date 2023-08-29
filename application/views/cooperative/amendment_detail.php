@@ -518,7 +518,7 @@
 
         <div class="col-md-12" id="associational-wrappers">
 
-          <!-- <div class="col-md-12"> -->
+          <div class="col-md-12">
 
             <div class="form-group">
 
@@ -528,7 +528,7 @@
 
             </div>
 
-          <!-- </div>   -->
+          </div>
 
 
 
