@@ -347,7 +347,10 @@
                     <option value="Residential">Residential</option>
 
                   </select>
-                  <input type="hidden" value="<?=$coop_info->capital_contribution?>" class="form-control" name="capital_contribution">
+                 <!-- <input type="hidden" value="<?=$coop_info->capital_contribution?>" class="form-control" name="capital_contribution"> --> <!-- 08292023 -->
+                  <?php if ($coop_info && isset($coop_info->capital_contribution)) : ?>
+                <input type="hidden" value="<?= $coop_info->capital_contribution ?>" class="form-control" name="capital_contribution">
+            <?php endif; ?> <!-- 08292023 -->
                 </div>
 
               </div>
