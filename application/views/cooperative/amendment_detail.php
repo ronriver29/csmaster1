@@ -708,7 +708,7 @@
 
               <div class="col-sm-12 col-md-4">
 
-                <div class="form-group">
+                <!--<div class="form-group">
 
                   <label for="barangay">Barangay</label>
 
@@ -734,7 +734,28 @@
 
                   </select>
 
-                </div>
+                </div> --> <!--08292023-->
+
+              <div class="form-group">
+                <label for="barangay">Barangay</label>
+                <input type="hidden" name="barangay_" id="barangay_" value="<?= isset($coop_info) ? $coop_info->bCode : '' ?>">
+                <select class="custom-select validate[required]" name="barangay" id="barangay" disabled>
+                  <?php
+                  if (isset($coop_info) && is_object($coop_info)) {
+                    foreach ($list_of_brgys as $brgy_list) {
+                  ?>
+                    <option value="<?= $brgy_list['brgyCode'] ?>" <?= ($brgy_list['brgyCode'] == $coop_info->bCode ? 'selected' : '') ?>><?= $brgy_list['brgyDesc'] ?></option>
+                  <?php
+                    }
+                      } else {
+                      // Display a default option or an error message
+                  ?>
+                        <option value="" disabled selected>Select a barangay</option>
+                  <?php
+                      }
+                  ?>
+                    </select>
+              </div> <!--08292023-->
 
               </div>
 
