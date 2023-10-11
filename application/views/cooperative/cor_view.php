@@ -463,8 +463,8 @@ Very truly yours,<br/>
 	echo '<b>'.strtoupper("RAY R. ELEVAZO, csee, mnsa").'</b><br/>';
 	echo strtoupper("Executive Director");
 } else {?>
-<b><?=strtoupper($director->full_name); ?></b><br/>
-<?=strtoupper($director->access_name); ?>
+<b><?=strtoupper($director->signatory); ?></b><br/>
+<?=strtoupper($director->signatory_designation); ?>
 <?php } ?></p>
 
 <!-- <?php
