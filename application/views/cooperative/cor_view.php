@@ -455,7 +455,7 @@ Lastly, if you have any concern/issue about your cooperative, please feel free t
 <br/><br/>
 Very truly yours,<br/>
 <br/> 
-<!--<?php // Get Count Coop Type for HO
+<?php // Get Count Coop Type for HO
     $this->db->where(array('name'=>$coop_info->type_of_cooperative,'active'=>1));
     $this->db->from('head_office_coop_type');
   // End Get Count Coop Type
@@ -465,9 +465,9 @@ Very truly yours,<br/>
 } else {?>
 <b><?=strtoupper($director->full_name); ?></b><br/>
 <?=strtoupper($director->access_name); ?>
-<?php } ?></p> -->
+<?php } ?></p>
 
-<?php
+<!-- <?php
 // Get Count Coop Type for HO
 $this->db->where(array('name' => $coop_info->type_of_cooperative, 'active' => 1));
 $this->db->from('head_office_coop_type');
@@ -483,7 +483,7 @@ if ($this->db->count_all_results() > 0) {
         echo "Director information not available.";
     }
 }
-?> 
+?> -->
 
 <img class="center" src="<?=APPPATH?>../assets/img/cda2_edited.png" style="padding-top:30px;text-align: justify; font-family: Calibri,sans-serif; font-size: 12.5px;background-repeat: no-repeat; background-position: center;margin-left:<?=$alignlogo?>;margin-top:80px;padding-bottom: 60px;">
 </div>
