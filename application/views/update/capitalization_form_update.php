@@ -328,7 +328,7 @@ $kinds_of_members = $bylaw_info->kinds_of_members;
         </div>
      
       <!-- <div class="card-footer capitalizationPrimaryFooter"> //10-13-2023
-         <?php if(($is_client && $coop_info->status != 40 && $coop_info->status != 39) || (!$is_client && ($coop_info->status == 40 || $coop_info->status == 39))): ?> -->  && $is_update_cooperative
+         <?php if(($is_client && $coop_info->status != 40 && $coop_info->status != 39) || (!$is_client && ($coop_info->status == 40 || $coop_info->status == 39))): ?>   && $is_update_cooperative -->
             <!-- <input class="btn btn-color-blue btn-block" type="submit" id="capitalizationPrimaryBtn" name="capitalizationPrimaryBtn" value="Submit">
         <?php endif; ?>
       </div> -->
