@@ -576,7 +576,7 @@
 
                       <?php else: ?>
 
-                      <p>No association data available.</p>
+                      <!--<p>No association data available.</p> --> <!-- 10132023 -->
 
                     <?php endif; ?>
                 </div>
