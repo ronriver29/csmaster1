@@ -318,11 +318,20 @@ $kinds_of_members = $bylaw_info->kinds_of_members;
             </div>
         </div>
       </div>
-      <div class="card-footer capitalizationPrimaryFooter">
-        <?php if(($is_client && $coop_info->status != 40 && $coop_info->status != 39) || (!$is_client && ($coop_info->status == 40 || $coop_info->status == 39))): ?> <!-- && $is_update_cooperative -->
-            <input class="btn btn-color-blue btn-block" type="submit" id="capitalizationPrimaryBtn" name="capitalizationPrimaryBtn" value="Submit">
+     
+        <div class="card-footer capitalizationPrimaryFooter">
+                <?php if ($coop_info !== null && is_object($coop_info) && property_exists($coop_info, 'status')) {
+                    if (($is_client && $coop_info->status != 40 && $coop_info->status != 39) || (!$is_client && ($coop_info->status == 40 || $coop_info->status == 39))) { ?>
+                    <input class="btn btn-color-blue btn-block" type="submit" id="capitalizationPrimaryBtn" name="capitalizationPrimaryBtn" value="Submit">
+                <?php }
+    } ?>
+        </div>
+     
+      <!-- <div class="card-footer capitalizationPrimaryFooter"> //10-13-2023
+         <?php if(($is_client && $coop_info->status != 40 && $coop_info->status != 39) || (!$is_client && ($coop_info->status == 40 || $coop_info->status == 39))): ?> -->  && $is_update_cooperative
+            <!-- <input class="btn btn-color-blue btn-block" type="submit" id="capitalizationPrimaryBtn" name="capitalizationPrimaryBtn" value="Submit">
         <?php endif; ?>
-      </div>
+      </div> -->
     </form>
     </div>
   </div>
