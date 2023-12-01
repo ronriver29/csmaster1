@@ -8,7 +8,7 @@
     </h5> 
   </div>
 </div>
-<?php $total_subscribed = 0;?>
+<!-- <?php $total_subscribed = 0;?>
 <?php $total_paid = 0;?>
 <?php foreach ($list_cooperators as $cooperator) : ""?>
     <?php 
@@ -19,7 +19,27 @@
 <?php endforeach; 
     echo 'Total Subscribed: '.$total_subscribed.'<br>';
     echo 'Total Paid: '.$total_paid;
+?> --> //12012023
+
+<?php
+$total_subscribed = 0;
+$total_paid = 0;
+
+// Debugging: Check the content of $list_cooperators 12012023
+var_dump($list_cooperators);
+
+foreach ($list_cooperators as $cooperator) :
+    if (isset($cooperator['number_of_subscribed_shares']) && isset($cooperator['number_of_paid_up_shares'])) {
+        $total_subscribed += $cooperator['number_of_subscribed_shares'];
+        $total_paid += $cooperator['number_of_paid_up_shares'];
+    }
+endforeach;
+
+// Debugging: Check the calculated totals
+echo 'Total Subscribed: ' . $total_subscribed . '<br>';
+echo 'Total Paid: ' . $total_paid;
 ?>
+
 <?php if($this->session->flashdata('cooperator_redirect')): ?>
   <div class="row mt-3">
     <div class="col-sm-12 col-md-12">
