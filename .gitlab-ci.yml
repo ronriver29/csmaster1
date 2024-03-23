@@ -9,7 +9,7 @@ variables:
   #DOCKER_HOST: tcp://localhost:2375
 
 services:
-  - docker:dind
+  - docker:19-dind
 
 build:
   stage: build
