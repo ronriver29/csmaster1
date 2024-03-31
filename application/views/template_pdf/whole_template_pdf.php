@@ -34,7 +34,7 @@
         <a href="<?=base_url();?>uploads/5_1_surety_bond.pdf">Download PDF</a>
       </iframe>
     </object>
-  <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+  <script src="<?=base_url();?>assets/js/jquery-3.7.1.min.js"></script>
   <script src="<?=base_url();?>assets/js/popper.min.js"></script>
   <script src="<?=base_url();?>assets/js/bootstrap.min.js"></script>
   <!-- jQuery Custom Scroller CDN -->

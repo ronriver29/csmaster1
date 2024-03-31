@@ -671,7 +671,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered Coop Processed by He
     </div>
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+<script src="<?=base_url();?>assets/js/jquery-3.7.1.min.js"></script>
 <script src="<?=base_url();?>assets/js/toword.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){
