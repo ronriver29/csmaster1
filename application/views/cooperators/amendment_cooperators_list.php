@@ -25,7 +25,7 @@
 $total_subscribed = 0;
 $total_paid = 0;
 
- Debugging: Check the content of $list_cooperators 12012023
+ Debugging: Check the content of $list_cooperators //12012023
  var_dump($list_cooperators);
 
 foreach ($list_cooperators as $cooperator) :
