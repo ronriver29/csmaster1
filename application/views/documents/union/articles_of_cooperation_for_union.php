@@ -108,18 +108,18 @@ if($coop_info->status != 12){
     <div class="col-sm-12 col-md-12">
         <ol class="text-justify" type="a">
           
-          <li>To represent its member organizations;</li>
+         <!--  <li>To represent its member organizations;</li>
           <li>To acquire, analyze, and disseminate, economic, statistical, and other information relating to its members and all types of cooperatives within its area of operation;</li>
           <li>To sponsor studies in the economic, legal, financial, social, and other phases of cooperation, and publish the results thereof;</li>
           <li>To promote the knowledge of cooperative principles and practices;</li>
           <li>To develop the cooperative movement in their respective jurisdiction;</li>
           <li>To advise the appropriate authorities on all questions relating to cooperatives;</li>
           <li>To conduct mandatory training to cooperatives as an accredited training provider;</li>
-          <li>To assist the national and local government units in development activities within their jurisdiction;</li>
+          <li>To assist the national and local government units in development activities within their jurisdiction;</li> 
           <li>To act as conciliator or mediator in cooperative disputes of their members;</li>
           <li>To assist its members in the submission of required reports and other compliances to CDA and other government regulatory bodies;</li>
           <li>To raise funds through membership fees, dues and contributions, donations, and subsidies from local and foreign sources whether private or government; and</li>
-          <li>To do and perform such other non-business activities as may be necessary to attain the foregoing objectives.</li>
+          <li>To do and perform such other non-business activities as may be necessary to attain the foregoing objectives.</li> 04082024 -->
           <?php foreach($purposes_list as $purpose) :?>
             <li><?=$purpose?></li>
           <?php endforeach; ?>
