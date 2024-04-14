@@ -404,7 +404,7 @@ $config['cookie_prefix']	= 'ris_';
 $config['cookie_domain']	= '.cda.gov.ph';
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= TRUE;
-$config['cookie_httponly'] 	= TRUE;
+$config['cookie_httponly'] 	= FALSE;
 
 /*
 |--------------------------------------------------------------------------

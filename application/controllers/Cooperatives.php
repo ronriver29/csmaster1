@@ -160,7 +160,9 @@
                 // $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 if(isset($_POST['submit']))
                  {
-                  $this->coopName = $this->input->post('coopName');
+                  $this->coopName = $this->security->xss_clean(
+                    $this->input->post('coopName')
+                  );
                  }
                   $array =array(
                   'url'=>base_url()."cooperatives",
@@ -196,7 +198,9 @@
                 // Pagination
                 if(isset($_POST['submit']))
                  {
-                  $this->coopName = $this->input->post('coopName');
+                  $this->coopName = $this->security->xss_clean(
+                    $this->input->post('coopName')
+                  );
                  }
                   $array =array(
                   'url'=>base_url()."cooperatives",
@@ -235,7 +239,9 @@
                 // $data['list_cooperatives_registered'] = $this->cooperatives_model->get_all_cooperatives_registration($data['admin_info']->region_code);
                 if(isset($_POST['submit']))
                  {
-                  $this->coopName = $this->input->post('coopName');
+                  $this->coopName = $this->security->xss_clean(
+                    $this->input->post('coopName')
+                  );
                  }
                   $array =array(
                   'url'=>base_url()."cooperatives",
@@ -337,27 +343,29 @@
                   $is_youth = 0;
                 }
 
-                $field_data = array(
-                  'users_id' => $this->session->userdata('user_id'),
-                  'category_of_cooperative' => $category,
-                  'proposed_name' => $this->input->post('proposedName'),
-                  'acronym_name' => $this->input->post('acronym_name'),
-                  'type_of_cooperative' => $this->input->post('typeOfCooperative'),
-                  'grouping' => $group,
-                  'common_bond_of_membership' => $this->input->post('commonBondOfMembership'),
-                  'field_of_membership' => $this->input->post('field_membership'),
-                  'name_of_ins_assoc' => $name_of_ins_assoc,
-                  'area_of_operation' => $this->input->post('areaOfOperation'),
-                  'refbrgy_brgyCode' => $this->input->post('barangay'),
-                  'interregional' => $interregional,
-                  'regions' => $regions,
-                  'street' => $this->input->post('streetName'),
-                  'house_blk_no' => $this->input->post('blkNo'),
-                  'status' => '1',
-                  'is_youth' => $is_youth,
-                  'created_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
-                  'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
-                  'expire_at' =>  date('Y-m-d h:i:s',(now('Asia/Manila')+(4*24*60*60)))
+                $field_data = $this->security->xss_clean(
+                  array(
+                    'users_id' => $this->session->userdata('user_id'),
+                    'category_of_cooperative' => $category,
+                    'proposed_name' => $this->input->post('proposedName'),
+                    'acronym_name' => $this->input->post('acronym_name'),
+                    'type_of_cooperative' => $this->input->post('typeOfCooperative'),
+                    'grouping' => $group,
+                    'common_bond_of_membership' => $this->input->post('commonBondOfMembership'),
+                    'field_of_membership' => $this->input->post('field_membership'),
+                    'name_of_ins_assoc' => $name_of_ins_assoc,
+                    'area_of_operation' => $this->input->post('areaOfOperation'),
+                    'refbrgy_brgyCode' => $this->input->post('barangay'),
+                    'interregional' => $interregional,
+                    'regions' => $regions,
+                    'street' => $this->input->post('streetName'),
+                    'house_blk_no' => $this->input->post('blkNo'),
+                    'status' => '1',
+                    'is_youth' => $is_youth,
+                    'created_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
+                    'updated_at' =>  date('Y-m-d h:i:s',now('Asia/Manila')),
+                    'expire_at' =>  date('Y-m-d h:i:s',(now('Asia/Manila')+(4*24*60*60)))
+                  )
                 );
 
                 // print_r($field_data);
