@@ -63,7 +63,7 @@
 <?php endif; ?>
 <center><h3>Search</h3></center>
 <div class="portlet-body">
-  <form method="post">
+  <?=form_open();?>
     <div class="row">
       <div class="col-md-4">
         <div class="form-group">
@@ -113,7 +113,7 @@
       </div>
     </div>
     <center><button type="submit" name="submit" value="submit" class="btn btn-info" >Submit</button></center>
-  </form>
+    <?=form_close();?>
 </div>
 <br>
 <?php if(is_array($verification_list)){?>

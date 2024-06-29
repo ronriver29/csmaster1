@@ -401,9 +401,9 @@ $config['sess_regenerate_destroy'] = FALSE;
 |
 */
 $config['cookie_prefix']	= 'ris_';
-$config['cookie_domain']	= '.cda.gov.ph';
+//$config['cookie_domain']	= '.cda.gov.ph';
 $config['cookie_path']		= '/';
-$config['cookie_secure']	= TRUE;
+$config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;
 
 /*
@@ -453,7 +453,48 @@ $config['csrf_token_name'] = 'csrf_test_name';
 $config['csrf_cookie_name'] = 'csrf_cookie_name';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
-$config['csrf_exclude_uris'] = array();
+$config['csrf_exclude_uris'] = array(
+    'amendment/payment',
+    'amendment/saveor',
+    'cooperatives/payment',
+    'cooperatives/saveor',
+    'branches/payment',
+    'branches/saveor',
+    'for_conversion/payment',
+    'for_conversion/saveORConversion',
+    'for_transfer/payment',
+    'for_transfer/saveORTransfer',
+    'laboratories/payment',
+    'laboratories/saveor',
+    'amendment/payment',
+    'amendment/saveor',
+    'api/*',
+    '*ajax',
+    'get_cooperative_info',
+    'get_cooperative_info_edit',
+    'cooperative_info_details',
+    'affiliators/check_position_not_exist/.*',
+    'composition',
+    'coop_info/.*',
+    'composition_of_members_',
+    'get_coopTypeID_ajax',
+    'get_major_industry_ajax',
+    'cooperative_type_ajax',
+    'api_access/update_access',
+    'cooperators/get_post_cooperator_info',
+    'affiliators/check_edit_position_not_exist/.*',
+    'amendment_info',
+    'coop_type',
+    'business_activity/.*',
+    'get_branch_info',
+    'get_cooperative_info_by_admin',
+    'get_business_activities_of_coop',
+    'major_industries',
+    'Admins/coop_info',
+    'Admins/coop_info/.*',
+    'Admins/business_activity',
+    'Admins/business_activity/.*',
+); 
 
 /*
 |--------------------------------------------------------------------------

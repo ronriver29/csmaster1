@@ -6,10 +6,10 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-<form action="<?php echo base_url();?>amendment_upload/importFile" method="post" enctype="multipart/form-data">
+<?=form_open_multipart(base_url().'amendment_upload/importFile');?>
 Upload excel file : 
 <input type="file" name="uploadFile" value="" /><br><br>
 <input type="submit" name="submit" value="Upload" />
-</form>
+<?=form_close();?>
 </body>
 </html>
