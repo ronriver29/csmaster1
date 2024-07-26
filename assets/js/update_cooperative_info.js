@@ -12,7 +12,7 @@ $(function(){
 
 	    type : "POST",
 
-	    url  : "get_cooperative_info",
+      url : $('body').attr('data-baseurl') + "cooperatives/get_cooperative_info",
 
 	    dataType: "json",
 

@@ -201,7 +201,7 @@
   var userid = $("#editCooperatorForm #userID").val();
   $.ajax({
     type : "POST",
-    url : $('body').attr('data-baseurl') + "get_cooperative_info_edit",
+    url : $('body').attr('data-baseurl') + "laboratories/get_cooperative_info_edit",
     dataType: "json",
     data : {
       id: id,

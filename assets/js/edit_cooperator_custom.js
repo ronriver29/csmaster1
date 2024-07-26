@@ -29,7 +29,7 @@ $(function(){
 
     type : "POST",
     // url  : "./cooperative_info_details",
-    url : $('body').attr('data-baseurl') + "get_cooperative_info",
+    url : $('body').attr('data-baseurl') + "cooperatives/get_cooperative_info",
     dataType: "json",
     data : {
       id: id,
