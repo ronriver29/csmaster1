@@ -27,7 +27,7 @@
     </style>
     <script src="<?=base_url();?>assets/js/jquery-3.7.1.min.js"></script>
   </head>
-  <body>
+  <body data-baseurl="<?=base_url();?>">
 
   <div class="wrapper">
     <?php if($this->session->userdata('logged_in')) :?>

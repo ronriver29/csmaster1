@@ -31,7 +31,7 @@ $(function(){
   var userid = $("#reserveUpdateForm #userID").val();
   $.ajax({
     type : "POST",
-    url  : "../get_cooperative_info",
+    url : $('body').attr('data-baseurl') + "get_cooperative_info",
     dataType: "json",
     data : {
       id: id,
@@ -395,7 +395,7 @@ $(function(){
             var regions = $(this).val();
               $.ajax({
               type : "POST",
-              url  : "../api/regions",
+              url : $('body').attr('data-baseurl') + "api/regions",
               dataType: "json",
               data : {
                 regions: regions
@@ -508,7 +508,7 @@ $(function(){
           var interregional = $(this).val();
             $.ajax({
             type : "POST",
-            url  : "../../api/islands",
+            url : $('body').attr('data-baseurl') + "api/islands",
             dataType: "json",
             data : {
               interregional: interregional
@@ -545,7 +545,7 @@ $(function(){
         var regions = $(this).val();
           $.ajax({
           type : "POST",
-          url  : "../../api/regions",
+          url : $('body').attr('data-baseurl') + "api/regions",
           dataType: "json",
           data : {
             regions: regions
@@ -569,7 +569,7 @@ $(function(){
         var cities = $(this).val();
           $.ajax({
           type : "POST",
-          url  : "../api/barangays",
+          url : $('body').attr('data-baseurl') + "api/barangays",
           dataType: "json",
           data : {
             cities: cities
@@ -694,7 +694,7 @@ $(function(){
           $.each(splite_str, function(n, cooperative_typeIDs){
               $.ajax({
                 type : "POST",
-                url  : "../../api/major_industries",
+                url : $('body').attr('data-baseurl') + "api/major_industries",
                 dataType: "json",
                 data : {
                   coop_type: cooperative_typeIDs
@@ -718,7 +718,7 @@ $(function(){
                     //subclass
                     $.ajax({
                       type : "POST",
-                      url  : "../../api/industry_subclasses",
+                      url : $('body').attr('data-baseurl') + "api/industry_subclasses",
                       dataType: "json",
                       data : {
                         coop_type: cooperative_typeIDs,
@@ -950,7 +950,7 @@ function get_specific_subclass_desc(id)
                 $('#reserveUpdateForm .major-ins').append($('<option></option').attr({'selected':true}).val(""));
                 $.ajax({
                  type : "POST",
-                 url  : "../../api/major_industries_amendment",
+                 url : $('body').attr('data-baseurl') + "api/major_industries_amendment",
                  dataType: "json",
                  data: {cooptype_:typeCoop_arrays},
                  success: function(responsetxt){
@@ -1016,7 +1016,7 @@ function get_specific_subclass_desc(id)
             $('#reserveUpdateForm .major-ins').append($('<option></option').attr({'selected':true}).val(""));
            $.ajax({
                  type : "POST",
-                 url  : "../../api/major_industries_amendment",
+                 url : $('body').attr('data-baseurl') + "api/major_industries_amendment",
                  dataType: "json",
                  data: {cooptype_:typeCoop_arrays},
                  success: function(responsetxt){
@@ -1042,7 +1042,7 @@ function get_specific_subclass_desc(id)
             // if(coop_type.length > 0 ){ 
                 $.ajax({
                 type : "POST",
-                url  : "../../api/subClass",
+                url : $('body').attr('data-baseurl') + "api/subClass",
                 // url  : "../api/SubClass",
                 dataType: "json",
                 data : {
@@ -1169,7 +1169,7 @@ function get_specific_subclass_desc(id)
 
       $.ajax({
           type : "POST",
-          url  : "../../api/major_industries_amendment",
+          url : $('body').attr('data-baseurl') + "api/major_industries_amendment",
           dataType: "json",
           data: {cooptype_:typeCoop_arrays},
           success: function(data){
@@ -1207,7 +1207,7 @@ function get_specific_subclass_desc(id)
     var id =$("#Amendment_ID").val();
      $.ajax({
           type : "POST",
-          url  : "../major_industry_ajax_",
+          url : $('body').attr('data-baseurl') + "major_industry_ajax_",
           dataType: "json",
           data : {
             ids:id
@@ -1235,7 +1235,7 @@ function list_cooperative_type($select_id,$category)
                 $.ajax({
                   async:false,
                   type : "POST",
-                 url  : "../cooperative_type_ajax",
+                 url : $('body').attr('data-baseurl') + "cooperative_type_ajax",
                  dataType: "json",
                  data:{category:$category},
                  success: function(responsetxt){
@@ -1271,7 +1271,7 @@ $('.customDeleleBtn').on('click', function(){
     $(document).ready(function(){
         $.ajax({
             type : "POST",
-            url  : "../cooperative_type_ajax",
+            url : $('body').attr('data-baseurl') + "cooperative_type_ajax",
             dataType: "json",
             data : {
                 category: $category,
@@ -1302,7 +1302,7 @@ $('.customDeleleBtn').on('click', function(){
                 $.ajax({
                   async:false,
                   type : "POST",
-                 url  : "../cooperative_type_ajax",
+                 url : $('body').attr('data-baseurl') + "cooperative_type_ajax",
                  dataType: "json",
                  data: {category:$category},
                  success: function(responsetxt){

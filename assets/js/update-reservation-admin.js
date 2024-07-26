@@ -27,7 +27,7 @@
       var coop_type = typeofcoop2;
         $.ajax({
         type : "POST",
-        url  : "../../api/major_industries",
+        url : $('body').attr('data-baseurl') + "api/major_industries",
         dataType: "json",
         data : {
           coop_type: coop_type
@@ -1024,7 +1024,7 @@
 
       type : "POST",
 
-      url  : "../get_cooperative_info_by_admin",
+      url : $('body').attr('data-baseurl') + "get_cooperative_info_by_admin",
 
       dataType: "json",
 
@@ -1144,7 +1144,7 @@
 
                 $.ajax({
                   type : "POST",
-                  url  : "../../api/major_industries",
+                  url : $('body').attr('data-baseurl') + "api/major_industries",
                   dataType: "json",
                   data: {cooptype_:typeCoop_arrays},
                   success: function(data){
@@ -1399,7 +1399,7 @@
 
               type : "POST",
 
-              url  : "../get_business_activities_of_coop",
+              url : $('body').attr('data-baseurl') + "get_business_activities_of_coop",
 
               dataType: "json",
 
@@ -1583,7 +1583,7 @@
 
       type : "POST",
 
-      url  : "../get_cooperative_info",
+      url : $('body').attr('data-baseurl') + "get_cooperative_info",
 
       dataType: "json",
 
@@ -1877,7 +1877,7 @@
 
           type : "POST",
 
-          url  : "../../api/provinces",
+          url : $('body').attr('data-baseurl') + "api/provinces",
 
           dataType: "json",
 
@@ -1927,7 +1927,7 @@
 
           type : "POST",
 
-          url  : "../../api/cities",
+          url : $('body').attr('data-baseurl') + "api/cities",
 
           dataType: "json",
 
@@ -1973,7 +1973,7 @@
 
           type : "POST",
 
-          url  : "../../api/barangays",
+          url : $('body').attr('data-baseurl') + "api/barangays",
 
           dataType: "json",
 
@@ -2193,7 +2193,7 @@
 
               type : "GET",
 
-              url  : "../../api/regions",
+              url : $('body').attr('data-baseurl') + "api/regions",
 
               dataType: "json",
 
@@ -2277,7 +2277,7 @@
 
             type : "POST",
 
-            url  : "../../api/islands",
+            url : $('body').attr('data-baseurl') + "api/islands",
 
             dataType: "json",
 
@@ -2364,7 +2364,7 @@
                 $('#reserveUpdateForm .major-ins').append($('<option></option').attr({'selected':true}).val(""));
                $.ajax({
                      type : "POST",
-                     url  : "../../api/major_industries_amendment",
+                     url : $('body').attr('data-baseurl') + "api/major_industries_amendment",
                      dataType: "json",
                      data: {cooptype_:typeCoop_arrays},
                      success: function(responsetxt){
@@ -2478,7 +2478,7 @@
 
       $.ajax({
           type : "POST",
-          url  : "../../api/major_industries_amendment",
+          url : $('body').attr('data-baseurl') + "api/major_industries_amendment",
           dataType: "json",
           data: {cooptype_:typeCoop_arrays},
           success: function(data){
@@ -2518,7 +2518,7 @@
             // if(coop_type.length > 0 ){ 
                 $.ajax({
                 type : "POST",
-                url  : "../../api/subClass",
+                url : $('body').attr('data-baseurl') + "api/subClass",
                 // url  : "../api/SubClass",
                 dataType: "json",
                 data : {
@@ -2562,7 +2562,7 @@
 
           type : "POST",
 
-          url  : "../../api/regions",
+          url : $('body').attr('data-baseurl') + "api/regions",
 
           dataType: "json",
 
@@ -2650,7 +2650,7 @@
 
                  type : "POST",
 
-                 url  : "../api/major_industries_s",
+                 url : $('body').attr('data-baseurl') + "api/major_industries_s",
 
                  dataType: "json",
 
@@ -2802,7 +2802,7 @@
 
                  type : "POST",
 
-                 url  : "../major_industries",
+                 url : $('body').attr('data-baseurl') + "major_industries",
 
                  dataType: "json",
 

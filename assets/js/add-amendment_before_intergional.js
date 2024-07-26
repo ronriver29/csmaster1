@@ -16,7 +16,7 @@ $(function(){
         if(coop_type.length > 0 ){
             $.ajax({
             type : "POST",
-            url  : "../api/industry_subclasses",
+            url : $('body').attr('data-baseurl') + "api/industry_subclasses",
             dataType: "json",
             data : {
               coop_type: coop_type,
@@ -46,7 +46,7 @@ $(function(){
         var region = $(this).val();
           $.ajax({
           type : "POST",
-          url  : "../api/provinces",
+          url : $('body').attr('data-baseurl') + "api/provinces",
           dataType: "json",
           data : {
             region: region
@@ -71,7 +71,7 @@ $(function(){
         var province = $(this).val();
           $.ajax({
           type : "POST",
-          url  : "../api/cities",
+          url : $('body').attr('data-baseurl') + "api/cities",
           dataType: "json",
           data : {
             province: province
@@ -94,7 +94,7 @@ $(function(){
         var cities = $(this).val();
           $.ajax({
           type : "POST",
-          url  : "../api/barangays",
+          url : $('body').attr('data-baseurl') + "api/barangays",
           dataType: "json",
           data : {
             cities: cities
@@ -466,7 +466,7 @@ $(function(){
           $.each(splite_str, function(n, cooperative_typeIDs){
               $.ajax({
                 type : "POST",
-                url  : "../api/major_industries",
+                url : $('body').attr('data-baseurl') + "api/major_industries",
                 dataType: "json",
                 data : {
                   coop_type: cooperative_typeIDs
@@ -490,7 +490,7 @@ $(function(){
                     //subclass
                     $.ajax({
                       type : "POST",
-                      url  : "../api/industry_subclasses",
+                      url : $('body').attr('data-baseurl') + "api/industry_subclasses",
                       dataType: "json",
                       data : {
                         coop_type: cooperative_typeIDs,
@@ -590,7 +590,7 @@ $(function(){
                 if(coop_type.length > 0 ){ 
                     $.ajax({
                     type : "POST",
-                    url  : "../api/industry_subclasses",
+                    url : $('body').attr('data-baseurl') + "api/industry_subclasses",
                     dataType: "json",
                     data : {
                       coop_type: coop_type,
@@ -686,7 +686,7 @@ $(function(){
       var coop_type = $(this).val();
         $.ajax({
         type : "POST",
-        url  : "../api/major_industries",
+        url : $('body').attr('data-baseurl') + "api/major_industries",
         dataType: "json",
         data : {
           coop_type: coop_type
@@ -945,7 +945,7 @@ $(function(){
             $('#amendmentAddForm .major-ins').append($('<option></option').attr({'selected':true}).val(""));
                 $.ajax({
                  type : "POST",
-                 url  : "../api/major_industries_amendment",
+                 url : $('body').attr('data-baseurl') + "api/major_industries_amendment",
                  dataType: "json",
                  data: {cooptype_:typeCoop_arrays},
                  success: function(responsetxt){
@@ -991,7 +991,7 @@ $(function(){
             $('#amendmentAddForm .major-ins').append($('<option></option').attr({'selected':true}).val(""));
            $.ajax({
                  type : "POST",
-                 url  : "../api/major_industries_amendment",
+                 url : $('body').attr('data-baseurl') + "api/major_industries_amendment",
                  dataType: "json",
                  data: {cooptype_:typeCoop_arrays},
                  success: function(responsetxt){
@@ -1078,7 +1078,7 @@ $(function(){
             // if(coop_type.length > 0 ){ 
                 $.ajax({
                 type : "POST",
-                url  : "../api/subClass",
+                url : $('body').attr('data-baseurl') + "api/subClass",
                 // url  : "../api/SubClass",
                 dataType: "json",
                 data : {
@@ -1164,7 +1164,7 @@ $(function(){
             $(selectMajorIndustry).append($('<option></option').attr({'selected':true}).val(""));
             $.ajax({
                  type : "POST",
-                 url  : "../api/major_industries_amendment",
+                 url : $('body').attr('data-baseurl') + "api/major_industries_amendment",
                  dataType: "json",
                  data: {cooptype_:typeCoop_arrays},
                  success: function(responsetxt){

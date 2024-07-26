@@ -64,7 +64,7 @@ $(function(){
   var userid = $("#reserveBranchUpdateForm #userID").val();
   $.ajax({
     type : "POST",
-    url  : "../get_branch_info",
+    url : $('body').attr('data-baseurl') + "get_branch_info",
     dataType: "json",
     data : {
       id: id,

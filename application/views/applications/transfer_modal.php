@@ -92,7 +92,7 @@
         var region = $(this).val();
           $.ajax({
           type : "POST",
-          url  : "api/provinces",
+          url : $('body').attr('data-baseurl') + "api/provinces",
           dataType: "json",
           data : {
             region: region
@@ -117,7 +117,7 @@
         var province = $(this).val();
           $.ajax({
           type : "POST",
-          url  : "api/cities",
+          url : $('body').attr('data-baseurl') + "api/cities",
           dataType: "json",
           data : {
             province: province
@@ -140,7 +140,7 @@
         var cities = $(this).val();
           $.ajax({
           type : "POST",
-          url  : "api/barangays",
+          url : $('body').attr('data-baseurl') + "api/barangays",
           dataType: "json",
           data : {
             cities: cities
