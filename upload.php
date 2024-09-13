@@ -13,8 +13,8 @@ if (isset($_POST["submit"])) {
 
 ?>
 
-<form method="post" enctype="multipart/form-data">
+<?=form_open_multipart();?>
   Select image to upload:
   <input type="file" name="upload">
   <input type="submit" value="Upload Image" name="submit">
-</form>
+<?=form_close();?>

@@ -129,7 +129,7 @@ $(function(){
       var region = $(this).val();
         $.ajax({
         type : "POST",
-        url  : "../api/provinces",
+        url : $('body').attr('data-baseurl') + "api/provinces",
         dataType: "json",
         data : {
           region: region
@@ -155,7 +155,7 @@ $(function(){
 
         $.ajax({
         type : "POST",
-        url  : "../api/cities",
+        url : $('body').attr('data-baseurl') + "api/cities",
         dataType: "json",
         data : {
           province: province
@@ -178,7 +178,7 @@ $(function(){
       var cities = $(this).val();
         $.ajax({
         type : "POST",
-        url  : "../api/barangays",
+        url : $('body').attr('data-baseurl') + "api/barangays",
         dataType: "json",
         data : {
           cities: cities
@@ -201,7 +201,7 @@ $(function(){
      var amd_ids = $('#editCooperatorForm #amd_id').val();
       $.ajax({
       type : "POST",
-      url  : "../../../amendment_info",
+      url : $('body').attr('data-baseurl') + "amendment_info",
       dataType: "json",
       data : {
       amd_id :amd_ids

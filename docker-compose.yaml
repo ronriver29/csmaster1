@@ -20,11 +20,7 @@ services:
     links:
       - database
       - messaging
-    environment: 
-      DB_HOSTNAME: database
-      DB_USERNAME: dbuser
-      DB_PASSWORD: password
-      DB_DATABASE: main
+    env_file: .env
   app-nginx:
     image: nginx:1.16-alpine
     volumes:
@@ -47,11 +43,7 @@ services:
       - app-php
   database:
     image: mysql:8
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_USER: dbuser
-      MYSQL_PASSWORD: password
-      MYSQL_DATABASE: main
+    env_file: .env
     volumes:
       #- ./DB:/docker-entrypoint-initdb.d
       - ./.database:/var/lib/mysql
@@ -63,9 +55,7 @@ services:
     image: rabbitmq:3-management
     ports:
       - "15672:15672"
-    environment:
-      RABBITMQ_DEFAULT_USER: mquser
-      RABBITMQ_DEFAULT_PASS: password
+    env_file: .env
     networks:
       - internal
   app-php-background:

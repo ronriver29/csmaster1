@@ -437,7 +437,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
  <div class="modal fade" id="paymentModal" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form action="#" role="form" id="paymentForm" name="paymentForm">
+      <?=form_open('#', ['id'=>'paymentForm', 'name'=>'paymentForm', 'role'=>'form']);?>
         <div class="modal-header">
           <h5 class="modal-title"></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -512,7 +512,7 @@ box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);">Registered</h4>
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+<script src="<?=base_url();?>assets/js/jquery-3.7.1.min.js"></script>
 <script src="<?=base_url();?>assets/js/toword.js"></script>
 
 <script type="text/javascript">

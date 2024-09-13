@@ -592,7 +592,7 @@ $(function(){
       var coop_type = $(this).val();
         $.ajax({
         type : "POST",
-        url  : "../api/major_industries",
+        url : $('body').attr('data-baseurl') + "api/major_industries",
         dataType: "json",
         data : {
           coop_type: coop_type
@@ -623,7 +623,7 @@ $(function(){
         if(coop_type.length > 0 ){
             $.ajax({
             type : "POST",
-            url  : "../api/industry_subclasses",
+            url : $('body').attr('data-baseurl') + "api/industry_subclasses",
             dataType: "json",
             data : {
               coop_type: coop_type,
@@ -673,7 +673,7 @@ $(function(){
             var coop_type_val = $('#reserveAddForm #typeOfCooperative').val();
               $.ajax({
               type : "POST",
-              url  : "../api/industry_subclasses",
+              url : $('body').attr('data-baseurl') + "api/industry_subclasses",
               dataType: "json",
               data : {
                 coop_type: coop_type_val,
@@ -692,7 +692,7 @@ $(function(){
       var coop_type_val = $('#reserveAddForm #typeOfCooperative').val();
       $.ajax({
           type : "POST",
-          url  : "../api/major_industries", 
+          url : $('body').attr('data-baseurl') + "api/major_industries", 
           dataType: "json",
           data : {
             coop_type: coop_type_val
@@ -963,7 +963,7 @@ $(function(){
                     var interregional = $(this).val();
                       $.ajax({
                       type : "POST",
-                      url  : "../api/islands",
+                      url : $('body').attr('data-baseurl') + "api/islands",
                       dataType: "json",
                       data : {
                         interregional: interregional
@@ -1001,7 +1001,7 @@ $(function(){
                 var regions = $(this).val();
                   $.ajax({
                   type : "POST",
-                  url  : "../api/regions",
+                  url : $('body').attr('data-baseurl') + "api/regions",
                   dataType: "json",
                   data : {
                     regions: regions
@@ -1027,7 +1027,7 @@ $(function(){
 
             $.ajax({
                   type : "GET",
-                  url  : "../api/regions",
+                  url : $('body').attr('data-baseurl') + "api/regions",
                   dataType: "json",
                   success: function(data){
                     $('#reserveAddForm #region').append($('<option></option>').attr('value',"").text(""));
@@ -1052,7 +1052,7 @@ $(function(){
         var region = $(this).val();
           $.ajax({
           type : "POST",
-          url  : "../api/provinces",
+          url : $('body').attr('data-baseurl') + "api/provinces",
           dataType: "json",
           data : {
             region: region
@@ -1077,7 +1077,7 @@ $(function(){
         var province = $(this).val();
           $.ajax({
           type : "POST",
-          url  : "../api/cities",
+          url : $('body').attr('data-baseurl') + "api/cities",
           dataType: "json",
           data : {
             province: province
@@ -1100,7 +1100,7 @@ $(function(){
         var cities = $(this).val();
           $.ajax({
           type : "POST",
-          url  : "../api/barangays",
+          url : $('body').attr('data-baseurl') + "api/barangays",
           dataType: "json",
           data : {
             cities: cities

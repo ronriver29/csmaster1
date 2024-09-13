@@ -25,7 +25,7 @@
        box-shadow: 1px 1px;
      }
    </style>
-   <script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+   <script src="<?=base_url();?>assets/js/jquery-3.7.1.min.js"></script>
  </head>
  <body>
  <div class="wrapper">

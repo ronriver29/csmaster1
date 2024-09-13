@@ -41,7 +41,7 @@
 <?php endif; ?>
 <center><h3>Search</h3></center>
 <div class="portlet-body">
-  <form method="post">
+  <?=form_open();?>
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">

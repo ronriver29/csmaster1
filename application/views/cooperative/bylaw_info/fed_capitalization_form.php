@@ -318,7 +318,7 @@
   </div>
 </div>
 <?php $type_of_members = $bylaw_info->kinds_of_members ==2 ? "associate" : "regular" ?>
-<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+<script src="<?=base_url();?>assets/js/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function(){

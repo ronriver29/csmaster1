@@ -47,6 +47,8 @@ spec:
           value: {{ .Values.db.database }}
         - name: ENVIRONMENT_URL
           value: {{ .Values.env.url }}
+        - name: CI_ENV
+          value: {{ .Values.env.name | default "production" }}
         image: {{ .Values.web.container }}
         #resources:
         #  limits:
