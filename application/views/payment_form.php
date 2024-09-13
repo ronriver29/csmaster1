@@ -36,7 +36,7 @@
       </div>
       <div class="card-body">
         <div class="row">
-         <form action="https://222.127.109.48/epp20200915/" method="POST">
+          <?=form_open('https://222.127.109.48/epp20200915/');?>
           <?php // echo form_open('paymentsKo/submit',array('id'=>'editAffiliatorForm','name'=>'editAffiliatorForm')); ?>
           <!-- Late -->
           <input type="text" name="MerchantCode" value="2018070336">
@@ -53,7 +53,7 @@
           <!-- END -->
 
           <input type="submit" value="POST TO EPP">
-          </form>
+          <?=form_close();?>
 
       </div>
       <div class="card-footer paymentFooter" style="display: none;">

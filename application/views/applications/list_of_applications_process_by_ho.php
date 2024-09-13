@@ -154,7 +154,7 @@
  <div class="modal fade" id="paymentModal" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form action="#" role="form" id="paymentForm" name="paymentForm">
+      <?=form_open('#', ['id'=>'paymentForm', 'name'=>'paymentForm', 'role'=>'form']);?>
         <div class="modal-header">
           <h5 class="modal-title"></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -228,7 +228,7 @@
     </div>
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+<script src="<?=base_url();?>assets/js/jquery-3.7.1.min.js"></script>
 <script src="<?=base_url();?>assets/js/toword.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){

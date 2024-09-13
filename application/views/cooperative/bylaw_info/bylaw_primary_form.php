@@ -324,7 +324,7 @@
                   <li>Paid the membership fee and the value of the minimum shares required for membership;</li>
                   <li>Not delinquent in the payment of his/her share capital subscriptions and other accounts or obligations;</li>
                   <li>Has completed the continuing education program prescribed by the Board of Directors; </li>
-                  <li>Has participated in the affairs of the Cooperative and patronized its businesses in accordance with cooperative’s policies and guidelines;</li>
+                  <li>Has participated in the affairs of the Cooperative and patronized its businesses in accordance with cooperativeï¿½s policies and guidelines;</li>
                 </ol>
               </small>
                 <!-- <label for="additionalConditionsForVoting"><strong>List down any additional condition for members to be able to vote</strong><br><small class="text-info">Note: (each item must end with (;) semi-colon and the last item must end with a (.) period)</small></label> --> 
@@ -349,7 +349,7 @@
                     <li>Paid the membership fee and the value of the minimum shares required for membership;</li>
                     <li>Not delinquent in the payment of his/her share capital subscriptions and other accounts or obligations;</li>
                     <li>Has completed the continuing education program prescribed by the Board of Directors; </li>
-                    <li>Has participated in the affairs of the Cooperative and patronized its businesses in accordance with cooperative’s policies and guidelines;</li>
+                    <li>Has participated in the affairs of the Cooperative and patronized its businesses in accordance with cooperativeï¿½s policies and guidelines;</li>
                   </ol>
                 </small>
                 </div>
@@ -635,7 +635,7 @@
     </div>
   </div>
 </div>
-<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+<script src="<?=base_url();?>assets/js/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
 $("#optionalfund").hide();
 $(document).ready(function(){

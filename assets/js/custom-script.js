@@ -914,7 +914,7 @@ $("#deleteStaffForm").validationEngine('attach',
           // alert(cooperator_ID);
                   $.ajax({
                       type : "POST",
-                      url  : "../cooperators/get_post_cooperator_info",
+                      url : $('body').attr('data-baseurl') + "cooperators/get_post_cooperator_info",
                       dataType: "json",
                       data : {
                         cooperator_id: cooperator_id
@@ -986,7 +986,7 @@ $("#deleteStaffForm").validationEngine('attach',
 
                   $.ajax({
                       type : "POST",
-                      url  : "../cooperators/get_post_cooperator_info",
+                      url : $('body').attr('data-baseurl') + "cooperators/get_post_cooperator_info",
                       dataType: "json",
                       data : {
                         cooperator_id: cooperator_id
@@ -1063,7 +1063,7 @@ $("#deleteStaffForm").validationEngine('attach',
 
                   $.ajax({
                       type : "POST",
-                      url  : "../cooperators/get_post_cooperator_info",
+                      url : $('body').attr('data-baseurl') + "cooperators/get_post_cooperator_info",
                       dataType: "json",
                       data : {
                         cooperator_id: cooperator_id
@@ -1138,7 +1138,7 @@ $("#deleteStaffForm").validationEngine('attach',
                   var amd_id = $("#cooperativesID").val();
                   $.ajax({
                       type : "POST",
-                     url  : "../amendment_cooperators/get_post_cooperator_info_ajax",
+                     url : $('body').attr('data-baseurl') + "amendment_cooperators/get_post_cooperator_info_ajax",
                       dataType: "json",
                       data : {
                         cooperator_id: cooperator_id,amd_ids:amd_id
@@ -1208,7 +1208,7 @@ $("#deleteStaffForm").validationEngine('attach',
                 // alert(cooperator_id);
                   $.ajax({
                       type : "POST",
-                      url  : "../amendment_cooperators/get_post_cooperator_info_ajax",
+                      url : $('body').attr('data-baseurl') + "amendment_cooperators/get_post_cooperator_info_ajax",
                       dataType: "json",
                       data : {
                         cooperator_id: cooperator_id,amd_ids:amd_id
@@ -1294,7 +1294,7 @@ $("#deleteStaffForm").validationEngine('attach',
           // alert(cooperator_ID);
                   $.ajax({
                       type : "POST",
-                      url  : "../cooperators/get_post_cooperator_info",
+                      url : $('body').attr('data-baseurl') + "cooperators/get_post_cooperator_info",
                       dataType: "json",
                       data : {
                         cooperator_id: cooperator_id
@@ -1372,7 +1372,7 @@ $("#deleteStaffForm").validationEngine('attach',
 
                   $.ajax({
                       type : "POST",
-                      url  : "../cooperators/get_post_cooperator_info",
+                      url : $('body').attr('data-baseurl') + "cooperators/get_post_cooperator_info",
                       dataType: "json",
                       data : {
                         cooperator_id: cooperator_id
@@ -1447,7 +1447,7 @@ $("#deleteStaffForm").validationEngine('attach',
                   var amd_id = $("#cooperativesID").val();
                   $.ajax({
                       type : "POST",
-                     url  : "../amendment_cooperators/get_post_cooperator_info_ajax",
+                     url : $('body').attr('data-baseurl') + "amendment_cooperators/get_post_cooperator_info_ajax",
                       dataType: "json",
                       data : {
                         cooperator_id: cooperator_id,amd_ids:amd_id
@@ -1517,7 +1517,7 @@ $("#deleteStaffForm").validationEngine('attach',
                 // alert(cooperator_id);
                   $.ajax({
                       type : "POST",
-                      url  : "../amendment_cooperators/get_post_cooperator_info_ajax",
+                      url : $('body').attr('data-baseurl') + "amendment_cooperators/get_post_cooperator_info_ajax",
                       dataType: "json",
                       data : {
                         cooperator_id: cooperator_id,amd_ids:amd_id
@@ -1746,7 +1746,7 @@ $("#deleteStaffForm").validationEngine('attach',
                   var amd_id = $("#cooperativesID").val();
                   $.ajax({
                       type : "POST",
-                     url  : "../amendment_cooperators/get_post_cooperator_info_ajax",
+                     url : $('body').attr('data-baseurl') + "amendment_cooperators/get_post_cooperator_info_ajax",
                       dataType: "json",
                       data : {
                         cooperator_id: cooperator_id,amd_ids:amd_id
@@ -1816,7 +1816,7 @@ $("#deleteStaffForm").validationEngine('attach',
                 // alert(cooperator_id);
                   $.ajax({
                       type : "POST",
-                      url  : "../amendment_cooperators/get_post_cooperator_info_ajax",
+                      url : $('body').attr('data-baseurl') + "amendment_cooperators/get_post_cooperator_info_ajax",
                       dataType: "json",
                       data : {
                         cooperator_id: cooperator_id,amd_ids:amd_id
@@ -3135,7 +3135,7 @@ $('#editStaffForm #position').on('change', function(){
       var coop_type = $(this).val();
         $.ajax({
         type : "POST",
-        url  : "../../api/major_industries",
+        url : $('body').attr('data-baseurl') + "api/major_industries",
         dataType: "json",
         data : {
           coop_type: coop_type
@@ -3165,7 +3165,7 @@ $('#editStaffForm #position').on('change', function(){
         if(coop_type.length > 0 ){
             $.ajax({
             type : "POST",
-            url  : "../../api/industry_subclasses",
+            url : $('body').attr('data-baseurl') + "api/industry_subclasses",
             dataType: "json",
             data : {
               coop_type: coop_type,
@@ -3212,7 +3212,7 @@ $('#editStaffForm #position').on('change', function(){
             var coop_type_val = $('#reserveUpdateForm #typeOfCooperative').val();
             $.ajax({
               type : "POST",
-              url  : "../../api/industry_subclasses",
+              url : $('body').attr('data-baseurl') + "api/industry_subclasses",
               dataType: "json",
               data : {
                 coop_type: coop_type_val,
@@ -3231,7 +3231,7 @@ $('#editStaffForm #position').on('change', function(){
       var coop_type_val = $('#reserveUpdateForm #typeOfCooperative').val();
       $.ajax({
           type : "POST",
-          url  : "../../api/major_industries",
+          url : $('body').attr('data-baseurl') + "api/major_industries",
           dataType: "json",
           data : {
             coop_type: coop_type_val
@@ -3278,7 +3278,7 @@ $('#editStaffForm #position').on('change', function(){
       var region = $(this).val();
         $.ajax({
         type : "POST",
-        url  : "../../api/provinces",
+        url : $('body').attr('data-baseurl') + "api/provinces",
         dataType: "json",
         data : {
           region: region
@@ -3305,7 +3305,7 @@ $('#editStaffForm #position').on('change', function(){
       var region = $(this).val();
         $.ajax({
         type : "POST",
-        url  : "../../api/provinces",
+        url : $('body').attr('data-baseurl') + "api/provinces",
         dataType: "json",
         data : {
           region: region
@@ -3358,7 +3358,7 @@ $('#editStaffForm #position').on('change', function(){
       var province = $(this).val();
         $.ajax({
         type : "POST",
-        url  : "../../api/cities",
+        url : $('body').attr('data-baseurl') + "api/cities",
         dataType: "json",
         data : {
           province: province
@@ -3384,7 +3384,7 @@ $('#editStaffForm #position').on('change', function(){
       var province = $(this).val();
         $.ajax({
         type : "POST",
-        url  : "../../api/cities",
+        url : $('body').attr('data-baseurl') + "api/cities",
         dataType: "json",
         data : {
           province: province
@@ -3432,7 +3432,7 @@ $('#editStaffForm #position').on('change', function(){
       var cities = $(this).val();
         $.ajax({
         type : "POST",
-        url  : "../../api/barangays",
+        url : $('body').attr('data-baseurl') + "api/barangays",
         dataType: "json",
         data : {
           cities: cities
@@ -3455,7 +3455,7 @@ $('#editStaffForm #position').on('change', function(){
       var cities = $(this).val();
         $.ajax({
         type : "POST",
-        url  : "../../api/barangays",
+        url : $('body').attr('data-baseurl') + "api/barangays",
         dataType: "json",
         data : {
           cities: cities

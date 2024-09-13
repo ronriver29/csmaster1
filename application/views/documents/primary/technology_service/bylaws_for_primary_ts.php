@@ -1341,7 +1341,7 @@ if($coop_info->status != 12){
 
   <?php //var_dump($cooperator_directors[5]['full_name']);// echo"<pre>"; print_r($cooperator_directors); echo"</pre>";?>
 </div>
-<script src="<?=base_url();?>assets/js/jquery-3.3.1.min.js"></script>
+<script src="<?=base_url();?>assets/js/jquery-3.7.1.min.js"></script>
 <script src="<?=base_url();?>assets/js/popper.min.js"></script>
 <script src="<?=base_url();?>assets/js/bootstrap.min.js"></script>
 </body>

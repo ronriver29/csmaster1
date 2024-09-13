@@ -12,7 +12,7 @@ $(function(){
 
 	    type : "POST",
 
-	    url  : "get_cooperative_info",
+      url : $('body').attr('data-baseurl') + "cooperatives/get_cooperative_info",
 
 	    dataType: "json",
 
@@ -200,7 +200,7 @@ $(function(){
 
 			type : "POST",
 
-			url  : "../api/major_industries",
+			url : $('body').attr('data-baseurl') + "api/major_industries",
 
 			dataType: "json",
 
@@ -258,7 +258,7 @@ $(function(){
 
 							type : "POST",
 
-							url  : "../api/industry_subclasses",
+							url : $('body').attr('data-baseurl') + "api/industry_subclasses",
 
 							dataType: "json",
 
@@ -374,7 +374,7 @@ $(function(){
 
 	        type : "POST",
 
-	        url  : "../api/major_industries",
+	        url : $('body').attr('data-baseurl') + "api/major_industries",
 
 	        dataType: "json",
 
@@ -478,7 +478,7 @@ $(function(){
 
 		              type : "POST",
 
-		              url  : "../api/industry_subclasses",
+		              url : $('body').attr('data-baseurl') + "api/industry_subclasses",
 
 		              dataType: "json",
 
@@ -516,7 +516,7 @@ $(function(){
 
           type : "POST",
 
-          url  : "../api/major_industries", 
+          url : $('body').attr('data-baseurl') + "api/major_industries", 
 
           dataType: "json",
 
@@ -986,7 +986,7 @@ $(function(){
 
           type : "POST",
 
-          url  : "../api/provinces",
+          url : $('body').attr('data-baseurl') + "api/provinces",
 
           dataType: "json",
 
@@ -1036,7 +1036,7 @@ $(function(){
 
           type : "POST",
 
-          url  : "../api/cities",
+          url : $('body').attr('data-baseurl') + "api/cities",
 
           dataType: "json",
 
@@ -1082,7 +1082,7 @@ $(function(){
 
           type : "POST",
 
-          url  : "../api/barangays",
+          url : $('body').attr('data-baseurl') + "api/barangays",
 
           dataType: "json",
 
@@ -1250,7 +1250,7 @@ $(function(){
 
                       type : "POST",
 
-                      url  : "../api/islands",
+                      url : $('body').attr('data-baseurl') + "api/islands",
 
                       dataType: "json",
 
@@ -1326,7 +1326,7 @@ $(function(){
 
                   type : "POST",
 
-                  url  : "../api/regions",
+                  url : $('body').attr('data-baseurl') + "api/regions",
 
                   dataType: "json",
 
@@ -1410,7 +1410,7 @@ $(function(){
 
                   type : "GET",
 
-                  url  : "../api/regions",
+                  url : $('body').attr('data-baseurl') + "api/regions",
 
                   dataType: "json",
 

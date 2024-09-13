@@ -10,7 +10,7 @@
             </button>
           </div>
           <div class="modal-body">
-           <form method="post" action="<?=base_url()?>/amendment_update_cooperator/importcptr" enctype="multipart/form-data" >
+           <?=form_open_multipart(base_url('/amendment_update_cooperator/importcptr'));?>
             <div class="form-group">
               <input type="hidden" name="cid" class="form-control" value="<?=$encrypted_coop_id?>">
               <input type="hidden" name="aid" class="form-control" value="<?=$encrypted_id?>">
@@ -21,7 +21,7 @@
             <div class="form-group">
               <input type="submit" class="btn btn-success" value="submit" name="submit">
             </div>
-          </form>
+          <?=form_close();?>
           </div>
         </div>
       </div>

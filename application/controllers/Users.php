@@ -32,10 +32,12 @@ class Users extends CI_Controller{
         $this->load->view('client/login', $data); //client login
         $this->load->view('./template/footer');
       }else{
-        $data = array(
-          'email' => $this->input->post('eAddressLogin'),
-          'password'=> $this->input->post('passwordLogin'),
-          'is_verified'=> 1
+        $data = $this->security->xss_clean(
+          array(
+            'email' => $this->input->post('eAddressLogin'),
+            'password'=> $this->input->post('passwordLogin'),
+            'is_verified'=> 1
+          )
         );
         if($this->user_model->login_user($data)){
           $user_data = $this->user_model->check_email_verified($data);

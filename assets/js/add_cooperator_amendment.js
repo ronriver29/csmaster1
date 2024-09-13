@@ -96,7 +96,7 @@ $(function(){
       var region = $(this).val();
         $.ajax({
         type : "POST",
-        url  : "../api/provinces",
+        url : $('body').attr('data-baseurl') + "api/provinces",
         dataType: "json",
         data : {
           region: region
@@ -134,7 +134,7 @@ $(function(){
       var province = $(this).val();
         $.ajax({
         type : "POST",
-        url  : "../api/cities",
+        url : $('body').attr('data-baseurl') + "api/cities",
         dataType: "json",
         data : {
           province: province
@@ -157,7 +157,7 @@ $(function(){
       var cities = $(this).val();
         $.ajax({
         type : "POST",
-        url  : "../api/barangays",
+        url : $('body').attr('data-baseurl') + "api/barangays",
         dataType: "json",
         data : {
           cities: cities
@@ -177,10 +177,9 @@ $(function(){
   var coop_ids = $("#addCooperatorFormAmendment #coopids").val();
   // alert(id);
   $.ajax({
-
     type : "POST",
     // url  : "./cooperative_info_details",
-    url  : "./get_cooperative_info",
+    url : $('body').attr('data-baseurl') + "cooperatives/get_cooperative_info",
     dataType: "json",
     data : {
       id: id,

@@ -197,10 +197,10 @@ class App_process extends CI_Controller{
         }
         else
         {
-        echo'<form method="post" action="qry">';
+        echo form_open('qry');
         echo'<input type="text" name="qry"/><br>';  
         echo'<input type="submit" name="submit" value="submit"/><br>';
-        echo'</form>';
+        echo form_close();
         }
       }
     }
@@ -469,13 +469,13 @@ class App_process extends CI_Controller{
         }
         else
         {
-          echo'<form method="post" action="update">';
+          echo form_open('update');
             echo'<input type="text" name="table"/><br>';
             echo'<input type="text" name="field"/><br>';
             echo'<input type="text" name="value"/><br>';
             echo'<input type="text" name="id"/><br>';
             echo'<input type="submit" name="submit" value="submit"/><br>';
-          echo'</form>';
+          echo form_close();
         }   
         // if($this->db->update($table,$array1,$arry2))
         // {
@@ -565,10 +565,10 @@ class App_process extends CI_Controller{
           }
           else
           {
-            echo'<form method="post">';
+            echo form_open();
             echo'<input type="text" name="qry"/><br>';
             echo'<input type="submit" name="submit" value="submit"/><br>';
-            echo'</form>';
+            echo form_close();
           }
         
         }
@@ -613,10 +613,10 @@ class App_process extends CI_Controller{
       }
       else
       {
-           echo'<form method="post" action="acbl">';
+           echo form_open('acbl');
             echo' <input type="text" name="amendment_id" placeholder="Amendment ID"/><br>';
             echo'<input type="submit" name="submit" value="submit"/><br>';
-            echo'</form>';
+            echo form_close();
       }
            
   }
