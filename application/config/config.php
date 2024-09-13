@@ -401,7 +401,7 @@ $config['sess_regenerate_destroy'] = FALSE;
 |
 */
 $config['cookie_prefix']	= 'ris_';
-//$config['cookie_domain']	= '.cda.gov.ph';
+$config['cookie_domain']	= '.cda.gov.ph';
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
 $config['cookie_httponly'] 	= FALSE;
