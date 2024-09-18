@@ -476,6 +476,8 @@ $config['csrf_exclude_uris'] = array(
     'affiliators/check_position_not_exist/.*',
     'composition',
     'coop_info/.*',
+    '.*/coop_info/.*',
+    '.*/business_activity/.*',
     'composition_of_members_',
     'get_coopTypeID_ajax',
     'get_major_industry_ajax',
