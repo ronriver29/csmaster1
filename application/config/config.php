@@ -484,6 +484,7 @@ $config['csrf_exclude_uris'] = array(
     'cooperative_type_ajax',
     'api_access/update_access',
     'cooperators/get_post_cooperator_info',
+    '.*/cooperators/get_post_cooperator_info',
     'affiliators/check_edit_position_not_exist/.*',
     'amendment_info',
     'coop_type',
