@@ -24,34 +24,34 @@ build:
   tags:
     - docker
 
-deploy-staging:
-  needs: ["build"]
-  stage: deploy
-  image: devth/helm:v3.0.2
-  script:
-    - echo "Deploying to ${CI_ENVIRONMENT_NAME}"
-    - helm upgrade
-      --install
-      --kubeconfig $KUBECONFIG_STAGING
-      --atomic
-      --wait
-      --set web.name="ris-${CI_COMMIT_REF_SLUG}"
-      --set web.container=$CONTAINER
-      --set env.name=staging
-      --set env.url=https://cs.s.cda.gov.ph/ecoopris
-      --set env.domain=cs.s.cda.gov.ph
-      --set env.tls=selfsigned-cert-tls
-      --set env.tls_issuer=selfsigned-issuer
-      --set db.hostname=$DB_HOSTNAME
-      --set db.username=$DB_USERNAME
-      --set db.password=$DB_PASSWORD
-      --set db.database=$DB_DATABASE
-      ris
-      ./.chart/application
-  only:
-    - master
-  tags:
-    - docker
+#deploy-staging:
+#  needs: ["build"]
+#  stage: deploy
+#  image: devth/helm:v3.0.2
+#  script:
+#    - echo "Deploying to ${CI_ENVIRONMENT_NAME}"
+#    - helm upgrade
+#      --install
+#      --kubeconfig $KUBECONFIG_STAGING
+#      --atomic
+#      --wait
+#      --set web.name="ris-${CI_COMMIT_REF_SLUG}"
+#      --set web.container=$CONTAINER
+#      --set env.name=staging
+#      --set env.url=https://cs.s.cda.gov.ph/ecoopris
+#      --set env.domain=cs.s.cda.gov.ph
+#      --set env.tls=selfsigned-cert-tls
+#      --set env.tls_issuer=selfsigned-issuer
+#      --set db.hostname=$DB_HOSTNAME
+#      --set db.username=$DB_USERNAME
+#      --set db.password=$DB_PASSWORD
+#      --set db.database=$DB_DATABASE
+#      ris
+#      ./.chart/application
+#  only:
+#    - master
+#  tags:
+#    - docker
 
 deploy-production:
   needs: ["build"]
