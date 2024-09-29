@@ -268,7 +268,7 @@ $('#reserveUpdateForm #categoryOfCooperative').on('change', function(){
         if(tempCount == $('#reserveUpdateForm select[name="majorIndustry[]"').length){
           $.ajax({
             type : "POST",
-            url : $('body').attr('data-baseurl') + "get_business_activities_of_coop",
+            url : $('body').attr('data-baseurl') + "amendment/get_business_activities_of_coop",
             dataType: "json",
             data : {
               id: id
