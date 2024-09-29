@@ -1399,7 +1399,7 @@
 
               type : "POST",
 
-              url : $('body').attr('data-baseurl') + "cooperatives/get_business_activities_of_coop",
+              url : $('body').attr('data-baseurl') + "cooperatives_update/get_business_activities_of_coop",
 
               dataType: "json",
 
