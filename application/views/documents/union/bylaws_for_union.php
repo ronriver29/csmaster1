@@ -412,7 +412,7 @@ if($coop_info->status != 12){
   <div class="row">
     <div class="col-sm-12 col-md-12 text-left">
         <p class="font-weight-regular">Section 7. <i class="font-weight-bold">Meeting of the Board of Directors.</i> The regular meeting of the Board of Directors shall be held at least once a month. However, the Chairperson or majority of the directors may at any time call a special Board meeting to consider urgent matters. The call shall be addressed and delivered through the Secretary stating the date, time and place of such meeting and the matters to be considered.</p> 
-        <p class="text-justify">The Notice of regular and special meetings of the Board of Directors, unless dispensed with, shall be served by the Secretary in writing or thru electronic means to each director at least two (2) days before such meeting.</p>
+        <p class="text-justify">The Notice of regular and special meetings of the Board of Directors, unless dispensed with, shall be served by the Secretary in writing or thru electronic means to each director at least five (5) days before such meeting.</p>
         <p class="text-justify">The majority of the total number of directors constitutes a quorum to transact business of the meeting. Any decision or action taken by the majority members of the Board of Directors in a meeting duly assembled shall be a valid cooperative act.</p>
     </div>
   </div>
