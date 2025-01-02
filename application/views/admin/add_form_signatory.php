@@ -20,7 +20,7 @@
             <div class="form-group">
               <label for="access_level">Signatory Designation</label>
               <!-- <select class="custom-select validate[required]" name="designation" id="designation"> -->
-              <?php $arr = array("Chairperson","Officer in Charge","Director II","Director III","Administrator","Executive Director","Acting Director","OIC Director"); ?>
+              <?php $arr = array("Chairperson","OIC Chairperson","Director II","Director III","Administrator","Executive Director","Acting Director","OIC Director"); ?>
               <select name="designation" class="custom-select form-control validate[required]" id="designation">
                 <?php foreach($arr as $a) : ?>
                 <option value="<?=$a;?>"><?=$a;?></option>
