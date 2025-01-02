@@ -382,7 +382,6 @@ ini_set('output_buffering', true); // no limit
 			<!-- <img src="<?=APPPATH?>../assets/img/1.png" style="width:270px;height:100px;padding-left:140px;"> -->
 			<div style="margin-top:-45px;">
 				<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;padding-left:140px;">
-				//default 110
 			</div>
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
