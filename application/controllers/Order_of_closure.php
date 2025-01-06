@@ -34,7 +34,7 @@ class order_of_closure extends CI_Controller{
 
         $data1['director']=$this->branches_model->get_director($branch_info->evaluator_for_closure_2)->full_name;
 
-        $data1['signature'] = "../assets/img/AsecJoy.png";
+        $data1['signature'] = "../assets/img/AsecParadillo.png";
         $data1['chair'] = $this->registration_model->get_chairman()->chairman;
         $data1['effectivity_date'] = $this->registration_model->get_chairman()->effectivity_date;
         $data1['branch_info']=$branch_info;
