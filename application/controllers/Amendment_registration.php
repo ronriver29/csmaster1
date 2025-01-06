@@ -299,11 +299,11 @@ public $decoded_id =null;
 
         
 
-        if($date_OR >= "2021-04-15"){
+        if($date_OR >= "2025-01-01"){
 
         // $data1['mydateregistered'] = $coop_details->date_of_or;
 
-        $data1['signature'] = "../assets/img/AsecJoy.png"; 
+        $data1['signature'] = "../assets/img/AsecParadillo.png"; 
 
           $data1['chair'] = $this->registration_model->get_chairman()->chairman;
 
@@ -313,7 +313,7 @@ public $decoded_id =null;
 
           $data1['chair'] = $this->registration_model->get_chairman2()->chairman;
 
-          $data1['signature'] = "../assets/img/1.png"; 
+          $data1['signature'] = "../assets/img/AsecJoy.png"; 
 
         }    
 
