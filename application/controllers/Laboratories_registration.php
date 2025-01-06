@@ -102,7 +102,7 @@ class Laboratories_registration extends CI_Controller{
         // $this->registration_model->register_coop($decoded_id,$lab_info->addrCode);
         $this->registration_model->update_laboratory_($decoded_id);
       }//if status      
-        $data1['signature'] = "../assets/img/AsecJoy.png"; 
+        $data1['signature'] = "../assets/img/AsecParadillo.png"; 
         $data1['chair'] = $this->registration_model->get_chairman()->chairman;
         // $data1['coop_info']=$lab_details;
         // $data1['director']=$this->registration_model->get_director($user_id)->full_name;
