@@ -179,7 +179,7 @@ if ($branch_info->type=="Branch"){
 </div>
 <div class="text" style="padding-top: -80px;width:400px;padding-left:500px;float:left;">
 	<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
-	<p style="font-size:12px;margin-top:-20px;padding-left:50px">Chairman</p>
+	<p style="font-size:12px;margin-top:-20px;padding-left:50px">OIC Chairman</p>
 </div>
 
 <table width="100%" style="margin-top:<?=($branch_info->type=="Branch" ? '20px' :'0px')?>;">
@@ -343,7 +343,7 @@ if ($branch_info->type=="Branch"){
 </div>
 <div class="text" style="padding-top: -80px;width:400px;padding-left:500px;float:left;">
 	<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
-	<p style="font-size:12px;margin-top:-20px;padding-left:50px">Chairman</p>
+	<p style="font-size:12px;margin-top:-20px;padding-left:50px">OIC Chairman</p>
 </div>
 
 <table width="100%" style="margin-top:<?=($branch_info->type=="Branch" ? '10px':'-10px')?>;">
@@ -506,7 +506,7 @@ if ($branch_info->type=="Branch"){
 </div>
 <div class="text" style="padding-top: -80px;width:400px;padding-left:500px;float:left;">
 	<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
-	<p style="font-size:12px;margin-top:-20px;padding-left:50px">Chairman</p>
+	<p style="font-size:12px;margin-top:-20px;padding-left:50px">OIC Chairman</p>
 </div>
 
 <table width="100%" style="margin-top:<?=$branch_info->type=="Branch" ? '10px':'-10px'?>;">
