@@ -90,7 +90,7 @@ class registration_conversion extends CI_Controller{
           $this->registration_model->save_branch_qr_code($branch_details->certNo, $image_name);
         // }
 
-        $data1['signature'] = "../assets/img/AsecJoy.png";
+        $data1['signature'] = "../assets/img/AsecParadillo.png";
         $data1['chair'] = $this->registration_model->get_chairman()->chairman;
         $data1['effectivity_date'] = $this->registration_model->get_chairman()->effectivity_date;
         $data1['branch_info']=$branch_details;
