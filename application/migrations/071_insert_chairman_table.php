@@ -5,7 +5,7 @@ class Migration_insert_chairman_table extends CI_Migration
     {
       $data = array(
            'id'=>2,
-           'chairman'=>"JMYRLA B. PARADILLO",
+           'chairman'=>"MYRLA B. PARADILLO",
            'active_status'=>1,
            'effectivity_date'=>'2025-01-01'
          );
