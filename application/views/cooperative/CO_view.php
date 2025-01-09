@@ -177,7 +177,7 @@ if ($branch_info->type=="Branch"){
 <div style="padding-top:-130px;padding-left:425px;float:left;">
 	<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;">
 </div>
-<div class="text" style="padding-top: -80px;width:400px;padding-left:500px;float:left;">
+<div class="text" style="padding-top: -80px;width:400px;padding-left:480px;float:left;">
 	<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 	<p style="font-size:12px;margin-top:-20px;padding-left:50px">OIC Chairman</p>
 </div>
@@ -341,7 +341,7 @@ if ($branch_info->type=="Branch"){
 <div style="padding-top:-130px;padding-left:425px;float:left;">
 	<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;">
 </div>
-<div class="text" style="padding-top: -80px;width:400px;padding-left:500px;float:left;">
+<div class="text" style="padding-top: -80px;width:400px;padding-left:480px;float:left;">
 	<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 	<p style="font-size:12px;margin-top:-20px;padding-left:50px">OIC Chairman</p>
 </div>
@@ -504,7 +504,7 @@ if ($branch_info->type=="Branch"){
 <div style="padding-top:-130px;padding-left:425px;float:left;">
 	<img src="<?=APPPATH?><?=$signature?>" style="width:270px;height:100px;">
 </div>
-<div class="text" style="padding-top: -80px;width:400px;padding-left:500px;float:left;">
+<div class="text" style="padding-top: -80px;width:400px;padding-left:480px;float:left;">
 	<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 	<p style="font-size:12px;margin-top:-20px;padding-left:50px">OIC Chairman</p>
 </div>
