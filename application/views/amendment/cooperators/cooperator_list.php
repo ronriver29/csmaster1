@@ -8,7 +8,7 @@
     </h5>
   </div>
 </div>
-<?php $total_subscribed = 0;?> //updated 7-26-2023
+<?php $total_subscribed = 0;?>
 <?php $total_paid = 0;?>
 <?php
   if(isset($list_cooperators)) 
