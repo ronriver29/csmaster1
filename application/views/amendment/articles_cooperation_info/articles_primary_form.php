@@ -341,7 +341,7 @@
 
           <label for="authorizedShareCapital"><strong>The Authorized Share Capital of the Cooperative</strong></label>
 
-          <input type="text"  step="any" min="1" value="<?= number_format($capitalization_info->authorized_share_capital)?>"  class="form-control validate[required,min[1],custom[number]<?php if($bylaw_info->kinds_of_members==2) echo ",funcCall[validateRegularAssociateAuthorizedCapitalCustom]";?>]"  id="authorizedShareCapital" name="authorizedShareCapital" placeholder="&#8369;" readonly>
+          <input type="text"  step="any" min="1" value="<?= number_format($capitalization_info->authorized_share_capital,2)?>"  class="form-control validate[required,min[1],custom[number]<?php if($bylaw_info->kinds_of_members==2) echo ",funcCall[validateRegularAssociateAuthorizedCapitalCustom]";?>]"  id="authorizedShareCapital" name="authorizedShareCapital" placeholder="&#8369;" readonly>
 
          </div>
 
