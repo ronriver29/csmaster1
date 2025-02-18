@@ -246,7 +246,7 @@
 
 			<td  style="text-align: center;padding-left:150px;"> 
 
-			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px; margin-top: -50px;">
+			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px; margin-top: -30px;">
 
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 
@@ -430,7 +430,7 @@
 
 			<td  style="text-align: center;padding-left:150px;"> 	
 
-			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px; margin-top: -50px;">
+			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px; margin-top: -30px;">
 
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 
@@ -642,7 +642,7 @@
 
 			<td  style="text-align: center;padding-left:150px;"> 	
 
-			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px; margin-top: -70px;">
+			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px; margin-top: -30px;">
 
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 
