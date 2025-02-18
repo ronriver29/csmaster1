@@ -244,11 +244,7 @@
 
 			</td> 
 
-			<div>
-
 			<td  style="text-align: center;padding-left:150px;"> 
-				
-			</div>
 
 			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px;">
 
