@@ -248,7 +248,7 @@
 
 			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:100px;">
 
-			<div class="text" style="margin-top:75px;width:400px;padding-left: 140px;">
+			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 
