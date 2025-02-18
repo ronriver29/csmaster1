@@ -206,17 +206,17 @@
 
 		</tr>
 
-		 <tr>
+		<tr>
 
 			<td><i style="color:white;">....</i></td>
 
 		</tr>
 
-	<!--        <tr> 
+	    <tr> 
 
 			<td><i style="color:white;">....</i></td>
 
-		</tr>  -->
+		</tr>
 
 	<!-- 	</tr>
 
@@ -244,15 +244,13 @@
 
 			</td> 
 
-			<td  style="text-align: center;padding-left:150px;"> 	
+			<div>
+
+			<td  style="text-align: center;padding-left:150px;"> 
+				
+			</div>
 
 			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px;">
-			
-			<tr>
-
-			<td><i style="color:white;">....</i></td>
-
-		</tr>
 
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 140px;">
 
