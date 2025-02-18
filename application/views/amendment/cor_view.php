@@ -248,7 +248,7 @@
 
 			<div class="text" style="margin-top:-75px;width:400px;padding-left: 100px;">
 
-			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:140px;">
+			<img src="<?=APPPATH.$signature?>" style="width:270px;height:100px;padding-left:100px;">
 
 			</div>
 
