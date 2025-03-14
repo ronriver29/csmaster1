@@ -133,15 +133,31 @@ class registration extends CI_Controller{
 //      }
       $registereddate = date("Y-m-d",strtotime($coop_details->dateRegistered));
       // 04-18-2021
-      if($coop_details->date_of_or >= "2025-01-01"){
-        // $data1['mydateregistered'] = $coop_details->date_of_or;
-        $data1['signature'] = "../assets/img/AsecParadillo.png";
-        $data1['chair'] = $this->registration_model->get_chairman()->chairman;
-      } else {
-        // $data1['mydateregistered'] = $registereddate;
-        $data1['chair'] = $this->registration_model->get_chairman2()->chairman;
-        $data1['signature'] = "../assets/img/AsecJoy.png";
-      }
+
+        if ($coop_details->date_of_or >= "2025-03-01") {
+    // Assign Raquepo (starting from March 1, 2025)
+          $data1['signature'] = "../assets/img/UsecAR2.png";
+          $data1['chair'] = $this->registration_model->get_chairman()->chairman;
+        } elseif ($coop_details->date_of_or >= "2025-01-01" && $coop_details->date_of_or < "2025-03-01") {
+    // Assign Paradillo (between January 1, 2025, and February 28, 2025)
+          $data1['signature'] = "../assets/img/AsecParadillo.png";
+          $data1['chair'] = $this->registration_model->get_chairman2()->chairman;
+        } else {
+    // Assign Encabo (before January 1, 2025)
+          $data1['signature'] = "../assets/img/AsecJoy.png";  // Assuming you have an image for Encabo
+          $data1['chair'] = $this->registration_model->get_chairman3()->chairman;
+}
+
+//      if($coop_details->date_of_or >= "2025-03-01"){
+//        // $data1['mydateregistered'] = $coop_details->date_of_or;
+//        $data1['signature'] = "../assets/img/UsecAR2.png";
+//        $data1['chair'] = $this->registration_model->get_chairman()->chairman;
+//      } else {
+//        // $data1['mydateregistered'] = $registereddate;
+//        $data1['chair'] = $this->registration_model->get_chairman2()->chairman;
+//        $data1['signature'] = "../assets/img/AsecParadillo.png";
+//      }
+
 //01022025
 //      if($coop_details->date_of_or >= "2021-04-15"){
 //        // $data1['mydateregistered'] = $coop_details->date_of_or;
@@ -301,7 +317,7 @@ class registration extends CI_Controller{
           $this->registration_model->save_branch_qr_code($branch_details->certNo, $image_name);
         }
 
-        $data1['signature'] = "../assets/img/AsecParadillo.png";
+        $data1['signature'] = "../assets/img/UsecAR2.png";
         $data1['chair'] = $this->registration_model->get_chairman()->chairman;
         $data1['effectivity_date'] = $this->registration_model->get_chairman()->effectivity_date;
         $data1['branch_info']=$branch_details;
