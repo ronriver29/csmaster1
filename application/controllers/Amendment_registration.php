@@ -299,11 +299,11 @@ public $decoded_id =null;
 
         
 
-        if($date_OR >= "2025-01-01"){
+        if($date_OR >= "2025-03-01"){
 
         // $data1['mydateregistered'] = $coop_details->date_of_or;
 
-        $data1['signature'] = "../assets/img/AsecParadillo.png"; 
+        $data1['signature'] = "../assets/img/UsecAR2.png"; 
 
           $data1['chair'] = $this->registration_model->get_chairman()->chairman;
 
