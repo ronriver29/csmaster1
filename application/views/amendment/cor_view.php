@@ -252,7 +252,7 @@
 
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 
-				<p style="font-size:12px;margin-top:-20px;">OIC Chairman</p></div>
+				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
 
 			</td>
 
@@ -436,7 +436,7 @@
 
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 
-				<p style="font-size:12px;margin-top:-20px;">OIC Chairman</p></div>
+				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
 
 			</td>
 
@@ -648,7 +648,7 @@
 
 				<p style="font-size:16px;padding:0px;"><?= $chair ?></p>
 
-				<p style="font-size:12px;margin-top:-20px;">OIC Chairman</p></div>
+				<p style="font-size:12px;margin-top:-20px;">Chairman</p></div>
 
 			</td>
 
